@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+
+	<!-- Core JS files -->
+	<script
+		type="text/javascript"
+		src="assets/js/core/libraries/headjs/head.min.js"
+		data-headjs-load="init.js"
+	>
+	</script>
+	<!-- /core js files -->
+</head>
+
+<body ng-app="EmmetBlue" ng-controller="coreController">
+	<!-- Main navbar -->
+	<div ng-include src="'templates/core/header.html'"></div>
+	<!-- /main navbar -->
+
+	<div ng-include src="moduleMenu"></div>
+
+	<div ng-include src="moduleHeader"></div>
+
+	<!-- Page container -->
+	<div class="page-container">
+		<!-- Page content -->
+		<div class="page-content">
+			<div class="content-wrapper">
+				<div ng-view></div>
+			</div>
+		</div>
+		<!-- /page content -->
+
+		<!-- Footer -->
+		<div class="footer text-muted">
+			&copy; 2016. <a href="#">The EmmetBlue Team</a>
+		</div>
+		<!-- /footer -->
+	</div>
+	<!-- /page container -->
+</body>
+</html>
