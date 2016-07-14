@@ -1,0 +1,107 @@
+<script src="assets/js/navbar_fixed_secondary.js"></script>
+<!-- Second navbar -->
+<div class="navbar navbar-default" id="navbar-second">
+	<ul class="nav navbar-nav no-border visible-xs-block">
+		<li><a class="text-center collapsed" data-toggle="collapse" data-target="#navbar-second-toggle"><i class="icon-menu7"></i></a></li>
+	</ul>
+
+		<div class="navbar-collapse collapse" id="navbar-second-toggle">
+			<ul class="nav navbar-nav">
+				<li><a href="mortuary/dashboard"><i class="icon-display4 position-left"></i> Dashboard</a></li>
+
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown">
+						Body Management <span class="caret"></span>
+					</a>
+
+					<ul class="dropdown-menu width-200">
+						<li class="dropdown-header">Manage</li>
+						<li class="dropdown-submenu">
+							<a href="mortuary/register-new-body" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-ambulance"></i> Register New Body</a>
+							<ul class="dropdown-menu">
+								<li class="dropdown-header highlight">Choose Body Template</li>
+								<li class="dropdown-submenu">
+									<a href="
+											mortuary/register-new-body?
+											body.tag=Unknown&
+											bodyInformation.firstName=John&
+											bodyInformation.lastName=Doe&
+											bodyInformation.familyMemeberName=Unknown&
+											bodyInformation.familyMemberRelationshipType=Unknown&
+											bodyInformation.familyMemberPhoneNumber=Unknown&
+
+									">
+										Unknown Body
+									</a>
+									<ul class="dropdown-menu">
+										<li class="dropdown-header highlight">Choose Gender</li>
+										<li>
+										<a href="
+											mortuary/register-new-body?
+											body.tag=Unknown&
+											bodyInformation.firstName=John&
+											bodyInformation.lastName=Doe&
+											bodyInformation.familyMemeberName=Unknown&
+											bodyInformation.familyMemberRelationshipType=Unknown&
+											bodyInformation.familyMemberPhoneNumber=Unknown&
+											bodyInformation.gender=Male&
+
+										"><i class="fa fa-mars"></i> Male</a></li>
+										<li>
+										<a href="
+											mortuary/register-new-body?
+											body.tag=Unknown&
+											bodyInformation.firstName=John&
+											bodyInformation.lastName=Doe&
+											bodyInformation.familyMemeberName=Unknown&
+											bodyInformation.familyMemberRelationshipType=Unknown&
+											bodyInformation.familyMemberPhoneNumber=Unknown&
+											bodyInformation.gender=Female&
+
+										"><i class="fa fa-venus"></i>Female</a></li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li class="dropdown-submenu">
+							<a href="mortuary/view-bodies" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-search"></i> View Bodies</a>
+							<ul class="dropdown-menu">
+								<li class="dropdown-header highlight">Sort By</li>
+								<li><a href="mortuary">Date Registered</a></li>
+								<li><a href="mortuary">Gender</a></li>
+							</ul>
+						</li>
+						<li class="dropdown-submenu">
+							<a href="mortuary" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-folder"></i> Modify Bodies</a>
+							<ul class="dropdown-menu">
+								<li class="dropdown-header highlight">Select Modify Option</li>
+								<li><a href="mortuary">Edit</a></li>
+								<li><a href="mortuary">Delete</a></li>
+							</ul>
+						</li>
+						<li class="dropdown-header">Quick Link</li>
+						<li><a href="layout_sidebar_sticky.html"><i class="icon-flip-vertical3"></i> Show Enhanced Management Center</a></li>
+					</ul>
+				</li>
+			</ul>
+
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+					<a href="mortuary" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon-cog3"></i>
+						<span class="position-right">Menu Customization</span>
+						<span class="caret"></span>
+					</a>
+
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li><a href="mortuary">Action</a></li>
+						<li><a href="mortuary">Another action</a></li>
+						<li><a href="mortuary">Something else here</a></li>
+						<li class="divider"></li>
+						<li><a href="mortuary">One more separated line</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+</div>
+<!-- /second navbar -->

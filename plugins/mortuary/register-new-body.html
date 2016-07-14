@@ -1,0 +1,193 @@
+<script src="assets/js/plugins/forms/wizards/stepy.min.js"></script>
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script src="assets/js/plugins/forms/styling/uniform.min.js"></script>
+<script src="plugins/mortuary/assets/js/wizard_stepy.js"></script>
+
+<div ng-controller="mortuaryBodyRegistrationController" ng-init="utils.enableDefaultFormValues()">
+	<div class="panel panel-white zoomIn" >
+		<div class="panel-heading">
+			<h6 class="panel-title">New Body Registration</h6>
+			<div class="heading-elements">
+				<ul class="icons-list">
+	        		<li><a data-action="collapse"></a></li>
+	        		<li><a data-action="reload"></a></li>
+	        		<li><a data-action="close"></a></li>
+	        	</ul>
+	    	</div>
+		</div>
+
+		<form class="stepy-wizard" name="registrationForm" novalidate>
+			<fieldset title="1">
+				<legend class="text-semibold">Body Primary Information</legend>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="content-group-lg">
+							<h6 class="text-semibold light">
+								Body Tag <span class="text-danger">*</span>
+								<span class="text-danger" ng-messages="registrationForm.tag.$error" ng-if="registrationForm.tag.$touched && registrationForm.tag.$invalid">
+									<span ng-message="required"><i class="icon icon-alert"></i> This field is required.</span>
+								</span>
+							</h6>
+							<input type="text" class="form-control" name="tag" placeholder="Start typing to enter the body tag" ng-model="body.tag" ng-model-options="{ updateOn: 'blur' }" required>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="content-group-lg">
+							<h6 class="text-semibold light">Place Of Death</h6>
+							<input type="text" class="form-control" name="placeOfDeath" placeholder="Start typing to enter the place of death" ng-model="body.placeOfDeath" ng-maxlength="100">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="content-group-lg">
+							<h6 class="text-semibold light">
+								Date Of Death <span class="text-danger">*</span>
+								<span class="text-danger" ng-messages="registrationForm.dateOfDeath.$error" ng-if="registrationForm.dateOfDeath.$touched && registrationForm.dateOfDeath.$invalid">
+									<span ng-message="required"><i class="icon icon-alert"></i> This field is required.</span>
+								</span>
+							</h6>
+							<input type="text" class="form-control" name="dateOfDeath" data-mask="99/99/9999" placeholder="Enter date" ng-model="body.dateOfDeath" required="required">
+							<span class="help-block"><i class="fa fa-info-circle"></i> Input Format: mm/dd/yyyy</span>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="content-group-lg">
+							<h6 class="text-semibold light">
+								Time Of Death <span class="text-danger">*</span>
+								<span class="text-danger" ng-messages="registrationForm.timeOfDeath.$error" ng-if="registrationForm.timeOfDeath.$touched && registrationForm.timeOfDeath.$invalid">
+									<span ng-message="required"><i class="icon icon-alert"></i> This field is required.</span>
+								</span>
+							</h6>
+							<input type="text" class="form-control" name="timeOfDeath" data-mask="99:99 *M" placeholder="Enter time of death" ng-model="body.timeOfDeath" required="required">
+							<span class="help-block"><i class="fa fa-info-circle"></i> Input Format: hh:mm AM|PM</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="content-group-lg">
+							<h6 class="text-semibold light">Burial Place</h6>
+							<input type="text" class="form-control" name="burialPlace" placeholder="Start typing to enter burial location" ng-model="body.burialPlace">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="content-group-lg">
+							<h6 class="text-semibold light">
+								Physician <span class="text-danger">*</span>
+								<span class="text-danger" ng-messages="registrationForm.physician.$error" ng-if="registrationForm.physician.$touched && registrationForm.physician.$invalid">
+									<span ng-message="required"><i class="icon icon-alert"></i> This field is required.</span>
+								</span>
+							</h6>
+							<input type="text" class="form-control" name="physician" placeholder="Enter Physician's Full Name" ng-model="body.physicianName" required>
+						</div>
+					</div>
+				</div>
+			</fieldset>
+
+			<fieldset title="2">
+				<legend class="text-semibold">Body Bio - data Information</legend>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="content-group-lg">
+							<h6 class="text-semibold light">
+								First Name <span class="text-danger">*</span>
+								<span class="text-danger" ng-messages="registrationForm.firstName.$error" ng-if="registrationForm.firstName.$touched && registrationForm.firstName.$invalid">
+									<span ng-message="required"><i class="icon icon-alert"></i> This field is required.</span>
+								</span>
+							</h6>
+							<input type="text" class="form-control" name="firstName" placeholder="Body First Name" ng-model="bodyInformation.firstName" required>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="content-group-lg">
+							<h6 class="text-semibold light">Other Names</h6>
+							<input type="text" class="form-control" name="lastName" placeholder="Body Last Names" ng-model="bodyInformation.lastName">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="content-group-lg">
+							<h6 class="text-semibold light">Date Of Birth</h6>
+							<input type="text" class="form-control" name="dateOfBirth" data-mask="99/99/9999" placeholder="mm/dd/yyyy" ng-model="bodyInformation.dateOfBirth">
+						</div>
+					</div>
+					
+					<div class="col-md-6">
+						<div class="content-group-lg">
+							<h6 class="text-semibold light">
+								Gender <span class="text-danger">*</span>
+								<span class="text-danger" ng-messages="registrationForm.gender.$error" ng-if="registrationForm.gender.$touched && registrationForm.gender.$invalid">
+									<span ng-message="required"><i class="icon icon-alert"></i> This field is required.</span>
+								</span>
+							</h6>
+							<select class="select" name="gender" ng-model="bodyInformation.gender" required>
+								<option value="Male" selected>Male</option>
+								<option value="Female">Female</option>			
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="content-group-lg">
+							<h6 class="text-semibold light">Place Of Birth </h6>
+							<input type="text" class="form-control" name="placeOfBirth" placeholder="Start typing to enter body place of birth" ng-model="bodyInformation.placeOfBirth">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="content-group-lg">
+							<h6 class="text-semibold light">
+								Family Member Full Name <span class="text-danger">*</span>
+								<span class="text-danger" ng-messages="registrationForm.familyMemberName.$error" ng-if="registrationForm.familyMemberName.$touched && registrationForm.familyMemberName.$invalid">
+									<span ng-message="required"><i class="icon icon-alert"></i> This field is required.</span>
+								</span>
+							</h6>
+							<input type="text" class="form-control" name="familyMemberName" placeholder="Enter Family Member's Full Name" ng-model="bodyInformation.familyMemberName" required>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="content-group-lg">
+							<h6 class="text-semibold light">
+								Family Member Relationship <span class="text-danger">*</span>
+								<span class="text-danger" ng-messages="registrationForm.familyMemberRelationshipType.$error" ng-if="registrationForm.familyMemberRelationshipType.$touched && registrationForm.familyMemberRelationshipType.$invalid">
+									<span ng-message="required"><i class="icon icon-alert"></i> This field is required.</span>
+								</span>
+							</h6>
+							<select class="select" name="familyMemberRelationshipType" ng-model="bodyInformation.familyMemberRelationshipType" required>
+								<option value="Father" selected>Father</option>
+								<option value="Mother">Mother</option>	
+								<option value="Sister">Sister</option>	
+								<option value="Brother">Brother</option>
+								<option value="Uncle">Uncle</option>
+								<option value="Aunt">Aunt</option>
+								<option value="Grandparent">Grandparent</option>				
+							</select>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="content-group-lg">
+							<h6 class="text-semibold light">
+								Family Member Phone Number <span class="text-danger">*</span>
+								<span class="text-danger" ng-messages="registrationForm.familyMemberPhoneNumber.$error" ng-if="registrationForm.familyMemberPhoneNumber.$touched && registrationForm.familyMemberPhoneNumber.$invalid">
+									<span ng-message="required"><i class="icon icon-alert"></i> This field is required.</span>
+								</span>
+							</h6>
+							<input type="text" class="form-control" name="familyMemberPhoneNumber" placeholder="Start typing to enter Family Member's Phone Number" ng-model="bodyInformation.familyMemberPhoneNumber" required>
+						</div>
+					</div>
+				</div>
+			</fieldset>
+			<button type="submit" class="btn btn-primary stepy-finish ladda-button" data-style="expand-right" ng-click="submit()"><span class="ladda-label">Submit <i class="icon-check position-right"></i></span></button>
+		</form>
+</div>

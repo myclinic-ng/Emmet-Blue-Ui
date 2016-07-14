@@ -1352,7 +1352,7 @@ input[class*=bg-] + .form-control-feedback {
   padding-left: 48px;
 }
 .btn-labeled.btn-default > b {
-  background-color: #2196f3;
+  background-color: #ff9800;
   color: #fff;
 }
 .btn-labeled > b {
@@ -1562,14 +1562,14 @@ input[class*=bg-] + .form-control-feedback {
 .btn-primary:focus,
 .btn-primary.focus,
 .btn-primary:hover {
-  background-color: #2196f3;
-  border-color: #2196f3;
+  background-color: #ff9800;
+  border-color: #ff9800;
 }
 .btn-primary:active,
 .btn-primary.active,
 .open > .dropdown-toggle.btn-primary {
-  background-color: #2196f3;
-  border-color: #2196f3;
+  background-color: #ff9800;
+  border-color: #ff9800;
 }
 .btn-primary:active:hover,
 .btn-primary.active:hover,
@@ -1580,8 +1580,8 @@ input[class*=bg-] + .form-control-feedback {
 .btn-primary:active.focus,
 .btn-primary.active.focus,
 .open > .dropdown-toggle.btn-primary.focus {
-  background-color: #2196f3;
-  border-color: #2196f3;
+  background-color: #ff9800;
+  border-color: #ff9800;
 }
 .btn-primary.disabled {
   -webkit-box-shadow: none;
@@ -1799,7 +1799,7 @@ input[class*=bg-] + .form-control-feedback {
 .dropdown-menu > .active > label:focus {
   color: #ffffff;
   outline: 0;
-  background-color: #2196f3;
+  background-color: #ff9800;
 }
 .dropdown-menu > .disabled > label,
 .dropdown-menu > .disabled > label:hover,
@@ -1966,7 +1966,7 @@ input[class*=bg-] + .form-control-feedback {
   filter: alpha(opacity=100);
 }
 .dropdown-menu > .dropdown-submenu.active > a {
-  background-color: #2196f3;
+  background-color: #ff9800;
   color: #ffffff;
 }
 .dropdown-menu > .dropdown-submenu:hover > .dropdown-menu {
@@ -2362,7 +2362,7 @@ select[multiple].input-group-xs > .input-group-btn > .btn {
   .nav-tabs.nav-justified > li.active > a:hover,
   .nav-tabs.nav-justified > li.active > a:focus {
     border-width: 0 0 0 2px;
-    border-left-color: #2196f3;
+    border-left-color: #ff9800;
   }
 }
 .nav-tabs.page-tabs {
@@ -2388,7 +2388,7 @@ select[multiple].input-group-xs > .input-group-btn > .btn {
   .nav-tabs.nav-tabs-highlight > li.active > a,
   .nav-tabs.nav-tabs-highlight > li.active > a:hover,
   .nav-tabs.nav-tabs-highlight > li.active > a:focus {
-    border-top-color: #2196f3;
+    border-top-color: #ff9800;
   }
 }
 @media (min-width: 769px) {
@@ -2478,8 +2478,8 @@ select[multiple].input-group-xs > .input-group-btn > .btn {
 .nav-tabs.nav-tabs-solid > .active > a,
 .nav-tabs.nav-tabs-solid > .active > a:hover,
 .nav-tabs.nav-tabs-solid > .active > a:focus {
-  background-color: #2196f3;
-  border-color: #2196f3;
+  background-color: #ff9800;
+  border-color: #ff9800;
   color: #fff;
 }
 @media (min-width: 769px) {
@@ -2547,7 +2547,7 @@ select[multiple].input-group-xs > .input-group-btn > .btn {
   .nav-tabs > li.active > a:hover,
   .nav-tabs > li.active > a:focus {
     border-width: 0 0 0 2px;
-    border-left-color: #2196f3;
+    border-left-color: #ff9800;
     background-color: #f5f5f5;
   }
   .nav-tabs > li.open:not(.active) > a,
@@ -2611,7 +2611,7 @@ select[multiple].input-group-xs > .input-group-btn > .btn {
 }
 .nav-pills.nav-pills-bordered > .active > a,
 .nav-pills.nav-pills-bordered > .active.open > a {
-  border-color: #2196f3;
+  border-color: #ff9800;
 }
 .nav-pills.nav-pills-bordered .open > a {
   border-color: #dddddd;
@@ -2621,7 +2621,7 @@ select[multiple].input-group-xs > .input-group-btn > .btn {
 }
 .nav-pills.nav-pills-toolbar > .active > a,
 .nav-pills.nav-pills-toolbar > .active.open > a {
-  border-color: #2196f3;
+  border-color: #ff9800;
 }
 .nav-pills.nav-pills-toolbar .open > a {
   border-color: #dddddd;
@@ -2739,7 +2739,7 @@ select[multiple].input-group-xs > .input-group-btn > .btn {
   .nav-tabs-justified > li.active > a:hover,
   .nav-tabs-justified > li.active > a:focus {
     border-width: 0 0 0 2px;
-    border-left-color: #2196f3;
+    border-left-color: #ff9800;
   }
 }
 @media (min-width: 769px) {
@@ -3378,7 +3378,7 @@ select[multiple].input-group-xs > .input-group-btn > .btn {
   .navbar-default .dropdown-menu[class*=bg-] .label,
   .navbar-default .dropdown-menu[class*=bg-] .badge {
     color: #fff;
-    background-color: #2196f3;
+    background-color: #ff9800;
     border-color: transparent;
   }
   .navbar-default .dropdown-menu[class*=bg-] > .divider {
@@ -3716,7 +3716,7 @@ ul.dropdown-menu .dropdown-content-heading:first-child {
 .menu-list li.active > a:hover,
 .menu-list li.active > a:focus {
   color: #ffffff;
-  background-color: #2196f3;
+  background-color: #ff9800;
 }
 .menu-list li.disabled > a,
 .menu-list li.disabled > a:hover,
@@ -3762,7 +3762,7 @@ ul.dropdown-menu .dropdown-content-heading:first-child {
   .navbar-default .menu-list li.active > a:hover,
   .navbar-default .menu-list li.active > a:focus {
     color: #ffffff;
-    background-color: #2196f3;
+    background-color: #ff9800;
   }
   .navbar-default .menu-list li.disabled > a,
   .navbar-default .menu-list li.disabled > a:hover,
@@ -4500,7 +4500,7 @@ ul.dropdown-menu .dropdown-content-heading:first-child {
 }
 .pager li > a:hover,
 .pager li > a:focus {
-  border-color: #2196f3;
+  border-color: #ff9800;
   color: #fff;
 }
 .pager .disabled > a,
@@ -4542,7 +4542,7 @@ ul.dropdown-menu .dropdown-content-heading:first-child {
 }
 .pager-linked li > a:hover,
 .pager-linked li > span:hover {
-  background-color: #2196f3;
+  background-color: #ff9800;
   color: #fff;
 }
 .pager-linked .disabled > a,
@@ -4615,11 +4615,11 @@ ul.dropdown-menu .dropdown-content-heading:first-child {
   background-color: #999999;
 }
 .label-primary {
-  border-color: #2196f3;
+  border-color: #ff9800;
 }
 .label-primary[href]:hover,
 .label-primary[href]:focus {
-  background-color: #2196f3;
+  background-color: #ff9800;
 }
 .label-success {
   border-color: #4caf50;
@@ -4777,8 +4777,8 @@ ul.dropdown-menu .dropdown-content-heading:first-child {
   border-color: #999999;
 }
 .badge-primary {
-  background-color: #2196f3;
-  border-color: #2196f3;
+  background-color: #ff9800;
+  border-color: #ff9800;
 }
 .badge-success {
   background-color: #4caf50;
@@ -5905,7 +5905,7 @@ h6.panel-title,
   border-color: #dddddd;
 }
 .panel-primary.panel-bordered {
-  border-color: #2196f3;
+  border-color: #ff9800;
 }
 .panel-success {
   border-color: #dddddd;

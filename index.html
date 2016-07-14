@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
+	<base href="/">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title></title>
@@ -13,12 +14,33 @@
 		data-headjs-load="init.js"
 	>
 	</script>
-	<!-- /core js files -->
+	<!-- /core js files -->	
+	<style>
+		.dataTables_filter input { width: 50px }
+		/* fade */
+		@-webkit-keyframes fade {
+			from { }
+			to { opacity: 0.3; }
+		}
+		@keyframes fade {
+			from { }
+			to { opacity: 0.3; }
+		}
+
+		/* scale up */
+		@keyframes scaleUp {
+		    from    { opacity: 0.3; -webkit-transform: scale(0.8); }
+		}
+
+    	.pages.ng-enter { animation: scaleUp 0.3s both ease-in; }
+    	.pages.ng-leave { transform-origin: 0% 0%; animation: fade 0.4s both ease-in; }
+
+	</style>
 </head>
 
 <body ng-app="EmmetBlue" ng-controller="coreController">
 	<!-- Main navbar -->
-	<div ng-include src="'templates/core/header.html'"></div>
+	<div ng-include src="'assets/angular/core/templates/header.html'"></div>
 	<!-- /main navbar -->
 
 	<div ng-include src="moduleMenu"></div>
@@ -30,7 +52,7 @@
 		<!-- Page content -->
 		<div class="page-content">
 			<div class="content-wrapper">
-				<div ng-view></div>
+				<div class="pages" ng-view></div>
 			</div>
 		</div>
 		<!-- /page content -->
