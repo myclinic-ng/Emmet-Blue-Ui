@@ -40,28 +40,26 @@
 
 <body ng-app="EmmetBlue" ng-controller="coreController">
 	<!-- Main navbar -->
-	<div ng-include src="'assets/angular/core/templates/header.html'"></div>
+	<div id="globalHeader" ng-include src="'assets/angular/core/templates/header.html'"></div>
 	<!-- /main navbar -->
 
-	<div ng-include src="moduleMenu"></div>
+	<div class="no-login" id="moduleMenu" ng-include src="moduleMenu"></div>
 
-	<div ng-include src="moduleHeader"></div>
+	<div class="no-login" id="moduleHeader" ng-include src="moduleHeader"></div>
 
 	<!-- Page container -->
 	<div class="page-container">
 		<!-- Page content -->
 		<div class="page-content">
+			<div class="no-login" id="moduleSidebar" ng-include src="moduleSidebar"></div>
 			<div class="content-wrapper">
 				<div class="pages" ng-view></div>
 			</div>
 		</div>
 		<!-- /page content -->
-
-		<!-- Footer -->
 		<div class="footer text-muted">
-			&copy; 2016. <a href="#">The EmmetBlue Team</a>
+			&copy; 2016. <a href="#">EmmetBlue</a> by <a href="#" target="_blank">The EmmetBlue Team</a>
 		</div>
-		<!-- /footer -->
 	</div>
 	<!-- /page container -->
 </body>

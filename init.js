@@ -17,11 +17,12 @@ var libraries = [
 	"assets/js/plugins/ui/drilldown.js",
 	"assets/js/plugins/ui/nicescroll.min.js",
 	"assets/js/plugins/loaders/pace.min.js",
+	"assets/js/plugins/loaders/blockui.min.js",
 	"assets/js/plugins/forms/styling/uniform.min.js",
 	"assets/js/plugins/notifications/pnotify.min.js",
 	"assets/js/plugins/notifications/sweet_alert.min.js",
 	"assets/js/plugins/tables/datatables/datatables.min.js",
-	"assets/js/core/libraries/jasny_bootstrap.min.js"
+	"assets/js/core/libraries/jasny_bootstrap.min.js",
 ];
 
 var themes = [
@@ -34,6 +35,7 @@ var angularLibraries = [
 	"assets/angular/libraries/angular-route.js",
 	"assets/angular/libraries/angular-animate.js",
 	"assets/angular/libraries/angular-messages.js",
+	"assets/angular/libraries/angular-cookies.js",
 	"assets/angular/libraries/angular-datatables.js",
 	"assets/angular/libraries/angular-datatables.buttons.js",
 	"assets/angular/libraries/datatable-buttons/dataTables.buttons.js",
@@ -62,7 +64,9 @@ head.ready("angular", function(){
 // AngularJS Controllers and Services
 var cntrllers = [
 	"assets/angular/core/controllers/core/core-controller.js",
-	"plugins/mortuary/assets/controllers.js"
+	"plugins/mortuary/assets/controllers.js",
+	"plugins/user/assets/controllers.js",
+	"plugins/human-resources/assets/controllers.js"
 ]
 
 var services = [

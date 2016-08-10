@@ -1,4 +1,11 @@
-angular.module('EmmetBlue', ['ngRoute', 'ngAnimate', 'ngMessages', 'datatables', 'datatables.buttons'])
+angular.module('EmmetBlue', [
+	'ngRoute',
+	'ngAnimate',
+	'ngMessages',
+	'datatables',
+	'datatables.buttons',
+	'ngCookies'
+])
 
 .run(function(DTDefaultOptions){
 	DTDefaultOptions.setBootstrapOptions({
@@ -139,7 +146,8 @@ function getConstants(){
 		"TEMPLATE_DIR":"plugins/",
 		"MODULE_MENU_LOCATION":"assets/includes/menu.html",
 		"MODULE_HEADER_LOCATION":"assets/includes/header.html",
-		"EMMETBLUE_SERVER":"http://127.0.0.1:420/",
-		"EMMETBLUE_SERVER_VERSION":"v1"
+		"EMMETBLUE_SERVER":"http://192.168.1.100:420/",
+		"EMMETBLUE_SERVER_VERSION":"v1",
+		"USER_COOKIE_IDENTIFIER":"_______"
 	};
 }
