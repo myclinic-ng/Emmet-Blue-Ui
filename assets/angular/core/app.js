@@ -4,6 +4,7 @@ angular.module('EmmetBlue', [
 	'ngMessages',
 	'datatables',
 	'datatables.buttons',
+	'datatables.fixedheader',
 	'ngCookies'
 ])
 
@@ -35,7 +36,19 @@ angular.module('EmmetBlue', [
 	$locationProvider.html5Mode(true);
 })
 
-.factory("utils", function($rootScope, $location, $parse, CONSTANTS, $q, $http){
+.factory("utils", function(
+	$rootScope,
+	$location,
+	$parse,
+	CONSTANTS,
+	$q,
+	$http,
+	$httpParamSerializer,
+	$compile,
+	DTOptionsBuilder,
+	DTColumnBuilder,
+	$compile
+){
 	var services = {};
 
 	services.enableDefaultFormValues = function(){
@@ -66,7 +79,7 @@ angular.module('EmmetBlue', [
 		});
 	};
 
-	services.alert = function(title, text, type, notyType){
+	services.alert = function(title, text, type, notyType=""){
 		if (notyType == 'both'){
 			services.swal(title, text, type);
 			services.notify(title, text, type);
@@ -79,7 +92,7 @@ angular.module('EmmetBlue', [
 		}
 	}
 
-	services.confirm = function(title, text, closeOnConfirm, callback, btnText="Cancel", type=""){
+	services.confirm = function(title, text, closeOnConfirm, callback, type="", btnText="Ok"){
 		sweetAlert({
 			title: title,
 			text: text,
@@ -111,19 +124,28 @@ angular.module('EmmetBlue', [
 		var alertType = (showSwal) ? "both" : "notify";
 		switch(errorObject.status){
 			case 404:{
-				services.notify('Invalid Resource Requested', 'The requested resource was not found on this server, please contact an administration', 'warning');
+				services.notify('Invalid Resource Requested', 'The requested resource was not found on this server, please contact an administrator', 'warning');
 				break;
 			}
 			default:
 			{
-				services.alert('Input Data Related Error', errorObject.data.errorMessage, 'error', alertType);
+				services.alert(errorObject.status+': '+errorObject.statusText, errorObject.data.errorMessage, 'error');
 			}
 		}
 	};
 
 	services.globalConstants = CONSTANTS;
 
+	services.serializeParams = $httpParamSerializer;
+
+	services.compile = $compile;
+
 	services.restServer = CONSTANTS.EMMETBLUE_SERVER+CONSTANTS.EMMETBLUE_SERVER_VERSION;
+
+	services.DT = {
+		optionsBuilder: DTOptionsBuilder,
+		columnBuilder: DTColumnBuilder,
+	}
 
 	return services;
 })
@@ -146,7 +168,7 @@ function getConstants(){
 		"TEMPLATE_DIR":"plugins/",
 		"MODULE_MENU_LOCATION":"assets/includes/menu.html",
 		"MODULE_HEADER_LOCATION":"assets/includes/header.html",
-		"EMMETBLUE_SERVER":"http://192.168.1.100:420/",
+		"EMMETBLUE_SERVER":"http://192.168.173.1/EmmetBlueApi/",
 		"EMMETBLUE_SERVER_VERSION":"v1",
 		"USER_COOKIE_IDENTIFIER":"_______"
 	};

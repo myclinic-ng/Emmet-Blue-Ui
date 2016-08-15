@@ -59,8 +59,6 @@ angular.module("EmmetBlue")
 	];
 
 	$scope.loadBodyInfo = function(id){
-		console.log('ckicked');
-		alert("Sam");
 	}
 
 	function actionsMarkup(data, type, full, meta){

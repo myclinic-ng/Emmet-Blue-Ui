@@ -7,8 +7,9 @@ var css = [
 	"assets/css/core.css",
 	"assets/css/components.css" ,
 	"assets/css/colors.css",
-	"assets/css/angular-datatables.css",
-	"assets/css/buttons.dataTables.css"
+	"assets/css/datatables/angular-datatables.css",
+	"assets/css/datatables/buttons.dataTables.css",
+	"assets/css/datatables/fixedHeader.dataTables.css"
 ];
 
 var jquery = {"jquery": "assets/js/core/libraries/jquery.min.js"};
@@ -22,6 +23,7 @@ var libraries = [
 	"assets/js/plugins/notifications/pnotify.min.js",
 	"assets/js/plugins/notifications/sweet_alert.min.js",
 	"assets/js/plugins/tables/datatables/datatables.min.js",
+	"assets/js/plugins/tables/datatables/extensions/dataTables.fixedHeader.js",
 	"assets/js/core/libraries/jasny_bootstrap.min.js",
 ];
 
@@ -41,7 +43,8 @@ var angularLibraries = [
 	"assets/angular/libraries/datatable-buttons/dataTables.buttons.js",
 	"assets/angular/libraries/datatable-buttons/buttons.print.js",
 	"assets/angular/libraries/datatable-buttons/buttons.html5.js",
-	"assets/angular/libraries/datatable-buttons/buttons.bootstrap.js"
+	"assets/angular/libraries/datatable-buttons/buttons.bootstrap.js",
+	"assets/angular/libraries/angular-datatables.fixedheader.js"
 ]
 
 // Load Files
