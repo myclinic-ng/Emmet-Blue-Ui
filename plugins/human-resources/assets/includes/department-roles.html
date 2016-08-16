@@ -1,0 +1,86 @@
+<div ng-controller="humanResourcesDepartmentRoleController">
+	<div id="role_management" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title"> Department Role Management <span class="pull-right mr-20">{{departmentName}} Department</span></h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="table-responsive col-md-12">
+						<table datatable="" dt-options="ddtOptions" dt-columns="ddtColumns" dt-instance="ddtInstance" class="table table-condensed table-striped table-hover">
+
+						</table>
+					</div>
+				</div>
+
+				<div class="modal-footer">s
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- New Role -->
+	<div id="new_role" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Create a new role</h6>
+				</div>
+
+				<div class="modal-body">
+					<form role="form">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-12">
+									<label>Role name</label>
+									<input type="text" class="form-control" ng-model="newRole.name">
+								</div>
+								<div class="col-sm-12">
+									<label>Role description</label>
+									<input type="text" class="form-control inpug-lg" ng-model="newRole.description">
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="newRole = {}">Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveNewRole()">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--/ New Role  -->
+
+	<!-- Edit Department-->
+	<div id="edit_role" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Edit Role</h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="content-group col-sm-12">
+								<label>Role name</label>
+								<input type="text" class="form-control" ng-model="tempHolder.name" data-option-id="{{tempHolder.id}}">
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="tempHolder = {}">Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveEditRole()">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--/Edit Department  -->
+</div>

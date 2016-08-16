@@ -1,0 +1,95 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('.select').select2();</script>
+
+<div ng-controller="humanResourcesDepartmentController">
+	<div class="panel panel-white zoomIn" >
+		<div class="panel-heading">
+			<h6 class="panel-title">Department Management</h6>
+			<div class="heading-elements">
+				<ul class="icons-list">
+	        		<li><a data-action="reload"></a></li>
+	        	</ul>
+	    	</div>
+		</div>
+
+		<div class="panel-body">
+			<div class="table-responsive col-md-12">
+				<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
+
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<!-- New Department -->
+	<div id="new_department" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Create a new department</h6>
+				</div>
+
+				<div class="modal-body">
+					<form role="form">
+						<div class="form-group">
+							<div class="row">
+								<div class="content-group col-sm-12">
+									<label>Department name</label>
+									<input type="text" class="form-control" ng-model="newDepartment.name">
+								</div>
+								<div class="content-group col-sm-12 pt-2">
+									<label>Department Group</label>
+									<select class="form-control" ng-model="newDepartment.groupId" ng-options="departmentGroup.DepartmentGroupID as departmentGroup.GroupName for departmentGroup in departmentGroups"></select>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="newDepartment = {}">Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveNewDepartment()">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--/ NEw Department Group  -->
+
+	<!-- Edit Department-->
+	<div id="edit_department" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Edit department</h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="content-group col-sm-12">
+								<label>Department name</label>
+								<input type="text" class="form-control" ng-model="tempHolder.name" data-option-id="{{tempHolder.id}}">
+							</div>
+							<div class="content-group col-sm-12">
+								<label>Assign to new department group</label>
+								<select class="form-control" ng-model="tempHolder.groupId" ng-options="departmentGroup.DepartmentGroupID as departmentGroup.GroupName for departmentGroup in departmentGroups"></select>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="tempHolder = {}">Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveEditDepartment()">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--/Edit Department  -->
+
+	<!-- Role Management Modal-->
+	<ng-include src="'plugins/human-resources/assets/includes/department-roles.html'"></ng-include>
+	<!--/Role Management Modal-->
+</div>

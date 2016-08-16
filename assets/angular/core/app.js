@@ -5,7 +5,8 @@ angular.module('EmmetBlue', [
 	'datatables',
 	'datatables.buttons',
 	'datatables.fixedheader',
-	'ngCookies'
+	'ngCookies',
+	'ngStorage'
 ])
 
 .run(function(DTDefaultOptions){
@@ -47,7 +48,9 @@ angular.module('EmmetBlue', [
 	$compile,
 	DTOptionsBuilder,
 	DTColumnBuilder,
-	$compile
+	$compile,
+	$cookies,
+	$localStorage
 ){
 	var services = {};
 
@@ -129,7 +132,12 @@ angular.module('EmmetBlue', [
 			}
 			default:
 			{
-				services.alert(errorObject.status+': '+errorObject.statusText, errorObject.data.errorMessage, 'error');
+				if (typeof errorObject.data != "undefined"){
+					services.alert(errorObject.status+': '+errorObject.statusText, errorObject.data.errorMessage, 'error');
+				}
+				else{
+					services.alert("Unknown error", "A general error has occurred, please contact an administrator", 'error');
+				}
 			}
 		}
 	};
@@ -139,6 +147,8 @@ angular.module('EmmetBlue', [
 	services.serializeParams = $httpParamSerializer;
 
 	services.compile = $compile;
+
+	services.storage = $localStorage;
 
 	services.restServer = CONSTANTS.EMMETBLUE_SERVER+CONSTANTS.EMMETBLUE_SERVER_VERSION;
 

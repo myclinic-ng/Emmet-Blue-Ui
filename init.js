@@ -44,7 +44,8 @@ var angularLibraries = [
 	"assets/angular/libraries/datatable-buttons/buttons.print.js",
 	"assets/angular/libraries/datatable-buttons/buttons.html5.js",
 	"assets/angular/libraries/datatable-buttons/buttons.bootstrap.js",
-	"assets/angular/libraries/angular-datatables.fixedheader.js"
+	"assets/angular/libraries/angular-datatables.fixedheader.js",
+	"assets/angular/libraries/ngStorage.js"
 ]
 
 // Load Files
