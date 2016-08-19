@@ -68,7 +68,6 @@ angular.module("EmmetBlue")
 				var close = true;
 				$scope._id = id;
 				var callback = function(){
-					console.log($scope._id);
 					var deleteRequest = utils.serverRequest('/human-resources/Role/delete?'+utils.serializeParams({
 						'resourceId': $scope._id
 					}), 'DELETE');

@@ -1,6 +1,5 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-<script>$('.select').select2();</script>
-
+<script>$('select.select').select2();</script>
 <div ng-controller="humanResourcesStaffManagementController">
 	<!-- Page container -->
 	<div class="page-container">
@@ -32,7 +31,7 @@
 
 						<div class="tab-content">
 							<div class="tab-pane active no-padding" id="new-staff">
-
+								
 								<!-- Title -->
 								<div class="category-title h6">
 									<span>New Staff Registration</span>
@@ -41,7 +40,7 @@
 									</ul>
 								</div>
 								<!-- /title -->
-
+								
 								<div class="sidebar-category">
 									<div class="category-title">
 										<span>Registration Form</span>
@@ -90,7 +89,38 @@
 							</div>
 
 							<div class="tab-pane no-padding" id="filter-staff">
+								<!-- Sidebar search -->
+								<div class="sidebar-category">
+									<div class="category-title">
+										<span>Click on a staff to manage</span>
+										<ul class="icons-list">
+											<li><a href="#" data-action="collapse"></a></li>
+										</ul>
+									</div>
 
+									<div class="category-content">
+										<div class="content-group">
+											<form action="#">
+												<div class="has-feedback has-feedback-left">
+													<input type="search" class="form-control" placeholder="Search">
+													<div class="form-control-feedback">
+														<i class="icon-search4 text-size-base text-muted"></i>
+													</div>
+												</div>
+											</form>
+										</div>
+
+										<table class="table table-responsive table-bordered table-hover table-condensed">
+											<thead>
+												<tr class="bg-warning">
+													<th>Staff ID</th>
+													<th>Staff</th>
+												</tr>
+											</thead>
+										</table>
+									</div>
+								</div>
+								<!-- /sidebar search -->
 							</div>
 						</div>
 					</div>
@@ -104,6 +134,7 @@
 
 				<!-- Sidebars overview -->
 				<div class="panel panel-flat">
+					
 				</div>
 				<!-- /sidebars overview -->
 			</div>
@@ -114,3 +145,5 @@
 	</div>
 	<!-- /page container -->
 </div>
+
+<ng-include src="'plugins/human-resources/assets/includes/new-staff-profile.html'"></ng-include>

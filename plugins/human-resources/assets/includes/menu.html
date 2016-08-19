@@ -7,7 +7,7 @@
 
 		<div class="navbar-collapse collapse" id="navbar-second-toggle">
 			<ul class="nav navbar-nav">
-				<li><a href="mortuary/dashboard"><i class="icon-display4 position-left"></i> Dashboard</a></li>
+				<li><a href="human-resources/dashboard"><i class="icon-display4 position-left"></i> Dashboard</a></li>
 
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown">
@@ -22,6 +22,27 @@
 
 				<li><a href="human-resources/staff-management">Staff Management </a></li>
 			</ul>
+
+			<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="icon-cog3"></i>
+							<span class="visible-xs-inline-block position-right">Settings<span>
+							<span class="caret"></span>
+						</a>
+
+						<ul class="dropdown-menu dropdown-menu-right">
+							<li><a href="#" data-toggle="modal" data-target="#setting_staff_profile_record"><i class="icon-user-lock"></i> Staff Profile Records</a></li>
+							<li class="divider"></li>
+							<li><a href="#"><i class="icon-gear"></i> All settings</a></li>
+						</ul>
+					</li>
+				</ul>
 		</div>
 </div>
 <!-- /second navbar -->
+
+
+<!-- Settings Modal-->
+<ng-include src="'plugins/human-resources/assets/includes/settings/staff-profile-records.html'"></ng-include>
+<!--/Settings Modal-->

@@ -16,7 +16,6 @@ angular.module("EmmetBlue")
 					}
 				})
 
-				console.log($scope.departments);
 			}, function(responseObject){
 				utils.errorHandler(responseObject);
 			})
@@ -33,7 +32,8 @@ angular.module("EmmetBlue")
 		newStaffCreated: function(){
 			utils.alert("Operation Successful", "You have successfully registered a new staff", "success", "notify", "both");
 			$scope.newStaff = {};
-		},
+			$("#new_staff_profile").modal("show");
+		}
 	}
 
 	functions.loadDepartments();
@@ -57,6 +57,7 @@ angular.module("EmmetBlue")
 		save.then(function(response){
 			functions.newStaffCreated();
 		}, function(response){
+			$("#new_staff_profile").modal("show");
 			utils.errorHandler(response);
 		});
 	}
