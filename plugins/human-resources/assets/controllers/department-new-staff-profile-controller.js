@@ -22,6 +22,6 @@ angular.module('EmmetBlue')
 
 	functions.loadStaffProfileRecords();
 	$scope.submitStaffProfile = function(){
-		functions.submitStaffProfile;
+		functions.submitStaffProfile();
 	}
 })
