@@ -35,7 +35,7 @@ angular.module("EmmetBlue")
 		newBillingTypeItemsCreated: function(){
 			utils.alert("Operation Successful", "You have successfully created a new billingTypeItems", "success", "notify");
 			$scope.newBillingTypeItems = {};
-			$("#new_billingTypeItems").modal("hide");
+			$("#new_billing_type_items").modal("hide");
 
 			$scope.reloadBillingTypeItemsTable();
 		},
@@ -93,7 +93,7 @@ angular.module("EmmetBlue")
 
 	$scope.ddtOptions = utils.DT.optionsBuilder
 	.fromFnPromise(function(){
-		var billingTypeItemss = utils.serverRequest('/accounts-biller/billing-type-items/view?resourceId='+$scope.department, 'GET');
+		var billingTypeItemss = utils.serverRequest('/accounts-biller/billing-type-items/view?resourceId='+$scope.billingTypeItems, 'GET');
 		return billingTypeItemss;
 	})
 	.withPaginationType('full_numbers')
@@ -118,8 +118,9 @@ angular.module("EmmetBlue")
 	]);	
 
 	$scope.ddtColumns = [
-		utils.DT.columnBuilder.newColumn('BillingTypeItemsID').withTitle("ID").withOption('width', '0.5%').notSortable(),
-		utils.DT.columnBuilder.newColumn('Name').withTitle("BillingTypeItems"),
+		utils.DT.columnBuilder.newColumn('BillingTypeItemID').withTitle("ID").withOption('width', '0.5%').notSortable(),
+		utils.DT.columnBuilder.newColumn('BillingTypeItemName').withTitle("Item Name"),
+		utils.DT.columnBuilder.newColumn('BillingTypeItemPrice').withTitle("Item Name"),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(functions.actionMarkups.billingTypeItemsActionMarkup).withOption('width', '25%').notSortable()
 	];
 
@@ -132,7 +133,8 @@ angular.module("EmmetBlue")
 
 		var data = {
 			billingTypeItemName:newBillingTypeItems.name,
-			billingTypeItemPrice:""+newBillingTypeItems.price
+			billingTypeItemPrice:""+newBillingTypeItems.price,
+			billingType:""+$scope.billingTypeItems
 		};
 
 		if (newBillingTypeItems.rate == "" || typeof newBillingTypeItems.rate == 'undefined'){
@@ -155,8 +157,7 @@ angular.module("EmmetBlue")
 
 	$scope.saveEditBillingTypeItems = function(){
 		var edits = {
-			resourceId: $scope.tempHolder.id,
-			Name: $scope.tempHolder.name
+			resourceId: $scope.tempHolder.id
 		}
 
 		var saveEdits = utils.serverRequest('/accounts-biller/billing-type-items/edit', 'PUT', edits);
