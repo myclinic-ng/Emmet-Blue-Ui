@@ -10,22 +10,32 @@
 				</div>
 
 				<div class="modal-body">
-					<table class="table table-responsive table-columned">
-						<thead>
-							<tr>
-								<th>S/N</th>
-								<th>Item Name</th>
-								<th>Item Price</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<th>1</th>
-								<th>Paracetamol</th>
-								<th>100.00</th>
-							</tr>
-						</tbody>
-					</table>
+					<div class="row">
+						<div class="form-group col-md-8">
+							<label class="control-label">Select Item(s) from the category below</label>
+							<select class="select" ng-model="billingTypeItems.item"></select>
+						</div>
+						<div class="form-group col-md-4">
+							<label class="control-label">Quantity</label>
+							<input type="number" min="1" class="form-control" ng-model="billingTypeItems.quantiy"/>
+						</div>
+						<div class="form-group pull-right">
+							<button type="button" class="btn btn-primary" ng-click="">Add</button>
+						</div>
+					</div>
+					<div class="row">
+						<table class="table table-responsive table-columned">
+							<thead class="bg-primary-500">
+								<tr>
+									<th>S/N</th>
+									<th>Item Name</th>
+									<th>Item Price</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
 				</div>
 
 				<div class="modal-footer">
