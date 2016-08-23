@@ -78,7 +78,7 @@ angular.module("EmmetBlue")
 			},
 			deleteBillingType: function(id){
 				var title = "Delete Prompt";
-				var text = "You are about to delete the billingType named "+$(".btn[data-option-id='"+id+"']").attr('data-option-name')+". Do you want to continue? Please note that this action cannot be undone";
+				var text = "You are about to delete the billingType named "+$(".billing-type-btn[data-option-id='"+id+"']").attr('data-option-name')+". Do you want to continue? Please note that this action cannot be undone";
 				var close = true;
 				$scope._id = id;
 				var callback = function(){
@@ -99,12 +99,12 @@ angular.module("EmmetBlue")
 			},
 			itemManagement: function(id){
 				var data = {
-					name: $(".btn[data-option-id='"+id+"']").attr('data-option-name'),
+					name: $(".billing-type-btn[data-option-id='"+id+"']").attr('data-option-name'),
 					id: id
 				}
 
-				utils.storage.itemBillingTypeData = data;
-				$("#item_management").modal("show");
+				utils.storage.billingTypeItemsData = data;
+				$("#billing_type_items").modal("show");
 			},
 			deleteAllSelectedBillingTypes: function(){
 				var selectedGroups = $scope.billingTypeSelector.selected;

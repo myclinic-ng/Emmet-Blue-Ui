@@ -1,0 +1,96 @@
+<div ng-controller="accountsBillingBillingTypeItemsController">
+	<div id="billing_type_items" class="modal fade">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title"> Items Management <span class="pull-right mr-20">{{billingTypeItemsName}} Billing Items</span></h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="table-responsive col-md-12">
+						<table datatable="" dt-options="ddtOptions" dt-columns="ddtColumns" dt-instance="ddtInstance" class="table table-condensed table-striped table-hover">
+
+						</table>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- New Billing Type Items -->
+	<div id="new_billing_type_items" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Create a new item</h6>
+				</div>
+
+				<div class="modal-body">
+					<form role="form">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-12">
+									<label>Item Name</label>
+									<input type="text" class="form-control" ng-model="newBillingTypeItems.name">
+								</div>
+								<div class="col-sm-12">
+									<label>Item Price</label>
+									<input type="number" class="form-control" ng-model="newBillingTypeItems.price">
+								</div>
+								<div class="col-sm-12">
+									<label>Rate</label>
+									<select class="select" ng-model="newBillingTypeItems.rate">
+										<option value="">Not rate based</option>
+										<option value="day">Daily</option>
+										<option value="hour">Hourly</option>
+										<option value="month">Monthly</option>
+										<option value="year">Yearly</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="newBillingTypeItems = {}">Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveNewBillingTypeItems()">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--/ New Billing Type Items  -->
+
+	<!-- Edit Billing Type Items-->
+	<div id="edit_billing_type_items" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Edit Billing Type Items</h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="content-group col-sm-12">
+								<label>Billing Type Items name</label>
+								<input type="text" class="form-control" ng-model="tempHolder.name" data-option-id="{{tempHolder.id}}">
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="tempHolder = {}">Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveEditBillingTypeItems()">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--/Edit Billing Type Items  -->
+</div>
