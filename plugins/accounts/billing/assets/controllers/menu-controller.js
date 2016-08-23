@@ -4,11 +4,12 @@ angular.module("EmmetBlue")
 	var billingTypes = utils.serverRequest('/accounts-biller/billing-type/view', 'GET');
 	
 	billingTypes.then(function(response){
-		$scope.billingItems = [];
-		angular.forEach(response, function(value, key){
-			$scope.billingItems.push(value.BillingTypeName);
-		})
+		$scope.billingItems = response;
 	}, function(response){
 		utils.errorHandler(response);
 	});
+
+	$scope.alert = function(id){
+		utils.alert(id);
+	}
 })

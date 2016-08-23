@@ -16,7 +16,7 @@
 					</a>
 
 					<ul class="dropdown-menu width-200">
-						<li ng-repeat="bill in billingItems"><a href="#"><i class=""></i> {{bill}}</a></li>
+						<li ng-repeat="bill in billingItems"><a href="#" ng-click="alert(bill.BillingTypeID)"><i class=""></i> {{bill.BillingTypeName}}</a></li>
 					</ul>
 				</li>
 
