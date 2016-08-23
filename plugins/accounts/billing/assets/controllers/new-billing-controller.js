@@ -7,10 +7,38 @@ angular.module("EmmetBlue")
 	}, function(newValue){
 		$scope.billingType = newValue;
 
+		var billingTypeItems = utils.serverRequest('/accounts-biller/billing-type-items/view?resourceId='+newValue.BillingTypeID, 'GET');
+		billingTypeItems.then(function(response){
+			$scope.billingTypeItems = response;
+			$scope.billingTypeItemsInfo = [];
+			angular.forEach(response, function(val, key){
+				$scope.billingTypeItemsInfo[val.BillingTypeItemID] = val;
+			})
+		}, function(response){
+			utils.errorHandler(response);
+		})
+
 		if (!$scope.startWatching){
 			$scope.startWatching = true;
 		}
 		else{
 		}
-	})
+	});
+
+	$scope.itemList = [];
+	$scope.addItemToList = function(){
+		var items = $scope.newBillingTypeItems;
+		var itemInfo = $scope.billingTypeItemsInfo[items.item];
+
+		if (typeof items.quantity == 'undefined'){
+			items.quantity = 1;
+		}
+
+		var price = parseFloat(itemInfo.BillingTypeItemPrice) * items.quantity
+		$scope.itemList.push({
+			'itemName':itemInfo.BillingTypeItemName,
+			'itemQuantity':items.quantity,
+			'itemPrice':price
+		})
+	}
 })
