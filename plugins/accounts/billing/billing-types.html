@@ -1,0 +1,91 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+
+<div ng-controller="accountsBillingBillingTypeController">
+	<div class="panel panel-white zoomIn" >
+		<div class="panel-heading">
+			<h6 class="panel-title">Billing Types Management</h6>
+			<div class="heading-elements">
+				<ul class="icons-list">
+	        		<li><a data-action="reload"></a></li>
+	        	</ul>
+	    	</div>
+		</div>
+
+		<div class="panel-body">
+			<div class="table-responsive col-md-12">
+				<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
+
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<!-- New BillingType -->
+	<div id="new_billingType" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Create a new billingType</h6>
+				</div>
+
+				<div class="modal-body">
+					<form role="form">
+						<div class="form-group">
+							<div class="row">
+								<div class="content-group col-sm-12">
+									<label>Billing Type name</label>
+									<input type="text" class="form-control" ng-model="newBillingType.billingTypeName">
+								</div>
+								<div class="content-group col-sm-12">
+									<label>Billing Type description</label>
+									<textarea class="form-control" cols="3" rows="3" ng-model="newBillingType.billingTypeDescription"></textarea>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="newBillingType = {}">Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveNewBillingType()">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--/ NEw BillingType Group  -->
+
+	<!-- Edit BillingType-->
+	<div id="edit_billingType" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Edit Billing Type</h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="content-group col-sm-12">
+								<label>Billing type name</label>
+								<input type="text" class="form-control" ng-model="tempHolder.billingTypeName" data-option-id="{{tempHolder.resourceId}}">
+							</div>
+							<div class="content-group col-sm-12">
+								<label>Description</label>
+								<textarea class="form-control" ng-model="tempHolder.billingTypeDescription"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="tempHolder = {}">Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveEditBillingType()">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--/Edit BillingType  -->
+</div>
