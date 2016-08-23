@@ -24,6 +24,9 @@ angular.module('EmmetBlue', [
 
 .config(function($routeProvider, $locationProvider){
 	$routeProvider
+	.when('/', {
+		templateUrl:'plugins/index.html',
+	})
 	.when('/:page*', {
 		templateUrl: function(url){
 			return determineRouteAvailability(url.page);
@@ -150,7 +153,7 @@ angular.module('EmmetBlue', [
 
 	services.storage = $localStorage;
 
-	services.restServer = CONSTANTS.EMMETBLUE_SERVER;
+	services.restServer = CONSTANTS.EMMETBLUE_SERVER+CONSTANTS.EMMETBLUE_SERVER_VERSION;
 
 	services.DT = {
 		optionsBuilder: DTOptionsBuilder,
@@ -164,13 +167,18 @@ angular.module('EmmetBlue', [
 
 function determineRouteAvailability(url){
 	var urlParts = url.split("/");
+
 	if (typeof urlParts[1] == "undefined"){
 		urlParts[1] = "dashboard"
 	}
 
  	var _url = 'plugins/'+urlParts.join('/')+'.html';
 
- 	return _url;
+ 	var http = new XMLHttpRequest();
+    http.open('HEAD', _url, false);
+    http.send();
+
+ 	return (http.status !== 404) ? _url : 'plugins/core/404.html';
 }
 
 function getConstants(){
@@ -178,7 +186,7 @@ function getConstants(){
 		"TEMPLATE_DIR":"plugins/",
 		"MODULE_MENU_LOCATION":"assets/includes/menu.html",
 		"MODULE_HEADER_LOCATION":"assets/includes/header.html",
-		"EMMETBLUE_SERVER":"http://127.0.0.1:420/Emmet-Blue-Api",
+		"EMMETBLUE_SERVER":"http://192.168.173.1/EmmetBlueApi/",
 		"EMMETBLUE_SERVER_VERSION":"v1",
 		"USER_COOKIE_IDENTIFIER":"_______"
 	};

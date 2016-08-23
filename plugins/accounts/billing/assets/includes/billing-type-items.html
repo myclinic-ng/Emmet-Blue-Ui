@@ -77,9 +77,23 @@
 				<div class="modal-body">
 					<div class="form-group">
 						<div class="row">
-							<div class="content-group col-sm-12">
-								<label>Billing Type Items name</label>
-								<input type="text" class="form-control" ng-model="tempHolder.name" data-option-id="{{tempHolder.id}}">
+							<div class="col-sm-12">
+								<label>Item Name</label>
+								<input type="text" class="form-control" ng-model="tempHolder.name">
+							</div>
+							<div class="col-sm-12">
+								<label>Item Price</label>
+								<input type="number" class="form-control" ng-model="tempHolder.price">
+							</div>
+							<div class="col-sm-12">
+								<label>Rate</label>
+								<select class="form-control" ng-model="tempHolder.rate">
+									<option value="">Not rate based</option>
+									<option value="day">Daily</option>
+									<option value="hour">Hourly</option>
+									<option value="month">Monthly</option>
+									<option value="year">Yearly</option>
+								</select>
 							</div>
 						</div>
 					</div>

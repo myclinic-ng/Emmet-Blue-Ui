@@ -19,21 +19,21 @@ angular.module("EmmetBlue")
 	var functions = {
 		actionMarkups: {
 			billingTypeItemsActionMarkup: function (data, type, full, meta){
-				var editButtonAction = "manageBillingTypeItems('edit', "+data.BillingTypeItemsID+")";
-				var deleteButtonAction = "manageBillingTypeItems('delete', "+data.BillingTypeItemsID+")";
+				var editButtonAction = "manageBillingTypeItems('edit', "+data.BillingTypeItemID+")";
+				var deleteButtonAction = "manageBillingTypeItems('delete', "+data.BillingTypeItemID+")";
 
-				var dataOpt = "data-option-id='"+data.BillingTypeItemsID+"' data-option-name='"+data.Name+"'";
-
-				var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+dataOpt+"> <i class='fa fa-pencil'></i></button>";
-				var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> <i class='fa fa-trash-o'></i></button>";
-				var viewButton = "<button class='btn btn-default'> <i class='fa fa-eye'></i></button>";
+				var dataOpt = "data-option-id='"+data.BillingTypeItemID+"' data-option-name='"+data.BillingTypeItemName+"' data-option-price='"+data.BillingTypeItemPrice+"' data-option-rate='"+data.RateIdentifier+"'";
+				
+				var editButton = "<button class='btn btn-default billing-type-items-btn' ng-click=\""+editButtonAction+"\" "+dataOpt+"> <i class='fa fa-pencil'></i></button>";
+				var deleteButton = "<button class='btn btn-default billing-type-items-btn' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> <i class='fa fa-trash-o'></i></button>";
+				var viewButton = "<button class='btn btn-default billing-type-items-btn'> <i class='fa fa-eye'></i></button>";
 
 				var buttons = "<div class='btn-group'>"+viewButton+editButton+deleteButton+"</button>";
 				return buttons;
 			}
 		},
 		newBillingTypeItemsCreated: function(){
-			utils.alert("Operation Successful", "You have successfully created a new billingTypeItems", "success", "notify");
+			utils.alert("Operation Successful", "You have successfully created a new billing type items", "success", "notify");
 			$scope.newBillingTypeItems = {};
 			$("#new_billing_type_items").modal("hide");
 
@@ -42,12 +42,12 @@ angular.module("EmmetBlue")
 		billingTypeItemsEdited: function(){
 			utils.alert("Operation Successful", "Your changes have been saved successfully", "success", "notify");
 			$scope.tempHolder = {};
-			$("#edit_billingTypeItems").modal("hide");
+			$("#edit_billing_type_items").modal("hide");
 
 			$scope.reloadBillingTypeItemsTable();
 		},
 		billingTypeItemsDeleted: function(){
-			utils.alert("Operation Successful", "The selected billingTypeItems has been deleted successfully", "success", "notify");
+			utils.alert("Operation Successful", "The selected billing type items has been deleted successfully", "success", "notify");
 			delete  $scope._id;
 
 			$scope.reloadBillingTypeItemsTable();
@@ -57,14 +57,17 @@ angular.module("EmmetBlue")
 				$("#new_billing_type_items").modal("show");
 			},
 			editBillingTypeItems: function(id){
-				$scope.tempHolder.name = $(".btn[data-option-id='"+id+"']").attr('data-option-name');
+				$scope.tempHolder.name = $(".billing-type-items-btn[data-option-id='"+id+"']").attr('data-option-name');
+				$scope.tempHolder.price = parseInt($(".billing-type-items-btn[data-option-id='"+id+"']").attr('data-option-price'));
+				$scope.tempHolder.rate = $(".billing-type-items-btn[data-option-id='"+id+"']").attr('data-option-rate');
 				$scope.tempHolder.id = id;
 
-				$("#edit_billingTypeItems").modal("show");
+				console.log($scope.tempHolder);
+				$("#edit_billing_type_items").modal("show");
 			},
 			deleteBillingTypeItems: function(id){
 				var title = "Delete Prompt";
-				var text = "You are about to delete the BillingTypeItems named "+$(".btn[data-option-id='"+id+"']").attr('data-option-name')+". Do you want to continue? Please note that this action cannot be undone";
+				var text = "You are about to delete the BillingTypeItems named "+$(".billing-type-items-btn[data-option-id='"+id+"']").attr('data-option-name')+". Do you want to continue? Please note that this action cannot be undone";
 				var close = true;
 				$scope._id = id;
 				var callback = function(){
@@ -124,6 +127,8 @@ angular.module("EmmetBlue")
 		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(functions.actionMarkups.billingTypeItemsActionMarkup).withOption('width', '25%').notSortable()
 	];
 
+	$scope.tempHolder = {};
+
 	$scope.reloadBillingTypeItemsTable = function(){
 		$scope.ddtInstance.reloadData();
 	}
@@ -156,11 +161,19 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.saveEditBillingTypeItems = function(){
-		var edits = {
-			resourceId: $scope.tempHolder.id
+		var editBillingTypeItems = $scope.tempHolder;
+
+		var data = {
+			billingTypeItemName:editBillingTypeItems.name,
+			billingTypeItemPrice:""+editBillingTypeItems.price,
+			resourceId:editBillingTypeItems.id
+		};
+
+		if (editBillingTypeItems.rate == "" || typeof editBillingTypeItems.rate == 'undefined'){
+			data['rateBased'] = 0;
 		}
 
-		var saveEdits = utils.serverRequest('/accounts-biller/billing-type-items/edit', 'PUT', edits);
+		var saveEdits = utils.serverRequest('/accounts-biller/billing-type-items/edit', 'PUT', data);
 		saveEdits.then(function(response){
 			functions.billingTypeItemsEdited();
 		}, function(responseObject){
