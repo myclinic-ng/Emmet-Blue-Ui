@@ -9,7 +9,7 @@ angular.module("EmmetBlue")
 		utils.errorHandler(response);
 	});
 
-	$scope.alert = function(id){
-		utils.alert(id);
+	$scope.setBillingTypeID = function(billingType){
+		utils.storage.billingType = billingType;
 	}
 })

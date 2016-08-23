@@ -16,7 +16,7 @@
 					</a>
 
 					<ul class="dropdown-menu width-200">
-						<li ng-repeat="bill in billingItems"><a href="#" ng-click="alert(bill.BillingTypeID)"><i class=""></i> {{bill.BillingTypeName}}</a></li>
+						<li ng-repeat="bill in billingItems"><a href="#" data-toggle="modal" ng-click="setBillingTypeID(bill)" data-target="#generate_new_billing"><i class=""></i> {{bill.BillingTypeName}}</a></li>
 					</ul>
 				</li>
 
@@ -60,3 +60,4 @@
 <!-- Settings Modal-->
 <ng-include src="'plugins/accounts/billing/assets/includes/setting/index.html'"></ng-include>
 <!--/Settings Modal-->
+<ng-include src="'plugins/accounts/billing/assets/includes/new-billing.html'"></ng-include>

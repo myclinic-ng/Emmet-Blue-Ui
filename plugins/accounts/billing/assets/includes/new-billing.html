@@ -1,0 +1,36 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+<div ng-controller="accountsBillingGenerateNewBillingController">
+	<div id="generate_new_billing" class="modal fade">
+		<div class="modal-dialog modal-mini">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title"> Generate New Bill<span class="pull-right mr-20">{{billingType.BillingTypeName}}</span></h6>
+				</div>
+
+				<div class="modal-body">
+					<table class="table table-responsive table-columned">
+						<thead>
+							<tr>
+								<th>S/N</th>
+								<th>Item Name</th>
+								<th>Item Price</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th>1</th>
+								<th>Paracetamol</th>
+								<th>100.00</th>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<div class="modal-footer">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
