@@ -24,6 +24,9 @@ angular.module('EmmetBlue', [
 
 .config(function($routeProvider, $locationProvider){
 	$routeProvider
+	.when('/', {
+		templateUrl:'plugins/index.html',
+	})
 	.when('/:page*', {
 		templateUrl: function(url){
 			return determineRouteAvailability(url.page);
@@ -164,13 +167,18 @@ angular.module('EmmetBlue', [
 
 function determineRouteAvailability(url){
 	var urlParts = url.split("/");
+
 	if (typeof urlParts[1] == "undefined"){
 		urlParts[1] = "dashboard"
 	}
 
  	var _url = 'plugins/'+urlParts.join('/')+'.html';
 
- 	return _url;
+ 	var http = new XMLHttpRequest();
+    http.open('HEAD', _url, false);
+    http.send();
+
+ 	return (http.status !== 404) ? _url : 'plugins/core/404.html';
 }
 
 function getConstants(){

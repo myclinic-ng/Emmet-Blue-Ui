@@ -1,0 +1,41 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+<div>
+	<div id="setting_accounts_billing" class="modal fade">
+		<div class="modal-dialog modal-full">
+			<div class="modal-content">s
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title"> Settings <span class="pull-right mr-20">Billing</span></h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="tabbable">
+						<ul class="nav nav-pills nav-pills-bordered">
+							<li class="active"><a href="#manage-billing-status" data-toggle="tab">Manage Billing Status</a></li>
+							<li><a href="#manage-payment-methods" data-toggle="tab">Manage Payment Methods</a></li>
+							<li><a href="#manage-customer-categories" data-toggle="tab">Manage Customer Categories</a></li>
+						</ul>
+
+						<div class="tab-content">
+							<div class="tab-pane active" id="manage-billing-status">
+								<ng-include src="'plugins/accounts/billing/assets/includes/setting/manage-billing-status.html'"></ng-include>
+							</div>
+
+							<div class="tab-pane" id="manage-payment-methods">
+								<ng-include src="'plugins/accounts/billing/assets/includes/setting/manage-payment-methods.html'"></ng-include>
+							</div>
+
+							<div class="tab-pane" id="manage-customer-categories">
+								<ng-include src="'plugins/accounts/billing/assets/includes/setting/manage-customer-categories.html'"></ng-include>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

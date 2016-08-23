@@ -20,19 +20,17 @@ $(function() {
         }
     });
 
-
-
     // When affixed add top margin to next container
-    $('#navbar-second').on('affixed.bs.affix', function() {
-        $(this).next('.page-header, .page-container');
-        $(this).addClass('navbar-inverse');
-    });
+    // $('#navbar-second').on('affixed.bs.affix', function() {
+    //     $(this).next('.page-header, .page-container');
+    //     $(this).addClass('navbar-inverse');
+    // });
 
 
     // When on top remove margin from the next container
-    $('#navbar-second').on('affixed-top.bs.affix', function() {
-        $(this).next('.page-header, .page-container')
-        $(this).removeClass('navbar-inverse');
-    });
+    // $('#navbar-second').on('affixed-top.bs.affix', function() {
+    //     $(this).next('.page-header, .page-container')
+    //     $(this).removeClass('navbar-inverse');
+    // });
 
 });

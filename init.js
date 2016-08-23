@@ -53,16 +53,15 @@ head.load(css);
 
 head.load([jquery, bootstrap]);
 
-head.load(angular);
-
 head.ready(["jquery", "bootstrap"], function(){
 	head.load(libraries);
 	head.load(themes);
-});
 
-head.ready("angular", function(){
-	head.load(angularLibraries);
-	head.load(app);
+	head.load(angular);
+	head.ready("angular", function(){
+		head.load(angularLibraries);
+		head.load(app);
+	});
 });
 
 // AngularJS Controllers and Services
@@ -70,7 +69,8 @@ var cntrllers = [
 	"assets/angular/core/controllers/core/core-controller.js",
 	"plugins/mortuary/assets/controllers.js",
 	"plugins/user/assets/controllers.js",
-	"plugins/human-resources/assets/controllers.js"
+	"plugins/human-resources/assets/controllers.js",
+	"plugins/accounts/billing/assets/controllers.js"
 ]
 
 var services = [
