@@ -1,5 +1,39 @@
-<script src="assets/js/plugins/visualization/echarts/echarts.js"></script>
-<script src="assets/js/charts/echarts/bars_tornados.js"></script>
+<script type="text/javascript" src="assets/js/plugins/visualization/d3/d3.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/visualization/d3/d3_tooltip.js"></script>
+<script type="text/javascript" src="assets/js/charts/d3/bars/bars_basic_vertical.js"></script>
+<script type="text/javascript" src="assets/js/charts/d3/bars/bars_basic_horizontal.js"></script>
+<script type="text/javascript" src="assets/js/charts/d3/bars/bars_basic_tooltip.js"></script>
+<script type="text/javascript" src="assets/js/charts/d3/bars/bars_basic_grouped.js"></script>
+<script type="text/javascript" src="assets/js/charts/d3/bars/bars_basic_stacked.js"></script>
+<script type="text/javascript" src="assets/js/charts/d3/bars/bars_basic_stacked_normalized.js"></script>	
+
+<script type="text/javascript" src="assets/js/charts/d3/lines/lines_advanced_difference.js"></script>
+<script type="text/javascript" src="assets/js/charts/d3/lines/lines_advanced_missing.js"></script>
+<script type="text/javascript" src="assets/js/charts/d3/lines/lines_advanced_small_multiples.js"></script>
+<script type="text/javascript" src="assets/js/charts/d3/lines/lines_advanced_transitions.js"></script>
+<script type="text/javascript" src="assets/js/charts/d3/lines/lines_advanced_zoom.js"></script>
+<script type="text/javascript" src="assets/js/charts/d3/lines/lines_advanced_spline_transition.js"></script>
+<div class="panel panel-flat">
+	<div class="panel-heading">
+		<h5 class="panel-title">Daily Transaction Line Chart</h5>
+		<div class="heading-elements">
+			<ul class="icons-list">
+        		<li><a data-action="collapse"></a></li>
+        		<li><a data-action="reload"></a></li>
+        		<li><a data-action="close"></a></li>
+        	</ul>
+    	</div>
+	</div>
+
+	<div class="panel-body">
+		<p class="content-group">=</p>
+
+		<div class="chart-container">
+			<div class="chart" id="d3-pan-zoom"></div>
+		</div>
+	</div>
+</div>
+
 <div class="panel panel-flat">
 	<div class="panel-heading">
 		<h5 class="panel-title">Departmental Transaction chart</h5>
@@ -13,27 +47,10 @@
 	</div>
 
 	<div class="panel-body">
-		<div class="chart-container">
-			<div class="chart has-fixed-height" id="tornado_bars_staggered"></div>
-		</div>
-	</div>
-</div>
+		<p class="content-group"></p>
 
-<div class="panel panel-flat">
-	<div class="panel-heading">
-		<h5 class="panel-title">Daily Transaction chart</h5>
-		<div class="heading-elements">
-			<ul class="icons-list">
-        		<li><a data-action="collapse"></a></li>
-        		<li><a data-action="reload"></a></li>
-        		<li><a data-action="close"></a></li>
-        	</ul>
-    	</div>
-	</div>
-
-	<div class="panel-body">
 		<div class="chart-container">
-			<div class="chart has-fixed-height" id="stacked_clustered_bars" style="height: 500px"></div>
+			<div class="chart" id="d3-bar-vertical"></div>
 		</div>
 	</div>
 </div>
