@@ -12,7 +12,21 @@
 		</div>
 		<div class="panel-body">
 			<div class="row">
-				<form class="dropzone"
+				<div class="col-md-7">
+					<div class="form-group">
+						<label class="control-label">Patient</label>
+						<input class="form-control input-lg" type="text" ng-model="record.patient"/>
+					</div>
+					<div class="form-group">
+						<label class="control-label">Record Name</label>
+						<input class="form-control input-lg" type="text" ng-model="record.name"/>
+					</div>
+					<div class="form-group">
+						<label class="control-label">Record Description</label>
+						<textarea class="form-control" cols="3" rows="4" ng-model="record.description"></textarea>
+					</div>
+				</div>
+				<form class="dropzone col-md-5"
 					action="http://192.168.173.1/EmmetBlueApi/v1/patients/patient-repository/new"
 			        method="post"
 			        enctype="multipart/form-data"
@@ -22,7 +36,11 @@
 			        event-handlers="{ 'error': ctrl.dzError, 'sendingmultiple': ctrl.dzSending}">
 			        <div class="dropzone-previews"></div>
 
-					<button type="submit">Submit data and files!</button>
+				  	<div class="col-md-12">
+				  		<div class="form-group pull-right">
+				  			<button class="btn btn-primary">Submit</button>
+				  		</div>
+				  	</div>
 			  	</form>
 			</div>
 		</div>

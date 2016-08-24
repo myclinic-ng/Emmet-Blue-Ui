@@ -26,11 +26,6 @@ angular.module("EmmetBlue")
 
 	  $scope.recordSubmitURL = "http://192.168.173.1/EmmetBlueApi/v1/patients/patient-repository/new";
 	  self.dzSending = function( file, xhr, formData){
-	  		var data = {
-	  			"name":"John Doe",
-	  			"phone":"0909187266389"
-	  		}
-
-	  		formData.append("data", data);
+	  		formData.append("data", $scope.record);
 	  }
 })
