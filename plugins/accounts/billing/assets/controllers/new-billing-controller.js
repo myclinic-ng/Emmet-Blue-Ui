@@ -18,7 +18,13 @@ angular.module("EmmetBlue")
 			utils.errorHandler(response);
 		})
 
-		var transactionStatus = utils.serverRequest('/accounts-biller/transaction-status/view', 'GET'); 
+		var transactionStatus = utils.serverRequest('/accounts-biller/transaction-status/view', 'GET');
+		transactionStatus.then(function(response){
+			$scope.statuses = response;
+		}, function(response){
+			utils.errorHandler(response);
+			
+		}) 
 
 		if (!$scope.startWatching){
 			$scope.startWatching = true;
