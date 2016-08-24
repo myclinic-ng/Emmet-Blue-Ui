@@ -6,7 +6,8 @@ angular.module('EmmetBlue', [
 	'datatables.buttons',
 	'datatables.fixedheader',
 	'ngCookies',
-	'ngStorage'
+	'ngStorage',
+	'ngDropzone'
 ])
 
 .run(function(DTDefaultOptions){

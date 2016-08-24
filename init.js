@@ -21,6 +21,7 @@ var libraries = [
 	"assets/js/plugins/loaders/blockui.min.js",
 	"assets/js/plugins/forms/styling/uniform.min.js",
 	"assets/js/plugins/notifications/pnotify.min.js",
+	"assets/js/plugins/uploaders/dropzone.js",
 	"assets/js/plugins/notifications/sweet_alert.min.js",
 	"assets/js/plugins/tables/datatables/datatables.min.js",
 	"assets/js/plugins/tables/datatables/extensions/dataTables.fixedHeader.js",
@@ -45,6 +46,7 @@ var angularLibraries = [
 	"assets/angular/libraries/datatable-buttons/buttons.html5.js",
 	"assets/angular/libraries/datatable-buttons/buttons.bootstrap.js",
 	"assets/angular/libraries/angular-datatables.fixedheader.js",
+	"assets/angular/libraries/angular-dropzone.js",
 	"assets/angular/libraries/ngStorage.js"
 ]
 
@@ -70,7 +72,8 @@ var cntrllers = [
 	"plugins/mortuary/assets/controllers.js",
 	"plugins/user/assets/controllers.js",
 	"plugins/human-resources/assets/controllers.js",
-	"plugins/accounts/billing/assets/controllers.js"
+	"plugins/accounts/billing/assets/controllers.js",
+	"plugins/records/patient/assets/controllers.js"
 ]
 
 var services = [

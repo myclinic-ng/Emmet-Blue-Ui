@@ -1,0 +1,30 @@
+<div ng-controller="recordsPatientDashboardController as ctrl">
+	<div class="panel panel-flat">
+		<div class="panel-heading">
+			<h5 class="panel-title" ng-bind="dashboardMessage"></h5>
+			<div class="heading-elements">
+				<ul class="icons-list">
+            		<li><a data-action="collapse"></a></li>
+            		<li><a data-action="reload"></a></li>
+            		<li><a data-action="close"></a></li>
+            	</ul>
+        	</div>
+		</div>
+		<div class="panel-body">
+			<div class="row">
+				<form class="dropzone"
+					action="http://192.168.173.1/EmmetBlueApi/v1/patients/patient-repository/new"
+			        method="post"
+			        enctype="multipart/form-data"
+			        ng-dropzone
+			        dropzone="ctrl.dropzone"
+			        dropzone-config="ctrl.dropzoneConfig"
+			        event-handlers="{ 'error': ctrl.dzError, 'sendingmultiple': ctrl.dzSending}">
+			        <div class="dropzone-previews"></div>
+
+					<button type="submit">Submit data and files!</button>
+			  	</form>
+			</div>
+		</div>
+	</div>
+</div>	
