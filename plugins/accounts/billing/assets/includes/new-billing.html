@@ -58,8 +58,8 @@
 
 						<div class="form-group col-md-12">
 							<label class="control-label">Status</label>
-							<select class="select" ng-model="newBillingTypeItems.item">
-								<option ng-repeat="item in billingTypeItems" value="{{item.BillingTypeItemID}}">{{item.BillingTypeItemName}}</option>
+							<select class="select" ng-model="newBillingTypeItems.status">
+								<option ng-repeat="item in Statuses" value="{{item.StatusID}}">{{item.StatusName}}</option>
 							</select>
 						</div>
 
