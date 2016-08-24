@@ -18,6 +18,8 @@ angular.module("EmmetBlue")
 			utils.errorHandler(response);
 		})
 
+		var transactionStatus = utils.serverRequest('/accounts-biller/transaction-status/view', 'GET'); 
+
 		if (!$scope.startWatching){
 			$scope.startWatching = true;
 		}
@@ -26,6 +28,7 @@ angular.module("EmmetBlue")
 	});
 
 	$scope.itemList = [];
+	$scope.priceTotal = 0;
 	$scope.addItemToList = function(){
 		var items = $scope.newBillingTypeItems;
 		var itemInfo = $scope.billingTypeItemsInfo[items.item];
@@ -35,6 +38,8 @@ angular.module("EmmetBlue")
 		}
 
 		var price = parseFloat(itemInfo.BillingTypeItemPrice) * items.quantity
+
+		$scope.priceTotal += price;
 		$scope.itemList.push({
 			'itemName':itemInfo.BillingTypeItemName,
 			'itemQuantity':items.quantity,

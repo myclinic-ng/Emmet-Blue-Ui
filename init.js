@@ -24,7 +24,7 @@ var libraries = [
 	"assets/js/plugins/notifications/sweet_alert.min.js",
 	"assets/js/plugins/tables/datatables/datatables.min.js",
 	"assets/js/plugins/tables/datatables/extensions/dataTables.fixedHeader.js",
-	"assets/js/core/libraries/jasny_bootstrap.min.js",
+	"assets/js/core/libraries/jasny_bootstrap.min.js"
 ];
 
 var themes = [
@@ -78,6 +78,7 @@ var services = [
 ]
 
 head.ready("app", function(){
+	head.load({"chart":"assets/js/plugins/visualization/echarts/echarts.js"});
 	head.load(cntrllers);
 	head.load(services);
 });
