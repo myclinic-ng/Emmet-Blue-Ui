@@ -1,0 +1,105 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+<script>
+	$(".styled").uniform({
+        radioClass: 'choice'
+    });
+</script>
+<div ng-controller="recordsPatientNewRepositoryController as ctrl">
+	<div id="new_repository" class="modal fade">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title"> Create a new Patient Repository</h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="panel panel-flat">
+						<div class="panel-heading">
+							<h5 class="panel-title" ng-bind="dashboardMessage"></h5>
+							<div class="heading-elements">
+								<ul class="icons-list">
+				            		<li><a data-action="collapse"></a></li>
+				            		<li><a data-action="reload"></a></li>
+				            		<li><a data-action="close"></a></li>
+				            	</ul>
+				        	</div>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<form class="col-md-12"
+							          method="post"
+							          id="new-repository-form"
+							       	  enctype="multipart/form-data">
+									<div class="col-md-7">
+										<div class="form-group">
+											<label class="display-block text-semibold">Filter Patient By:</label>
+											<label class="radio-inline">
+												<input type="radio" name="radio-inline-left" ng-click="filterOption('name')" class="styled">
+												Name
+											</label>
+
+											<label class="radio-inline">
+												<input type="radio" name="radio-inline-left" ng-click="filterOption('phone')" class="styled">
+												Phone Number
+											</label>
+
+											<label class="radio-inline">
+												<input type="radio" name="radio-inline-left" ng-click="filterOption('number')" class="styled" checked="checked">
+												Patient Number
+											</label>
+											<input class="form-control input-lg" type="hidden" id="patient" ng-model="patient"/>
+										</div>
+										<div class="form-group" ng-show="show_name">
+											<label class="control-label">Patient Name</label>
+											<select class="select" ng-model="patient"
+													ng-options="patient.PatientID as patient.PatientFullName for patient in patients">
+											</select>
+										</div>
+										<div class="form-group" ng-show="show_phone">
+											<label class="control-label">Patient Phone Number</label>
+											<select class="select" ng-model="patient"
+													ng-options="patient.PatientID as patient.PatientPhoneNumber for patient in patients">
+											</select>
+										</div>
+										<div class="form-group" ng-show="show_number">
+											<label class="control-label">Patient Number</label>
+											<select class="select" ng-model="patient"
+													ng-options="patient.PatientID as patient.PatientUUID for patient in patients">
+											</select>
+										</div>
+										<div class="form-group">
+											<label class="control-label">Record Name</label>
+											<input class="form-control input-lg" type="text" id="name"/>
+										</div>
+										<div class="form-group">
+											<label class="control-label">Record Description</label>
+											<textarea class="form-control" cols="3" rows="4" id="description"></textarea>
+										</div>
+
+									  	<div class="col-md-12">
+									  		<div class="form-group text-center">
+									  			<button class="btn btn-primary btn-lg" id="submit-all">Submit</button>
+									  		</div>
+									  	</div>
+									</div>
+									<div class="dropzone col-md-5"
+									     ng-dropzone
+									     dropzone="ctrl.dropzone"
+									     dropzone-config="ctrl.dropzoneConfig"
+									     event-handlers="{ 'errormultiple': 'dzError'}">
+									     <div class="dropzone-previews"></div>
+								  	</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>	

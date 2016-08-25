@@ -9,33 +9,10 @@
 			<ul class="nav navbar-nav">
 				<li><a href="records/patient/dashboard"><i class="icon-display4 position-left"></i> Dashboard</a></li>
 
-				<!-- <li class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown">
-						<i class="icon-table2"></i>
-						Billings <span class="caret"></span>
-					</a>
-
-					<ul class="dropdown-menu width-200">
-						<li ng-repeat="bill in billingItems"><a href="#" data-toggle="modal" ng-click="setBillingTypeID(bill)" data-target="#generate_new_billing"><i class=""></i> {{bill.BillingTypeName}}</a></li>
-					</ul>
-				</li>
-
-				<li><a href="#"><i class="icon-credit-card"></i> New Payment </a></li>
-				<li><a href="#"><i class="icon-list2"></i> Manage Payment </a></li>
-				<li><a href="accounts/billing/reports"><i class="icon-stats-dots"></i> Reports </a></li>
-				<li><a href="#"> <i class="icon-users"></i> Manage Customers </a></li>
-				<li><a href="accounts/billing/billing-types"><i class="icon-user-lock"></i> Billing Types </a></li>
-
-				<li class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown">
-						<i class="icon-books"></i>
-						Libraries <span class="caret"></span>
-					</a>
-
-					<ul class="dropdown-menu width-200">
-						<li><a href="#"><i class=""></i> </a></li>
-					</ul>
-				</li> -->
+				<li><a href="records/patient/manage-patients"> Manage Patient Records </a></li>
+				<li><a href="#" data-toggle="modal" data-target="#new_repository"> New Repository </a></li>
+				<li><a href="#"> Browse Repositories </a></li>
+				<li><a href="#"> Manage Respositories </a></li>
 			</ul>
 
 			<ul class="nav navbar-nav navbar-right">
@@ -48,10 +25,11 @@
 
 						<ul class="dropdown-menu dropdown-menu-right">
 							<li class="divider"></li>
-							<li><a href="#" data-toggle="modal" data-target="#setting_accounts_billing"><i class="icon-gear"></i> All settings</a></li>
+							<li><a href="#"><i class="icon-gear"></i> All settings</a></li>
 						</ul>
 					</li>
 				</ul>
 		</div>
 </div>
 <!-- /second navbar -->
+<ng-include src="'plugins/records/patient/assets/includes/new-repository.html'"></ng-include>
