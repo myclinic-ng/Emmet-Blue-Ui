@@ -1,0 +1,74 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+<div ng-controller="recordsPatientManagePatientsController as ctrl">
+	<div class="panel panel-white zoomIn" >
+		<div class="panel-heading">
+			<h6 class="panel-title">Patient Records Management</h6>
+			<div class="heading-elements">
+				<ul class="icons-list">
+	        		<li><a data-action="reload" ng-click="reloadPatientManagementTable()"></a></li>
+	        	</ul>
+	    	</div>
+		</div>
+
+		<div class="panel-body">
+			<div class="table-responsive col-md-12">
+				<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-bordered table-striped table-hover">
+
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div id="new_patient" class="modal fade">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Register a new patient</h6>
+				</div>
+
+				<div class="modal-body">
+					<form role="form">
+						<div class="col-md-8">
+							<div class="row">
+								<div class="form-group col-sm-6">
+									<label>First Name</label>
+									<input type="text" class="form-control input-lg" ng-model="newPatient.firstName">
+								</div>
+								<div class="form-group col-sm-6">
+									<label>Last Name</label>
+									<input type="text" class="form-control input-lg" ng-model="newPatient.lastName">
+								</div>
+								<div class="form-group col-sm-6">
+									<label>Date Of Birth</label>
+									<input type="date" class="form-control input-lg" ng-model="newPatient.dateOfBirth">
+								</div>
+								<div class="form-group col-sm-6">
+									<label>Phone Number</label>
+									<input type="text" class="form-control input-lg" ng-model="newPatient.phoneNumber">
+								</div>
+								<div class="form-group col-sm-12">
+									<label>Address</label>
+									<textarea class="form-control input-lg" cols="3" rows="3" ng-model="newPatient.address"></textarea>
+								</div>
+							</div>
+						</div>
+						<div class="dropzone col-md-4"
+						     ng-dropzone
+						     dropzone="ctrl.dropzone"
+						     dropzone-config="ctrl.dropzoneConfig"
+						     event-handlers="{ 'errormultiple': 'dzError'}">
+						     <div class="dropzone-previews"></div>
+					  	</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="newPatient = {}">Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveNewPatient()">Submit</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
