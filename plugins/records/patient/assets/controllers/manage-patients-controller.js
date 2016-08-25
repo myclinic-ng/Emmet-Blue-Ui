@@ -44,7 +44,7 @@ angular.module("EmmetBlue")
 				});
 		    }
 	  };
-	  
+
 	$scope.dtOptions = utils.DT.optionsBuilder.fromFnPromise(function(){
 		var request = utils.serverRequest("/patients/patient/view", "GET");
 
@@ -91,9 +91,13 @@ angular.module("EmmetBlue")
 		utils.DT.columnBuilder.newColumn("PatientLastName").withTitle("Last Name"),
 		utils.DT.columnBuilder.newColumn("PatientDateOfBirth").withTitle("Date Of Birth"),
 		utils.DT.columnBuilder.newColumn("PatientAddress").withTitle("Address"),
-		utils.DT.columnBuilder.newColumn("PatientPhoneNumber").withTitle("Phone Number")
+		utils.DT.columnBuilder.newColumn("PatientPhoneNumber").withTitle("Phone Number"),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(actionMarkup).notSortable()
 	]
 
+	function actionMarkup(){
+		return "<a class='btn btn-default'>btn</a>";
+	}
 	$scope.dtInstance = {};
 	$scope.reloadTable = function(){
 		$scope.dtInstance.reloadData();
