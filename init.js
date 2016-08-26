@@ -25,7 +25,8 @@ var libraries = [
 	"assets/js/plugins/notifications/sweet_alert.min.js",
 	"assets/js/plugins/tables/datatables/datatables.min.js",
 	"assets/js/plugins/tables/datatables/extensions/dataTables.fixedHeader.js",
-	"assets/js/core/libraries/jasny_bootstrap.min.js"
+	"assets/js/core/libraries/jasny_bootstrap.min.js",
+	"assets/js/plugins/webcam/webcam.js"
 ];
 
 var themes = [

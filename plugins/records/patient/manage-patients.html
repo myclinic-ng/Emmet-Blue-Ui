@@ -1,7 +1,7 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
 <script>$('select.select').select2();</script>
 <div ng-controller="recordsPatientManagePatientsController as ctrl">
-	<div class="panel panel-white zoomIn" >
+	<div class="panel panel-white zoomIn">
 		<div class="panel-heading">
 			<h6 class="panel-title">Patient Records Management</h6>
 			<div class="heading-elements">
@@ -21,46 +21,165 @@
 	</div>
 
 	<div id="new_patient" class="modal fade">
-		<div class="modal-dialog modal-lg">
+		<div class="modal-dialog modal-full">
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h6 class="modal-title">Register a new patient</h6>
+					<h6 class="modal-title">Service User Registration</h6>
 				</div>
 
 				<div class="modal-body">
 					<form role="form">
 						<div class="col-md-8">
-							<div class="row">
-								<div class="form-group col-sm-6">
-									<label>First Name</label>
-									<input type="text" class="form-control input-lg" ng-model="newPatient.firstName">
+							<fieldset>
+								<legend>
+									<div class="btn-group">
+										<button class="btn btn-default btn-sm">Add Hospital History Information</button>
+										<button class="btn btn-default btn-sm">Add Diagnosis Information</button>
+									</div>
+								</legend>
+								<div class="row">
+								<div class="form-group col-sm-2">
+										<label class="control-label">Title</label>
+										<input type="text" class="form-control" ng-model="newPatient.title">
+									</div>
+									<div class="form-group col-sm-5">
+										<label class="control-label">Surname</label>
+										<input type="text" class="form-control" ng-model="newPatient.firstName">
+									</div>
+									<div class="form-group col-sm-5">
+										<label>Other Names</label>
+										<input type="text" class="form-control" ng-model="newPatient.lastName">
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-sm-6">
+										<label>Date Of Birth</label>
+										<input type="date" class="form-control" ng-model="newPatient.dateOfBirth">
+									</div>
+									<div class="form-group col-sm-3">
+										<label class="control-label">Gender</label>
+										<span><br/></span>
+										<label class="radio-inline">
+											<input type="radio" name="radio-inline-left" class="styled">
+											Male
+										</label>
+
+										<label class="radio-inline">
+											<input type="radio" name="radio-inline-left" class="styled">
+											Female
+										</label>
+									</div>
+									<div class="form-group col-sm-3">
+										<label class="control-label">Marital Status</label>
+										<span><br/></span>
+										<label class="radio-inline">
+											<input type="radio" name="radio-inline-left" class="styled">
+											Single
+										</label>
+
+										<label class="radio-inline">
+											<input type="radio" name="radio-inline-left" class="styled">
+											Married
+										</label>
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-sm-4">
+										<label class="control-label">Address</label>
+										<input type="text" class="form-control" ng-model="newPatient.homeAddress">
+									</div>
+									<div class="form-group col-sm-4">
+										<label class="control-label">Mother's Maiden Name</label>
+										<input type="text" class="form-control" ng-model="newPatient.motherMaidenName">
+									</div>
+									<div class="form-group col-sm-4">
+										<label>Medical Hand Card Number</label>
+										<input type="text" class="form-control" ng-model="newPatient.medicalHandCard">
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-sm-4">
+										<label class="control-label">Phone Numbers <small>(separate with comma)</small></label>
+										<input class="form-control input-lg" ng-model="newPatient.patientPhoneNumber"/>
+									</div>
+									<div class="form-group col-sm-4">
+										<label class="control-label">Reference Contact <small>(emergency)</small></label>
+										<input class="form-control input-lg" ng-model="newPatient.patientReferenceContactEmergency"/>
+									</div>
+									<div class="form-group col-sm-4">
+										<label class="control-label">Reference Contact <small>(minor/incapacitation)</small></label>
+										<input class="form-control input-lg" ng-model="newPatient.patientReferenceContactMinor"/>
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-sm-4">
+										<label class="control-label">State Of Origin</label>
+										<select class="select" ng-model="newPatient.patientStateOfOrigin">
+											<option value=""></option>
+										</select>
+									</div>
+									<div class="form-group col-sm-4">
+										<label class="control-label">Local Govt. Area</label>
+										<select class="select" ng-model="newPatient.patientLGA">
+											<option value=""></option>
+										</select>
+									</div>
+									<div class="form-group col-sm-4">
+										<label class="control-label">State Of Residence</label>
+										<select class="select" ng-model="newPatient.patientStateOfResidence">
+											<option value=""></option>
+										</select>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="form-group col-sm-4">
+										<label class="control-label">Religion</label>
+										<select class="select" ng-model="newPatient.patientReligion">
+											<option value="christianity">Christianity</option>
+											<option value="islam">Islam</option>
+											<option value="others">Others</option>
+										</select>
+									</div>
+									<div class="form-group col-sm-4">
+										<label class="control-label">Occupation</label>
+										<input class="form-control input-lg" ng-model="newPatient.patientOccupation"/>
+									</div>
+									<div class="form-group col-sm-4">
+										<label class="control-label">Tribe</label>
+										<select class="select" ng-model="newPatient.patientTribe">
+											<option value=""></option>
+										</select>
+									</div>
 								</div>
 								<div class="form-group col-sm-6">
-									<label>Last Name</label>
-									<input type="text" class="form-control input-lg" ng-model="newPatient.lastName">
+									<label>E-Mail Address</label>
+									<input type="text" class="form-control" ng-model="newPatient.patientEmailAddress">
 								</div>
 								<div class="form-group col-sm-6">
-									<label>Date Of Birth</label>
-									<input type="date" class="form-control input-lg" ng-model="newPatient.dateOfBirth">
+									<label>Next Of Kin</label>
+									<input type="text" class="form-control" ng-model="newPatient.patientNextOfKin">
 								</div>
-								<div class="form-group col-sm-6">
-									<label>Phone Number</label>
-									<input type="text" class="form-control input-lg" ng-model="newPatient.phoneNumber">
+								<div class="form-group col-sm-4">
+									<label>Mode Of Arrival</label>
+									<input type="text" class="form-control" ng-model="newPatient.patientModeOfArrival">
 								</div>
-								<div class="form-group col-sm-12">
-									<label>Address</label>
-									<textarea class="form-control input-lg" cols="3" rows="3" ng-model="newPatient.address"></textarea>
+								<div class="form-group col-sm-4">
+									<label>Accompanied By</label>
+									<input type="text" class="form-control" ng-model="newPatient.patientAccompaniedBy">
 								</div>
-							</div>
+								<div class="form-group col-sm-4">
+									<label>Referrer Source</label>
+									<input type="text" class="form-control" ng-model="newPatient.patientReferrer Source">
+								</div>
+							</fieldset>
 						</div>
-						<div class="dropzone col-md-4"
-						     ng-dropzone
-						     dropzone="ctrl.dropzone"
-						     dropzone-config="ctrl.dropzoneConfig"
-						     event-handlers="{ 'errormultiple': 'dzError'}">
-						     <div class="dropzone-previews"></div>
-					  	</div>
+						<div id="my_camera" class="col-md-4 thumbnail">click to enable camera</div>
+						<div class="btn-group">
+							<button class="btn btn-default" onClick="preview_snapshot()">Take Snapshot</button>
+							<button class="btn btn-default" onClick="cancel_preview()">Take another shot</button>
+						</div>
 					</form>
 				</div>
 
@@ -72,3 +191,49 @@
 		</div>
 	</div>
 </div>
+
+
+<script>
+	Webcam.set({
+		// live preview size
+		width: 320,
+		height: 240,
+		
+		// device capture size
+		dest_width: 640,
+		dest_height: 480,
+		
+		// final cropped size
+		crop_width: 480,
+		crop_height: 480,
+		
+		// format and quality
+		image_format: 'jpeg',
+		jpeg_quality: 90,
+		
+		// flip horizontal (mirror mode)
+		flip_horiz: true
+	});
+
+	function preview_snapshot() {
+		// freeze camera so user can preview current frame
+		$("my_camera").attr("style", "display=none")
+		Webcam.freeze();
+		Webcam.reset();
+		
+		// // swap button sets
+		// document.getElementById('pre_take_buttons').style.display = 'none';
+		// document.getElementById('post_take_buttons').style.display = '';
+	}
+
+	function cancel_preview() {
+
+		Webcam.attach( '#my_camera' );
+		// cancel preview freeze and return to live camera view
+		Webcam.unfreeze();
+		
+		// swap buttons back to first set
+		document.getElementById('pre_take_buttons').style.display = '';
+		document.getElementById('post_take_buttons').style.display = 'none';
+	}
+</script>

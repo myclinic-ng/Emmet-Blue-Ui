@@ -96,7 +96,17 @@ angular.module("EmmetBlue")
 	]
 
 	function actionMarkup(){
-		return "<a class='btn btn-default'>btn</a>";
+		var editButtonAction = "";//"manageDepartmentGroup('edit', "+data.DepartmentGroupID+")";
+		var deleteButtonAction = "";//"manageDepartmentGroup('delete', "+data.DepartmentGroupID+")";
+
+		var dataOpt = "";//"data-option-id='"+data.DepartmentGroupID+"' data-option-name='"+data.GroupName+"'";
+
+		var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+dataOpt+"> Edit</button>";
+		var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> Delete</button>";
+		var viewButton = "<button class='btn btn-default'> View</button>";
+
+		var buttons = "<div class='btn-group'>"+viewButton+editButton+deleteButton+"</button>";
+		return buttons;
 	}
 	$scope.dtInstance = {};
 	$scope.reloadTable = function(){
