@@ -28,14 +28,14 @@
 									<span ng-message="required"><i class="icon icon-alert"></i> This field is required.</span>
 								</span>
 							</h6>
-							<input type="text" class="form-control" name="tag" placeholder="Start typing to enter the body tag" ng-model="body.tag" ng-model-options="{ updateOn: 'blur' }" required>
+							<input type="text" class="form-control" name="tag" placeholder="Start typing to enter the body tag" ng-model="newRegistration.body.tag" ng-model-options="{ updateOn: 'blur' }" required>
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="content-group-lg">
 							<h6 class="text-semibold light">Place Of Death</h6>
-							<input type="text" class="form-control" name="placeOfDeath" placeholder="Start typing to enter the place of death" ng-model="body.placeOfDeath" ng-maxlength="100">
+							<input type="text" class="form-control" name="placeOfDeath" placeholder="Start typing to enter the place of death" ng-model="newRegistration.body.placeOfDeath" ng-maxlength="100">
 						</div>
 					</div>
 
@@ -47,7 +47,7 @@
 									<span ng-message="required"><i class="icon icon-alert"></i> This field is required.</span>
 								</span>
 							</h6>
-							<input type="text" class="form-control" name="dateOfDeath" data-mask="99/99/9999" placeholder="Enter date" ng-model="body.dateOfDeath" required="required">
+							<input type="text" class="form-control" name="dateOfDeath" data-mask="99/99/9999" placeholder="Enter date" ng-model="newRegistration.body.dateOfDeath" required="required">
 							<span class="help-block"><i class="fa fa-info-circle"></i> Input Format: mm/dd/yyyy</span>
 						</div>
 					</div>
@@ -60,7 +60,7 @@
 									<span ng-message="required"><i class="icon icon-alert"></i> This field is required.</span>
 								</span>
 							</h6>
-							<input type="text" class="form-control" name="firstName" placeholder="Enter First Name of Deceased" ng-model="body.timeOfDeath" required="required">
+							<input type="text" class="form-control" name="firstName" placeholder="Enter First Name of Deceased" ng-model="newRegistration.body.timeOfDeath" required="required">
 						</div>
 					</div>
 				</div>
@@ -69,7 +69,7 @@
 					<div class="col-md-6">
 						<div class="content-group-lg">
 							<h6 class="text-semibold light">Other Names</h6>
-							<input type="text" class="form-control" name="otherNames" placeholder="Enter Other Names of Deceased" ng-model="body.burialPlace">
+							<input type="text" class="form-control" name="otherNames" placeholder="Enter Other Names of Deceased" ng-model="newRegistration.body.burialPlace">
 						</div>
 					</div>
 
@@ -81,7 +81,7 @@
 									<span ng-message="required"><i class="icon icon-alert"></i> This field is required.</span>
 								</span>
 							</h6>
-							<input type="text" class="form-control" name="dateOfBirth" data-mask="99/99/9999" placeholder="Enter date of birth" ng-model="body.physicianName" required>
+							<input type="text" class="form-control" name="dateOfBirth" data-mask="99/99/9999" placeholder="Enter date of birth" ng-model="newRegistration.body.physicianName" required>
 							<span class="help-block"><i class="fa fa-info-circle"></i> Input Format: mm/dd/yyyy</span>
 						</div>
 					</div>
@@ -96,7 +96,7 @@
 									<span ng-message="required"><i class="icon icon-alert"></i> This field is required.</span>
 								</span>
 							</h6>
-							<select class="select" name="gender" ng-model="bodyInformation.gender" required>
+							<select class="select" name="gender" ng-model="newRegistration.bodyInformation.gender" required>
 								<option value="Male" selected>Male</option>
 								<option value="Female">Female</option>			
 							</select>

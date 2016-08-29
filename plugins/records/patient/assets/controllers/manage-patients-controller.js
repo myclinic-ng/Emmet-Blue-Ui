@@ -59,8 +59,18 @@ angular.module("EmmetBlue")
 		        this.on("sending", function(data, xhr, formData) {
 		        	$scope.newPatient.patientPassport = $("#passport").attr("src");
 		        	angular.forEach($scope.newPatient, function(value, key){
-		        		formData.append(key, value);
+		        		if (typeof value == "object"){
+		        			angular.forEach(value, function(v, k){
+		        				formData.append(key+"."+k, v);
+		        			});
+		        		}
+		        		else
+		        		{
+		        			formData.append(key, value);
+		        		}
 		        	});
+
+		        	conssole.log(formData);
 		        });
 
 		        this.on("errormultiple", function(file, errorMessage, xhr){
@@ -139,7 +149,12 @@ angular.module("EmmetBlue")
 
 	$scope.patientProfile = {};
 	$scope.patientProfileMeta = {};
+	$scope.profileSelected = false;
 	$scope.loadPatientProfile = function(id){
+		if (!$scope.profileSelected){
+			$("#patientTable").removeClass("col-md-12").addClass("col-md-3");
+			$scope.profileSelected = true;
+		}
 		var loadProfile = utils.serverRequest("/patients/patient/view?resourceId="+id, "GET");
 
 		loadProfile.then(function(response){
@@ -150,5 +165,26 @@ angular.module("EmmetBlue")
 		}, function(response){
 			utils.errorHandler(response);
 		})
-	}	
+	}
+
+	$scope.newPatient = {};
+	$scope.newPatient.hospitalHistory = [];
+	$scope.newPatient.diagnosis = [];
+	$scope.newPatient.operation = [];
+
+	$scope.submitHospitalHistory = function(){
+		$scope.newPatient.hospitalHistory.push($scope.hospitalHistory);
+		$scope.hospitalHistory = {};
+	}
+
+
+	$scope.submitDiagnosis = function(){
+		$scope.newPatient.diagnosis.push($scope.diagnosis);
+		$scope.diagnosis = {};
+	}
+
+	$scope.submitOperation = function(){
+		$scope.newPatient.operation.push($scope.operation);
+		$scope.operation = {};
+	}
 })

@@ -51,14 +51,13 @@ angular.module("EmmetBlue")
 		DTColumnBuilder.newColumn('BodyID').withTitle('Body ID'),
 		DTColumnBuilder.newColumn('BodyTag').withTitle('Body Tag'),
 		DTColumnBuilder.newColumn('DateOfDeath').withTitle('Date Of Death'),
-		// DTColumnBuilder.newColumn('TimeOfDeath').withTitle('Time Of Death'),
 		DTColumnBuilder.newColumn('PlaceOfDeath').withTitle('Place Of Death'),
-		// DTColumnBuilder.newColumn('BurialPlace').withTitle('Burial Place'),
 		DTColumnBuilder.newColumn('DeathPhysicianID').withTitle('Physician'),
 		DTColumnBuilder.newColumn(null).withTitle('Action').notSortable().renderWith(actionsMarkup)
 	];
 
 	$scope.loadBodyInfo = function(id){
+
 	}
 
 	function actionsMarkup(data, type, full, meta){
