@@ -4,21 +4,16 @@ angular.module("EmmetBlue")
 	$scope.utils = utils;
 	
 	$scope.submit = function(){
+		//console.log($scope.body);
 		var body = utils.serverRequest('/mortuary/body/new', 'post', $scope.body);
-		
+
 		body.then(function(response){
-			$scope.bodyInformation.id = response.lastInsertId;
-			utils.alert('Operation in progress', 'Registration ID was generated successfully, please hold on while we save the information', 'info', 'notify');
-			utils.serverRequest('/mortuary/body/new-body-info', 'post', $scope.bodyInformation).then(function(response){
-				utils.alert('Operation Successful', 'The Registration of body number '+$scope.bodyInformation.id+' was completed successfully', 'success', 'both');
-				$scope.body = {};
-				$scope.bodyInformation = {};
-			}, function(error){
-				utils.errorHandler(error, true);
-			});
+			utils.alert('Operation Successful', 'The Registration of body number was completed successfully', 'success', 'both');
+			
 		}, function(error){
 			utils.errorHandler(error, true);
 		});
+	
 	}
 })
 

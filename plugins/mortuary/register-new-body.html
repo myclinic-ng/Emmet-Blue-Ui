@@ -28,14 +28,14 @@
 									<span ng-message="required"><i class="icon icon-alert"></i> This field is required.</span>
 								</span>
 							</h6>
-							<input type="text" class="form-control" name="tag" placeholder="Start typing to enter the body tag" ng-model="newRegistration.body.tag" ng-model-options="{ updateOn: 'blur' }" required>
+							<input type="text" class="form-control" name="tag" placeholder="Start typing to enter the body tag" ng-model="body.tag" ng-model-options="{ updateOn: 'blur' }" required>
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="content-group-lg">
 							<h6 class="text-semibold light">Place Of Death</h6>
-							<input type="text" class="form-control" name="placeOfDeath" placeholder="Start typing to enter the place of death" ng-model="newRegistration.body.placeOfDeath" ng-maxlength="100">
+							<input type="text" class="form-control" name="placeOfDeath" placeholder="Start typing to enter the place of death" ng-model="body.placeOfDeath" ng-maxlength="100">
 						</div>
 					</div>
 
@@ -47,7 +47,7 @@
 									<span ng-message="required"><i class="icon icon-alert"></i> This field is required.</span>
 								</span>
 							</h6>
-							<input type="text" class="form-control" name="dateOfDeath" data-mask="99/99/9999" placeholder="Enter date" ng-model="newRegistration.body.dateOfDeath" required="required">
+							<input type="text" class="form-control" name="dateOfDeath" data-mask="99/99/9999" placeholder="Enter date" ng-model="body.dateOfDeath" required="required">
 							<span class="help-block"><i class="fa fa-info-circle"></i> Input Format: mm/dd/yyyy</span>
 						</div>
 					</div>
@@ -60,7 +60,7 @@
 									<span ng-message="required"><i class="icon icon-alert"></i> This field is required.</span>
 								</span>
 							</h6>
-							<input type="text" class="form-control" name="firstName" placeholder="Enter First Name of Deceased" ng-model="newRegistration.body.timeOfDeath" required="required">
+							<input type="text" class="form-control" name="firstName" placeholder="Enter First Name of Deceased" ng-model="body.firstName" required="required">
 						</div>
 					</div>
 				</div>
@@ -69,7 +69,7 @@
 					<div class="col-md-6">
 						<div class="content-group-lg">
 							<h6 class="text-semibold light">Other Names</h6>
-							<input type="text" class="form-control" name="otherNames" placeholder="Enter Other Names of Deceased" ng-model="newRegistration.body.burialPlace">
+							<input type="text" class="form-control" name="otherNames" placeholder="Enter Other Names of Deceased" ng-model="body.otherNames">
 						</div>
 					</div>
 
@@ -81,7 +81,7 @@
 									<span ng-message="required"><i class="icon icon-alert"></i> This field is required.</span>
 								</span>
 							</h6>
-							<input type="text" class="form-control" name="dateOfBirth" data-mask="99/99/9999" placeholder="Enter date of birth" ng-model="newRegistration.body.physicianName" required>
+							<input type="text" class="form-control" name="dateOfBirth" data-mask="99/99/9999" placeholder="Enter date of birth" ng-model="body.dateOfBirth" required>
 							<span class="help-block"><i class="fa fa-info-circle"></i> Input Format: mm/dd/yyyy</span>
 						</div>
 					</div>
@@ -96,7 +96,7 @@
 									<span ng-message="required"><i class="icon icon-alert"></i> This field is required.</span>
 								</span>
 							</h6>
-							<select class="select" name="gender" ng-model="newRegistration.bodyInformation.gender" required>
+							<select class="select" name="gender" ng-model="body.gender" required>
 								<option value="Male" selected>Male</option>
 								<option value="Female">Female</option>			
 							</select>
@@ -116,21 +116,21 @@
 									<span ng-message="required"><i class="icon icon-alert"></i> This field is required.</span>
 								</span>
 							</h6>
-							<input type="text" class="form-control" name="depositorFirstName" placeholder="Depositor First Name" ng-model="bodyInformation.firstName" required>
+							<input type="text" class="form-control" name="depositorFirstName" placeholder="Depositor First Name" ng-model="body.depositorFirstName" required>
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="content-group-lg">
 							<h6 class="text-semibold light">Other Names</h6>
-							<input type="text" class="form-control" name="depositorOtherNames" placeholder="Depositor Other Names" ng-model="bodyInformation.lastName">
+							<input type="text" class="form-control" name="depositorOtherNames" placeholder="Depositor Other Names" ng-model="body.depositorOtherNames">
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="content-group-lg">
 							<h6 class="text-semibold light">Address</h6>
-							<input type="text" class="form-control" name="depositorAddress" placeholder="Depositor address" ng-model="bodyInformation.dateOfBirth">
+							<input type="text" class="form-control" name="depositorAddress" placeholder="Depositor address" ng-model="body.depositorAddress">
 						</div>
 					</div>
 					
@@ -142,14 +142,17 @@
 									<span ng-message="required"><i class="icon icon-alert"></i> This field is required.</span>
 								</span>
 							</h6>
-							<select class="select" name="depositorRelationshipType" ng-model="bodyInformation.familyMemberRelationshipType" required>
-								<option value="Father" selected>Father</option>
+							<select class="select" name="depositorRelationshipType" ng-model="body.depositorRelationshipType" required>
+								<option value="Father" selected>-Select-</option>
+								<option value="Father">Father</option>
 								<option value="Mother">Mother</option>	
 								<option value="Sister">Sister</option>	
 								<option value="Brother">Brother</option>
 								<option value="Uncle">Uncle</option>
 								<option value="Aunt">Aunt</option>
-								<option value="Grandparent">Grandparent</option>				
+								<option value="Grandparent">Grandparent</option>
+								<option value="Niece">Niece</option>
+								<option value="Nephew">Nephew</option>				
 							</select>
 						</div>
 					</div>
@@ -165,7 +168,7 @@
 									<span ng-message="required"><i class="icon icon-alert"></i> This field is required.</span>
 								</span>
 							</h6>
-							<input type="text" class="form-control" name="depositorPhoneNumber" placeholder="Start typing to enter Depositor's Phone Number" ng-model="bodyInformation.familyMemberPhoneNumber" required>
+							<input type="text" class="form-control" name="depositorPhoneNumber" placeholder="Start typing to enter Depositor's Phone Number" ng-model="body.depositorPhoneNumber" required>
 						</div>
 					</div>
 				</div>
@@ -181,21 +184,21 @@
 									<span ng-message="required"><i class="icon icon-alert"></i> This field is required.</span>
 								</span>
 							</h6>
-							<input type="text" class="form-control" name="nextofKinFirstName" placeholder="Next of Kin First Name" ng-model="bodyInformation.firstName" required>
+							<input type="text" class="form-control" name="nextofKinFirstName" placeholder="Next of Kin First Name" ng-model="body.nextOfKinFirstName" required>
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="content-group-lg">
 							<h6 class="text-semibold light">Other Names</h6>
-							<input type="text" class="form-control" name="nextOfKinOtherNames" placeholder="Next of Kin Other Names" ng-model="bodyInformation.lastName">
+							<input type="text" class="form-control" name="nextOfKinOtherNames" placeholder="Next of Kin Other Names" ng-model="body.nextOfKinOtherNames">
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="content-group-lg">
 							<h6 class="text-semibold light">Address</h6>
-							<input type="text" class="form-control" name="nextOfKinAddress" placeholder="Next of Kin address" ng-model="bodyInformation.dateOfBirth">
+							<input type="text" class="form-control" name="nextOfKinAddress" placeholder="Next of Kin address" ng-model="body.nextOfKinAddress">
 						</div>
 					</div>
 					
@@ -207,14 +210,17 @@
 									<span ng-message="required"><i class="icon icon-alert"></i> This field is required.</span>
 								</span>
 							</h6>
-							<select class="select" name="nextOfKinRelationshipType" ng-model="bodyInformation.familyMemberRelationshipType" required>
+							<select class="select" name="nextOfKinRelationshipType" ng-model="body.nextOfKinRelationshipType" required>
 								<option value="Father" selected>Father</option>
 								<option value="Mother">Mother</option>	
 								<option value="Sister">Sister</option>	
 								<option value="Brother">Brother</option>
 								<option value="Uncle">Uncle</option>
 								<option value="Aunt">Aunt</option>
-								<option value="Grandparent">Grandparent</option>				
+								<option value="Grandparent">Grandparent</option>
+								<option value="Niece">Niece</option>
+								<option value="Nephew">Nephew</option>				
+
 							</select>
 						</div>
 					</div>
@@ -230,7 +236,7 @@
 									<span ng-message="required"><i class="icon icon-alert"></i> This field is required.</span>
 								</span>
 							</h6>
-							<input type="text" class="form-control" name="nextOfKinPhoneNumber" placeholder="Start typing to enter Next of Kin Phone Number" ng-model="bodyInformation.familyMemberPhoneNumber" required>
+							<input type="text" class="form-control" name="nextOfKinPhoneNumber" placeholder="Start typing to enter Next of Kin Phone Number" ng-model="body.nextOfKinPhoneNumber" required>
 						</div>
 					</div>
 				</div>
