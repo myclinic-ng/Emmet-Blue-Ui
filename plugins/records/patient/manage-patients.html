@@ -2,10 +2,36 @@
 <script>$('select.select').select2();</script>
 <script src="plugins/records/patient/assets/js/webcam-controller.js"></script>
 
+<script>
+	$('body').on('hidden.bs.modal', function () {
+	    if($('.modal.in').length > 0)
+	    {
+	        $('body').addClass('modal-open');
+	    }
+	});
+
+	$(function() {
+
+	// Default file input style
+	$(".file-styled").uniform({
+		fileButtonHtml: '<i class="icon-plus2"></i>'
+	});
+
+
+	// Primary file input
+	$(".file-styled-primary").uniform({
+		wrapperClass: 'bg-warning',
+		fileButtonHtml: '<i class="icon-plus2"></i>'
+	});
+
+});
+
+</script>
+
 <div ng-controller="recordsPatientManagePatientsController as ctrller">
 	<div class="panel panel-white zoomIn">
 		<div class="panel-heading">
-			<h6 class="panel-title">Patient Records Management <button class="btn btn-warning pull-right" data-toggle="modal" data-target="#new_patient">Register a new patient</button></h6>
+			<h6 class="panel-title">Patient Records Management <button class="btn btn-warning pull-right" data-toggle="modal" data-target="#new_patient" data-backdrop="static">Register a new patient</button></h6>
 		</div>
 
 		<div class="panel-body">
@@ -97,10 +123,10 @@
 							<fieldset>
 								<legend>
 									<div class="btn-group">
-										<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#patient_hospital_history"><i class="fa fa-building-o"></i> Hospital History</button>
-										<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#patient_diagnosis"><i class="fa fa-bed"></i> Diagnosis</button>
-										<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#patient_operation"><i class="fa fa-bed"></i> Operation</button>
-										<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#patient_process_check"><i class="fa fa-bed"></i> Process Check</button>
+										<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#patient_hospital_history" data-backdrop="static" data-keyboard="false"><i class="fa fa-building-o"></i> Hospital History</button>
+										<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#patient_diagnosis" data-backdrop="static" data-keyboard="false"><i class="fa fa-bed"></i> Diagnosis</button>
+										<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#patient_operation" data-backdrop="static" data-keyboard="false"><i class="fa fa-bed"></i> Operation</button>
+										<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#patient_process_check" data-backdrop="static" data-keyboard="false""><i class="fa fa-bed"></i> Process Check</button>
 									</div>
 								</legend>
 								<div class="row">
@@ -239,7 +265,6 @@
 									<input type="text" class="form-control" ng-model="newPatient.referrerSource">
 								</div>
 							</fieldset>
-							<button class="btn btn-warning btn-lg col-md-4 col-md-offset-4" id="save-all">Submit</button>
 						</div>
 						<div class="col-md-4">
 							<div class="panel panel-default col-md-11 col-md-offset-1">
@@ -257,18 +282,20 @@
 										<button class="btn btn-danger" onClick="retakeSnapshot()" ng-click="eDisablers('retake')" ng-show="disablers.snapshot_taken"><i class="icon-undo"></i> Retake Snapshot</button>
 									</div>
 				                </div>
-			              </div><!-- /.panel -->
-			              <div class="dropzone col-md-11 col-md-offset-1"
-						     ng-dropzone
-						     dropzone="dropzone"
-						     dropzone-config="ctrller.dropzoneConfig">
-						     <div class="dropzone-previews"></div>
-					  	</div>
+				              </div><!-- /.panel -->
+				              <div class="form-group col-md-11 col-md-offset-1">
+								<label class="control-label">Upload Identification Document</label>
+				              	<input type="file" ng-change="documentUploaded()" class="file-styled-primary" ng-model="u" name="file" id="document"/>
+				              	<img src="{{newPatient.documents}}" class="img img-responsive"/>
+				              </div>
 						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="newPatient = {}">Close</button>
+					<div class="col-md-12 pull-right">
+						<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="newPatient = {}">Close</button>
+						<button class="btn btn-warning btn-lg" ng-click="submit()">Submit</button>
+					</div>
 				</div>
 			</div>
 		</div>
