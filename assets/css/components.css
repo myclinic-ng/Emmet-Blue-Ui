@@ -3600,6 +3600,195 @@ h4.ui-pnotify-title {
 }
 /* ------------------------------------------------------------------------------
  *
+ *  # Bootstrap file input
+ *
+ *  File input styling for Bootstrap 3.0
+ *
+ *  Version: 1.0
+ *  Latest update: May 25, 2015
+ *
+ * ---------------------------------------------------------------------------- */
+.file-input {
+  overflow-x: auto;
+  display: inline-block;
+  width: 100%;
+}
+.file-input .btn[disabled],
+.file-input .btn .disabled {
+  cursor: not-allowed;
+}
+.btn-file {
+  position: relative;
+  overflow: hidden;
+}
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  text-align: right;
+  background: none repeat scroll 0 0 transparent;
+  cursor: inherit;
+  display: block;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.file-caption > span {
+  display: inline-block;
+  float: left;
+  margin-top: 3px;
+  margin-right: 6px;
+}
+.file-caption [class*=icon-] {
+  display: none;
+}
+.file-caption-name {
+  display: inline-block;
+  float: left;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 85%;
+}
+.file-error-message {
+  background-color: #f5f5f5;
+  color: #999999;
+  text-align: center;
+  border-radius: 2px;
+  padding: 5px;
+  font-size: 12px;
+}
+.file-caption-disabled {
+  background-color: #fafafa;
+  cursor: not-allowed;
+}
+.file-preview {
+  border-radius: 2px;
+  border: 1px solid #dddddd;
+  width: 100%;
+  margin-bottom: 20px;
+  position: relative;
+}
+.file-preview .close {
+  font-weight: 400;
+  font-size: 17px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #FFF;
+  padding: 8px;
+  line-height: 0.6;
+  border-radius: 3px;
+  color: #555555;
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+.file-preview.loading:before {
+  content: "";
+  display: inline-block;
+  background-color: #263238;
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -16px 0 0 -16px;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 1px 5px rgba(255, 255, 255, 0.5);
+  box-shadow: 0 1px 5px rgba(255, 255, 255, 0.5);
+}
+.file-preview.loading:after {
+  content: "\eb55";
+  font-family: "icomoon";
+  display: inline-block;
+  position: absolute;
+  color: #fff;
+  top: 50%;
+  left: 50%;
+  margin: -8px 0 0 -8px;
+  font-size: 16px;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-animation: rotation 1s linear infinite;
+  -o-animation: rotation 1s linear infinite;
+  animation: rotation 1s linear infinite;
+}
+.file-preview-status {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  color: #333333;
+  background-color: rgba(250, 250, 250, 0.8);
+  border-top: 1px solid #ddd;
+  padding: 7px 12px;
+  font-size: 12px;
+}
+.file-preview-status:empty {
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+}
+.file-preview-frame {
+  margin: 5px;
+  border-radius: 3px;
+  text-align: center;
+}
+.file-preview-frame:hover {
+  border-color: #555;
+}
+.file-preview-frame > object {
+  max-height: 200px;
+}
+@media (min-width: 769px) {
+  .file-preview-frame {
+    float: left;
+    height: 200px;
+    max-height: 200px;
+  }
+}
+.file-preview-image {
+  vertical-align: middle;
+  max-width: 100%;
+  display: inline-block;
+}
+@media (min-width: 769px) {
+  .file-preview-image {
+    height: 200px;
+    min-height: 200px;
+  }
+}
+.file-preview-text {
+  display: table-cell;
+  height: 200px;
+  color: #ff9800;
+  font-size: 12px;
+  vertical-align: middle;
+  text-align: center;
+}
+.file-preview-other {
+  display: table-cell;
+  height: 200px;
+  font-family: Monaco, Consolas, monospace;
+  font-size: 12px;
+  vertical-align: middle;
+  text-align: center;
+}
+.file-input-new .file-preview,
+.file-input-new .close,
+.file-input-new .fileinput-remove-button,
+.file-input-new .fileinput-upload-button {
+  display: none;
+}
+.wrap-indicator {
+  font-weight: 500;
+  color: #ff9800;
+  cursor: pointer;
+}
+/* ------------------------------------------------------------------------------
+ *
  *  # Dropzone file uploader
  *
  *  Open source library that provides drag’n’drop file uploads with image previews

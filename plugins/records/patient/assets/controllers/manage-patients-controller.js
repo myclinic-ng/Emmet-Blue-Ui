@@ -38,6 +38,7 @@ angular.module("EmmetBlue")
 
 	  self.dropzoneConfig = {
 	  	url: $scope.recordSubmitURL,
+	  	autoDiscover: false,
 	  	paramName: "file",
 	    parallelUploads: 100,
 	    dictDefaultMessage: 'Drop files here to upload <span>or CLICK</span>',
@@ -56,12 +57,14 @@ angular.module("EmmetBlue")
 		            dzClosure.processQueue();
 		        });
 
-		        this.on("sending", function(data, xhr, formData) {
+		        this.on("sendingmultiple", function(data, xhr, formData) {
 		        	$scope.newPatient.patientPassport = $("#passport").attr("src");
 		        	angular.forEach($scope.newPatient, function(value, key){
-		        		if (typeof value == "object"){
-		        			angular.forEach(value, function(v, k){
-		        				formData.append(key+"."+k, v);
+		        		if (typeof value !== "string"){
+		        			angular.forEach(value, function(val, k){
+		        				angular.forEach(val, function(v, _k){
+		        					formData.append(key+"_"+k+"_"+_k, v);
+		        				})
 		        			});
 		        		}
 		        		else
@@ -69,8 +72,6 @@ angular.module("EmmetBlue")
 		        			formData.append(key, value);
 		        		}
 		        	});
-
-		        	conssole.log(formData);
 		        });
 
 		        this.on("errormultiple", function(file, errorMessage, xhr){
@@ -78,12 +79,7 @@ angular.module("EmmetBlue")
 		        })
 
 		        this.on("successmultiple", function(file, errorMessage, xhr){
-	  				utils.alert("Info", "Record Uploaded successfully", "success");
-	  				$scope.newPatient = {};
-	  				$("#passport").attr("src", "plugins/records/patient/assets/images/passport-placeholder.png");
-	  				$scope.eDisablers("enable");
-	  				$("#new_patient").modal("hide");
-	  				$scope.reloadTable();
+	  				
 		        });
 
 		        this.on("queuecomplete", function() {
@@ -133,8 +129,6 @@ angular.module("EmmetBlue")
 	$scope.saveNewPatient = function(){
 		var patient = $scope.newPatient;
 
-		console.log($scope.newPatient);
-
 		var request = utils.serverRequest("/patients/patient/new", "POST", patient);
 
 		request.then(function(response){
@@ -159,7 +153,6 @@ angular.module("EmmetBlue")
 
 		loadProfile.then(function(response){
 			$scope.patientProfileMeta = response[0];
-			console.log($scope.patientProfileMeta["PatientIdentificationDocumentUrl"]);
 			delete response[0];
 			$scope.patientProfile = response;
 		}, function(response){
@@ -184,7 +177,43 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.submitOperation = function(){
+		$scope.operation.diagnosisType="operation";
 		$scope.newPatient.operation.push($scope.operation);
 		$scope.operation = {};
 	}
+
+
+	$scope.documentUploaded = function(){
+		var file = document.getElementById('document').files[0];
+  		var reader = new FileReader();
+  		reader.onloadend = function(e){
+  			var data = e.target.result;
+  			$scope.newPatient.documents = data;
+  		}
+  		reader.readAsDataURL(file);
+	}
+	
+	$scope.submit = function(){
+  		$scope.newPatient.patientPassport = $("#passport").attr("src");
+
+  		var data = $scope.newPatient;
+
+  		var submitData = utils.serverRequest("/patients/patient/new", "POST", data);
+
+  		submitData.then(function(response){
+  			utils.alert("Info", "Record Uploaded successfully", "success");
+			$scope.newPatient = {};
+			$scope.newPatient.hospitalHistory = [];
+			$scope.newPatient.diagnosis = [];
+			$scope.newPatient.operation = [];
+
+			$("#passport").attr("src", "plugins/records/patient/assets/images/passport-placeholder.png");
+			$scope.eDisablers("enable");
+			$("#new_patient").modal("hide");
+			$scope.reloadTable();
+  		}, function(response){
+  			utils.errorHandler(response);
+  		})
+	}
+
 })
