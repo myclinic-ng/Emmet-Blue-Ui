@@ -35,6 +35,7 @@ angular.module("EmmetBlue")
 		newBillingTypeItemsCreated: function(){
 			utils.alert("Operation Successful", "You have successfully created a new billing type items", "success", "notify");
 			$scope.newBillingTypeItems = {};
+			$scope.newBillingTypeItems.interval = [];
 			$("#new_billing_type_items").modal("hide");
 
 			$scope.reloadBillingTypeItemsTable();
@@ -54,6 +55,8 @@ angular.module("EmmetBlue")
 		},
 		manageBillingTypeItems: {
 			newBillingTypeItems: function(){
+				$scope.newBillingTypeItems = {};
+				$scope.newBillingTypeItems.interval = [];
 				$("#new_billing_type_items").modal("show");
 			},
 			editBillingTypeItems: function(id){
@@ -90,6 +93,18 @@ angular.module("EmmetBlue")
 
 			}
 		}
+	}
+
+	$scope.advancedFormToggleState = false;
+	$scope.toggleAdvancedForm = function(){
+		$scope.advancedFormToggleState = !$scope.advancedFormToggleState;
+	}
+
+	$scope.addIntervalToList = function(){
+		var interval = $scope.interval;
+		$scope.interval = {};
+
+		$scope.newBillingTypeItems.interval.push(interval);
 	}
 
 	$scope.ddtInstance = {};
@@ -148,7 +163,9 @@ angular.module("EmmetBlue")
 		else
 		{
 			data['rateBased'] = 1;
+			data['intervalBased'] = 1;
 			data['rateIdentifier'] = newBillingTypeItems.rate;
+			data['interval'] = newBillingTypeItems.interval;
 		}
 		console.log(data);
 		var saveNewBillingTypeItems = utils.serverRequest('/accounts-biller/billing-type-items/new', 'POST', data);

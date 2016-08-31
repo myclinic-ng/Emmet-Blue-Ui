@@ -68,6 +68,7 @@ angular.module("EmmetBlue")
 		manageBillingType: {
 			newBillingType: function(){
 				$("#new_billingType").modal("show");
+				$("#new_billingType").modal({"backdrop":"static"});
 			},
 			editBillingType: function(id){
 				$scope.tempHolder.billingTypeName = $(".billing-type-btn[data-option-id='"+id+"']").attr('data-option-name');

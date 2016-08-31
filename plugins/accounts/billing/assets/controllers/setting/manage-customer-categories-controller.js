@@ -9,8 +9,8 @@ angular.module("EmmetBlue")
 
 				var dataOpt = "data-option-id='"+data.CustomerCategoryID+"' data-option-name='"+data.CustomerCategoryName+"' data-option-description='"+data.CustomerCategoryDescription+"'";
 
-				var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+dataOpt+"> Edit</button>";
-				var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> Delete</button>";
+				var editButton = "<button class='btn btn-default btn-customer-category' ng-click=\""+editButtonAction+"\" "+dataOpt+"> Edit</button>";
+				var deleteButton = "<button class='btn btn-default btn-customer-category' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> Delete</button>";
 
 				var buttons = "<div class='btn-customerCategory'>"+editButton+deleteButton+"</button>";
 				return buttons;
@@ -65,8 +65,8 @@ angular.module("EmmetBlue")
 	$scope.tempHolder = {};
 
 	$scope.editCustomerCategory = function(customerCategoryId){
-		$scope.tempHolder.CustomerCategoryName = $(".btn[data-option-id='"+customerCategoryId+"']").attr('data-option-name');
-		$scope.tempHolder.CustomerCategoryDescription = $(".btn[data-option-id='"+customerCategoryId+"']").attr('data-option-description');
+		$scope.tempHolder.CustomerCategoryName = $(".btn-customer-category[data-option-id='"+customerCategoryId+"']").attr('data-option-name');
+		$scope.tempHolder.CustomerCategoryDescription = $(".btn-customer-category[data-option-id='"+customerCategoryId+"']").attr('data-option-description');
 		$scope.tempHolder.resourceId = customerCategoryId;
 
 		console.log($scope.tempHolder);
@@ -76,7 +76,7 @@ angular.module("EmmetBlue")
 
 	$scope.deleteCustomerCategory = function(customerCategoryId){
 		var title = "Delete Prompt";
-		var text = "You are about to delete the customerCategory named "+$(".btn[data-option-id='"+customerCategoryId+"']").attr('data-option-name')+". Do you want to continue? Please note that this action cannot be undone";
+		var text = "You are about to delete the customerCategory named "+$(".btn-customer-category[data-option-id='"+customerCategoryId+"']").attr('data-option-name')+". Do you want to continue? Please note that this action cannot be undone";
 		var close = true;
 		$scope._customerCategoryId = customerCategoryId;
 		var callback = function(){
