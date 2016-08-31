@@ -51,6 +51,53 @@
 										<option value="year">Yearly</option>
 									</select>
 								</div>
+								<div class="col-sm-12 mt-15">
+									<label class="btn btn-clear" ng-click="advancedFormToggleState = !advancedFormToggleState"> <i class="icon-shuffle"></i> Show interval-based form for this item (advanced)</label>
+								</div>
+
+								<div class="col-md-12" ng-show="advancedFormToggleState">
+									<fieldset class="well">
+										<div class="form-group col-md-4">
+											<label class="control-label">Interval</label>
+											<input type="number" class="form-control" ng-model="interval.interval"/>
+										</div>
+										<div class="form-group col-md-4">
+											<label class="control-label">Interval Type</label>
+											<select class="select" ng-model="interval.type">
+												<option value=""></option>
+												<option value="geometric">Geometric</option>
+												<option value="multiplicative">Multiplicative</option>
+												<option value="additive">Additive</option>
+												<option value="custom">Custom</option>
+											</select>
+										</div>
+										<div class="form-group col-md-4">
+											<label class="control-label">Increment Value</label>
+											<input type="number" class="form-control" ng-model="interval.increment"/>
+										</div>
+										<div class="form-group col-md-6 pull-right">
+											<button class="btn btn-primary" ng-click="addIntervalToList()">Add</button>
+										</div>
+									</fieldset>
+
+									<table class="table table-responsive table-hover table-striped table-condensed table-bordered">
+										<thead>
+											<tr>
+												<th>Interval</th>
+												<th>Type</th>
+												<th>Increment Value</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="interval in newBillingTypeItems.interval">
+												<th>{{$index+1}}</th>
+												<th>{{interval.interval}}</th>
+												<th>{{interval.type}}</th>
+												<th>{{interval.increment}}</th>
+											</tr>
+										</tbody>
+									</table>
+								</div>
 							</div>
 						</div>
 					</form>

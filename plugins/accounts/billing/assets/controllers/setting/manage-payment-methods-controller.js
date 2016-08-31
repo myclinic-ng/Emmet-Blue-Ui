@@ -9,8 +9,8 @@ angular.module("EmmetBlue")
 
 				var dataOpt = "data-option-id='"+data.PaymentMethodID+"' data-option-name='"+data.PaymentMethodName+"' data-option-description='"+data.PaymentMethodDescription+"'";
 
-				var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+dataOpt+"> Edit</button>";
-				var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> Delete</button>";
+				var editButton = "<button class='btn btn-default btn-payment-method' ng-click=\""+editButtonAction+"\" "+dataOpt+"> Edit</button>";
+				var deleteButton = "<button class='btn btn-default btn-payment-method' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> Delete</button>";
 
 				var buttons = "<div class='btn-paymentMethod'>"+editButton+deleteButton+"</button>";
 				return buttons;
@@ -65,8 +65,8 @@ angular.module("EmmetBlue")
 	$scope.tempHolder = {};
 
 	$scope.editPaymentMethod = function(paymentMethodId){
-		$scope.tempHolder.PaymentMethodName = $(".btn[data-option-id='"+paymentMethodId+"']").attr('data-option-name');
-		$scope.tempHolder.PaymentMethodDescription = $(".btn[data-option-id='"+paymentMethodId+"']").attr('data-option-description');
+		$scope.tempHolder.PaymentMethodName = $(".btn-payment-method[data-option-id='"+paymentMethodId+"']").attr('data-option-name');
+		$scope.tempHolder.PaymentMethodDescription = $(".btn-payment-method[data-option-id='"+paymentMethodId+"']").attr('data-option-description');
 		$scope.tempHolder.resourceId = paymentMethodId;
 
 		console.log($scope.tempHolder);
