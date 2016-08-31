@@ -1,5 +1,5 @@
 angular.module("EmmetBlue")
-.
+
 .controller('mortuaryBodyRegistrationController', function($scope, $http, utils){
 	$scope.utils = utils;
 	

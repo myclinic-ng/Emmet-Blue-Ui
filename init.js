@@ -77,7 +77,7 @@ var cntrllers = [
 	"plugins/records/patient/assets/controllers.js",
 	"plugins/nursing/assets/controllers.js",
 	"plugins/dummy/assets/controllers.js",
-	"pluins/consultancy/assets/controller.js"
+	"plugins/consultancy/assets/controllers.js"
 ]
 
 var services = [
