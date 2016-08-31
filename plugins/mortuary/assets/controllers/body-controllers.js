@@ -1,5 +1,5 @@
 angular.module("EmmetBlue")
-
+.
 .controller('mortuaryBodyRegistrationController', function($scope, $http, utils){
 	$scope.utils = utils;
 	
@@ -9,7 +9,7 @@ angular.module("EmmetBlue")
 
 		body.then(function(response){
 			utils.alert('Operation Successful', 'The Registration of body number was completed successfully', 'success', 'both');
-			
+			$scope.body = {};
 		}, function(error){
 			utils.errorHandler(error, true);
 		});
@@ -23,6 +23,9 @@ angular.module("EmmetBlue")
 		return utils.serverRequest('/mortuary/body/view?resourceId=0', 'get', {});
 	})	
 	.withButtons([
+        {
+        	extend: ''
+        },
         {
         	extend: 'print',
         	text: '<u>P</u>rint this data page',
