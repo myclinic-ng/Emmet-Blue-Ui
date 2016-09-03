@@ -14,19 +14,18 @@ angular.module("EmmetBlue")
 			newWardCreated: function(){
 				utils.alert('Operation Succesful', 'New Ward Created', 'success', 'notify');
 				$scope.newWard = {};
+				$scope.dtInstance.reloadData();
 				$("#new-ward").modal("hide");
 			}
 		}
 	}
 
 
-
-
-
+	$scope.dtInstance = {};
 	$scope.dtOptions = DTOptionsBuilder
 	.fromFnPromise(function(){
-		var consultationSheets = utils.serverRequest('/nursing/ward/view', 'GET');
-		return consultationSheets;
+		var ward = utils.serverRequest('/nursing/ward/view', 'GET');
+		return ward;
 	})
 	.withButtons([
 		{
