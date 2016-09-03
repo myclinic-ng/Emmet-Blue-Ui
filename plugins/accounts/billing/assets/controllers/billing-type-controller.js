@@ -149,7 +149,7 @@ angular.module("EmmetBlue")
     })
 	.withButtons([
 		{
-			text: '<u>N</u>ew billing type',
+			text: '<i class="icon-file-empty"></i><u> N</u>ew billing type',
 			action: function(){
 				functions.manageBillingType.newBillingType();
 			},
