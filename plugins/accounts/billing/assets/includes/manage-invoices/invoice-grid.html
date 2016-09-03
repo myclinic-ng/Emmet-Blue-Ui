@@ -1,31 +1,22 @@
-
 <div class="panel invoice-grid">
 	<div class="panel-body">
 		<div class="row">
 			<div class="col-sm-6">
-				<h6 class="text-semibold no-margin-top">Leonardo Fellini</h6>
+				<h6 class="text-semibold no-margin-top">{{invoice.invoicePatientName}}</h6>
 				<ul class="list list-unstyled">
-					<li>Invoice #: &nbsp;0028</li>
-					<li>Issued on: <span class="text-semibold">2015/01/25</span></li>
+					<li>Invoice #: &nbsp;{{invoice.invoiceNumber}}</li>
+					<li>
+						Status: &nbsp;
+						<a href="#" class="label bg-danger-400 dropdown-toggle" data-toggle="dropdown">{{invoice.invoiceStatus}} </a>
+					</li>
 				</ul>
 			</div>
 
 			<div class="col-sm-6">
-				<h6 class="text-semibold text-right no-margin-top">$8,750</h6>
+				<h6 class="text-semibold text-right no-margin-top"><span ng-currency-symbol ng-currency="naira"></span> {{invoice.invoiceAmount}}</h6>
 				<ul class="list list-unstyled text-right">
-					<li>Method: <span class="text-semibold">SWIFT</span></li>
-					<li class="dropdown">
-						Status: &nbsp;
-						<a href="#" class="label bg-danger-400 dropdown-toggle" data-toggle="dropdown">Overdue <span class="caret"></span></a>
-						<ul class="dropdown-menu dropdown-menu-right">
-							<li class="active"><a href="#"><i class="icon-alert"></i> Overdue</a></li>
-							<li><a href="#"><i class="icon-alarm"></i> Pending</a></li>
-							<li><a href="#"><i class="icon-checkmark3"></i> Paid</a></li>
-							<li class="divider"></li>
-							<li><a href="#"><i class="icon-spinner2 spinner"></i> On hold</a></li>
-							<li><a href="#"><i class="icon-cross2"></i> Canceled</a></li>
-						</ul>
-					</li>
+					<li>Patient type: <span class="text-semibold">NHIS</span></li>
+					
 				</ul>
 			</div>
 		</div>
@@ -33,7 +24,7 @@
 
 	<div class="panel-footer">
 		<ul>
-			<li><span class="status-mark border-danger position-left"></span> Due: <span class="text-semibold">2015/02/25</span></li>
+			<li><span class="status-mark border-danger position-left"></span> Issued on: <span class="text-semibold">{{invoice.invoiceDate}}</span></li>
 		</ul>
 
 		<ul class="pull-right">
