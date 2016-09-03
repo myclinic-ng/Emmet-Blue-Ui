@@ -14,7 +14,7 @@
 				<div class="category-content">
 					<div class="row row-condensed">
 						<div class="col-xs-6">
-							<button type="button" class="btn bg-teal-400 btn-block btn-float btn-float-lg"><i class="icon-file-plus"></i> <span>New invoice</span></button>
+							<a href="#" type="button" class="btn bg-teal-400 btn-block btn-float btn-float-lg" data-toggle="modal" data-target="#generate_new_billing"><i class="icon-file-plus"></i> <span>New invoice</span></a>
 							<button type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg"><i class="icon-archive"></i> <span>Archive</span></button>
 						</div>
 						
@@ -39,10 +39,6 @@
 
 				<div class="category-content no-padding">
 					<ul class="navigation navigation-alt navigation-accordion">
-						<li class="navigation-header">Actions</li>
-						<li><a href="#"><i class="icon-googleplus5"></i> Create invoice</a></li>
-						<li><a href="#"><i class="icon-compose"></i> Edit invoice</a></li>
-						<li><a href="#"><i class="icon-archive"></i> Archive <span class="badge badge-default">190</span></a></li>
 						<li class="navigation-header">Invoices</li>
 						<li><a href="#"><i class="icon-files-empty"></i> All invoices</a></li>
 						<li><a href="#"><i class="icon-file-plus"></i> Pending invoices <span class="badge badge-info">16</span></a></li>
@@ -71,35 +67,35 @@
 							<div class="checkbox">
 								<label>
 									<input type="checkbox" class="styled">
-									$0 - $999
+									<span ng-currency-symbol ng-currency="naira"></span>0 - <span ng-currency-symbol ng-currency="naira"></span>999
 								</label>
 							</div>
 
 							<div class="checkbox">
 								<label>
 									<input type="checkbox" class="styled" checked="checked">
-									$1,000 - $1,999
+									<span ng-currency-symbol ng-currency="naira"></span>1,000 - <span ng-currency-symbol ng-currency="naira"></span>1,999
 								</label>
 							</div>
 
 							<div class="checkbox">
 								<label>
 									<input type="checkbox" class="styled">
-									$2,000 - $4,999
+									<span ng-currency-symbol ng-currency="naira"></span>2,000 - <span ng-currency-symbol ng-currency="naira"></span>4,999
 								</label>
 							</div>
 
 							<div class="checkbox">
 								<label>
 									<input type="checkbox" class="styled" checked="checked">
-									$5,000 - $9,999
+									<span ng-currency-symbol ng-currency="naira"></span>5,000 - <span ng-currency-symbol ng-currency="naira"></span>9,999
 								</label>
 							</div>
 
 							<div class="checkbox">
 								<label>
 									<input type="checkbox" class="styled" checked="checked">
-									$10,000 + 
+									<span ng-currency-symbol ng-currency="naira"></span>10,000 + 
 								</label>
 							</div>
 						</div>
@@ -265,7 +261,6 @@
 	</div>
 	<!-- /invoice grid options -->
 
-
 	<!-- Invoice grid -->
 	<div class="text-center content-group text-muted content-divider">
 		<span class="pt-10 pb-10">Today</span>
@@ -334,7 +329,7 @@
 						<div class="col-md-6 col-lg-3 content-group">
 							<span class="text-muted">Payment Details:</span>
 							<ul class="list-condensed list-unstyled invoice-payment-details">
-								<li><h5>Total Due: <span class="text-right text-semibold">$8,750</span></h5></li>
+								<li><h5>Total Due: <span class="text-right text-semibold"><span ng-currency-symbol ng-currency="naira"></span>8,750</span></h5></li>
 								<li>Bank name: <span class="text-semibold">Profit Bank Europe</span></li>
 								<li>Country: <span>United Kingdom</span></li>
 								<li>City: <span>London E1 8BF</span></li>
@@ -362,27 +357,27 @@
 				                	<h6 class="no-margin">Create UI design model</h6>
 				                	<span class="text-muted">One morning, when Gregor Samsa woke from troubled.</span>
 			                	</td>
-				                <td>$70</td>
+				                <td><span ng-currency-symbol ng-currency="naira"></span>70</td>
 				                <td>57</td>
-				                <td><span class="text-semibold">$3,990</span></td>
+				                <td><span class="text-semibold"><span ng-currency-symbol ng-currency="naira"></span>3,990</span></td>
 				            </tr>
 				            <tr>
 				                <td>
 				                	<h6 class="no-margin">Support tickets list doesn't support commas</h6>
 				                	<span class="text-muted">I'd have gone up to the boss and told him just what i think.</span>
 			                	</td>
-				                <td>$70</td>
+				                <td><span ng-currency-symbol ng-currency="naira"></span>70</td>
 				                <td>12</td>
-				                <td><span class="text-semibold">$840</span></td>
+				                <td><span class="text-semibold"><span ng-currency-symbol ng-currency="naira"></span>840</span></td>
 				            </tr>
 				            <tr>
 				                <td>
 				                	<h6 class="no-margin">Fix website issues on mobile</h6>
 				                	<span class="text-muted">I am so happy, my dear friend, so absorbed in the exquisite.</span>
 			                	</td>
-				                <td>$70</td>
+				                <td><span ng-currency-symbol ng-currency="naira"></span>70</td>
 				                <td>31</td>
-				                <td><span class="text-semibold">$2,170</span></td>
+				                <td><span class="text-semibold"><span ng-currency-symbol ng-currency="naira"></span>2,170</span></td>
 				            </tr>
 				        </tbody>
 				    </table>
@@ -414,15 +409,15 @@
 										<tbody>
 											<tr>
 												<th>Subtotal:</th>
-												<td class="text-right">$7,000</td>
+												<td class="text-right"><span ng-currency-symbol ng-currency="naira"></span>7,000</td>
 											</tr>
 											<tr>
 												<th>Tax: <span class="text-regular">(25%)</span></th>
-												<td class="text-right">$1,750</td>
+												<td class="text-right"><span ng-currency-symbol ng-currency="naira"></span>1,750</td>
 											</tr>
 											<tr>
 												<th>Total:</th>
-												<td class="text-right text-primary"><h5 class="text-semibold">$8,750</h5></td>
+												<td class="text-right text-primary"><h5 class="text-semibold"><span ng-currency-symbol ng-currency="naira"></span>8,750</h5></td>
 											</tr>
 										</tbody>
 									</table>
