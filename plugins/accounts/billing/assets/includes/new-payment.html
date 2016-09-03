@@ -1,0 +1,107 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+<script>
+	$(".styled").uniform({
+        radioClass: 'choice'
+    });
+
+	$('body').on('hidden.bs.modal', function () {
+	    if($('.modal.in').length > 0)
+	    {
+	        $('body').addClass('modal-open');
+	    }
+	});
+
+	$(function() {
+
+		// Default file input style
+		$(".file-styled").uniform({
+			fileButtonHtml: '<i class="icon-plus2"></i>'
+		});
+
+
+		// Primary file input
+		$(".file-styled-primary").uniform({
+			wrapperClass: 'bg-warning',
+			fileButtonHtml: '<i class="icon-plus2"></i>'
+		});
+
+	});
+</script>
+
+<div ng-controller="accountsBillingNewPaymentController">
+	<div id="accept_new_payment" class="modal fade">
+		<div class="modal-dialog modal-full">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title"> New Transaction</h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="col-md-5">
+						<div class="form-group">
+							<label class="control-label">Invoice Number</label>
+							<select class="select" ng-model="newPayment.metaId" ng-options="invoice.BillingTransactionMetaID as invoice.BillingTransactionNumber for invoice in invoices">
+								<!-- <option value=""></option> -->
+							</select>
+						</div>
+						<div class="form-group">
+							<label class="control-label">Payee Name</label>
+							<input type="text" class="form-control" ng-model="newPayment.customerName"/>
+						</div>
+						<div class="form-group">
+							<label class="control-label">Payee Phone Number</label>
+							<input type="text" class="form-control" ng-model="newPayment.customerPhone"/>
+						</div>
+						<div class="form-group">
+							<label class="control-label">Amount Paid</label>
+							<input type="number" class="form-control" ng-model="newPayment.amountPaid"/>
+						</div>
+						<div class="form-group">
+							<label class="control-label">Payment Method</label>
+							<select class="select" ng-model="newPayment.paymentMethod" ng-options="method.PaymentMethodName as method.PaymentMethodName for method in paymentMethods">
+								<!-- <option value=""></option> -->
+							</select>
+						</div>
+						<div class="form-group">
+							<label class="control-label">Transaction Status</label>
+							<select class="select" ng-model="newPayment.transactionStatus" ng-options="status.StatusName as status.StatusName for status in statuses">
+								<!-- <option value=""></option> -->
+							</select>
+						</div>
+						<div class="button-group pull-right">
+							<button class="btn btn-default" ng-click="saveTransaction()">Save</button>
+							<button class="btn btn-default" ng-click="saveTransaction(true)">Save &amp; Print Receipt</button>
+						</div>
+					</div>
+					<div class="col-md-7" id="transaction_document_area">
+						<ng-invoice></ng-invoice>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="payment_receipt" class="modal fade">
+		<div class="modal-dialog modal-mini">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title"> Payment Receipt</h6>
+				</div>
+
+				<div class="modal-body" id="main_payment_receipt">
+					<div ng-payment-receipt></div>
+				</div>
+
+				<div class="modal-footer">
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

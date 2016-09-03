@@ -8,3 +8,8 @@ head.load(controllersLocation+"setting/manage-customer-categories-controller.js"
 head.load(controllersLocation+"billing-type-controller.js");
 head.load(controllersLocation+"billing-type-items-controller.js");
 head.load(controllersLocation+"new-billing-controller.js");
+head.load(controllersLocation+"new-payment-controller.js");
+
+
+head.load(controllersLocation+"invoice-template-directive.js");
+head.load(controllersLocation+"receipt-template-directive.js");

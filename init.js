@@ -7,6 +7,7 @@ var css = [
 	"assets/css/core.css",
 	"assets/css/components.css" ,
 	"assets/css/colors.css",
+	"assets/css/ribbon.css",
 	"assets/css/datatables/angular-datatables.css",
 	"assets/css/datatables/buttons.dataTables.css",
 	"assets/css/datatables/fixedHeader.dataTables.css"

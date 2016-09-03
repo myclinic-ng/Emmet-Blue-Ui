@@ -26,7 +26,7 @@ angular.module('EmmetBlue', [
 .config(function($routeProvider, $locationProvider){
 	$routeProvider
 	.when('/', {
-		templateUrl:'plugins/index.html',
+		templateUrl:'/user/login',
 	})
 	.when('/:page*', {
 		templateUrl: function(url){
@@ -191,7 +191,7 @@ function getConstants(){
 		"TEMPLATE_DIR":"plugins/",
 		"MODULE_MENU_LOCATION":"assets/includes/menu.html",
 		"MODULE_HEADER_LOCATION":"assets/includes/header.html",
-		"EMMETBLUE_SERVER":"http://192.168.173.1/EmmetBlueApi/",
+		"EMMETBLUE_SERVER":"http://192.168.1.200:700/",
 		"EMMETBLUE_SERVER_VERSION":"v1",
 		"USER_COOKIE_IDENTIFIER":"_______"
 	};
