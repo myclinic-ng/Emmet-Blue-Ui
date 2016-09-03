@@ -1,0 +1,23 @@
+<div class="col-md-12">
+	<div>
+	<div class="ml-20 mt-20">
+		<table class="table table-condensed table-bordered" style="width: 95%">
+			<thead>
+				<tr class="info">
+					<th style="width: 1%">Quantity</th>
+					<th>Description</th>
+					<th style="width: 10%">Unit Price</th>
+					<th style="width: 10%">Total</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in itemList">
+					<td>{{item.itemQuantity}}</td>
+					<td>{{item.itemName}}</td>
+					<td></td>
+					<td>{{item.itemPrice}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

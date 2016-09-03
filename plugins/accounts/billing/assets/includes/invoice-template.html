@@ -1,0 +1,67 @@
+<div class="col-md-12">
+	<div>
+		<div class="col-md-7">
+			<div class="col-md-12">
+				<img class="img img-responsive col-md-2" src="assets/images/black-circle.png"/>
+				<h5 class="text-bold">St. Gerard Catholic Hospital</h5>
+				<h6 class="text-light">P.M.B 2144, Kakuri, Kaduna South</h6>
+				<h6 class="text-thin">contact@stgerard.com, 09098726543</h6>
+			</div>
+			<div class="col-md-5">
+				<table class="table table-condensed">
+					<tr>
+						<td>Patient No.</td>
+						<td class="text-bold">02384772839</td>
+					</tr>
+					<tr>
+						<td>Full Name</td>
+						<td class="text-bold">John Doe Aremu</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="well pull-right col-md-3">
+			<div class="box-body box-bordered">
+				<div class="ribbon ribbon-blue"><span ng-bind="billStatus"></span></div>
+				<table class="table pull-right" style="width: 80%;">
+					<tr>
+						<td>Invoice #</td>
+						<td>084753957</td>
+					</tr>
+					<tr>
+						<td>Date</td>
+						<td>2013/09/12</td>
+					</tr>
+					<tr>
+						<td>Due Date</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Status</td>
+						<td>In-Progress</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="ml-20 mt-20">
+		<table class="table table-condensed table-bordered" style="width: 95%">
+			<thead>
+				<tr class="info">
+					<th style="width: 1%">Quantity</th>
+					<th>Description</th>
+					<th style="width: 10%">Unit Price</th>
+					<th style="width: 10%">Total</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in itemList">
+					<td>{{item.itemQuantity}}</td>
+					<td>{{item.itemName}}</td>
+					<td></td>
+					<td>{{item.itemPrice}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
