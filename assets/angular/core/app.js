@@ -24,6 +24,12 @@ angular.module('EmmetBlue', [
 
 .config(function($routeProvider, $locationProvider){
 	$routeProvider
+<<<<<<< HEAD
+=======
+	.when('/', {
+		templateUrl:'/user/login',
+	})
+>>>>>>> ccbc08a255a417e909fd61127009ea1b2abfaf63
 	.when('/:page*', {
 		templateUrl: function(url){
 			return determineRouteAvailability(url.page);
@@ -150,7 +156,7 @@ angular.module('EmmetBlue', [
 
 	services.storage = $localStorage;
 
-	services.restServer = CONSTANTS.EMMETBLUE_SERVER;
+	services.restServer = CONSTANTS.EMMETBLUE_SERVER+CONSTANTS.EMMETBLUE_SERVER_VERSION;
 
 	services.DT = {
 		optionsBuilder: DTOptionsBuilder,
@@ -178,7 +184,11 @@ function getConstants(){
 		"TEMPLATE_DIR":"plugins/",
 		"MODULE_MENU_LOCATION":"assets/includes/menu.html",
 		"MODULE_HEADER_LOCATION":"assets/includes/header.html",
+<<<<<<< HEAD
 		"EMMETBLUE_SERVER":"http://127.0.0.1:420/Emmet-Blue-Api",
+=======
+		"EMMETBLUE_SERVER":"http://192.168.1.200:700/",
+>>>>>>> ccbc08a255a417e909fd61127009ea1b2abfaf63
 		"EMMETBLUE_SERVER_VERSION":"v1",
 		"USER_COOKIE_IDENTIFIER":"_______"
 	};

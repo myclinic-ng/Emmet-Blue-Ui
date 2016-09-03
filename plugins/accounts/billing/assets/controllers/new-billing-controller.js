@@ -15,35 +15,36 @@ angular.module("EmmetBlue")
 
 	$scope.startWatching = false;
 	$scope.$watch(function(){
-		return utils.storage.billingType
+		return $scope.billingTypeId;
 	}, function(newValue){
-		$scope.billingType = newValue;
+		if (typeof newValue !== "undefined"){
+			newValue = JSON.parse(newValue);
+			$scope.billingType = newValue;
+			var billingTypeItems = utils.serverRequest('/accounts-biller/billing-type-items/view?resourceId='+newValue.BillingTypeID, 'GET');
+			billingTypeItems.then(function(response){
+				$scope.billingTypeItems = response;
+				$scope.billingTypeItemsInfo = [];
+				angular.forEach(response, function(val, key){
+					$scope.billingTypeItemsInfo[val.BillingTypeItemID] = val;
+				})
 
-		var billingTypeItems = utils.serverRequest('/accounts-biller/billing-type-items/view?resourceId='+newValue.BillingTypeID, 'GET');
-		billingTypeItems.then(function(response){
-			$scope.billingTypeItems = response;
-			console.log(response);
-			$scope.billingTypeItemsInfo = [];
-			angular.forEach(response, function(val, key){
-				$scope.billingTypeItemsInfo[val.BillingTypeItemID] = val;
+			}, function(response){
+				utils.errorHandler(response);
 			})
 
-		}, function(response){
-			utils.errorHandler(response);
-		})
+			var transactionStatus = utils.serverRequest('/accounts-biller/transaction-status/view', 'GET');
+			transactionStatus.then(function(response){
+				$scope.statuses = response;
+			}, function(response){
+				utils.errorHandler(response);
+				
+			}) 
 
-		var transactionStatus = utils.serverRequest('/accounts-biller/transaction-status/view', 'GET');
-		transactionStatus.then(function(response){
-			$scope.statuses = response;
-		}, function(response){
-			utils.errorHandler(response);
-			
-		}) 
-
-		if (!$scope.startWatching){
-			$scope.startWatching = true;
-		}
-		else{
+			if (!$scope.startWatching){
+				$scope.startWatching = true;
+			}
+			else{
+			}
 		}
 	});
 

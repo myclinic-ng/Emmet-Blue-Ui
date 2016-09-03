@@ -82,7 +82,7 @@
 						<div class="form-group col-md-12">
 							<label class="control-label">Select Billing Type</label>
 							<select class="select" ng-model="billingTypeId" ng-change="setBillingTypeID()">
-								<option ng-repeat="bill in billingItems" value="{{bill.BillingTypeID}}">{{bill.BillingTypeName}}</option>
+								<option ng-repeat="bill in billingItems" value="{{bill}}">{{bill.BillingTypeName}}</option>
 							</select>
 						</div>
 						<div class="form-group col-md-12">
