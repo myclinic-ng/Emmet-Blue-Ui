@@ -1,0 +1,86 @@
+<script src="assets/js/plugins/forms/wizards/stepy.min.js"></script>
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script src="assets/js/plugins/forms/styling/uniform.min.js"></script>
+<script src="plugins/mortuary/assets/js/wizard_stepy.js"></script>
+
+<div ng-controller="wardController as cntrller">
+	<div class="panel panel-white zoomIn" >
+		<div class="panel-heading">
+			<h6 class="panel-title">Manage Wards</h6>
+			<div class="heading-elements">
+				<ul class="icons-list">
+	        		<li><a data-action="collapse"></a></li>
+	        		<li><a data-action="reload"></a></li>
+	        		<li><a data-action="close"></a></li>
+	        	</ul>
+	    	</div>
+		</div>
+		<div class="panel-body">
+			<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" class="table table-bordered table-striped hover" cellpadding="0">
+			</table>
+		</div>
+	</div>
+
+	<!-- New Ward -->
+	<div id="new-ward" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<div class="Modal-title"> New Ward</div>
+				</div>
+				<div class="modal-body">
+					<form role="form">
+					<div class="form-group">
+						<div class="row">
+							<div class="content-group col-sm-12">
+								<label>Ward Name</label>
+								<input type="text" class="form-control" name="wardname" ng-model="wardRegistration.wardName">
+							</div>
+							<div class="content-group col-sm-12">
+								<label>Ward Description</label>
+								<textarea class="form-control" name="description" ng-model="wardRegistration.wardDescription"></textarea>
+							</div>
+						</div>
+					</div>
+						
+					</form>
+				</div>
+				<div class="modal-footer">
+				<button class="btn btn-link" type="submit" data-dismiss="modal" ng-click="newWard = {}">close</button>
+				<button class="btn btn-warning" type="submit" ng-click="saveNewWard()">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- edit ward-->
+	<div id="edit-ward" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<div class="modal-title"> Edit Ward</div>
+				</div>
+				<div class="modal-body">
+					<form role="form">
+					<div class="form-group">
+						<div class="row">
+							<div class="content-group col-sm-12">
+								<label>Ward Name</label>
+								<input type="text" class="form-control" name="wardname" ng-model="wardRegistration.wardName">
+							</div>
+							<div class="content-group col-sm-12">
+								<label>Ward Description</label>
+								<textarea class="form-control" name="description" ng-model="wardRegistration.wardDescription"></textarea>
+							</div>
+						</div>
+					</div>
+						
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-link" type="submit" data-dismiss="modal" ng-click="newWard = {}">close</button>
+					<button class="btn btn-warning" type="submit" ng-click="saveNewWard()">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

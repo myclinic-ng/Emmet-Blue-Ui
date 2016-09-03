@@ -1,0 +1,50 @@
+<script src="assets/js/plugins/forms/wizards/stepy.min.js"></script>
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script src="assets/js/plugins/forms/styling/uniform.min.js"></script>
+<script src="plugins/mortuary/assets/js/wizard_stepy.js"></script>
+<!--ckeditor script-->
+<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="plugins/consultancy/assets/js/editor_ckeditor.js"></script>
+
+<div ng-controller="viewConsultationSheetController as cntrller">
+	<div class="panel panel-white zoomIn" >
+		<div class="panel-heading">
+			<h6 class="panel-title">Notes</h6>
+			<div class="heading-elements">
+				<ul class="icons-list">
+	        		<li><a data-action="collapse"></a></li>
+	        		<li><a data-action="reload"></a></li>
+	        		<li><a data-action="close"></a></li>
+	        	</ul>
+	    	</div>
+		</div>
+		<div class="panel-body">
+			<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" class="table table-bordered table-striped hover" cellpadding="0">
+			</table>
+		</div>
+	</div>
+
+	<!-- New consultation sheet -->
+	<div id="new-consultation-sheet" class="modal fade" ng-controller = "newConsultationSheetRegistrationController">
+		<div class="modal-dialog" style="width:80%;">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<div class="modal-title"> New consultation Sheet</div>
+				</div>
+				<div class="modal-body">
+					<p class="content-group">
+						<label class="control-label">Consultation Sheet Title</label>
+						<textarea cols="3" rows="1" class="form-control" ng-model="consultationSheet.title"></textarea>
+					</p>
+					<hr>
+
+					<div id="editor-inline" contenteditable="true" style="height: 300px;"></div>
+				</div>
+				<div class="modal-footer">
+				<button type="submit" class="btn btn-link" data-dismiss="modal" ng-click="newConsultationSheet = {}">Close</button>
+				<button type="submit" class="btn btn-warning" ng-click="saveNewConsultationSheet()">Submit</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
