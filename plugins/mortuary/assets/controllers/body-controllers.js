@@ -24,9 +24,6 @@ angular.module("EmmetBlue")
 	})	
 	.withButtons([
         {
-        	extend: ''
-        },
-        {
         	extend: 'print',
         	text: '<u>P</u>rint this data page',
         	key: {
