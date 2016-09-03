@@ -15,10 +15,10 @@ angular.module("EmmetBlue")
 
 	$scope.startWatching = false;
 	$scope.$watch(function(){
-		return utils.storage.billingType
+		return $scope.billingTypeId;
 	}, function(newValue){
+		newValue = JSON.parse(newValue);
 		$scope.billingType = newValue;
-
 		var billingTypeItems = utils.serverRequest('/accounts-biller/billing-type-items/view?resourceId='+newValue.BillingTypeID, 'GET');
 		billingTypeItems.then(function(response){
 			$scope.billingTypeItems = response;
