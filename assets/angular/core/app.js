@@ -160,6 +160,13 @@ angular.module('EmmetBlue', [
 	return services;
 })
 
+.directive("ngCurrencySymbol", function(){
+	return {
+		restrict: 'A',
+		template: '&#8358;'
+	}
+})
+
 .constant("CONSTANTS", getConstants())
 
 function determineRouteAvailability(url){
