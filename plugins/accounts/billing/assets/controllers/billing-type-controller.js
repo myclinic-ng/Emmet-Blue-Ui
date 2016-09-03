@@ -10,10 +10,10 @@ angular.module("EmmetBlue")
 
 				var dataOpt = "data-option-id='"+data.BillingTypeID+"' data-option-name='"+data.BillingTypeName+"' data-option-description='"+data.BillingTypeDescription+"'";
 
-				var editButton = "<button class='btn btn-default billing-type-btn' ng-click=\""+editButtonAction+"\" "+dataOpt+"> Edit</button>";
-				var deleteButton = "<button class='btn btn-default billing-type-btn' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> Delete</button>";
-				var viewButton = "<button class='btn btn-default'> View</button>";
-				var itemManagementButton = "<button class='btn btn-default billing-type-btn' ng-click=\""+itemManagementButtonAction+"\" "+dataOpt+"> Manage Items</button>";
+				var editButton = "<button class='btn btn-default billing-type-btn' ng-click=\""+editButtonAction+"\" "+dataOpt+"><i class='icon-pen'></i> Edit</button>";
+				var deleteButton = "<button class='btn btn-default billing-type-btn' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"><i class='icon-bin'></i> Delete</button>";
+				var viewButton = "<button class='btn btn-default'><i class='icon-eye'> </i> View</button>";
+				var itemManagementButton = "<button class='btn btn-default billing-type-btn' ng-click=\""+itemManagementButtonAction+"\" "+dataOpt+"><i class='icon-equalizer'></i> Manage Items</button>";
 
 				var buttons = "<div class='btn-group'>"+viewButton+editButton+deleteButton+itemManagementButton+"</button>";
 				return buttons;
@@ -149,7 +149,7 @@ angular.module("EmmetBlue")
     })
 	.withButtons([
 		{
-			text: '<i class="icon-file-empty"></i><u> N</u>ew billing type',
+			text: '<i class="icon-file-plus"></i> <u>N</u>ew billing type',
 			action: function(){
 				functions.manageBillingType.newBillingType();
 			},
@@ -161,7 +161,7 @@ angular.module("EmmetBlue")
 		},
         {
         	extend: 'print',
-        	text: '<u>P</u>rint this data page',
+        	text: '<i class="icon-printer"></i> <u>P</u>rint this data page',
         	key: {
         		key: 'p',
         		ctrlKey: false,
@@ -170,7 +170,7 @@ angular.module("EmmetBlue")
         },
         {
         	extend: 'copy',
-        	text: '<u>C</u>opy this data',
+        	text: '<i class="icon-copy"></i> <u>C</u>opy this data',
         	key: {
         		key: 'c',
         		ctrlKey: false,
