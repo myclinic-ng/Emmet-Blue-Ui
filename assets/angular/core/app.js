@@ -24,12 +24,6 @@ angular.module('EmmetBlue', [
 
 .config(function($routeProvider, $locationProvider){
 	$routeProvider
-<<<<<<< HEAD
-=======
-	.when('/', {
-		templateUrl:'/user/login',
-	})
->>>>>>> c11726a10c38d229942b3bc7d7cb68ce936f356e
 	.when('/:page*', {
 		templateUrl: function(url){
 			return determineRouteAvailability(url.page);
@@ -184,11 +178,7 @@ function getConstants(){
 		"TEMPLATE_DIR":"plugins/",
 		"MODULE_MENU_LOCATION":"assets/includes/menu.html",
 		"MODULE_HEADER_LOCATION":"assets/includes/header.html",
-<<<<<<< HEAD
 		"EMMETBLUE_SERVER":"http://127.0.0.1:420/Emmet-Blue-Api",
-=======
-		"EMMETBLUE_SERVER":"http://192.168.1.200:700/",
->>>>>>> c11726a10c38d229942b3bc7d7cb68ce936f356e
 		"EMMETBLUE_SERVER_VERSION":"v1",
 		"USER_COOKIE_IDENTIFIER":"_______"
 	};

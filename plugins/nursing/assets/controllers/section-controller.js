@@ -7,13 +7,13 @@ angular.module("EmmetBlue")
 		actionsMarkup: function(){
 			return "";
 		},
-		manageWard:{
-			newWard: function(){
-				$("#new-ward").modal("show");
+		manageSection:{
+			newSection: function(){
+				$("#new-section").modal("show");
 			},
-			newWardCreated: function(){
+			newSectionCreated: function(){
 				utils.alert('Operation Succesful', 'New Ward Created', 'success', 'notify');
-				$scope.newWard = {};
+				$scope.newSection = {};
 				$("#new-ward").modal("hide");
 			}
 		}
@@ -25,14 +25,14 @@ angular.module("EmmetBlue")
 
 	$scope.dtOptions = DTOptionsBuilder
 	.fromFnPromise(function(){
-		var consultationSheets = utils.serverRequest('/nursing/ward/view', 'GET');
-		return consultationSheets;
+		var wardSection = utils.serverRequest('/nursing/ward-section/view', 'GET');
+		return wardSection;
 	})
 	.withButtons([
 		{
-			text: '<u>N</u>ew  Ward',
+			text: '<u>N</u>ew  Section',
 			action: function(){
-				functions.manageWard.newWard();
+				functions.manageSection.newSection();
 			},
 			key : {
 				key: 'n',
@@ -60,18 +60,19 @@ angular.module("EmmetBlue")
         }
 	]);	
 	$scope.dtColumns = [
-		DTColumnBuilder.newColumn('WardID').withTitle('Ward ID'),
-		DTColumnBuilder.newColumn('WardName').withTitle('Ward Name'),
-		DTColumnBuilder.newColumn('WardDescription').withTitle('Ward Description'),
+		DTColumnBuilder.newColumn('WardSectionID').withTitle('Section ID'),
+		DTColumnBuilder.newColumn('WardSectionName').withTitle('Ward Name'),
+		DTColumnBuilder.newColumn('WardSectionDescription').withTitle('Ward Description'),
+		DTColumnBuilder.newColumn('WardID').withTitle('Ward'),
 		DTColumnBuilder.newColumn('CreatedDate').withTitle('Date Created'),
 		DTColumnBuilder.newColumn(null).withTitle('Action').notSortable().renderWith(functions.actionsMarkup)
 	];
 
-	$scope.saveNewWard = function(){
-		var newWard = $scope.wardRegistration
-		ward = utils.serverRequest('/nursing/ward/new', 'post', newWard);
+	$scope.saveNewSection = function(){
+		var newWard = $scope.sectionRegistration
+		ward = utils.serverRequest('/nursing/ward-section/new', 'post', newSection);
 		ward.then(function(response){
-			functions.manageWard.newWardCreated();
+			functions.manageSection.newSectionCreated();
 		}, function(responseObject){
 			utils.errorHandler(responseObject);
 		})
