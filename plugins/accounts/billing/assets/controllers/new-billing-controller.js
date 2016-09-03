@@ -88,7 +88,7 @@ angular.module("EmmetBlue")
 	$scope.addItemToList = function(){
 		var items = $scope.newBillingTypeItems;
 		var itemInfo = $scope.billingTypeItemsInfo[items.item];
-
+		
 		if (typeof items.quantity == 'undefined'){
 			items.quantity = 1;
 		}
