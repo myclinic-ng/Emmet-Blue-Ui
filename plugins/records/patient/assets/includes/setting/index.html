@@ -1,0 +1,31 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+<div>
+	<div id="setting_records_patient" class="modal fade">
+		<div class="modal-dialog modal-full">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title"> Settings <span class="pull-right mr-20">Billing</span></h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="tabbable">
+						<ul class="nav nav-pills nav-pills-bordered">
+							<li class="active"><a href="#manage-payment-types" data-toggle="tab">Manage Patient Types</a></li>
+						</ul>
+
+						<div class="tab-content">
+							<div class="tab-pane active" id="manage-billing-status">
+								<ng-include src="'plugins/accounts/billing/assets/includes/setting/manage-billing-status.html'"></ng-include>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
