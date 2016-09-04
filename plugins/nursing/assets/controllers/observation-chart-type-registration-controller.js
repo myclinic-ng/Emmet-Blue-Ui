@@ -11,19 +11,30 @@ angular.module("EmmetBlue")
 				$scope.type = response;
 				//console.log($scope.type.TypeName);
 				utils.alert('Operation Successful', 'The Registration of Type Name was completed successfully', 'success', 'both');
-			})
+				$scope.dtInstance.reloadData();
+				$('#new-observation-chart-title-type').modal('hide');
+			}, function(responseObject){
+			utils.errorHandler(responseObject);
+		})
 		}
 	})
 
 	.controller('viewObservationChartFieldTitleType', function($scope, utils, DTOptionsBuilder, DTColumnBuilder){	
+		$scope.dtInstance = {};
 	$scope.dtOptions = DTOptionsBuilder
 	.fromFnPromise(function(){
 		return utils.serverRequest('/nursing/observation-chart-field-title-type/view?resourceId=0', 'get', {});
 	})	
 	.withButtons([
+		{
+			text: '<i class="icon-file-plus"> </i> <u>N</u>ew Observation Type',
+			action: function(){
+				functions.newObservationChartType();
+			}
+		},
         {
         	extend: 'print',
-        	text: '<u>P</u>rint this data page',
+        	text: '<i class="icon-printer"></i> <u>P</u>rint this data page',
         	key: {
         		key: 'p',
         		ctrlKey: true,
@@ -32,7 +43,7 @@ angular.module("EmmetBlue")
         },
         {
         	extend: 'copy',
-        	text: '<u>C</u>opy this data',
+        	text: '<i class="icon-copy"></i> <u>C</u>opy this data',
         	key: {
         		key: 'c',
         		ctrlKey: true,
@@ -41,9 +52,9 @@ angular.module("EmmetBlue")
 	]);
 
 	$scope.dtColumns = [
-		DTColumnBuilder.newColumn('TypeID').withTitle('Body ID'),
-		DTColumnBuilder.newColumn('TypeName').withTitle('Body Tag'),
-		DTColumnBuilder.newColumn('TypeDescription').withTitle('Date Of Death'),
+		DTColumnBuilder.newColumn('TypeID').withTitle('ID'),
+		DTColumnBuilder.newColumn('TypeName').withTitle('Name'),
+		DTColumnBuilder.newColumn('TypeDescription').withTitle('Description'),
 		//DTColumnBuilder.newColumn('PlaceOfDeath').withTitle('Place Of Death'),
 		//DTColumnBuilder.newColumn('DeathPhysicianID').withTitle('Physician'),
 		//DTColumnBuilder.newColumn('DeathPhysicianID').withTitle('Physician'),
@@ -61,6 +72,11 @@ angular.module("EmmetBlue")
 
 		return markup;
 	};
+	var functions = {
+		newObservationChartType: function(){
+			$('#new-observation-chart-title-type').modal('show');
+		}
+	}
 
 });
 

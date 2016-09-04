@@ -67,11 +67,11 @@
 						<div class="row">
 							<div class="content-group col-sm-12">
 								<label>Ward Name</label>
-								<input type="text" class="form-control" name="wardname" ng-model="wardRegistration.wardName">
+								<input type="text" class="form-control" name="wardname" ng-model="temp.name  ">
 							</div>
 							<div class="content-group col-sm-12">
 								<label>Ward Description</label>
-								<textarea class="form-control" name="description" ng-model="wardRegistration.wardDescription"></textarea>
+								<textarea class="form-control" name="description" ng-model="temp.desc"></textarea>
 							</div>
 						</div>
 					</div>
@@ -79,8 +79,8 @@
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-link" type="submit" data-dismiss="modal" ng-click="newWard = {}">close</button>
-					<button class="btn btn-warning" type="submit" ng-click="saveNewWard()">Save</button>
+					<button class="btn btn-link" type="submit" data-dismiss="modal" ng-click="updateWard = {}">close</button>
+					<button class="btn btn-warning" type="submit" ng-click="updateWard()">Update</button>
 				</div>
 			</div>
 		</div>

@@ -10,10 +10,10 @@ angular.module("EmmetBlue")
 
 				var dataOpt = "data-option-id='"+data.DepartmentID+"' data-option-name='"+data.Name+"' data-option-group='"+data.GroupID+"'";
 
-				var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+dataOpt+"> Edit</button>";
-				var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> Delete</button>";
-				var viewButton = "<button class='btn btn-default'> View</button>";
-				var roleManagementButton = "<button class='btn btn-default' ng-click=\""+roleManagementButtonAction+"\" "+dataOpt+"> Manage Roles</button>";
+				var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+dataOpt+"><i class='icon-pencil5'></i> Edit</button>";
+				var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"><i class='icon-bin'></i> Delete</button>";
+				var viewButton = "<button class='btn btn-default'><i class='icon-eye'> </i> View</button>";
+				var roleManagementButton = "<button class='btn btn-default' ng-click=\""+roleManagementButtonAction+"\" "+dataOpt+"><i class='icon-equalizer'></i> Manage Roles</button>";
 
 				var buttons = "<div class='btn-group'>"+viewButton+editButton+deleteButton+roleManagementButton+"</button>";
 				return buttons;
@@ -163,7 +163,7 @@ angular.module("EmmetBlue")
     })
 	.withButtons([
 		{
-			text: '<u>N</u>ew department',
+			text: '<i class="icon-file-plus"> </i> <u>N</u>ew department',
 			action: function(){
 				functions.manageDepartment.newDepartment();
 			},
@@ -175,7 +175,7 @@ angular.module("EmmetBlue")
 		},
         {
         	extend: 'print',
-        	text: '<u>P</u>rint this data page',
+        	text: '<i class="icon-printer"></i> <u>P</u>rint this data page',
         	key: {
         		key: 'p',
         		ctrlKey: false,
@@ -184,7 +184,7 @@ angular.module("EmmetBlue")
         },
         {
         	extend: 'copy',
-        	text: '<u>C</u>opy this data',
+        	text: '<i class="icon-copy"></i> <u>C</u>opy this data',
         	key: {
         		key: 'c',
         		ctrlKey: false,
@@ -192,7 +192,7 @@ angular.module("EmmetBlue")
         	}
         },
         {
-        	text: '<u>M</u>anage the selected departments',
+        	text: '<i class="icon-equalizer2"></i> <u>M</u>anage the selected departments',
         	key: {
         		key: 'm',
         		ctrlKey: false,

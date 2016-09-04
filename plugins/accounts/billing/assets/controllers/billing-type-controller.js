@@ -10,7 +10,7 @@ angular.module("EmmetBlue")
 
 				var dataOpt = "data-option-id='"+data.BillingTypeID+"' data-option-name='"+data.BillingTypeName+"' data-option-description='"+data.BillingTypeDescription+"'";
 
-				var editButton = "<button class='btn btn-default billing-type-btn' ng-click=\""+editButtonAction+"\" "+dataOpt+"><i class='icon-pen'></i> Edit</button>";
+				var editButton = "<button class='btn btn-default billing-type-btn' ng-click=\""+editButtonAction+"\" "+dataOpt+"><i class='icon-pencil5'></i> Edit</button>";
 				var deleteButton = "<button class='btn btn-default billing-type-btn' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"><i class='icon-bin'></i> Delete</button>";
 				var viewButton = "<button class='btn btn-default'><i class='icon-eye'> </i> View</button>";
 				var itemManagementButton = "<button class='btn btn-default billing-type-btn' ng-click=\""+itemManagementButtonAction+"\" "+dataOpt+"><i class='icon-equalizer'></i> Manage Items</button>";

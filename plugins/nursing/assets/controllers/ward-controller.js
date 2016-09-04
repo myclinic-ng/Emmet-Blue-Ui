@@ -4,8 +4,14 @@ angular.module("EmmetBlue")
 
 .controller('wardController', function($scope,utils, DTOptionsBuilder, DTColumnBuilder){
 	var functions = {
-		actionsMarkup: function(){
-			return "";
+		actionsMarkup: function(meta, full, data){
+			var editButtonAction = "manageEditWard("+data.WardID+")";
+			var options = "data-option-id='"+data.WardID+"' data-option-ward-name='"+data.WardName+"' data-option-ward-desc='"+data.WardDescription+"'";
+			var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+options+"><i class='icon-pencil5'></i> Edit</button>";
+
+			var buttons = "<div class='btn-group'>"+editButton+"</button>";
+			
+			return buttons;
 		},
 		manageWard:{
 			newWard: function(){
@@ -16,20 +22,39 @@ angular.module("EmmetBlue")
 				$scope.newWard = {};
 				$scope.dtInstance.reloadData();
 				$("#new-ward").modal("hide");
+			},
+			editWard: function(id){
+				var name = $(".btn[data-option-id='"+id+"']").attr("data-option-ward-name");
+				var desc = $(".btn[data-option-id='"+id+"']").attr("data-option-ward-desc");
+				$scope.temp = {
+					name: name,
+					desc: desc
+				};
+				$("#edit-ward").modal("show");
 			}
 		}
 	}
 
 
 	$scope.dtInstance = {};
+	$scope.temp= {};
 	$scope.dtOptions = DTOptionsBuilder
 	.fromFnPromise(function(){
 		var ward = utils.serverRequest('/nursing/ward/view', 'GET');
 		return ward;
 	})
+	.withOption('createdRow', function(row, data, dataIndex){
+		utils.compile(angular.element(row).contents())($scope);
+	})
+	.withOption('headerCallback', function(header) {
+        if (!$scope.headerCompiled) {
+            $scope.headerCompiled = true;
+            utils.compile(angular.element(header).contents())($scope);
+        }
+    })
 	.withButtons([
 		{
-			text: '<u>N</u>ew  Ward',
+			text: '<i class="icon-file-plus"> </i> <u>N</u>ew  Ward',
 			action: function(){
 				functions.manageWard.newWard();
 			},
@@ -42,7 +67,7 @@ angular.module("EmmetBlue")
 		},
 		{
 	    	extend: 'print',
-	    	text: '<u>P</u>rint this data page',
+	    	text: '<i class="icon-printer"></i> <u>P</u>rint this data page',
 	    	key: {
 	    		key: 'p',
 	    		ctrlKey: true,
@@ -51,7 +76,7 @@ angular.module("EmmetBlue")
         },
         {
         	extend: 'copy',
-        	text: '<u>C</u>opy this data',
+        	text: '<i class="icon-copy"></i> <u>C</u>opy this data',
         	key: {
         		key: 'c',
         		ctrlKey: true,
@@ -62,7 +87,7 @@ angular.module("EmmetBlue")
 		DTColumnBuilder.newColumn('WardID').withTitle('Ward ID'),
 		DTColumnBuilder.newColumn('WardName').withTitle('Ward Name'),
 		DTColumnBuilder.newColumn('WardDescription').withTitle('Ward Description'),
-		DTColumnBuilder.newColumn('CreatedDate').withTitle('Date Created'),
+		//DTColumnBuilder.newColumn('CreatedDate').withTitle('Date Created'),
 		DTColumnBuilder.newColumn(null).withTitle('Action').notSortable().renderWith(functions.actionsMarkup)
 	];
 
@@ -75,4 +100,10 @@ angular.module("EmmetBlue")
 			utils.errorHandler(responseObject);
 		})
 	}
+
+	$scope.manageEditWard = function(id){
+		functions.manageWard.editWard(id);
+	}
+
+	$scope.functions = functions;
 })

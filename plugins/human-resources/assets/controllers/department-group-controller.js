@@ -9,9 +9,9 @@ angular.module("EmmetBlue")
 
 				var dataOpt = "data-option-id='"+data.DepartmentGroupID+"' data-option-name='"+data.GroupName+"'";
 
-				var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+dataOpt+"> Edit</button>";
-				var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> Delete</button>";
-				var viewButton = "<button class='btn btn-default'> View</button>";
+				var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+dataOpt+"><i class='icon-pencil5'></i> Edit</button>";
+				var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"><i class='icon-bin'></i> Delete</button>";
+				var viewButton = "<button class='btn btn-default'><i class='icon-eye'> </i> View</button>";
 
 				var buttons = "<div class='btn-group'>"+viewButton+editButton+deleteButton+"</button>";
 				return buttons;
@@ -145,7 +145,7 @@ angular.module("EmmetBlue")
     })
 	.withButtons([
 		{
-			text: '<u>N</u>ew department group',
+			text: '<i class="icon-file-plus"> </i> <u>N</u>ew department group',
 			action: function(){
 				functions.manageDepartmentGroup.newDepartmentGroup();
 			},
@@ -157,7 +157,7 @@ angular.module("EmmetBlue")
 		},
         {
         	extend: 'print',
-        	text: '<u>P</u>rint this data page',
+        	text: '<i class="icon-printer"></i> <u>P</u>rint this data page',
         	key: {
         		key: 'p',
         		ctrlKey: false,
@@ -166,7 +166,7 @@ angular.module("EmmetBlue")
         },
         {
         	extend: 'copy',
-        	text: '<u>C</u>opy this data',
+        	text: '<i class="icon-copy"></i> <u>C</u>opy this data',
         	key: {
         		key: 'c',
         		ctrlKey: false,
@@ -174,7 +174,7 @@ angular.module("EmmetBlue")
         	}
         },
         {
-        	text: '<u>D</u>elete the selected data',
+        	text: '<i class="icon-bin"></i> <u>D</u>elete the selected data',
         	key: {
         		key: 'd',
         		ctrlKey: false,

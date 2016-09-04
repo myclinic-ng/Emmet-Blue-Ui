@@ -20,4 +20,136 @@
 			</table>
 		</div>
 	</div>
+	<!---new body modal form-->
+	<div id="new-body-registration" class="modal fade" ng-controller="mortuaryBodyRegistrationController">
+		<div class="modal-dialog" style="width:60%;">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<div class="modal-title"> New Body</div>
+				</div>
+				<div class="modal-body">
+					<form role="form">
+						<div class="row">
+							<div class="form-group col-sm-3">
+								<label>
+								Body Tag <span class="text-danger">*</span></label>
+								<input type="text" class="form-control" name="tag" placeholder="Start typing to enter the body tag" ng-model="body.tag" ng-model-options="{ updateOn: 'blur' }" required>
+							</div>
+							<div class="form-group col-sm-3">
+								<label>Place Of Death</label>
+								<input type="text" class="form-control" name="placeOfDeath" placeholder="Start typing to enter the place of death" ng-model="body.placeOfDeath" ng-maxlength="100">
+							</div>
+							<div class="form-group col-sm-3">
+								<label>Date Of Death</label>
+								<input type="text" class="form-control" name="dateOfDeath" data-mask="99/99/9999" placeholder="Enter date" ng-model="body.dateOfDeath" required="required">
+								<span class="help-block"><i class="fa fa-info-circle"></i> Input Format: mm/dd/yyyy</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-sm-3">
+								<label>First Name</label>
+								<input type="text" class="form-control" name="firstName" placeholder="Enter First Name of Deceased" ng-model="body.firstName" required="required">
+							</div>
+							<div class="form-group col-sm-3">
+								<label>Other Names</label>
+								<input type="text" class="form-control" name="otherNames" placeholder="Enter Other Names of Deceased" ng-model="body.otherNames">
+							</div>
+							<div class="form-group col-sm-3">
+								<label>Date of Birth</label>
+								<input type="text" class="form-control" name="dateOfBirth" data-mask="99/99/9999" placeholder="Enter date of birth" ng-model="body.dateOfBirth" required>
+							<span class="help-block"><i class="fa fa-info-circle"></i> Input Format: mm/dd/yyyy</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-sm-3">
+								<label>Gender</label>
+								<select class="select" name="gender" ng-model="body.gender" required>
+								<option value="Male" selected>Male</option>
+								<option value="Female">Female</option>			
+							</select>
+							</div>
+						</div>
+						<legend class="text-semibold">Body depositor - Depositor Information</legend>
+						<div class="row">
+							<div class="form-group col-sm-3">
+								<label>First Name</label>
+								<input type="text" class="form-control" name="depositorFirstName" placeholder="Depositor First Name" ng-model="body.depositorFirstName" required>
+							</div>
+							<div class="form-group col-sm-3">
+								<label>Other Names</label>
+								<input type="text" class="form-control" name="depositorOtherNames" placeholder="Depositor Other Names" ng-model="body.depositorOtherNames">
+							</div>
+							<div class="form-group col-sm-3">
+								<label>Address</label>
+								<input type="text" class="form-control" name="depositorAddress" placeholder="Depositor address" ng-model="body.depositorAddress">
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-sm-3">
+								<label>Relationship</label>
+								<select class="select" name="depositorRelationshipType" ng-model="body.depositorRelationshipType" required>
+								<option value="Father" selected>-Select-</option>
+								<option value="Father">Father</option>
+								<option value="Mother">Mother</option>	
+								<option value="Sister">Sister</option>	
+								<option value="Brother">Brother</option>
+								<option value="Uncle">Uncle</option>
+								<option value="Aunt">Aunt</option>
+								<option value="Grandparent">Grandparent</option>
+								<option value="Niece">Niece</option>
+								<option value="Nephew">Nephew</option>				
+							</select>
+							</div>
+							<div class="form-group col-sm-3">
+								<label>Phone Number</label>
+								<input type="text" class="form-control" name="depositorPhoneNumber" placeholder="Start typing to enter Depositor's Phone Number" ng-model="body.depositorPhoneNumber" required>
+							</div>
+						</div>
+						<legend class="text-semibold">Next of Kin Information</legend>
+						<div class="row">
+							<div class="form-group col-sm-3">
+								<label>First Name</label>
+								<input type="text" class="form-control" name="nextofKinFirstName" placeholder="Next of Kin First Name" ng-model="body.nextOfKinFirstName" required>
+							</div>
+							<div class="form-group col-sm-3">
+								<label>Other Names</label>
+								<input type="text" class="form-control" name="nextOfKinOtherNames" placeholder="Next of Kin Other Names" ng-model="body.nextOfKinOtherNames">
+							</div>
+							<div class="form-group col-sm-3">
+								<label>Address</label>
+								<input type="text" class="form-control" name="nextOfKinAddress" placeholder="Next of Kin address" ng-model="body.nextOfKinAddress">
+							</div>
+						</div>
+						<div class="row">
+						<div class="form-group col-sm-3">
+							<label>Relationship</label>
+							<select class="select" name="nextOfKinRelationshipType" ng-model="body.nextOfKinRelationshipType" required>
+								<option value="Father" selected>Father</option>
+								<option value="Mother">Mother</option>	
+								<option value="Sister">Sister</option>	
+								<option value="Brother">Brother</option>
+								<option value="Uncle">Uncle</option>
+								<option value="Aunt">Aunt</option>
+								<option value="Grandparent">Grandparent</option>
+								<option value="Niece">Niece</option>
+								<option value="Nephew">Nephew</option>				
+
+							</select>
+						</div>
+							<div class="form-group col-sm-3">
+								<label>Phone Number</label>
+								<input type="text" class="form-control" name="nextOfKinPhoneNumber" placeholder="Start typing to enter Next of Kin Phone Number" ng-model="body.nextOfKinPhoneNumber" required>
+							</div>
+						</div>
+
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-link" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary stepy-finish ladda-button" data-style="expand-right" ng-click="submit()"><span class="ladda-label">Submit <i class="icon-check position-right"></i></span></button>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
