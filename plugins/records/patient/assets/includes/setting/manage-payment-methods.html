@@ -1,0 +1,67 @@
+<div ng-controller="accountsBillingSettingManagePaymentMethodsController">
+	<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
+		
+	</table>
+	
+	<div id="edit_setting_payment_method" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" onclick="$('#edit_setting_payment_method').modal('hide')">&times;</button>
+					<h6 class="modal-title">Edit Payment Methods</h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-12">
+								<label>Payment Method name</label>
+								<input type="text" class="form-control" ng-model="tempHolder.PaymentMethodName" data-option-id="{{tempHolder.statusId}}">
+							</div>
+							<div class="col-sm-12">
+								<label>Description</label>
+								<textarea cols="3" rows="3" class="form-control" ng-model="tempHolder.PaymentMethodDescription"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" ng-click="tempHolder = {}" onclick="$('#edit_setting_payment_method').modal('hide')">Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveEditPaymentMethod()">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="new_setting_payment_method" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" onclick="$('#new_setting_payment_method').modal('hide')">&times;</button>
+					<h6 class="modal-title">Create a new payment method</h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-12">
+								<label>Name</label>
+								<input type="text" class="form-control" ng-model="newPaymentMethod.name">
+							</div>
+							<div class="col-sm-12">
+								<label>Description</label>
+								<textarea cols="3" rows="3" class="form-control" ng-model="newPaymentMethod.description"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" ng-click="newPaymentMethod = {}" onclick="$('#new_setting_payment_method').modal('hide')">cancel</button>
+					<button type="button" class="btn btn-warning" ng-click="saveNewPaymentMethod()">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

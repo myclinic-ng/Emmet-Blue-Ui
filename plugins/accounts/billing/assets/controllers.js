@@ -10,7 +10,9 @@ head.load(controllersLocation+"billing-type-items-controller.js");
 head.load(controllersLocation+"new-billing-controller.js");
 head.load(controllersLocation+"new-payment-controller.js");
 head.load(controllersLocation+"manage-invoices-controller.js");
+head.load(controllersLocation+"manage-invoices/view-invoices-controller.js");
 
 
 head.load(controllersLocation+"invoice-template-directive.js");
 head.load(controllersLocation+"receipt-template-directive.js");
+head.load(controllersLocation+"manage-invoices/invoice-grid-directive.js");

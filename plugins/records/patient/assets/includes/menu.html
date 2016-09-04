@@ -25,7 +25,7 @@
 
 						<ul class="dropdown-menu dropdown-menu-right">
 							<li class="divider"></li>
-							<li><a href="#"><i class="icon-gear"></i> All settings</a></li>
+							<li><a href="#" data-toggle="modal" data-target="#setting_records_patient"><i class="icon-gear"></i> All settings</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -33,3 +33,7 @@
 </div>
 <!-- /second navbar -->
 <ng-include src="'plugins/records/patient/assets/includes/new-repository.html'"></ng-include>
+
+<!-- Settings Modal-->
+<ng-include src="'plugins/records/patient/assets/includes/setting/index.html'"></ng-include>
+<!--/Settings Modal-->
