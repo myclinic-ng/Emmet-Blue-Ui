@@ -24,6 +24,9 @@ angular.module('EmmetBlue', [
 
 .config(function($routeProvider, $locationProvider){
 	$routeProvider
+	.when('/', {
+		templateUrl:'/user/login',
+	})
 	.when('/:page*', {
 		templateUrl: function(url){
 			return determineRouteAvailability(url.page);
@@ -160,6 +163,13 @@ angular.module('EmmetBlue', [
 	return services;
 })
 
+.directive("ngCurrencySymbol", function(){
+	return {
+		restrict: 'A',
+		template: '&#8358;'
+	}
+})
+
 .constant("CONSTANTS", getConstants())
 
 function determineRouteAvailability(url){
@@ -178,7 +188,7 @@ function getConstants(){
 		"TEMPLATE_DIR":"plugins/",
 		"MODULE_MENU_LOCATION":"assets/includes/menu.html",
 		"MODULE_HEADER_LOCATION":"assets/includes/header.html",
-		"EMMETBLUE_SERVER":"http://127.0.0.1:420/Emmet-Blue-Api",
+		"EMMETBLUE_SERVER":"http://192.168.1.200:700/",
 		"EMMETBLUE_SERVER_VERSION":"v1",
 		"USER_COOKIE_IDENTIFIER":"_______"
 	};

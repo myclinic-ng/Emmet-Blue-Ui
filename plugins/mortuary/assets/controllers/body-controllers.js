@@ -43,7 +43,7 @@ angular.module("EmmetBlue")
 			alert(id);
 		}
 	}
-
+	
 
 	$scope.dtInstance = {};	
 	$scope.dtOptions = DTOptionsBuilder
