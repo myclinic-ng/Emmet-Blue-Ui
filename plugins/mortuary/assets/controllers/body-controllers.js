@@ -23,7 +23,7 @@ angular.module("EmmetBlue")
 .controller('mortuaryViewBodyController', function($scope, utils, DTOptionsBuilder, DTColumnBuilder){
 	var functions = {
 		actionsMarkup: function(meta, full, data){
-			var editButtonAction = "functions.manageBody.editBody("+data.BodyID+")";
+			var editButtonAction = "functions.editBody("+data.BodyID+")";
 
 			var options = "data-option-id='"+data.BodyID+"'";
 			var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+options+"><i class='icon-pencil5'></i> Edit</button>";
@@ -99,10 +99,6 @@ angular.module("EmmetBlue")
 
 	}
 	
-	$scope.manageEditBody = function(id){
-		console.log(id);
-		//functions.manageBody.editBody(id);
-	}
-	console.log(functions.actionsMarkup)
-//scope.functions = functions;
+	$scope.functions = functions;
+	//console.log($scope.functions)
 })
