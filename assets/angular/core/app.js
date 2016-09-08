@@ -178,7 +178,11 @@ function getConstants(){
 		"TEMPLATE_DIR":"plugins/",
 		"MODULE_MENU_LOCATION":"assets/includes/menu.html",
 		"MODULE_HEADER_LOCATION":"assets/includes/header.html",
+<<<<<<< HEAD
 		"EMMETBLUE_SERVER":"http://127.0.0.1:420/Emmet-Blue-Api",
+=======
+		"EMMETBLUE_SERVER":"http://192.168.173.1:700/",
+>>>>>>> c7e042bd9f83b517ab2fb7776ad717fc913e39d2
 		"EMMETBLUE_SERVER_VERSION":"v1",
 		"USER_COOKIE_IDENTIFIER":"_______"
 	};
