@@ -1,0 +1,37 @@
+<script src="assets/js/plugins/forms/wizards/stepy.min.js"></script>
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script src="assets/js/plugins/forms/styling/uniform.min.js"></script>
+<script src="plugins/mortuary/assets/js/wizard_stepy.js"></script>
+
+<div ng-controller="logOutBodyController as cntrller">
+	<div class="panel panel-white zoomIn" >
+		<div class="panel-heading">
+			<h6 class="panel-title">Registered Body Data Page</h6>
+			<div class="heading-elements">
+				<ul class="icons-list">
+	        		<li><a data-action="collapse"></a></li>
+	        		<li><a data-action="reload"></a></li>
+	        		<li><a data-action="close"></a></li>
+	        	</ul>
+	    	</div>
+		</div>
+		<div class="panel-body">
+			<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-bordered table-striped hover" cellpadding="0">
+			</table>
+		</div>
+	</div>
+
+	<!--view Body Modal-->
+	<div id="view-each-body" class="modal fade">
+		<div class=modal-dailog>
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<div class="modal-title">{{temp.fullName}}</div>
+					<div class="modal-body">{{temp.tag}}</div>
+					<div class="modal-footer">{{temp.gender}}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

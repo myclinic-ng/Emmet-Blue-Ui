@@ -1,0 +1,209 @@
+<div class="row" ng-controller="accountsBillingManageInvoicesController">
+	<div class="col-md-3">
+		<div class="sidebar sidebar-secondary sidebar-default">
+			<div class="sidebar-content">
+				<!-- Actions -->
+				<div class="sidebar-category">
+					<div class="category-title">
+						<span>Actions</span>
+						<ul class="icons-list">
+							<li><a href="#" data-action="collapse"></a></li>
+						</ul>
+					</div>
+
+					<div class="category-content">
+						<div class="row row-condensed">
+							<div class="col-xs-6">
+								<a href="#" type="button" class="btn bg-teal-400 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('new-invoice')"><i class="icon-file-plus"></i> <span>New invoice</span></a>
+								<a href="#" type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('view-archive')"><i class="icon-archive"></i> <span>Archive</span></a>
+							</div>
+							
+							<div class="col-xs-6">
+								<a type="button" class="btn bg-warning-400 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('view-statistics')"><i class="icon-stats-bars"></i> <span>Statistics</span></a>
+								<a type="button" class="btn bg-blue btn-block btn-float btn-float-lg" ng-click="loadPageSegment('load-settings')"><i class="icon-cog3"></i> <span>Settings</span></a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /actions -->
+
+
+				<!-- Navigation -->
+				<div class="sidebar-category">
+					<div class="category-title">
+						<span>Navigation</span>
+						<ul class="icons-list">
+							<li><a href="#" data-action="collapse"></a></li>
+						</ul>
+					</div>
+
+					<div class="category-content no-padding">
+						<ul class="navigation navigation-alt navigation-accordion">
+							<li class="navigation-header">Invoices</li>
+							<li><a href="#"><i class="icon-files-empty"></i> All invoices</a></li>
+							<li><a href="#"><i class="icon-file-plus"></i> Pending invoices <span class="badge badge-info">16</span></a></li>
+							<li><a href="#"><i class="icon-file-check"></i> Paid tasks <span class="badge badge-success">50</span></a></li>
+							<li class="navigation-divider"></li>
+							<li><a href="#"><i class="icon-cog3"></i> Settings</a></li>
+						</ul>
+					</div>
+				</div>
+				<!-- /navigation -->
+
+
+				<!-- Filter -->
+				<div class="sidebar-category">
+					<div class="category-title">
+						<span>Filter invoices</span>
+						<ul class="icons-list">
+							<li><a href="#" data-action="collapse"></a></li>
+						</ul>
+					</div>
+
+					<div class="category-content">
+						<form action="#">
+							<div class="form-group">
+								<label class="text-semibold">Amount range:</label>
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" class="styled">
+										<span ng-currency-symbol ng-currency="naira"></span>0 - <span ng-currency-symbol ng-currency="naira"></span>999
+									</label>
+								</div>
+
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" class="styled" checked="checked">
+										<span ng-currency-symbol ng-currency="naira"></span>1,000 - <span ng-currency-symbol ng-currency="naira"></span>1,999
+									</label>
+								</div>
+
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" class="styled">
+										<span ng-currency-symbol ng-currency="naira"></span>2,000 - <span ng-currency-symbol ng-currency="naira"></span>4,999
+									</label>
+								</div>
+
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" class="styled" checked="checked">
+										<span ng-currency-symbol ng-currency="naira"></span>5,000 - <span ng-currency-symbol ng-currency="naira"></span>9,999
+									</label>
+								</div>
+
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" class="styled" checked="checked">
+										<span ng-currency-symbol ng-currency="naira"></span>10,000 + 
+									</label>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="text-semibold">Payment method:</label>
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" class="styled">
+										Wire transfer
+									</label>
+								</div>
+
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" class="styled" checked="checked">
+										Paypal
+									</label>
+								</div>
+
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" class="styled">
+										Payoneer
+									</label>
+								</div>
+
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" class="styled" checked="checked">
+										Skrill
+									</label>
+								</div>
+
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" class="styled" checked="checked">
+										Cash
+									</label>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="text-semibold">Invoice status:</label>
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" class="styled">
+										Overdue
+									</label>
+								</div>
+
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" class="styled" checked="checked">
+										On hold
+									</label>
+								</div>
+
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" class="styled">
+										Pending
+									</label>
+								</div>
+
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" class="styled" checked="checked">
+										Paid
+									</label>
+								</div>
+
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" class="styled" checked="checked">
+										Invalid
+									</label>
+								</div>
+
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" class="styled">
+										Canceled
+									</label>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-xs-6">
+									<button type="reset" class="btn btn-default btn-block btn-xs">Reset</button>
+								</div>
+
+								<div class="col-xs-6">
+									<button type="submit" class="btn btn-info btn-block btn-xs">Filter</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<!-- /filter -->
+			</div>
+		</div>
+	</div>
+	<div class="col-md-9">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<ng-include src="pageSegment"></ng-include>
+			</div>
+		</div>
+	</div>
+</div>

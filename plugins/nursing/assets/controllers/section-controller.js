@@ -69,7 +69,7 @@ angular.module("EmmetBlue")
 	];
 
 	$scope.saveNewSection = function(){
-		var newWard = $scope.sectionRegistration
+		var newSection = $scope.sectionRegistration
 		ward = utils.serverRequest('/nursing/ward-section/new', 'post', newSection);
 		ward.then(function(response){
 			functions.manageSection.newSectionCreated();

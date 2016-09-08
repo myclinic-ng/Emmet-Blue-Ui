@@ -275,4 +275,48 @@
 			</div>
 		</div>
 	</div>
+
+	<!--view Body Modal-->
+    <div class="modal fade" id="view-each-body" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<div class="modal-title"> Body Info</div>
+				</div>
+                <div class="modal-body">
+                    <center>
+	                    
+	                    <h3 class="media-heading">{{temp.fullName}} <small>USA</small></h3>
+	                    <span><strong>Tags: </strong></span>
+	                        <span class="label label-warning">{{temp.tag}}</span>
+	                        <span class="label label-info">Date of Death: {{temp.dateOfDeath}}</span>
+	                        <span class="label label-info">Age: </span>
+                    </center>
+                    <hr>
+                    <center>
+	                    <legend class="text-semibold">Depositor's Details</legend>
+	                    <br>
+                    </center>
+	                    <p>Depositor Name: {{temp.depositorFullName}}</p>
+		                <p>Depositor Address: {{temp.depositorAddress}}</p>
+		                <p>Depositor Phone Number: {{temp.depositorPhoneNumber}}</p>
+		                <p>Depositor Relationship: {{temp.depositorRelationship}}</p>
+	                <center>
+                    <legend class="text-semibold">Next of Kin Details</legend>
+	                    <br>
+                    </center>
+                    	<p>Name: {{temp.nextOfKinFullName}}</p>
+		                <p>Address: {{temp.nextOfKinAddress}}</p>
+		                <p>Phone Number: {{temp.nextOfKinPhoneNumber}}</p>
+		                <p>Relationship: {{temp.nextOfKinRelationship}}</p>
+                </div>
+                <div class="modal-footer">
+                    <center>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

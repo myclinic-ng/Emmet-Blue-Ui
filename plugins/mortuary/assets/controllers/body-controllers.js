@@ -4,14 +4,11 @@ angular.module("EmmetBlue")
 	$scope.utils = utils;
 	
 	$scope.submit = function(){
-		//console.log($scope.body);
 		var body = utils.serverRequest('/mortuary/body/new', 'post', $scope.body);
-
 		body.then(function(response){
-			//console.log(response);
 			utils.alert('Operation Successful', 'The Registration of body number was completed successfully', 'success', 'both');
 			$scope.body = {};
-			//dtInstance = dtInstance.reloadData();
+			dtInstance = dtInstance.reloadData();
 			$('#new-body-registration').modal('hide');
 		}, function(error){
 			utils.errorHandler(error, true);
@@ -26,12 +23,14 @@ angular.module("EmmetBlue")
 			var editButtonAction = "functions.manageBody.editBody("+data.BodyID+")";
 			var viewButtonAction = "functions.manageBody.viewBody("+data.BodyID+")";
 			var deleteButtonAction = "functions.manageBody.deleteBody("+data.BodyID+")";
+			var logOutButton = "functions.manageBody.logOutBody("+data.BodyID+")"
 
 			var options = 
 				" data-option-id='"+data.BodyID+
 				"' data-option-tag='"+data.BodyTag+
 				"' data-option-place-of-death='"+data.PlaceOfDeath+
 				"' data-option-date-of-death='"+data.DateOfDeath+
+				"' data-option-body-status='"+data.BodyStatus+
 				"' data-option-date-of-birth='"+data.BodyDateOfBirth+
 				"' data-option-fullname='"+data.BodyFullName+
 				"' data-option-gender='"+data.BodyGender+
@@ -46,9 +45,10 @@ angular.module("EmmetBlue")
 				"' ";
 			var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+options+"><i class='icon-pencil5'></i> Edit</button>";
 
-			var viewButton = "<button class='btn btn-default' ng-click=\""+viewButtonAction+"\" "+options+"><i class='icon-eye'> </i> View</button>"
-			var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+options+"><i class='icon-bin'></i> Delete</button>"
-			var buttons = "<div class='btn-group'>"+viewButton+editButton+deleteButton+"</button>";
+			var viewButton = "<button class='btn btn-default' ng-click=\""+viewButtonAction+"\" "+options+"><i class='icon-eye'> </i> View</button>";
+			var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+options+"><i class='icon-bin'></i> Delete</button>";
+			var logOutButton = "<button class='btn btn-default' ng-click=\""+logOutButton+"\" "+options+">Log Out Body</button>";
+			var buttons = "<div class='btn-group'>"+viewButton+editButton+deleteButton+logOutButton+"</button>";
 			
 			return buttons;
 		},
@@ -60,6 +60,13 @@ angular.module("EmmetBlue")
 				utils.alert("Operation Successful", "The selected body has been deleted successfully", "success", "notify");
 				$scope.tempHolder = {};
 				delete  $scope._id;
+
+				$scope.dtInstance.reloadData();
+			},
+			bodyloggedOut:function(){
+				utils.alert("Operation Successful", "The selected body has been logged Out successfully", "success", "notify");
+				$scope.tempHolder = {};
+				//delete  $scope._id;
 
 				$scope.dtInstance.reloadData();
 			},
@@ -88,10 +95,10 @@ angular.module("EmmetBlue")
 			$('#edit-body-details').modal('show');
 		},
 		viewBody: function(id){
-			alert('view');
 			$scope.temp = {
 				bodyid:id,
 				tag: $(".btn[data-option-id='"+id+"']").attr("data-option-tag"),
+				bodyStatus: $(".btn[data-option-id='"+id+"']").attr("data-option-body-status"),
 				placeOfDeath:$(".btn[data-option-id='"+id+"']").attr("data-option-place-of-death"),
 				dateOfDeath:$(".btn[data-option-id='"+id+"']").attr("data-option-date-of-death"),
 				dateOfBirth:$(".btn[data-option-id='"+id+"']").attr("data-option-date-of-birth"),
@@ -105,9 +112,8 @@ angular.module("EmmetBlue")
 				depositorAddress:$(".btn[data-option-id='"+id+"']").attr("data-option-depositor-address"),
 				depositorRelationship:$(".btn[data-option-id='"+id+"']").attr("data-option-depositor-relationship"),
 				depositorPhoneNumber:$(".btn[data-option-id='"+id+"']").attr("data-option-depositor-phone-number")
-
-
 			};
+			$("#view-each-body").modal('show');
 			console.log($scope.temp);
 		},
 		deleteBody: function(id){
@@ -132,12 +138,30 @@ angular.module("EmmetBlue")
 
 				utils.confirm(title, text, close, callback, type, btnText);
 			},
+			logOutBody:function(id){
+				var title = "Log Out Prompt";
+				var text = "You are about to Log Out this body named "+$(".btn[data-option-id='"+id+"']").attr('data-option-fullName')+". Do you want to continue? Please note that this action cannot be undone";
+				var close = true;
+				$scope._id = id;
+				var callback = function(){
+					console.log($scope._id);
+					var data = {"resourceId":$scope._id}
+					var logOutRequest = utils.serverRequest('/mortuary/body/logoutbody', 'PUT', data);
+
+					logOutRequest.then(function(response){
+						functions.manageBody.bodyloggedOut();
+					}, function(responseObject){
+						utils.errorHandler(responseObject);
+					})
+				}
+				var type = "warning";
+				var btnText = "Log Out";
+
+				utils.confirm(title, text, close, callback, type, btnText);
+				
+			}
 		}
 	}
-<<<<<<< HEAD
-=======
-	
->>>>>>> 3099cf094ff74cace3f97b6a0a0fd57b69e15277
 
 	$scope.dtInstance = {};	
 	$scope.dtOptions = DTOptionsBuilder
@@ -155,14 +179,14 @@ angular.module("EmmetBlue")
     })
 	.withButtons([
 		{
-			text:'<u>N</u>ew Body',
+			text:'<i class="icon-user-plus"></i> <u>N</u>ew Body',
 			action:function(){
 				functions.manageBody.newBodyRegistration();
 			}
 		},
         {
         	extend: 'print',
-        	text: '<u>P</u>rint this data page',
+        	text: '<i class="icon-printer"></i> <u>P</u>rint this data page',
         	key: {
         		key: 'p',
         		ctrlKey: true,
@@ -171,14 +195,13 @@ angular.module("EmmetBlue")
         },
         {
         	extend: 'copy',
-        	text: '<u>C</u>opy this data',
+        	text: '<i class="icon-copy"></i> <u>C</u>opy this data',
         	key: {
         		key: 'c',
         		ctrlKey: true,
         	}
         }
 	]);
-
 	$scope.dtColumns = [
 		DTColumnBuilder.newColumn('BodyID').withTitle('Body ID'),
 		DTColumnBuilder.newColumn('BodyTag').withTitle('Body Tag'),
@@ -187,7 +210,17 @@ angular.module("EmmetBlue")
 		DTColumnBuilder.newColumn('DepositorFullName').withTitle('Depositor'),
 		DTColumnBuilder.newColumn('DepositorPhoneNumber').withTitle('Depositor Phone Number'),
 		DTColumnBuilder.newColumn('BodyNextOfKinFullName').withTitle('Next Of Kin'),
-		DTColumnBuilder.newColumn('BodyStatus').withTitle('status'),
+		DTColumnBuilder.newColumn(null).withTitle('<i class="icon-home"></i> Status').renderWith(function(meta, full, data){
+			if (data.BodyStatus == 0){
+				return "<div class='badge badge-success'>LOGGED OUT</div>";
+			}
+			else if (data.BodyStatus == 1){
+				return "<div class='badge badge-info'>LOGGED IN</div>";
+			}
+			else {
+				return "<div class='badge badge-danger'>UNKNOWN</div>";
+			}
+		}),
 		DTColumnBuilder.newColumn(null).withTitle('Action').notSortable().renderWith(functions.actionsMarkup)
 	];
 
@@ -201,8 +234,7 @@ angular.module("EmmetBlue")
 			BodyTag: $scope.temp.tag,
 			PlaceOfDeath: $scope.temp.plaeOfDeath,
 			DateOfDeath: $scope.temp.dateOfDeath,
-		};
-		var bodyInformation = {
+
 			BodyFullName: $scope.temp.bodyFullname,
 			BodyDateOfBirth: $scope.temp.dateOfBirth,
 			BodyGender: $scope.temp.gender,
@@ -210,22 +242,21 @@ angular.module("EmmetBlue")
 			BodyNextOfKinAddress:$scope.temp.nextOfKinAddress,
 			BodyNextOfKinRelationshipType:$scope.temp.nextOfKinRelationship,
 			BodyNextOfKinPhoneNumber: $scope.temp.nextOfKinPhoneNumber,
-		};
-		var depositorDetails = {
+
 			DepositorFullName: $scope.temp.depositorFullName,
 			DepositorAddress: $scope.depositorAddress,
 			DepositorRelationshipType:$scope.temp.depositorRelationship,
 			DepositorPhoneNumber: $scope.temp.depositorPhoneNumber
 		};
-		//console.log(edits);
-		var saveEditBody = utils.serverRequest('/mortuary/body/edit', 'PUT', body);
+		console.log(body);
+		/*var saveEditBody = utils.serverRequest('/mortuary/body/edit', 'PUT', body);
 		saveEditBody.then(function(response){
 			//alert('updated');
 			console.log(saveEditBody);
 			//functions.departmentEdited();
 		}, function(responseObject){
 			utils.errorHandler(responseObject);
-		})
+		})*/
 
 	}
 	

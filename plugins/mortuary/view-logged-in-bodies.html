@@ -1,0 +1,23 @@
+<script src="assets/js/plugins/forms/wizards/stepy.min.js"></script>
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script src="assets/js/plugins/forms/styling/uniform.min.js"></script>
+<script src="plugins/mortuary/assets/js/wizard_stepy.js"></script>
+
+<div ng-controller="logOutBodyController as cntrller">
+	<div class="panel panel-white zoomIn" >
+		<div class="panel-heading">
+			<h6 class="panel-title">Logged In Bodies</h6>
+			<div class="heading-elements">
+				<ul class="icons-list">
+	        		<li><a data-action="collapse"></a></li>
+	        		<li><a data-action="reload"></a></li>
+	        		<li><a data-action="close"></a></li>
+	        	</ul>
+	    	</div>
+		</div>
+		<div class="panel-body">
+			<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-bordered table-striped hover" cellpadding="0">
+			</table>
+		</div>
+	</div>
+</div>
