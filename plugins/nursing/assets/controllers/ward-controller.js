@@ -5,11 +5,13 @@ angular.module("EmmetBlue")
 .controller('wardController', function($scope,utils, DTOptionsBuilder, DTColumnBuilder){
 	var functions = {
 		actionsMarkup: function(meta, full, data){
-			var editButtonAction = "manageEditWard("+data.WardID+")";
+			var editButtonAction = "functions.manageWard.editWard("+data.WardID+")";
+			var deleteButtonAction = "functions.manageWard.deleteWard("+data.WardID+")";
+
 			var options = "data-option-id='"+data.WardID+"' data-option-ward-name='"+data.WardName+"' data-option-ward-desc='"+data.WardDescription+"'";
 			var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+options+"><i class='icon-pencil5'></i> Edit</button>";
-
-			var buttons = "<div class='btn-group'>"+editButton+"</button>";
+			var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+options+">Delete</button>"
+			var buttons = "<div class='btn-group'>"+editButton+deleteButton+"</button>";
 			
 			return buttons;
 		},
@@ -31,6 +33,35 @@ angular.module("EmmetBlue")
 					desc: desc
 				};
 				$("#edit-ward").modal("show");
+			},
+			wardDeleted:function(){
+				utils.alert("Operation Successful", "The selected ward has been deleted successfully", "success", "notify");
+				$scope.tempHolder = {};
+				delete  $scope._id;
+
+				$scope.dtInstance.reloadData();
+			},
+			deleteWard: function(id){
+				var title = "Delete Prompt";
+				var text = "You are about to delete this body named "+$(".btn[data-option-id='"+id+"']").attr('data-option-ward-name')+". Do you want to continue? Please note that this action cannot be undone";
+				var close = true;
+				$scope._id = id;
+				var callback = function(){
+					console.log($scope._id);
+					var deleteRequest = utils.serverRequest('/nursing/ward/delete?'+utils.serializeParams({
+						'resourceId': $scope._id
+					}), 'DELETE');
+
+					deleteRequest.then(function(response){
+						functions.manageWard.wardDeleted();
+					}, function(responseObject){
+						utils.errorHandler(responseObject);
+					})
+				}
+				var type = "warning";
+				var btnText = "Delete";
+
+				utils.confirm(title, text, close, callback, type, btnText);
 			}
 		}
 	}

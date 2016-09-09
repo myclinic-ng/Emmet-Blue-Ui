@@ -28,6 +28,15 @@ angular.module("EmmetBlue")
 		var wardSection = utils.serverRequest('/nursing/ward-section/view', 'GET');
 		return wardSection;
 	})
+	.withOption('createdRow', function(row, data, dataIndex){
+		utils.compile(angular.element(row).contents())($scope);
+	})
+	.withOption('headerCallback', function(header) {
+        if (!$scope.headerCompiled) {
+            $scope.headerCompiled = true;
+            utils.compile(angular.element(header).contents())($scope);
+        }
+    })
 	.withButtons([
 		{
 			text: '<i class="icon-file-plus"></i> <u>N</u>ew  Section',
