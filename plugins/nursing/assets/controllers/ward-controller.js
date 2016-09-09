@@ -43,11 +43,10 @@ angular.module("EmmetBlue")
 			},
 			deleteWard: function(id){
 				var title = "Delete Prompt";
-				var text = "You are about to delete this body named "+$(".btn[data-option-id='"+id+"']").attr('data-option-ward-name')+". Do you want to continue? Please note that this action cannot be undone";
+				var text = "You are about to delete this Ward named "+$(".btn[data-option-id='"+id+"']").attr('data-option-ward-name')+". Do you want to continue? Please note that this action cannot be undone";
 				var close = true;
 				$scope._id = id;
 				var callback = function(){
-					console.log($scope._id);
 					var deleteRequest = utils.serverRequest('/nursing/ward/delete?'+utils.serializeParams({
 						'resourceId': $scope._id
 					}), 'DELETE');
