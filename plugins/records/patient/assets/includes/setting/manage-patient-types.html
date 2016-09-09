@@ -1,0 +1,67 @@
+<div ng-controller="recordsPatientSettingManagePatientTypesCategoryController">
+	<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
+		
+	</table>
+	
+	<div id="edit_setting_records_patient" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" onclick="$('#edit_setting_records_patient').modal('hide')">&times;</button>
+					<h6 class="modal-title">Edit Billing Category</h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-12">
+								<label>Category name</label>
+								<input type="text" class="form-control" ng-model="tempHolder.CategoryName" data-option-id="{{tempHolder.categoryId}}">
+							</div>
+							<div class="col-sm-12">
+								<label>Description</label>
+								<textarea cols="3" rows="3" class="form-control" ng-model="tempHolder.CategoryDescription"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" ng-click="tempHolder = {}" onclick="$('#edit_setting_records_patient').modal('hide')">Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveEditCategory()">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="new_setting_records_patient" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" onclick="$('#new_setting_records_patient').modal('hide')">&times;</button>
+					<h6 class="modal-title">Create a new patient type</h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-12">
+								<label>Category name</label>
+								<input type="text" class="form-control" ng-model="newCategory.name">
+							</div>
+							<div class="col-sm-12">
+								<label>Description</label>
+								<textarea cols="3" rows="3" class="form-control" ng-model="newCategory.description"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" ng-click="newCategory = {}" onclick="$('#new_setting_records_patient').modal('hide')">cancel</button>
+					<button type="button" class="btn btn-warning" ng-click="saveNewCategory()">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

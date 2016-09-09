@@ -7,6 +7,24 @@ angular.module("EmmetBlue")
 		take_snapshot: false,
 		snapshot_taken: false
 	};
+	$scope.statesInNigeria = {};
+	$scope.lgasInState = {};
+
+	utils.loadNigeriaData().then(function(response){
+		$scope.statesInNigeria = response;
+	}, function(response){
+		utils.errorHandler(response);
+	});
+
+	$scope.loadLGAs = function(){
+		var state = $scope.newPatient['State Of Origin'];
+		for (var i = 0, numOfStates = ($scope.statesInNigeria).length; i < numOfStates; i++){
+			if ($scope.statesInNigeria[i].state.name == state){
+				$scope.lgasInState = $scope.statesInNigeria[i].state.locals;
+				return;
+			}
+		}
+	}
 
 	$scope.eDisablers = function(option){
 		switch(option){
@@ -197,6 +215,7 @@ angular.module("EmmetBlue")
   		$scope.newPatient.patientPassport = $("#passport").attr("src");
 
   		var data = $scope.newPatient;
+		data.patientName = $scope.newPatient['First Name'] + " " + $scope.newPatient['Last Name'];
 
   		var submitData = utils.serverRequest("/patients/patient/new", "POST", data);
 

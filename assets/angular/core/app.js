@@ -65,6 +65,19 @@ angular.module('EmmetBlue', [
 		$location.url($location.path());
 	};
 
+	services.loadNigeriaData = function(){
+		var defer = $q.defer();
+		var data = $http.get("assets/angular/core/data/nigerian-states-lgas.json").then(function(response){
+			defer.resolve(response.data);
+			return defer.promise;
+		}, function(response){
+			defer.reject(response);
+			return defer.promise;
+		});
+
+		return data;
+	}
+
 	services.notify = function(title, text, type){
 	     new PNotify({
             title: title,

@@ -134,11 +134,7 @@ angular.module("EmmetBlue")
 			},
 		}
 	}
-<<<<<<< HEAD
-=======
 	
->>>>>>> 3099cf094ff74cace3f97b6a0a0fd57b69e15277
-
 	$scope.dtInstance = {};	
 	$scope.dtOptions = DTOptionsBuilder
 	.fromFnPromise(function(){
