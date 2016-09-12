@@ -9,6 +9,8 @@ angular.module("EmmetBlue")
 	};
 	$scope.statesInNigeria = {};
 	$scope.lgasInState = {};
+	$scope.patientTypes = {};
+	$scope.patientCategories = {};
 
 	utils.loadNigeriaData().then(function(response){
 		$scope.statesInNigeria = response;
@@ -26,6 +28,31 @@ angular.module("EmmetBlue")
 		}
 	}
 
+	$scope.loadPatientTypes = function(categoryId){
+		var requestData = utils.serverRequest("/patients/patient-type/view-by-category?resourceId="+categoryId, "GET");
+		requestData.then(function(response){
+			$scope.patientTypes = response;
+		}, function(responseObject){
+			utils.errorHandler(responseObject);
+		});
+	}
+
+
+	$scope.loadPatientCategories = function(){
+		var requestData = utils.serverRequest("/patients/patient-type-category/view", "GET");
+		requestData.then(function(response){
+			$scope.patientCategories = response;
+		}, function(responseObject){
+			utils.errorHandler(responseObject);
+		});
+	}
+
+	$scope.$watch("patientCategory", function(newValue, oldValue){
+		$scope.loadPatientTypes(newValue);
+	})
+
+	$scope.loadPatientCategories();
+	$scope.loadPatientTypes();
 	$scope.eDisablers = function(option){
 		switch(option){
 			case "enable":{
@@ -212,10 +239,11 @@ angular.module("EmmetBlue")
 	}
 	
 	$scope.submit = function(){
-  		$scope.newPatient.patientPassport = $("#passport").attr("src");
+  		//$scope.newPatient.patientPassport = $("#passport").attr("src");
 
   		var data = $scope.newPatient;
 		data.patientName = $scope.newPatient['First Name'] + " " + $scope.newPatient['Last Name'];
+		console.log(data);
 
   		var submitData = utils.serverRequest("/patients/patient/new", "POST", data);
 

@@ -1,6 +1,8 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
 <div ng-controller="accountsBillingBillingTypeItemsController">
 	<div id="billing_type_items" class="modal fade">
-		<div class="modal-dialog modal-lg">
+		<div class="modal-dialog modal-full">
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -22,7 +24,7 @@
 	</div>
 	<!-- New Billing Type Items -->
 	<div id="new_billing_type_items" class="modal fade">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -37,73 +39,35 @@
 									<label>Item Name</label>
 									<input type="text" class="form-control" ng-model="newBillingTypeItems.name">
 								</div>
-								<div class="col-sm-12">
-									<label>Item Price</label>
-									<input type="number" class="form-control" ng-model="newBillingTypeItems.price">
-								</div>
-								<div class="col-sm-12">
-									<label>Rate</label>
-									<select class="select" ng-model="newBillingTypeItems.rate">
-										<option value="">Not rate based</option>
-										<option value="day">Daily</option>
-										<option value="hour">Hourly</option>
-										<option value="month">Monthly</option>
-										<option value="year">Yearly</option>
-									</select>
-								</div>
 								<div class="col-sm-12 mt-15">
-									<label class="btn btn-clear" ng-click="advancedFormToggleState = !advancedFormToggleState"> <i class="icon-shuffle"></i> Show interval-based form for this item (advanced)</label>
-								</div>
-
-								<div class="col-md-12" ng-show="advancedFormToggleState">
-									<fieldset class="well">
-										<div class="form-group col-md-4">
-											<label class="control-label">Interval</label>
-											<input type="number" class="form-control" ng-model="interval.interval"/>
-										</div>
-										<div class="form-group col-md-4">
-											<label class="control-label">Interval Type</label>
-											<select class="select" ng-model="interval.type">
-												<option value=""></option>
-												<option value="geometric">Geometric</option>
-												<option value="multiplicative">Multiplicative</option>
-												<option value="additive">Additive</option>
-												<option value="custom">Custom</option>
-											</select>
-										</div>
-										<div class="form-group col-md-4">
-											<label class="control-label">Increment Value</label>
-											<input type="number" class="form-control" ng-model="interval.increment"/>
-										</div>
-										<div class="form-group col-md-6 pull-right">
-											<button class="btn btn-primary" ng-click="addIntervalToList()">Add</button>
-										</div>
-									</fieldset>
-
-									<table class="table table-responsive table-hover table-striped table-condensed table-bordered">
-										<thead>
-											<tr>
-												<th>Interval</th>
-												<th>Type</th>
-												<th>Increment Value</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr ng-repeat="interval in newBillingTypeItems.interval">
-												<th>{{$index+1}}</th>
-												<th>{{interval.interval}}</th>
-												<th>{{interval.type}}</th>
-												<th>{{interval.increment}}</th>
-											</tr>
-										</tbody>
-									</table>
+									<button class="btn btn-clear center" data-toggle="modal" data-target="#new_billing_type_item_payment_structure">Add price structure</button>
 								</div>
 							</div>
 						</div>
 					</form>
+					<div class="table-responsive col-md-12">
+						<table class="table table-striped table-hover col-md-10">
+							<thead>
+								<tr>
+									<th>Patient Category/Type</th>
+									<th>Price (<span ng-currency></span>)</th>
+									<th>Rate</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="structure in newBillingTypeItems.priceStructures">
+									<th>
+										<a class="btn btn-clear" ng-repeat="type in structure.patientTypes">{{patientTypeCheckboxNames[type]}}</a>
+									</th>
+									<th><span ng-currency></span> {{structure.price}}</th>
+									<th>{{structure.rate}}</th>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
 
-				<div class="modal-footer">
+				<div class="modal-footer mt-30">
 					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="newBillingTypeItems = {}">Close</button>
 					<button type="button" class="btn btn-warning" ng-click="saveNewBillingTypeItems()">Save changes</button>
 				</div>
@@ -111,6 +75,116 @@
 		</div>
 	</div>
 	<!--/ New Billing Type Items  -->
+
+	<div id="new_billing_type_item_payment_structure" class="modal fade">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Create new price structure</h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="col-sm-5">
+							<label>Patient Category/Type </label>
+							<select class="select" ng-model="patientTypeSelector">
+								<option ng-repeat="category in patientCategories" value="{{category.CategoryID}}">{{category.CategoryName}}</option>
+							</select>
+							<div style="height:300px !important; overflow-y: scroll">
+								<table class="table table-condensed table-striped">
+									<thead>
+										<tr>
+											<th><input class="form-control" type="checkbox" ng-model="allPatientTypeCheckboxToggler" ng-click="toggleAllPatientTypeCheckbox()"/></th>
+											<th>Patient Type</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="type in patientTypes">
+											<td><input class="form-control" type="checkbox" ng-model="patientTypeCheckbox[type.PatientTypeID]" ng-click="patientTypeCheckboxNames[type.PatientTypeID] = type.PatientTypeName"/></td>
+											<td>{{type.PatientTypeName}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="col-md-7">
+							<div class="col-sm-6">
+								<label>Item Price</label>
+								<div class="input-group">
+									<span class="input-group-addon" ng-currency></span>
+									<input type="number" class="form-control" ng-model="priceStructure.price"/>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<label>Rate</label>
+								<select class="select" ng-model="priceStructure.rate">
+									<option value="">Not rate based</option>
+									<option value="Daily">Daily</option>
+									<option value="Hourly">Hourly</option>
+									<option value="Monthly">Monthly</option>
+									<option value="Yearly">Yearly</option>
+								</select>
+							</div>
+							<div class="col-sm-12 mt-15">
+								<label class="btn btn-clear" ng-click="advancedFormToggleState = !advancedFormToggleState"> <i class="icon-shuffle"></i> Advanced</label>
+							</div>
+							<div class="col-md-12" ng-show="advancedFormToggleState">
+								<fieldset class="well">
+									<div class="form-group col-md-4">
+										<label class="control-label">Interval</label>
+										<input type="number" class="form-control" ng-model="interval.interval"/>
+									</div>
+									<div class="form-group col-md-4">
+										<label class="control-label">Interval Type</label>
+										<select class="select" ng-model="interval.type">
+											<option value=""></option>
+											<option value="geometric">Geometric</option>
+											<option value="multiplicative">Multiplicative</option>
+											<option value="additive">Additive</option>
+											<option value="custom">Custom</option>
+										</select>
+									</div>
+									<div class="form-group col-md-4">
+										<label class="control-label">Increment Value</label>
+										<input type="number" class="form-control" ng-model="interval.increment"/>
+									</div>
+									<div class="form-group col-md-6 pull-right">
+										<button class="btn btn-primary" ng-click="addIntervalToList()">Add</button>
+									</div>
+								</fieldset>
+
+								<table class="table table-responsive table-hover table-striped table-condensed table-bordered">
+									<thead>
+										<tr>
+											<th></th>
+											<th>Interval</th>
+											<th>Type</th>
+											<th>Increment Value</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="interval in priceStructure.interval">
+											<th>{{$index+1}}</th>
+											<th>{{interval.interval}}</th>
+											<th>{{interval.type}}</th>
+											<th>{{interval.increment}}</th>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<div class="col-sm-12 mt-15">
+						<label class="btn btn-default" ng-click="addPriceStructureToBillingList()"> <i class="icon-save"></i> Add to list</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- Edit Billing Type Items-->
 	<div id="edit_billing_type_items" class="modal fade">

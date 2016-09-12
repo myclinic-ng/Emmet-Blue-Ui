@@ -41,6 +41,10 @@
 								<label>Ward Description</label>
 								<textarea class="form-control" name="description" ng-model="sectionRegistration.sectionDescription"></textarea>
 							</div>
+							<div class="content-group col-sm-12 pt-2">
+								<label>Ward</label>
+								<select class="select" ng-model="sectionRegistration.wardId" ng-options="departmentGroup.DepartmentGroupID as departmentGroup.GroupName for departmentGroup in departmentGroups"></select>
+							</div>
 						</div>
 					</div>
 						

@@ -10,15 +10,15 @@ angular.module("EmmetBlue")
 
 				var dataOpt = "data-option-id='"+data.CategoryID+"' data-option-name='"+data.CategoryName+"' data-option-description='"+data.CategoryDescription+"'";
 
-				var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+dataOpt+"> Edit</button>";
-				var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> Delete</button>";
+				var editButton = "<button class='btn btn-patient-type-category btn-default' ng-click=\""+editButtonAction+"\" "+dataOpt+"> Edit</button>";
+				var deleteButton = "<button class='btn btn-patient-type-category btn-default' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> Delete</button>";
 
-				var buttons = "<div class='btn-category'>"+editButton+deleteButton+"</button>";
+				var buttons = "<div class='btn-group'>"+editButton+deleteButton+"</div>";
 				return buttons;
 			}
 		}
 	}
-	$scope.dtOptions = utils.DT.optionsBuilder.fromFnPromise(function(){
+	$scope.categorydtOptions = utils.DT.optionsBuilder.fromFnPromise(function(){
 		var request = utils.serverRequest('/patients/patient-type-category/view', 'GET');
 
 		return request;
@@ -36,10 +36,10 @@ angular.module("EmmetBlue")
     })
 	.withButtons([
 		{
-			text: 'New Patient Type',
+			text: 'New Category',
 			action: function(){
 				$scope.newCategory = {};
-				$("#new_setting_records_patient").modal("show");
+				$("#new_setting_records_patient_category").modal("show");
 			}
 		},
         {
@@ -52,35 +52,32 @@ angular.module("EmmetBlue")
         }
     ]);
 
-	$scope.dtColumns = [
+	$scope.categorydtColumns = [
 		utils.DT.columnBuilder.newColumn('CategoryName').withTitle("Category"),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(functions.actionMarkups.categoryActionMarkup).withOption('width', '25%').notSortable()
+		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(functions.actionMarkups.categoryActionMarkup).withOption('wicategorydth', '25%').notSortable()
 	]
 
-	$scope.dtInstance = {};
+	$scope.categorydtInstance = {};
 
 	function reloadTable(){
-		$scope.dtInstance.reloadData();
+		$scope.categorydtInstance.reloadData();
 	}
 	$scope.tempHolder = {};
 
 	$scope.editCategory = function(categoryId){
-		$scope.tempHolder.CategoryName = $(".btn[data-option-id='"+categoryId+"']").attr('data-option-name');
-		$scope.tempHolder.CategoryDescription = $(".btn[data-option-id='"+categoryId+"']").attr('data-option-description');
+		$scope.tempHolder.CategoryName = $(".btn-patient-type-category[data-option-id='"+categoryId+"']").attr('data-option-name');
+		$scope.tempHolder.CategoryDescription = $(".btn-patient-type-category[data-option-id='"+categoryId+"']").attr('data-option-description');
 		$scope.tempHolder.resourceId = categoryId;
 
-		console.log($scope.tempHolder);
-
-		$("#edit_setting_records_patient").modal("show");
+		$("#edit_setting_records_patient_category").modal("show");
 	}
 
 	$scope.deleteCategory = function(categoryId){
 		var title = "Delete Prompt";
-		var text = "You are about to delete the category named "+$(".btn[data-option-id='"+categoryId+"']").attr('data-option-name')+". Do you want to continue? Please note that this action cannot be undone";
+		var text = "You are about to delete the category named "+$(".btn-patient-type-category[data-option-id='"+categoryId+"']").attr('data-option-name')+". Do you want to continue? Please note that this action cannot be undone";
 		var close = true;
 		$scope._categoryId = categoryId;
 		var callback = function(){
-			console.log($scope._categoryId);
 			var deleteRequest = utils.serverRequest('/patients/patient-type-category/delete?'+utils.serializeParams({
 				'resourceId': $scope._categoryId
 			}), 'DELETE');
@@ -106,7 +103,7 @@ angular.module("EmmetBlue")
 
 		request.then(function(response){
 			utils.alert("Operation Successful", "Your changes has been saved successfully", "success", "notify");
-			$("#edit_setting_records_patient").modal("hide");
+			$("#edit_setting_records_patient_category").modal("hide");
 			reloadTable();
 		}, function(responseObject){
 			utils.errorHandler(responseObject);
@@ -115,12 +112,11 @@ angular.module("EmmetBlue")
 
 	$scope.saveNewCategory = function(){
 		var data = $scope.newCategory;
-		
 		var request = utils.serverRequest('/patients/patient-type-category/new', 'POST', data);
 
 		request.then(function(response){
 			utils.alert("Operation Successful", "You have successfully creaed a new category", "success", "notify");
-			$("#new_setting_records_patient").modal("hide");
+			$("#new_setting_records_patient_category").modal("hide");
 			reloadTable();
 		}, function(responseObject){
 			utils.errorHandler(responseObject);

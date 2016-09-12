@@ -10,7 +10,8 @@ var css = [
 	"assets/css/ribbon.css",
 	"assets/css/datatables/angular-datatables.css",
 	"assets/css/datatables/buttons.dataTables.css",
-	"assets/css/datatables/fixedHeader.dataTables.css"
+	"assets/css/datatables/fixedHeader.dataTables.css",
+	"assets/js/plugins/sliders/slick/slick.css"
 ];
 
 var jquery = {"jquery": "assets/js/core/libraries/jquery.min.js"};

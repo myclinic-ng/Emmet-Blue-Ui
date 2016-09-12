@@ -16,6 +16,35 @@ angular.module("EmmetBlue")
 		}
 	})
 
+	$scope.patientCategories = {};
+	$scope.patientTypes = {};
+	$scope.patientTypeCheckbox = [];
+	$scope.patientTypeCheckboxNames = [];
+	$scope.loadPatientCategories = function(){
+		var requestData = utils.serverRequest("/patients/patient-type-category/view", "GET");
+		requestData.then(function(response){
+			$scope.patientCategories = response;
+		}, function(responseObject){
+			utils.errorHandler(responseObject);
+		});
+	}
+
+	$scope.loadPatientTypes = function(categoryId){
+		var requestData = utils.serverRequest("/patients/patient-type/view-by-category?resourceId="+categoryId, "GET");
+		requestData.then(function(response){
+			$scope.patientTypes = response;
+		}, function(responseObject){
+			utils.errorHandler(responseObject);
+		});
+	}
+
+
+	$scope.loadPatientCategories();
+
+	$scope.$watch("patientTypeSelector", function(newValue, oldValue){
+		$scope.loadPatientTypes(newValue);
+	});
+
 	var functions = {
 		actionMarkups: {
 			billingTypeItemsActionMarkup: function (data, type, full, meta){
@@ -56,7 +85,9 @@ angular.module("EmmetBlue")
 		manageBillingTypeItems: {
 			newBillingTypeItems: function(){
 				$scope.newBillingTypeItems = {};
-				$scope.newBillingTypeItems.interval = [];
+				$scope.newBillingTypeItems.priceStructures = [];
+				$scope.priceStructure = {};
+				$scope.priceStructure.interval = [];
 				$("#new_billing_type_items").modal("show");
 			},
 			editBillingTypeItems: function(id){
@@ -65,7 +96,6 @@ angular.module("EmmetBlue")
 				$scope.tempHolder.rate = $(".billing-type-items-btn[data-option-id='"+id+"']").attr('data-option-rate');
 				$scope.tempHolder.id = id;
 
-				console.log($scope.tempHolder);
 				$("#edit_billing_type_items").modal("show");
 			},
 			deleteBillingTypeItems: function(id){
@@ -100,11 +130,35 @@ angular.module("EmmetBlue")
 		$scope.advancedFormToggleState = !$scope.advancedFormToggleState;
 	}
 
+	$scope.toggleAllPatientTypeCheckbox = function(){	
+		angular.forEach($scope.patientTypes, function(patientType){
+			var id = patientType.PatientTypeID;
+			$scope.patientTypeCheckbox[id] = $scope.allPatientTypeCheckboxToggler;
+			$scope.patientTypeCheckboxNames[id] = patientType.PatientTypeName;
+		})
+	}
+
 	$scope.addIntervalToList = function(){
 		var interval = $scope.interval;
 		$scope.interval = {};
 
-		$scope.newBillingTypeItems.interval.push(interval);
+		$scope.priceStructure.interval.push(interval);
+	}
+
+	$scope.addPriceStructureToBillingList = function(){
+		$scope.priceStructure.patientTypes = [];
+		for (var type in $scope.patientTypeCheckbox){
+			if (!$scope.patientTypeCheckbox[type]){
+				delete $scope.patientTypeCheckbox[type];
+			}
+			else {
+				$scope.priceStructure.patientTypes.push(type);
+			}
+		}
+		$scope.newBillingTypeItems.priceStructures.push($scope.priceStructure);
+		$scope.priceStructure = {};
+		$scope.patientTypeCheckbox = [];
+		$("#new_billing_type_item_payment_structure").modal("hide");
 	}
 
 	$scope.ddtInstance = {};
@@ -136,10 +190,9 @@ angular.module("EmmetBlue")
 	]);	
 
 	$scope.ddtColumns = [
-		utils.DT.columnBuilder.newColumn('BillingTypeItemID').withTitle("ID").withOption('width', '0.5%').notSortable(),
+		utils.DT.columnBuilder.newColumn('BillingTypeItemID').withTitle("S/N").withOption('width', '0.5%').notSortable(),
 		utils.DT.columnBuilder.newColumn('BillingTypeItemName').withTitle("Item Name"),
-		utils.DT.columnBuilder.newColumn('BillingTypeItemPrice').withTitle("Item Name"),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(functions.actionMarkups.billingTypeItemsActionMarkup).withOption('width', '25%').notSortable()
+		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(functions.actionMarkups.billingTypeItemsActionMarkup).withOption('width', '40%').notSortable()
 	];
 
 	$scope.tempHolder = {};
@@ -151,24 +204,9 @@ angular.module("EmmetBlue")
 	$scope.saveNewBillingTypeItems = function(){
 		var newBillingTypeItems = $scope.newBillingTypeItems;
 
-		var data = {
-			billingTypeItemName:newBillingTypeItems.name,
-			billingTypeItemPrice:""+newBillingTypeItems.price,
-			billingType:""+$scope.billingTypeItems
-		};
+		newBillingTypeItems.billingType = $scope.billingTypeItems;
 
-		if (newBillingTypeItems.rate == "" || typeof newBillingTypeItems.rate == 'undefined'){
-			data['rateBased'] = 0;
-		}
-		else
-		{
-			data['rateBased'] = 1;
-			data['intervalBased'] = 1;
-			data['rateIdentifier'] = newBillingTypeItems.rate;
-			data['interval'] = newBillingTypeItems.interval;
-		}
-		console.log(data);
-		var saveNewBillingTypeItems = utils.serverRequest('/accounts-biller/billing-type-items/new', 'POST', data);
+		var saveNewBillingTypeItems = utils.serverRequest('/accounts-biller/billing-type-items/new', 'POST', newBillingTypeItems);
 
 		saveNewBillingTypeItems.then(function(response){
 			functions.newBillingTypeItemsCreated();

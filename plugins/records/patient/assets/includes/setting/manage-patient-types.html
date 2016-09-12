@@ -1,4 +1,6 @@
-<div ng-controller="recordsPatientSettingManagePatientTypesCategoryController">
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+<div ng-controller="recordsPatientSettingManagePatientTypesController">
 	<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
 		
 	</table>
@@ -8,19 +10,19 @@
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
 					<button type="button" class="close" onclick="$('#edit_setting_records_patient').modal('hide')">&times;</button>
-					<h6 class="modal-title">Edit Billing Category</h6>
+					<h6 class="modal-title">Edit Billing PatientType</h6>
 				</div>
 
 				<div class="modal-body">
 					<div class="form-group">
 						<div class="row">
 							<div class="col-sm-12">
-								<label>Category name</label>
-								<input type="text" class="form-control" ng-model="tempHolder.CategoryName" data-option-id="{{tempHolder.categoryId}}">
+								<label>PatientType name</label>
+								<input type="text" class="form-control" ng-model="tempHolder.PatientTypeName" data-option-id="{{tempHolder.patientTypeId}}">
 							</div>
 							<div class="col-sm-12">
 								<label>Description</label>
-								<textarea cols="3" rows="3" class="form-control" ng-model="tempHolder.CategoryDescription"></textarea>
+								<textarea cols="3" rows="3" class="form-control" ng-model="tempHolder.PatientTypeDescription"></textarea>
 							</div>
 						</div>
 					</div>
@@ -28,7 +30,7 @@
 
 				<div class="modal-footer">
 					<button type="button" class="btn btn-link" ng-click="tempHolder = {}" onclick="$('#edit_setting_records_patient').modal('hide')">Close</button>
-					<button type="button" class="btn btn-warning" ng-click="saveEditCategory()">Save changes</button>
+					<button type="button" class="btn btn-warning" ng-click="saveEditPatientType()">Save changes</button>
 				</div>
 			</div>
 		</div>
@@ -46,20 +48,26 @@
 					<div class="form-group">
 						<div class="row">
 							<div class="col-sm-12">
-								<label>Category name</label>
-								<input type="text" class="form-control" ng-model="newCategory.name">
+								<label>PatientType name</label>
+								<input type="text" class="form-control" ng-model="newPatientType.patientTypeName">
+							</div>
+							<div class="col-sm-12">
+								<label>Category</label>
+								<select class="select" ng-model="newPatientType.patientTypeCategory">
+									<option ng-repeat="category in patientTypeCategories" value="{{category.CategoryName}}">{{category.CategoryName}}</option>
+								</select>
 							</div>
 							<div class="col-sm-12">
 								<label>Description</label>
-								<textarea cols="3" rows="3" class="form-control" ng-model="newCategory.description"></textarea>
+								<textarea cols="3" rows="3" class="form-control" ng-model="newPatientType.patientTypeDescription"></textarea>
 							</div>
 						</div>
 					</div>
 				</div>
 
 				<div class="modal-footer">
-					<button type="button" class="btn btn-link" ng-click="newCategory = {}" onclick="$('#new_setting_records_patient').modal('hide')">cancel</button>
-					<button type="button" class="btn btn-warning" ng-click="saveNewCategory()">Save changes</button>
+					<button type="button" class="btn btn-link" ng-click="newPatientType = {}" onclick="$('#new_setting_records_patient').modal('hide')">cancel</button>
+					<button type="button" class="btn btn-warning" ng-click="saveNewPatientType()">Save changes</button>
 				</div>
 			</div>
 		</div>

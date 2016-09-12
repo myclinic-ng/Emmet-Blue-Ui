@@ -1,6 +1,7 @@
 angular.module("EmmetBlue")
 
 .controller("recordsPatientSettingManagePatientTypesController", function($scope, utils){
+
 	var functions = {
 		actionMarkups:{
 			categoryActionMarkup: function(data, type, full, meta){
@@ -9,14 +10,24 @@ angular.module("EmmetBlue")
 
 				var dataOpt = "data-option-id='"+data.PatientTypeID+"' data-option-name='"+data.PatientTypeName+"' data-option-description='"+data.PatientTypeDescription+"'";
 
-				var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+dataOpt+"> Edit</button>";
-				var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> Delete</button>";
+				var editButton = "<button class='btn btn-patient-type btn-default' ng-click=\""+editButtonAction+"\" "+dataOpt+"> Edit</button>";
+				var deleteButton = "<button class='btn btn-patient-type btn-default' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> Delete</button>";
 
 				var buttons = "<div class='btn-category'>"+editButton+deleteButton+"</button>";
 				return buttons;
 			}
+		},
+		loadPatientTypeCategories: function(){
+			var sendRequest = utils.serverRequest('/patients/patient-type-category/view', 'GET');
+			sendRequest.then(function(response){
+				$scope.patientTypeCategories = response;
+			}, function(responseObject){
+				utils.errorHandler(responseObject);
+			});
 		}
 	}
+
+	functions.loadPatientTypeCategories();
 	$scope.dtOptions = utils.DT.optionsBuilder.fromFnPromise(function(){
 		var request = utils.serverRequest('/patients/patient-type/view', 'GET');
 
@@ -68,8 +79,6 @@ angular.module("EmmetBlue")
 		$scope.tempHolder.PatientTypeDescription = $(".btn[data-option-id='"+categoryId+"']").attr('data-option-description');
 		$scope.tempHolder.resourceId = categoryId;
 
-		console.log($scope.tempHolder);
-
 		$("#edit_setting_records_patient").modal("show");
 	}
 
@@ -79,7 +88,6 @@ angular.module("EmmetBlue")
 		var close = true;
 		$scope._categoryId = categoryId;
 		var callback = function(){
-			console.log($scope._categoryId);
 			var deleteRequest = utils.serverRequest('/patients/patient-type/delete?'+utils.serializeParams({
 				'resourceId': $scope._categoryId
 			}), 'DELETE');
@@ -114,6 +122,9 @@ angular.module("EmmetBlue")
 
 	$scope.saveNewPatientType = function(){
 		var data = $scope.newPatientType;
+
+		console.log(data);
+		
 		
 		var request = utils.serverRequest('/patients/patient-type/new', 'POST', data);
 

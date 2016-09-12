@@ -24,9 +24,6 @@ angular.module('EmmetBlue', [
 
 .config(function($routeProvider, $locationProvider){
 	$routeProvider
-	.when('/', {
-		templateUrl:'/user/login',
-	})
 	.when('/:page*', {
 		templateUrl: function(url){
 			return determineRouteAvailability(url.page);
@@ -39,6 +36,8 @@ angular.module('EmmetBlue', [
 
 	$locationProvider.html5Mode(true);
 })
+
+.directive()
 
 .factory("utils", function(
 	$rootScope,
@@ -165,7 +164,7 @@ angular.module('EmmetBlue', [
 	services.compile = $compile;
 
 	services.storage = $localStorage;
-
+	
 	services.restServer = CONSTANTS.EMMETBLUE_SERVER+CONSTANTS.EMMETBLUE_SERVER_VERSION;
 
 	services.DT = {
@@ -176,10 +175,9 @@ angular.module('EmmetBlue', [
 	return services;
 })
 
-.directive("ngCurrencySymbol", function(){
+.directive("ngCurrency", function(){
 	return {
-		restrict: 'A',
-		template: '&#8358;'
+		template: '&#8358'
 	}
 })
 

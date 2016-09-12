@@ -11,16 +11,16 @@
 
 				<div class="modal-body">
 					<div class="tabbable">
-						<ul class="nav nav-pills">
-							<li class="active"><a href="#manage-payment-types" data-toggle="tab">Manage Patient Types</a></li>
-							<li class="active"><a href="#manage-payment-types-category" data-toggle="tab">Manage Patient Types Categories</a></li>
+						<ul class="nav nav-pills nav-bordered">
+							<li class="active"><a href="#manage-patient-types" data-toggle="tab">Manage Patient Types</a></li>
+							<li><a href="#manage-patient-types-category" data-toggle="tab">Manage Patient Types Categories</a></li>
 						</ul>
 
 						<div class="tab-content">
-							<div class="tab-pane active" id="manage-payment-types-category">
+							<div class="tab-pane active" id="manage-patient-types">
 								<ng-include src="'plugins/records/patient/assets/includes/setting/manage-patient-types.html'"></ng-include>
 							</div>
-							<div class="tab-pane" id="manage-payment-types-category">
+							<div class="tab-pane" id="manage-patient-types-category">
 								<ng-include src="'plugins/records/patient/assets/includes/setting/manage-patient-types-category.html'"></ng-include>
 							</div>
 						</div>
