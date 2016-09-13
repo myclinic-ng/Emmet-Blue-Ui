@@ -43,7 +43,9 @@
 							</div>
 							<div class="content-group col-sm-12 pt-2">
 								<label>Ward</label>
-								<select class="select" ng-model="sectionRegistration.wardId" ng-options="departmentGroup.DepartmentGroupID as departmentGroup.GroupName for departmentGroup in departmentGroups"></select>
+								<select class="select" name="wardId" ng-model="sectionRegistration.wardId">
+									<option ng-repeat="wards in sectionWards" value="{{wards.WardID}}">{{wards.WardName}}</option>
+								</select>
 							</div>
 						</div>
 					</div>
@@ -71,11 +73,18 @@
 						<div class="row">
 							<div class="content-group col-sm-12">
 								<label>Section Name</label>
-								<input type="text" class="form-control" name="wardname" ng-model="sectionRegistration.sectionName">
+								<input type="text" class="form-control" name="wardname" ng-model="temp.sectionName">
 							</div>
 							<div class="content-group col-sm-12">
 								<label>Section Description</label>
-								<textarea class="form-control" name="description" ng-model="sectionRegistration.sectionDescription"></textarea>
+								<textarea class="form-control" name="description" ng-model="temp.sectionDescription"></textarea>
+							</div>
+							<div class="content-group col-sm-12 pt-2">
+								<label>Ward</label>
+								<select class="select" name="wardId" ng-model="temp.wardId">
+								<option value="temp.wardId" selected="">{{temp.wardName}}</option>
+									<option ng-repeat="wards in sectionWards" value="{{wards.WardID}}">{{wards.WardName}}</option>
+								</select>
 							</div>
 						</div>
 					</div>

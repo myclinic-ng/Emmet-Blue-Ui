@@ -37,8 +37,6 @@ angular.module('EmmetBlue', [
 	$locationProvider.html5Mode(true);
 })
 
-.directive()
-
 .factory("utils", function(
 	$rootScope,
 	$location,
@@ -164,7 +162,7 @@ angular.module('EmmetBlue', [
 	services.compile = $compile;
 
 	services.storage = $localStorage;
-	
+
 	services.restServer = CONSTANTS.EMMETBLUE_SERVER+CONSTANTS.EMMETBLUE_SERVER_VERSION;
 
 	services.DT = {

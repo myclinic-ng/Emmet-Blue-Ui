@@ -161,6 +161,10 @@ angular.module("EmmetBlue")
 		$("#new_billing_type_item_payment_structure").modal("hide");
 	}
 
+	$scope.removePriceStructure = function(id){
+		$scope.newBillingTypeItems.priceStructures.splice(id, 1);
+	}
+
 	$scope.ddtInstance = {};
 
 	$scope.ddtOptions = utils.DT.optionsBuilder

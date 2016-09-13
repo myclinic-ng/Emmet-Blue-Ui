@@ -52,6 +52,7 @@
 									<th>Patient Category/Type</th>
 									<th>Price (<span ng-currency></span>)</th>
 									<th>Rate</th>
+									<th>Action</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -61,6 +62,7 @@
 									</th>
 									<th><span ng-currency></span> {{structure.price}}</th>
 									<th>{{structure.rate}}</th>
+									<th class="btn-group"><a href="#" class="btn btn-clear" ng-click="removePriceStructure($index)"><i class="icon-bin"></i> Remove </a></th>
 								</tr>
 							</tbody>
 						</table>

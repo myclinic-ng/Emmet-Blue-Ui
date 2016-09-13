@@ -87,105 +87,34 @@ angular.module("EmmetBlue")
 	$scope.priceTotal = 0;
 	$scope.addItemToList = function(){
 		var items = $scope.newBillingTypeItems;
-		var itemInfo = $scope.billingTypeItemsInfo[items.item];
-		
-		if (typeof items.quantity == 'undefined'){
-			items.quantity = 1;
-		}
+		var patient = $scope.patient;
+		console.log(items, $scope.billingTypeItems);
 
-		var qty = items.quantity;
+		var requestPrice = utils.serverRequest(
+			"/accounts-biller/get-item-price/calculate?resourceId="+patient+"&item="+items.item+"&quantity="+items.quantity,
+			"GET"
+		);
 
-		if (itemInfo.IntervalBased == '1'){
-			var id = itemInfo.BillingTypeItemID;
-			var intervalRequest = utils.serverRequest("/accounts-biller/billing-type-items/view-item-intervals?resourceId="+id, 'GET');
-			intervalRequest.then(function(response){
-				var price = parseFloat(itemInfo.BillingTypeItemPrice);
-				var totalPrice = 0;
-				angular.forEach(response, function(value){
-					var intervalCounter = parseInt(value.Interval);
-					var intervalType = value.IntervalIncrementType;
-					var intervalIncrement = parseFloat(value.IntervalIncrement);
+		requestPrice.then(function(response){
+			$scope.priceTotal += response.totalPrice;
+			$scope.newBillingTypeItems;
+			var data = {
+				itemName: $scope.billingTypeItems[0].BillingTypeItemName,
+				itemCode: $scope.newBillingTypeItems.item,
+				itemQuantity: $scope.newBillingTypeItems.quantity,
+				itemPrice: response.totalPrice
+			}
 
-					if (items.quantity > 0){
-						switch(intervalType){
-							case "additive":{
-								var numberOfCounterDivision = items.quantity / intervalCounter;
-								var numberOfCounterModulus = items.quantity % intervalCounter;
-								for (var i = 1; i < numberOfCounterDivision; i++){
-									price += intervalIncrement;
-									totalPrice += price * intervalCounter;
-								}
+			$scope.itemList.push(data);
+			$scope.newBillingTypeItems = {}
+		}, function(response){
+			utils.errorHandler(response);
+		})
+	}
 
-								price += intervalIncrement;
-								totalPrice += price * numberOfCounterModulus;
-
-								break;
-							}
-							case "multiplicative":{
-								var numberOfCounterDivision = items.quantity / intervalCounter;
-								var numberOfCounterModulus = items.quantity % intervalCounter;
-								for (var i = 1; i < numberOfCounterDivision; i++){
-									price *= intervalIncrement;
-									totalPrice += price * intervalCounter;
-								}
-
-								price *= intervalIncrement;
-								totalPrice += price * numberOfCounterModulus;
-
-								break;
-							}
-							case "geometric":{
-								var numberOfCounterDivision = items.quantity / intervalCounter;
-								var numberOfCounterModulus = items.quantity % intervalCounter;
-								for (var i = 1; i < numberOfCounterDivision; i++){
-									price *= price;
-									totalPrice += price * intervalCounter;
-								}
-
-								price *= price;
-								totalPrice += price * numberOfCounterModulus;
-
-								break;
-							}
-							case "custom":{
-								if (items.quantity < intervalCounter){
-									intervalCounter = items.quantity;
-								}
-								price += intervalIncrement;
-								totalPrice += price * intervalCounter;
-
-								items.quantity = items.quantity - intervalCounter;
-								break;
-							}
-						}
-					}
-				});
-
-				$scope.priceTotal += totalPrice;
-				$scope.itemList.push({
-					'itemName':itemInfo.BillingTypeItemName,
-					'itemQuantity':qty,
-					'itemPrice':totalPrice
-				})
-
-				$scope.newBillingTypeItems = {};
-			}, function(responseObject){
-				utils.errorHandler(responseObject);
-			});
-		}
-		else
-		{
-			price = parseFloat(itemInfo.BillingTypeItemPrice) * items.quantity;
-
-			$scope.priceTotal += price;
-			$scope.itemList.push({
-				'itemName':itemInfo.BillingTypeItemName,
-				'itemQuantity':items.quantity,
-				'itemPrice':price
-			})
-
-			$scope.newBillingTypeItems = {};
-		}
+	$scope.removeFromItemList = function(id, data){
+		$scope.priceTotal -= data.itemPrice;
+		$scope.itemList.splice(id, 1);
 	}
 
 	$scope.showRateQuantity = false;
