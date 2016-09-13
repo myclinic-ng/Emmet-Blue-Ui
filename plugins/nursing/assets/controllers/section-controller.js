@@ -15,9 +15,15 @@ angular.module("EmmetBlue")
 							"' data-option-section-ward-id='"+data.WardID+
 							"' data-option-section-ward-name='"+data.WardName+
 							"' ";
+<<<<<<< HEAD
 			var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+options+"><i class='icon-pencil5'></i> Edit</button>";
 			var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\""+options+"><i class='icon-bin'></i> Delete</button>"
 			var bedManagementButton = "<button class='btn btn-default' ng-click=\""+bedManagementButtonAction+"\""+options+"><i icon-bed></i> Manage Beds</button>";
+=======
+			var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+options+"><i class='icon-pencil5'></i> </button>";
+			var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\""+options+"><i class='icon-bin'></i> </button>"
+			var bedManagementButton = "<button class='btn btn-default' ng-click=\""+bedManagementButtonAction+"\""+options+"><i icon-bed></i> Manage Beds</button>"
+>>>>>>> e6e187131cad89cb647c5a64dd1321df6170eced
 			return "<div class='btn-group'>"+editButton+deleteButton+bedManagementButton+"</div>";
 		},
 		manageSection:{
@@ -27,7 +33,7 @@ angular.module("EmmetBlue")
 			newSectionCreated: function(){
 				utils.alert('Operation Succesful', 'New Ward Created', 'success', 'notify');
 				$scope.newSection = {};
-				$scope.dtInstance.reloadData();
+				$scope.sectionDtInstance.reloadData();
 				$("#new-section").modal("hide");
 			},
 			editSection: function(id){
@@ -47,7 +53,7 @@ angular.module("EmmetBlue")
 			sectionEdited: function(){
 			utils.alert("Operation Successful", "Your changes have been saved successfully", "success", "notify");
 			$scope.tempHolder = {};
-			$scope.dtInstance.reloadData();
+			$scope.sectionDtInstance.reloadData();
 			$("#edit-section").modal("hide");
 			},
 			sectionDeleted:function(){
@@ -55,7 +61,7 @@ angular.module("EmmetBlue")
 				$scope.tempHolder = {};
 				delete  $scope._id;
 
-				$scope.dtInstance.reloadData();
+				$scope.sectionDtInstance.reloadData();
 			},
 			deleteSection: function(id){
 				var title = "Delete Prompt";
@@ -101,8 +107,8 @@ angular.module("EmmetBlue")
 
 
 	functions.loadWard();
-	$scope.dtInstance = {};
-	$scope.dtOptions = DTOptionsBuilder
+	$scope.sectionDtInstance = {};
+	$scope.sectionDtOptions = DTOptionsBuilder
 	.fromFnPromise(function(){
 		var wardSection = utils.serverRequest('/nursing/ward-section/view', 'GET');
 		return wardSection;
@@ -147,7 +153,7 @@ angular.module("EmmetBlue")
         	}
         }
 	]);	
-	$scope.dtColumns = [
+	$scope.sectionDtColumns = [
 		DTColumnBuilder.newColumn('WardSectionID').withTitle('Section ID'),
 		DTColumnBuilder.newColumn('WardSectionName').withTitle('Section Name'),
 		DTColumnBuilder.newColumn('WardSectionDescription').withTitle('Section Description'),

@@ -7,11 +7,18 @@ angular.module("EmmetBlue")
 		actionsMarkup: function(meta, full, data){
 			var editButtonAction = "functions.manageWard.editWard("+data.WardID+")";
 			var deleteButtonAction = "functions.manageWard.deleteWard("+data.WardID+")";
+			var manageSectionsButtonAction = "functions.manageWard.manageSections()";
 
 			var options = "data-option-id='"+data.WardID+"' data-option-ward-name='"+data.WardName+"' data-option-ward-desc='"+data.WardDescription+"'";
 			var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+options+"><i class='icon-pencil5'></i> Edit</button>";
+<<<<<<< HEAD
 			var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+options+">Delete</button>";
 			var buttons = "<div class='btn-group'>"+editButton+deleteButton+"</button>";
+=======
+			var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+options+"><i class='icon-bin'></i> Delete</button>";
+			var manageSectionsButton = "<button class='btn btn-default' ng-click=\""+manageSectionsButtonAction+"\" "+options+"><i class=''></i> Manage Sections</button>"
+			var buttons = "<div class='btn-group'>"+editButton+deleteButton+manageSectionsButton+"</button>";
+>>>>>>> e6e187131cad89cb647c5a64dd1321df6170eced
 			
 			return buttons;
 		},
@@ -34,6 +41,9 @@ angular.module("EmmetBlue")
 					desc: desc
 				};
 				$("#edit-ward").modal("show");
+			},
+			manageSections: function(){
+				$("#manage-sections").modal("show");
 			},
 			wardEdited: function(){
 				utils.alert("Operation Successful", "Your changes have been saved successfully", "success", "notify");

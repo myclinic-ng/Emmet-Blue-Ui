@@ -3,7 +3,7 @@
 <script src="assets/js/plugins/forms/styling/uniform.min.js"></script>
 <script src="plugins/mortuary/assets/js/wizard_stepy.js"></script>
 
-<div ng-controller="wardController as cntrller">
+<div ng-controller="wardController">
 	<div class="panel panel-white zoomIn" >
 		<div class="panel-heading">
 			<h6 class="panel-title">Manage Wards</h6>
@@ -16,7 +16,7 @@
 	    	</div>
 		</div>
 		<div class="panel-body">
-			<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-bordered table-striped hover" cellpadding="0">
+			<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
 			</table>
 		</div>
 	</div>
@@ -81,6 +81,20 @@
 				<div class="modal-footer">
 					<button class="btn btn-link" type="submit" data-dismiss="modal" ng-click="updateWard = {}">close</button>
 					<button class="btn btn-warning" type="submit" ng-click="saveEditWard()">Update</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="manage-sections" class="modal fade">
+		<div class="modal-dialog modal-full">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<div class="modal-title"> Manage Sections</div>
+				</div>
+				<div class="modal-body">
+					<ng-include src="'plugins/nursing/section-management.html'"></ng-include>
 				</div>
 			</div>
 		</div>
