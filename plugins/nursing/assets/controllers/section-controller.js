@@ -7,6 +7,7 @@ angular.module("EmmetBlue")
 		actionsMarkup: function(meta, full, data){
 			var editButtonAction = "functions.manageSection.editSection("+data.WardSectionID+")";
 			var deleteButtonAction = "functions.manageSection.deleteSection("+data.WardSectionID+")";
+			var bedManagementButtonAction = "functions.manageSection.bedManagement("+data.WardSectionID+")";
 
 			var options = "data-option-id='"+data.WardSectionID+
 							"' data-option-section-name='"+data.WardSectionName+
@@ -16,7 +17,8 @@ angular.module("EmmetBlue")
 							"' ";
 			var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+options+"><i class='icon-pencil5'></i> Edit</button>";
 			var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\""+options+"><i class='icon-bin'></i> Delete</button>"
-			return "<div class='btn-group'>"+editButton+deleteButton+"</div>";
+			var bedManagementButton = "<button class='btn btn-default' ng-click=\""+bedManagementButtonAction+"\""+options+"><i icon-bed></i> Manage Beds</button>"
+			return "<div class='btn-group'>"+editButton+deleteButton+bedManagementButton+"</div>";
 		},
 		manageSection:{
 			newSection: function(){
@@ -25,6 +27,7 @@ angular.module("EmmetBlue")
 			newSectionCreated: function(){
 				utils.alert('Operation Succesful', 'New Ward Created', 'success', 'notify');
 				$scope.newSection = {};
+				$scope.dtInstance.reloadData();
 				$("#new-section").modal("hide");
 			},
 			editSection: function(id){
@@ -33,12 +36,19 @@ angular.module("EmmetBlue")
 				var sectionWardId = $(".btn[data-option-id='"+id+"']").attr('data-option-section-ward-id');
 				var wardName = $(".btn[data-option-id='"+id+"']").attr('data-option-section-ward-name');
 				$scope.temp = {
+					id:id,
 					sectionName: sectionName,
 					sectionDescription: sectionDesc,
 					wardId: sectionWardId,
 					wardName:wardName
 				};
 				$("#edit-section").modal('show');
+			},
+			sectionEdited: function(){
+			utils.alert("Operation Successful", "Your changes have been saved successfully", "success", "notify");
+			$scope.tempHolder = {};
+			$scope.dtInstance.reloadData();
+			$("#edit-section").modal("hide");
 			},
 			sectionDeleted:function(){
 				utils.alert("Operation Successful", "The selected ward has been deleted successfully", "success", "notify");
@@ -67,6 +77,15 @@ angular.module("EmmetBlue")
 				var btnText = "Delete";
 
 				utils.confirm(title, text, close, callback, type, btnText);
+			},
+			bedManagement: function(id){
+				var data = {
+					name: $(".btn[data-option-id='"+id+"']").attr('data-option-section-name'),
+					id: id
+				}
+
+				utils.storage.bedManagementData = data;
+				$("#bed-management").modal("show");
 			}
 		},
 		loadWard: function(){
@@ -130,8 +149,8 @@ angular.module("EmmetBlue")
 	]);	
 	$scope.dtColumns = [
 		DTColumnBuilder.newColumn('WardSectionID').withTitle('Section ID'),
-		DTColumnBuilder.newColumn('WardSectionName').withTitle('Ward Name'),
-		DTColumnBuilder.newColumn('WardSectionDescription').withTitle('Ward Description'),
+		DTColumnBuilder.newColumn('WardSectionName').withTitle('Section Name'),
+		DTColumnBuilder.newColumn('WardSectionDescription').withTitle('Section Description'),
 		DTColumnBuilder.newColumn('WardName').withTitle('Ward'),
 		DTColumnBuilder.newColumn('CreatedDate').withTitle('Date Created'),
 		DTColumnBuilder.newColumn(null).withTitle('Action').notSortable().renderWith(functions.actionsMarkup)
@@ -139,15 +158,29 @@ angular.module("EmmetBlue")
 
 	$scope.saveNewSection = function(){
 		var newSection = $scope.sectionRegistration
-		console.log(newSection);
+		//console.log(newSection);
 		ward = utils.serverRequest('/nursing/ward-section/new', 'post', newSection);
 		ward.then(function(response){
 			functions.manageSection.newSectionCreated();
-			$scope.dtInstance.reloadData();
 		}, function(responseObject){
 			utils.errorHandler(responseObject);
 		})
 	}
+	$scope.saveEditSection = function(){
+		var edits = {
+			resourceId: $scope.temp.id,
+			WardID: $scope.temp.wardId,
+			WardSectionName: $scope.temp.sectionName,
+			WardSectionDescription: $scope.temp.sectionDescription
+		}
+		var saveEdits = utils.serverRequest('/nursing/ward-section/edit', 'PUT', edits);
+		saveEdits.then(function(response){
+			functions.manageSection.sectionEdited();
+		}, function(responseObject){
+			utils.errorHandler(responseObject);
+		})
+
+	}
 	$scope.functions = functions;
-	console.log($scope.functions)
+	//console.log($scope.functions)
 })

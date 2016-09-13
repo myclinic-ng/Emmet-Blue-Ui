@@ -1,0 +1,86 @@
+<div ng-controller="sectionBedController">
+	<div id="bed-management" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<div class="modal-title">Section Beds<p class="pull-right">{{sectionName}} Section</p></div>
+				</div>
+				<div class="modal-body">
+					<div class="table-responsive col-md-12">
+						<table datatable="" dt-options="ddtOptions" dt-columns="ddtColumns" dt-instance="ddtInstance" class="table table-condensed table-striped table-hover">
+
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- New Bed -->
+	<div id="new_bed" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Create a new Bed</h6>
+				</div>
+
+				<div class="modal-body">
+					<form bed="form">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-12">
+									<label>Bed name</label>
+									<input type="text" class="form-control" ng-model="newBed.bedName">
+								</div>
+								<div class="col-sm-12">
+									<label>Bed description</label>
+									<input type="text" class="form-control inpug-lg" ng-model="newBed.bedDescription">
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="newBed = {}">Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveNewBed()">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--/ New Bed  -->
+	<!-- Edit Bed -->
+	<div id="edit_bed" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Edit Bed</h6>
+				</div>
+
+				<div class="modal-body">
+					<form bed="form">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-12">
+									<label>Bed name</label>
+									<input type="text" class="form-control" ng-model="temp.bedName">
+								</div>
+								<div class="col-sm-12">
+									<label>Bed description</label>
+									<input type="text" class="form-control inpug-lg" ng-model="temp.bedDescription">
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="editBed = {}">Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveEditBed()">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--/ Edit Bed  -->
+</div>
