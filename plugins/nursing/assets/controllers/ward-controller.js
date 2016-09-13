@@ -29,10 +29,17 @@ angular.module("EmmetBlue")
 				var name = $(".btn[data-option-id='"+id+"']").attr("data-option-ward-name");
 				var desc = $(".btn[data-option-id='"+id+"']").attr("data-option-ward-desc");
 				$scope.temp = {
+					id:id,
 					name: name,
 					desc: desc
 				};
 				$("#edit-ward").modal("show");
+			},
+			wardEdited: function(){
+				utils.alert("Operation Successful", "Your changes have been saved successfully", "success", "notify");
+			$scope.tempHolder = {};
+			$scope.dtInstance.reloadData();
+			$("#edit-ward").modal("hide");
 			},
 			wardDeleted:function(){
 				utils.alert("Operation Successful", "The selected ward has been deleted successfully", "success", "notify");
@@ -133,6 +140,20 @@ angular.module("EmmetBlue")
 
 	$scope.manageEditWard = function(id){
 		functions.manageWard.editWard(id);
+	}
+	$scope.saveEditWard = function(){
+		var edits = {
+			resourceId: $scope.temp.id,
+			WardName: $scope.temp.name,
+			WardDescription:$scope.temp.desc
+		}
+
+		var saveEdits = utils.serverRequest('/nursing/ward/edit', 'PUT', edits);
+		saveEdits.then(function(response){
+			functions.manageWard.wardEdited();
+		}, function(responseObject){
+			utils.errorHandler(responseObject);
+		})
 	}
 
 	$scope.functions = functions;

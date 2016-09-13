@@ -92,10 +92,13 @@
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-link" type="submit" data-dismiss="modal" ng-click="newSection = {}">close</button>
-					<button class="btn btn-warning" type="submit" ng-click="saveNewSection()">Save</button>
+					<button class="btn btn-link" type="submit" data-dismiss="modal" ng-click="editSection = {}">close</button>
+					<button class="btn btn-warning" type="submit" ng-click="saveEditSection()">Save</button>
 				</div>
 			</div>
 		</div>
 	</div>
+	<!-- edit section ends -->
+	<!-- includes the section-bed.html -->
+	<ng-include src="'plugins/nursing/assets/includes/section-beds.html'"></ng-include>
 </div>
