@@ -62,6 +62,19 @@ angular.module('EmmetBlue', [
 		$location.url($location.path());
 	};
 
+	services.loadNigeriaData = function(){
+		var defer = $q.defer();
+		var data = $http.get("assets/angular/core/data/nigerian-states-lgas.json").then(function(response){
+			defer.resolve(response.data);
+			return defer.promise;
+		}, function(response){
+			defer.reject(response);
+			return defer.promise;
+		});
+
+		return data;
+	}
+
 	services.notify = function(title, text, type){
 	     new PNotify({
             title: title,
@@ -150,7 +163,7 @@ angular.module('EmmetBlue', [
 
 	services.storage = $localStorage;
 
-	services.restServer = CONSTANTS.EMMETBLUE_SERVER;
+	services.restServer = CONSTANTS.EMMETBLUE_SERVER+CONSTANTS.EMMETBLUE_SERVER_VERSION;
 
 	services.DT = {
 		optionsBuilder: DTOptionsBuilder,
@@ -158,6 +171,12 @@ angular.module('EmmetBlue', [
 	}
 
 	return services;
+})
+
+.directive("ngCurrency", function(){
+	return {
+		template: '&#8358'
+	}
 })
 
 .constant("CONSTANTS", getConstants())
@@ -178,7 +197,7 @@ function getConstants(){
 		"TEMPLATE_DIR":"plugins/",
 		"MODULE_MENU_LOCATION":"assets/includes/menu.html",
 		"MODULE_HEADER_LOCATION":"assets/includes/header.html",
-		"EMMETBLUE_SERVER":"http://127.0.0.1:420/Emmet-Blue-Api",
+		"EMMETBLUE_SERVER":"http://192.168.173.1:700/",
 		"EMMETBLUE_SERVER_VERSION":"v1",
 		"USER_COOKIE_IDENTIFIER":"_______"
 	};

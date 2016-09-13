@@ -2,8 +2,63 @@ angular.module("EmmetBlue")
 
 .controller('mortuaryBodyRegistrationController', function($scope, $http, utils){
 	$scope.utils = utils;
+
+	var substringMatcher = function(strs) {
+        return function findMatches(q, cb) {
+            var matches, substringRegex;
+
+            // an array that will be populated with substring matches
+            matches = [];
+
+            // regex used to determine if a string contains the substring `q`
+            substrRegex = new RegExp(q, 'i');
+
+            // iterate through the pool of strings and for any string that
+            // contains the substring `q`, add it to the `matches` array
+            $.each(strs, function(i, str) {
+                if (substrRegex.test(str)) {
+
+                    // the typeahead jQuery plugin expects suggestions to a
+                    // JavaScript object, refer to typeahead docs for more info
+                    matches.push({ value: str });
+                }
+            });
+            cb(matches);
+        };
+    };
+
+    // Data
+    var dataRequest = utils.serverRequest('/mortuary/tags/view', 'GET');
+
+    dataRequest.then(function(success){
+    	var data = [];
+    	angular.forEach(success, function(value){
+    		data.push(value.TagName);
+    	});
+
+    	$('.tagsinput-typeahead').tagsinput('input').typeahead(
+	        {
+	            hint: true,
+	            highlight: true,
+	            minLength: 1
+	        },
+	        {
+	            name: 'tags',
+	            displayKey: 'value',
+	            source: substringMatcher(data)
+	        }
+	    ).bind('typeahead:selected', $.proxy(function (obj, datum) {  
+	        this.tagsinput('add', datum.value);
+	        this.tagsinput('input').typeahead('val', '');
+	    }, $('.tagsinput-typeahead')));
 	
+    }, function(error){
+    	utils.errorHandler(error);
+    })
+    
 	$scope.submit = function(){
+		$scope.body.tag = $scope.body.tag.split(",");
+		console.log($scope.body);
 		var body = utils.serverRequest('/mortuary/body/new', 'post', $scope.body);
 		body.then(function(response){
 			utils.alert('Operation Successful', 'The Registration of body number was completed successfully', 'success', 'both');
@@ -13,7 +68,6 @@ angular.module("EmmetBlue")
 		}, function(error){
 			utils.errorHandler(error, true);
 		});
-	
 	}
 })
 
