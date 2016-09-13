@@ -28,7 +28,7 @@ angular.module("EmmetBlue")
 				editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+dataOpt+"> <i class='fa fa-pencil'></i></button>";
 				deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> <i class='fa fa-trash-o'></i></button>";
 				viewButton = "<button class='btn btn-default'><i class='fa fa-eye'></i> </button>"
-				return "<button class='btn-group'>"+deleteButton+editButton+"</button>";
+				return "<button class='btn-group'>"+viewButton+editButton+deleteButton+"</button>";
 			}
 		},
 		newBedCreated: function(){

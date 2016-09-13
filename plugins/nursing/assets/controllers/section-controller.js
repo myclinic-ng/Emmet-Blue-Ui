@@ -17,7 +17,7 @@ angular.module("EmmetBlue")
 							"' ";
 			var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+options+"><i class='icon-pencil5'></i> Edit</button>";
 			var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\""+options+"><i class='icon-bin'></i> Delete</button>"
-			var bedManagementButton = "<button class='btn btn-default' ng-click=\""+bedManagementButtonAction+"\""+options+"><i icon-bed></i> Manage Beds</button>"
+			var bedManagementButton = "<button class='btn btn-default' ng-click=\""+bedManagementButtonAction+"\""+options+"><i icon-bed></i> Manage Beds</button>";
 			return "<div class='btn-group'>"+editButton+deleteButton+bedManagementButton+"</div>";
 		},
 		manageSection:{

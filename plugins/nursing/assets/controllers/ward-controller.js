@@ -10,7 +10,7 @@ angular.module("EmmetBlue")
 
 			var options = "data-option-id='"+data.WardID+"' data-option-ward-name='"+data.WardName+"' data-option-ward-desc='"+data.WardDescription+"'";
 			var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+options+"><i class='icon-pencil5'></i> Edit</button>";
-			var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+options+">Delete</button>"
+			var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+options+">Delete</button>";
 			var buttons = "<div class='btn-group'>"+editButton+deleteButton+"</button>";
 			
 			return buttons;

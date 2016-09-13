@@ -1,6 +1,6 @@
 <!---new body modal form-->
 	<div id="new-body-registration" class="modal fade" ng-controller="mortuaryBodyRegistrationController">
-		<div class="modal-dialog" style="">
+		<div class="modal-dialog" style="width:60%;">
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -9,21 +9,19 @@
 				<div class="modal-body">
 					<form role="form">
 						<div class="row">
-							<div class="form-group col-sm-12">
-								<div class="col-sm-4">
-									<label>
-									Body Tag <span class="text-danger">*</span></label>
-									<input type="text" class="form-control" name="tag" placeholder="Start typing to enter the body tag" ng-model="body.tag" ng-model-options="{ updateOn: 'blur' }" required>
-								</div>
-								<div class="form-group col-sm-4">
-									<label>Place Of Death</label>
-									<input type="text" class="form-control" name="placeOfDeath" placeholder="Start typing to enter the place of death" ng-model="body.placeOfDeath" ng-maxlength="100">
-								</div>
-								<div class="form-group col-sm-3">
-									<label>Date Of Death</label>
-									<input type="text" class="form-control" name="dateOfDeath" data-mask="99/99/9999" placeholder="Enter date" ng-model="body.dateOfDeath" required="required">
-									<span class="help-block"><i class="fa fa-info-circle"></i> Input Format: mm/dd/yyyy</span>
-								</div>
+							<div class="form-group col-sm-3">
+								<label>
+								Body Tag <span class="text-danger">*</span></label>
+								<input type="text" class="form-control" name="tag" placeholder="Start typing to enter the body tag" ng-model="body.tag" ng-model-options="{ updateOn: 'blur' }" required>
+							</div>
+							<div class="form-group col-sm-3">
+								<label>Place Of Death</label>
+								<input type="text" class="form-control" name="placeOfDeath" placeholder="Start typing to enter the place of death" ng-model="body.placeOfDeath" ng-maxlength="100">
+							</div>
+							<div class="form-group col-sm-3">
+								<label>Date Of Death</label>
+								<input type="text" class="form-control" name="dateOfDeath" data-mask="99/99/9999" placeholder="Enter date" ng-model="body.dateOfDeath" required="required">
+								<span class="help-block"><i class="fa fa-info-circle"></i> Input Format: mm/dd/yyyy</span>
 							</div>
 						</div>
 						<div class="row">
