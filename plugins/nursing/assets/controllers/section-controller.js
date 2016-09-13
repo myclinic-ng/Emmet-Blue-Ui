@@ -15,15 +15,12 @@ angular.module("EmmetBlue")
 							"' data-option-section-ward-id='"+data.WardID+
 							"' data-option-section-ward-name='"+data.WardName+
 							"' ";
-<<<<<<< HEAD
 			var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+options+"><i class='icon-pencil5'></i> Edit</button>";
 			var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\""+options+"><i class='icon-bin'></i> Delete</button>"
 			var bedManagementButton = "<button class='btn btn-default' ng-click=\""+bedManagementButtonAction+"\""+options+"><i icon-bed></i> Manage Beds</button>";
-=======
 			var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+options+"><i class='icon-pencil5'></i> </button>";
 			var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\""+options+"><i class='icon-bin'></i> </button>"
-			var bedManagementButton = "<button class='btn btn-default' ng-click=\""+bedManagementButtonAction+"\""+options+"><i icon-bed></i> Manage Beds</button>"
->>>>>>> e6e187131cad89cb647c5a64dd1321df6170eced
+			var bedManagementButton = "<button class='btn btn-default' ng-click=\""+bedManagementButtonAction+"\""+options+"><i icon-bed></i> Manage Beds</button>";
 			return "<div class='btn-group'>"+editButton+deleteButton+bedManagementButton+"</div>";
 		},
 		manageSection:{
