@@ -82,7 +82,7 @@
 			<input type="number" min="1" class="form-control" ng-model="newBillingTypeItems.quantity"/>
 		</div>
 		<div class="form-group pull-right">
-			<button type="button" class="btn btn-primary" ng-click="addItemToList()">Add</button>
+			<button type="button" class="btn btn-primary" ng-click="addItemToList()"><i class="fa fa-plus"></i> Add</button>
 		</div>
 	</div>
 	<div class="col-md-6">
@@ -127,9 +127,9 @@
 			</select>
 		</div>
 		<div class="button-group pull-right">
-			<button type="button" class="btn btn-default" ng-click="generateBill()">Print Bill</button>
-			<button type="button" class="btn btn-default" data-toggle="modal" data-target="#billing_invoice">View Bill</button>
-			<button type="button" class="btn btn-default" ng-click="acceptPayment()">Accept Payment</button>
+			<button type="button" class="btn btn-default" ng-click="generateBill()"><i class="icon-printer"></i> Print Bill</button>
+			<button type="button" class="btn btn-default" data-toggle="modal" data-target="#billing_invoice"><i class="icon-eye"></i> View Bill</button>
+			<button type="button" class="btn btn-default" ng-click="acceptPayment()"><i class="icon-credit-card"></i> Accept Payment</button>
 		</div>
 	</div>
 </div>

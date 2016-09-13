@@ -186,7 +186,7 @@ angular.module("EmmetBlue")
     })
 	.withButtons([
 		{
-			text: 'New Item',
+			text: '<i class="icon-file-plus"></i> New Item',
 			action: function(){
 				functions.manageBillingTypeItems.newBillingTypeItems();
 			}
