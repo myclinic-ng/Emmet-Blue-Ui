@@ -1,0 +1,48 @@
+<div class="navbar navbar-default navbar-xs navbar-component">
+	<ul class="nav navbar-nav no-border visible-xs-block">
+		<li><a class="text-center collapsed" data-toggle="collapse" data-target="#navbar-filter"><i class="icon-menu7"></i></a></li>
+	</ul>
+
+	<div class="navbar-collapse collapse" id="navbar-filter">
+		<p class="navbar-text">Filter:</p>
+		<ul class="nav navbar-nav">
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-sort-time-asc position-left"></i> By date <span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li><input type="date" class="form-control"/></li>
+					<li class="divider"></li>
+					<li><a href="#">Show all</a></li>
+					<li class="divider"></li>
+					<li><a href="#">Today</a></li>
+					<li><a href="#">Yesterday</a></li>
+					<li><a href="#">This week</a></li>
+					<li><a href="#">This month</a></li>
+					<li><a href="#">This year</a></li>
+				</ul>
+			</li>
+
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-sort-amount-desc position-left"></i> By status <span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li><a href="#">Show all</a></li>
+					<li class="divider"></li>
+					<li ng-repeat="status in transactionStatuses"><a href="#">{{status.StatusName}}</a></li>
+				</ul>
+			</li>
+		</ul>
+
+		<div class="navbar-right">
+			<p class="navbar-text">Sorting:</p>
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="#"><i class="icon-sort-alpha-asc position-left"></i> Asc</a></li>
+				<li><a href="#"><i class="icon-sort-alpha-desc position-left"></i> Desc</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- /invoice grid options -->
+
+<!-- Invoice grid -->
+<div class="col-md-6">
+	<ng-include src="'plugins/mortuary/assets/includes/view-body-grid.html'"></ng-include>
+</div>

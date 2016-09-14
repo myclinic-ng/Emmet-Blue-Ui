@@ -142,8 +142,6 @@ angular.module("EmmetBlue")
 				depositorAddress:$(".btn[data-option-id='"+id+"']").attr("data-option-depositor-address"),
 				depositorRelationship:$(".btn[data-option-id='"+id+"']").attr("data-option-depositor-relationship"),
 				depositorPhoneNumber:$(".btn[data-option-id='"+id+"']").attr("data-option-depositor-phone-number")
-
-
 			};
 			$('#edit-body-details').modal('show');
 		},
@@ -265,15 +263,16 @@ angular.module("EmmetBlue")
 		DTColumnBuilder.newColumn('CreationDate').withTitle('Date Registered'),
 		DTColumnBuilder.newColumn('DepositorFullName').withTitle('Depositor'),
 		DTColumnBuilder.newColumn(null).withTitle('<i class="icon-home"></i> Status').renderWith(function(meta, full, data){
-			if (data.BodyStatus == 0){
-				return "<div class='badge badge-success'>LOGGED OUT</div>";
-			}
-			else if (data.BodyStatus == 1){
-				return "<div class='badge badge-info'>LOGGED IN</div>";
-			}
-			else {
-				return "<div class='badge badge-danger'>UNKNOWN</div>";
-			}
+			// if (data.BodyStatus == 0){
+			// 	return "<div class='badge badge-success'>LOGGED OUT</div>";
+			// }
+			// else if (data.BodyStatus == 1){
+			// 	return "<div class='badge badge-info'>LOGGED IN</div>";
+			// }
+			// else {
+			// 	return "<div class='badge badge-danger'>UNKNOWN</div>";
+			// }
+			return "<div class='badge badge-info'>"+data.StatusName+"</div>";
 		}),
 		DTColumnBuilder.newColumn(null).withTitle('Action').notSortable().renderWith(functions.actionsMarkup)
 	];
