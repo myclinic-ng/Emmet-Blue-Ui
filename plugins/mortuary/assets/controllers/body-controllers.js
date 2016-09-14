@@ -58,7 +58,6 @@ angular.module("EmmetBlue")
     
 	$scope.submit = function(){
 		$scope.body.tag = $scope.body.tag.split(",");
-		console.log($scope.body);
 		var body = utils.serverRequest('/mortuary/body/new', 'post', $scope.body);
 		body.then(function(response){
 			utils.alert('Operation Successful', 'The Registration of body number was completed successfully', 'success', 'both');
