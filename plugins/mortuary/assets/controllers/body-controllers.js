@@ -97,10 +97,10 @@ angular.module("EmmetBlue")
 				"' data-option-depositor-relationship='"+data.DepositorRelationshipType+
 				"' data-option-depositor-phone-number='"+data.DepositorPhoneNumber+
 				"' ";
-			var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+options+"><i class='icon-pencil5'></i> Edit</button>";
+			var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+options+"><i class='icon-pencil5'></i> </button>";
 
-			var viewButton = "<button class='btn btn-default' ng-click=\""+viewButtonAction+"\" "+options+"><i class='icon-eye'> </i> View</button>";
-			var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+options+"><i class='icon-bin'></i> Delete</button>";
+			var viewButton = "<button class='btn btn-default' ng-click=\""+viewButtonAction+"\" "+options+"><i class='icon-eye'> </i> </button>";
+			var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+options+"><i class='icon-bin'></i> </button>";
 			var logOutButton = "<button class='btn btn-default' ng-click=\""+logOutButton+"\" "+options+">Log Out Body</button>";
 			var buttons = "<div class='btn-group'>"+viewButton+editButton+deleteButton+logOutButton+"</button>";
 			
@@ -258,12 +258,13 @@ angular.module("EmmetBlue")
 	]);
 	$scope.dtColumns = [
 		DTColumnBuilder.newColumn('BodyID').withTitle('Body ID'),
-		DTColumnBuilder.newColumn('BodyTag').withTitle('Body Tag'),
-		DTColumnBuilder.newColumn('BodyFullName').withTitle('Body Name'),
-		DTColumnBuilder.newColumn('DateOfDeath').withTitle('Age'),
+		DTColumnBuilder.newColumn(null).withTitle('Tags').renderWith(function(meta, full, data){
+			return data.Tags.join(", ");
+		}),
+		DTColumnBuilder.newColumn('BodyFullName').withTitle('Full Name'),
+		DTColumnBuilder.newColumn('DateOfDeath').withTitle('Date Of Death'),
+		DTColumnBuilder.newColumn('CreationDate').withTitle('Date Registered'),
 		DTColumnBuilder.newColumn('DepositorFullName').withTitle('Depositor'),
-		DTColumnBuilder.newColumn('DepositorPhoneNumber').withTitle('Depositor Phone Number'),
-		DTColumnBuilder.newColumn('BodyNextOfKinFullName').withTitle('Next Of Kin'),
 		DTColumnBuilder.newColumn(null).withTitle('<i class="icon-home"></i> Status').renderWith(function(meta, full, data){
 			if (data.BodyStatus == 0){
 				return "<div class='badge badge-success'>LOGGED OUT</div>";

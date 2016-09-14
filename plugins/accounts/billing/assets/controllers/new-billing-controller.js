@@ -88,7 +88,6 @@ angular.module("EmmetBlue")
 	$scope.addItemToList = function(){
 		var items = $scope.newBillingTypeItems;
 		var patient = $scope.patient;
-		console.log(items, $scope.billingTypeItems);
 
 		var requestPrice = utils.serverRequest(
 			"/accounts-biller/get-item-price/calculate?resourceId="+patient+"&item="+items.item+"&quantity="+items.quantity,
@@ -121,17 +120,26 @@ angular.module("EmmetBlue")
 	$scope.showRateQuantityField = function(){
 		$scope.showRateQuantity = true;
 		var id = $scope.newBillingTypeItems.item;
-		var itemInfo = $scope.billingTypeItemsInfo[id];
+		var patient = $scope.patient;
 
-		$scope.currentItem = {
-			rateIdentifier: itemInfo.RateIdentifier
-		};
-		if (itemInfo.RateBased == '1'){
-			$scope.currentItem.rateBased = true;
-		}
-		else {
-			$scope.currentItem.rateBased = false;
-		}
+		var sendRequest = utils.serverRequest('/accounts-biller/billing-type-items/is-rate-based?resourceId='+patient+'&item='+id, 'GET');
+		sendRequest.then(function(response){
+			switch((response.rateIdentifier).toLowerCase()){
+				case "daily":{
+					response.rateIdentifier = "Day";
+					break;
+				}
+			}
+			$scope.currentItem = {
+				rateIdentifier: response.rateIdentifier
+			};
+			if (response.rateBased == '1'){
+				$scope.currentItem.rateBased = true;
+			}
+			else {
+				$scope.currentItem.rateBased = false;
+			}
+		})
 	}
 
 	$scope.generateBill = function(){
