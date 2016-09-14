@@ -19,7 +19,7 @@
 	    width: 100%;
 	    height: 100%;
 	    position: absolute;
-	    top: 0px;
+	    top: 0%;
 	    left: 0px;
 	    color: transparent;
 	    background-size: cover;
@@ -28,21 +28,25 @@
 	    opacity: 0;
 	    z-index: 0;
 		-webkit-backface-visibility: hidden;
-	    -webkit-animation: imageAnimation 60s linear infinite 0s;
-	    -moz-animation: imageAnimation 60s linear infinite 0s;
-	    -o-animation: imageAnimation 60s linear infinite 0s;
-	    -ms-animation: imageAnimation 60s linear infinite 0s;
-	    animation: imageAnimation 60s linear infinite 0s;
+	    -webkit-animation: imageAnimation 120s linear infinite 0s;
+	    -moz-animation: imageAnimation 120s linear infinite 0s;
+	    -o-animation: imageAnimation 120s linear infinite 0s;
+	    -ms-animation: imageAnimation 120s linear infinite 0s;
+	    animation: imageAnimation 120s linear infinite 0s;
 	}
 	.cb-slideshow li div { 
 	    z-index: 1000;
 	    position: absolute;
-	    bottom: 30px;
-	    left: 0px;
-	    width: 100%;
-	    text-align: center;
+	    background-color: transparent;
+	    bottom: 50px;
+	    font-size: 1em;
+	    left: 20px;
+	    width: 70%;
+	    text-align: left;
+	    border: 1px solid #E4662B;
+	    border-radius: 10px;
 	    opacity: 0;
-	    color: #fff;
+	    color: #E4662B;
 	    -webkit-animation: titleAnimation 60s linear infinite 0s;
 	    -moz-animation: titleAnimation 60s linear infinite 0s;
 	    -o-animation: titleAnimation 60s linear infinite 0s;
@@ -51,9 +55,10 @@
 	}
 	.cb-slideshow li div h3 { 
 	    font-family: 'BebasNeueRegular', 'Arial Narrow', Arial, sans-serif;
-	    font-size: 240px;
-	    padding: 0;
-	    line-height: 200px; 	
+	    font-size: 2em;
+	    text-align: center;
+	    padding: 10px;
+	    line-height: 30px; 	
 	}
 	.cb-slideshow li:nth-child(1) span { 
 	    background-image: url(plugins/user/assets/images/parallax/home/1.jpg) 
@@ -228,19 +233,24 @@
 	}
 </style>
 <div ng-controller="userLoginController">
-	<ul class="cb-slideshow col-md-8">
-        <li><span></span></li>
-        <li><span></span></li>
-        <li><span></span></li>
-        <li><span></span></li>
-        <li><span></span></li>
-        <li><span></span></li>
+	<ul class="cb-slideshow">
+        <li><span></span><div><h3>Community: Towards recognizing the importance of our community's health care needs.</h3></div></li>
+        <li><span></span><div><h3>Commitment: Towards empowering our dedication to provide excellent services.</h3></div></li>
+        <li><span></span><div><h3>Innovation: Towards the goal of a better health care industry.</h3></div></li>
+        <li><span></span><div><h3>Integrity: Towards the recognition of our combined efforts.</h3></div></li>
+        <li><span></span><div><h3>Caring: Towards preserving the sacredness of life.</h3></div></li>
+        <li><span></span><div><h3>Technology: Towards acquiring the latest affordable technology in the health care industry.</h3></div></li>
     </ul>
+    <div class="col-md-8">
+    	<img src="assets/images/logo.png" class="img img-responsive"/>
+    </div>
 	<form class="col-md-3 pull-right" novalidate="">
 		<div class="panel panel-body login-form" style="background-color: rgba(255,255,255,0.63); padding: 20px; margin-top:10%;">
 			<div class="text-center">
-				<div class="icon-object border-warning-400 text-warning-400"><i class="icon-briefcase"></i></div>
-				<h3 class="content-group-lg">Login to your account <small class="display-block">Enter your credentials</small></h3>
+    		<div class="">
+    			<center><img src="assets/images/logo-orange-full.png" class="img img-responsive" style="width: 50%; height: 50%"/></center>
+    		</div>
+			<h3 class="content-group-lg">Login to your account <small class="display-block">Enter your credentials</small></h3>
 			</div>
 
 			<div class="form-group has-feedback has-feedback-left">
