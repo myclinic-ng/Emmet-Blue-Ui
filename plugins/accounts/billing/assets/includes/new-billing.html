@@ -25,7 +25,7 @@
 		</div>
 	</div>
 
-	<div id="billing_invoice" class="modal fade">
+	<div id="billing_invoice" class="modal fade" ng-controller="accountsBillingViewInvoiceController">
 		<div class="modal-dialog modal-full">
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
@@ -34,12 +34,25 @@
 				</div>
 
 				<div class="modal-body">
-					<section>
-						<div class="button-group pull-right mb-10">
-							<button class="btn btn-default"><i class="icon-printer"></i> Print</button>
-							<button class="btn btn-default"><i class="icon-credit-card"></i> Accept Payment</button>
+					<section class="col-md-6">
+						<div class="panel panel-default">
+							<div class="ribbon"><span>Default</span></div>
+							<div class="panel-content">
+								<div class="panel-body">
+									<ng-invoice invoice-data="invoiceData"></ng-invoice>
+								</div>
+							</div>
 						</div>
-						<ng-invoice></ng-invoice>
+					</section>
+					<section class="col-md-6">
+						<div class="panel panel-default">
+							<div class="ribbon ribbon-blue"><span>Customer</span></div>
+							<div class="panel-content">
+								<div class="panel-body">
+									<ng-invoice invoice-data="invoiceData"></ng-invoice>
+								</div>
+							</div>
+						</div>
 					</section>
 				</div>
 

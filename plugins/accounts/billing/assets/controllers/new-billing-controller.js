@@ -164,4 +164,26 @@ angular.module("EmmetBlue")
 			utils.errorHandler(responseObject);
 		})
 	}
+
+	$scope.viewBill = function(){
+		var data = {
+			type: $scope.billingType.BillingTypeName,
+			createdBy: 'fb7cc895996f28a4d9ac',
+			status: $scope.billStatus,
+			amount: $scope.priceTotal,
+			items: $scope.itemList,
+			patient: $scope.patient
+		}
+
+		utils.storage.invoiceData = data;
+		$("#billing_invoice").modal("show");
+	}
+})
+
+.controller("accountsBillingViewInvoiceController", function($scope, utils){
+	$scope.$watch(function(){
+		return utils.storage.invoiceData;
+	}, function(newValue){
+		$scope.invoiceData = newValue;
+	})
 })
