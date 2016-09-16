@@ -93,7 +93,7 @@
 					<th>Item Code</th>
 					<th>Item</th>
 					<th>Quantity</th>
-					<th>Price (&#8358;)</th>
+					<th>Price (<span ng-currency ng-currency-symbol="naira"></span><span ng-currency ng-currency-symbol="naira"></span>)</th>
 					<th>Action</th>
 				</tr>
 			</thead>
@@ -115,8 +115,9 @@
 				<tr class="warning">
 					<th></th>
 					<th></th>
+					<th></th>
 					<th>Total</th>
-					<th>&#8358; {{priceTotal}}</th>
+					<th><span ng-currency ng-currency-symbol="naira"></span> {{priceTotal}}</th>
 				</tr>
 			</tfoot>
 		</table>

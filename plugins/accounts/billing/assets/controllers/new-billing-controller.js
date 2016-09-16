@@ -98,7 +98,7 @@ angular.module("EmmetBlue")
 			$scope.priceTotal += response.totalPrice;
 			$scope.newBillingTypeItems;
 			var data = {
-				itemName: $scope.billingTypeItems[0].BillingTypeItemName,
+				itemName: $scope.billingTypeItemsInfo[$scope.newBillingTypeItems.item].BillingTypeItemName,
 				itemCode: $scope.newBillingTypeItems.item,
 				itemQuantity: $scope.newBillingTypeItems.quantity,
 				itemPrice: response.totalPrice

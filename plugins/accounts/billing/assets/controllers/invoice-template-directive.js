@@ -8,7 +8,6 @@ angular.module("EmmetBlue")
 			$scope.$watch(function(){
 				return utils.storage.invoiceData;
 			}, function(newValue){
-				console.log($scope.invoiceData);
 				$scope.invoiceData = newValue;
 			})
 		}
