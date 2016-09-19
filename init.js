@@ -11,7 +11,8 @@ var css = [
 	"assets/css/datatables/angular-datatables.css",
 	"assets/css/datatables/buttons.dataTables.css",
 	"assets/css/datatables/fixedHeader.dataTables.css",
-	"assets/js/plugins/sliders/slick/slick.css"
+	"assets/js/plugins/sliders/slick/slick.css",
+	"assets/angular/libraries/ng-print/ngPrint.min.css"
 ];
 
 var jquery = {"jquery": "assets/js/core/libraries/jquery.min.js"};
@@ -28,7 +29,13 @@ var libraries = [
 	"assets/js/plugins/tables/datatables/datatables.min.js",
 	"assets/js/plugins/tables/datatables/extensions/dataTables.fixedHeader.js",
 	"assets/js/core/libraries/jasny_bootstrap.min.js",
-	"assets/js/plugins/webcam/webcam.js"
+	"assets/js/plugins/webcam/webcam.js",
+	"assets/js/core/libraries/jquery_ui/core.min.js",
+	"assets/js/core/libraries/jquery_ui/effects.min.js",
+	"assets/js/core/libraries/jquery_ui/interactions.min.js",
+	"assets/js/plugins/trees/fancytree_all.min.js",
+	"assets/js/plugins/trees/fancytree_childcounter.js",
+	"assets/js/plugins/ui/prism.min.js"
 ];
 
 var themes = [
@@ -43,6 +50,7 @@ var angularLibraries = [
 	"assets/angular/libraries/angular-messages.js",
 	"assets/angular/libraries/angular-cookies.js",
 	"assets/angular/libraries/angular-datatables.js",
+	"assets/angular/libraries/ng-print/ngPrint.js",
 	"assets/angular/libraries/angular-datatables.buttons.js",
 	"assets/angular/libraries/datatable-buttons/dataTables.buttons.js",
 	"assets/angular/libraries/datatable-buttons/buttons.print.js",

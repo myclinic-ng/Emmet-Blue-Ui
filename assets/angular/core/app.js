@@ -6,10 +6,11 @@ angular.module('EmmetBlue', [
 	'datatables.buttons',
 	'datatables.fixedheader',
 	'ngCookies',
-	'ngStorage'
+	'ngStorage',
+	'ngPrint'
 ])
 
-.run(function(DTDefaultOptions){
+.run(function(DTDefaultOptions, $http, $cookies){
 	DTDefaultOptions.setBootstrapOptions({
         TableTools: {
             classes: {
@@ -20,6 +21,9 @@ angular.module('EmmetBlue', [
             }
         }
     });
+	if (typeof $cookies.getObject(getConstants().USER_COOKIE_IDENTIFIER) != "undefined"){
+    	$http.defaults.headers.common.Authorization = $cookies.getObject(getConstants().USER_COOKIE_IDENTIFIER).token;
+	}
 })
 
 .config(function($routeProvider, $locationProvider){
@@ -146,7 +150,12 @@ angular.module('EmmetBlue', [
 			default:
 			{
 				if (typeof errorObject.data != "undefined"){
-					services.alert(errorObject.status+': '+errorObject.statusText, errorObject.data.errorMessage, 'error');
+					if (errorObject.data == null){
+						services.alert(errorObject.status+': '+errorObject.statusText, "An unknown error has occurred", 'error');	
+					}
+					else {
+						services.alert(errorObject.status+': '+errorObject.statusText, errorObject.data.errorMessage, 'error');
+					}
 				}
 				else{
 					services.alert("Unknown error", "A general error has occurred, please contact an administrator", 'error');

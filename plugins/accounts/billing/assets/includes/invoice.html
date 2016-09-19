@@ -86,41 +86,43 @@
 		</div>
 	</div>
 	<div class="col-md-6">
-		<table class="table table-responsive table-condensed table-bordered">
-			<thead class="border-solid">
-				<tr>
-					<th>S/N</th>
-					<th>Item Code</th>
-					<th>Item</th>
-					<th>Quantity</th>
-					<th>Price (<span ng-currency ng-currency-symbol="naira"></span><span ng-currency ng-currency-symbol="naira"></span>)</th>
-					<th>Action</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="item in itemList">
-					<th>{{$index + 1}}</th>
-					<th>{{item.itemCode}}</th>
-					<th>{{item.itemName}}</th>
-					<th>{{item.itemQuantity}}</th>
-					<th>{{item.itemPrice}}</th>
-					<th>
-						<span class="button-group">
-							<a href="btn btn-default" ng-click="removeFromItemList($index, item)"><i class="icon-bin"></i> remove item</a>
-						</span>
-					</th>
-				</tr>	
-			</tbody>
-			<tfoot>
-				<tr class="warning">
-					<th></th>
-					<th></th>
-					<th></th>
-					<th>Total</th>
-					<th><span ng-currency ng-currency-symbol="naira"></span> {{priceTotal}}</th>
-				</tr>
-			</tfoot>
-		</table>
+		<div class="table-responsive">
+			<table class="table table-responsive table-condensed table-bordered">
+				<thead class="border-solid">
+					<tr>
+						<th>S/N</th>
+						<th>Item Code</th>
+						<th>Item</th>
+						<th>Quantity</th>
+						<th>Price (<span ng-currency ng-currency-symbol="naira"></span><span ng-currency ng-currency-symbol="naira"></span>)</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="item in itemList">
+						<th>{{$index + 1}}</th>
+						<th>{{item.itemCode}}</th>
+						<th>{{item.itemName}}</th>
+						<th>{{item.itemQuantity}}</th>
+						<th>{{item.itemPrice}}</th>
+						<th>
+							<span class="button-group">
+								<a href="btn btn-default" ng-click="removeFromItemList($index, item)"><i class="icon-bin"></i> remove item</a>
+							</span>
+						</th>
+					</tr>	
+				</tbody>
+				<tfoot>
+					<tr class="warning">
+						<th></th>
+						<th></th>
+						<th></th>
+						<th>Total</th>
+						<th><span ng-currency ng-currency-symbol="naira"></span> {{priceTotal}}</th>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
 		<div class="form-group col-md-12">
 			<label class="control-label">Status</label>
 			<select class="select" ng-model="billStatus">
@@ -128,7 +130,7 @@
 			</select>
 		</div>
 		<div class="button-group pull-right">
-			<button type="button" class="btn btn-default" ng-click="generateBill()"><i class="icon-printer"></i> Print Bill</button>
+			<button type="button" class="btn btn-default" ng-click="generateBill()" ng-print print-element-id="invoice"><i class="icon-printer"></i> Print Bill</button>
 			<button type="button" class="btn btn-default" ng-click="viewBill()"><i class="icon-eye"></i> View Bill</button>
 			<button type="button" class="btn btn-default" ng-click="acceptPayment()"><i class="icon-credit-card"></i> Accept Payment</button>
 		</div>

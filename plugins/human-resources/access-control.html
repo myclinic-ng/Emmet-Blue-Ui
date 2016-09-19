@@ -1,0 +1,72 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+<div ng-controller="humanResourcesAccessControlController">
+	<div class="col-md-3">
+		<div class="sidebar sidebar-main sidebar-default">
+			<div class="sidebar-content">
+				<!-- Main navigation -->
+				<div class="sidebar-category sidebar-category-visible">
+					<div class="category-title h6">
+						<span>Departments</span>
+						<ul class="icons-list">
+							<li><a href="#" data-action="collapse"></a></li>
+						</ul>
+					</div>
+
+					<div class="category-content no-padding">
+						<ul class="navigation navigation-main navigation-accordion navigation-bordered">
+
+							<!-- Main -->
+							<li class="navigation-header">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-search"></i></span>
+									<input type="text" class="form-control" placeholder="filter departments" ng-model="filterDepartments"/>
+								</div>
+							</li>
+							<li ng-repeat="group in departmentGroups"><a href="#"> <span>{{group}}</span></a>
+								<ul>
+									<li ng-repeat="department in departments[group] | filter: filterDepartments"><a href="#">{{department.Name}}</a></li>
+								</ul>
+							</li>
+							<!-- /main -->
+						</ul>
+					</div>
+				</div>
+				<!-- /main navigation -->
+			</div>
+		</div>
+	</div>
+	<div class="col-md-9">
+		<div class="panel panel-flat">
+			<div class="panel-heading">
+				<h5 class="panel-title"></h5>
+				<div class="heading-elements">
+					<ul class="icons-list">
+	            		<li><a data-action="collapse"></a></li>
+	            		<li><a data-action="reload"></a></li>
+	            		<li><a data-action="close"></a></li>
+	            	</ul>
+	        	</div>
+			</div>
+			<div class="panel-body">
+				<div class="row form-group">
+					<div class="col-md-6">
+						<label class="control-label">Select role to control access</label>
+						<select class="select"/>
+					</div>
+				</div>
+				<div class="row mt-20">
+					<table class="table table-responsive table-condensed table-hover table-bordered">
+						<thead>
+							<th width="55%">Resource</th>
+							<th>Create</th>
+							<th>View</th>
+							<th>Edit</th>
+							<th>Delete</th>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
