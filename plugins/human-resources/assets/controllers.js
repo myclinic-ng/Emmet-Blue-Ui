@@ -7,3 +7,4 @@ head.load(controllersLocation+'department-role-controller.js');
 head.load(controllersLocation+'department-staff-management-controller.js');
 head.load(controllersLocation+'settings/staff-profile-records-controller.js');
 head.load(controllersLocation+'department-new-staff-profile-controller.js');
+head.load(controllersLocation+'access-control-controller.js');

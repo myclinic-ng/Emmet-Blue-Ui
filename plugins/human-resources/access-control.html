@@ -1,0 +1,97 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+<div ng-controller="humanResourcesAccessControlController">
+	<div class="col-md-3">
+		<div class="sidebar sidebar-main sidebar-default">
+			<div class="sidebar-content">
+				<!-- Main navigation -->
+				<div class="sidebar-category sidebar-category-visible">
+					<div class="category-title h6">
+						<span>Departments</span>
+						<ul class="icons-list">
+							<li><a href="#" data-action="collapse"></a></li>
+						</ul>
+					</div>
+
+					<div class="category-content no-padding">
+						<ul class="navigation navigation-main navigation-accordion navigation-bordered">
+
+							<!-- Main -->
+							<li class="navigation-header">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-search"></i></span>
+									<input type="text" class="form-control" placeholder="filter departments" ng-model="filterDepartments"/>
+								</div>
+							</li>
+							<li ng-repeat="group in departmentGroups"><a href="#"> <span>{{group}}</span></a>
+								<ul>
+									<li ng-repeat="department in departments[group] | filter: filterDepartments"><a href="#" ng-click="loadDepartment(department.DepartmentID, department.Name)">{{department.Name}}</a></li>
+								</ul>
+							</li>
+							<!-- /main -->
+						</ul>
+					</div>
+				</div>
+				<!-- /main navigation -->
+			</div>
+		</div>
+	</div>
+	<div class="col-md-9">
+		<div class="panel panel-flat">
+			<div class="panel-heading">
+				<h5 class="panel-title"></h5>
+				<div class="heading-elements">
+					<ul class="icons-list">
+	            		<li><a data-action="collapse"></a></li>
+	            		<li><a data-action="reload"></a></li>
+	            		<li><a data-action="close"></a></li>
+	            	</ul>
+	        	</div>
+			</div>
+			<div class="panel-body">
+				<div class="row form-group">
+					<div class="col-md-6">
+						<label class="control-label">Select role to control access </label>
+						<select class="select" ng-model="roleSelector">
+							<option ng-repeat="role in department.role" value="{{role.Name}}">{{role.Name}}</option>
+						</select>
+					</div>
+					<div class="col-md-3 col-md-offset-3">
+						<label class="control-label"></label>
+						<div class="input-group">
+							<span class="input-group-addon"><i class="fa fa-search"></i></span>
+							<input type="text" class="form-control" placeholder="filter resources" ng-model="filterResources"/>
+						</div>
+					</div>
+				</div>
+				<div class="row mt-20">
+					<table class="table table-responsive table-condensed table-hover table-bordered">
+						<thead>
+							<tr class="warning">
+								<th width="55%">Resource</th>
+								<th>Create</th>
+								<th>View</th>
+								<th>Edit</th>
+								<th>Delete</th>
+							</tr>
+						</thead>
+						<tbody ng-repeat="(key, resource) in resources">
+							<tr>
+						        <th class="text-primary text-bold" colspan="5" scope="colgroup">
+						            <h6><span class="icon"> <i class="fa fa-angle-down"></i></span> {{key}}</h6>
+						        </th>
+						    </tr>
+						    <tr ng-repeat="(resourceKey, item) in resource">
+						        <td>{{resourceKey}}</td>
+						        <td><input type="checkbox" ng-checked="item[0].create.status" ng-model="res[resourceKey].create" ng-change="changePermission(resourceKey, key, 'create', res[resourceKey].create)" ng-init="res[resourceKey].create = item[0].create.status"/></td>
+						        <td><input type="checkbox" ng-checked="item[0].view.status" ng-model="res[resourceKey].view" ng-change="changePermission(resourceKey, key, 'view', res[resourceKey].view)" ng-init="res[resourceKey].view = item[0].view.status"/></td>
+						        <td><input type="checkbox" ng-checked="item[0].edit.status" ng-model="res[resourceKey].edit" ng-change="changePermission(resourceKey, key, 'edit', res[resourceKey].edit)" ng-init="res[resourceKey].edit = item[0].edit.status"/></td>
+						        <td><input type="checkbox" ng-checked="item[0].delete.status" ng-model="res[resourceKey].create" ng-change="changePermission(resourceKey, key, 'delete', res[resourceKey].delete)" ng-init="res[resourceKey].delete = item[0].delete.status"/></td>
+						    </tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

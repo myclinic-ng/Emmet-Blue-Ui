@@ -10,8 +10,8 @@ angular.module("EmmetBlue")
 
 				var dataOpt = "data-option-id='"+data.DepartmentID+"' data-option-name='"+data.Name+"' data-option-group='"+data.GroupID+"'";
 
-				var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+dataOpt+"><i class='icon-pencil5'></i> Edit</button>";
-				var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"><i class='icon-bin'></i> Delete</button>";
+				var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+dataOpt+"><i class='icon-pencil5'></i> </button>";
+				var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"><i class='icon-bin'></i> </button>";
 				var viewButton = "<button class='btn btn-default'><i class='icon-eye'> </i> View</button>";
 				var roleManagementButton = "<button class='btn btn-default' ng-click=\""+roleManagementButtonAction+"\" "+dataOpt+"><i class='icon-equalizer'></i> Manage Roles</button>";
 

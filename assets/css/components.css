@@ -3838,6 +3838,326 @@ h4.ui-pnotify-title {
   animation: animateXMark 0.5s;
 }
 /* ------------------------------------------------------------------------------
+*
+*  # Fancytree
+*
+*  Tree plugin for jQuery with support for persistence, keyboard, checkboxes,
+*  tables (grid), drag'n'drop, and lazy loading
+*
+*  Version: 1.0
+*  Latest update: May 25, 2015
+*
+* ---------------------------------------------------------------------------- */
+/* # Core
+-------------------------------------------------- */
+.fancytree-container {
+  list-style: none;
+  white-space: nowrap;
+  padding: 0;
+  margin: 0;
+  overflow: auto;
+  position: relative;
+}
+.fancytree-container:focus {
+  outline: 0;
+}
+.fancytree-container ul {
+  list-style: none;
+  padding: 0 0 0 20px;
+  margin: 0;
+}
+.fancytree-container ul li {
+  margin-top: 1px;
+}
+.ui-fancytree-disabled .fancytree-container {
+  opacity: 0.6;
+  filter: alpha(opacity=60);
+}
+.ui-fancytree-disabled .fancytree-container,
+.ui-fancytree-disabled .fancytree-title,
+.ui-fancytree-disabled .fancytree-expander {
+  cursor: not-allowed;
+}
+.ui-fancytree-disabled .fancytree-treefocus .fancytree-selected .fancytree-title {
+  background-color: #f5f5f5;
+  color: #333333;
+}
+.ui-helper-hidden {
+  display: none;
+}
+.fancytree-expander:after,
+.fancytree-icon:after,
+.fancytree-checkbox:after,
+.fancytree-drag-helper-img:after,
+.fancytree-drop-before:after,
+.fancytree-drop-after:after,
+.fancytree-loading .fancytree-expander:after,
+.fancytree-statusnode-wait .fancytree-icon:after {
+  font-family: 'icomoon';
+  display: inline-block;
+  font-size: 16px;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.fancytree-icon,
+.fancytree-checkbox,
+.fancytree-custom-icon {
+  margin-top: 5px;
+  float: left;
+}
+.fancytree-checkbox {
+  margin: 4px 10px 0 2px;
+}
+.fancytree-custom-icon {
+  display: inline-block;
+}
+img.fancytree-icon {
+  width: 16px;
+  height: 16px;
+  margin-left: 3px;
+  margin-top: 3px;
+  vertical-align: top;
+  border-style: none;
+}
+.fancytree-expander {
+  cursor: pointer;
+  float: left;
+  margin-top: 5px;
+  width: 16px;
+  line-height: 1;
+}
+.fancytree-exp-c .fancytree-expander:after {
+  content: '\e9c7';
+}
+.fancytree-exp-cl .fancytree-expander:after {
+  content: '\e9c7';
+}
+.fancytree-exp-cd .fancytree-expander:after,
+.fancytree-exp-cdl .fancytree-expander:after {
+  content: '\e9c7';
+}
+.fancytree-exp-e .fancytree-expander:after,
+.fancytree-exp-ed .fancytree-expander:after {
+  content: '\e9c5';
+}
+.fancytree-exp-el .fancytree-expander:after,
+.fancytree-exp-edl .fancytree-expander:after {
+  content: '\e9c5';
+}
+.fancytree-statusnode-error .fancytree-icon:after {
+  content: '\ed63';
+}
+.fancytree-loading .fancytree-expander,
+.fancytree-statusnode-wait .fancytree-icon {
+  margin-left: auto;
+  margin-right: auto;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  text-align: center;
+}
+.fancytree-loading .fancytree-expander:after,
+.fancytree-statusnode-wait .fancytree-icon:after {
+  content: '\ed6c';
+  -webkit-transition: all 0.15s ease-in-out;
+  -o-transition: all 0.15s ease-in-out;
+  transition: all 0.15s ease-in-out;
+}
+.fancytree-icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+}
+.fancytree-ico-c .fancytree-icon:after,
+.fancytree-ico-e .fancytree-icon:after {
+  content: '\ea1a';
+}
+.fancytree-has-children.fancytree-ico-c .fancytree-icon:after {
+  content: '\ea0f';
+}
+.fancytree-has-children.fancytree-ico-e .fancytree-icon:after {
+  content: '\ea11';
+}
+.fancytree-ico-cf .fancytree-icon:after,
+.fancytree-ico-ef .fancytree-icon:after {
+  content: '\ea3d';
+}
+.fancytree-has-children.fancytree-ico-cf .fancytree-icon:after {
+  content: '\ea41';
+}
+.fancytree-has-children.fancytree-ico-ef .fancytree-icon:after {
+  content: '\ea43';
+}
+.fancytree-checkbox {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #777777;
+  display: block;
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+}
+.fancytree-checkbox:after,
+.fancytree-partsel.fancytree-selected .fancytree-checkbox:after {
+  content: "\e600";
+  margin-top: -1px;
+  margin-left: -1px;
+  display: none;
+}
+.fancytree-partsel > .fancytree-checkbox:after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  display: none;
+  background-color: #888888;
+  margin: 3px;
+}
+.fancytree-partsel.fancytree-selected .fancytree-checkbox:after {
+  background-color: transparent;
+  width: auto;
+  height: auto;
+}
+.fancytree-selected .fancytree-checkbox:after,
+.fancytree-partsel .fancytree-checkbox:after,
+.fancytree-partsel.fancytree-selected .fancytree-checkbox:after {
+  display: block;
+}
+.fancytree-radio .fancytree-checkbox {
+  border-radius: 100%;
+}
+.fancytree-radio .fancytree-checkbox:after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background-color: #888888;
+  margin: 3px;
+  border-radius: 100px;
+}
+/* # Other styles
+-------------------------------------------------- */
+.fancytree-drag-helper {
+  border: 1px solid #ddd;
+  background-color: #fff;
+  padding: 4px 5px;
+  opacity: 0.8;
+  filter: alpha(opacity=80);
+}
+.fancytree-drag-helper-img:after {
+  position: absolute;
+  top: 50%;
+  margin-top: -9px;
+  right: -26px;
+}
+.fancytree-drop-accept .fancytree-drag-helper-img:after {
+  content: '\ee73';
+  color: #4caf50;
+}
+.fancytree-drop-reject .fancytree-drag-helper-img:after {
+  content: '\ed63';
+  color: #f44336;
+}
+#fancytree-drop-marker.fancytree-drop-before,
+#fancytree-drop-marker.fancytree-drop-after {
+  width: 200px;
+  border-top: 1px solid #333333;
+  position: absolute!important;
+}
+.fancytree-drag-source {
+  background-color: #dddddd;
+}
+.fancytree-drag-source .fancytree.title {
+  color: #333333;
+}
+.fancytree-drop-target.fancytree-drop-accept a {
+  background-color: #ff9800 !important;
+  color: #fff !important;
+  text-decoration: none;
+}
+.fancytree-node {
+  display: inherit;
+  width: 100%;
+  position: relative;
+}
+.fancytree-title {
+  border: 0;
+  padding: 4px 6px;
+  border-radius: 2px;
+  margin-left: 4px;
+  display: inline-block;
+  cursor: pointer;
+}
+.fancytree-title > input {
+  border: 0;
+  outline: 0;
+  padding: 0;
+  background-color: transparent;
+}
+.fancytree-selected .fancytree-title {
+  background-color: #dddddd;
+  color: #333333;
+}
+.fancytree-treefocus .fancytree-selected .fancytree-title {
+  background-color: #ff9800;
+  color: #fff;
+}
+.fancytree-active .fancytree-title {
+  background-color: #dddddd;
+}
+.sidebar:not(.sidebar-default) .fancytree-selected .fancytree-title,
+.sidebar:not(.sidebar-default) .fancytree-active .fancytree-title {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+.sidebar:not(.sidebar-default) .fancytree-treefocus .fancytree-selected .fancytree-title {
+  background-color: #ff9800;
+  color: #fff;
+}
+.fancytree-ext-table .fancytree-node {
+  display: inline-block;
+  width: auto;
+}
+.fancytree-ext-table .fancytree-title {
+  display: inline;
+}
+.fancytree-ext-table.fancytree-container {
+  white-space: normal;
+}
+.fancytree-ext-table .fancytree-expander,
+.fancytree-ext-table .fancytree-icon,
+.fancytree-ext-table .fancytree-custom-icon {
+  margin-top: 1px;
+}
+.fancytree-ext-table .fancytree-checkbox {
+  margin: 0 auto;
+  float: none;
+}
+.fancytree-ext-table .checker {
+  display: block;
+  margin: 0 auto;
+}
+.fancytree-ext-table tbody tr td:first-child {
+  text-align: center;
+}
+.fancytree-ext-table tbody tr.fancytree-focused {
+  background-color: #f5f5f5;
+}
+.fancytree-ext-table tbody tr.fancytree-active {
+  background-color: #f5f5f5;
+}
+.fancytree-ext-table tbody tr.fancytree-selected {
+  background-color: #ff9800;
+  color: #fff;
+}
+.fancytree-ext-table tbody tr.fancytree-selected .fancytree-checkbox {
+  color: #fff;
+  border-color: #fff;
+}
+.fancytree-ext-table tbody tr.fancytree-selected .checker span {
+  border-color: #fff;
+  color: #fff;
+}
+/* ------------------------------------------------------------------------------
  *
  *  # Bootstrap file input
  *
