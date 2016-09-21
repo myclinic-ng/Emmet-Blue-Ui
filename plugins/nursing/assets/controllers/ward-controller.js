@@ -7,7 +7,7 @@ angular.module("EmmetBlue")
 		actionsMarkup: function(meta, full, data){
 			var editButtonAction = "functions.manageWard.editWard("+data.WardID+")";
 			var deleteButtonAction = "functions.manageWard.deleteWard("+data.WardID+")";
-			var manageSectionsButtonAction = "functions.manageWard.manageSections()";
+			var manageSectionsButtonAction = "functions.manageWard.manageSections("+data.WardID+")";
 
 			var options = "data-option-id='"+data.WardID+"' data-option-ward-name='"+data.WardName+"' data-option-ward-desc='"+data.WardDescription+"'";
 			var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+options+"><i class='icon-pencil5'></i> Edit</button>";
@@ -39,7 +39,12 @@ angular.module("EmmetBlue")
 				};
 				$("#edit-ward").modal("show");
 			},
-			manageSections: function(){
+			manageSections: function(id){
+				var data = {
+					name: $(".btn[data-option-id='"+id+"']").attr('data-option-ward-name'),
+					id: id
+				}
+				utils.storage.sectionManagementData = data;
 				$("#manage-sections").modal("show");
 			},
 			wardEdited: function(){
