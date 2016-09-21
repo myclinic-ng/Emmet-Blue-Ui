@@ -1,4 +1,4 @@
-angular.module("EmmetBlue")
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 angular.module("EmmetBlue")
 
 .controller("accountsBillingNewPaymentController", function($scope, utils){
 	$scope.invoices = {};
@@ -32,9 +32,11 @@ angular.module("EmmetBlue")
 
 	$scope.saveTransaction = function(printReceipt = false){
 		var newPayment = $scope.newPayment;
+		$('.loader').addClass('show');
 
 		var request = utils.serverRequest("/accounts-biller/transaction/new", "POST", newPayment);
 		request.then(function(response){
+			$('.loader').removeClass('show');
 			$scope.newPayment = {};
 			if (printReceipt){
 				$scope.printReceipt()
@@ -43,6 +45,7 @@ angular.module("EmmetBlue")
 				$("#payment_receipt").modal("show");
 			}
 		}, function(responseObject){
+			$('.loader').removeClass('show');
 			utils.errorHandler(responseObject);
 		})
 	}

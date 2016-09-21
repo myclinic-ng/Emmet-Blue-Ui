@@ -136,11 +136,14 @@ angular.module("EmmetBlue")
 	];
 
 	$scope.saveNewWard = function(){
+		$(".loader").addClass('show');
 		var newWard = $scope.wardRegistration
 		ward = utils.serverRequest('/nursing/ward/new', 'post', newWard);
 		ward.then(function(response){
+			$(".loader").removeClass('show');
 			functions.manageWard.newWardCreated();
 		}, function(responseObject){
+			$(".loader").removeClass('show');
 			utils.errorHandler(responseObject);
 		})
 	}
@@ -154,11 +157,14 @@ angular.module("EmmetBlue")
 			WardName: $scope.temp.name,
 			WardDescription:$scope.temp.desc
 		}
+		$(".loader").addClass('show');
 
 		var saveEdits = utils.serverRequest('/nursing/ward/edit', 'PUT', edits);
 		saveEdits.then(function(response){
+			$(".loader").removeClass('show');
 			functions.manageWard.wardEdited();
 		}, function(responseObject){
+			$(".loader").removeClass('show');
 			utils.errorHandler(responseObject);
 		})
 	}

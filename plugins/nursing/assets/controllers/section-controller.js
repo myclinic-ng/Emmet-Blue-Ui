@@ -86,7 +86,6 @@ angular.module("EmmetBlue")
 					name: $(".btn[data-option-id='"+id+"']").attr('data-option-section-name'),
 					id: id
 				}
-
 				utils.storage.bedManagementData = data;
 				$("#bed-management").modal("show");
 			}
@@ -162,10 +161,13 @@ angular.module("EmmetBlue")
 	$scope.saveNewSection = function(){
 		var newSection = $scope.sectionRegistration
 		//console.log(newSection);
+		$('.loader').addClass('show');
 		ward = utils.serverRequest('/nursing/ward-section/new', 'post', newSection);
 		ward.then(function(response){
+			$('.loader').removeClass('show');
 			functions.manageSection.newSectionCreated();
 		}, function(responseObject){
+			$('.loader').removeClass('show');
 			utils.errorHandler(responseObject);
 		})
 	}
@@ -176,10 +178,13 @@ angular.module("EmmetBlue")
 			WardSectionName: $scope.temp.sectionName,
 			WardSectionDescription: $scope.temp.sectionDescription
 		}
+		$('.loader').addClass('show');
 		var saveEdits = utils.serverRequest('/nursing/ward-section/edit', 'PUT', edits);
 		saveEdits.then(function(response){
+			$('.loader').removeClass('show');
 			functions.manageSection.sectionEdited();
 		}, function(responseObject){
+			$('.loader').removeClass('show');
 			utils.errorHandler(responseObject);
 		})
 

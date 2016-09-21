@@ -71,8 +71,11 @@
 							</select>
 						</div>
 						<div class="button-group pull-right">
-							<button class="btn btn-default" ng-click="saveTransaction()"><i class="icon-floppy-disk"></i> Save</button>
-							<button class="btn btn-default" ng-click="saveTransaction(true)"><i class="icon-floppy-disk"></i> Save &amp; <i class="icon-printer"></i> Print Receipt</button>
+							<button class="btn btn-default" ng-click="saveTransaction()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"></i></span><i class="icon-floppy-disk"></i> Save</button>
+							<button class="btn btn-default" ng-click="saveTransaction(true)">
+								<span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"></i></span><i class="icon-floppy-disk"></i> Save &amp; 
+								<i class="icon-printer"></i> Print Receipt
+							</button>
 						</div>
 					</div>
 					<div class="col-md-7" id="transaction_document_area">
