@@ -130,11 +130,14 @@ angular.module("EmmetBlue")
 	$scope.saveNewRole = function(){
 		var newRole = $scope.newRole;
 		newRole.department = $scope.department;
+		$('.loader').addClss('show');
 		var saveNewRole = utils.serverRequest('/human-resources/role/new', 'POST', newRole);
 
 		saveNewRole.then(function(response){
+			$('.loader').removeClass('show');
 			functions.newRoleCreated();
 		}, function(response){
+			$('.loader').removeClass('show');
 			utils.errorHandler(response);
 		});
 	}
@@ -144,11 +147,13 @@ angular.module("EmmetBlue")
 			resourceId: $scope.tempHolder.id,
 			Name: $scope.tempHolder.name
 		}
-
+		$('.loader').addClss('show');
 		var saveEdits = utils.serverRequest('/human-resources/role/edit', 'PUT', edits);
 		saveEdits.then(function(response){
+			$('.loader').removeClass('show');
 			functions.roleEdited();
 		}, function(responseObject){
+			$('.loader').removeClass('show');
 			utils.errorHandler(responseObject);
 		})
 

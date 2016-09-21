@@ -58,13 +58,16 @@ angular.module("EmmetBlue")
     
 	$scope.submit = function(){
 		$scope.body.tag = $scope.body.tag.split(",");
+		$('.loader').addClass('show');
 		var body = utils.serverRequest('/mortuary/body/new', 'post', $scope.body);
 		body.then(function(response){
+			$('.loader').removeClass('show');
 			utils.alert('Operation Successful', 'The Registration of body number was completed successfully', 'success', 'both');
 			$scope.body = {};
 			dtInstance = dtInstance.reloadData();
 			$('#new-body-registration').modal('hide');
 		}, function(error){
+			$('.loader').removeClass('show');
 			utils.errorHandler(error, true);
 		});
 	}

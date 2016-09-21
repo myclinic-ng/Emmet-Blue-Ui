@@ -51,12 +51,14 @@ angular.module("EmmetBlue")
 
 	$scope.submitNewStaffForm = function(){
 		var newStaff = $scope.newStaff;
-
+			$('.loader').addClass('show');
 		var save = utils.serverRequest('/human-resources/staff/new-staff-with-department-and-role', 'POST', newStaff);
 
 		save.then(function(response){
+			$('.loader').removeClass('show');
 			functions.newStaffCreated();
 		}, function(response){
+			$('.loader').removeClass('show');
 			$("#new_staff_profile").modal("show");
 			utils.errorHandler(response);
 		});

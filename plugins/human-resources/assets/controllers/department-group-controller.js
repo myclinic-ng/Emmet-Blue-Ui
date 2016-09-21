@@ -198,13 +198,16 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.saveNewDepartmentGroup = function(){
+		$('.loader').addClass('show');
 		var newDepartmentGroup = $scope.newDepartmentGroup;
 		var saveNewDepartmentGroup = utils.serverRequest('/human-resources/department-group/new', 'POST', newDepartmentGroup);
 
 		saveNewDepartmentGroup.then(function(response){
+			$('.loader').removeClass('show');
 			functions.newDepartmentGroupCreated();
 			$scope.newDepartmentGroup = {};
 		}, function(response){
+			$('.loader').removeClass('show');
 			utils.errorHandler(response);
 		});
 	}
@@ -214,11 +217,13 @@ angular.module("EmmetBlue")
 			resourceId: $scope.tempHolder.groupId,
 			GroupName: $scope.tempHolder.groupName
 		}
-
+			$('.loader').addClass('show');
 		var saveEdits = utils.serverRequest('/human-resources/department-group/edit', 'PUT', edits);
 		saveEdits.then(function(response){
+			$('.loader').removeClass('show');
 			functions.departmentGroupEdited();
 		}, function(responseObject){
+			$('.loader').removeClass('show');
 			utils.errorHandler(responseObject);
 		})
 
