@@ -141,12 +141,15 @@ angular.module("EmmetBlue")
 	$scope.addIntervalToList = function(){
 		var interval = $scope.interval;
 		$scope.interval = {};
+		$('.loader').addClass('show');
 
 		$scope.priceStructure.interval.push(interval);
+		$('.loader').removeClass('show');
 	}
 
 	$scope.addPriceStructureToBillingList = function(){
 		$scope.priceStructure.patientTypes = [];
+		$('.loader').addClass('show');
 		for (var type in $scope.patientTypeCheckbox){
 			if (!$scope.patientTypeCheckbox[type]){
 				delete $scope.patientTypeCheckbox[type];
@@ -158,6 +161,7 @@ angular.module("EmmetBlue")
 		$scope.newBillingTypeItems.priceStructures.push($scope.priceStructure);
 		$scope.priceStructure = {};
 		$scope.patientTypeCheckbox = [];
+		$('.loader').removeClass('show');
 		$("#new_billing_type_item_payment_structure").modal("hide");
 	}
 
@@ -209,12 +213,15 @@ angular.module("EmmetBlue")
 		var newBillingTypeItems = $scope.newBillingTypeItems;
 
 		newBillingTypeItems.billingType = $scope.billingTypeItems;
+		$('.loader').addClass('show');
 
 		var saveNewBillingTypeItems = utils.serverRequest('/accounts-biller/billing-type-items/new', 'POST', newBillingTypeItems);
 
 		saveNewBillingTypeItems.then(function(response){
+			$('.loader').removeClass('show');
 			functions.newBillingTypeItemsCreated();
 		}, function(response){
+			$('.loader').removeClass('show');
 			utils.errorHandler(response);
 		});
 	}

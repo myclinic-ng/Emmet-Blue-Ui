@@ -40,7 +40,7 @@
 									<input type="text" class="form-control" ng-model="newBillingTypeItems.name">
 								</div>
 								<div class="col-sm-12 mt-15">
-									<button class="btn btn-clear center" data-toggle="modal" data-target="#new_billing_type_item_payment_structure"><i class="icon-file-plus"></i> Add price structure</button>
+									<button class="btn btn-clear center" data-toggle="modal" data-target="#new_billing_type_item_payment_structure">Add price structure</button>
 								</div>
 							</div>
 						</div>
@@ -71,7 +71,7 @@
 
 				<div class="modal-footer mt-30">
 					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="newBillingTypeItems = {}"><i class="fa fa-times-circle-o"></i> Close</button>
-					<button type="button" class="btn btn-warning" ng-click="saveNewBillingTypeItems()"><i class="icon-floppy-disk"></i> Save changes</button>
+					<button type="button" class="btn btn-warning" ng-click="saveNewBillingTypeItems()"> <i class="icon-floppy-disk"> </i> <span class="hide loader pull-left"> <i class="fa fa fa-spinner fa-spin"> </i></span> Save changes</button>
 				</div>
 			</div>
 		</div>
@@ -152,7 +152,7 @@
 										<input type="number" class="form-control" ng-model="interval.increment"/>
 									</div>
 									<div class="form-group col-md-6 pull-right">
-										<button class="btn btn-primary" ng-click="addIntervalToList()"><i class="fa fa-plus-square"></i>  Add</button>
+										<button class="btn btn-primary" ng-click="addIntervalToList()"> <span class="hide loader pull-left"> <i class="fa fa fa-spinner fa-spin"> </i></span><i class="fa fa-plus-square"></i>  Add</button>
 									</div>
 								</fieldset>
 
@@ -181,7 +181,7 @@
 
 				<div class="modal-footer">
 					<div class="col-sm-12 mt-15">
-						<label class="btn btn-default" ng-click="addPriceStructureToBillingList()"> <i class="icon-list"></i> Add to list</label>
+						<label class="btn btn-default" ng-click="addPriceStructureToBillingList()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"></i></span> <i class="icon-list"></i> Add to list</label>
 					</div>
 				</div>
 			</div>
@@ -224,7 +224,9 @@
 
 				<div class="modal-footer">
 					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="tempHolder = {}"><i class="fa fa-times-circle-o"></i> Close</button>
-					<button type="button" class="btn btn-warning" ng-click="saveEditBillingTypeItems()"><i class="icon-floppy-drive"></i> Save changes</button>
+					<button type="button" class="btn btn-warning" ng-click="saveEditBillingTypeItems()">
+					<span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"></i></span>
+					<i class="icon-floppy-drive"></i> Save changes</button>
 				</div>
 			</div>
 		</div>

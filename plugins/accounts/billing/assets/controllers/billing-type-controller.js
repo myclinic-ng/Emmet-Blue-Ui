@@ -192,22 +192,27 @@ angular.module("EmmetBlue")
 
 	$scope.saveNewBillingType = function(){
 		var newBillingType = $scope.newBillingType;
+		$('.loader').addClass('show');
 		var saveNewBillingType = utils.serverRequest('/accounts-biller/billing-type/new', 'POST', newBillingType);
 
 		saveNewBillingType.then(function(response){
+			$('.loader').removeClass('show');
 			functions.newBillingTypeCreated();
 		}, function(response){
+			$('.loader').removeClass('show');
 			utils.errorHandler(response);
 		});
 	}
 
 	$scope.saveEditBillingType = function(){
 		var edits = $scope.tempHolder;
-
+			$('.loader').addClass('show');
 		var saveEdits = utils.serverRequest('/accounts-biller/billing-type/edit', 'PUT', edits);
 		saveEdits.then(function(response){
+			$('.loader').removeClass('show');
 			functions.billingTypeEdited();
 		}, function(responseObject){
+			$('.loader').removeClass('show');
 			utils.errorHandler(responseObject);
 		})
 

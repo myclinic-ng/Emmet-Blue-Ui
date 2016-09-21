@@ -6,6 +6,7 @@ angular.module("EmmetBlue")
 	$scope.$watch(function(){
 		return utils.storage.bedManagementData
 	}, function(newValue){
+		//console.log(newValue);
 		$scope.sectionName = newValue.name;
 		$scope.sectionId = newValue.id;
 
@@ -59,6 +60,7 @@ angular.module("EmmetBlue")
 					bedName: bedName,
 					bedDescription: bedDesc
 				};
+				console.log(bedName);
 				$("#edit_bed").modal("show");
 			},
 			newBed: function(){
@@ -131,10 +133,13 @@ angular.module("EmmetBlue")
 	$scope.saveNewBed = function(){
 		var newBed = $scope.newBed;
 		newBed.wardSectionId = $scope.sectionId;
+		$('.loader').addClass('show');
 		var bed = utils.serverRequest("/nursing/section-bed/new", "POST", newBed);
 		bed.then(function(response){
+			$('.loader').removeClass('show');
 			functions.newBedCreated();
 		}, function(responseObject){
+			$('.loader').removeClass('show');
 			errorHandler(responseObject);
 		})
 	}
@@ -161,11 +166,13 @@ angular.module("EmmetBlue")
 			BedName: $scope.temp.bedName,
 			BedDescription: $scope.temp.bedDescription
 		}
-		console.log(edits);
+		$('.loader').addClass('show');
 		var saveEdits = utils.serverRequest('/nursing/section-bed/edit', 'PUT', edits);
 		saveEdits.then(function(response){
+			$('.loader').removeClass('show');
 			functions.bedEdited();
 		}, function(responseObject){
+			$('.loader').removeClass('show');
 			utils.errorHandler(responseObject);
 		})
 
