@@ -12,7 +12,7 @@ angular.module("EmmetBlue")
 
 				var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+dataOpt+"><i class='icon-pencil5'></i> </button>";
 				var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"><i class='icon-bin'></i> </button>";
-				var viewButton = "<button class='btn btn-default'><i class='icon-eye'> </i> View</button>";
+				var viewButton = "<button class='btn btn-default'><i class='icon-eye'> </i> </button>";
 				var roleManagementButton = "<button class='btn btn-default' ng-click=\""+roleManagementButtonAction+"\" "+dataOpt+"><i class='icon-equalizer'></i> Manage Roles</button>";
 
 				var buttons = "<div class='btn-group'>"+viewButton+editButton+deleteButton+roleManagementButton+"</button>";
