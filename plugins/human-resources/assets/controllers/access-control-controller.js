@@ -37,6 +37,17 @@ angular.module("EmmetBlue")
 		})
 	}
 
+	var loadAllResources = function(role){
+		var department = $scope.departmentSelector;
+		var loadResources = utils.serverRequest('/permission/access-control/view-resources', 'GET');
+
+		loadResources.then(function(response){
+			$scope.allResources = response;
+		}, function(responseObject){
+			utils.errorHandler(responseObject);
+		})
+	}
+
 	$scope.loadDepartment = function(department, name){
 		$scope.departmentSelector = name;
 		var rolePromise = utils.serverRequest('/human-resources/role/view-by-department?resourceId='+department, 'GET');
@@ -49,11 +60,12 @@ angular.module("EmmetBlue")
 
 	}
 
-	$scope.$watch("roleSelector", function(newValue, oldValue){
+	$scope.loadPermissions = function(){
+		var newValue = $scope.roleSelector;
 		if (typeof newValue !== "undefined"){
 			loadResources(newValue);
 		}
-	})
+	}
 
 	$scope.changePermission = function(resource, department, permission, status){
 		var permissionChangeRequest = utils.serverRequest("/permission/access-control/set-permission", "POST", {
@@ -72,5 +84,32 @@ angular.module("EmmetBlue")
 		})
 	}
 
+	$scope.saveNewPermission = function(){
+		var resource = $scope.newPermission.resource;
+		resource = resource.split(",");
+
+		var permissions = $scope.newPermission.permissions;
+		var role = $scope.roleSelector;
+		var department = $scope.departmentSelector;
+		var resourceName = resource[1];
+		var permissionDepartment = resource[0];
+
+		var newPermissionRequest = utils.serverRequest("/permission/access-control/set-multiple-permissions", "POST", {
+			"department":department,
+			"role": role,
+			"resource-name":resourceName,
+			"permission-department":permissionDepartment,
+			"permissions":permissions
+		});
+
+		newPermissionRequest.then(function(response){
+			$scope.loadPermissions();
+			utils.alert("Changes Saved", "Permission assigned to role successfully", "success", "notify");
+		}, function(response){
+			utils.errorHandler(response);
+		});
+	}
+
 	loadDepartments();
+	loadAllResources();
 })

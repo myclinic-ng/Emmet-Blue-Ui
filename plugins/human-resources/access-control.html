@@ -1,5 +1,10 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-<script>$('select.select').select2();</script>
+<script>
+	$('select.select').select2();
+	$(".styled, .multiselect-container input").uniform({
+        radioClass: 'choice'
+    });
+</script>
 <div ng-controller="humanResourcesAccessControlController">
 	<div class="col-md-3">
 		<div class="sidebar sidebar-main sidebar-default">
@@ -49,47 +54,105 @@
 	        	</div>
 			</div>
 			<div class="panel-body">
+				<!-- 
 				<div class="row form-group">
-					<div class="col-md-6">
-						<label class="control-label">Select role to control access </label>
-						<select class="select" ng-model="roleSelector">
-							<option ng-repeat="role in department.role" value="{{role.Name}}">{{role.Name}}</option>
-						</select>
-					</div>
-					<div class="col-md-3 col-md-offset-3">
+					<div class="col-md-3 col-md-offset-9">
 						<label class="control-label"></label>
 						<div class="input-group">
 							<span class="input-group-addon"><i class="fa fa-search"></i></span>
 							<input type="text" class="form-control" placeholder="filter resources" ng-model="filterResources"/>
 						</div>
 					</div>
-				</div>
+				</div> -->
 				<div class="row mt-20">
-					<table class="table table-responsive table-condensed table-hover table-bordered">
-						<thead>
-							<tr class="warning">
-								<th width="55%">Resource</th>
-								<th>Create</th>
-								<th>View</th>
-								<th>Edit</th>
-								<th>Delete</th>
-							</tr>
-						</thead>
-						<tbody ng-repeat="(key, resource) in resources">
-							<tr>
-						        <th class="text-primary text-bold" colspan="5" scope="colgroup">
-						            <h6><span class="icon"> <i class="fa fa-angle-down"></i></span> {{key}}</h6>
-						        </th>
-						    </tr>
-						    <tr ng-repeat="(resourceKey, item) in resource">
-						        <td>{{resourceKey}}</td>
-						        <td><input type="checkbox" ng-checked="item[0].create.status" ng-model="res[resourceKey].create" ng-change="changePermission(resourceKey, key, 'create', res[resourceKey].create)" ng-init="res[resourceKey].create = item[0].create.status"/></td>
-						        <td><input type="checkbox" ng-checked="item[0].view.status" ng-model="res[resourceKey].view" ng-change="changePermission(resourceKey, key, 'view', res[resourceKey].view)" ng-init="res[resourceKey].view = item[0].view.status"/></td>
-						        <td><input type="checkbox" ng-checked="item[0].edit.status" ng-model="res[resourceKey].edit" ng-change="changePermission(resourceKey, key, 'edit', res[resourceKey].edit)" ng-init="res[resourceKey].edit = item[0].edit.status"/></td>
-						        <td><input type="checkbox" ng-checked="item[0].delete.status" ng-model="res[resourceKey].create" ng-change="changePermission(resourceKey, key, 'delete', res[resourceKey].delete)" ng-init="res[resourceKey].delete = item[0].delete.status"/></td>
-						    </tr>
-						</tbody>
-					</table>
+					<div class="col-md-12">
+						<div class="panel panel-default col-md-4">
+							<div class="panel-body">
+								<h4>Manage permissions</h4>
+								<div class="form-group">
+									<label class="control-label">Select Role</label> 
+									<select class="select" ng-model="roleSelector">
+										<option ng-repeat="role in department.role" value="{{role.Name}}">{{role.Name}}</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<button class="btn btn-default" ng-click="loadPermissions()">Load permissions</button>
+								</div>
+							</div>
+						</div>
+
+						<div class="panel panel-default col-md-7 col-md-offset-1">
+							<div class="panel-body">
+								<h4>Grant new permissions <span class="text-active text-bold badge badge-default">{{roleSelector}}</h4>
+								<div class="form-group col-md-7">
+									<label class="control-label">Resource</label> 
+									<select class="select" ng-model="newPermission.resource">
+										<optgroup ng-repeat="(key, value) in allResources" label="{{key}}">
+											<option ng-repeat="resource in value" value="{{key}},{{resource}}">{{resource}}</option>
+										</optgroup>
+									</select>
+								</div>
+								<div class="col-md-5">
+									<div class="form-group">
+										<div class="checkbox checkbox-right">
+											<label class="checkbox-inline">
+												Create
+												<input type="checkbox" class="styled" ng-model="newPermission.permissions.create"/>
+											</label>
+
+											<label class="checkbox-inline">
+												Delete
+												<input type="checkbox" class="styled" ng-model="newPermission.permissions.delete"/>
+											</label>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="checkbox checkbox-right">
+											<label class="checkbox-inline">
+												View&nbsp;&nbsp;
+												<input type="checkbox" class="styled" ng-model="newPermission.permissions.view"/>
+											</label>
+
+											<label class="checkbox-inline">
+												Edit&nbsp;&nbsp;&nbsp;&nbsp;
+												<input type="checkbox" class="styled" ng-model="newPermission.permissions.edit"/>
+											</label>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<button class="btn btn-success col-md-3 col-md-offset-3" ng-click="saveNewPermission()">Save</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<table class="table table-responsive table-condensed table-hover table-bordered">
+							<thead>
+								<tr class="warning">
+									<th width="55%">Resource</th>
+									<th>Create</th>
+									<th>View</th>
+									<th>Edit</th>
+									<th>Delete</th>
+								</tr>
+							</thead>
+							<tbody ng-repeat="(key, resource) in resources">
+								<tr>
+							        <th class="text-primary text-bold" colspan="5" scope="colgroup">
+							            <h6><span class="icon"> <i class="fa fa-angle-down"></i></span> {{key}}</h6>
+							        </th>
+							    </tr>
+							    <tr ng-repeat="(resourceKey, item) in resource">
+							        <td>{{resourceKey}}</td>
+							        <td><input type="checkbox" ng-checked="item[0].create.status" ng-model="res[resourceKey].create" ng-change="changePermission(resourceKey, key, 'create', res[resourceKey].create)" ng-init="res[resourceKey].create = item[0].create.status"/></td>
+							        <td><input type="checkbox" ng-checked="item[0].view.status" ng-model="res[resourceKey].view" ng-change="changePermission(resourceKey, key, 'view', res[resourceKey].view)" ng-init="res[resourceKey].view = item[0].view.status"/></td>
+							        <td><input type="checkbox" ng-checked="item[0].edit.status" ng-model="res[resourceKey].edit" ng-change="changePermission(resourceKey, key, 'edit', res[resourceKey].edit)" ng-init="res[resourceKey].edit = item[0].edit.status"/></td>
+							        <td><input type="checkbox" ng-checked="item[0].delete.status" ng-model="res[resourceKey].create" ng-change="changePermission(resourceKey, key, 'delete', res[resourceKey].delete)" ng-init="res[resourceKey].delete = item[0].delete.status"/></td>
+							    </tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>
