@@ -10,7 +10,7 @@
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
 					<button type="button" class="close" onclick="$('#edit_setting_records_patient').modal('hide')">&times;</button>
-					<h6 class="modal-title">Edit Billing PatientType</h6>
+					<h6 class="modal-title">Edit PatientType</h6>
 				</div>
 
 				<div class="modal-body">
@@ -30,7 +30,7 @@
 
 				<div class="modal-footer">
 					<button type="button" class="btn btn-link" ng-click="tempHolder = {}" onclick="$('#edit_setting_records_patient').modal('hide')">Close</button>
-					<button type="button" class="btn btn-warning" ng-click="saveEditPatientType()">Save changes</button>
+					<button type="button" class="btn btn-warning" ng-click="saveEditPatientType()"> <span class="hide loader pull-left"> <i class="fa fa-spinner fa-spin fa-3x"></i> </span> Save changes</button>
 				</div>
 			</div>
 		</div>
@@ -67,7 +67,7 @@
 
 				<div class="modal-footer">
 					<button type="button" class="btn btn-link" ng-click="newPatientType = {}" onclick="$('#new_setting_records_patient').modal('hide')">cancel</button>
-					<button type="button" class="btn btn-warning" ng-click="saveNewPatientType()">Save changes</button>
+					<button type="button" class="btn btn-warning" ng-click="saveNewPatientType()"> <span class="hide loader pull-left"> <i class="fa fa-spinner fa-spin fa-3x"></i> </span> Save changes</button>
 				</div>
 			</div>
 		</div>

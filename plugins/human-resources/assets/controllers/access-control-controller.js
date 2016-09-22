@@ -93,7 +93,7 @@ angular.module("EmmetBlue")
 		var department = $scope.departmentSelector;
 		var resourceName = resource[1];
 		var permissionDepartment = resource[0];
-
+		$('.loader').addClass('show');
 		var newPermissionRequest = utils.serverRequest("/permission/access-control/set-multiple-permissions", "POST", {
 			"department":department,
 			"role": role,
@@ -103,9 +103,11 @@ angular.module("EmmetBlue")
 		});
 
 		newPermissionRequest.then(function(response){
+			$('.loader').removeClass('show');
 			$scope.loadPermissions();
 			utils.alert("Changes Saved", "Permission assigned to role successfully", "success", "notify");
 		}, function(response){
+			$('.loader').removeClass('show');
 			utils.errorHandler(response);
 		});
 	}
