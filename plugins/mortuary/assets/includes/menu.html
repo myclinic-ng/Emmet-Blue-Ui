@@ -9,77 +9,12 @@
 			<ul class="nav navbar-nav">
 				<li><a href="mortuary/dashboard"><i class="icon-display4 position-left"></i> Dashboard</a></li>
 				<li class="dropdown-submenu">
-							<a  class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-ambulance"></i> Register New Body
-								<span class="caret"></span>
-							</a>
-							<ul class="dropdown-menu">
-								<li><a href="mortuary/assets/includes/register-new-body">New Body</a></li>
-								<li class="dropdown-header highlight">Choose Body Template</li>
-								<li class="dropdown-submenu">
-									<a href="
-											mortuary/register-new-body?
-											body.tag=Unknown&
-											bodyInformation.firstName=John&
-											bodyInformation.lastName=Doe&
-											bodyInformation.familyMemeberName=Unknown&
-											bodyInformation.familyMemberRelationshipType=Unknown&
-											bodyInformation.familyMemberPhoneNumber=Unknown&
-
-									">
-										Unknown Body
-									</a>
-									<ul class="dropdown-menu">
-										<li class="dropdown-header highlight">Choose Gender</li>
-										<li>
-										<a href="
-											mortuary/register-new-body?
-											body.tag=Unknown&
-											bodyInformation.firstName=John&
-											bodyInformation.lastName=Doe&
-											bodyInformation.familyMemeberName=Unknown&
-											bodyInformation.familyMemberRelationshipType=Unknown&
-											bodyInformation.familyMemberPhoneNumber=Unknown&
-											bodyInformation.gender=Male&
-
-										"><i class="fa fa-mars"></i> Male</a></li>
-										<li>
-										<a href="
-											mortuary/register-new-body?
-											body.tag=Unknown&
-											bodyInformation.firstName=John&
-											bodyInformation.lastName=Doe&
-											bodyInformation.familyMemeberName=Unknown&
-											bodyInformation.familyMemberRelationshipType=Unknown&
-											bodyInformation.familyMemberPhoneNumber=Unknown&
-											bodyInformation.gender=Female&
-
-										"><i class="fa fa-venus"></i>Female</a></li>
-									</ul>
-								</li>
-							</ul>
+							<a ng-click="newBodyRegistration()"><i class="fa fa-ambulance"></i> Register New Body</a>
 						</li>
 						<li class="dropdown-submenu">
-							<a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-search"></i> View Bodies <span class="caret"></span></a>
-							<ul class="dropdown-menu">
-							<li><a href="mortuary/view-bodies">All Bodies</a></li>
-							<li><a href="mortuary/view-logged-in-bodies">logged In Bodies</a></li>
-							<li><a href="mortuary/view-logged-out-bodies">logged Out Bodies</a></li>
-								<li class="dropdown-header highlight">Sort By</li>
-								<li><a href="mortuary">Date Registered</a></li>
-								<li><a href="mortuary">Gender</a></li>
-							</ul>
-						</li>
-						<li class="dropdown-submenu">
-							<a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-folder"></i> Modify Bodies <span class="caret"></span></a>
-							<ul class="dropdown-menu">
-							<li><a href="mortuary">Modify Bodies</a></li>
-								<li class="dropdown-header highlight">Select Modify Option</li>
-								<li><a href="mortuary">Edit</a></li>
-								<li><a href="mortuary">Delete</a></li>
-							</ul>
+							<a href="mortuary/view-bodies"><i class="fa fa-search"></i> View Bodies</a>
 						</li>
 						<li><a href="mortuary/manage-body"><i class="icon-display4 position-left"></i> Manage Bodies</a></li>
-						<li><a href="layout_sidebar_sticky.html"><i class="icon-flip-vertical3"></i> Show Enhanced Management Center</a></li>
 			</ul>
 
 			<ul class="nav navbar-nav navbar-right">

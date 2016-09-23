@@ -244,10 +244,11 @@ angular.module("EmmetBlue")
   		var data = $scope.newPatient;
 		data.patientName = $scope.newPatient['First Name'] + " " + $scope.newPatient['Last Name'];
 		console.log(data);
-
+		$('.loader').addClass('show');
   		var submitData = utils.serverRequest("/patients/patient/new", "POST", data);
 
   		submitData.then(function(response){
+  			$('.loader').removeClass('show');
   			utils.alert("Info", "Record Uploaded successfully", "success");
 			$scope.newPatient = {};
 			$scope.newPatient.hospitalHistory = [];
@@ -259,6 +260,7 @@ angular.module("EmmetBlue")
 			$("#new_patient").modal("hide");
 			$scope.reloadTable();
   		}, function(response){
+  			$('.loader').removeClass('show');
   			utils.errorHandler(response);
   		})
 	}

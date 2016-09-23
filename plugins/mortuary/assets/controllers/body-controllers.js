@@ -98,6 +98,7 @@ angular.module("EmmetBlue")
 				"' data-option-depositor-address='"+data.DepositorAddress+
 				"' data-option-depositor-relationship='"+data.DepositorRelationshipType+
 				"' data-option-depositor-phone-number='"+data.DepositorPhoneNumber+
+				"' data-option-creation-date='"+data.CreationDate+
 				"' ";
 			var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+options+"><i class='icon-pencil5'></i> </button>";
 
@@ -165,10 +166,38 @@ angular.module("EmmetBlue")
 				depositorFullName:$(".btn[data-option-id='"+id+"']").attr("data-option-depositor-fullname"),
 				depositorAddress:$(".btn[data-option-id='"+id+"']").attr("data-option-depositor-address"),
 				depositorRelationship:$(".btn[data-option-id='"+id+"']").attr("data-option-depositor-relationship"),
-				depositorPhoneNumber:$(".btn[data-option-id='"+id+"']").attr("data-option-depositor-phone-number")
+				depositorPhoneNumber:$(".btn[data-option-id='"+id+"']").attr("data-option-depositor-phone-number"),
+				creationDate:$(".btn[data-option-id='"+id+"']").attr("data-option-creation-date")
+				//age : functions.manageBody.age($scope.temp.dateOfBirth, $scope.temp.dateOfDeath)
 			};
+			$scope.age = functions.manageBody.age($scope.temp.dateOfBirth, $scope.temp.dateOfDeath);
+			$scope.numberOfDays = functions.manageBody.numberOfDays($scope.temp.creationDate);
+			//$scope.temp.push(age);
 			$("#view-each-body").modal('show');
-			console.log($scope.temp);
+
+			//console.log(age);
+		},
+		//age calculator
+		 age: function(dateOfBirth, dateOfDeath){
+			var birthDay = new Date(dateOfBirth);
+			var deathDay = new Date(dateOfDeath);
+			var years = deathDay.getFullYear() - birthDay.getFullYear();
+
+			// If the user's birthday has not occurred yet , subtract 1.
+			if (deathDay < birthDay)
+			{
+			    years--;
+			}
+			return years;
+		},
+		numberOfDays:function(registeredDate){
+			var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+			var registeredDate = new Date(registeredDate);
+			var presentDate = new Date();
+
+			var diffDays = Math.round(Math.abs((registeredDate.getTime() - presentDate.getTime())/(oneDay)));
+			return diffDays;
+			//.log(diffDays+ 'days');
 		},
 		deleteBody: function(id){
 				var title = "Delete Prompt";
@@ -317,5 +346,6 @@ angular.module("EmmetBlue")
 	}
 	
 	$scope.functions = functions;
+	
 	//console.log($scope.temp);
 })
