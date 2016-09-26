@@ -117,6 +117,7 @@ angular.module("EmmetBlue")
 		request.then(function(response){
 			utils.alert("Operation Successful", "You have successfully creaed a new category", "success", "notify");
 			$("#new_setting_records_patient_category").modal("hide");
+			$scope.newCategory = {};
 			reloadTable();
 		}, function(responseObject){
 			utils.errorHandler(responseObject);

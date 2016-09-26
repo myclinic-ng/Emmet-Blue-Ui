@@ -2175,6 +2175,230 @@ html[dir="rtl"] .select-xs.select2-container-multi .select2-choices .select2-sea
 }
 /* ------------------------------------------------------------------------------
 *
+*  # X-editable
+*
+*  In-place editing with Twitter Bootstrap, jQuery UI or pure jQuery
+*
+*  Version: 1.0
+*  Latest update: May 25, 2015
+*
+* ---------------------------------------------------------------------------- */
+.editable {
+  background-color: transparent;
+}
+.form-horizontal .editable {
+  padding-top: 8px;
+  display: inline-block;
+}
+.editable-pre-wrapped {
+  white-space: pre-wrap;
+}
+.editableform .form-group:last-child {
+  margin-bottom: 0;
+}
+.editableform .form-control {
+  min-width: 150px;
+}
+.editableform .checkbox,
+.editableform .radio {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.editableform .checkbox > div,
+.editableform .radio > div {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  position: relative;
+}
+.editable-buttons {
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 5px;
+}
+.editable-buttons.editable-buttons-bottom {
+  display: block;
+  margin-top: 20px;
+  margin-left: 0;
+  text-align: center;
+}
+.editable-buttons .editable-cancel {
+  margin-left: 5px;
+}
+.editable-input {
+  vertical-align: top;
+  display: inline-block;
+  width: auto;
+  white-space: normal;
+}
+.editable-input .help-block {
+  margin-bottom: 0;
+}
+.editable-input .input-group {
+  width: 250px;
+}
+.editable-input .elastic {
+  height: 100px;
+}
+.editableform-loading {
+  width: 16px;
+  height: 16px;
+  margin: auto;
+}
+.editableform-loading:after {
+  content: '\eb55';
+  font-family: 'icomoon';
+  font-size: 16px;
+  display: block;
+  line-height: 1;
+  margin: auto;
+  width: 16px;
+  height: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-animation: rotation 1s ease infinite;
+  -o-animation: rotation 1s ease infinite;
+  animation: rotation 1s ease infinite;
+}
+.editable-error {
+  color: #f44336;
+}
+.editable-error-block {
+  max-width: 300px;
+  margin: 7px 0 0 0;
+  width: auto;
+  white-space: normal;
+}
+.editable-bg-transition {
+  color: inherit;
+  background-color: transparent;
+  -webkit-transition: background-color 0.2s ease-out;
+  -o-transition: background-color 0.2s ease-out;
+  transition: background-color 0.2s ease-out;
+}
+.editable-clear {
+  clear: both;
+  text-decoration: none;
+  text-align: right;
+}
+.editable-clear-x {
+  position: absolute;
+  right: 9px;
+  top: 10px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 100;
+  opacity: 0.6;
+  filter: alpha(opacity=60);
+}
+.editable-clear-x:hover {
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+.editable-clear-x:after {
+  content: '\ed6b';
+  font-family: 'icomoon';
+  display: block;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.editable-click,
+a.editable-click,
+.editable-click:hover,
+a.editable-click:hover {
+  border-bottom: 1px dashed #1e88e5;
+}
+.editable-click.editable-disabled,
+a.editable-click.editable-disabled,
+.editable-click.editable-disabled:hover,
+a.editable-click.editable-disabled:hover {
+  color: #999999;
+  cursor: default;
+  border-bottom: 0;
+}
+.editable-click .label {
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+.editable-empty,
+.editable-empty:hover,
+.editable-empty:focus {
+  font-style: italic;
+  color: #f44336;
+}
+a.editable-empty,
+a.editable-empty:hover,
+a.editable-empty:focus {
+  border-bottom-color: #f44336;
+}
+.combodate {
+  white-space: nowrap;
+}
+.combodate .day,
+.combodate .year,
+.combodate .hour,
+.combodate .minute {
+  min-width: 80px;
+}
+.combodate .form-control {
+  display: inline-block;
+}
+.input-daterange input {
+  text-align: center;
+}
+.input-daterange input:first-child {
+  border-bottom-left-radius: 3px;
+  border-top-left-radius: 3px;
+}
+.input-daterange input:last-child {
+  border-bottom-right-radius: 3px;
+  border-top-right-radius: 3px;
+}
+.editable-address {
+  display: block;
+}
+.editable-address > label > span {
+  width: 70px;
+  display: inline-block;
+  margin-bottom: 7px;
+}
+.editable-date {
+  padding: 0;
+  margin: 0;
+  float: left;
+}
+.editable-checklist label {
+  white-space: nowrap;
+}
+.editable-checklist label > input[type="checkbox"] {
+  vertical-align: middle;
+  margin: 0;
+}
+.editable-wysihtml5 {
+  width: 566px;
+  height: 250px;
+}
+.editable-container.editable-popup {
+  max-width: none !important;
+}
+.editable-container.editable-inline {
+  display: inline-block;
+  vertical-align: middle;
+  width: auto;
+}
+.editable-container.editable-inline .editableform-loading {
+  background-position: left 5px;
+}
+.editable-container.editable-inline .add-on .icon-th {
+  margin-top: 3px;
+  margin-left: 1px;
+}
+.editable-container.popover {
+  width: auto;
+  min-width: 200px;
+}
+/* ------------------------------------------------------------------------------
+*
 *  # Tokenfield for Bootstrap
 *
 *  Styles for tokenfield.js - Advanced tagging/tokenizing plugin for Bootstrap
@@ -4668,6 +4892,261 @@ img.fancytree-icon {
 .dropzone-previews .dz-preview a.dz-remove:hover {
   color: #333333;
   background-color: #f5f5f5;
+}
+/* ------------------------------------------------------------------------------
+*
+*  # Fancybox lightbox
+*
+*  Mac-style "lightbox" plugin that floats overtop of web page.
+*
+*  Version: 1.0
+*  Latest update: May 25, 2015
+*
+* ---------------------------------------------------------------------------- */
+.fancybox-wrap,
+.fancybox-skin,
+.fancybox-outer,
+.fancybox-inner,
+.fancybox-image,
+.fancybox-wrap iframe,
+.fancybox-wrap object,
+.fancybox-nav,
+.fancybox-nav span,
+.fancybox-tmp {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  outline: none;
+  vertical-align: top;
+}
+.fancybox-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 8020;
+}
+.fancybox-skin {
+  position: relative;
+  background-color: #fff;
+  color: #333333;
+  border-radius: 3px;
+}
+.fancybox-opened {
+  z-index: 8030;
+}
+.fancybox-opened .fancybox-skin {
+  -webkit-box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
+}
+.fancybox-outer,
+.fancybox-inner {
+  position: relative;
+}
+.fancybox-inner {
+  overflow: hidden;
+}
+.fancybox-type-iframe .fancybox-inner {
+  -webkit-overflow-scrolling: touch;
+}
+.fancybox-image,
+.fancybox-iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.fancybox-image {
+  max-width: 100%;
+  max-height: 100%;
+}
+#fancybox-loading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -16px;
+  margin-left: -16px;
+  background-color: #fff;
+  cursor: pointer;
+  z-index: 8060;
+  opacity: 0.8;
+  filter: alpha(opacity=80);
+  -webkit-animation: rotation 1s ease infinite;
+  -o-animation: rotation 1s ease infinite;
+  animation: rotation 1s ease infinite;
+}
+#fancybox-loading div {
+  width: 32px;
+  height: 32px;
+}
+#fancybox-loading div:after {
+  content: '\eb55';
+  font-family: 'icomoon';
+  font-size: 16px;
+  margin-top: -8px;
+  margin-left: -8px;
+  display: block;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.fancybox-close {
+  position: absolute;
+  right: -32px;
+  top: -32px;
+  padding: 8px;
+  z-index: 8061;
+  cursor: pointer;
+  line-height: 1;
+  color: #fff;
+  border-radius: 3px;
+}
+.fancybox-close:hover,
+.fancybox-close:focus {
+  background-color: rgba(0, 0, 0, 0.25);
+  color: #fff;
+}
+.fancybox-close:after {
+  content: '\ed6a';
+  font-family: 'icomoon';
+  font-size: 16px;
+  display: block;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.fancybox-error {
+  color: #f44336;
+  font-weight: 500;
+  margin: 0;
+  padding: 20px;
+  white-space: nowrap;
+}
+.fancybox-title {
+  visibility: hidden;
+  font-weight: 500;
+  position: relative;
+  text-shadow: none;
+  z-index: 8050;
+}
+.fancybox-opened .fancybox-title {
+  visibility: visible;
+}
+.fancybox-title-float-wrap {
+  position: absolute;
+  bottom: 0;
+  right: 50%;
+  margin-bottom: -45px;
+  z-index: 8050;
+  text-align: center;
+}
+.fancybox-title-float-wrap .child {
+  display: inline-block;
+  margin-right: -100%;
+  padding: 7px 12px;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  white-space: nowrap;
+}
+.fancybox-title-outside-wrap {
+  position: relative;
+  margin-top: 10px;
+  color: #fff;
+}
+.fancybox-title-inside-wrap {
+  padding-top: 10px;
+}
+.fancybox-title-over-wrap {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  color: #fff;
+  padding: 10px;
+  background-color: transparent;
+}
+.fancybox-nav {
+  position: absolute;
+  top: 0;
+  width: 40%;
+  height: 100%;
+  cursor: pointer;
+  background-color: transparent;
+  -webkit-tap-highlight-color: transparent;
+  z-index: 8040;
+}
+.fancybox-nav span {
+  position: absolute;
+  top: 50%;
+  width: 32px;
+  height: 32px;
+  margin-top: -16px;
+  cursor: pointer;
+  padding: 8px;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: block;
+  text-align: center;
+  z-index: 8040;
+  visibility: hidden;
+  border-radius: 3px;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.fancybox-nav span:after {
+  font-family: 'icomoon';
+  display: inline-block;
+  font-size: 16px;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.fancybox-nav:hover span {
+  visibility: visible;
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+.fancybox-prev {
+  left: 0;
+}
+.fancybox-prev span {
+  left: 10px;
+}
+.fancybox-prev span:after {
+  content: '\e9c8';
+}
+.fancybox-next {
+  right: 0;
+}
+.fancybox-next span {
+  right: 10px;
+}
+.fancybox-next span:after {
+  content: '\e9cb';
+}
+.fancybox-lock {
+  overflow: hidden !important;
+  width: auto;
+}
+.fancybox-lock .fancybox-overlay {
+  overflow: auto;
+  overflow-y: scroll;
+}
+.fancybox-lock body {
+  overflow: hidden !important;
+}
+.fancybox-lock-test {
+  overflow-y: hidden !important;
+}
+.fancybox-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  display: none;
+  z-index: 8010;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.fancybox-overlay-fixed {
+  position: fixed;
+  bottom: 0;
+  right: 0;
 }
 /* ------------------------------------------------------------------------------
  *

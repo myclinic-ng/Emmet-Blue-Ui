@@ -5,9 +5,10 @@ var css = [
 	"assets/css/icons/fontawesome/styles.min.css",
 	"assets/css/bootstrap.css",
 	"assets/css/core.css",
-	"assets/css/components.css" ,
+	"assets/css/components.css",
 	"assets/css/colors.css",
 	"assets/css/ribbon.css",
+	"assets/css/watermark.css",
 	"assets/css/datatables/angular-datatables.css",
 	"assets/css/datatables/buttons.dataTables.css",
 	"assets/css/datatables/fixedHeader.dataTables.css",
@@ -34,6 +35,7 @@ var libraries = [
 	"assets/js/core/libraries/jquery_ui/effects.min.js",
 	"assets/js/core/libraries/jquery_ui/interactions.min.js",
 	"assets/js/plugins/trees/fancytree_all.min.js",
+	"assets/js/plugins/media/fancybox.min.js",
 	"assets/js/plugins/trees/fancytree_childcounter.js",
 	"assets/js/plugins/ui/prism.min.js"
 ];
@@ -51,6 +53,7 @@ var angularLibraries = [
 	"assets/angular/libraries/angular-cookies.js",
 	"assets/angular/libraries/angular-datatables.js",
 	"assets/angular/libraries/ng-print/ngPrint.js",
+	"assets/angular/libraries/ng-pagination/ng-pagination.js",
 	"assets/angular/libraries/angular-datatables.buttons.js",
 	"assets/angular/libraries/datatable-buttons/dataTables.buttons.js",
 	"assets/angular/libraries/datatable-buttons/buttons.print.js",

@@ -59,7 +59,7 @@ angular.module("EmmetBlue")
 					$cookies.putObject(utils.globalConstants.USER_COOKIE_IDENTIFIER, response);
 
 					$(".no-login").show();
-					if (response.accountActivated)
+					if (response.accountActivated !== "0")
 					{
 						$location.path('/');
 					}

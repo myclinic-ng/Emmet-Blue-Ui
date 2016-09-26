@@ -1,0 +1,86 @@
+<div class="panel panel-body">
+	<div class="media">
+		<div class="media-left">
+			<a href="{{loadImage(patientInfo.patientpicture)}}" data-popup="lightbox">
+				<img ng-src="{{loadImage(patientInfo.patientpicture)}}" style="width: 70px; height: 70px;" class="img-circle" alt="">
+			</a>
+		</div>
+
+		<div class="media-body">
+			<h5 class="media-heading col-md-12" data-popup="tooltip" title="{{patientInfo.patientfullname}}">{{patientInfo.patientfullname}}</h5>
+			<p class="text-muted">{{patientInfo.patienttypename}}</p>
+
+			<ul class="icons-list">
+            	<li><a href="#" data-popup="tooltip" title="View Profile" data-container="body" data-toggle="modal" data-target="#view-patient-{{patientInfo.patientid}}"><i class="icon-folder-open2"></i> view profile</a></li>
+        	</ul>
+		</div>
+
+
+    	<div class="media-right media-middle">
+			<ul class="icons-list icons-list-vertical">
+            	<li class="dropdown">
+                	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
+                	<ul class="dropdown-menu dropdown-menu-right">
+						<li><a href="#"><i class="icon-folder-search pull-right"></i> Browse Repository</a></li>
+						<li><a href="#"><i class="icon-magazine pull-right"></i> Edit Profile</a></li>
+						<li class="divider"></li>
+						<li><a href="#"><i class="icon-statistics pull-right"></i> Statistics</a></li>
+					</ul>
+            	</li>
+        	</ul>
+		</div>
+	</div>
+</div>
+
+<div id="view-patient-{{patientInfo.patientid}}" class="modal fade">
+	<div class="modal-dialog modal-full">
+		<div class="modal-content">
+			<div class="modal-header bg-warning">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h6 class="modal-title">Patient Dashboard</h6>
+			</div>
+
+			<div class="modal-body">
+				<div class="col-md-3">
+					<div class="sidebar sidebar-secondary sidebar-default">
+							<div class="sidebar-content">
+
+								<!-- Actions -->
+								<div class="sidebar-category">
+									<div class="category-title">
+										<span>Actions</span>
+										<ul class="icons-list">
+											<li><a href="#" data-action="collapse"></a></li>
+										</ul>
+									</div>
+
+									<div class="category-content">
+										<div class="row row-condensed">
+											<div class="col-xs-6">
+												<button type="button" class="btn bg-teal-400 btn-block btn-float btn-float-lg" ng-print print-element-id="view-patient-{{patientInfo.patientid}}-content-area"><i class="icon-printer"></i> <span>Print card</span></button>
+												<button type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg"><i class="icon-archive"></i> <span>View profile</span></button>
+											</div>
+											
+											<div class="col-xs-6">
+												<button type="button" class="btn bg-warning-400 btn-block btn-float btn-float-lg"><i class="icon-stats-bars"></i> <span>Repositories</span></button>
+												<button type="button" class="btn bg-blue btn-block btn-float btn-float-lg"><i class="icon-cog3"></i> <span>History</span></button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /actions -->
+							</div>
+						</div>
+				</div>
+				<div class="col-md-9" id="view-patient-{{patientInfo.patientid}}-content-area">
+					<div class="watermark"></div>
+					<!-- <ng-patient-card patient-info="patientInfo"></ng-patient-card> -->
+					<ng-patient-profile patient-info="patientInfo"></ng-patient-profile>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-link" data-dismiss="modal" ng-click=""><i class="fa fa-times-circle-o"></i> Close</button>
+			</div>
+		</div>
+	</div>
+</div>

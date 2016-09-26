@@ -50,11 +50,18 @@ angular.module("EmmetBlue")
 
 	var patientRequest = utils.serverRequest("/patients/patient/view", "GET");
 	patientRequest.then(function(response){
-		$scope.patients = response;
+		response = response.hits.hits;
+		$scope.patients = [];
 
 		angular.forEach(response, function(val, key){
-			$scope.patients[key]["PatientFullName"] = val.PatientFirstName + " " + val.PatientLastName;
+			$scope.patients[key] = {};
+			$scope.patients[key]["PatientFullName"] = val["_source"]["patientfullname"];
+			$scope.patients[key]["PatientID"] = val["_source"]["patientid"];
+			$scope.patients[key]["PatientUUID"] = val["_source"]["patientuuid"];
+			$scope.patients[key]["PatientPhoneNumber"] = val["_source"]["phone number"];
 		});
+
+		console.log($scope.patients);
 	}, function(response){
 		utils.errorHandler(response);
 	});

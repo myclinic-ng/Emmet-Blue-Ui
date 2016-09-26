@@ -7,10 +7,11 @@ angular.module('EmmetBlue', [
 	'datatables.fixedheader',
 	'ngCookies',
 	'ngStorage',
-	'ngPrint'
+	'ngPrint',
+	'angularUtils.directives.dirPagination'
 ])
 
-.run(function(DTDefaultOptions, $http, $cookies){
+.run(function(DTDefaultOptions){
 	DTDefaultOptions.setBootstrapOptions({
         TableTools: {
             classes: {
@@ -21,9 +22,6 @@ angular.module('EmmetBlue', [
             }
         }
     });
-	if (typeof $cookies.getObject(getConstants().USER_COOKIE_IDENTIFIER) != "undefined"){
-    	$http.defaults.headers.common.Authorization = $cookies.getObject(getConstants().USER_COOKIE_IDENTIFIER).token;
-	}
 })
 
 .config(function($routeProvider, $locationProvider){
@@ -65,6 +63,19 @@ angular.module('EmmetBlue', [
 		}
 		$location.url($location.path());
 	};
+	
+	services.loadNigeriaData = function(){
+		var defer = $q.defer();
+		var data = $http.get("assets/angular/core/data/nigerian-states-lgas.json").then(function(response){
+			defer.resolve(response.data);
+			return defer.promise;
+		}, function(response){
+			defer.reject(response);
+			return defer.promise;
+		});
+
+		return data;
+	}
 
 	services.notify = function(title, text, type){
 	     new PNotify({
@@ -136,13 +147,8 @@ angular.module('EmmetBlue', [
 			}
 			default:
 			{
-				if (typeof errorObject.data != "undefined"){
-					if (errorObject.data == null){
-						services.alert(errorObject.status+': '+errorObject.statusText, "An unknown error has occurred", 'error');	
-					}
-					else {
-						services.alert(errorObject.status+': '+errorObject.statusText, errorObject.data.errorMessage, 'error');
-					}
+				if (typeof errorObject.data != "undefined" && errorObject.data != null){
+					services.alert(errorObject.status+': '+errorObject.statusText, errorObject.data.errorMessage, 'error');
 				}
 				else{
 					services.alert("Unknown error", "A general error has occurred, please contact an administrator", 'error');
@@ -150,6 +156,11 @@ angular.module('EmmetBlue', [
 			}
 		}
 	};
+
+
+	services.loadImage = function(image){
+		return CONSTANTS.EMMETBLUE_SERVER+image
+	}
 
 	services.globalConstants = CONSTANTS;
 
@@ -159,7 +170,7 @@ angular.module('EmmetBlue', [
 
 	services.storage = $localStorage;
 
-	services.restServer = CONSTANTS.EMMETBLUE_SERVER;
+	services.restServer = CONSTANTS.EMMETBLUE_SERVER+CONSTANTS.EMMETBLUE_SERVER_VERSION;
 
 	services.DT = {
 		optionsBuilder: DTOptionsBuilder,
@@ -167,6 +178,35 @@ angular.module('EmmetBlue', [
 	}
 
 	return services;
+})
+
+.directive("ngCurrency", function(){
+	return {
+		template: '&#8358'
+	}
+})
+
+.filter('cut', function () {
+    return function (value, wordwise, max, tail) {
+        if (!value) return '';
+
+        max = parseInt(max, 10);
+        if (!max) return value;
+        if (value.length <= max) return value;
+
+        value = value.substr(0, max);
+        if (wordwise) {
+            var lastspace = value.lastIndexOf(' ');
+            if (lastspace != -1) {
+              if (value.charAt(lastspace-1) == '.' || value.charAt(lastspace-1) == ',') {
+                lastspace = lastspace - 1;
+              }
+              value = value.substr(0, lastspace);
+            }
+        }
+
+        return value + (tail || ' …');
+    };
 })
 
 .constant("CONSTANTS", getConstants())
@@ -187,7 +227,7 @@ function getConstants(){
 		"TEMPLATE_DIR":"plugins/",
 		"MODULE_MENU_LOCATION":"assets/includes/menu.html",
 		"MODULE_HEADER_LOCATION":"assets/includes/header.html",
-		"EMMETBLUE_SERVER":"http://127.0.0.1:420/Emmet-Blue-Api",
+		"EMMETBLUE_SERVER":"http://192.168.173.1:700/",
 		"EMMETBLUE_SERVER_VERSION":"v1",
 		"USER_COOKIE_IDENTIFIER":"_______"
 	};

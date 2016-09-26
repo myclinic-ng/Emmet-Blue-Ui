@@ -180,7 +180,6 @@ angular.module("EmmetBlue")
 			utils.notify("Operation Successful", $scope.newPatient.firstName+" "+$scope.newPatient.lastName+"'s record has been saved successfully", "success");
 			$scope.newPatient = {};
 			$("#new_patient").modal("hide");
-			$scope.reloadTable();
 		}, function(response){
 			utils.errorHandler(response);
 		});
@@ -227,6 +226,9 @@ angular.module("EmmetBlue")
 		$scope.operation = {};
 	}
 
+	$("#document").on("change", function(){
+		$scope.documentUploaded();
+	});
 
 	$scope.documentUploaded = function(){
 		var file = document.getElementById('document').files[0];
@@ -239,16 +241,25 @@ angular.module("EmmetBlue")
 	}
 	
 	$scope.submit = function(){
-  		//$scope.newPatient.patientPassport = $("#passport").attr("src");
+  		$scope.newPatient.patientPassport = $("#passport").attr("src");
 
   		var data = $scope.newPatient;
 		data.patientName = $scope.newPatient['First Name'] + " " + $scope.newPatient['Last Name'];
-		console.log(data);
+
+		$scope.currentPatientCardData = {};
 
   		var submitData = utils.serverRequest("/patients/patient/new", "POST", data);
 
   		submitData.then(function(response){
-  			utils.alert("Info", "Record Uploaded successfully", "success");
+  			var req = utils.serverRequest("/patients/patient/view?resourceId="+response.lastInsertId, "GET");
+
+  			req.then(function(success){
+  				$scope.currentPatientCardData = success["_source"];
+  			}, function(reponse){
+  				utils.errorHandler(response);
+  			});
+
+  			utils.notify("Info", "Record Uploaded successfully", "success");
 			$scope.newPatient = {};
 			$scope.newPatient.hospitalHistory = [];
 			$scope.newPatient.diagnosis = [];
@@ -257,10 +268,71 @@ angular.module("EmmetBlue")
 			$("#passport").attr("src", "plugins/records/patient/assets/images/passport-placeholder.png");
 			$scope.eDisablers("enable");
 			$("#new_patient").modal("hide");
-			$scope.reloadTable();
+			$("#patient_card").modal("show");
+			console.log($scope.currentPatientCardData);
   		}, function(response){
   			utils.errorHandler(response);
   		})
 	}
 
+	$scope.searched = {};
+	$scope.searched.searchIcon = "icon-search4";
+
+	$scope.searched.pageSize = $scope.searched.pageSizeInc = 30;
+	$scope.searched.currentPage = 0;
+	$scope.searched.fromCounter = 0;
+
+	function search(url){
+		$scope.searched.searchIcon = "fa fa-spinner fa-spin";
+		if ($scope.searched.pageSize < 1){
+			$scope.searched.pageSize = $scope.searched.pageSizeInc = 30;
+		}
+		var size = $scope.searched.pageSize;
+		var from = $scope.searched.fromCounter;
+		var request = utils.serverRequest(url+'&size='+size+'&from='+from, "GET");
+
+		request.then(function(response){
+			$scope.searched.totalPageCount = response.hits.total;
+			$scope.searched.patients = response.hits.hits;
+			$scope.searched.searchIcon = "icon-search4";
+		}, function(response){
+			utils.errorHandler(response);
+			$scope.searched.searchIcon = "icon-search4";
+		})
+	}
+
+	$scope.pageChangeHandler = function(newPageNumber){
+		$scope.searched.currentPage = newPageNumber;
+		if (newPageNumber != 1)
+		{
+			$scope.searched.fromCounter = newPageNumber - 1 + ($scope.searched.pageSize * newPageNumber);
+		}
+		else
+		{
+			$scope.searched.fromCounter = 0;
+		}
+		$scope.search();
+	}
+
+	var loadPatients = function(){
+		var request = utils.serverRequest("/patients/patient/view", "GET");
+
+		request.then(function(response){
+			$scope.searched.totalPageCount = response.hits.total;
+			$scope.searched.patients = response.hits.hits;
+		}, function(response){
+			utils.errorHandler(response);
+		})
+	}
+	loadPatients();
+
+	$scope.search = function(newSearch = false){
+		var query = $scope.search.query;
+
+		if (newSearch){
+			$scope.searched.fromCounter = 0;
+		}
+
+		search("/patients/patient/search?query="+query);
+	}
 })

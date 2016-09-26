@@ -1,11 +1,11 @@
 Webcam.set({
 	// live preview size
-	width: "100%",
-	height: 240,
+	width: 800,
+	height: 450,
 	
 	// device capture size
-	dest_width: 640,
-	dest_height: 480,
+	dest_width: 1280,
+	dest_height: 720,
 	
 	// final cropped size
 	crop_width: 480,

@@ -114,6 +114,7 @@ angular.module("EmmetBlue")
 		request.then(function(response){
 			utils.alert("Operation Successful", "Your changes has been saved successfully", "success", "notify");
 			$("#edit_setting_records_patient").modal("hide");
+			$scope.tempHolder = {};
 			reloadTable();
 		}, function(responseObject){
 			utils.errorHandler(responseObject);
@@ -121,16 +122,14 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.saveNewPatientType = function(){
-		var data = $scope.newPatientType;
-
-		console.log(data);
-		
+		var data = $scope.newPatientType;		
 		
 		var request = utils.serverRequest('/patients/patient-type/new', 'POST', data);
 
 		request.then(function(response){
 			utils.alert("Operation Successful", "You have successfully creaed a new category", "success", "notify");
 			$("#new_setting_records_patient").modal("hide");
+			$scope.newPatientType = {};
 			reloadTable();
 		}, function(responseObject){
 			utils.errorHandler(responseObject);

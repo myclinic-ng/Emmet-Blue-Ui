@@ -1,8 +1,17 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-<script>$('select.select').select2();</script>
+<script>
+	$('body').on('hidden.bs.modal', function () {
+	    if($('.modal.in').length > 0)
+	    {
+	        $('body').addClass('modal-open');
+	    }
+	});
+
+	$('select').select2();
+</script>
 <div>
 	<div id="setting_records_patient" class="modal fade">
-		<div class="modal-dialog modal-full">
+		<div class="modal-dialog modal-full" style="height: 100%;">
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>

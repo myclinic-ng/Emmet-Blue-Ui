@@ -51,6 +51,8 @@ angular.module("EmmetBlue")
 	$scope.loadDepartment = function(department, name){
 		$scope.departmentSelector = name;
 		var rolePromise = utils.serverRequest('/human-resources/role/view-by-department?resourceId='+department, 'GET');
+		
+		$scope.resources = {};
 
 		rolePromise.then(function(response){
 			$scope.department.role = response;

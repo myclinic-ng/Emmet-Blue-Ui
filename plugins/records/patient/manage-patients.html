@@ -1,6 +1,18 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-<script>$('select.select').select2();</script>
+<script>$('select.select').select2();
+
+$(function() {
+
+    // Initialize lightbox
+    $('[data-popup=lightbox]').fancybox({
+        padding: 3
+    });
+    
+});
+
+</script>
 <script src="plugins/records/patient/assets/js/webcam-controller.js"></script>
+<script src="assets/js/core/app.js"></script>
 
 <script>
 	$('body').on('hidden.bs.modal', function () {
@@ -29,84 +41,96 @@
 </script>
 
 <div ng-controller="recordsPatientManagePatientsController as ctrller">
-	<div class="panel panel-white zoomIn">
-		<div class="panel-heading">
-			<h6 class="panel-title">Patient Records Management <button class="btn btn-warning pull-right" data-toggle="modal" data-target="#new_patient" data-backdrop="static">Register a new patient</button></h6>
-		</div>
+	<div class="col-md-3">
+		<div class="sidebar sidebar-secondary sidebar-default">
+				<div class="sidebar-content">
 
-		<div class="panel-body">
-			<div class="table-responsive col-md-12" id="patientTable">
-				<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-hover">
-
-				</table>
-			</div>
-			<div class="col-md-9" id="profileTable" ng-show="profileSelected">
-				<div class="row">		
-					<!-- Profile info -->
-					<div class="panel panel-flat">
-						<div class="panel-heading">
-							<h6 class="panel-title">Profile information</h6>
-							<div class="heading-elements">
-								<ul class="icons-list">
-			                		<li><a data-action="collapse"></a></li>
-			                		<li><a data-action="reload"></a></li>
-			                		<li><a data-action="close"></a></li>
-			                	</ul>
-		                	</div>
+					<!-- Actions -->
+					<div class="sidebar-category">
+						<div class="category-title">
+							<span>Actions</span>
+							<ul class="icons-list">
+								<li><a href="#" data-action="collapse"></a></li>
+							</ul>
 						</div>
 
-						<div class="panel-body">
-							<div class="table-responsive col-md-9">
-								<table class="table table-striped table-hover col-md-12">
-									<thead>
-										<tr>
-											<th><small class="pull-right">Filter</small></th>
-											<th><input class="form-control" ng-model="filterPatientFields"/></th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr ng-repeat="(key, val) in patientProfile">
-											<th class="text-thin">{{key}}</th>
-											<th class="text-default">{{val}}</th>
-										</tr>
-									</tbody>
-								</table>
+						<div class="category-content">
+							<div class="form-group">
+								<div class="input-group">
+									<input class="form-control" placeholder="enter text here to begin search" type="search" data-popup="tooltip" data-trigger="focus" title="Click the Advanced link below for more search options" ng-model="search.query"/>
+									<span class="input-group-btn">
+										<button class="btn btn-warning" type="button" ng-click="search(true)"> <i class="{{searched.searchIcon}}"></i></button>
+									</span>
+								</div>
 							</div>
-
-							<div class="col-md-3 pull-right">
-								<div class="thumbnail">
-									<div class="thumb thumb-square thumb-slide">
-										<img src="{{patientProfileMeta.PatientPicture}}" class="img img-responsive" style="height: 150px; !important;" alt="">
-										<div class="caption">
-											<span>
-												<a href="#" class="btn bg-success-400 btn-icon btn-xs"><i class="icon-plus2"></i></a>
-											</span>
-										</div>
-									</div>
-									<div class="text-center">
-							    		<h6 class="text-semibold no-margin">{{patientProfileMeta.PatientFullName}} <small class="display-block">Picture</small></h6>
-				    				</div>
-						    	</div>
-						    	<div class="thumbnail" ng-repeat="image in patientProfileMeta.PatientIdentificationDocumentUrl">
-									<div class="thumb thumb-square thumb-slide">
-										<img src="{{utils.getImageServerAddress(image)}}" class="img img-responsive" style="height: 150px; !important;" alt="">
-										<div class="caption">
-											<span>
-												<a href="#" class="btn bg-success-400 btn-icon btn-xs"><i class="icon-plus2"></i></a>
-											</span>
-										</div>
-									</div>
-									<div class="text-center">
-							    		<h6 class="text-semibold no-margin">Verified <small class="display-block">Proof of Identity</small></h6>
-				    				</div>
-						    	</div>
+							<div class="row row-condensed">
+								<div class="col-xs-6">
+									<button type="button" class="btn bg-teal-400 btn-block btn-float btn-float-lg" data-toggle="modal" data-target="#new_patient" data-backdrop="static"><i class="icon-file-plus"></i> <span>New patient</span></button>
+									<button type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg"><i class="icon-archive"></i> <span>Archive</span></button>
+								</div>
+								
+								<div class="col-xs-6">
+									<button type="button" class="btn bg-warning-400 btn-block btn-float btn-float-lg"><i class="icon-stats-bars"></i> <span>Statistics</span></button>
+									<button type="button" class="btn bg-blue btn-block btn-float btn-float-lg"><i class="icon-cog3"></i> <span>Settings</span></button>
+								</div>
 							</div>
 						</div>
 					</div>
-					<!-- /profile info -->
-				</div>	
+					<!-- /actions -->
+				</div>
 			</div>
+	</div>
+	<div class="col-md-9">
+	<div class="panel panel-white zoomIn">
+		<div class="panel-heading">
+			<h6 class="panel-title">Patient Records Management</h6>
 		</div>
+
+		<div class="panel-body">
+			<!-- Invoice grid options -->			
+				<div class="col-md-5 pull-left">
+					<dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="assets/angular/libraries/ng-pagination/ng-pagination.tpl.html"></dir-pagination-controls>
+				</div>
+				<div class="col-md-7 navbar navbar-default navbar-xs navbar-component">
+					<ul class="nav navbar-nav no-border visible-xs-block">
+						<li><a class="text-center collapsed" data-toggle="collapse" data-target="#navbar-filter"><i class="icon-menu7"></i></a></li>
+					</ul>
+
+					<div class="navbar-collapse collapse" id="navbar-filter">
+						<div class="navbar-left">
+							<ul class="nav navbar-nav">
+								<li><a href="#">Items per page: </a></li>
+								<div class="input-group mt-5">
+									<input type="number" min="1" max="100" class="form-control" ng-model="searched.pageSizeInc">
+									<span class="input-group-btn">
+										<button class="btn btn-default" ng-click="searched.pageSize = searched.pageSizeInc">Go</button>
+									</span>
+								</div>
+							</ul>
+			            </div>
+
+						<div class="navbar-right">
+							<ul class="nav navbar-nav">
+								<li class="active"><a href="#"><i class="icon-sort-alpha-asc position-left"></i> Asc</a></li>
+								<li><a href="#"><i class="icon-sort-alpha-desc position-left"></i> Desc</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /invoice grid options -->
+
+
+				<!-- Invoice grid -->
+				<!-- <div class="text-center content-group text-muted content-divider">
+					<span class="pt-10 pb-10">Today</span>
+				</div> -->
+				<div class="row">
+					<div class="col-lg-6 col-md-6" dir-paginate="patient in searched.patients | itemsPerPage: searched.pageSize" total-items="searched.totalPageCount" current-page="searched.currentPage">
+						<ng-patient-grid patient-info="patient['_source']"></ng-patient-grid>
+					</div>
+				</div>
+		</div>
+	</div>
 	</div>
 
 	<div id="new_patient" class="modal fade">
@@ -157,7 +181,7 @@
 								<div class="row">
 									<div class="form-group col-sm-6">
 										<label>Date Of Birth</label>
-										<input type="date" class="form-control" ng-model="newPatient['Date Of Birth']">
+										<input type="date" class="form-control pickadate" ng-model="newPatient['Date Of Birth']">
 									</div>
 									<div class="form-group col-sm-3">
 										<label class="control-label">Gender</label>
@@ -283,7 +307,7 @@
 				              </div><!-- /.panel -->
 				              <div class="form-group col-md-11 col-md-offset-1">
 								<label class="control-label">Upload Identification Document</label>
-				              	<input type="file" ng-change="documentUploaded()" class="file-styled-primary" ng-model="u" name="file" id="document"/>
+				              	<input type="file" class="file-styled-primary" ng-model="uploadedDocument" name="file" id="document"/>
 				              	<img src="{{newPatient.documents}}" class="img img-responsive"/>
 				              </div>
 						</div>
@@ -451,7 +475,7 @@
 						<fieldset>
 							<div class="form-group col-md-6">
 								<label class="control-label">Operation Date</label>
-								<input type="text" class="form-control" ng-model="operation.date"/>
+								<input type="date" class="form-control" ng-model="operation.date"/>
 							</div>
 							<div class="form-group col-md-6">
 								<label class="control-label">Code Number</label>
@@ -516,83 +540,83 @@
 							<tbody>
 								<tr>
 									<th>Arrangement</th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
 								</tr>
 								<tr>
 									<th>Diagnosis Entry</th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
 								</tr>
 								<tr>
 									<th>Death Register</th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
 								</tr>
 								<tr>
 									<th>Coding</th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
 								</tr>
 								<tr>
 									<th>Indexing</th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
 								</tr>
 								<tr>
 									<th>Arrangement</th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
 								</tr>
 								<tr>
 									<th>I.D.C.A</th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
 								</tr>
 								<tr>
 									<th>F.H.S.2</th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
 								</tr>
 								<tr>
 									<th>P Tracer Card</th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
 								</tr>
 								<tr>
 									<th>Filing</th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
-									<th contenteditable=""></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
+									<th contenteditable="" type="date"></th>
 								</tr>
 							</tbody>
 						</table>
@@ -601,6 +625,25 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click=""><i class="fa fa-times-circle-o"></i> Close</button>
 					<button type="button" class="btn btn-warning"><i class="icon-list"></i> Add to process check list</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="patient_card" class="modal fade">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Patient Card</h6>
+				</div>
+
+				<div class="modal-body" id="patient-card">
+					<div class="watermark"></div>
+					<ng-patient-card patient-info="currentPatientCardData"></ng-patient-card>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click=""><i class="fa fa-times-circle-o"></i> Close</button>
+					<button type="button" class="btn btn-warning" ng-print print-element-id="patient-card"><i class="icon-printer"></i> Print</button>
 				</div>
 			</div>
 		</div>
