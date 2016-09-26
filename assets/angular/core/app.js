@@ -6,13 +6,9 @@ angular.module('EmmetBlue', [
 	'datatables.buttons',
 	'datatables.fixedheader',
 	'ngCookies',
-<<<<<<< HEAD
 	'ngStorage',
 	'ngPrint',
 	'angularUtils.directives.dirPagination'
-=======
-	'ngStorage'
->>>>>>> fbdd8269a16775979df674767b68dee94d795a53
 ])
 
 .run(function(DTDefaultOptions){
@@ -151,11 +147,7 @@ angular.module('EmmetBlue', [
 			}
 			default:
 			{
-<<<<<<< HEAD
 				if (typeof errorObject.data != "undefined" && errorObject.data != null){
-=======
-				if (typeof errorObject.data != "undefined"){
->>>>>>> fbdd8269a16775979df674767b68dee94d795a53
 					services.alert(errorObject.status+': '+errorObject.statusText, errorObject.data.errorMessage, 'error');
 				}
 				else{

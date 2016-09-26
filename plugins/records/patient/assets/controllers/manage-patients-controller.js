@@ -245,23 +245,7 @@ angular.module("EmmetBlue")
 
   		var data = $scope.newPatient;
 		data.patientName = $scope.newPatient['First Name'] + " " + $scope.newPatient['Last Name'];
-<<<<<<< HEAD
 
-		$scope.currentPatientCardData = {};
-
-  		var submitData = utils.serverRequest("/patients/patient/new", "POST", data);
-
-  		submitData.then(function(response){
-  			var req = utils.serverRequest("/patients/patient/view?resourceId="+response.lastInsertId, "GET");
-
-  			req.then(function(success){
-  				$scope.currentPatientCardData = success["_source"];
-  			}, function(reponse){
-  				utils.errorHandler(response);
-  			});
-
-  			utils.notify("Info", "Record Uploaded successfully", "success");
-=======
 		console.log(data);
 		$('.loader').addClass('show');
   		var submitData = utils.serverRequest("/patients/patient/new", "POST", data);
@@ -269,7 +253,6 @@ angular.module("EmmetBlue")
   		submitData.then(function(response){
   			$('.loader').removeClass('show');
   			utils.alert("Info", "Record Uploaded successfully", "success");
->>>>>>> fbdd8269a16775979df674767b68dee94d795a53
 			$scope.newPatient = {};
 			$scope.newPatient.hospitalHistory = [];
 			$scope.newPatient.diagnosis = [];
