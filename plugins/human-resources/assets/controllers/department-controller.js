@@ -217,11 +217,14 @@ angular.module("EmmetBlue")
 
 	$scope.saveNewDepartment = function(){
 		var newDepartment = $scope.newDepartment;
+			$('.loader').addClass('show');
 		var saveNewDepartment = utils.serverRequest('/human-resources/department/new', 'POST', newDepartment);
 
 		saveNewDepartment.then(function(response){
+			$('.loader').removeClass('show');
 			functions.newDepartmentCreated();
 		}, function(response){
+			$('.loader').removeClass('show');
 			utils.errorHandler(response);
 		});
 	}
@@ -232,11 +235,13 @@ angular.module("EmmetBlue")
 			Name: $scope.tempHolder.name,
 			GroupID: $scope.tempHolder.groupId
 		}
-
+			$('.loader').addClass('show');
 		var saveEdits = utils.serverRequest('/human-resources/department/edit', 'PUT', edits);
 		saveEdits.then(function(response){
+			$('.loader').removeClass('show');
 			functions.departmentEdited();
 		}, function(responseObject){
+			$('.loader').removeClass('show');
 			utils.errorHandler(responseObject);
 		})
 

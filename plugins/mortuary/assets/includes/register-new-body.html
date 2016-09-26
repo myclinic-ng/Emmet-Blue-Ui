@@ -138,13 +138,13 @@
 				</div>
 			<div class="modal-footer">
 				<button type="submit" class="btn btn-link" data-dismiss="modal">Close</button>
-				<button type="submit" class="btn btn-primary stepy-finish ladda-button" data-style="expand-right" ng-click="saveEditBody()"><span class="ladda-label">Update <i class="icon-check position-right"></i></span></button>
+				<button type="submit" class="btn btn-primary stepy-finish ladda-button" data-style="expand-right" ng-click="saveEditBody()"><span class="ladda-label"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin fa-3x"> </i> </span> Update <i class="icon-check position-right"></i></span></button>
 			</div>
 		</div>
 	</div>
 </div>
 
-<!--view Body Modal-->
+<!--view each Body Modal-->
 <div class="modal fade" id="view-each-body" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -154,12 +154,12 @@
 			</div>
             <div class="modal-body">
                 <center>
-                    <i class="icon-user" style="font-size:150px"></i>
+                    <span style="font-size:150px">{{numberOfDays}}</span>days
                     <h3 class="media-heading">{{temp.fullName}} <small>{{temp.bodyStatus}}</small></h3>
                     <span><strong>Tags: </strong></span>
                         <span class="label label-warning">{{temp.tag}}</span>
                         <span class="label label-info">Date of Death: {{temp.dateOfDeath}}</span>
-                        <span class="label label-info">Age: </span>
+                        <span class="label label-info">Age: {{age}}</span>
                 </center>
                 <hr>
                 <center>

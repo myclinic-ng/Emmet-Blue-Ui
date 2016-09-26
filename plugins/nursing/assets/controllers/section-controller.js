@@ -3,6 +3,21 @@ angular.module("EmmetBlue")
 // wards and section controller
 
 .controller('sectionController', function($scope,utils, DTOptionsBuilder, DTColumnBuilder){
+	$scope.startWatching = false;
+	$scope.$watch(function(){
+		return utils.storage.sectionManagementData
+	}, function(newValue){
+		//console.log(newValue);
+		$scope.wardName = newValue.name;
+		$scope.wardId = newValue.id;
+
+		if (!$scope.startWatching){
+			$scope.startWatching = true;
+		}
+		else{
+			$scope.sectionDtInstance.reloadData();
+		}
+	})
 	var functions = {
 		actionsMarkup: function(meta, full, data){
 			var editButtonAction = "functions.manageSection.editSection("+data.WardSectionID+")";
@@ -106,7 +121,7 @@ angular.module("EmmetBlue")
 	$scope.sectionDtInstance = {};
 	$scope.sectionDtOptions = DTOptionsBuilder
 	.fromFnPromise(function(){
-		var wardSection = utils.serverRequest('/nursing/ward-section/view', 'GET');
+		var wardSection = utils.serverRequest('/nursing/ward-section/view?resourceId='+$scope.wardId, 'GET');
 		return wardSection;
 	})
 	.withOption('createdRow', function(row, data, dataIndex){
@@ -160,6 +175,7 @@ angular.module("EmmetBlue")
 
 	$scope.saveNewSection = function(){
 		var newSection = $scope.sectionRegistration
+		newSection.wardId = $scope.wardId;
 		//console.log(newSection);
 		$('.loader').addClass('show');
 		ward = utils.serverRequest('/nursing/ward-section/new', 'post', newSection);

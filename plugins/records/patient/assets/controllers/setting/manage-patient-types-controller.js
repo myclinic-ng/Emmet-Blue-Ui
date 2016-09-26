@@ -108,30 +108,42 @@ angular.module("EmmetBlue")
 	}
 	$scope.saveEditPatientType = function(){
 		var data = $scope.tempHolder;
-
+		$('.loader').addClass('show');
 		var request = utils.serverRequest('/patients/patient-type/edit', 'PUT', data);
 
 		request.then(function(response){
+			$('.loader').removeClass('show');
 			utils.alert("Operation Successful", "Your changes has been saved successfully", "success", "notify");
 			$("#edit_setting_records_patient").modal("hide");
 			$scope.tempHolder = {};
 			reloadTable();
 		}, function(responseObject){
+			$('loader').removeClass('show');
 			utils.errorHandler(responseObject);
 		})
 	}
 
 	$scope.saveNewPatientType = function(){
+<<<<<<< HEAD
 		var data = $scope.newPatientType;		
 		
+=======
+		var data = $scope.newPatientType;
+
+		console.log(data);
+		
+		$('.loader').addClass('show');
+>>>>>>> fbdd8269a16775979df674767b68dee94d795a53
 		var request = utils.serverRequest('/patients/patient-type/new', 'POST', data);
 
 		request.then(function(response){
+			$('.loader').removeClass('show');
 			utils.alert("Operation Successful", "You have successfully creaed a new category", "success", "notify");
 			$("#new_setting_records_patient").modal("hide");
 			$scope.newPatientType = {};
 			reloadTable();
 		}, function(responseObject){
+			$('.loader').removeClass('show');
 			utils.errorHandler(responseObject);
 		})
 	}
