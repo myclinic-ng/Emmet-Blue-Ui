@@ -1,0 +1,39 @@
+<!-- <script src="assets/js/plugins/forms/wizards/stepy.min.js"></script>
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script src="assets/js/plugins/forms/styling/uniform.min.js"></script>
+<script src="plugins/mortuary/assets/js/wizard_stepy.js"></script> -->
+
+<div >
+	<div id="changeBodyStatusForm" ng-controller="mortuaryViewBodyController" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<div class="modal-title">Change Body Status</div>
+				</div>
+				<div class="modal-body">
+					<form role="form">
+							<div class="form-group">
+								<div class="row">
+									<div class="content-group col-sm-12">
+										<label>Change Status</label>
+										<select class="select" name="depositorRelationshipType" ng-model="bodyStatus.type" required>
+											<option value="Spouse" ng-repeat="key in status" value="{{key.StatusName}}">{{key.StatusName}}</option>		
+										</select>
+									</div>
+									<div class="content-group col-sm-12">
+										<label>validate Payment</label>
+										<input type="text" class="form-control" name="paymentCode" ng-model="bodyStatus.status" required>
+									</div>
+								</div>
+							</div>	
+					</form>	
+				</div>
+				<div class="modal-footer">
+						<button class="btn btn-link" type="submit" data-dismiss="modal" ng-click="changeBodyStatus = {}">close</button>
+					<button class="btn btn-warning" type="submit" ng-click="changeBodyStatus()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin fa-3x"> </i></span> Change Status</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

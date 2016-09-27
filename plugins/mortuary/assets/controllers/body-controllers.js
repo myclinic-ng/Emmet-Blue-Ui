@@ -79,7 +79,8 @@ angular.module("EmmetBlue")
 			var editButtonAction = "functions.manageBody.editBody("+data.BodyID+")";
 			var viewButtonAction = "functions.manageBody.viewBody("+data.BodyID+")";
 			var deleteButtonAction = "functions.manageBody.deleteBody("+data.BodyID+")";
-			var logOutButton = "functions.manageBody.logOutBody("+data.BodyID+")"
+			//var logOutButton = "functions.manageBody.logOutBody("+data.BodyID+")";
+			var changeBodyStatusAction = "functions.manageBody.changeBodyStatusForm("+data.BodyID+")";
 
 			var options = 
 				" data-option-id='"+data.BodyID+
@@ -104,8 +105,9 @@ angular.module("EmmetBlue")
 
 			var viewButton = "<button class='btn btn-default' ng-click=\""+viewButtonAction+"\" "+options+"><i class='icon-eye'> </i> </button>";
 			var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+options+"><i class='icon-bin'></i> </button>";
-			var logOutButton = "<button class='btn btn-default' ng-click=\""+logOutButton+"\" "+options+">Log Out Body</button>";
-			var buttons = "<div class='btn-group'>"+viewButton+editButton+deleteButton+logOutButton+"</button>";
+			//var logOutButton = "<button class='btn btn-default' ng-click=\""+logOutButton+"\" "+options+">Log Out Body</button>";
+			var changeBodyStatusButton = "<button class='btn btn-default' ng-click=\""+changeBodyStatusAction+"\" "+options+">Change Body Status</button>";
+			var buttons = "<div class='btn-group'>"+viewButton+editButton+deleteButton+changeBodyStatusButton+"</button>";
 			
 			return buttons;
 		},
@@ -199,13 +201,27 @@ angular.module("EmmetBlue")
 			return diffDays;
 			//.log(diffDays+ 'days');
 		},
+		changeBodyStatusForm: function(id){
+			var getStatus = utils.serverRequest('/mortuary/body-status/view', 'GET');
+			getStatus.then(function(response){
+				$scope.status = response;
+				console.log(response);
+				console.log(id);
+			})
+			
+			$('#changeBodyStatusForm').modal('show');
+		},
+		changeStatus: function(id){
+			console.log();
+			return true;
+		},
 		deleteBody: function(id){
 				var title = "Delete Prompt";
 				var text = "You are about to delete this body named "+$(".btn[data-option-id='"+id+"']").attr('data-option-name')+". Do you want to continue? Please note that this action cannot be undone";
 				var close = true;
 				$scope._id = id;
 				var callback = function(){
-					console.log($scope._id);
+					var_dumb($scope._id);
 					var deleteRequest = utils.serverRequest('/mortuary/body/delete?'+utils.serializeParams({
 						'resourceId': $scope._id
 					}), 'DELETE');
@@ -345,6 +361,11 @@ angular.module("EmmetBlue")
 
 	}
 	
+	/*change body status resource*/
+	$scope.changeBodyStatus = function(){
+		console.log($scope.bodyStatus);
+		utils.alert("Operation Successful", "Body Status changeed successfully", "success", "notify");
+	}
 	$scope.functions = functions;
 	
 	//console.log($scope.temp);
