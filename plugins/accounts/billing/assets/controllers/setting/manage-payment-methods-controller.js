@@ -76,7 +76,7 @@ angular.module("EmmetBlue")
 
 	$scope.deletePaymentMethod = function(paymentMethodId){
 		var title = "Delete Prompt";
-		var text = "You are about to delete the paymentMethod named "+$(".btn[data-option-id='"+paymentMethodId+"']").attr('data-option-name')+". Do you want to continue? Please note that this action cannot be undone";
+		var text = "You are about to delete the payment method named \""+$(".btn[data-option-id='"+paymentMethodId+"']").attr('data-option-name')+"\". Do you want to continue? Please note that this action cannot be undone";
 		var close = true;
 		$scope._paymentMethodId = paymentMethodId;
 		var callback = function(){

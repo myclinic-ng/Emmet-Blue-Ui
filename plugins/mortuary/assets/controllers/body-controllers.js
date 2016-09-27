@@ -113,7 +113,7 @@ angular.module("EmmetBlue")
 		},
 		manageBody:{
 			newBodyRegistration:function(){
-				$('#new-body-registration').modal('show');
+				$('#_new_body_registration').modal('show');
 			},
 			bodyDeleted:function(){
 				utils.alert("Operation Successful", "The selected body has been deleted successfully", "success", "notify");

@@ -227,7 +227,7 @@ function getConstants(){
 		"TEMPLATE_DIR":"plugins/",
 		"MODULE_MENU_LOCATION":"assets/includes/menu.html",
 		"MODULE_HEADER_LOCATION":"assets/includes/header.html",
-		"EMMETBLUE_SERVER":"http://192.168.173.1:700/",
+		"EMMETBLUE_SERVER":"http://192.168.15.78:700/",
 		"EMMETBLUE_SERVER_VERSION":"v1",
 		"USER_COOKIE_IDENTIFIER":"_______"
 	};

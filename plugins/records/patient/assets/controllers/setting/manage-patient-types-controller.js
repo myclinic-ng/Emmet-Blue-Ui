@@ -28,6 +28,8 @@ angular.module("EmmetBlue")
 	}
 
 	functions.loadPatientTypeCategories();
+	$scope.loadPatientTypeCategories = functions.loadPatientTypeCategories;
+
 	$scope.dtOptions = utils.DT.optionsBuilder.fromFnPromise(function(){
 		var request = utils.serverRequest('/patients/patient-type/view', 'GET');
 
@@ -63,7 +65,8 @@ angular.module("EmmetBlue")
     ]);
 
 	$scope.dtColumns = [
-		utils.DT.columnBuilder.newColumn('PatientTypeName').withTitle("PatientType"),
+		utils.DT.columnBuilder.newColumn('PatientTypeName').withTitle("Patient Type"),
+		utils.DT.columnBuilder.newColumn('CategoryName').withTitle("Category"),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(functions.actionMarkups.categoryActionMarkup).withOption('width', '25%').notSortable()
 	]
 
@@ -84,7 +87,7 @@ angular.module("EmmetBlue")
 
 	$scope.deletePatientType = function(categoryId){
 		var title = "Delete Prompt";
-		var text = "You are about to delete the category named "+$(".btn[data-option-id='"+categoryId+"']").attr('data-option-name')+". Do you want to continue? Please note that this action cannot be undone";
+		var text = "You are about to delete the patient type named \""+$(".btn[data-option-id='"+categoryId+"']").attr('data-option-name')+"\". Do you want to continue? Please note that this action cannot be undone";
 		var close = true;
 		$scope._categoryId = categoryId;
 		var callback = function(){
@@ -124,16 +127,11 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.saveNewPatientType = function(){
-<<<<<<< HEAD
-		var data = $scope.newPatientType;		
-		
-=======
 		var data = $scope.newPatientType;
 
 		console.log(data);
 		
 		$('.loader').addClass('show');
->>>>>>> fbdd8269a16775979df674767b68dee94d795a53
 		var request = utils.serverRequest('/patients/patient-type/new', 'POST', data);
 
 		request.then(function(response){

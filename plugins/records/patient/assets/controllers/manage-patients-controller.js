@@ -172,6 +172,7 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.saveNewPatient = function(){
+
 		var patient = $scope.newPatient;
 
 		var request = utils.serverRequest("/patients/patient/new", "POST", patient);
@@ -210,20 +211,35 @@ angular.module("EmmetBlue")
 	$scope.newPatient.operation = [];
 
 	$scope.submitHospitalHistory = function(){
-		$scope.newPatient.hospitalHistory.push($scope.hospitalHistory);
-		$scope.hospitalHistory = {};
+		if (typeof $scope.hospitalHistory !== "undefined"){
+			$scope.newPatient.hospitalHistory.push($scope.hospitalHistory);
+			$scope.hospitalHistory = {};
+		}
+		else {
+			utils.alert("Incomplete information", "At least a field needs to be entered", "error");
+		}
 	}
 
 
 	$scope.submitDiagnosis = function(){
-		$scope.newPatient.diagnosis.push($scope.diagnosis);
-		$scope.diagnosis = {};
+		if (typeof $scope.diagnosis !== "undefined"){
+			$scope.newPatient.diagnosis.push($scope.diagnosis);
+			$scope.diagnosis = {};
+		}
+		else {
+			utils.alert("Incomplete information", "At least a field needs to be entered", "error");
+		}
 	}
 
 	$scope.submitOperation = function(){
-		$scope.operation.diagnosisType="operation";
-		$scope.newPatient.operation.push($scope.operation);
-		$scope.operation = {};
+		if (typeof $scope.operation !== "undefined"){
+			$scope.operation.diagnosisType="operation";
+			$scope.newPatient.operation.push($scope.operation);
+			$scope.operation = {};
+		}
+		else {
+			utils.alert("Incomplete information", "At least a field needs to be entered", "error");
+		}
 	}
 
 	$("#document").on("change", function(){
@@ -244,29 +260,33 @@ angular.module("EmmetBlue")
   		$scope.newPatient.patientPassport = $("#passport").attr("src");
 
   		var data = $scope.newPatient;
-		data.patientName = $scope.newPatient['First Name'] + " " + $scope.newPatient['Last Name'];
+  		if (typeof $scope.newPatient['First Name'] !== "undefined" || typeof $scope.newPatient['Last Name'] !== "undefined") {
+  			data.patientName = $scope.newPatient['First Name'] + " " + $scope.newPatient['Last Name'];
+	  		
+			$('.loader').addClass('show');
+	  		var submitData = utils.serverRequest("/patients/patient/new", "POST", data);
 
-		console.log(data);
-		$('.loader').addClass('show');
-  		var submitData = utils.serverRequest("/patients/patient/new", "POST", data);
+	  		submitData.then(function(response){
+	  			$('.loader').removeClass('show');
+	  			utils.alert("Info", "Record Uploaded successfully", "success");
+				$scope.newPatient = {};
+				$scope.newPatient.hospitalHistory = [];
+				$scope.newPatient.diagnosis = [];
+				$scope.newPatient.operation = [];
 
-  		submitData.then(function(response){
-  			$('.loader').removeClass('show');
-  			utils.alert("Info", "Record Uploaded successfully", "success");
-			$scope.newPatient = {};
-			$scope.newPatient.hospitalHistory = [];
-			$scope.newPatient.diagnosis = [];
-			$scope.newPatient.operation = [];
-
-			$("#passport").attr("src", "plugins/records/patient/assets/images/passport-placeholder.png");
-			$scope.eDisablers("enable");
-			$("#new_patient").modal("hide");
-			$("#patient_card").modal("show");
-			loadPatients();
-  		}, function(response){
-  			$('.loader').removeClass('show');
-  			utils.errorHandler(response);
-  		})
+				$("#passport").attr("src", "plugins/records/patient/assets/images/passport-placeholder.png");
+				$scope.eDisablers("enable");
+				$("#new_patient").modal("hide");
+				$("#patient_card").modal("show");
+				loadPatients();
+	  		}, function(response){
+	  			$('.loader').removeClass('show');
+	  			utils.errorHandler(response);
+	  		})
+  		}
+  		else {
+  			utils.alert("Incomplete information", "Both the firstname and lastname fields are compulsory fields", "error");
+  		}
 	}
 
 	$scope.searched = {};

@@ -389,13 +389,13 @@ $(function() {
 							<tbody>
 								<tr ng-repeat="history in newPatient.hospitalHistory">
 									<td>{{$index+1}}</td>
-									<td>{{history.dateAttended}}</td>
-									<td>{{history.referredBy}}</td>
-									<td>{{history.physician}}</td>
-									<td>{{history.ward}}</td>
-									<td>{{history.dateDischarged}}</td>
-									<td>{{history.dischargedTo}}</td>
-									<td>{{history.healthCondition}}</td>
+									<td contenteditable="">{{history.dateAttended}}</td>
+									<td contenteditable="">{{history.referredBy}}</td>
+									<td contenteditable="">{{history.physician}}</td>
+									<td contenteditable="">{{history.ward}}</td>
+									<td contenteditable="">{{history.dateDischarged}}</td>
+									<td contenteditable="">{{history.dischargedTo}}</td>
+									<td contenteditable="">{{history.healthCondition}}</td>
 								</tr>
 							</tbody>
 						</table>
@@ -446,10 +446,10 @@ $(function() {
 							</thead>
 							<tbody>
 								<tr ng-repeat="diagnosis in newPatient.diagnosis">
-									<td>{{$index+1}}</td>
-									<td>{{diagnosis.date}}</td>
-									<td>{{diagnosis.codeNumber}}</td>
-									<td>{{diagnosis.diagnosis}}</td>
+									<td contenteditable="">{{$index+1}}</td>
+									<td contenteditable="">{{diagnosis.date}}</td>
+									<td contenteditable="">{{diagnosis.codeNumber}}</td>
+									<td contenteditable="">{{diagnosis.diagnosis}}</td>
 								</tr>
 							</tbody>
 						</table>
@@ -500,10 +500,10 @@ $(function() {
 							</thead>
 							<tbody>
 								<tr ng-repeat="operation in newPatient.operation">
-									<td>{{$index+1}}</td>
-									<td>{{operation.date}}</td>
-									<td>{{operation.codeNumber}}</td>
-									<td>{{operation.operation}}</td>
+									<td contenteditable="">{{$index+1}}</td>
+									<td contenteditable="">{{operation.date}}</td>
+									<td contenteditable="">{{operation.codeNumber}}</td>
+									<td contenteditable="">{{operation.operation}}</td>
 								</tr>
 							</tbody>
 						</table>

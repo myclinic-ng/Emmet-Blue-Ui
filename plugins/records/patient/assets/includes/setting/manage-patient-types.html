@@ -10,7 +10,7 @@
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
 					<button type="button" class="close" onclick="$('#edit_setting_records_patient').modal('hide')">&times;</button>
-					<h6 class="modal-title">Edit PatientType</h6>
+					<h6 class="modal-title">Edit Patient Type</h6>
 				</div>
 
 				<div class="modal-body">
@@ -48,14 +48,19 @@
 					<div class="form-group">
 						<div class="row">
 							<div class="col-sm-12">
-								<label>PatientType name</label>
+								<label>Patient type</label>
 								<input type="text" class="form-control" ng-model="newPatientType.patientTypeName">
 							</div>
 							<div class="col-sm-12">
-								<label>Category</label>
-								<select class="select" ng-model="newPatientType.patientTypeCategory">
-									<option ng-repeat="category in patientTypeCategories" value="{{category.CategoryName}}">{{category.CategoryName}}</option>
-								</select>
+								<div class="input-group">
+									<label>Category</label>
+									<select class="select" ng-model="newPatientType.patientTypeCategory">
+										<option ng-repeat="category in patientTypeCategories" value="{{category.CategoryName}}">{{category.CategoryName}}</option>
+									</select>
+									<div class="input-group-addon">
+										<button class="btn" ng-click="loadPatientTypeCategories()">reload</button>
+									</div>
+								</div>
 							</div>
 							<div class="col-sm-12">
 								<label>Description</label>

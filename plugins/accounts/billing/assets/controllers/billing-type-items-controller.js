@@ -5,6 +5,7 @@ angular.module("EmmetBlue")
 	$scope.$watch(function(){
 		return utils.storage.billingTypeItemsData
 	}, function(newValue){
+		console.log(newValue);
 		$scope.billingTypeItemsName = newValue.name;
 		$scope.billingTypeItems = newValue.id;
 
