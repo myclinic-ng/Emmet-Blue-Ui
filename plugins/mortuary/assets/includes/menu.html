@@ -37,8 +37,14 @@
 <!-- /second navbar -->
 <div class="modal fade" id="_new_body_registration">
 	<div class="modal-dialog modal-full">
-		<div class="modal-body">
-			<ng-include src="'plugins/mortuary/assets/includes/new-body-template.html'"></ng-include>
+		<div class="modal-content">
+			<div class="modal-header bg-warning">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h6 class="modal-title">Register a new body</h6>
+			</div>
+			<div class="modal-body">
+				<div class="row"><ng-include src="'plugins/mortuary/assets/includes/new-body-template.html'"></ng-include></div>
+			</div>
 		</div>
 	</div>
 </div>

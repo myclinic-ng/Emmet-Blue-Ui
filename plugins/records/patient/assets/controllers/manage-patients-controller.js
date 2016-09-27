@@ -262,7 +262,7 @@ angular.module("EmmetBlue")
 			$scope.eDisablers("enable");
 			$("#new_patient").modal("hide");
 			$("#patient_card").modal("show");
-			console.log($scope.currentPatientCardData);
+			loadPatients();
   		}, function(response){
   			$('.loader').removeClass('show');
   			utils.errorHandler(response);
