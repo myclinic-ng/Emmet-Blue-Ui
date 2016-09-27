@@ -163,7 +163,6 @@ angular.module("EmmetBlue")
 			WardDescription:$scope.temp.desc
 		}
 		$(".loader").addClass('show');
-
 		var saveEdits = utils.serverRequest('/nursing/ward/edit', 'PUT', edits);
 		saveEdits.then(function(response){
 			$(".loader").removeClass('show');
