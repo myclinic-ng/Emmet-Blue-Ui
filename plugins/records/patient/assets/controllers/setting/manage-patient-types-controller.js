@@ -108,6 +108,7 @@ angular.module("EmmetBlue")
 
 		utils.confirm(title, text, close, callback, type, btnText);
 	}
+	//save edited patient type
 	$scope.saveEditPatientType = function(){
 		var data = {
 			resourceId: $scope.tempHolder.resourceId,
