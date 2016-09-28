@@ -277,6 +277,17 @@ angular.module("EmmetBlue")
 				$("#passport").attr("src", "plugins/records/patient/assets/images/passport-placeholder.png");
 				$scope.eDisablers("enable");
 				$("#new_patient").modal("hide");
+				setTimeout(function(){
+					var _patient = utils.serverRequest("/patients/patient/view?resourceId="+response.lastInsertId, "GET");
+
+					_patient.then(function(response){
+						$scope.currentPatientCardData = response["_source"];
+						console.log($scope.currentPatientCardData);
+					}, function(response){
+						utils.errorHandler(response);
+					})
+				}, 1000);
+
 				$("#patient_card").modal("show");
 				loadPatients();
 	  		}, function(response){
