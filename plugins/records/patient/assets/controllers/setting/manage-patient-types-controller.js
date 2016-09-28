@@ -81,7 +81,6 @@ angular.module("EmmetBlue")
 		$scope.tempHolder.PatientTypeName = $(".btn[data-option-id='"+categoryId+"']").attr('data-option-name');
 		$scope.tempHolder.PatientTypeDescription = $(".btn[data-option-id='"+categoryId+"']").attr('data-option-description');
 		$scope.tempHolder.resourceId = categoryId;
-
 		$("#edit_setting_records_patient").modal("show");
 	}
 
@@ -110,7 +109,12 @@ angular.module("EmmetBlue")
 		utils.confirm(title, text, close, callback, type, btnText);
 	}
 	$scope.saveEditPatientType = function(){
-		var data = $scope.tempHolder;
+		var data = {
+			resourceId: $scope.tempHolder.resourceId,
+			PatientTypeName: $scope.tempHolder.PatientTypeName,
+			PatientTypeDescription: $scope.tempHolder.PatientTypeDescription,
+			CategoryName: $scope.tempHolder.CategoryName
+		}
 		$('.loader').addClass('show');
 		var request = utils.serverRequest('/patients/patient-type/edit', 'PUT', data);
 

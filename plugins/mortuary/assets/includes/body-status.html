@@ -18,7 +18,7 @@
 									<div class="content-group col-sm-12">
 										<label>Change Status</label>
 										<select class="select" name="depositorRelationshipType" ng-model="bodyStatus.type" required>
-											<option value="Spouse" ng-repeat="key in status" value="{{key.StatusName}}">{{key.StatusName}}</option>		
+											<option ng-repeat="key in status" value="{{key.StatusName}}">{{key.StatusName}}</option>		
 										</select>
 									</div>
 									<div class="content-group col-sm-12">
