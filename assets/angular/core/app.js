@@ -6,7 +6,9 @@ angular.module('EmmetBlue', [
 	'datatables.buttons',
 	'datatables.fixedheader',
 	'ngCookies',
-	'ngStorage'
+	'ngStorage',
+	'ngPrint',
+	'angularUtils.directives.dirPagination'
 ])
 
 .run(function(DTDefaultOptions){
@@ -61,6 +63,19 @@ angular.module('EmmetBlue', [
 		}
 		$location.url($location.path());
 	};
+	
+	services.loadNigeriaData = function(){
+		var defer = $q.defer();
+		var data = $http.get("assets/angular/core/data/nigerian-states-lgas.json").then(function(response){
+			defer.resolve(response.data);
+			return defer.promise;
+		}, function(response){
+			defer.reject(response);
+			return defer.promise;
+		});
+
+		return data;
+	}
 
 	services.notify = function(title, text, type){
 	     new PNotify({
@@ -132,7 +147,7 @@ angular.module('EmmetBlue', [
 			}
 			default:
 			{
-				if (typeof errorObject.data != "undefined"){
+				if (typeof errorObject.data != "undefined" && errorObject.data != null){
 					services.alert(errorObject.status+': '+errorObject.statusText, errorObject.data.errorMessage, 'error');
 				}
 				else{
@@ -142,6 +157,11 @@ angular.module('EmmetBlue', [
 		}
 	};
 
+
+	services.loadImage = function(image){
+		return CONSTANTS.EMMETBLUE_SERVER+image
+	}
+
 	services.globalConstants = CONSTANTS;
 
 	services.serializeParams = $httpParamSerializer;
@@ -150,7 +170,7 @@ angular.module('EmmetBlue', [
 
 	services.storage = $localStorage;
 
-	services.restServer = CONSTANTS.EMMETBLUE_SERVER;
+	services.restServer = CONSTANTS.EMMETBLUE_SERVER+CONSTANTS.EMMETBLUE_SERVER_VERSION;
 
 	services.DT = {
 		optionsBuilder: DTOptionsBuilder,
@@ -158,6 +178,35 @@ angular.module('EmmetBlue', [
 	}
 
 	return services;
+})
+
+.directive("ngCurrency", function(){
+	return {
+		template: '&#8358'
+	}
+})
+
+.filter('cut', function () {
+    return function (value, wordwise, max, tail) {
+        if (!value) return '';
+
+        max = parseInt(max, 10);
+        if (!max) return value;
+        if (value.length <= max) return value;
+
+        value = value.substr(0, max);
+        if (wordwise) {
+            var lastspace = value.lastIndexOf(' ');
+            if (lastspace != -1) {
+              if (value.charAt(lastspace-1) == '.' || value.charAt(lastspace-1) == ',') {
+                lastspace = lastspace - 1;
+              }
+              value = value.substr(0, lastspace);
+            }
+        }
+
+        return value + (tail || ' …');
+    };
 })
 
 .constant("CONSTANTS", getConstants())
