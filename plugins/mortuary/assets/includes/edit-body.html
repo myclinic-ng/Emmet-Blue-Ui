@@ -1,32 +1,11 @@
+<!-- <script src="assets/js/plugins/forms/wizards/stepy.min.js"></script>
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-<script src="assets/js/plugins/forms/tags/tagsinput.min.js"></script>
-<script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
-<script>
-	$("select").select2();
-</script>
-<!---new body modal form-->
-<div id="new-body-registration" class="modal fade" ng-controller="mortuaryBodyRegistrationController">
-	<div class="modal-dialog modal-full">
-		<div class="modal-content">
-			<div class="modal-header bg-warning">
-			<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<div class="modal-title"> New Body</div>
-			</div>
-			<div class="modal-body">
-				<div class="col-md-12">
-					<ng-include src="'plugins/mortuary/assets/includes/new-body-template.html'"></ng-include>
-				</div>
-				</div>
-				<div class="modal-footer">
-					<button type="submit" class="btn btn-link" data-dismiss="modal">Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
+<script src="assets/js/plugins/forms/styling/uniform.min.js"></script>
+<script src="plugins/mortuary/assets/js/wizard_stepy.js"></script> -->
 
-	<!---edit body modal form-->
-	<!-- <div id="edit-body-details" class="modal fade">
-		<div class="modal-dialog" style="width:60%;">
+<div >
+	<div id="edit-body" ng-controller="mortuaryViewBodyController" class="modal fade">
+		<div class="modal-dialog modal-full" >
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -63,7 +42,6 @@
 							<div class="form-group col-sm-4">
 								<label>Gender</label>
 								<select class="select" name="gender" ng-model="temp.gender" required>
-									<option value="" selected> -Select- </option>
 									<option value="Male">Male</option>
 									<option value="Female">Female</option>			
 								</select>
@@ -84,7 +62,6 @@
 							<div class="form-group col-sm-4">
 								<label>Relationship</label>
 								<select class="select" name="depositorRelationshipType" ng-model="temp.depositorRelationship" required>
-									<option value="" selected> -Select- </option>
 									<option value="Spouse">Spouse</option>
 									<option value="Father">Father</option>
 									<option value="Mother">Mother</option>	
@@ -117,7 +94,6 @@
 						<div class="form-group col-sm-4">
 							<label>Relationship</label>
 							<select class="select" name="nextOfKinRelationshipType" ng-model="temp.nextOfKinRelationship" required>
-								<option value="" selected> -Select- </option>
 								<option value="Spouse">Spouse</option>
 								<option value="Father">Father</option>
 								<option value="Mother">Mother</option>	
@@ -143,6 +119,7 @@
 				<button type="submit" class="btn btn-link" data-dismiss="modal">Close</button>
 				<button type="submit" class="btn btn-primary stepy-finish ladda-button" data-style="expand-right" ng-click="saveEditBody()"><span class="ladda-label"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin fa-3x"> </i> </span> Update <i class="icon-check position-right"></i></span></button>
 			</div>
+			</div>
 		</div>
 	</div>
-</div> -->
+</div>

@@ -55,16 +55,17 @@ angular.module("EmmetBlue")
     }, function(error){
     	utils.errorHandler(error);
     })
-    
+    $scope.dtInstance = {};	
 	$scope.submit = function(){
-		$scope.body.tag = $scope.body.tag.split(",");
 		$('.loader').addClass('show');
+		$scope.body.tag = $scope.body.tag.split(",");
 		var body = utils.serverRequest('/mortuary/body/new', 'post', $scope.body);
 		body.then(function(response){
 			$('.loader').removeClass('show');
 			utils.alert('Operation Successful', 'The Registration of body number was completed successfully', 'success', 'both');
 			$scope.body = {};
-			dtInstance = dtInstance.reloadData();
+			$scope.dtInstance.reloadData();
+			//dtInstance = dtInstance.reloadData();
 			$('#new-body-registration').modal('hide');
 		}, function(error){
 			$('.loader').removeClass('show');
@@ -81,10 +82,10 @@ angular.module("EmmetBlue")
 			var deleteButtonAction = "functions.manageBody.deleteBody("+data.BodyID+")";
 			//var logOutButton = "functions.manageBody.logOutBody("+data.BodyID+")";
 			var changeBodyStatusAction = "functions.manageBody.changeBodyStatusForm("+data.BodyID+")";
-
+//console.log(data.Tags);
 			var options = 
 				" data-option-id='"+data.BodyID+
-				"' data-option-tag='"+data.BodyTag+
+				"' data-option-tags='"+data.Tags+
 				"' data-option-place-of-death='"+data.PlaceOfDeath+
 				"' data-option-date-of-death='"+data.DateOfDeath+
 				"' data-option-body-status='"+data.BodyStatus+
@@ -117,24 +118,25 @@ angular.module("EmmetBlue")
 			},
 			bodyDeleted:function(){
 				utils.alert("Operation Successful", "The selected body has been deleted successfully", "success", "notify");
-				$scope.tempHolder = {};
-				delete  $scope._id;
-
 				$scope.dtInstance.reloadData();
 			},
-			bodyloggedOut:function(){
+			/*bodyloggedOut:function(){
 				utils.alert("Operation Successful", "The selected body has been logged Out successfully", "success", "notify");
 				$scope.tempHolder = {};
 				//delete  $scope._id;
 
 				$scope.dtInstance.reloadData();
+			},*/
+			bodyUpdated:function(){
+				utils.alert("Operation Successful", "The selected body has been Updated successfully", "success", "notify");
+				$("#edit-body").modal('hide');
+				$scope.dtInstance.reloadData();
 			},
-		
 
 		editBody: function(id){
 			$scope.temp = {
 				bodyId:id,
-				tag: $(".btn[data-option-id='"+id+"']").attr("data-option-tag"),
+				tag: $(".btn[data-option-id='"+id+"']").attr("data-option-tags"),
 				placeOfDeath:$(".btn[data-option-id='"+id+"']").attr("data-option-place-of-death"),
 				dateOfDeath:$(".btn[data-option-id='"+id+"']").attr("data-option-date-of-death"),
 				dateOfBirth:$(".btn[data-option-id='"+id+"']").attr("data-option-date-of-birth"),
@@ -149,12 +151,13 @@ angular.module("EmmetBlue")
 				depositorRelationship:$(".btn[data-option-id='"+id+"']").attr("data-option-depositor-relationship"),
 				depositorPhoneNumber:$(".btn[data-option-id='"+id+"']").attr("data-option-depositor-phone-number")
 			};
-			$('#edit-body-details').modal('show');
+			//console.log($scope.temp)
+			$("#edit-body").modal('show');
 		},
 		viewBody: function(id){
 			$scope.temp = {
 				bodyid:id,
-				tag: $(".btn[data-option-id='"+id+"']").attr("data-option-tag"),
+				tag: $(".btn[data-option-id='"+id+"']").attr("data-option-tags"),
 				bodyStatus: $(".btn[data-option-id='"+id+"']").attr("data-option-body-status"),
 				placeOfDeath:$(".btn[data-option-id='"+id+"']").attr("data-option-place-of-death"),
 				dateOfDeath:$(".btn[data-option-id='"+id+"']").attr("data-option-date-of-death"),
@@ -174,10 +177,8 @@ angular.module("EmmetBlue")
 			};
 			$scope.age = functions.manageBody.age($scope.temp.dateOfBirth, $scope.temp.dateOfDeath);
 			$scope.numberOfDays = functions.manageBody.numberOfDays($scope.temp.creationDate);
-			//$scope.temp.push(age);
-			$("#view-each-body").modal('show');
 
-			//console.log(age);
+			$("#view-each-body").modal('show');
 		},
 		//age calculator
 		 age: function(dateOfBirth, dateOfDeath){
@@ -205,6 +206,7 @@ angular.module("EmmetBlue")
 			var getStatus = utils.serverRequest('/mortuary/body-status/view', 'GET');
 			getStatus.then(function(response){
 				$scope.status = response;
+				$scope.bodyId = id;
 				console.log(response);
 				console.log(id);
 			})
@@ -217,11 +219,11 @@ angular.module("EmmetBlue")
 		},
 		deleteBody: function(id){
 				var title = "Delete Prompt";
-				var text = "You are about to delete this body named "+$(".btn[data-option-id='"+id+"']").attr('data-option-name')+". Do you want to continue? Please note that this action cannot be undone";
+				var text = "You are about to delete this body named "+$(".btn[data-option-id='"+id+"']").attr('data-option-fullName')+". Do you want to continue? Please note that this action cannot be undone";
 				var close = true;
 				$scope._id = id;
 				var callback = function(){
-					var_dumb($scope._id);
+					console.log($scope._id);
 					var deleteRequest = utils.serverRequest('/mortuary/body/delete?'+utils.serializeParams({
 						'resourceId': $scope._id
 					}), 'DELETE');
@@ -236,7 +238,7 @@ angular.module("EmmetBlue")
 				var btnText = "Delete";
 
 				utils.confirm(title, text, close, callback, type, btnText);
-			},
+			}/*,
 			logOutBody:function(id){
 				var title = "Log Out Prompt";
 				var text = "You are about to Log Out this body named "+$(".btn[data-option-id='"+id+"']").attr('data-option-fullName')+". Do you want to continue? Please note that this action cannot be undone";
@@ -258,7 +260,7 @@ angular.module("EmmetBlue")
 
 				utils.confirm(title, text, close, callback, type, btnText);
 				
-			}
+			}*/
 		}
 	}
 
@@ -333,10 +335,9 @@ angular.module("EmmetBlue")
 		var body = {
 			resourceId: $scope.temp.bodyId,
 			BodyTag: $scope.temp.tag,
-			PlaceOfDeath: $scope.temp.plaeOfDeath,
+			PlaceOfDeath: $scope.temp.placeOfDeath,
 			DateOfDeath: $scope.temp.dateOfDeath,
-
-			BodyFullName: $scope.temp.bodyFullname,
+			BodyFullName: $scope.temp.fullName,
 			BodyDateOfBirth: $scope.temp.dateOfBirth,
 			BodyGender: $scope.temp.gender,
 			BodyNextOfKinFullName: $scope.temp.nextOfKinFullName,
@@ -345,26 +346,36 @@ angular.module("EmmetBlue")
 			BodyNextOfKinPhoneNumber: $scope.temp.nextOfKinPhoneNumber,
 
 			DepositorFullName: $scope.temp.depositorFullName,
-			DepositorAddress: $scope.depositorAddress,
+			DepositorAddress: $scope.temp.depositorAddress,
 			DepositorRelationshipType:$scope.temp.depositorRelationship,
 			DepositorPhoneNumber: $scope.temp.depositorPhoneNumber
 		};
-		console.log(body);
-		/*var saveEditBody = utils.serverRequest('/mortuary/body/edit', 'PUT', body);
+		//console.log(body);
+		var saveEditBody = utils.serverRequest('/mortuary/body/edit', 'PUT', body);
 		saveEditBody.then(function(response){
 			//alert('updated');
-			console.log(saveEditBody);
-			//functions.departmentEdited();
+			console.log(response);
+			functions.manageBody.bodyUpdated();
 		}, function(responseObject){
 			utils.errorHandler(responseObject);
-		})*/
+		})
 
 	}
 	
 	/*change body status resource*/
 	$scope.changeBodyStatus = function(){
+		var bodyStatus = {
+			resourceId: $scope.bodyId,
+			BodyStatus: $scope.bodyStatus
+		};
 		console.log($scope.bodyStatus);
-		utils.alert("Operation Successful", "Body Status changeed successfully", "success", "notify");
+		changeStatus = utils.serverRequest('/mortuary/body/editBodyStatus', 'PUT', bodyStatus);
+		changeStatus.then(function(response){
+			console.log(response)
+		}, function(responseObject){
+			utils.errorHandler(responseObject);
+		})
+		//utils.alert("Operation Successful", "Body Status changeed successfully", "success", "notify");
 	}
 	$scope.functions = functions;
 	
