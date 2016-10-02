@@ -195,6 +195,9 @@ th {
     box-shadow: none !important;
     text-shadow: none !important;
   }
+  body {
+    zoom: 0.8;
+  }
   a,
   a:visited {
     text-decoration: underline;

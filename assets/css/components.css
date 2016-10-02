@@ -5529,6 +5529,104 @@ img.fancytree-icon {
 }
 /* ------------------------------------------------------------------------------
 *
+*  # Fixed columns
+*
+*  Extension that "freezes" in place the left most columns in a scrolling DataTable
+*
+*  Version: 1.0
+*  Latest update: May 25, 2015
+*
+* ---------------------------------------------------------------------------- */
+.DTFC_Cloned {
+  background-color: #fff;
+  border-bottom: 0;
+}
+.DTFC_LeftWrapper .DTFC_Cloned.table {
+  border-right: 1px solid #dddddd;
+}
+.DTFC_RightWrapper .DTFC_Cloned.table {
+  border-left: 1px solid #dddddd;
+}
+.DTFC_LeftBodyWrapper .DTFC_Cloned thead th:before,
+.DTFC_RightBodyWrapper .DTFC_Cloned thead th:before,
+.DTFC_LeftBodyWrapper .DTFC_Cloned thead th:after,
+.DTFC_RightBodyWrapper .DTFC_Cloned thead th:after {
+  content: none;
+}
+.DTFC_LeftBodyWrapper .DTFC_Cloned tbody > tr:first-child > td,
+.DTFC_RightBodyWrapper .DTFC_Cloned tbody > tr:first-child > td,
+.DTFC_LeftBodyWrapper .DTFC_Cloned tbody > tr:first-child > th,
+.DTFC_RightBodyWrapper .DTFC_Cloned tbody > tr:first-child > th {
+  border-top: 0;
+}
+.DTFC_Blocker {
+  background-color: white;
+}
+@media (max-width: 768px) {
+  .DTFC_LeftWrapper,
+  .DTFC_RightWrapper {
+    display: none;
+  }
+}
+/* ------------------------------------------------------------------------------
+*
+*  # Fancybox lightbox
+*
+*  Add a toolbar to a table to provide options for saving files (CSV, XLS, PDF),
+*  copying to system Clipboard, or printing the table
+*
+*  Version: 1.0
+*  Latest update: May 25, 2015
+*
+* ---------------------------------------------------------------------------- */
+.DTTT_container {
+  position: relative;
+  float: right;
+  margin: 0 0 20px 20px;
+}
+.tools-left .DTTT_container {
+  float: left;
+}
+.DTTT_container .DTTT_button embed {
+  outline: none;
+}
+@media (max-width: 768px) {
+  .DTTT_container {
+    float: none !important;
+    text-align: center;
+    display: block;
+    margin-left: 0;
+  }
+  .DTTT_container > .btn {
+    text-align: center;
+    float: none;
+  }
+}
+.DTTT_selectable tbody tr {
+  cursor: pointer;
+}
+.DTTT_print_info {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  margin-left: -200px;
+  margin-top: -100px;
+  text-align: center;
+  color: #fff;
+  padding: 20px;
+  background-color: #455a64;
+  border-radius: 3px;
+  z-index: 90;
+  opacity: 0.9;
+  filter: alpha(opacity=90);
+}
+.DTTT_print_info h6 {
+  font-weight: 300;
+  font-size: 17px;
+}
+/* ------------------------------------------------------------------------------
+*
 *  # Responsive extension
 *
 *  Optimise the table's layout for different screen sizes through the dynamic 

@@ -57,8 +57,8 @@
 									<div class="category-content">
 										<div class="row row-condensed">
 											<div class="col-xs-6">
-												<button type="button" class="btn bg-teal-400 btn-block btn-float btn-float-lg" ng-print print-element-id="view-patient-{{patientInfo.patientid}}-content-area"><i class="icon-printer"></i> <span>Print card</span></button>
-												<button type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg"><i class="icon-archive"></i> <span>View profile</span></button>
+												<button type="button" class="btn bg-teal-400 btn-block btn-float btn-float-lg" ng-click="toggleView('card')" ng-print print-element-id="view-patient-{{patientInfo.patientid}}-content-area"><i class="icon-printer"></i> <span>View card</span></button>
+												<button type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg" ng-click="toggleView('profile')"><i class="icon-archive"></i> <span>View profile</span></button>
 											</div>
 											
 											<div class="col-xs-6">
@@ -74,8 +74,8 @@
 				</div>
 				<div class="col-md-9" id="view-patient-{{patientInfo.patientid}}-content-area">
 					<div class="watermark"></div>
-					<!-- <ng-patient-card patient-info="patientInfo"></ng-patient-card> -->
-					<ng-patient-profile patient-info="patientInfo"></ng-patient-profile>
+					<ng-patient-card patient-info="patientInfo" ng-show="viewItems.card"></ng-patient-card>
+					<ng-patient-profile patient-info="patientInfo" ng-show="viewItems.profile"></ng-patient-profile>
 				</div>
 			</div>
 			<div class="modal-footer">

@@ -1,6 +1,6 @@
 angular.module("EmmetBlue")
 
-.controller("recordsPatientManagePatientsController", function($scope, utils){
+.controller("recordsPatientManagePatientsController", function($scope, utils, patientEventLogger){
 	$scope.utils = utils;
 	$scope.disablers = {
 		enable_camera: true,
@@ -269,6 +269,14 @@ angular.module("EmmetBlue")
 	  		submitData.then(function(response){
 	  			$('.loader').removeClass('show');
 	  			utils.alert("Info", "Record Uploaded successfully", "success");
+
+				var eventLog = patientEventLogger.records.newPatientRegisteredEvent(response.lastInsertId, response.lastInsertId);
+				eventLog.then(function(response){
+					//patient registered event logged
+				}, function(response){
+					utils.errorHandler(response);
+				});
+
 				$scope.newPatient = {};
 				$scope.newPatient.hospitalHistory = [];
 				$scope.newPatient.diagnosis = [];
