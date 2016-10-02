@@ -41,7 +41,8 @@ $("select").select2();
 				<div class="form-group col-sm-3">
 					<label>Gender</label>
 					<select class="select" name="gender" ng-model="body.gender" required>
-						<option value="Male" selected>Male</option>
+						<option value="" selected> -Select- </option>
+						<option value="Male">Male</option>
 						<option value="Female">Female</option>			
 					</select>
 				</div>
@@ -65,17 +66,18 @@ $("select").select2();
 				<div class="form-group col-sm-4">
 					<label>Relationship</label>
 					<select class="select" name="depositorRelationshipType" ng-model="body.depositorRelationshipType" required>
-					<option value="Spouse" selected>Spouse</option>
-					<option value="Father">Father</option>
-					<option value="Mother">Mother</option>	
-					<option value="Sister">Sister</option>	
-					<option value="Brother">Brother</option>
-					<option value="Uncle">Uncle</option>
-					<option value="Aunt">Aunt</option>
-					<option value="Grandparent">Grandparent</option>
-					<option value="Niece">Niece</option>
-					<option value="Nephew">Nephew</option>				
-				</select>
+						<option value="" selected> -Select- </option>
+						<option value="Spouse">Spouse</option>
+						<option value="Father">Father</option>
+						<option value="Mother">Mother</option>	
+						<option value="Sister">Sister</option>	
+						<option value="Brother">Brother</option>
+						<option value="Uncle">Uncle</option>
+						<option value="Aunt">Aunt</option>
+						<option value="Grandparent">Grandparent</option>
+						<option value="Niece">Niece</option>
+						<option value="Nephew">Nephew</option>				
+					</select>
 				</div>
 				<div class="form-group col-sm-4">
 					<label>Phone Number</label>
@@ -101,8 +103,9 @@ $("select").select2();
 				<div class="form-group col-sm-4">
 					<label>Relationship</label>
 					<select class="select" name="nextOfKinRelationshipType" ng-model="body.nextOfKinRelationshipType" required>
-						<option value="Spouse" selected>Spouse</option>
-						<option value="Father" selected>Father</option>
+						<option value="" selected> -Select- </option>
+						<option value="Spouse">Spouse</option>
+						<option value="Father">Father</option>
 						<option value="Mother">Mother</option>	
 						<option value="Sister">Sister</option>	
 						<option value="Brother">Brother</option>

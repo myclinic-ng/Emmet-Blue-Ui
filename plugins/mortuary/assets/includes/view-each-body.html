@@ -1,0 +1,59 @@
+<!-- <script src="assets/js/plugins/forms/wizards/stepy.min.js"></script>
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script src="assets/js/plugins/forms/styling/uniform.min.js"></script>
+<script src="plugins/mortuary/assets/js/wizard_stepy.js"></script> -->
+
+<div ng-controller="mortuaryViewBodyController as cntrller">
+	<!--view each Body Modal-->
+	<div class="row">
+		<div class="modal fade" id="view-each-body" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    <div class="modal-dialog" style="width: 50%">
+		        <div class="modal-content">
+		            <div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<div class="modal-title"> Body Info</div>
+					</div>
+		            <div class="modal-body">
+		                <center>
+		                    <span style="font-size:150px">{{numberOfDays}}</span>days
+		                    <h3 class="media-heading">{{temp.fullName}} <small>{{temp.bodyStatus}}</small></h3>
+		                    <span><strong>Tags: </strong></span>
+		                        <span class="label label-warning">{{temp.tag}}</span>
+		                        <span class="label label-info">gender: {{temp.gender}}</span>
+		                        <span class="label label-info">Age: {{age}}</span>
+		                        <br>
+		                        <span class="label label-info">Location of Death: {{temp.placeOfDeath}}</span>
+		                        <span class="label label-info">Date of Death: {{temp.dateOfDeath}}</span>
+		                        
+		                </center>
+		                <hr>
+		                
+		                	<div class="col-sm-6">
+		                    	<legend class="text-semibold">Depositor's Details</legend>
+		                    <br>
+		                    <p>Depositor Name: {{temp.depositorFullName}}</p>
+			                <p>Depositor Address: {{temp.depositorAddress}}</p>
+			                <p>Depositor Phone Number: {{temp.depositorPhoneNumber}}</p>
+			                <p>Depositor Relationship: {{temp.depositorRelationship}}</p>
+		                
+		                </div>
+		                <div class="col-sm-6">
+		                		<legend class="text-semibold">Next of Kin Details</legend>
+		                    <br>
+		                	<p>Name: {{temp.nextOfKinFullName}}</p>
+			                <p>Address: {{temp.nextOfKinAddress}}</p>
+			                <p>Phone Number: {{temp.nextOfKinPhoneNumber}}</p>
+			                <p>Relationship: {{temp.nextOfKinRelationship}}</p>
+		                </div>
+		            
+		                </div>
+		            <div class="modal-footer">
+		                <center>
+		                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		                </center>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	</div>
+</div>

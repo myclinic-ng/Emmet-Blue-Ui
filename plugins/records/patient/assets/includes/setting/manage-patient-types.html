@@ -21,14 +21,14 @@
 								<input type="text" class="form-control" ng-model="tempHolder.PatientTypeName" data-option-id="{{tempHolder.patientTypeId}}">
 							</div>
 							<div class="col-sm-12">
-								<label>Description</label>
-								<textarea cols="3" rows="3" class="form-control" ng-model="tempHolder.PatientTypeDescription"></textarea>
-							</div>
-							<div class="col-sm-12">
 								<label>Category</label>
 								<select class="select" name="category" ng-model="tempHolder.CategoryName" required>
 									<option ng-repeat="category in patientTypeCategories" value="{{category.CategoryName}}">{{category.CategoryName}}</option>		
 								</select>
+							</div>
+							<div class="col-sm-12">
+								<label>Description</label>
+								<textarea cols="3" rows="3" class="form-control" ng-model="tempHolder.PatientTypeDescription"></textarea>
 							</div>
 						</div>
 					</div>
