@@ -191,7 +191,7 @@ angular.module("EmmetBlue")
 
 .factory("patientEventLogger", function(utils){
 	var events = {
-		records: {}
+		records: []
 	};
 
 	var eventLogger = function(eventObject){
