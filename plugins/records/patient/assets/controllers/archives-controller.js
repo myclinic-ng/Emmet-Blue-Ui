@@ -1,6 +1,7 @@
 angular.module("EmmetBlue")
 
 .controller("recordsPatientArchivesController", function($scope, utils, recordsPatientWidgetFactory){
+	$scope.showFullSearch = true;
 	$scope.timelineData = {};
 	$scope.searched = {};
 	$scope.currentPatient = {};
@@ -16,6 +17,16 @@ angular.module("EmmetBlue")
 		})
 	}
 
+	function loadRepositories(patientId){
+		var repoReq = recordsPatientWidgetFactory.loadRepositories(patientId);
+		repoReq.then(function(response){
+			$scope.repositoryData = response;
+			console.log($scope.repositoryData);
+		}, function(response){
+			utils.errorHandler(response);
+		})
+	}
+
 	$scope.search = function(){
 		var query = $scope.searchQuery;
 
@@ -24,8 +35,6 @@ angular.module("EmmetBlue")
 		request.then(function(response){
 			$scope.searched.meta= response.hits;
 			$scope.searched.patients = response.hits.hits;
-
-			console.log($scope.searched);
 		}, function(response){
 			utils.errorHandler(response);
 		})	
@@ -37,5 +46,6 @@ angular.module("EmmetBlue")
 		$scope.currentPatient.id = patient["_source"].patientid;
 
 		loadTimeline($scope.currentPatient.id);
+		loadRepositories($scope.currentPatient.id);
 	}
 })

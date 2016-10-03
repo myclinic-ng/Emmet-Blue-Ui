@@ -5,6 +5,7 @@ head.load(controllersLocation+"new-repository-controller.js");
 head.load(controllersLocation+"manage-patients-controller.js");
 head.load(controllersLocation+"patient-widget-factory.js");
 head.load(controllersLocation+"archives-controller.js");
+head.load(controllersLocation+"manage-archives-controller.js");
 head.load(controllersLocation+"patient-card-directive.js");
 head.load(controllersLocation+"patient-grid-directive.js");
 head.load(controllersLocation+"patient-profile-directive.js");
