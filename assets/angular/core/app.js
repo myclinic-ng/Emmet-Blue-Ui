@@ -1,42 +1,32 @@
-angular.module('EmmetBlue', [
-	'ngRoute',
-	'ngAnimate',
-	'ngMessages',
-	'datatables',
-	'datatables.buttons',
-	'datatables.fixedheader',
-	'ngCookies',
-	'ngStorage',
-	'ngPrint',
-	'angularUtils.directives.dirPagination'
-])
+angular.module("EmmetBlue")
 
-.run(function(DTDefaultOptions){
-	DTDefaultOptions.setBootstrapOptions({
-        TableTools: {
-            classes: {
-                container: 'btn-group',
-                buttons: {
-                    normal: 'btn btn-danger'
-                }
-            }
-        }
-    });
+.directive("ngCurrency", function(){
+	return {
+		template: '&#8358'
+	}
 })
 
-.config(function($routeProvider, $locationProvider){
-	$routeProvider
-	.when('/:page*', {
-		templateUrl: function(url){
-			return determineRouteAvailability(url.page);
-		},
-		reloadOnSearch: false
-	})
-	.otherwise({
-		redirectTo: '/'
-	});
+.filter('cut', function () {
+    return function (value, wordwise, max, tail) {
+        if (!value) return '';
 
-	$locationProvider.html5Mode(true);
+        max = parseInt(max, 10);
+        if (!max) return value;
+        if (value.length <= max) return value;
+
+        value = value.substr(0, max);
+        if (wordwise) {
+            var lastspace = value.lastIndexOf(' ');
+            if (lastspace != -1) {
+              if (value.charAt(lastspace-1) == '.' || value.charAt(lastspace-1) == ',') {
+                lastspace = lastspace - 1;
+              }
+              value = value.substr(0, lastspace);
+            }
+        }
+
+        return value + (tail || ' …');
+    };
 })
 
 .factory("utils", function(
@@ -162,6 +152,25 @@ angular.module('EmmetBlue', [
 		return CONSTANTS.EMMETBLUE_SERVER+image
 	}
 
+	services.dateObject = function(dateString){
+		var date = new Date(dateString);
+
+		return date;
+	}
+
+	services.getAge = function(dateString) {
+	    if (dateString !== null){
+	    	var today = new Date();
+		    var birthDate = new Date(dateString);
+		    var age = today.getFullYear() - birthDate.getFullYear();
+		    var m = today.getMonth() - birthDate.getMonth();
+		    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+		        age--;
+		    }
+		    return age;
+	    }
+	}
+
 	services.globalConstants = CONSTANTS;
 
 	services.serializeParams = $httpParamSerializer;
@@ -180,55 +189,33 @@ angular.module('EmmetBlue', [
 	return services;
 })
 
-.directive("ngCurrency", function(){
-	return {
-		template: '&#8358'
-	}
-})
-
-.filter('cut', function () {
-    return function (value, wordwise, max, tail) {
-        if (!value) return '';
-
-        max = parseInt(max, 10);
-        if (!max) return value;
-        if (value.length <= max) return value;
-
-        value = value.substr(0, max);
-        if (wordwise) {
-            var lastspace = value.lastIndexOf(' ');
-            if (lastspace != -1) {
-              if (value.charAt(lastspace-1) == '.' || value.charAt(lastspace-1) == ',') {
-                lastspace = lastspace - 1;
-              }
-              value = value.substr(0, lastspace);
-            }
-        }
-
-        return value + (tail || ' …');
-    };
-})
-
-.constant("CONSTANTS", getConstants())
-
-function determineRouteAvailability(url){
-	var urlParts = url.split("/");
-	if (typeof urlParts[1] == "undefined"){
-		urlParts[1] = "dashboard"
-	}
-
- 	var _url = 'plugins/'+urlParts.join('/')+'.html';
-
- 	return _url;
-}
-
-function getConstants(){
-	return {
-		"TEMPLATE_DIR":"plugins/",
-		"MODULE_MENU_LOCATION":"assets/includes/menu.html",
-		"MODULE_HEADER_LOCATION":"assets/includes/header.html",
-		"EMMETBLUE_SERVER":"http://127.0.0.1:420/Emmet-Blue-Api",
-		"EMMETBLUE_SERVER_VERSION":"v1",
-		"USER_COOKIE_IDENTIFIER":"_______"
+.factory("patientEventLogger", function(utils){
+	var events = {
+		records: {}
 	};
-}
+
+	var eventLogger = function(eventObject){
+		var dateObject = new Date();
+		eventObject.eventDate = dateObject.toLocaleDateString();
+		eventObject.eventTime = dateObject.getHours()+":"+dateObject.getMinutes();
+
+		var eventReq = utils.serverRequest("/patients/patient-event/new", "POST", eventObject);
+
+		return eventReq;
+	}
+
+	events.records.newPatientRegisteredEvent = function(patientId, linkId){
+		var eventObject = {
+			patient: patientId,
+			eventActor: "Records",
+			eventLinkId: linkId,
+			eventLink: "patients/patient",
+			eventText: "completed registration",
+			eventIcon: "fa fa-user-plus"
+		};
+
+		return eventLogger(eventObject);
+	}
+
+	return events;
+})

@@ -45,6 +45,7 @@ var themes = [
 ];
 
 var angular = {"angular": "assets/angular/libraries/angular.js"};
+var appDefaults = {"appDefaults": "assets/angular/core/defaults.js"}
 var app = {"app": "assets/angular/core/app.js"};
 var angularLibraries = [
 	"assets/angular/libraries/angular-route.js",
@@ -76,6 +77,7 @@ head.ready(["jquery", "bootstrap"], function(){
 	head.load(angular);
 	head.ready("angular", function(){
 		head.load(angularLibraries);
+		head.load(appDefaults);
 		head.load(app);
 	});
 });
@@ -97,7 +99,7 @@ var services = [
 
 ]
 
-head.ready("app", function(){
+head.ready("appDefaults", function(){
 	head.load({"chart":"assets/js/plugins/visualization/echarts/echarts.js"});
 	head.load(cntrllers);
 	head.load(services);
