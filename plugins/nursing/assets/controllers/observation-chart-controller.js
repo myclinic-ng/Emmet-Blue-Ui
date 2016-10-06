@@ -144,7 +144,7 @@ angular.module('EmmetBlue')
 		var sendForObservationChartFormFields = utils.serverRequest('/nursing/observation-chart-field-title/view', 'GET');
 
 			sendForObservationChartFormFields.then(function(response){
-				$scope.observationChartFormFields = response;
+				return $scope.observationChartFormFields = response;
 			}, function(responseObject){
 				utils.errorHandler(responseObject);
 			})
@@ -169,13 +169,7 @@ angular.module('EmmetBlue')
 		
 		var saveNewObservationChartValues = utils.serverRequest('/nursing/observation-chart/new', 'POST', newObservationChartFieldValues);
 		console.log(saveNewObservationChartValues)
-		/*saveNewObservationChartField.then(function(response){
-			console.log(response)
-			functions.newObservationChartFieldCreated();
-			$scope.newObservationChartField = {};
-		}, function(responseObject){
-			utils.errorHandler(responseObject);
-		});*/
+		
 	}
 
 	$scope.saveEditObservationChart = function(){
