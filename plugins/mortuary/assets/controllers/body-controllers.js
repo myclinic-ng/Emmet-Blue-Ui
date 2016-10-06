@@ -120,13 +120,7 @@ angular.module("EmmetBlue")
 				utils.alert("Operation Successful", "The selected body has been deleted successfully", "success", "notify");
 				$scope.dtInstance.reloadData();
 			},
-			/*bodyloggedOut:function(){
-				utils.alert("Operation Successful", "The selected body has been logged Out successfully", "success", "notify");
-				$scope.tempHolder = {};
-				//delete  $scope._id;
-
-				$scope.dtInstance.reloadData();
-			},*/
+			
 			bodyUpdated:function(){
 				utils.alert("Operation Successful", "The selected body has been Updated successfully", "success", "notify");
 				$("#edit-body").modal('hide');
@@ -137,6 +131,7 @@ angular.module("EmmetBlue")
 			$scope.temp = {
 				bodyId:id,
 				tag: $(".btn[data-option-id='"+id+"']").attr("data-option-tags"),
+				bodyStatus: $(".btn[data-option-id='"+id+"']").attr("data-option-body-status"),
 				placeOfDeath:$(".btn[data-option-id='"+id+"']").attr("data-option-place-of-death"),
 				dateOfDeath:$(".btn[data-option-id='"+id+"']").attr("data-option-date-of-death"),
 				dateOfBirth:$(".btn[data-option-id='"+id+"']").attr("data-option-date-of-birth"),
@@ -207,8 +202,6 @@ angular.module("EmmetBlue")
 			getStatus.then(function(response){
 				$scope.status = response;
 				$scope.bodyId = id;
-				console.log(response);
-				console.log(id);
 			})
 			
 			$('#changeBodyStatusForm').modal('show');
@@ -238,29 +231,7 @@ angular.module("EmmetBlue")
 				var btnText = "Delete";
 
 				utils.confirm(title, text, close, callback, type, btnText);
-			}/*,
-			logOutBody:function(id){
-				var title = "Log Out Prompt";
-				var text = "You are about to Log Out this body named "+$(".btn[data-option-id='"+id+"']").attr('data-option-fullName')+". Do you want to continue? Please note that this action cannot be undone";
-				var close = true;
-				$scope._id = id;
-				var callback = function(){
-					console.log($scope._id);
-					var data = {"resourceId":$scope._id}
-					var logOutRequest = utils.serverRequest('/mortuary/body/logoutbody', 'PUT', data);
-
-					logOutRequest.then(function(response){
-						functions.manageBody.bodyloggedOut();
-					}, function(responseObject){
-						utils.errorHandler(responseObject);
-					})
-				}
-				var type = "warning";
-				var btnText = "Log Out";
-
-				utils.confirm(title, text, close, callback, type, btnText);
-				
-			}*/
+			}
 		}
 	}
 
@@ -335,6 +306,7 @@ angular.module("EmmetBlue")
 		var body = {
 			resourceId: $scope.temp.bodyId,
 			BodyTag: $scope.temp.tag,
+			BodyStatus: $scope.temp.bodyStatus,
 			PlaceOfDeath: $scope.temp.placeOfDeath,
 			DateOfDeath: $scope.temp.dateOfDeath,
 			BodyFullName: $scope.temp.fullName,
@@ -368,7 +340,7 @@ angular.module("EmmetBlue")
 			resourceId: $scope.bodyId,
 			BodyStatus: $scope.bodyStatus
 		};
-		console.log($scope.bodyStatus);
+		//console.log($scope.bodyId);
 		changeStatus = utils.serverRequest('/mortuary/body/editBodyStatus', 'PUT', bodyStatus);
 		changeStatus.then(function(response){
 			console.log(response)

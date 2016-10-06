@@ -1,0 +1,113 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+<div ng-controller="observationChartFieldsController">
+	<div id="setting_observation_chart_field" class="modal fade">
+		<div class="modal-dialog modal-full">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title"> Settings <span class="pull-right mr-20">Observation Chart Field</span></h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="table-responsive col-md-12">
+						<table datatable="" dt-options="settingsDtOptions" dt-columns="settingsDtColumns" dt-instance="settingsDtInstance" class="table table-condensed table-striped table-hover">
+
+						</table>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- New ProfileRecord -->
+	<div id="setting_new_observation_chart_field" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Create a new Observation Chart entry</h6>
+				</div>
+
+				<div class="modal-body">
+					<form role="form">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-12">
+									<label>Observation Chart Name</label>
+									<input type="text" class="form-control" ng-model="newObservationChartField.fieldTitleName">
+								</div>
+								<div class="col-sm-12">
+									<label>Chart Type</label>
+									<select class="select" ng-model="newObservationChartField.fieldTitleType">
+										<option value="Name">Noun (A word that indicates a name)</option>
+										<option value="Text">Text (An address, a description, etc)</option>
+										<option value="Number">Number (An integer or fractional based number)</option>
+										<option value="Date">Date (includes time)</option>
+										<option value="File">File (A picture, a scanned document, a binary file, etc)</option>
+									</select>
+								</div>
+								<div class="col-sm-12">
+									<label>Chart Description</label>
+									<textarea class="form-control" cols="3" rows="3" ng-model="newObservationChartField.fieldTitleDescription"></textarea>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="newObservationChartField = {}">Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveNewObservationChartField()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"></i> </span> Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--/ New Profile Record  -->
+
+	<!-- Edit Staff Profile Record-->
+	<div id="setting_edit_observation_chart_field" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Modify Observation Chart Field</h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-12">
+								<label>Observation Chart Name</label>
+								<input type="text" class="form-control" ng-model="tempHolder.name" data-option-id="{{tempHolder.id}}">
+							</div>
+							<div class="col-sm-12">
+								<label>Chart Type</label>
+								<select class="select" ng-model="tempHolder.type">
+									<option value="{{tempHolder.type}}">{{tempHolder.type}}</option>
+									<option value="Name">Noun (A word that indicates a name)</option>
+									<option value="Text">Text (An address, a description, etc)</option>
+									<option value="Number">Number (An integer or fractional based number)</option>
+									<option value="Date">Date (includes time)</option>
+									<option value="File">File (A picture, a scanned document, a binary file, etc)</option>
+								</select>
+							</div>
+							<div class="col-sm-12">
+								<label>Chart Description</label>
+								<textarea class="form-control" cols="3" rows="3" ng-model="tempHolder.description"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="tempHolder = {}">Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveEditObservationChartField()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"></i> </span> Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--/Edit Staff Profile Record  -->
+</div>
