@@ -124,7 +124,24 @@ angular.module('EmmetBlue')
         		ctrlKey: false,
         		altKey: true
         	}
-		}
+		},
+		{
+        	extend: 'print',
+        	text: '<i class="icon-printer"></i> <u>P</u>rint this data page',
+        	key: {
+        		key: 'p',
+        		ctrlKey: true,
+        		altKey: true
+        	}
+        },
+        {
+        	extend: 'copy',
+        	text: '<i class="icon-copy"></i> <u>C</u>opy this data',
+        	key: {
+        		key: 'c',
+        		ctrlKey: true,
+        	}
+        }
 	]);	
 
 	$scope.settingsDtColumns = [
@@ -160,7 +177,7 @@ angular.module('EmmetBlue')
 	}
 
 	$scope.observations = {};
-	//$scope.observationChartFormFields = {};
+	$scope.observationChartFormFields = {};
 	$scope.submitObservations = function(){
 		var newObservationChartFieldValues = $scope.observations;
 		newObservationChartFieldValues.patientId = 12;
@@ -168,7 +185,7 @@ angular.module('EmmetBlue')
 		console.log($scope.observations);
 		
 		var saveNewObservationChartValues = utils.serverRequest('/nursing/observation-chart/new', 'POST', newObservationChartFieldValues);
-		console.log(saveNewObservationChartValues)
+		//console.log(saveNewObservationChartValues)
 		
 	}
 
