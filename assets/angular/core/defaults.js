@@ -54,7 +54,7 @@ function determineRouteAvailability(url){
 
 
 function getConstants(){
-	var server = "http://192.168.173.1:700/";
+	var server = "http://127.0.0.1:420/Emmet-Blue-Api";
 
 	return {
 		"TEMPLATE_DIR":"plugins/",

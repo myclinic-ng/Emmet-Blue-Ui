@@ -24,14 +24,14 @@ angular.module('EmmetBlue')
 
 			$scope.reloadProfileRecordsTable();
 		},
-		profileRecordEdited: function(){
+		observationChartFieldEdited: function(){
 			utils.alert("Operation Successful", "Your changes have been saved successfully", "success", "notify");
 			$scope.tempHolder = {};
 			$("#setting_edit_observation_chart_field").modal("hide");
 
 			$scope.reloadProfileRecordsTable();
 		},
-		profileRecordDeleted: function(){
+		observationChartFieldDeleted: function(){
 			utils.alert("Operation Successful", "The selected department groups have been deleted successfully", "success", "notify");
 			$scope.tempHolder = {};
 			delete  $scope._recordId;
@@ -61,7 +61,7 @@ angular.module('EmmetBlue')
 					}), 'DELETE');
 
 					deleteRequest.then(function(response){
-						functions.profileRecordDeleted();
+						functions.observationChartFieldDeleted();
 					}, function(responseObject){
 						utils.errorHandler(responseObject);
 					})
@@ -72,14 +72,14 @@ angular.module('EmmetBlue')
 				utils.confirm(title, text, close, callback, type, btnText);
 			},
 			deleteAllSelectedProfileRecords: function(){
-				var selectedGroups = $scope.profileRecordSelector.selected;
+				var selectedGroups = $scope.observationChartFieldSelector.selected;
 				angular.forEach(selectedGroups, function(val, key){
 					if (val){
-						functions.manageProfileRecord.deleteProfileRecord(key);
+						functions.manageObservationChartField.deleteObservationChartField(key);
 					}
 				})
 			},
-			viewProfileRecord: function(recordId){
+			viewObservationChartField: function(fieldTitleId){
 
 			}
 		}
@@ -123,6 +123,7 @@ angular.module('EmmetBlue')
 		utils.DT.columnBuilder.newColumn('FieldTitleID').withTitle("Field Title ID").withOption('width', '0.5%'),
 		utils.DT.columnBuilder.newColumn('FieldTitleName').withTitle("Field Title"),
 		utils.DT.columnBuilder.newColumn('FieldTitleType').withTitle("Field Type"),
+		utils.DT.columnBuilder.newColumn('FieldTitleDescription').withTitle('Description'),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(functions.actionMarkups.observationChartFieldTitleActionMarkup).notSortable()
 	];
 
@@ -150,11 +151,9 @@ angular.module('EmmetBlue')
 			FieldTitleType: $scope.tempHolder.type,
 			FieldTitleDescription: $scope.tempHolder.description
 		}
-//console.log(edits)
 		var saveEdits = utils.serverRequest('/nursing/observation-chart-field-title/edit', 'PUT', edits);
 		saveEdits.then(function(response){
-			console.log(response);
-			functions.profileRecordEdited();
+			functions.observationChartFieldEdited();
 		}, function(responseObject){
 			utils.errorHandler(responseObject);
 		})

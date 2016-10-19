@@ -126,6 +126,11 @@ angular.module("EmmetBlue")
 				$("#edit-body").modal('hide');
 				$scope.dtInstance.reloadData();
 			},
+			bodyStatusChanged:function(){
+				utils.alert("Operation Successful", "The selected body status has been Updated successfully", "success", "notify");
+				$('#changeBodyStatusForm').modal('hide');
+				$scope.dtInstance.reloadData();
+			},
 
 		editBody: function(id){
 			$scope.temp = {
@@ -284,15 +289,6 @@ angular.module("EmmetBlue")
 		DTColumnBuilder.newColumn('CreationDate').withTitle('Date Registered'),
 		DTColumnBuilder.newColumn('DepositorFullName').withTitle('Depositor'),
 		DTColumnBuilder.newColumn(null).withTitle('<i class="icon-home"></i> Status').renderWith(function(meta, full, data){
-			// if (data.BodyStatus == 0){
-			// 	return "<div class='badge badge-success'>LOGGED OUT</div>";
-			// }
-			// else if (data.BodyStatus == 1){
-			// 	return "<div class='badge badge-info'>LOGGED IN</div>";
-			// }
-			// else {
-			// 	return "<div class='badge badge-danger'>UNKNOWN</div>";
-			// }
 			return "<div class='badge badge-info'>"+data.StatusName+"</div>";
 		}),
 		DTColumnBuilder.newColumn(null).withTitle('Action').notSortable().renderWith(functions.actionsMarkup)
@@ -337,13 +333,15 @@ angular.module("EmmetBlue")
 	/*change body status resource*/
 	$scope.changeBodyStatus = function(){
 		var bodyStatus = {
-			resourceId: $scope.bodyId,
+			resourceId : $scope.bodyId,
 			BodyStatus: $scope.bodyStatus
 		};
-		//console.log($scope.bodyId);
+		//bodyStatus.resourceId = $scope.bodyId;
+		console.log($scope.bodyStatus);
 		changeStatus = utils.serverRequest('/mortuary/body/editBodyStatus', 'PUT', bodyStatus);
 		changeStatus.then(function(response){
 			console.log(response)
+			functions.manageBody.bodyStatusChanged();
 		}, function(responseObject){
 			utils.errorHandler(responseObject);
 		})

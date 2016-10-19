@@ -1,0 +1,22 @@
+<div id="view_patient_observation_chart_details" class="modal fade">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title"> Observation Chart</h6>
+				</div>
+
+				<div class="modal-body">
+                	<div class="col-sm-12">
+	                    <center class="text-semibold">Vital Signs</center>
+	                    <hr>
+	                    <br>
+	                    <p ng-repeat="values in observationChartvalues">{{values.FieldTitle}}: <span class="label label-info">{{values.FieldValue}}</span></p>
+                	</div>
+				</div>
+
+				<div class="modal-footer">
+				</div>
+			</div>
+		</div>
+	</div>
