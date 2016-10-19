@@ -2,30 +2,31 @@
 	<div class="media">
 		<div class="media-left">
 			<a href="{{loadImage(patientInfo.patientpicture)}}" data-popup="lightbox">
-				<img ng-src="{{loadImage(patientInfo.patientpicture)}}" style="width: 70px; height: 70px;" class="img-circle" alt="">
+				<img ng-src="{{loadImage(patientInfo.patientpicture)}}" style="width: 100px; height: 100px;" class="img-circle" alt="">
 			</a>
 		</div>
 
 		<div class="media-body">
-			<h5 class="media-heading col-md-12" data-popup="tooltip" title="{{patientInfo.patientfullname}}">{{patientInfo.patientfullname}}</h5>
-			<p class="text-muted">{{patientInfo.patienttypename}}</p>
+			<h5 data-popup="tooltip" title="{{patientInfo.patientfullname}}">{{patientInfo.patientfullname}}</h5>
+			<h5><span class="text-muted"><small>{{patientInfo.patientuuid}} | {{patientInfo.patienttypename}}</small></span></h5>
+			<p class="text-muted">
+				<span class="badge badge-success" ng-if="patientInfo.patientprofilelockstatus"><i class="icon-lock2"></i> profile locked</span>
+				<span class="badge badge-danger" ng-if="!patientInfo.patientprofilelockstatus"><i class="icon-unlocked2"></i> profile unlocked</span>
+				<span class="badge badge-info"><i class="icon-calendar"></i> last visit: <u>12/10/2016</u></info>
+			</p>
 
 			<ul class="icons-list">
-            	<li><a href="#" data-popup="tooltip" title="View Profile" data-container="body" data-toggle="modal" data-target="#view-patient-{{patientInfo.patientid}}"><i class="icon-folder-open2"></i> view profile</a></li>
-        	</ul>
-		</div>
-
-
-    	<div class="media-right media-middle">
-			<ul class="icons-list icons-list-vertical">
-            	<li class="dropdown">
-                	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
-                	<ul class="dropdown-menu dropdown-menu-right">
-						<li><a href="#"><i class="icon-folder-search pull-right"></i> Browse Repository</a></li>
-						<li><a href="#"><i class="icon-magazine pull-right"></i> Edit Profile</a></li>
-						<li class="divider"></li>
-						<li><a href="#"><i class="icon-statistics pull-right"></i> Statistics</a></li>
-					</ul>
+            	<li ng-if="!patientInfo.patientprofilelockstatus">
+            		<a href="#" data-popup="tooltip" title="Lock profile" data-container="body" data-toggle="modal" data-target=""><i class="icon-shield-check"></i> Lock profile</a>
+            	</li>
+            	<li ng-if="patientInfo.patientprofilelockstatus">
+            		<a href="#" data-popup="tooltip" title="Unlock Profile" data-container="body" data-toggle="modal" data-target=""><i class="icon-shield-notice"></i> Unlock profile</a>
+            	</li>
+            	<li>
+            		<a href="#" data-popup="tooltip" title="View Profile" data-container="body" data-toggle="modal" data-target="#view-patient-{{patientInfo.patientid}}"><i class="icon-new-tab"></i> Load profile</a>
+            	</li>
+            	<li>
+            		<a href="#" data-popup="tooltip" title="Print Card" data-container="body" data-toggle="modal" data-target="#"><i class="icon-history"></i> History</a>
             	</li>
         	</ul>
 		</div>

@@ -1,10 +1,11 @@
 angular.module("EmmetBlue")
 
-.controller("recordsPatientManageArchivesController", function($scope, utils){
+.controller("recordsPatientManageArchivesController", function($scope, utils, patientEventLogger){
 	$scope.loadImage = utils.loadImage;
 	$scope.searched = {};
 	$scope.currentPatient = {
-		nameTitle: "Patient"
+		nameTitle: "Patient",
+		id: 1
 	};
 	$scope.newRepository  = {};
 
@@ -84,6 +85,13 @@ angular.module("EmmetBlue")
 			utils.alert("Operation successful", "New repository created successfully", "success");
 			$("#new_repository").modal("hide");
 			$scope.dtInstance.reloadData();
+			var eventLog = patientEventLogger.records.newRepositoryCreatedEvent($scope.currentPatient.id, $scope.newRepository.name);
+			eventLog.then(function(response){
+				//patient registered event logged
+			}, function(response){
+				utils.errorHandler(response);
+			});
+
 		}, function(response){
 			utils.errorHandler(response);
 		})

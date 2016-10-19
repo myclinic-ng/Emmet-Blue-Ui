@@ -325,9 +325,11 @@ angular.module("EmmetBlue")
 		var request = utils.serverRequest(url+'&size='+size+'&from='+from, "GET");
 
 		request.then(function(response){
-			$scope.searched.totalPageCount = response.hits.total;
-			$scope.searched.patients = response.hits.hits;
-			$scope.searched.searchIcon = "icon-search4";
+			if (typeof response.hits !== 'undefined'){
+				$scope.searched.totalPageCount = response.hits.total;
+				$scope.searched.patients = response.hits.hits;
+				$scope.searched.searchIcon = "icon-search4";
+			}
 		}, function(response){
 			utils.errorHandler(response);
 			$scope.searched.searchIcon = "icon-search4";
@@ -351,8 +353,10 @@ angular.module("EmmetBlue")
 		var request = utils.serverRequest("/patients/patient/view", "GET");
 
 		request.then(function(response){
-			$scope.searched.totalPageCount = response.hits.total;
-			$scope.searched.patients = response.hits.hits;
+			if (typeof response.hits !== "undefined"){				
+				$scope.searched.totalPageCount = response.hits.total;
+				$scope.searched.patients = response.hits.hits;	
+			}
 		}, function(response){
 			utils.errorHandler(response);
 		})

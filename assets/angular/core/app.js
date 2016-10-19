@@ -171,6 +171,13 @@ angular.module("EmmetBlue")
 	    }
 	}
 
+	services.userSession = {
+		getUUID: function(){
+			var cookie = $cookies.getObject(CONSTANTS.USER_COOKIE_IDENTIFIER);
+			return cookie.uuid;
+		}
+	}
+
 	services.globalConstants = CONSTANTS;
 
 	services.serializeParams = $httpParamSerializer;
@@ -212,6 +219,19 @@ angular.module("EmmetBlue")
 			eventLink: "patients/patient",
 			eventText: "completed registration",
 			eventIcon: "fa fa-user-plus"
+		};
+
+		return eventLogger(eventObject);
+	}
+
+	events.records.newRepositoryCreatedEvent = function(patientId, linkId){
+		var eventObject = {
+			patient: patientId,
+			eventActor: "Records",
+			eventLinkId: linkId,
+			eventLink: "patients/repository",
+			eventText: "created repository",
+			eventIcon: "icon-database-upload"
 		};
 
 		return eventLogger(eventObject);

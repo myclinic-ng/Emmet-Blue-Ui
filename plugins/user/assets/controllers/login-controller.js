@@ -56,7 +56,13 @@ angular.module("EmmetBlue")
 						"notify"
 					);
 					$(".form-group").removeClass('has-warning').addClass('has-success');
-					$cookies.putObject(utils.globalConstants.USER_COOKIE_IDENTIFIER, response);
+
+					var responseObject = {
+						uuid: response.uuid,
+						accountActivated: response.accountActivated
+					};
+
+					$cookies.putObject(utils.globalConstants.USER_COOKIE_IDENTIFIER, responseObject);
 
 					$(".no-login").show();
 					if (response.accountActivated !== "0")

@@ -119,7 +119,7 @@ angular.module("EmmetBlue")
 		var request = utils.serverRequest('/accounts-biller/transaction-status/new', 'POST', data);
 
 		request.then(function(response){
-			utils.alert("Operation Successful", "You have successfully creaed a new status", "success", "notify");
+			utils.alert("Operation Successful", "You have successfully created a new status", "success", "notify");
 			$("#new_setting_accounts_billing").modal("hide");
 			reloadTable();
 		}, function(responseObject){
