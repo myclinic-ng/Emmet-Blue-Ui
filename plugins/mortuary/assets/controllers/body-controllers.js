@@ -127,7 +127,7 @@ angular.module("EmmetBlue")
 				$scope.dtInstance.reloadData();
 			},
 			bodyStatusChanged:function(){
-				utils.alert("Operation Successful", "The selected body status has been Updated successfully", "success", "notify");
+				utils.alert("Operation Successful", "The selected body status has been Updated successfully", "success");
 				$('#changeBodyStatusForm').modal('hide');
 				$scope.dtInstance.reloadData();
 			},
@@ -212,7 +212,6 @@ angular.module("EmmetBlue")
 			$('#changeBodyStatusForm').modal('show');
 		},
 		changeStatus: function(id){
-			console.log();
 			return true;
 		},
 		deleteBody: function(id){
@@ -221,7 +220,6 @@ angular.module("EmmetBlue")
 				var close = true;
 				$scope._id = id;
 				var callback = function(){
-					console.log($scope._id);
 					var deleteRequest = utils.serverRequest('/mortuary/body/delete?'+utils.serializeParams({
 						'resourceId': $scope._id
 					}), 'DELETE');
@@ -321,33 +319,46 @@ angular.module("EmmetBlue")
 		//console.log(body);
 		var saveEditBody = utils.serverRequest('/mortuary/body/edit', 'PUT', body);
 		saveEditBody.then(function(response){
-			//alert('updated');
-			console.log(response);
 			functions.manageBody.bodyUpdated();
 		}, function(responseObject){
 			utils.errorHandler(responseObject);
 		})
 
 	}
+
+	$scope.bodyValidationcode = {
+		validateCode: ""
+	}
 	
 	/*change body status resource*/
 	$scope.changeBodyStatus = function(){
-		var bodyStatus = {
-			resourceId : $scope.bodyId,
-			BodyStatus: $scope.bodyStatus
-		};
-		//bodyStatus.resourceId = $scope.bodyId;
-		console.log($scope.bodyStatus);
-		changeStatus = utils.serverRequest('/mortuary/body/editBodyStatus', 'PUT', bodyStatus);
-		changeStatus.then(function(response){
-			console.log(response)
-			functions.manageBody.bodyStatusChanged();
-		}, function(responseObject){
-			utils.errorHandler(responseObject);
+		var request = utils.serverRequest('/accounts-biller/payment-request/get-status?resourceId&requestNumber='+$scope.bodyValidationcode.validateCode, 'GET');
+		request.then(function(response){
+			if (response.length < 1){
+				utils.notify("An error occurred", "Seems like that payment request number does not exist or you have submitted an empty form, please try again", "warning");
+			}
+			else
+			{
+				if (response[0]["Status"] == 1){
+					utils.notify("Verification successful", "The specified payment request has been fulfilled", "info");
+					var bodyStatus = {
+						resourceId : $scope.bodyId,
+						BodyStatus: $scope.bodyStatus
+					};
+					changeStatus = utils.serverRequest('/mortuary/body/editBodyStatus', 'PUT', bodyStatus);
+					changeStatus.then(function(response){
+						functions.manageBody.bodyStatusChanged();
+					}, function(responseObject){
+						utils.errorHandler(responseObject);
+					})
+				}
+				else {
+					utils.alert("Request Unfulfilled", "The specified payment request has not been fulfilled", "error");
+				}
+			}
+		}, function(error){
+			utils.errorHandler(error);
 		})
-		//utils.alert("Operation Successful", "Body Status changeed successfully", "success", "notify");
 	}
 	$scope.functions = functions;
-	
-	//console.log($scope.temp);
 })

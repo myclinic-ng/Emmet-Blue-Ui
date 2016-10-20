@@ -16,13 +16,13 @@
 							<div class="form-group">
 								<div class="row">
 									<div class="content-group col-sm-12">
-										<label>Change Status</label>
-										<select class="select form-control" name="statusCode" ng-model="bodyStatus" required>
+										<label class="control-label">Change Status</label>
+										<select class="select" name="statusCode" ng-model="bodyStatus" required>
 											<option ng-repeat="key in status" value="{{key.StatusShortCode}}">{{key.StatusName}}</option>		
 										</select>
 									</div>
 									<div class="content-group col-sm-12">
-										<label>validate Payment</label>
+										<label class="control-label">Payment Request Number</label>
 										<input type="text" class="form-control" name="paymentCode" ng-model="bodyValidationcode.validateCode" required>
 									</div>
 								</div>
