@@ -91,9 +91,76 @@ angular.module("EmmetBlue")
 	$scope.verifyPayment = function(requestNumber){
 		var request = utils.serverRequest('/accounts-biller/payment-request/get-status?resourceId&requestNumber='+requestNumber, 'GET');
 		request.then(function(response){
-			console.log(response);
+			if (response.length < 1){
+				utils.notify("An error occurred", "Seems like that payment request number does not exist or you have submitted an empty form, please try again", "warning");
+			}
+			else
+			{
+				if (response.status){
+					utils.alert("Verification successful", "The specified payment request has been fulfilled", "success");
+				}
+				else {
+					utils.alert("Request Unfulfilled", "The specified payment request has not been fulfilled", "error");
+				}
+			}
 		}, function(error){
 			utils.errorHandler(error);
 		})
 	}
+
+	$scope.loadRequests = function(){
+		$scope.dtInstance.reloadData();
+	}
+
+	$scope.dtInstance = {};
+	$scope.dtOptions = utils.DT.optionsBuilder
+	.fromFnPromise(function(){
+		var requests = utils.serverRequest('/accounts-biller/payment-request/load-requests?resourceId&staff='+utils.userSession.getUUID(), 'GET');
+		return requests;
+	})
+	.withPaginationType('full_numbers')
+	.withDisplayLength(10)
+	.withFixedHeader()
+	.withOption('createdRow', function(row, data, dataIndex){
+		utils.compile(angular.element(row).contents())($scope);
+	})
+	.withOption('headerCallback', function(header) {
+        if (!$scope.headerCompiled) {
+            $scope.headerCompiled = true;
+            utils.compile(angular.element(header).contents())($scope);
+        }
+    })
+	.withButtons([
+        {
+        	extend: 'print',
+        	text: '<i class="icon-printer"></i> <u>P</u>rint this data page',
+        	key: {
+        		key: 'p',
+        		ctrlKey: false,
+        		altKey: true
+        	}
+        },
+        {
+        	extend: 'copy',
+        	text: '<i class="icon-copy"></i> <u>C</u>opy this data',
+        	key: {
+        		key: 'c',
+        		ctrlKey: false,
+        		altKey: true
+        	}
+        }
+	]);	
+
+	$scope.dtColumns = [
+		utils.DT.columnBuilder.newColumn('PaymentRequestUUID').withTitle("Request Number"),
+		utils.DT.columnBuilder.newColumn('RequestDate').withTitle("Request Date"),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Fulfillment Status").renderWith(function(data, full, meta){
+			if (data.RequestFulfillmentStatus == 1){
+				return "<p class='badge badge-success'>Payment Request Fulfilled</p>";
+			}
+			else {
+				return "<p class='badge badge-danger'>Request Unfulfilled</p>";
+			}
+		})
+	];
 })

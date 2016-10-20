@@ -51,13 +51,11 @@
 						<div class="category-content">
 							<div class="row row-condensed">
 								<div class="col-xs-6">
-									<button type="button" class="btn bg-teal-400 btn-block btn-float btn-float-lg" data-toggle="modal" data-target="#new_patient" data-backdrop="static"><i class="icon-file-plus"></i> <span>New patient</span></button>
-									<button type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg"><i class="icon-archive"></i> <span>Manage Archives</span></button>
+									<button type="button" class="btn bg-teal-400 btn-block btn-float btn-float-lg" data-toggle="modal" data-target="#new_patient" data-backdrop="static"><i class="icon-file-plus"></i> <span>Patient Registration</span></button>
 								</div>
 								
 								<div class="col-xs-6">
 									<button type="button" class="btn bg-warning-400 btn-block btn-float btn-float-lg" data-toggle="modal" data-target="#payment_request"><i class="icon-stats-bars"></i> <span>Payment Request</span></button>
-									<button type="button" class="btn bg-blue btn-block btn-float btn-float-lg"><i class="icon-cog3"></i> <span>Settings</span></button>
 								</div>
 							</div>
 						</div>
@@ -648,7 +646,7 @@
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<button type="button" class="close" data-dismiss="modal">&times; close</button>
 					<h6 class="modal-title">Payment Requests</h6>
 				</div>
 				<div class="modal-body">
@@ -656,7 +654,7 @@
 						<ul class="nav nav-tabs nav-tabs-highlight nav-justified">
 							<li class="active"><a href="#payment-request-new" data-toggle="tab">create new request</a></li>
 							<li><a href="#payment-request-verify" data-toggle="tab">verify payment</a></li>
-							<li><a href="#payment-request-view" class="dropdown-toggle" data-toggle="tab">view requests</a></li>
+							<li><a href="#payment-request-view" class="dropdown-toggle" data-toggle="tab" ng-click="loadRequests()">view requests</a></li>
 						</ul>
 
 						<div class="tab-content">
@@ -700,7 +698,7 @@
 											</select>
 										</div>
 										<div class="input-group col-md-6">
-											<input type="number" class="form-control col-md-7" ng-model="paymentRequestItem.quantity"/>
+											<input type="number" placeholder="Item Quantity. Defaults to 1" class="form-control col-md-7" ng-model="paymentRequestItem.quantity"/>
 											<span class="input-group-btn">
 												<button class="btn btn-default btn-success" ng-click="addPaymentRequestItemToList()">add</button>
 											</span>
@@ -727,21 +725,29 @@
 										</div>
 									</div>
 								</div>
+								<div class="row mt-30">	
+									<button type="button" class="btn btn-warning pull-right" ng-show="!requestForm.showSearchResult" ng-click="createRequest()">
+										<i class="icon-mail"></i> Create payment request
+									</button>
+								</div>
 							</div>
 
 							<div class="tab-pane" id="payment-request-verify">
-								Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid laeggin.
+								<div class="form-group">
+									<div class="input-group">
+										<input class="form-control input-lg" placeholder="Enter request number" type="input" ng-model="paymentRequestNumber"/>
+										<span class="input-group-btn">
+											<button class="btn btn-warning btn-lg" type="button" ng-click="verifyPayment(paymentRequestNumber)"> <i class="icon-file"></i> verify</button>
+										</span>
+									</div>
+								</div>
 							</div>
 
 							<div class="tab-pane" id="payment-request-view">
-								DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg whatever.
+								<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover"></table>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click=""><i class="fa fa-times-circle-o"></i> Close</button>
-					<button type="button" class="btn btn-warning" ng-show="!requestForm.showSearchResult" ng-click="createRequest()"><i class="icon-mail"></i> Create payment request</button>
 				</div>
 			</div>
 		</div>

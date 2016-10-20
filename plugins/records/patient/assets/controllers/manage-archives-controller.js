@@ -5,7 +5,7 @@ angular.module("EmmetBlue")
 	$scope.searched = {};
 	$scope.currentPatient = {
 		nameTitle: "Patient",
-		id: 1
+		id: 0
 	};
 	$scope.newRepository  = {};
 
