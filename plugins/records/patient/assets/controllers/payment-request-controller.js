@@ -96,7 +96,7 @@ angular.module("EmmetBlue")
 			}
 			else
 			{
-				if (response.status){
+				if (response[0]["Status"] == 1){
 					utils.alert("Verification successful", "The specified payment request has been fulfilled", "success");
 				}
 				else {
@@ -156,10 +156,10 @@ angular.module("EmmetBlue")
 		utils.DT.columnBuilder.newColumn('RequestDate').withTitle("Request Date"),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Fulfillment Status").renderWith(function(data, full, meta){
 			if (data.RequestFulfillmentStatus == 1){
-				return "<p class='badge badge-success'>Payment Request Fulfilled</p>";
+				return "<p class='badge badge-success badge-lg'>Fulfilled</p>";
 			}
 			else {
-				return "<p class='badge badge-danger'>Request Unfulfilled</p>";
+				return "<p class='badge badge-danger badge-lg'>Unfulfilled</p>";
 			}
 		})
 	];
