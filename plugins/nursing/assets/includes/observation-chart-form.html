@@ -20,6 +20,10 @@
 							<form role="form">
 								<div class="form-group" ng-repeat="observation in observationChartFormFields">
 									<div class="row">
+										<div class="row">
+											<label>Patient ID</label>
+											<input type="text" name="">
+										</div>
 										<div class="">
 											<label>{{observation.FieldTitleName}}</label>
 											<textarea ng-if="observation.FieldTitleType == 'Text'" cols="3" rows="3" class="form-control" ng-model="observations[observation.FieldTitleName]"></textarea>
