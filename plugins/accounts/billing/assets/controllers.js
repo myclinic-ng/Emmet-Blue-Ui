@@ -17,3 +17,4 @@ head.load(controllersLocation+"manage-invoices/view-invoices-controller.js");
 head.load(controllersLocation+"invoice-template-directive.js");
 head.load(controllersLocation+"receipt-template-directive.js");
 head.load(controllersLocation+"manage-invoices/invoice-grid-directive.js");
+head.load(controllersLocation+"account-payment-request-controller.js");

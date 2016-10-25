@@ -58,6 +58,7 @@ angular.module("EmmetBlue")
     $scope.dtInstance = {};	
 	$scope.submit = function(){
 		$('.loader').addClass('show');
+		console.log($scope.body)
 		$scope.body.tag = $scope.body.tag.split(",");
 		var body = utils.serverRequest('/mortuary/body/new', 'post', $scope.body);
 		body.then(function(response){
