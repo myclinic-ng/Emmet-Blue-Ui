@@ -69,6 +69,10 @@ angular.module("EmmetBlue")
 		$scope.paymentRequestItem = {};
 	}
 
+	$scope.removeItem = function(index){
+		$scope.paymentRequestItems.splice(index, 1);
+	}
+
 	$scope.createRequest = function(){
 		var reqData = {
 			patient: $scope.requestForm.currentPatientProfile.patientid,

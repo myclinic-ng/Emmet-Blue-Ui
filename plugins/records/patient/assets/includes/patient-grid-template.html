@@ -17,10 +17,10 @@
 
 			<ul class="icons-list">
             	<li ng-if="!patientInfo.patientprofilelockstatus">
-            		<a href="#" data-popup="tooltip" title="Lock profile" data-container="body" data-toggle="modal" data-target=""><i class="icon-shield-check"></i> Lock profile</a>
+            		<a href="#" data-popup="tooltip" title="Lock profile" data-container="body" data-toggle="modal" data-target="" ng-click="toggleProfileLockState(true, patientInfo.patientid)"><i class="icon-shield-check"></i> Lock profile</a>
             	</li>
             	<li ng-if="patientInfo.patientprofilelockstatus">
-            		<a href="#" data-popup="tooltip" title="Unlock Profile" data-container="body" data-toggle="modal" data-target=""><i class="icon-shield-notice"></i> Unlock profile</a>
+            		<a href="#" data-popup="tooltip" title="Unlock Profile" data-container="body" data-toggle="modal" data-target="" ng-click="toggleProfileLockState(false, patientInfo.patientid)"><i class="icon-shield-notice"></i> Unlock profile</a>
             	</li>
             	<li>
             		<a href="#" data-popup="tooltip" title="View Profile" data-container="body" data-toggle="modal" data-target="#view-patient-{{patientInfo.patientid}}"><i class="icon-new-tab"></i> Load profile</a>

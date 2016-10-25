@@ -21,6 +21,22 @@ angular.module("EmmetBlue")
 				});
 				$scope.viewItems[view] = true;
 			}
+
+			$scope.toggleProfileLockState = function(status, patient){
+				if (status){
+					var request = utils.serverRequest("/patients/patient/lock-profile", "POST", {"patient":patient});
+				}
+				else {
+					var request = utils.serverRequest("/patients/patient/unlock-profile", "POST", {"patient":patient});
+				}
+
+				request.then(function(response){
+					patientInfo.patientprofilelockstatus = !patientInfo.patientprofilelockstatus;
+					utils.alert('Operation successful', "Profile status changed successfully", "info", "notify");
+				}, function(error){
+					utils.errorHandler(error);
+				})
+			}
 		}
 	}
 })

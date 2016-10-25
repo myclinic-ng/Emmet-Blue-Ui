@@ -718,7 +718,7 @@
 														<td>{{$index + 1}}</td>
 														<td>{{item._item.BillingTypeItemName}}</td>
 														<td>{{item.quantity}}</td>
-														<td><a class="btn btn-link text-danger" href="#"><i class="icon-bin"></i> Remove</a></td>
+														<td><a class="btn btn-link text-danger" href="#" ng-click="removeItem($index)"><i class="icon-bin"></i> Remove</a></td>
 													</tr>
 												</tbody>
 											</table>
@@ -726,7 +726,7 @@
 									</div>
 								</div>
 								<div class="row mt-30">	
-									<button type="button" class="btn btn-warning pull-right" ng-show="!requestForm.showSearchResult" ng-click="createRequest()">
+									<button type="button" class="btn btn-warning pull-right" ng-show="paymentRequestItems.length > 0" ng-click="createRequest()">
 										<i class="icon-mail"></i> Create payment request
 									</button>
 								</div>
