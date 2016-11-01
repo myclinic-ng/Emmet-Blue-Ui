@@ -180,12 +180,12 @@ angular.module('EmmetBlue')
 	$scope.observationChartFormFields = {};
 	$scope.submitObservations = function(){
 		var newObservationChartFieldValues = $scope.observations;
-		newObservationChartFieldValues.patientId = 12;
-		newObservationChartFieldValues.staffId ='eb47bc421e2cdb12e8f3';
-		console.log($scope.observations);
+		newObservationChartFieldValues.patientId = '8942843A5B2093E47DA5';
+		newObservationChartFieldValues.staffId =utils.userSession.getUUID();
+		//console.log($scope.observations);
 		
 		var saveNewObservationChartValues = utils.serverRequest('/nursing/observation-chart/new', 'POST', newObservationChartFieldValues);
-		//console.log(saveNewObservationChartValues)
+		console.log(saveNewObservationChartValues)
 		
 	}
 

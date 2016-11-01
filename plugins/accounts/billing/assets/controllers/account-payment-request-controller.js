@@ -11,6 +11,7 @@ angular.module("EmmetBlue")
 			"' data-option-patient-uuid='"+data.PatientUUID+
 			"' data-option-patient-fullname='"+data.PatientFullName+
 			"' data-option-patient-type='"+data.PatientType+
+			"' data-option-staff-id='"+data.RequestBy+
 			"' data-option-request-date='"+data.RequestDate+
 			"' data-option-fulfillment-status='"+data.RequestFulfillmentStatus+
 			"' data-option-fulfilled-date='"+data.RequestFulFilledDate+
@@ -44,7 +45,7 @@ angular.module("EmmetBlue")
 			//console.log(id)
 			$scope.temp = {
 				requestId:id,
-				staffUUID: $(".btn[data-option-id='"+id+"']").attr("data-option-payment-request-uuid"),
+				staffUUID: $(".btn[data-option-id='"+id+"']").attr("data-option-staff-id"),
 				patientUUID: $(".btn[data-option-id='"+id+"']").attr("data-option-patient-uuid"),
 				patientFullName: $(".btn[data-option-id='"+id+"']").attr("data-option-patient-fullname"),
 				patientType: $(".btn[data-option-id='"+id+"']").attr("data-option-patient-type"),
