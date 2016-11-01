@@ -4,16 +4,15 @@ angular.module("EmmetBlue")
 	var actions = function (data, type, full, meta){
 		var editButtonAction = "manageStore('edit', "+data.StoreID+")";
 		var deleteButtonAction = "manageStore('delete', "+data.StoreID+")";
-		// var itemManagementButtonAction = "manageStore('item-management', "+data.StoreID+")";
+		var inventoryButtonAction = "manageStore('inventory', "+data.StoreID+")";
 
 		var dataOpt = "data-option-id='"+data.StoreID+"' data-option-name='"+data.StoreName+"' data-option-description='"+data.StoreDescription+"'";
 
 		var editButton = "<button class='btn btn-default billing-type-btn' ng-click=\""+editButtonAction+"\" "+dataOpt+"><i class='icon-pencil5'></i> </button>";
 		var deleteButton = "<button class='btn btn-default billing-type-btn' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"><i class='icon-bin'></i> </button>";
-		var viewButton = "<button class='btn btn-default'><i class='icon-eye'> </i> View</button>";
-		// var itemManagementButton = "<button class='btn btn-default billing-type-btn' ng-click=\""+itemManagementButtonAction+"\" "+dataOpt+"><i class='icon-equalizer'></i> Manage Items</button>";
-
-		var buttons = "<div class='btn-group'>"+editButton+deleteButton+"</button>";
+		var inventoryButton = "<button class='btn btn-default' ng-click=\""+inventoryButtonAction+"\" "+dataOpt+"><i class='icon-eye'> </i> Inventory</button>";
+		
+		var buttons = "<div class='btn-group'>"+editButton+deleteButton+inventoryButton+"</button>";
 		return buttons;
 	}
 	
@@ -39,7 +38,7 @@ angular.module("EmmetBlue")
 		{
 			text: '<i class="icon-file-plus"></i> <u>N</u>ew Store',
 			action: function(){
-				// functions.manageStore.newStore();
+				$("#new_store").modal("show");
 			},
 			key: {
         		key: 'n',
@@ -78,11 +77,73 @@ angular.module("EmmetBlue")
 		$scope.dtInstance.reloadData();
 	}
 
-	var manageStore = function(type, id){
+	$scope.manageStore = function(type, id){
 		switch(type){
 			case "edit":{
-				alert("editing "+id);
+				$scope.tempStore = {
+					resourceId: id,
+					storeName: $("button[data-option-id='"+id+"'").attr("data-option-name"),
+					storeDescription: $("button[data-option-id='"+id+"'").attr("data-option-description")
+				}
+				$("#edit_store").modal("show");
+				break;
+			}
+			case "delete":{
+				var title = "Delete Prompt";
+				var text = "You are about to delete the store named "+$("button[data-option-id='"+id+"']").attr('data-option-name')+". Do you want to continue? Please note that this action cannot be undone";
+				var close = true;
+				$scope._id = id;
+				var callback = function(){
+					var deleteRequest = utils.serverRequest('/pharmacy/store/delete?'+utils.serializeParams({
+						'resourceId': $scope._id
+					}), 'DELETE');
+
+					deleteRequest.then(function(response){
+						utils.notify("Operation Successful", "The specified store has been deleted successfully", "success");
+						$scope.reloadStoresTable();
+					}, function(responseObject){
+						utils.errorHandler(responseObject);
+					})
+				}
+				var type = "warning";
+				var btnText = "Delete";
+
+				utils.confirm(title, text, close, callback, type, btnText);
+				break;
+			}
+			case "inventory":{
+				utils.storage.inventoryStoreID = id;
+				$("#store_inventory").modal("show");
+				break;
 			}
 		}
+	}
+
+	$scope.saveNewStore = function(){
+		var store = $scope.newStore;
+
+		var request = utils.serverRequest("/pharmacy/store/new", "POST", store);
+		request.then(function(response){
+			utils.notify("Operation Successful", "New store created successfully", "success");
+			$scope.reloadStoresTable();
+			$("#new_store").modal("hide");
+			$scope.newStore = {};
+		}, function(response){
+			utils.errorHandler(response);
+		})
+	}
+
+	$scope.saveEditedStore = function(){
+		var store = $scope.tempStore;
+
+		var request = utils.serverRequest("/pharmacy/store/edit", "PUT", store);
+		request.then(function(response){
+			utils.notify("Operation Successful", "New store updated successfully", "success");
+			$scope.reloadStoresTable();
+			$("#edit_store").modal("hide");
+			$scope.tempStore = {};
+		}, function(response){
+			utils.errorHandler(response);
+		})
 	}
 });
