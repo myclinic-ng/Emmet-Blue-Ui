@@ -33,7 +33,7 @@
 									<div class="input-group">
 										<input class="form-control input-lg" placeholder="Enter a patients number or name here to search" type="search" data-popup="tooltip" data-trigger="focus" title="Click the Advanced link below for more search options" ng-model="search.query"/>
 										<span class="input-group-btn">
-											<button class="btn btn-warning btn-lg" type="button" ng-click="search(true)"> <i class="{{searched.searchIcon}}"></i></button>
+											<button class="btn btn-warning btn-lg" type="button" ng-click="search(true)"> <i class="icon-search4"></i></button>
 										</span>
 									</div>
 								</div>
@@ -104,5 +104,108 @@
 			</div>
 		</div>
 	</div>
-</div>	
+</div>
+
+	<!-- make payment modal or process payment modal -->
+	<div id="request_payment_bill" class="modal fade">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<div class="modal-title">Process Payment</div>
+					<button class="close" data-dismiss="modal">&times</button>
+				</div>
+				<div class="modal-body">
+					<div class="col-md-6">
+						
+						<legend class="text-semibold">Request Details</legend>
+		                <br>
+		                <p>Request ID: {{temp.requestId}}</p>
+		                <p>Patient ID: {{temp.patientUUID}}</p>
+		                <p>Patient Name: {{temp.patientFullName}}</p>
+		                <p>Patient Type: {{temp.patientType}}</p>
+					</div>
+					<div class="col-md-6">
+						<legend class="text-semibold">Request Status</legend>
+		                <br>
+		                <p>Requesting Staff ID: {{temp.staffUUID}}</p>
+		                <p>Department: {{temp.deptName}}</p>
+		                <p>Unit: {{temp.subDeptName}}</p>
+		                <p>Request Date: {{temp.requestDate}}</p>
+		                <p ng-if="temp.fulfillmentStatus == '0'">Status: <span class='badge badge-danger badge-lg'>Unfulfilled</span></p>
+		                <p ng-if="temp.fulfillmentStatus == '1'">Status: <span class='badge badge-success badge-lg'>Fulfilled</span></p>
+		                <p>Fulfilled By: {{temp.fulfilledBy}}</p>
+		                <p>Fullfilled Date: {{temp.fulfilledDate}}</p>
+					</div>
+					<div class="col-md-12">
+						<div class="table-responsive">
+						<table class="table table-responsive table-condensed table-bordered">
+							<thead class="border-solid">
+								<tr>
+									<th>S/N</th>
+									<th>Item Code</th>
+									<th>Item</th>
+									<th>Quantity</th>
+									<th>Rate</th>
+									<th>Price (<span ng-currency ng-currency-symbol="naira"></span><span ng-currency ng-currency-symbol="naira"></span>)</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="bills in itemsList">
+									<th>{{$index + 1}}</th>
+									<th>{{bills.BillingTypeItemName}}</th>
+									<th>{{bills.BillingTypeItemName}}</th>
+									<th>{{bills.ItemQuantity}}</th>
+									<th>{{bills.BillingTypeItemPrice}}</th>
+									<th ng-model="itemAmount">{{bills.BillingTypeItemPrice * bills.ItemQuantity}}</th>
+									<th>
+										<span class="button-group">
+											<a href="btn btn-default" ng-click="removeFromItemList($index, item)"><i class="icon-bin"></i> remove item</a>
+										</span>
+									</th>
+								</tr>	
+							</tbody>
+							<tfoot>
+								<tr class="warning">
+									<th></th>
+									<th></th>
+									<th></th>
+									<th></th>
+									<th>Total</th>
+									<th><span ng-currency ng-currency-symbol="naira"></span> {{Total}}</th>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button ng-if="temp.fulfillmentStatus == '0'" class="btn btn-default" ng-click="makePayment()">Make Payment</button>
+				</div>
+			</div>
+		</div>
+	</div>	
+
+	<!-- verify Payment modal -->
+	<div id="verify_payment" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="modal-title">Verify Payment Request</div>
+					<button class="close" data-dismiss="modal">&times</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="input-group">
+							<input class="form-control input-lg" placeholder="Enter request number" type="input" ng-model="paymentRequestNumber"/>
+							<span class="input-group-btn">
+								<button class="btn btn-warning btn-lg" type="button" ng-click="verifyPayment(paymentRequestNumber)"> <i class="icon-file"></i> verify</button>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
