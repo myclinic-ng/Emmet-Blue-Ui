@@ -199,9 +199,9 @@ angular.module("EmmetBlue")
 	]);	
 
 	$scope.ddtColumns = [
-		utils.DT.columnBuilder.newColumn('BillingTypeItemID').withTitle("S/N").withOption('width', '0.5%').notSortable(),
+		utils.DT.columnBuilder.newColumn('BillingTypeItemID').withTitle("Item Code"),
 		utils.DT.columnBuilder.newColumn('BillingTypeItemName').withTitle("Item Name"),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(functions.actionMarkups.billingTypeItemsActionMarkup).withOption('width', '40%').notSortable()
+		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(functions.actionMarkups.billingTypeItemsActionMarkup).notSortable()
 	];
 
 	$scope.tempHolder = {};

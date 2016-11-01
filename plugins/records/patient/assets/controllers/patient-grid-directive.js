@@ -31,7 +31,7 @@ angular.module("EmmetBlue")
 				}
 
 				request.then(function(response){
-					patientInfo.patientprofilelockstatus = !patientInfo.patientprofilelockstatus;
+					$scope.patientInfo.patientprofilelockstatus = !$scope.patientInfo.patientprofilelockstatus;
 					utils.alert('Operation successful', "Profile status changed successfully", "info", "notify");
 				}, function(error){
 					utils.errorHandler(error);
