@@ -88,23 +88,20 @@
 	</div>
 </div>
 
-<div ng-controller="pharmacyStoreInventoryController">
-	<div id="store_inventory" class="modal fade">
-		<div class="modal-full">
-			<div class="modal-content">
-				<div class="modal-header bg-warning">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h6 class="modal-title">Store Inventory Management</h6>
-				</div>
+<div id="store_inventory" class="modal fade">
+	<div class="modal-mini">
+		<div class="modal-content">
+			<div class="modal-header bg-warning">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h6 class="modal-title">Store Inventory Management</h6>
+			</div>
 
-				<div class="modal-body">
-					<ng-include src="'plugins/pharmacy/store/assets/includes/store-inventory.html'"></ng-include>
-				</div>
+			<div class="modal-body">
+				<ng-include src="'plugins/pharmacy/assets/includes/store-inventory.html'"></ng-include>
+			</div>
 
-				<div class="modal-footer">
-					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="tempStore = {}"><i class="fa fa-times-circle-o"></i> Close</button>
-					<button type="button" class="btn btn-warning" ng-click="saveEditedStore()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"> </i></span>  Save</button>
-				</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-link" data-dismiss="modal"><i class="fa fa-times-circle-o"></i> Close</button>
 			</div>
 		</div>
 	</div>
