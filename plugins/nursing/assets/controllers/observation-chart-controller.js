@@ -7,14 +7,17 @@ angular.module('EmmetBlue')
 				var viewButtonAction = "manageObservationChart('view', "+data.ObservationChartID+")";
 				var editButtonAction = "manageObservationChart('edit', "+data.ObservationChartID+")";
 				var deleteButtonAction = "manageObservationChart('delete', "+data.ObservationChartID+")";
+				var assignToAction = "manageObservationChart('assign', "+data.ObservationChartID+")";
+				//var assignToAction = "manageObservationChart('assignTo', "+data.ObservationChartID+")";
 
-				var dataOpt = "data-option-id='"+data.ObservationChartID+"' data-option-patient-id='"+data.PatientID+"' data-option-staff-id='"+data.StaffID+"'";
+				var dataOpt = "data-option-id='"+data.ObservationChartID+"' data-option-patient-id='"+data.PatientID+"' data-option-staff-id='"+data.StaffID+"' data-option-patient-fullname='"+data.PatientFullName+"'";
 
 				var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+dataOpt+"> Edit</button>";
 				var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> Delete</button>";
 				var viewButton = "<button class='btn btn-default' ng-click=\""+viewButtonAction+"\" "+dataOpt+"> View</button>";
+				var assignToButton = "<button class='btn btn-default' ng-click=\""+assignToAction+"\" "+dataOpt+">Assign To</button>";
 
-				var buttons = "<div class='btn-group'>"+viewButton+editButton+deleteButton+"</button>";
+				var buttons = "<div class='btn-group'>"+viewButton+editButton+assignToButton+deleteButton+"</button>";
 				return buttons;
 			}
 		},
@@ -44,19 +47,40 @@ angular.module('EmmetBlue')
 				$scope.loadObservationChartFormFields();
 				$("#new_observation_chart_form").modal("show");
 			},
+			observationChartCreated: function(){
+				utils.alert("Operation Successful", "You have successfully created a new observation Chart", "success", "notify");
+				$scope.observations = {};
+				$("#new_observation_chart_form").modal("hide");
+
+				$scope.reloadObservationChartTable();
+			},
 			editObservationChart: function(observationChartId){
-				$scope.loadObservationChartFormFields();
+				$scope.loadObservationChartFormFields(observationChartId);
+				//console.log($scope.loadPatientObservationChartValues(observationChartId))
 
 				$("#edit_observation_chart_form").modal("show");
 
 				$scope.tempHolder.patientId = $(".btn[data-option-id='"+observationChartId+"']").attr('data-option-patient-id');
 				$scope.tempHolder.staffId = $(".btn[data-option-id='"+observationChartId+"']").attr('data-option-staff-id');
 				$scope.tempHolder.id = observationChartId;
+				$scope.tempHolder.chart = $scope.loadPatientObservationChartValues(observationChartId);
 				console.log($scope.tempHolder);
 			},
 			viewObservationChart: function(observationChartId){
 				$scope.loadPatientObservationChartValues(observationChartId);
 				$("#view_patient_observation_chart_details").modal("show");
+			},
+			assignTo:function(observationChartId){
+				var consultants={};
+				var staff = utils.serverRequest('/human-resources/staff/view-department-staff?resourceId='+7, 'get');
+				staff.then(function(response){
+					$scope.consultants = response;
+				}, function(responseObject){
+					utils.errorHandler(responseObject);
+				})
+				$scope.patientId = $(".btn[data-option-id='"+observationChartId+"']").attr('data-option-patient-id');
+				$scope.patientName = $(".btn[data-option-id='"+observationChartId+"']").attr('data-option-patient-fullname');
+				$("#assign_to").modal('show');
 			},
 			deleteObservationChart: function(id){
 				var title = "Delete Prompt";
@@ -145,11 +169,10 @@ angular.module('EmmetBlue')
 	]);	
 
 	$scope.settingsDtColumns = [
-		utils.DT.columnBuilder.newColumn('ObservationChartID').withTitle("Observation ID").withOption('width', '0.5%'),
+		//utils.DT.columnBuilder.newColumn('ObservationChartID').withTitle("Observation ID").withOption('width', '0.5%'),
 		utils.DT.columnBuilder.newColumn('PatientID').withTitle("Patient ID"),
+		utils.DT.columnBuilder.newColumn('PatientFullName').withTitle("Patient Name"),
 		utils.DT.columnBuilder.newColumn('StaffID').withTitle("Staff ID"),
-		/*utils.DT.columnBuilder.newColumn('FieldTitle').withTitle("Field Type"),
-		utils.DT.columnBuilder.newColumn('FieldValue').withTitle('Value'),*/
 		utils.DT.columnBuilder.newColumn('ObservationDate').withTitle('Date Collected'),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(functions.actionMarkups.observationChartActionMarkup).notSortable()
 	];
@@ -179,14 +202,20 @@ angular.module('EmmetBlue')
 	$scope.observations = {};
 	$scope.observationChartFormFields = {};
 	$scope.submitObservations = function(){
-		var newObservationChartFieldValues = $scope.observations;
-		newObservationChartFieldValues.patientId = '8942843A5B2093E47DA5';
-		newObservationChartFieldValues.staffId =utils.userSession.getUUID();
-		//console.log($scope.observations);
+		//var newObservationChartFieldValues = $scope.observations;
+		
+		var newObservationChartFieldValues = {
+			observationChartFieldValues : $scope.observations,
+			patientId : '8942843A5B2093E47DA5',
+			staffId : utils.userSession.getUUID()
+		}
 		
 		var saveNewObservationChartValues = utils.serverRequest('/nursing/observation-chart/new', 'POST', newObservationChartFieldValues);
-		console.log(saveNewObservationChartValues)
-		
+		saveNewObservationChartValues.then(function(response){
+			functions.manageObservationChart.observationChartCreated();
+		}, function(responseObject){
+			utils.errorHandler(responseObject)
+		})	
 	}
 
 	$scope.saveEditObservationChart = function(){
@@ -204,6 +233,13 @@ angular.module('EmmetBlue')
 		})
 
 	}
+	$scope.assignPatientToConsultant = function(){
+		var data = {
+			patientId: $scope.patientId,
+			consultantId:$scope.staff.consultants
+		}
+		console.log(data)
+	}
 
 	$scope.manageObservationChart = function(manageGroup, id){
 		switch(manageGroup.toLowerCase()){
@@ -219,8 +255,8 @@ angular.module('EmmetBlue')
 				functions.manageObservationChart.viewObservationChart(id);
 				break;
 			}
-			case "role-management":{
-				functions.manageObservationChart.roleManagement(id);
+			case "assign":{
+				functions.manageObservationChart.assignTo(id);
 				break;
 			}
 		}
