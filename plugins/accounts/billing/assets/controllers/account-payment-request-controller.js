@@ -9,6 +9,7 @@ angular.module("EmmetBlue")
 			" data-option-id='"+data.PaymentRequestID+
 			"' data-option-payment-request-uuid='"+data.PaymentRequestUUID+
 			"' data-option-patient-uuid='"+data.PatientUUID+
+			"' data-option-patient-id='"+data.RequestPatientID+
 			"' data-option-patient-fullname='"+data.PatientFullName+
 			"' data-option-patient-type='"+data.PatientType+
 			"' data-option-staff-id='"+data.RequestBy+
@@ -18,9 +19,11 @@ angular.module("EmmetBlue")
 			"' data-option-fulfilled-by='"+data.RequestFulfilledBy+
 			"' data-option-department-name='"+data.GroupName+
 			"' data-option-sub-dept-name='"+data.Name+
+			"' data-option-patient-category-name='"+data.PatientCategoryName+
+			"' data-option-patient-type-name='"+data.PatientTypeName+
 			"' ";
 		var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+options+"><i class='icon-bin'></i> </button>";
-		var makePaymentButton = "<button class='btn btn-default' ng-click=\""+makePaymentButtonAction+"\" "+options+">Make Payment</button>"
+		var makePaymentButton = "<button class='btn btn-default' ng-click=\""+makePaymentButtonAction+"\" "+options+">Process Request</button>"
 		var buttons = "<div class='btn-group'>"+makePaymentButton+deleteButton+"</button>";
 		
 		return buttons;
@@ -45,10 +48,14 @@ angular.module("EmmetBlue")
 			//console.log(id)
 			$scope.temp = {
 				requestId:id,
+				requestNumber:$(".btn[data-option-id='"+id+"']").attr("data-option-payment-request-uuid"),
 				staffUUID: $(".btn[data-option-id='"+id+"']").attr("data-option-staff-id"),
 				patientUUID: $(".btn[data-option-id='"+id+"']").attr("data-option-patient-uuid"),
+				patientID:$(".btn[data-option-id='"+id+"']").attr("data-option-patient-id"),
 				patientFullName: $(".btn[data-option-id='"+id+"']").attr("data-option-patient-fullname"),
 				patientType: $(".btn[data-option-id='"+id+"']").attr("data-option-patient-type"),
+				patientCategoryName: $(".btn[data-option-id='"+id+"']").attr("data-option-patient-category-name"),
+				patientTypeName: $(".btn[data-option-id='"+id+"']").attr("data-option-patient-type-name"),
 				requestDate: $(".btn[data-option-id='"+id+"']").attr("data-option-request-date"),
 				fulfillmentStatus: $(".btn[data-option-id='"+id+"']").attr("data-option-fulfillment-status"),
 				fulfilledDate: $(".btn[data-option-id='"+id+"']").attr("data-option-fulfilled-date"),
@@ -125,13 +132,6 @@ angular.module("EmmetBlue")
         }
     })
 	.withButtons([
-        /*{
-        	//extend: 'new',
-        	text: '<i class="icon-user-plus"></i> <u>N</u>ew Payment Request',
-        	action: function(){
-        		functions.managePaymentRequest.newAccountPaymentRequest();
-        	}
-        },*/
         {
         	//extend: 'new',
         	text: '<i class="icon-qrcode"></i> <u>V</u>erify Payment Request',
@@ -161,12 +161,11 @@ angular.module("EmmetBlue")
 
 	$scope.dtColumns = [
 		utils.DT.columnBuilder.newColumn('PaymentRequestUUID').withTitle("Request Number"),
-		utils.DT.columnBuilder.newColumn('PatientUUID').withTitle("Patient ID"),
-		utils.DT.columnBuilder.newColumn('PatientFullName').withTitle("Request By"),
+		utils.DT.columnBuilder.newColumn('PatientFullName').withTitle("Patient Name"),
 		//utils.DT.columnBuilder.newColumn('RequestID').withTitle("Request ID"),
 		utils.DT.columnBuilder.newColumn('GroupName').withTitle("Department"),
 		utils.DT.columnBuilder.newColumn('RequestDate').withTitle("Request Date"),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Fulfillment Status").renderWith(function(data, full, meta){
+		utils.DT.columnBuilder.newColumn(null).withTitle("Status").renderWith(function(data, full, meta){
 			if (data.RequestFulfillmentStatus == 1){
 				return "<p class='badge badge-success badge-lg'>Fulfilled</p>";
 			}
@@ -174,7 +173,6 @@ angular.module("EmmetBlue")
 				return "<p class='badge badge-danger badge-lg'>Unfulfilled</p>";
 			}
 		}),
-		utils.DT.columnBuilder.newColumn('RequestFulfilledBy').withTitle("Fullfilled By"),
 		utils.DT.columnBuilder.newColumn(null).withTitle('Action').notSortable().renderWith(functions.actionsMarkUp)
 	];
 
@@ -182,6 +180,10 @@ angular.module("EmmetBlue")
 		var items = utils.serverRequest('/accounts-biller/payment-request/load-payment-request-billing-items?resourceId='+paymentRequestId,'get');
 		items.then(function(response){
 			$scope.itemsList = response;
+			$scope.itemsList.globalTotal = 0;
+			angular.forEach(response, function(value, key){
+				$scope.itemsList.globalTotal += +value.totalPrice;
+			})
 		})
 	}
 	$scope.makePayment = function(){
@@ -191,7 +193,16 @@ angular.module("EmmetBlue")
 			fulfilledDate: new Date(),
 			status: 1
 		}
-		functions.managePaymentRequest.makePayment(edits)
+		functions.managePaymentRequest.makePayment(edits);
+		var eventLog = patientEventLogger.accounts.paymentRequestFulfilledEvent(
+			$scope.temp.patientID,
+			$scope.temp.requestId
+		);
+		eventLog.then(function(response){
+			//patient registered event logged
+		}, function(response){
+			utils.errorHandler(response);
+		});
 	}
 	$scope.verifyPayment = function(requestNumber){
 		var request = utils.serverRequest('/accounts-biller/payment-request/get-status?resourceId&requestNumber='+requestNumber, 'GET');
@@ -211,6 +222,9 @@ angular.module("EmmetBlue")
 		}, function(error){
 			utils.errorHandler(error);
 		})
+	}
+	$scope.removeFromItemList = function(index, item){
+		utils.alert("Operation not allowed", "You are not allowed to perform that action", "info");
 	}
 	$scope.functions = functions;
 })

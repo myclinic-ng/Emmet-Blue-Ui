@@ -111,30 +111,31 @@
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
-					<div class="modal-title">Process Payment</div>
-					<button class="close" data-dismiss="modal">&times</button>
+					<div class="modal-title">Process Payment Request</div>
+					<button class="close" data-dismiss="modal">&times; close</button>
 				</div>
 				<div class="modal-body">
 					<div class="col-md-6">
 						
 						<legend class="text-semibold">Request Details</legend>
-		                <br>
-		                <p>Request ID: {{temp.requestId}}</p>
+		                <p>Request Number: {{temp.requestNumber}}</p>
 		                <p>Patient ID: {{temp.patientUUID}}</p>
 		                <p>Patient Name: {{temp.patientFullName}}</p>
-		                <p>Patient Type: {{temp.patientType}}</p>
+		                <p>Patient Type: {{temp.patientCategoryName}}, {{temp.patientTypeName}}</p>
 					</div>
 					<div class="col-md-6">
-						<legend class="text-semibold">Request Status</legend>
-		                <br>
+						<legend class="text-semibold">
+							Request Status:
+							<span class='badge badge-danger badge-lg' ng-if="temp.fulfillmentStatus == '0'">Unfulfilled</span>
+		                	<span ng-if="temp.fulfillmentStatus == '1'">
+		                		<span class='badge badge-success badge-lg'>Fulfilled</span>
+		                		<span> Date Processed: <span class="badge badge-info badge-lg">{{temp.fulfilledDate}}</span></span>
+		                	</span>
+						</legend>
 		                <p>Requesting Staff ID: {{temp.staffUUID}}</p>
-		                <p>Department: {{temp.deptName}}</p>
-		                <p>Unit: {{temp.subDeptName}}</p>
+		                <p>Department: {{temp.deptName}}, Unit: {{temp.subDeptName}}</p>
 		                <p>Request Date: {{temp.requestDate}}</p>
-		                <p ng-if="temp.fulfillmentStatus == '0'">Status: <span class='badge badge-danger badge-lg'>Unfulfilled</span></p>
-		                <p ng-if="temp.fulfillmentStatus == '1'">Status: <span class='badge badge-success badge-lg'>Fulfilled</span></p>
 		                <p>Fulfilled By: {{temp.fulfilledBy}}</p>
-		                <p>Fullfilled Date: {{temp.fulfilledDate}}</p>
 					</div>
 					<div class="col-md-12">
 						<div class="table-responsive">
@@ -146,18 +147,18 @@
 									<th>Item</th>
 									<th>Quantity</th>
 									<th>Rate</th>
-									<th>Price (<span ng-currency ng-currency-symbol="naira"></span><span ng-currency ng-currency-symbol="naira"></span>)</th>
+									<th>Price (<span ng-currency ng-currency-symbol="naira"></span>)</th>
 									<th>Action</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr ng-repeat="bills in itemsList">
 									<th>{{$index + 1}}</th>
-									<th>{{bills.BillingTypeItemName}}</th>
+									<th>{{bills.ItemID}}</th>
 									<th>{{bills.BillingTypeItemName}}</th>
 									<th>{{bills.ItemQuantity}}</th>
-									<th>{{bills.BillingTypeItemPrice}}</th>
-									<th ng-model="itemAmount">{{bills.BillingTypeItemPrice * bills.ItemQuantity}}</th>
+									<th>{{bills.rateIdentifier}}</th>
+									<th ng-model="itemAmount">{{bills.totalPrice}}</th>
 									<th>
 										<span class="button-group">
 											<a href="btn btn-default" ng-click="removeFromItemList($index, item)"><i class="icon-bin"></i> remove item</a>
@@ -172,7 +173,7 @@
 									<th></th>
 									<th></th>
 									<th>Total</th>
-									<th><span ng-currency ng-currency-symbol="naira"></span> {{Total}}</th>
+									<th><span ng-currency ng-currency-symbol="naira"></span> {{itemsList.globalTotal}}</th>
 								</tr>
 							</tfoot>
 						</table>
@@ -181,7 +182,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="submit" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button ng-if="temp.fulfillmentStatus == '0'" class="btn btn-default" ng-click="makePayment()">Make Payment</button>
+					<button ng-if="temp.fulfillmentStatus == '0'" class="btn btn-default" ng-click="makePayment()">Accept Payment</button>
 				</div>
 			</div>
 		</div>

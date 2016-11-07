@@ -198,7 +198,10 @@ angular.module("EmmetBlue")
 
 .factory("patientEventLogger", function(utils){
 	var events = {
-		records: {}
+		records: {},
+		lab:{},
+		pharmacy:{},
+		accounts:{}
 	};
 
 	var eventLogger = function(eventObject){
@@ -232,6 +235,58 @@ angular.module("EmmetBlue")
 			eventLink: "patients/repository",
 			eventText: "created repository",
 			eventIcon: "icon-database-upload"
+		};
+
+		return eventLogger(eventObject);
+	}
+
+	events.lab.newPatientRegisteredEvent = function(patientId, investigationType, linkId){
+		var eventObject = {
+			patient: patientId,
+			eventActor: "Laboratory",
+			eventLinkId: linkId,
+			eventLink: "lab/registration",
+			eventText: "assigned lab number ("+investigationType+" investigation)",
+			eventIcon: "icon-lab"
+		};
+
+		return eventLogger(eventObject);
+	}
+
+	events.pharmacy.newDispensationEvent = function(patientId, linkId){
+		var eventObject = {
+			patient: patientId,
+			eventActor: "Pharmacy",
+			eventLinkId: linkId,
+			eventLink: "pharmacy/dispensation",
+			eventText: "dispensed items",
+			eventIcon: "icon-aid-kit"
+		};
+
+		return eventLogger(eventObject);
+	}
+
+	events.accounts.newPaymentRequestEvent = function(patientId, department, linkId){
+		var eventObject = {
+			patient: patientId,
+			eventActor: department,
+			eventLinkId: linkId,
+			eventLink: "accounts/paymentRequest",
+			eventText: "created a payment request",
+			eventIcon: "icon-credit-card"
+		};
+
+		return eventLogger(eventObject);
+	}
+
+	events.accounts.paymentRequestFulfilledEvent = function(patientId, linkId){
+		var eventObject = {
+			patient: patientId,
+			eventActor: "Accounts",
+			eventLinkId: linkId,
+			eventLink: "accounts/paymentRequestFulfilled",
+			eventText: "fulfilled payment request",
+			eventIcon: "icon-checkmark4"
 		};
 
 		return eventLogger(eventObject);

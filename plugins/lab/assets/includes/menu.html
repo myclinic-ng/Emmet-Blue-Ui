@@ -1,0 +1,125 @@
+<script src="assets/js/navbar_fixed_secondary.js"></script>
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+
+<!-- Second navbar -->
+<div class="navbar navbar-default" id="navbar-second">
+	<ul class="nav navbar-nav no-border visible-xs-block">
+		<li><a class="text-center collapsed" data-toggle="collapse" data-target="#navbar-second-toggle"><i class="icon-menu7"></i></a></li>
+	</ul>
+
+		<div class="navbar-collapse collapse" id="navbar-second-toggle">
+			<ul class="nav navbar-nav">
+				<li><a href="lab/dashboard"><i class="icon-display4 position-left"></i> Dashboard</a></li>
+				<li><a href="lab/patients"><i class="icon-stack"></i> Patient Management</a></li>
+				<li><a href="#" data-toggle="modal" data-target="#_payment_request"><i class="icon-stack"></i> Payment Requests</a></li>
+				<li><a href="lab/investigation-types"><i class="icon-stack"></i> Investigation Types</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon-cog3"></i>
+						<span class="visible-xs-inline-block position-right">Settings<span>
+						<span class="caret"></span>
+					</a>
+
+					<ul class="dropdown-menu dropdown-menu-right">
+					</ul>
+				</li>
+			</ul>
+		</div>
+</div>
+
+<div id="_payment_request" class="modal fade" ng-controller="labPaymentRequestController">{
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times; close</button>
+					<h6 class="modal-title">Payment Requests</h6>
+				</div>
+				<div class="modal-body">
+					<div class="tabbable">
+						<ul class="nav nav-tabs nav-tabs-highlight nav-justified">
+							<li class="active"><a href="#payment-request-new" data-toggle="tab">create new request</a></li>
+							<li><a href="#payment-request-verify" data-toggle="tab">verify payment</a></li>
+							<!-- <li><a href="#payment-request-view" class="dropdown-toggle" data-toggle="tab" ng-click="loadRequests()">view requests</a></li> -->
+						</ul>
+
+						<div class="tab-content">
+							<div class="tab-pane active" id="payment-request-new">
+								<div class="form-group">
+									<div class="input-group">
+										<input class="form-control input-lg" placeholder="Enter patients lab number" type="search" data-popup="tooltip" data-trigger="focus"  ng-model="search.query"/>
+										<span class="input-group-btn">
+											<button class="btn btn-warning btn-lg" type="button" ng-click="search(true)"> <i class="{{searched.searchIcon}}"></i></button>
+										</span>
+									</div>
+								</div>
+
+								<div ng-show="!requestForm.showSearchResult">
+									<!-- {{requestForm.currentPatientProfile}} -->
+									<div class="row">
+										<h1 class="text-center text-black">{{requestForm.currentPatientProfile.FullName}}<br/><small>{{requestForm.currentPatientProfile.InvestigationTypeName}}</small></h1>
+										<div class="form-group col-md-7">
+											<select class="select" ng-model="paymentRequestItem.item">
+												<optgroup label="{{key}}" ng-repeat="(key, item) in requestItems">
+													<option ng-repeat="value in item" value="{{value}}">{{value.BillingTypeItemName}}</option>
+												</optgroup>
+											</select>
+										</div>
+										<div class="input-group col-md-5">
+											<input type="number" placeholder="Quantity. Defaults to 1" class="form-control col-md-7" ng-model="paymentRequestItem.quantity"/>
+											<span class="input-group-btn">
+												<button class="btn btn-default btn-success" ng-click="addPaymentRequestItemToList()">add</button>
+											</span>
+										</div>
+										<div class="col-md-12 table-responsive">
+											<table class="table table-condensed hover">
+												<thead>
+													<tr class="warning">
+														<th>S/N</th>
+														<th>Item</th>
+														<th>Quantity</th>
+														<th>Action</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr ng-repeat="item in paymentRequestItems">
+														<td>{{$index + 1}}</td>
+														<td>{{item._item.BillingTypeItemName}}</td>
+														<td>{{item.quantity}}</td>
+														<td><a class="btn btn-link text-danger" href="#" ng-click="removeItem($index)"><i class="icon-bin"></i> Remove</a></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="row mt-30">	
+									<button type="button" class="btn btn-warning pull-right" ng-show="paymentRequestItems.length > 0" ng-click="createRequest()">
+										<i class="icon-mail"></i> Create payment request
+									</button>
+								</div>
+							</div>
+
+							<div class="tab-pane" id="payment-request-verify">
+								<div class="form-group">
+									<div class="input-group">
+										<input class="form-control input-lg" placeholder="Enter request number" type="input" ng-model="paymentRequestNumber"/>
+										<span class="input-group-btn">
+											<button class="btn btn-warning btn-lg" type="button" ng-click="verifyPayment(paymentRequestNumber)"> <i class="icon-file"></i> verify</button>
+										</span>
+									</div>
+								</div>
+							</div>
+
+							<!-- <div class="tab-pane" id="payment-request-view">
+								<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover"></table>
+							</div> -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>}
+</div>
+<!-- /second navbar -->

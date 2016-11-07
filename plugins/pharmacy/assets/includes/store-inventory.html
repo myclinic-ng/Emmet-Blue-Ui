@@ -24,13 +24,17 @@
 					<form role="form">
 						<div class="form-group">
 							<div class="row">
-								<div class="content-group col-sm-12">
+								<div class="content-group col-sm-8">
 									<label class="text-bold">Item name</label>
 									<select class="select" ng-model="newItem.name">
 										<optgroup label="{{key}}" ng-repeat="(key, item) in inventoryItems">
 											<option ng-repeat="value in item" value="{{value.BillingTypeItemID}}">{{value.BillingTypeItemName}}</option>
 										</optgroup>
 									</select>
+								</div>
+								<div class="content-group col-sm-4">
+									<label class="text-bold">Quantity</label>
+									<input type="number" class="form-control" ng-model="newItem.quantity"/>
 								</div>
 								<div class="content-group col-sm-6">
 									<label class="text-bold">Item Brand</label>

@@ -9,19 +9,27 @@
 			<ul class="nav navbar-nav">
 				<li><a href="pharmacy/dashboard"><i class="icon-display4 position-left"></i> Dashboard</a></li>
 				<li><a href="pharmacy/manage-stores"><i class="icon-stack"></i> Manage Stores</a></li>
+				<li><a href="pharmacy/dispensory"><i class="icon-stack"></i> Dispensation</a></li>
+			</ul>
 
-				<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-							<i class="icon-cog3"></i>
-							<span class="visible-xs-inline-block position-right">Settings<span>
-							<span class="caret"></span>
-						</a>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon-cog3"></i>
+						<span class="visible-xs-inline-block position-right">Settings<span>
+						<span class="caret"></span>
+					</a>
 
-						<ul class="dropdown-menu dropdown-menu-right">
-						</ul>
-					</li>
-				</ul>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li class="divider"></li>
+						<li><a href="#" data-toggle="modal" data-target="#setting_dispensory_store"><i class="icon-gear"></i> All settings</a></li>
+					</ul>
+				</li>
+			</ul>
 		</div>
 </div>
 <!-- /second navbar -->
+
+<!-- Settings Modal-->
+<ng-include src="'plugins/pharmacy/assets/includes/setting/index.html'"></ng-include>
+<!--/Settings Modal-->

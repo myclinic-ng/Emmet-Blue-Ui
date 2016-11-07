@@ -5,7 +5,7 @@
 		<div class="form-group col-md-12">
 			<label class="control-label">Select Department</label>
 			<select class="select" ng-model="currentDepartment">
-				<option ng-repeat="department in departments" value="{{department.DepartmentID}}">{{department.Name}}</option>
+				<option ng-repeat="department in departments" value="{{department.DepartmentID}}">{{department.Name}} ({{department.GroupName}})</option>
 			</select>
 		</div>
 	</div>

@@ -1077,8 +1077,15 @@ html {
   font-size: 10px;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url('../css/opensans.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+20B4, U+2DE0-2DFF, U+A640-A69F;
+ }
 body {
-  font-family: "Roboto", Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-family: "Open Sans", "Roboto", Helvetica Neue, Helvetica, Arial, sans-serif;
   font-size: 13px;
   line-height: 1.5384616;
   color: #333333;

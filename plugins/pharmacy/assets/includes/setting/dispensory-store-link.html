@@ -1,0 +1,48 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+<div ng-controller="pharmacySettingDispensoryStoreLinkingController">
+	<div class="row">
+		<div class="form-group col-md-12">
+			<label class="control-label">Select Dispensory</label>
+			<select class="select" ng-model="currentDispensory">
+				<option ng-repeat="dispensory in dispensories" value="{{dispensory.EligibleDispensoryID}}">{{dispensory.EligibleDispensory}}</option>
+			</select>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h6 class="panel-title">Linked Stores</h6>
+		</div>
+		<div class="panel-body">
+			<table datatable="" dt-options="linkDtOptions" dt-columns="linkDtColumns" dt-instance="linkDtInstance" class="table table-condensed table-striped table-hover"></table>
+		</div>
+	</div>
+
+	<div id="new_setting_dispensory_store_link" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" onclick="$('#new_setting_dispensory_store_link').modal('hide')">&times;</button>
+					<h6 class="modal-title">Select a store to link</h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-12">
+								<label>Store</label>
+								<select class="select" ng-model="currentStore">
+									<option value="{{type.StoreID}}" ng-repeat="type in stores">{{type.StoreName}}</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" onclick="$('#new_setting_dispensory_store_link').modal('hide')">cancel</button>
+					<button type="button" class="btn btn-warning" ng-click="completeLinking()">Link</button>
+				</div>
+			</div>
+		</div>
+</div>

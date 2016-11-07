@@ -93,7 +93,8 @@ var cntrllers = [
 	"plugins/nursing/assets/controllers.js",
 	"plugins/dummy/assets/controllers.js",
 	"plugins/pharmacy/assets/controllers.js",
-	"plugins/consultancy/assets/controllers.js"
+	"plugins/consultancy/assets/controllers.js",
+	"plugins/lab/assets/controllers.js"
 ]
 
 var services = [

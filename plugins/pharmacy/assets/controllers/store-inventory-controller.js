@@ -3,7 +3,8 @@ angular.module("EmmetBlue")
 .controller('pharmacyStoreInventoryController', function($scope, utils){
 	$scope.ddtOptions = utils.DT.optionsBuilder
 	.fromFnPromise(function(){
-		var storeInventory = utils.serverRequest('/pharmacy/store-inventory/view-by-store?resourceId='+3, 'GET');
+		var storeInventory = utils.serverRequest('/pharmacy/store-inventory/view-by-store?resourceId='+$scope.storeID
+		, 'GET');
 		return storeInventory;
 	})
 	.withPaginationType('full_numbers')
@@ -108,7 +109,8 @@ angular.module("EmmetBlue")
 			store: $scope.storeID,
 			item: $scope.newItem.name,
 			brand: $scope.newItem.brand,
-			manufacturer: $scope.newItem.manufacturer
+			manufacturer: $scope.newItem.manufacturer,
+			quantity: $scope.newItem.quantity
 		};
 
 		var request = utils.serverRequest("/pharmacy/store-inventory/new", "POST", store);

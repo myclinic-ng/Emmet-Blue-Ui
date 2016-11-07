@@ -1,0 +1,158 @@
+angular.module("EmmetBlue")
+
+.controller('labInvestigationTypeFieldsController', function($scope, utils){
+	$scope.ddtOptions = utils.DT.optionsBuilder
+	.fromFnPromise(function(){
+		var field = utils.serverRequest('/lab/investigation-type-field/view?resourceId='+$scope.investigationType, 'GET');
+		return field;
+	})
+	.withPaginationType('full_numbers')
+	.withDisplayLength(10)
+	.withFixedHeader()
+	.withOption('createdRow', function(row, data, dataIndex){
+		utils.compile(angular.element(row).contents())($scope);
+	})
+	.withOption('headerCallback', function(header) {
+        if (!$scope.headerCompiled) {
+            $scope.headerCompiled = true;
+            utils.compile(angular.element(header).contents())($scope);
+        }
+    })
+	.withButtons([
+		{
+			text: '<i class="icon-file-plus"></i> <u>N</u>ew Field',
+			action: function(){
+				$("#new_investigation_field").modal("show");
+			},
+			key: {
+        		key: 'n',
+        		ctrlKey: false,
+        		altKey: true
+        	}
+		}
+	]);	
+
+	$scope.ddtColumns = [
+		utils.DT.columnBuilder.newColumn('FieldID').withTitle("ID").withOption('width', '0.5%'),
+		utils.DT.columnBuilder.newColumn('TypeName').withTitle("Type"),
+		utils.DT.columnBuilder.newColumn('FieldName').withTitle("Name"),
+		utils.DT.columnBuilder.newColumn(null).withTitle("").renderWith(function(data, type, full){
+			var string = "";
+			for (var i = 0; i < data.length; i++) {
+				string += data[i].TagTitle+":"+data[i].TagName;
+			}
+			return string;
+		}).notVisible(),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(actions).notSortable()
+	];
+
+	$scope.ddtInstance = {};
+
+	function actions(data, type, full){
+		var editButtonAction = "manageField('edit', "+data.FieldID+")";
+		var deleteButtonAction = "manageField('delete', "+data.FieldID+")";
+		var fieldsButtonAction = "manageField('defaults', "+data.FieldID+")";
+
+		var dataOpt = "data-option-id='"+data.FieldID+"' data-option-name='"+data.FieldName+"' data-option-description='"+data.FieldDescription+"'";
+
+		var editButton = "<button class='btn btn-default billing-type-btn' ng-click=\""+editButtonAction+"\" "+dataOpt+"><i class='icon-pencil5'></i> </button>";
+		var deleteButton = "<button class='btn btn-default billing-type-btn' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"><i class='icon-bin'></i> </button>";
+		var fieldsButton = "<button class='btn btn-default' ng-click=\""+fieldsButtonAction+"\" "+dataOpt+"><i class='icon-eye'> </i> Default Values</button>";
+		
+		var buttons = "<div class='btn-group'>"+fieldsButton+editButton+deleteButton+"</button>";
+
+		return buttons;
+	}
+
+	$scope.reloadFieldTable = function(){
+		$scope.ddtInstance.reloadData();
+	}
+	$scope.$watch(function(){return utils.storage.fieldsInvestigationTypeID}, function(newValue, oldValue){
+		if (typeof newValue !== "undefined"){
+			$scope.investigationType = newValue;
+			$scope.reloadFieldTable();
+		}
+	});
+
+	$scope.newField = {
+		tags:[]
+	}
+	
+	$scope.fieldTag = {
+	};
+
+	$scope.addTagToList = function(){
+		$scope.newField.tags.push($scope.fieldTag);
+		$scope.fieldTag = {};
+	}
+
+	$scope.saveNewField = function(){
+		var field = {
+			"investigationType":$scope.investigationType,
+			"fieldType":$scope.newField.type,
+			"name":$scope.newField.name,
+			"description":$scope.newField.description
+		}
+
+		var request = utils.serverRequest("/lab/investigation-type-field/new", "POST", field);
+		request.then(function(response){
+			utils.notify("Operation Successful", "New field created successfully", "success");
+			$("#new_investigation_field").modal("hide");
+			$scope.reloadFieldTable();
+			$scope.newField = {};
+		}, function(response){
+			utils.errorHandler(response);
+		})
+	}
+
+	$scope.saveNewDefaultValue = function(){
+		var value = {
+			"field":$scope.currentDefaultValuesField,
+			"value":$scope.newDefaultValue
+		}
+
+		var request = utils.serverRequest("/lab/investigation-type-field/new-default-value", "POST", value);
+		request.then(function(response){
+			utils.notify("Operation Successful", "New default value registered successfully", "success");
+			$scope.manageField("defaults", $scope.currentDefaultValuesField);
+			$scope.newDefaultValue = "";
+		}, function(response){
+			utils.errorHandler(response);
+		})
+	}
+
+	$scope.deleteDefaultValue = function(id, index){
+		utils.serverRequest('/lab/investigation-type-field/delete-default-value?resourceId='+id, 'DELETE').then(function(response){
+			$scope.currentDefaultValues.splice(index, 1);
+			utils.alert("Operation successful", "The delete request has been processed successfully", "success", "notify");
+		}, function(error){
+			utils.errorHandler(error);
+		})
+	}
+
+	function loadFieldTypes(){
+		utils.serverRequest('/lab/investigation-type-field/view-field-types', 'GET').then(function(response){
+			$scope.fieldTypes = response;
+		}, function(error){
+			utils.errorHandler(error);
+		})
+	}
+
+	loadFieldTypes();
+
+	$scope.manageField = function(val, id){
+		switch(val){
+			case "defaults":{
+				if (typeof id !== "undefined"){
+					utils.serverRequest('/lab/investigation-type-field/view-default-values?resourceId='+id, 'GET').then(function(response){
+						$scope.currentDefaultValues = response;
+						$scope.currentDefaultValuesField = id;
+					}, function(error){
+						utils.errorHandler(error);
+					})
+					$("#field_defaults").modal("show");
+				}
+			}
+		}
+	}
+});
