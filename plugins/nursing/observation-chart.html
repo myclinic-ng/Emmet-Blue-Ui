@@ -18,6 +18,31 @@
 			</div>
 		</div>
 	</div>
+	<!-- assign To Consultant modal -->
+	<div id="assign_to" class="modal fade">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<div class="modal-title">Assign {{patientName}} to Consultant</div>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-12">
+								<label>Consultants</label>
+								<select class="select" ng-model="staff.consultants">
+									<option ng-repeat="staff in consultants" value="{{staff.StaffUUID}}" >{{staff.Name}} <small> ({{staff.StaffUsername}})</small></option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-default" ng-click="assignPatientToConsultant()"> Assign</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- observation chart modal -->
 	<ng-include src="'plugins/nursing/assets/includes/observation-chart-form.html'"></ng-include>
 	<!-- view observation chart form -->
