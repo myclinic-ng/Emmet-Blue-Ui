@@ -1,3 +1,6 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script src="assets/js/core/app.js"></script>
+<script>$('select.select').select2();</script>
 <div class="row mb-15">
 	<div class="col-md-7 col-md-offset-3 valign-middle">
 		<div class="form-group pb-10">
@@ -32,8 +35,159 @@
 
 				<div class="tab-content">
 					<div class="tab-pane active" id="history">
+						<div class="col-md-3">
+							<div class="sidebar sidebar-main sidebar-default" style="box-shadow: none; border-color: #F5F5F5; border-radius: 0px;">
+								<div class="sidebar-content">
+									<!-- Main navigation -->
+									<div class="sidebar-category sidebar-category-visible">
+										<div class="category-content no-padding">
+											<ul class="navigation navigation-main navigation-accordion navigation-bordered">
+												<!-- Main -->
+												<li>
+													<a href="#"><i class="icon-stack2"></i> <span>Profile</span></a>
+													<ul>
+														<li><a href="layout_navbar_fixed.html">Fixed navbar</a></li>
+														<li class="navigation-divider"></li>
+														<li><a href="boxed_default.html">Boxed with default sidebar</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href="#"><i class="icon-stack2"></i> <span>Medical</span></a>
+													<ul>
+														<li><a href="layout_navbar_fixed.html">Fixed navbar</a></li>
+														<li class="navigation-divider"></li>
+														<li><a href="boxed_default.html">Boxed with default sidebar</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href="#"><i class="icon-stack2"></i> <span>Family/Social</span></a>
+													<ul>
+														<li><a href="layout_navbar_fixed.html">Fixed navbar</a></li>
+														<li class="navigation-divider"></li>
+														<li><a href="boxed_default.html">Boxed with default sidebar</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href="#"><i class="icon-stack2"></i> <span>Surgical</span></a>
+													<ul>
+														<li><a href="layout_navbar_fixed.html">Fixed navbar</a></li>
+														<li class="navigation-divider"></li>
+														<li><a href="boxed_default.html">Boxed with default sidebar</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href="#"><i class="icon-stack2"></i> <span>Analysis</span></a>
+													<ul>
+														<li><a href="layout_navbar_fixed.html">Fixed navbar</a></li>
+														<li class="navigation-divider"></li>
+														<li><a href="boxed_default.html">Boxed with default sidebar</a></li>
+													</ul>
+												</li>
+												<!-- /main -->
+											</ul>
+										</div>
+									</div>
+									<!-- /main navigation -->
+								</div>
+							</div>
+						</div>
 					</div>
 					<div class="tab-pane" id="allergies">
+						<div class="tabbable">
+							<ul class="nav nav-tabs nav-justified">
+								<li class="active"><a href="#allergy-list" data-toggle="tab">Allergy List</a></li>
+								<li><a href="#new-allergy" data-toggle="tab">Register a new allergy</a></li>
+							</ul>
+
+							<div class="tab-content">
+								<div class="tab-pane has-padding active" id="allergy-list">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="panel panel-body" style="box-shadow: none;">
+												<div class="media">
+													<div class="media-left">
+														<a href="#"><i class="icon-file-text2 text-success-400 icon-2x no-edge-top mt-5"></i></a>
+													</div>
+
+													<div class="media-body">
+														<h6 class="media-heading text-semibold"><a href="#" class="text-default">Walking away fallaciously</a></h6>
+														Ouch licentiously lackadaisical crud together began gregarious below near darn goodness
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-12">
+											<div class="panel panel-body" style="box-shadow: none;">
+												<div class="media">
+													<div class="media-left">
+														<a href="#"><i class="icon-file-text2 text-success-400 icon-2x no-edge-top mt-5"></i></a>
+													</div>
+
+													<div class="media-body">
+														<h6 class="media-heading text-semibold"><a href="#" class="text-default">Walking away fallaciously</a></h6>
+														Ouch licentiously lackadaisical crud together began gregarious below near darn goodness
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-12">
+											<div class="panel panel-body" style="box-shadow: none;">
+												<div class="media">
+													<div class="media-left">
+														<a href="#"><i class="icon-file-text2 text-success-400 icon-2x no-edge-top mt-5"></i></a>
+													</div>
+
+													<div class="media-body">
+														<h6 class="media-heading text-semibold"><a href="#" class="text-default">Walking away fallaciously</a></h6>
+														Ouch licentiously lackadaisical crud together began gregarious below near darn goodness
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="tab-pane has-padding" id="new-allergy">
+									<div class="row">
+										<div class="content-group col-md-6">
+											<label class="control-label">Allergy Title</label>
+											<input class="form-control"/>
+										</div>
+										<div class="content-group col-md-6">
+											<label class="control-label">Allergy Severity</label>
+											<select class="select">
+												<option value=""></option>
+											</select>
+										</div>
+										<div class="content-group col-md-12">
+											<label class="control-label">Allergy Type</label>
+											<select class="select">
+												<option value=""></option>
+											</select>
+										</div>
+										<div class="content-group col-md-12">
+											<label class="control-label">Allergy Trigger(s)</label>
+											<select class="select" multiple="">
+												<option value=""></option>
+											</select>
+										</div>
+										<div class="content-group col-md-12">
+											<label class="control-label">Allergy Symptom(s)</label>
+											<select class="select" multiple="">
+												<option value=""></option>
+											</select>
+										</div>
+										<div class="content-group col-md-12">
+											<label class="control-label">Note</label>
+											<textarea class="form-control"></textarea>
+										</div>
+										<div class="content-group col-md-12">
+											<button class="btn btn-info pull-right col-md-3">Save</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 					<div class="tab-pane" id="presenting-complaints">
 						<div class="col-md-7 col-md-offset-3 mb-15">
@@ -82,6 +236,39 @@
 					                    	</li>
 					                    </ul>
 				                    </div>
+								</div>
+							</div>
+
+							<div class="col-md-7">
+								<div class="row pl-5 pr-5">
+									<div class="panel-group panel-group-control panel-group-control-right">
+										<div class="panel" style="box-shadow: none; border-top-right-radius: 0px; border-top-left-radius: 0px; border-color: #F5F5F5">
+											<div class="panel-heading">
+												<h6 class="panel-title">
+													<a class="collapsed" data-toggle="collapse" href="#question1">
+														<i class="icon-help position-left text-slate"></i> Vomitting With Nauseatic Effects
+													</a>
+												</h6>
+											</div>
+
+											<div id="question1" class="panel-collapse collapse">
+												<div class="panel-body">
+													<textarea class="form-control">description (optional)</textarea>
+												</div>
+
+												<div class="panel-footer panel-footer-transparent">
+													<h6 class="text-muted col-md-3">Characteristics:</h6>
+													<span class="col-md-9">
+														<select class="select" multiple="">
+															<option value="severe">severe</option>
+															<option value="acute">acute</option>
+															<option value="numb">numb</option>
+														</select>
+													</span>
+												</div>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>

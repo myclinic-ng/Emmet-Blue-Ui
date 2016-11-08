@@ -135,6 +135,10 @@ angular.module("EmmetBlue")
 				services.notify('Invalid Resource Requested', 'The requested resource was not found on this server, please contact an administrator', 'warning');
 				break;
 			}
+			case 503:{
+				services.alert('An error occurred', 'Seems like you do not have the permission to do that', 'warning');
+				break;
+			}
 			default:
 			{
 				if (typeof errorObject.data != "undefined" && errorObject.data != null){
