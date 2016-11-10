@@ -168,7 +168,7 @@ angular.module("EmmetBlue")
 		DTColumnBuilder.newColumn('WardSectionID').withTitle('Section ID'),
 		DTColumnBuilder.newColumn('WardSectionName').withTitle('Section Name'),
 		DTColumnBuilder.newColumn('WardSectionDescription').withTitle('Section Description'),
-		DTColumnBuilder.newColumn('WardName').withTitle('Ward'),
+		//DTColumnBuilder.newColumn('WardName').withTitle('Ward'),
 		DTColumnBuilder.newColumn('CreatedDate').withTitle('Date Created'),
 		DTColumnBuilder.newColumn(null).withTitle('Action').notSortable().renderWith(functions.actionsMarkup)
 	];

@@ -72,7 +72,7 @@ angular.module('EmmetBlue')
 			},
 			assignTo:function(observationChartId){
 				var consultants={};
-				var staff = utils.serverRequest('/human-resources/staff/view-department-staff?resourceId='+7, 'get');
+				var staff = utils.serverRequest('/human-resources/staff/view-department-staff?resourceId='+8, 'get');
 				staff.then(function(response){
 					$scope.consultants = response;
 				}, function(responseObject){

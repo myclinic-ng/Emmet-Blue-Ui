@@ -3,43 +3,39 @@
 <script src="assets/js/plugins/forms/styling/uniform.min.js"></script>
 <script src="plugins/mortuary/assets/js/wizard_stepy.js"></script>
 
-<div ng-controller="wardController">
-	<div class="panel panel-white zoomIn" >
-		<div class="panel-heading">
-			<h6 class="panel-title">Manage Wards</h6>
-			<div class="heading-elements">
-				<ul class="icons-list">
-	        		<li><a data-action="collapse"></a></li>
-	        		<li><a data-action="reload"></a></li>
-	        		<li><a data-action="close"></a></li>
-	        	</ul>
-	    	</div>
-		</div>
-		<div class="panel-body">
+<div ng-controller="bedAssignmentController">
+	<div id="view_all_bed_assignment" class="modal fade">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<div class="Modal-title"> New Bed Assignment</div>
+				</div>
+				<div class="modal-body">
 			<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
 			</table>
 		</div>
 	</div>
+	</div>
+	</div>
 
-	<!-- New Ward -->
-	<div id="new-ward" class="modal fade">
+	<!-- New bed assignment -->
+	<div id="new_bed_assignment" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<div class="Modal-title"> New Ward</div>
+					<div class="Modal-title"> New Bed Assignment</div>
 				</div>
 				<div class="modal-body">
 					<form role="form">
 					<div class="form-group">
 						<div class="row">
 							<div class="content-group col-sm-12">
-								<label>Ward Name</label>
-								<input type="text" class="form-control" name="wardname" ng-model="wardRegistration.wardName">
-							</div>
-							<div class="content-group col-sm-12">
-								<label>Ward Description</label>
-								<textarea class="form-control" name="description" ng-model="wardRegistration.wardDescription"></textarea>
+								<label>Bed Name</label>
+								<select ng-model="bedName" class="select">
+									<option ng-repeat="beds in bed">{{beds.BedName}}</option>
+								</select>
 							</div>
 						</div>
 					</div>
@@ -47,8 +43,8 @@
 					</form>
 				</div>
 				<div class="modal-footer">
-				<button class="btn btn-link" type="submit" data-dismiss="modal" ng-click="newWard = {}">close</button>
-				<button class="btn btn-warning" type="submit" ng-click="saveNewWard()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin fa-2x"> </i></span> Save</button>
+				<button class="btn btn-link" type="submit" data-dismiss="modal" ng-click="newBedAssignment = {}">close</button>
+				<button class="btn btn-warning" type="submit" ng-click="saveNewBedAssignment()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin fa-2x"> </i></span> Save</button>
 				
 				</div>
 			</div>
@@ -83,20 +79,6 @@
 					<button class="btn btn-link" type="submit" data-dismiss="modal" ng-click="updateWard = {}">close</button>
 					<button class="btn btn-warning" type="submit" ng-click="saveEditWard()"><span class="hide loader pull-left"> <i class="fa fa-spinner fa-spin fa-2x"></i></span> Update</button>
 					
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div id="manage-sections" class="modal fade">
-		<div class="modal-dialog modal-full">
-			<div class="modal-content">
-				<div class="modal-header bg-warning">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<div class="modal-title"> Manage Sections</div>
-				</div>
-				<div class="modal-body">
-					<ng-include src="'plugins/nursing/section-management.html'"></ng-include>
 				</div>
 			</div>
 		</div>

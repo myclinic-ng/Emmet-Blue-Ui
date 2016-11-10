@@ -13,6 +13,10 @@ angular.module("EmmetBlue")
 				$scope.pageSegment = "plugins/nursing/observation-chart.html";
 				break;
 			}
+			case "view-manage-beds":{
+				$scope.pageSegment = "plugins/nursing/manage-beds.html";
+				break;
+			}
 		}
 	}
 })
