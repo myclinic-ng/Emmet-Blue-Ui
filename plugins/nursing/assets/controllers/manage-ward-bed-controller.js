@@ -8,7 +8,7 @@ angular.module("EmmetBlue")
 			var manageSectionsButtonAction = "functions.manageWard.manageSections("+data.WardID+")";
 
 			var options = "data-option-id='"+data.WardID+"' data-option-ward-name='"+data.WardName+"' data-option-ward-desc='"+data.WardDescription+"'";
-			var manageSectionsButton = "<button class='btn btn-default' ng-click=\""+manageSectionsButtonAction+"\" "+options+"><i class=''></i> Sections</button>"
+			var manageSectionsButton = "<button class='btn btn-default' ng-click=\""+manageSectionsButtonAction+"\" "+options+"><i class='fa fa-puzzle-piece'></i> Sections</button>"
 			var buttons = "<div class='btn-group'>"+manageSectionsButton+"</button>";
 			
 			return buttons;

@@ -13,8 +13,8 @@ angular.module("EmmetBlue")
 							"' data-option-bed-status='"+data.AssignmentLeased+
 							"' data-option-bed-leased-date='"+data.AssignmentDate+"'";
 
-			var leasedButton = "<button class='btn btn-default' ng-click=\""+leasedBedAction+"\" "+options+"><i class=''></i> Lease Bed</button>"
-			var unleasedButton = "<button class='btn btn-default' ng-click=\""+unleasedBedAction+"\" "+options+"><i class=''></i> Unlease Bed</button>"
+			var leasedButton = "<button class='btn btn-default' ng-click=\""+leasedBedAction+"\" "+options+"><i class='fa fa-sign-in'></i> Lease Bed</button>"
+			var unleasedButton = "<button class='btn btn-default' ng-click=\""+unleasedBedAction+"\" "+options+"><i class='fa fa-sign-out'></i> Unlease Bed</button>"
 			var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteBedAction+"\" "+options+"><i class='icon-bin'></i></button>"
 			if(data.AssignmentLeased==0){
 			var leasedBedButton = leasedButton;

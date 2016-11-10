@@ -29,7 +29,7 @@ angular.module("EmmetBlue")
 							"' data-option-section-ward-name='"+data.WardName+
 							"' ";
 
-			var bedManagementButton = "<button class='btn btn-default' ng-click=\""+bedManagementButtonAction+"\""+options+"><i icon-bed></i> Assign Beds</button>";
+			var bedManagementButton = "<button class='btn btn-default' ng-click=\""+bedManagementButtonAction+"\""+options+"><i class='fa fa-bed'></i> Assign Beds</button>";
 			return "<div class='btn-group'>"+bedManagementButton+"</div>";
 		},
 		manageSection:{
