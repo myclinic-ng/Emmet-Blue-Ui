@@ -20,7 +20,7 @@ angular.module("EmmetBlue")
 	})
 	var functions = {
 		actionsMarkup: function(meta, full, data){
-			var bedManagementButtonAction = "functions.manageSection.assignBeds("+data.WardSectionID+")";
+			var assignBedButtonAction = "functions.manageAssignSectionBeds.assignBeds("+data.WardSectionID+")";
 
 			var options = "data-option-id='"+data.WardSectionID+
 							"' data-option-section-name='"+data.WardSectionName+
@@ -29,10 +29,10 @@ angular.module("EmmetBlue")
 							"' data-option-section-ward-name='"+data.WardName+
 							"' ";
 
-			var bedManagementButton = "<button class='btn btn-default' ng-click=\""+bedManagementButtonAction+"\""+options+"><i class='fa fa-bed'></i> Assign Beds</button>";
-			return "<div class='btn-group'>"+bedManagementButton+"</div>";
+			var assignBedButton = "<button class='btn btn-default' ng-click=\""+assignBedButtonAction+"\""+options+"><i class='fa fa-bed'></i> Assign Beds</button>";
+			return "<div class='btn-group'>"+assignBedButton+"</div>";
 		},
-		manageSection:{
+		manageAssignSectionBeds:{
 			
 			assignBeds: function(id){
 				var data = {
