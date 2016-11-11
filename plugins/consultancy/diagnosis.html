@@ -1,289 +1,318 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script src="assets/js/plugins/forms/tags/bootstrap-tagsinput.js"></script>
+<script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
 <script src="assets/js/core/app.js"></script>
-<script>$('select.select').select2();</script>
-<div class="row mb-15">
-	<div class="col-md-7 col-md-offset-3 valign-middle">
-		<div class="form-group pb-10">
-			<div class="col-lg-12">
-				<div class="input-group">
-					<input type="text" class="form-control" placeholder="enter patient number to begin" ng-model="searchQuery"/>
-					<span class="input-group-btn">
-						<button class="btn btn-info">Go</button>
-					</span>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="panel panel-white zoomIn" >
-	<div class="panel-heading">
-		<h6 class="panel-title"><span class="text-bold">New Diagnosis For:</span> James Bako </h6>
-		<div class="heading-elements">
-			<h6><span class="text-bold">Date:</span> Wednesday 14th November, 2016 </h6>
-    	</div>
-	</div>
-	<div class="panel-body table-responsive">
-		<div class="col-md-9">
-			<div class="tabbable">
-				<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
-					<li class="active"><a href="#history" data-toggle="tab">History</a></li>
-					<li><a href="#allergies" data-toggle="tab">Allergies</a></li>
-					<li><a href="#presenting-complaints" data-toggle="tab">Presenting Complaints</a></li>
-					<li><a href="#examination" data-toggle="tab">Examination</a></li>
-					<li><a href="#investigation" data-toggle="tab">Investigation</a></li>
-				</ul>
-
-				<div class="tab-content">
-					<div class="tab-pane active" id="history">
-						<div class="col-md-3">
-							<div class="sidebar sidebar-main sidebar-default" style="box-shadow: none; border-color: #F5F5F5; border-radius: 0px;">
-								<div class="sidebar-content">
-									<!-- Main navigation -->
-									<div class="sidebar-category sidebar-category-visible">
-										<div class="category-content no-padding">
-											<ul class="navigation navigation-main navigation-accordion navigation-bordered">
-												<!-- Main -->
-												<li>
-													<a href="#"><i class="icon-stack2"></i> <span>Profile</span></a>
-													<ul>
-														<li><a href="layout_navbar_fixed.html">Fixed navbar</a></li>
-														<li class="navigation-divider"></li>
-														<li><a href="boxed_default.html">Boxed with default sidebar</a></li>
-													</ul>
-												</li>
-												<li>
-													<a href="#"><i class="icon-stack2"></i> <span>Medical</span></a>
-													<ul>
-														<li><a href="layout_navbar_fixed.html">Fixed navbar</a></li>
-														<li class="navigation-divider"></li>
-														<li><a href="boxed_default.html">Boxed with default sidebar</a></li>
-													</ul>
-												</li>
-												<li>
-													<a href="#"><i class="icon-stack2"></i> <span>Family/Social</span></a>
-													<ul>
-														<li><a href="layout_navbar_fixed.html">Fixed navbar</a></li>
-														<li class="navigation-divider"></li>
-														<li><a href="boxed_default.html">Boxed with default sidebar</a></li>
-													</ul>
-												</li>
-												<li>
-													<a href="#"><i class="icon-stack2"></i> <span>Surgical</span></a>
-													<ul>
-														<li><a href="layout_navbar_fixed.html">Fixed navbar</a></li>
-														<li class="navigation-divider"></li>
-														<li><a href="boxed_default.html">Boxed with default sidebar</a></li>
-													</ul>
-												</li>
-												<li>
-													<a href="#"><i class="icon-stack2"></i> <span>Analysis</span></a>
-													<ul>
-														<li><a href="layout_navbar_fixed.html">Fixed navbar</a></li>
-														<li class="navigation-divider"></li>
-														<li><a href="boxed_default.html">Boxed with default sidebar</a></li>
-													</ul>
-												</li>
-												<!-- /main -->
-											</ul>
-										</div>
-									</div>
-									<!-- /main navigation -->
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="tab-pane" id="allergies">
-						<div class="tabbable">
-							<ul class="nav nav-tabs nav-justified">
-								<li class="active"><a href="#allergy-list" data-toggle="tab">Allergy List</a></li>
-								<li><a href="#new-allergy" data-toggle="tab">Register a new allergy</a></li>
-							</ul>
-
-							<div class="tab-content">
-								<div class="tab-pane has-padding active" id="allergy-list">
-									<div class="row">
-										<div class="col-md-12">
-											<div class="panel panel-body" style="box-shadow: none;">
-												<div class="media">
-													<div class="media-left">
-														<a href="#"><i class="icon-file-text2 text-success-400 icon-2x no-edge-top mt-5"></i></a>
-													</div>
-
-													<div class="media-body">
-														<h6 class="media-heading text-semibold"><a href="#" class="text-default">Walking away fallaciously</a></h6>
-														Ouch licentiously lackadaisical crud together began gregarious below near darn goodness
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-12">
-											<div class="panel panel-body" style="box-shadow: none;">
-												<div class="media">
-													<div class="media-left">
-														<a href="#"><i class="icon-file-text2 text-success-400 icon-2x no-edge-top mt-5"></i></a>
-													</div>
-
-													<div class="media-body">
-														<h6 class="media-heading text-semibold"><a href="#" class="text-default">Walking away fallaciously</a></h6>
-														Ouch licentiously lackadaisical crud together began gregarious below near darn goodness
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-12">
-											<div class="panel panel-body" style="box-shadow: none;">
-												<div class="media">
-													<div class="media-left">
-														<a href="#"><i class="icon-file-text2 text-success-400 icon-2x no-edge-top mt-5"></i></a>
-													</div>
-
-													<div class="media-body">
-														<h6 class="media-heading text-semibold"><a href="#" class="text-default">Walking away fallaciously</a></h6>
-														Ouch licentiously lackadaisical crud together began gregarious below near darn goodness
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="tab-pane has-padding" id="new-allergy">
-									<div class="row">
-										<div class="content-group col-md-6">
-											<label class="control-label">Allergy Title</label>
-											<input class="form-control"/>
-										</div>
-										<div class="content-group col-md-6">
-											<label class="control-label">Allergy Severity</label>
-											<select class="select">
-												<option value=""></option>
-											</select>
-										</div>
-										<div class="content-group col-md-12">
-											<label class="control-label">Allergy Type</label>
-											<select class="select">
-												<option value=""></option>
-											</select>
-										</div>
-										<div class="content-group col-md-12">
-											<label class="control-label">Allergy Trigger(s)</label>
-											<select class="select" multiple="">
-												<option value=""></option>
-											</select>
-										</div>
-										<div class="content-group col-md-12">
-											<label class="control-label">Allergy Symptom(s)</label>
-											<select class="select" multiple="">
-												<option value=""></option>
-											</select>
-										</div>
-										<div class="content-group col-md-12">
-											<label class="control-label">Note</label>
-											<textarea class="form-control"></textarea>
-										</div>
-										<div class="content-group col-md-12">
-											<button class="btn btn-info pull-right col-md-3">Save</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="tab-pane" id="presenting-complaints">
-						<div class="col-md-7 col-md-offset-3 mb-15">
-							<div class="input-group">
-								<input type="text" class="form-control" placeholder="enter symptom to search" ng-model="searchQuery"/>
-								<span class="input-group-btn">
-									<button class="btn btn-danger"> <i class="icon-search4"></i> search</button>
-								</span>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-5" style="border-right: 1px solid #F5F5F5">
-								<div class="row">
-									<div class="col-lg-12">
-										<ul class="media-list search-results-list content-group">
-					                    	<li class="media">
-					                    		<div class="media-body">
-						                    		<h6 class="media-heading"><a href="#"><strong>S_123</strong> - Blood Indigestion</a></h6>
-						                    		
-						                    		Do you feel numbness around the back?
-					                    		</div>
-					                    	</li>
-
-					                    	<li class="media">
-					                    		<div class="media-body">
-						                    		<h6 class="media-heading"><a href="#"><strong>S_123</strong> - Blood Indigestion</a></h6>
-						                    		
-						                    		Do you feel numbness around the back?
-					                    		</div>
-					                    	</li>
-
-					                    	<li class="media">
-					                    		<div class="media-body">
-						                    		<h6 class="media-heading"><a href="#"><strong>S_123</strong> - Blood Indigestion</a></h6>
-						                    		
-						                    		Do you feel numbness around the back?
-					                    		</div>
-					                    	</li>
-
-					                    	<li class="media">
-					                    		<div class="media-body">
-						                    		<h6 class="media-heading"><a href="#"><strong>S_123</strong> - Blood Indigestion</a></h6>
-						                    		
-						                    		Do you feel numbness around the back?
-					                    		</div>
-					                    	</li>
-					                    </ul>
-				                    </div>
-								</div>
-							</div>
-
-							<div class="col-md-7">
-								<div class="row pl-5 pr-5">
-									<div class="panel-group panel-group-control panel-group-control-right">
-										<div class="panel" style="box-shadow: none; border-top-right-radius: 0px; border-top-left-radius: 0px; border-color: #F5F5F5">
-											<div class="panel-heading">
-												<h6 class="panel-title">
-													<a class="collapsed" data-toggle="collapse" href="#question1">
-														<i class="icon-help position-left text-slate"></i> Vomitting With Nauseatic Effects
-													</a>
-												</h6>
-											</div>
-
-											<div id="question1" class="panel-collapse collapse">
-												<div class="panel-body">
-													<textarea class="form-control">description (optional)</textarea>
-												</div>
-
-												<div class="panel-footer panel-footer-transparent">
-													<h6 class="text-muted col-md-3">Characteristics:</h6>
-													<span class="col-md-9">
-														<select class="select" multiple="">
-															<option value="severe">severe</option>
-															<option value="acute">acute</option>
-															<option value="numb">numb</option>
-														</select>
-													</span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="tab-pane" id="examination">
-					</div>
-					<div class="tab-pane" id="investigation">
+<script>
+	$('select.select').select2();
+</script>
+<div ng-controller="consultancyNewDiagnosisController">
+	<div class="row mb-15">
+		<div class="col-md-7 col-md-offset-3 valign-middle">
+			<div class="form-group pb-10">
+				<div class="col-lg-12">
+					<div class="input-group">
+						<input type="text" class="form-control" placeholder="enter patient number to begin" ng-model="searchQuery"/>
+						<span class="input-group-btn">
+							<button class="btn btn-info">Go</button>
+						</span>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-md-3" style="border: 1px solid #F5F5F5; border-bottom: 0px;">
-			<h5 class="text-center text-primary">Notes</h5>
+	</div>
+	<div class="panel panel-white zoomIn" >
+		<div class="panel-heading">
+			<h6 class="panel-title"><span class="text-bold">New Diagnosis For:</span> James Bako </h6>
+			<div class="heading-elements">
+				<h6><span class="text-bold">Date:</span> Wednesday 14th November, 2016 </h6>
+	    	</div>
+		</div>
+		<div class="panel-body table-responsive">
+			<div class="col-md-9">
+				<div class="tabbable">
+					<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
+						<li class="active"><a href="#history" data-toggle="tab">History</a></li>
+						<li><a href="#allergies" data-toggle="tab">Allergies</a></li>
+						<li><a href="#presenting-complaints" data-toggle="tab">Presenting Complaints</a></li>
+						<li><a href="#examination" data-toggle="tab">Examination</a></li>
+						<li><a href="#investigation" data-toggle="tab">Investigation</a></li>
+					</ul>
 
-			<textarea class="form-control" style="height: 400px; border: 0px;">start typing...</textarea>
+					<div class="tab-content">
+						<div class="tab-pane active" id="history">
+							<div class="col-md-3">
+								<div class="sidebar sidebar-main sidebar-default" style="box-shadow: none; border-color: #F5F5F5; border-radius: 0px;">
+									<div class="sidebar-content">
+										<!-- Main navigation -->
+										<div class="sidebar-category sidebar-category-visible">
+											<div class="category-content no-padding">
+												<ul class="navigation navigation-main navigation-accordion navigation-bordered">
+													<!-- Main -->
+													<li>
+														<a href="#"><i class="icon-stack2"></i> <span>Profile</span></a>
+														<ul>
+															<li><a href="layout_navbar_fixed.html">Fixed navbar</a></li>
+															<li class="navigation-divider"></li>
+															<li><a href="boxed_default.html">Boxed with default sidebar</a></li>
+														</ul>
+													</li>
+													<li>
+														<a href="#"><i class="icon-stack2"></i> <span>Medical</span></a>
+														<ul>
+															<li><a href="layout_navbar_fixed.html">Fixed navbar</a></li>
+															<li class="navigation-divider"></li>
+															<li><a href="boxed_default.html">Boxed with default sidebar</a></li>
+														</ul>
+													</li>
+													<li>
+														<a href="#"><i class="icon-stack2"></i> <span>Family/Social</span></a>
+														<ul>
+															<li><a href="layout_navbar_fixed.html">Fixed navbar</a></li>
+															<li class="navigation-divider"></li>
+															<li><a href="boxed_default.html">Boxed with default sidebar</a></li>
+														</ul>
+													</li>
+													<li>
+														<a href="#"><i class="icon-stack2"></i> <span>Surgical</span></a>
+														<ul>
+															<li><a href="layout_navbar_fixed.html">Fixed navbar</a></li>
+															<li class="navigation-divider"></li>
+															<li><a href="boxed_default.html">Boxed with default sidebar</a></li>
+														</ul>
+													</li>
+													<li>
+														<a href="#"><i class="icon-stack2"></i> <span>Analysis</span></a>
+														<ul>
+															<li><a href="layout_navbar_fixed.html">Fixed navbar</a></li>
+															<li class="navigation-divider"></li>
+															<li><a href="boxed_default.html">Boxed with default sidebar</a></li>
+														</ul>
+													</li>
+													<!-- /main -->
+												</ul>
+											</div>
+										</div>
+										<!-- /main navigation -->
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane" id="allergies">
+							<div class="tabbable">
+								<ul class="nav nav-tabs nav-justified">
+									<li class="active"><a href="#allergy-list" data-toggle="tab">Allergy List</a></li>
+									<li><a href="#new-allergy" data-toggle="tab">Register a new allergy</a></li>
+								</ul>
+
+								<div class="tab-content">
+									<div class="tab-pane has-padding active" id="allergy-list">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="panel panel-body" style="box-shadow: none;">
+													<div class="media">
+														<div class="media-left">
+															<a href="#"><i class="icon-file-text2 text-success-400 icon-2x no-edge-top mt-5"></i></a>
+														</div>
+
+														<div class="media-body">
+															<h6 class="media-heading text-semibold"><a href="#" class="text-default">Walking away fallaciously</a></h6>
+															Ouch licentiously lackadaisical crud together began gregarious below near darn goodness
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="panel panel-body" style="box-shadow: none;">
+													<div class="media">
+														<div class="media-left">
+															<a href="#"><i class="icon-file-text2 text-success-400 icon-2x no-edge-top mt-5"></i></a>
+														</div>
+
+														<div class="media-body">
+															<h6 class="media-heading text-semibold"><a href="#" class="text-default">Walking away fallaciously</a></h6>
+															Ouch licentiously lackadaisical crud together began gregarious below near darn goodness
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="panel panel-body" style="box-shadow: none;">
+													<div class="media">
+														<div class="media-left">
+															<a href="#"><i class="icon-file-text2 text-success-400 icon-2x no-edge-top mt-5"></i></a>
+														</div>
+
+														<div class="media-body">
+															<h6 class="media-heading text-semibold"><a href="#" class="text-default">Walking away fallaciously</a></h6>
+															Ouch licentiously lackadaisical crud together began gregarious below near darn goodness
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="tab-pane has-padding" id="new-allergy">
+										<div class="row">
+											<div class="content-group col-md-6">
+												<label class="control-label">Allergy Title</label>
+												<input class="form-control" ng-model="allergies.newAllergy.allergyTitle"/>
+											</div>
+											<div class="content-group col-md-6">
+												<label class="control-label">Allergy Severity</label>
+												<select class="select" ng-model="allergies.newAllergy.allergySeverity">
+													<option value=""></option>
+												</select>
+											</div>
+											<div class="content-group col-md-12">
+												<label class="control-label">Allergy Type</label>
+												<select class="select" ng-model="allergies.newAllergy.allergyType">
+													<option value="{{type.AllergyID}}" ng-repeat="type in allergies.allergyTypes">
+														{{type.AllergyName}}
+													</option>
+												</select>
+											</div>
+											<div class="content-group col-md-12">
+												<label class="control-label">Allergy Trigger(s)</label>
+												<select class="select" multiple="" ng-model="allergies.newAllergy.allergyTriggers">
+													<option value="{{trigger.TriggerID}}" ng-repeat="trigger in allergies.allergyTypeTriggers">
+														{{trigger.TriggerName}}
+													</option>
+												</select>
+											</div>
+											<div class="content-group col-md-12">
+												<label class="control-label">Allergy Symptom(s)</label>
+												<select class="tagsinput-typeahead" multiple="" data-role="tagsinput" ng-model="allergies.newAllergy.allergySymptoms">
+												</select>
+											</div>
+											<div class="content-group col-md-12">
+												<label class="control-label">Note</label>
+												<textarea class="form-control" ng-model="allergies.newAllergy.allergyNote"></textarea>
+											</div>
+											<div class="content-group col-md-12">
+												<button class="btn btn-info pull-right col-md-3">Save</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane" id="presenting-complaints">
+							<div class="col-md-7 col-md-offset-3 mb-15">
+								<div class="input-group">
+									<input id="presentingComplaints-symptomSearchQuery" type="text" class="form-control symptom-search" placeholder="enter symptom to search" ng-model="presentingComplaints.symptomSearchQuery"/>
+									<span class="input-group-btn">
+										<button class="btn btn-danger" ng-click="presentingComplaints.performSymptomSearch()"> <i class="icon-search4"></i> search</button>
+									</span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-5" style="border-right: 1px solid #F5F5F5;">
+									<div class="row">
+										<div class="col-lg-12">
+											<ul class="media-list search-results-list content-group" ng-repeat="symptom in presentingComplaints.searchedSymptoms">
+						                    	<li class="media">
+						                    		<div class="media-body">
+							                    		<h6 class="media-heading"><strong><a href="#" ng-click="presentingComplaints.addToList(symptom['_source'].name)">{{symptom["_source"].name}}</a></strong></h6>
+							                    		<ul class="list-inline list-inline-separate text-muted">
+							                    			<li>Parent: <a href="#" class="text-success">{{presentingComplaints.loadSymptom(symptom["_source"].parent_id).name}}</a></li>
+							                    		</ul>
+
+							                    		<div class="website-search-results mt-10">
+								                    		<div class="row">
+								                    			<div class="content-group">
+								                    				<div class="content-group col-md-6" ng-repeat="child in symptom['_source'].children">
+								                    					<div class="media-body">
+																			<h6 class="media-heading"><a href="#" ng-click="presentingComplaints.addToList(presentingComplaints.loadSymptom(child.id).name)">{{presentingComplaints.loadSymptom(child.id).name}}</a></h6>
+																			<ul class="list-inline list-inline-separate text-muted">
+												                    			<li>Parent Relation: <a href="#" class="text-success">{{presentingComplaints.loadSymptom(child.id).parent_relation}}</a></li>
+												                    		</ul>
+																		</div>
+																	</div>
+								                    			</div>
+								                    		</div>
+							                    		</div>
+						                    		</div>
+						                    	</li>
+						                    </ul>
+					                    </div>
+									</div>
+								</div>
+
+								<div class="col-md-7">
+									<div class="row pl-5 pr-5">
+										<div class="panel-group panel-group-control panel-group-control-left">
+											<div ng-repeat="complaint in presentingComplaints.complaints" class="panel" style="box-shadow: none; border-top-right-radius: 0px; border-top-left-radius: 0px; border-color: #F5F5F5">
+												<div class="panel-heading">
+													<h6 class="panel-title">
+														<a class="collapsed" data-toggle="collapse" href="#complaint-{{$index+1}}">
+															{{complaint.title}}
+														</a>
+													</h6>
+												</div>
+
+												<div id="complaint-{{$index+1}}" class="panel-collapse collapse">
+													<div class="panel-body">
+														<div class="content-group col-md-12">
+															<textarea class="form-control">{{complaint.description}}</textarea>
+														</div>
+														<div class="content-group">
+															<h6 class="text-muted col-md-3">Characteristics:</h6>
+															<span class="col-md-9">
+																<select class="select">
+																	<option value="severe">severe</option>
+																	<option value="acute">acute</option>
+																	<option value="numb">numb</option>
+																</select>
+															</span>
+														</div>
+													</div>
+
+													<div class="panel-footer panel-footer-transparent">
+														<button class="btn btn-link pull-right text-danger" ng-click="presentingComplaints.removeFromList($index)"><i class="icon-bin"></i> Remove</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane" id="examination">
+							<div class="tabbable">
+								<ul class="nav nav-tabs nav-tabs-solid nav-justified">
+									<li class="active"><a href="#exam-note" data-toggle="tab">Note</a></li>
+									<li ng-repeat="type in examination.examinationTypes"><a href="#exam-{{$index+1}}" data-toggle="tab">{{type.ExamTypeTitle}}</a></li>
+								</ul>
+
+								<div class="tab-content">
+									<div class="tab-pane active" id="exam-note">
+										Page Title
+									</div>
+									<div class="tab-pane" id="exam-{{$index+1}}" ng-repeat="type in examination.examinationTypes">
+										<div class="row">
+											<div class="form-group col-md-12" ng-repeat="option in type.options">
+												<label class="control-label">
+													<input type="checkbox"/>
+													{{option.OptionTitle}}
+												</label>
+												<textarea class="form-control"></textarea>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane" id="investigation">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3" style="border: 1px solid #F5F5F5; border-bottom: 0px;">
+				<h5 class="text-center text-primary">Notes</h5>
+
+				<textarea class="form-control" style="height: 400px; border: 0px;">start typing...</textarea>
+			</div>
 		</div>
 	</div>
 </div>
