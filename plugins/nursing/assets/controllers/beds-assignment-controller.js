@@ -9,12 +9,11 @@ angular.module("EmmetBlue")
 	}, function(newValue){
 		$scope.wardName = newValue.name;
 		$scope.wardId = newValue.id;
-
 		if (!$scope.startWatching){
 			$scope.startWatching = true;
 		}
 		else{
-			$scope.dtInstance.reloadData();
+			$scope.bedsdtInstance.reloadData();
 		}
 	})
 	var functions = {
@@ -71,21 +70,21 @@ angular.module("EmmetBlue")
 			},
 			bedAssigned: function(id){
 				utils.alert("Operation Successful", "This bed has been assigned successfully", "success", "notify");
-				$scope.dtInstance.reloadData();
+				$scope.bedsdtInstance.reloadData();
 			},
 			bedUnAssigned:function(id){
 				utils.alert("Operation Successful", "This bed has been Unassigned successfully", "success", "notify");
-				$scope.dtInstance.reloadData();
+				$scope.bedsdtInstance.reloadData();
 			},
 			newBedAssignmentCreated: function(){
 				
 				utils.alert("Operation Successful", "New Bed Created", "success", "notify");
 				$("#new_bed_assignment").modal('hide');
-				$scope.dtInstance.reloadData();
+				$scope.bedsdtInstance.reloadData();
 			},
 			assignedBedDeleted: function(){
 				utils.alert("Operation Successful", "Assigned Bed Deleted", "success", "notify");
-				$scope.dtInstance.reloadData();
+				$scope.bedsdtInstance.reloadData();
 			},
 			deleteAssignedBed: function(id){
 				var title = "Delete Prompt";
@@ -112,8 +111,8 @@ angular.module("EmmetBlue")
 	}
 
 
-	$scope.dtInstance = {};
-	$scope.dtOptions = DTOptionsBuilder
+	$scope.bedsdtInstance = {};
+	$scope.bedsdtOptions = DTOptionsBuilder
 	.fromFnPromise(function(){
 		var beds = utils.serverRequest('/nursing/bed-assignment/view-section-beds?resourceId='+$scope.wardId, 'GET');
 		return beds;
@@ -158,7 +157,7 @@ angular.module("EmmetBlue")
         	}
         }
 	]);	
-	$scope.dtColumns = [
+	$scope.bedsdtColumns = [
 		DTColumnBuilder.newColumn('BedName').withTitle('Bed Name'),
 		DTColumnBuilder.newColumn(null).withTitle('Lease Status').renderWith(function(meta, full, data){
 			if(data.AssignmentLeased==1){
