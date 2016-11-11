@@ -4,9 +4,19 @@
 <script src="plugins/mortuary/assets/js/wizard_stepy.js"></script>
 
 <div ng-controller="sectionController">
-	<div class="container">
-		<table datatable="" dt-options="sectionDtOptions" dt-columns="sectionDtColumns" dt-instance="sectionDtInstance" class="table table-condensed table-striped table-hover">
-		</table>
+<div id="manage-sections" class="modal fade">
+	<div class="modal-dialog modal-full">
+		<div class="modal-content">
+			<div class="modal-header bg-warning">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<div class="modal-title"> Manage Sections</div>
+			</div>
+				<div class="modal-body">
+					<table datatable="" dt-options="sectionDtOptions" dt-columns="sectionDtColumns" dt-instance="sectionDtInstance" class="table table-condensed table-striped table-hover"></table>
+				</div>
+			</div>
+		</div>
+	</div>
 
 		<!-- New section -->
 		<div id="new-section" class="modal fade">
@@ -81,6 +91,5 @@
 		</div>
 		<!-- edit section ends -->
 		<!-- includes the section-bed.html -->
-		<ng-include src="'plugins/nursing/assets/includes/section-beds.html'"></ng-include>
-	</div>
+		<ng-include src="'plugins/nursing/assets/includes/settings/section-beds.html'"></ng-include>
 </div>
