@@ -124,7 +124,7 @@ angular.module("EmmetBlue")
 		utils.DT.columnBuilder.newColumn('SectionBedID').withTitle("ID").withOption('width', '0.5%').notSortable(),
 		utils.DT.columnBuilder.newColumn('BedName').withTitle("Bed Name"),
 		utils.DT.columnBuilder.newColumn("BedDescription").withTitle("Bed Description"),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(functions.actionMarkUps.bedActionMarkUp).withOption('width', '25%').notSortable()
+		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(functions.actionMarkUps.bedActionMarkUp).notSortable()
 	];
 
 	$scope.reloadSectionBedTable = function(){

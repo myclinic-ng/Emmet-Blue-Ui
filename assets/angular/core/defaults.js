@@ -54,7 +54,7 @@ function determineRouteAvailability(url){
 
 
 function getConstants(){
-	var server = "http://127.0.0.1:420/";
+	var server = "http://192.168.173.1:700/";
 
 	return {
 		"TEMPLATE_DIR":"plugins/",
