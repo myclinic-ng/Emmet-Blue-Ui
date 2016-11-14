@@ -4,6 +4,21 @@
 <script src="assets/js/core/app.js"></script>
 <script>
 	$('select.select').select2();
+	$(function() {
+
+	    // Initialize lightbox
+	    $('[data-popup=lightbox]').fancybox({
+	        padding: 3
+	    });
+	    
+	});
+
+	$('body').on('hidden.bs.modal', function () {
+	    if($('.modal.in').length > 0)
+	    {
+	        $('body').addClass('modal-open');
+	    }
+	});
 </script>
 <div ng-controller="consultancyNewDiagnosisController">
 	<div class="row mb-15">
