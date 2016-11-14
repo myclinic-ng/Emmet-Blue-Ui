@@ -59,7 +59,8 @@ angular.module("EmmetBlue")
 
 					var responseObject = {
 						uuid: response.uuid,
-						accountActivated: response.accountActivated
+						accountActivated: response.accountActivated,
+						staffid: response.id
 					};
 
 					$cookies.putObject(utils.globalConstants.USER_COOKIE_IDENTIFIER, responseObject);

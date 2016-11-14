@@ -179,6 +179,10 @@ angular.module("EmmetBlue")
 		getUUID: function(){
 			var cookie = $cookies.getObject(CONSTANTS.USER_COOKIE_IDENTIFIER);
 			return cookie.uuid;
+		},
+		getID: function(){
+			var cookie = $cookies.getObject(CONSTANTS.USER_COOKIE_IDENTIFIER);
+			return cookie.staffid;
 		}
 	}
 
