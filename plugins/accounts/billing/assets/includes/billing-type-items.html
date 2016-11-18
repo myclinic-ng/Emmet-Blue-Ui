@@ -78,6 +78,64 @@
 	</div>
 	<!--/ New Billing Type Items  -->
 
+	<div id="new_billing_price_structure" class="modal fade">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Add a new price structure</h6>
+				</div>
+
+				<div class="modal-body">
+					<form role="form">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-12">
+									<label>Item Name</label>
+									<select class="select" ng-model="newBillingTypeItems.billingTypeItem">
+										<option ng-repeat="item in currentBillingTypeItems" value="{{item.BillingTypeItemID}}">
+											{{item.BillingTypeItemName}}
+										</option>
+									</select>
+								</div>
+								<div class="col-sm-12 mt-15">
+									<button class="btn btn-clear center" data-toggle="modal" data-target="#new_billing_type_item_payment_structure">Add price structure</button>
+								</div>
+							</div>
+						</div>
+					</form>
+					<div class="table-responsive col-md-12">
+						<table class="table table-striped table-hover col-md-10">
+							<thead>
+								<tr>
+									<th>Patient Category/Type</th>
+									<th>Price (<span ng-currency></span>)</th>
+									<th>Rate</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="structure in newBillingTypeItems.priceStructures">
+									<th>
+										<a class="btn btn-clear" ng-repeat="type in structure.patientTypes">{{patientTypeCheckboxNames[type]}}</a>
+									</th>
+									<th><span ng-currency></span> {{structure.price}}</th>
+									<th>{{structure.rate}}</th>
+									<th class="btn-group"><a href="#" class="btn btn-clear" ng-click="removePriceStructure($index)"><i class="icon-bin"></i> Remove </a></th>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="modal-footer mt-30">
+					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="newBillingTypeItems = {}"><i class="fa fa-times-circle-o"></i> Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveNewPricingStructure()"> <i class="icon-floppy-disk"> </i> <span class="hide loader pull-left"> <i class="fa fa fa-spinner fa-spin"> </i></span> Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div id="new_billing_type_item_payment_structure" class="modal fade">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -194,7 +252,6 @@
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h6 class="modal-title">Edit Billing Type Items</h6>
 				</div>
 
 				<div class="modal-body">
@@ -204,20 +261,6 @@
 								<label>Item Name</label>
 								<input type="text" class="form-control" ng-model="tempHolder.name">
 							</div>
-							<div class="col-sm-12">
-								<label>Item Price</label>
-								<input type="number" class="form-control" ng-model="tempHolder.price">
-							</div>
-							<div class="col-sm-12">
-								<label>Rate</label>
-								<select class="form-control" ng-model="tempHolder.rate">
-									<option value="">Not rate based</option>
-									<option value="day">Daily</option>
-									<option value="hour">Hourly</option>
-									<option value="month">Monthly</option>
-									<option value="year">Yearly</option>
-								</select>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -225,8 +268,29 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="tempHolder = {}"><i class="fa fa-times-circle-o"></i> Close</button>
 					<button type="button" class="btn btn-warning" ng-click="saveEditBillingTypeItems()">
-					<span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"></i></span>
-					<i class="icon-floppy-drive"></i> Save changes</button>
+						<span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"></i></span>
+						<i class="icon-floppy-drive"></i> Save changes
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="view_billing_type_item_prices" class="modal fade">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title"> Price Structure Management <span class="pull-right mr-20"></span></h6>
+				</div>
+				<div class="modal-body">
+					<div class="table-responsive col-md-12">
+						<table datatable="" dt-options="ddttOptions" dt-columns="ddttColumns" dt-instance="ddttInstance" class="table table-condensed table-striped table-hover">
+
+						</table>
+					</div>
+				</div>
+				<div class="modal-footer">
 				</div>
 			</div>
 		</div>

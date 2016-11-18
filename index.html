@@ -51,27 +51,30 @@
 
 <body ng-cloak>
 	<!-- Main navbar -->
-	<div id="globalHeader" class="no-login" ng-include src="'assets/angular/core/templates/header.html'"></div>
-	<!-- /main navbar -->
+	<div ng-if="!isAuthPage()">
+		<div id="globalHeader" ng-include src="'assets/angular/core/templates/header.html'"></div>
+		<div id="moduleMenu"  ng-include src="moduleMenu"></div>
+		<div id="moduleHeader"  ng-include src="moduleHeader"></div>
 
-	<div class="no-login" id="moduleMenu" ng-include src="moduleMenu"></div>
-
-	<div class="no-login" id="moduleHeader" ng-include src="moduleHeader"></div>
-
-	<!-- Page container -->
-	<div class="page-container">
-		<!-- Page content -->
-		<div class="page-content">
-			<div class="no-login" id="moduleSidebar" ng-include src="moduleSidebar"></div>
-			<div class="content-wrapper">
-				<div class="pages" ng-view></div>
+		<!-- Page container -->
+		<div class="page-container" >
+			<!-- Page content -->
+			<div class="page-content">
+				<div class="no-login" id="moduleSidebar" ng-include src="moduleSidebar"></div>
+				<div class="content-wrapper">
+					<div class="pages" ng-view></div>
+				</div>
+			</div>
+			<!-- /page content -->
+			<div class="footer text-muted">
+				<!-- &copy; 2016. <a href="#">EmmetBlue</a> by <a href="#" target="_blank">The EmmetBlue Team</a> -->
 			</div>
 		</div>
-		<!-- /page content -->
-		<div class="footer text-muted">
-			<!-- &copy; 2016. <a href="#">EmmetBlue</a> by <a href="#" target="_blank">The EmmetBlue Team</a> -->
-		</div>
+		<!-- /page container -->
 	</div>
-	<!-- /page container -->
+	<!-- /main navbar -->
+	<div ng-if="isAuthPage()">
+		<div ng-view></div>
+	</div>
 </body>
 </html>

@@ -69,8 +69,6 @@ angular.module("EmmetBlue")
 		$scope.tempHolder.StatusDescription = $(".btn[data-option-id='"+statusId+"']").attr('data-option-description');
 		$scope.tempHolder.resourceId = statusId;
 
-		console.log($scope.tempHolder);
-
 		$("#edit_setting_accounts_billing").modal("show");
 	}
 
@@ -80,7 +78,6 @@ angular.module("EmmetBlue")
 		var close = true;
 		$scope._statusId = statusId;
 		var callback = function(){
-			console.log($scope._statusId);
 			var deleteRequest = utils.serverRequest('/accounts-biller/transaction-status/delete?'+utils.serializeParams({
 				'resourceId': $scope._statusId
 			}), 'DELETE');

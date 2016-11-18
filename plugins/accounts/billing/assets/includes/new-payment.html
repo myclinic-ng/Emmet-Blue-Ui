@@ -1,4 +1,6 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script src="assets/js/plugins/forms/tags/bootstrap-tagsinput.js"></script>
+<script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
 <script>$('select.select').select2();</script>
 <script>
 	$(".styled").uniform({
@@ -42,9 +44,12 @@
 					<div class="col-md-5">
 						<div class="form-group">
 							<label class="control-label">Invoice Number</label>
-							<select class="select" ng-model="newPayment.metaId" ng-options="invoice.BillingTransactionMetaID as invoice.BillingTransactionNumber for invoice in invoices">
-								<!-- <option value=""></option> -->
-							</select>
+							<div class="input-group">
+								<input class="form-control invoice-search" ng-model="newPayment.metaId" id="newPayment-metaId"/>
+								<span class="input-group-btn">
+									<button class="btn btn-warning" ng-click="loadInvoice()">Load Invoice</button>
+								</span>
+							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label">Payee Name</label>
@@ -79,7 +84,7 @@
 						</div>
 					</div>
 					<div class="col-md-7" id="transaction_document_area">
-						<ng-invoice></ng-invoice>
+						<ng-invoice invoice-data="invoiceData"></ng-invoice>
 					</div>
 				</div>
 

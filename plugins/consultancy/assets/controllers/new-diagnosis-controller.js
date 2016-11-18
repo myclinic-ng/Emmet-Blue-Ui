@@ -8,14 +8,14 @@ angular.module("EmmetBlue")
 			utils.serverRequest("/consultancy/allergy/view", "GET").then(function(response){
 				$scope.allergies.allergyTypes = response;
 			}, function(error){
-				utils.errorHandler(error);
+				// utils.errorHandler(error);
 			});
 		},
 		loadAllergyTypeTriggers: function(allergyID){
 			utils.serverRequest("/consultancy/allergy-trigger/view-by-allergy?resourceId="+allergyID, "GET").then(function(response){
 				$scope.allergies.allergyTypeTriggers = response;
 			}, function(error){
-				utils.errorHandler(error);
+				// utils.errorHandler(error);
 			});
 		},
 		populateSymptomsTagsInput: function(){
@@ -36,7 +36,7 @@ angular.module("EmmetBlue")
 				$scope.patient.allergies = response;
 				modules.allergies.loadPatientAllergies($scope.patient.profile.patientid);
 			}, function(error){
-				utils.errorHandler(error);
+				// utils.errorHandler(error);
 			});
 		},
 		saveNewAllergy: function(){
@@ -314,7 +314,7 @@ angular.module("EmmetBlue")
 			.then(function(response){
         		successCallback(response);
         	}, function(error){
-        		errorCallback(error);
+        		// errorCallback(error);
         	})
         },
         httpPostRequest: function(url, data, successCallback, errorCallback){
@@ -322,7 +322,7 @@ angular.module("EmmetBlue")
 			.then(function(response){
         		successCallback(response);
         	}, function(error){
-        		errorCallback(error);
+        		// errorCallback(error);
         	})
         },
 		symptoms: {

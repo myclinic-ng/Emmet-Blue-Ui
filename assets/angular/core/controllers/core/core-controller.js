@@ -16,4 +16,12 @@ angular.module("EmmetBlue")
 		$scope.moduleMenu = moduleMenu;
 		$scope.moduleHeader = moduleHeader;
 	});
+
+	$scope.isAuthPage = function(){
+		if ($location.path() == '/user/newlogin'){
+			return true;
+		}
+
+		return false;
+	}
 });

@@ -9,13 +9,13 @@
 					<h6 class="modal-title"> Settings <span class="pull-right mr-20">Billing</span></h6>
 				</div>
 
-				<div class="modal-body">
+				<div class="modal-body" style="height: 100vh;">
 					<div class="tabbable">
-						<ul class="nav nav-pills nav-pills-bordered">
-							<li class="active"><a href="#manage-billing-status" data-toggle="tab">Manage Billing Status</a></li>
-							<li><a href="#manage-payment-methods" data-toggle="tab">Manage Payment Methods</a></li>
-							<li><a href="#manage-customer-categories" data-toggle="tab">Manage Customer Categories</a></li>
-							<li><a href="#department-billing-link" data-toggle="tab">Link Departments</a></li>
+						<ul class="nav nav-tabs nav-tabs-bordered">
+							<li href="#manage-billing-status" data-toggle="tab" class="active"><a>Manage Billing Status</a></li>
+							<li href="#manage-payment-methods" data-toggle="tab"><a>Manage Payment Methods</a></li>
+							<li href="#department-billing-link" data-toggle="tab"><a>Link Departments</a></li>
+							<li href="#manage-payment-rules" data-toggle="tab"><a>Payment Rules</a></li>
 						</ul>
 
 						<div class="tab-content">
@@ -27,12 +27,12 @@
 								<ng-include src="'plugins/accounts/billing/assets/includes/setting/manage-payment-methods.html'"></ng-include>
 							</div>
 
-							<div class="tab-pane" id="manage-customer-categories">
-								<ng-include src="'plugins/accounts/billing/assets/includes/setting/manage-customer-categories.html'"></ng-include>
-							</div>
-
 							<div class="tab-pane" id="department-billing-link">
 								<ng-include src="'plugins/accounts/billing/assets/includes/setting/department-billing-link.html'"></ng-include>
+							</div>
+
+							<div class="tab-pane" id="manage-payment-rules">
+								<ng-include src="'plugins/accounts/billing/assets/includes/setting/manage-payment-rules.html'"></ng-include>
 							</div>
 						</div>
 					</div>

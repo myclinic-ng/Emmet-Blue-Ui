@@ -69,8 +69,6 @@ angular.module("EmmetBlue")
 		$scope.tempHolder.CustomerCategoryDescription = $(".btn-customer-category[data-option-id='"+customerCategoryId+"']").attr('data-option-description');
 		$scope.tempHolder.resourceId = customerCategoryId;
 
-		console.log($scope.tempHolder);
-
 		$("#edit_setting_customer_category").modal("show");
 	}
 
@@ -80,7 +78,6 @@ angular.module("EmmetBlue")
 		var close = true;
 		$scope._customerCategoryId = customerCategoryId;
 		var callback = function(){
-			console.log($scope._customerCategoryId);
 			var deleteRequest = utils.serverRequest('/accounts-biller/customer-category/delete?'+utils.serializeParams({
 				'resourceId': $scope._customerCategoryId
 			}), 'DELETE');

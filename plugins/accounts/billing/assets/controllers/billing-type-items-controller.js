@@ -5,7 +5,6 @@ angular.module("EmmetBlue")
 	$scope.$watch(function(){
 		return utils.storage.billingTypeItemsData
 	}, function(newValue){
-		console.log(newValue);
 		$scope.billingTypeItemsName = newValue.name;
 		$scope.billingTypeItems = newValue.id;
 
@@ -51,12 +50,13 @@ angular.module("EmmetBlue")
 			billingTypeItemsActionMarkup: function (data, type, full, meta){
 				var editButtonAction = "manageBillingTypeItems('edit', "+data.BillingTypeItemID+")";
 				var deleteButtonAction = "manageBillingTypeItems('delete', "+data.BillingTypeItemID+")";
+				var viewButtonAction = "manageBillingTypeItems('view', "+data.BillingTypeItemID+")";
 
 				var dataOpt = "data-option-id='"+data.BillingTypeItemID+"' data-option-name='"+data.BillingTypeItemName+"' data-option-price='"+data.BillingTypeItemPrice+"' data-option-rate='"+data.RateIdentifier+"'";
 				
 				var editButton = "<button class='btn btn-default billing-type-items-btn' ng-click=\""+editButtonAction+"\" "+dataOpt+"> <i class='fa fa-pencil'></i></button>";
 				var deleteButton = "<button class='btn btn-default billing-type-items-btn' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> <i class='fa fa-trash-o'></i></button>";
-				var viewButton = "<button class='btn btn-default billing-type-items-btn'> <i class='fa fa-eye'></i></button>";
+				var viewButton = "<button class='btn btn-default billing-type-items-btn' ng-click=\""+viewButtonAction+"\" "+dataOpt+"> <i class='fa fa-eye'></i></button>";
 
 				var buttons = "<div class='btn-group'>"+viewButton+editButton+deleteButton+"</button>";
 				return buttons;
@@ -67,6 +67,14 @@ angular.module("EmmetBlue")
 			$scope.newBillingTypeItems = {};
 			$scope.newBillingTypeItems.interval = [];
 			$("#new_billing_type_items").modal("hide");
+
+			$scope.reloadBillingTypeItemsTable();
+		},
+		newPriceStructureCreated: function(){
+			utils.alert("Operation Successful", "You have successfully created a new price structure for the selected item", "success", "notify");
+			$scope.newBillingTypeItems = {};
+			$scope.newBillingTypeItems.interval = [];
+			$("#new_billing_price_structure").modal("hide");
 
 			$scope.reloadBillingTypeItemsTable();
 		},
@@ -90,6 +98,13 @@ angular.module("EmmetBlue")
 				$scope.priceStructure = {};
 				$scope.priceStructure.interval = [];
 				$("#new_billing_type_items").modal("show");
+			},
+			newPricingStructure: function(){
+				$scope.newBillingTypeItems = {};
+				$scope.newBillingTypeItems.priceStructures = [];
+				$scope.priceStructure = {};
+				$scope.priceStructure.interval = [];
+				$("#new_billing_price_structure").modal("show");
 			},
 			editBillingTypeItems: function(id){
 				$scope.tempHolder.name = $(".billing-type-items-btn[data-option-id='"+id+"']").attr('data-option-name');
@@ -191,9 +206,15 @@ angular.module("EmmetBlue")
     })
 	.withButtons([
 		{
-			text: '<i class="icon-file-plus"></i> New Item',
+			text: '<i class="icon-file-plus"></i> New item',
 			action: function(){
 				functions.manageBillingTypeItems.newBillingTypeItems();
+			}
+		},
+		{
+			text: '<i class="icon-file-plus"></i> New price structure for existing item',
+			action: function(){
+				functions.manageBillingTypeItems.newPricingStructure();
 			}
 		}
 	]);	
@@ -207,7 +228,56 @@ angular.module("EmmetBlue")
 	$scope.tempHolder = {};
 
 	$scope.reloadBillingTypeItemsTable = function(){
+		loadItems();
 		$scope.ddtInstance.reloadData();
+	}
+
+	$scope.billingTypeItemCurrentPrice = 0;
+	$scope.ddttInstance = {};
+
+	$scope.ddttOptions = utils.DT.optionsBuilder
+	.fromFnPromise(function(){
+		var billingTypeItemss = utils.serverRequest('/accounts-biller/billing-type-items-prices/view?resourceId='+$scope.billingTypeItemCurrentPrice, 'GET');
+		return billingTypeItemss;
+	})
+	.withPaginationType('full_numbers')
+	.withDisplayLength(10)
+	.withFixedHeader()
+	.withOption('createdRow', function(row, data, dataIndex){
+		utils.compile(angular.element(row).contents())($scope);
+	})
+	.withOption('headerCallback', function(header) {
+        if (!$scope.headerCompiled) {
+            $scope.headerCompiled = true;
+            utils.compile(angular.element(header).contents())($scope);
+        }
+    })
+
+	$scope.ddttColumns = [
+		utils.DT.columnBuilder.newColumn('PatientTypeName').withTitle("Patient Type"),
+		utils.DT.columnBuilder.newColumn('CategoryName').withTitle("Category"),
+		utils.DT.columnBuilder.newColumn('BillingTypeItemPrice').withTitle("Associated Price"),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(function(data, type, full, meta){
+			var deleteButtonAction = "manageBillingTypeItems('deletePrice', "+data.BillingTypeItemsPricesID+")";
+
+			var deleteButton = "<button class='btn btn-default billing-type-items-btn' ng-click=\""+deleteButtonAction+"\"> <i class='fa fa-trash-o'></i> delete</button>";
+
+			var buttons = "<div class='btn-group'>"+deleteButton+"</button>";
+			return buttons; 
+		}).notSortable()
+	];
+
+	$scope.reloadBillingTypeItemsPricesTable = function(){
+		$scope.ddttInstance.reloadData();
+	}
+
+	function loadItems(){
+		utils.serverRequest('/accounts-biller/billing-type-items/view?resourceId='+$scope.billingTypeItems, "GET")
+		.then(function(response){
+			$scope.currentBillingTypeItems = response;
+		}, function(error){
+			utils.errorHandler(error);
+		})
 	}
 
 	$scope.saveNewBillingTypeItems = function(){
@@ -224,6 +294,24 @@ angular.module("EmmetBlue")
 		}, function(response){
 			$('.loader').removeClass('show');
 			utils.errorHandler(response);
+		});
+	}
+
+	$scope.saveNewPricingStructure = function(){
+		var newBillingTypeItems = $scope.newBillingTypeItems;
+
+		newBillingTypeItems.billingType = $scope.billingTypeItems;
+		$('.loader').addClass('show');
+
+		console.log(newBillingTypeItems);
+		var saveNewBillingTypeItems = utils.serverRequest('/accounts-biller/billing-type-items/new-price-structure', 'POST', newBillingTypeItems);
+
+		saveNewBillingTypeItems.then(function(response){
+			$('.loader').removeClass('show');
+			functions.newPriceStructureCreated();
+		}, function(response){
+			$('.loader').removeClass('show');
+			utils.alert("Duplicate Price Structures Detected", "Please note that adding a duplicate price for an item is not allowed", "error");
 		});
 	}
 
@@ -262,6 +350,15 @@ angular.module("EmmetBlue")
 			case "billingTypeItems-management":{
 				functions.manageBillingTypeItems.billingTypeItemsManagement(id);
 				break;
+			}
+			case "view":{
+				$scope.billingTypeItemCurrentPrice = id;
+				$scope.reloadBillingTypeItemsPricesTable();
+				$("#view_billing_type_item_prices").modal("show");
+				break;
+			}
+			case "deletePrice":{
+				alert(id);
 			}
 		}
 	}

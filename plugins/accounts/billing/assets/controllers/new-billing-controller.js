@@ -60,8 +60,6 @@ angular.module("EmmetBlue")
 			$scope.patients[key]["PatientUUID"] = val["_source"]["patientuuid"];
 			$scope.patients[key]["PatientPhoneNumber"] = val["_source"]["phone number"];
 		});
-
-		console.log($scope.patients);
 	}, function(response){
 		utils.errorHandler(response);
 	});
@@ -152,7 +150,7 @@ angular.module("EmmetBlue")
 	$scope.generateBill = function(){
 		var data = {
 			type: $scope.billingType.BillingTypeName,
-			createdBy: 'fb7cc895996f28a4d9ac',
+			createdBy: utils.userSession.getUUID(),
 			status: $scope.billStatus,
 			amount: $scope.priceTotal,
 			items: $scope.itemList,
@@ -173,17 +171,20 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.viewBill = function(){
-		var data = {
-			type: $scope.billingType.BillingTypeName,
-			createdBy: 'fb7cc895996f28a4d9ac',
-			status: $scope.billStatus,
-			amount: $scope.priceTotal,
-			items: $scope.itemList,
-			patient: $scope.patient
-		}
+		utils.serverRequest("/accounts-biller/get-item-price/apply-payment-rule?resourceId="+$scope.patient+"&amount="+$scope.priceTotal, "GET")
+		.then(function(response){
+			var data = {
+				type: $scope.billingType.BillingTypeName,
+				createdBy: utils.userSession.getUUID(),
+				status: $scope.billStatus,
+				amount: response.amount,
+				items: $scope.itemList,
+				patient: $scope.patient
+			}
 
-		utils.storage.invoiceData = data;
-		$("#billing_invoice").modal("show");
+			utils.storage.invoiceData = data;
+			$("#billing_invoice").modal("show");
+		})
 	}
 })
 
@@ -191,6 +192,9 @@ angular.module("EmmetBlue")
 	$scope.$watch(function(){
 		return utils.storage.invoiceData;
 	}, function(newValue){
-		$scope.invoiceData = newValue;
+		if (!angular.equals(newValue, {})){
+			$scope.invoiceData = newValue;
+			utils.storage.invoiceData = {};
+		}
 	})
 })

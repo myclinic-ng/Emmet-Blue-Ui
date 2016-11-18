@@ -68,9 +68,6 @@ angular.module("EmmetBlue")
 		$scope.tempHolder.PaymentMethodName = $(".btn-payment-method[data-option-id='"+paymentMethodId+"']").attr('data-option-name');
 		$scope.tempHolder.PaymentMethodDescription = $(".btn-payment-method[data-option-id='"+paymentMethodId+"']").attr('data-option-description');
 		$scope.tempHolder.resourceId = paymentMethodId;
-
-		console.log($scope.tempHolder);
-
 		$("#edit_setting_payment_method").modal("show");
 	}
 
@@ -80,7 +77,6 @@ angular.module("EmmetBlue")
 		var close = true;
 		$scope._paymentMethodId = paymentMethodId;
 		var callback = function(){
-			console.log($scope._paymentMethodId);
 			var deleteRequest = utils.serverRequest('/accounts-biller/payment-method/delete?'+utils.serializeParams({
 				'resourceId': $scope._paymentMethodId
 			}), 'DELETE');

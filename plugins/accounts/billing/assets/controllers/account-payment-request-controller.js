@@ -25,7 +25,7 @@ angular.module("EmmetBlue")
 		var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+options+"><i class='icon-bin'></i> </button>";
 		var makePaymentButton = "<button class='btn btn-default' ng-click=\""+makePaymentButtonAction+"\" "+options+">Process Request</button>"
 		var buttons = "<div class='btn-group'>"+makePaymentButton+deleteButton+"</button>";
-		
+
 		return buttons;
 	},
 	managePaymentRequest:{
@@ -63,6 +63,7 @@ angular.module("EmmetBlue")
 				deptName: $(".btn[data-option-id='"+id+"']").attr("data-option-department-name"),
 				subDeptName: $(".btn[data-option-id='"+id+"']").attr("data-option-sub-dept-name")
 			};
+
 			$scope.paymentRequestBillingItems(id)
 			//$('.loader').removeClass('show')
 			$('#request_payment_bill').modal('show');
@@ -169,10 +170,14 @@ angular.module("EmmetBlue")
 			if (data.RequestFulfillmentStatus == 1){
 				return "<p class='badge badge-success badge-lg'>Fulfilled</p>";
 			}
+			else if(data.RequestFulfillmentStatus == -1) {
+				return "<p class='badge badge-info badge-lg'>Invoice Generated</p>";
+			}
 			else {
 				return "<p class='badge badge-danger badge-lg'>Unfulfilled</p>";
 			}
 		}),
+		utils.DT.columnBuilder.newColumn(null).withTitle('').notVisible().renderWith(function(meta, full, data){ return data.PatientCategoryName+data.PatientTypeName; }),
 		utils.DT.columnBuilder.newColumn(null).withTitle('Action').notSortable().renderWith(functions.actionsMarkUp)
 	];
 
@@ -184,6 +189,52 @@ angular.module("EmmetBlue")
 			angular.forEach(response, function(value, key){
 				$scope.itemsList.globalTotal += +value.totalPrice;
 			})
+
+			for(var i = 0; i < response.length; i++){
+				response[i].itemName = response[i].BillingTypeItemName;
+				response[i].itemCode = response[i].ItemID;
+				response[i].itemPrice = response[i].totalPrice;
+				response[i].itemQuantity = response[i].ItemQuantity;
+			}
+
+			var data = {
+				type: $scope.temp.deptName,
+				createdBy: utils.userSession.getUUID(),
+				status: 'Payment Request',
+				amount: response.globalTotal,
+				items: response,
+				patient: $scope.temp.patientID
+			}
+
+			if ($scope.temp.fulfillmentStatus == 0){
+				var request = utils.serverRequest("/accounts-biller/transaction-meta/new", "POST", data);
+
+				request.then(function(response){
+					var lastInsertId = response.lastInsertId;
+
+					if (lastInsertId){
+						var edits = {
+							AttachedInvoice: lastInsertId,
+							RequestFulfillmentStatus: -1,
+							resourceId: $scope.temp.requestId
+						};
+
+						utils.storage.currentInvoiceNumber = response.transactionNumber;
+
+						$("#request_payment_bill").modal("hide");
+						$("#accept_new_payment").modal("show");
+
+						utils.serverRequest("/accounts-biller/payment-request/edit?resourceId="+$scope.temp.requestId, "PUT", edits)
+						.then(function(response){
+							utils.notify("Info", "An invoice has been generated successfully for this payment request and request status has been updated", "success");
+						}, function(error){
+							utils.errorHandler(error);
+						})
+					}
+				}, function(responseObject){
+					utils.errorHandler(responseObject);
+				})
+			}
 		})
 	}
 	$scope.makePayment = function(){

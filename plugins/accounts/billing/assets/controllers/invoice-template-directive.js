@@ -8,13 +8,16 @@ angular.module("EmmetBlue")
 		},
 		templateUrl: "plugins/accounts/billing/assets/includes/invoice-template.html",
 		controller: function($scope, utils){
-			var request = utils.serverRequest("/patients/patient/view?resourceId="+$scope.invoiceData.patient, "GET");
+			$scope.$watch("invoiceData", function(nv){
+				if (typeof nv != "undefined"){
+					var request = utils.serverRequest("/patients/patient/view?resourceId="+nv.patient, "GET");
 
-			request.then(function(response){
-				$scope.patient = response["_source"];
-				console.log($scope.patient);
-			}, function(response){
-				utils.errorHandler(response);
+					request.then(function(response){
+						$scope.patient = response["_source"];
+					}, function(response){
+						utils.errorHandler(response);
+					})
+				}
 			})
 		}
 	}

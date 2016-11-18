@@ -17,94 +17,94 @@
 			</div>
 		</div>
 	</div>
-<!-- new pament request modal -->
-<div id="new_account_payment_request" class="modal fade">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header bg-warning">
-				<div class="modal-title">
-					New Payment Request
+<!-- new payment request modal -->
+	<div id="new_account_payment_request" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<div class="modal-title">
+						New Payment Request
+					</div>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
-				<button type="button" class="close" data-dismiss="modal">&times</button>
-			</div>
-			<div class="modal-body">
-				<div class="tab-pane active" id="payment-request-new">
-								<div class="form-group">
-									<div class="input-group">
-										<input class="form-control input-lg" placeholder="Enter a patients number or name here to search" type="search" data-popup="tooltip" data-trigger="focus" title="Click the Advanced link below for more search options" ng-model="search.query"/>
-										<span class="input-group-btn">
-											<button class="btn btn-warning btn-lg" type="button" ng-click="search(true)"> <i class="icon-search4"></i></button>
-										</span>
+				<div class="modal-body">
+					<div class="tab-pane active" id="payment-request-new">
+						<div class="form-group">
+							<div class="input-group">
+								<input class="form-control input-lg" placeholder="Enter a patients number or name here to search" type="search" data-popup="tooltip" data-trigger="focus" title="Click the Advanced link below for more search options" ng-model="search.query"/>
+								<span class="input-group-btn">
+									<button class="btn btn-warning btn-lg" type="button" ng-click="search(true)"> <i class="icon-search4"></i></button>
+								</span>
+							</div>
+						</div>
+						<div ng-show="requestForm.showSearchResult">
+							<ul class="media-list overflow-auto" style="max-height: 400px;">
+								<li class="media-header">Found {{searched.totalPageCount}} profiles matching search query</li>
+
+								<li class="media btn col-md-4" ng-repeat="patient in searched.patients" ng-click="showRequestForm(patient['_source'])">
+									<div class="media-left media-middle">
+										<a href="#">
+											<img ng-src="{{loadImage(patient['_source'].patientpicture)}}" class="img-circle" alt="">
+										</a>
 									</div>
-								</div>
-								<div ng-show="requestForm.showSearchResult">
-									<ul class="media-list overflow-auto" style="max-height: 400px;">
-										<li class="media-header">Found {{searched.totalPageCount}} profiles matching search query</li>
 
-										<li class="media btn col-md-4" ng-repeat="patient in searched.patients" ng-click="showRequestForm(patient['_source'])">
-											<div class="media-left media-middle">
-												<a href="#">
-													<img ng-src="{{loadImage(patient['_source'].patientpicture)}}" class="img-circle" alt="">
-												</a>
-											</div>
-
-											<div class="media-body text-left">
-												<div class="media-heading text-semibold">{{patient["_source"].patientfullname}}</div>
-												<span class="text-muted">{{patient["_source"].patienttypename}}</span>
-											</div>
-										</li>
-									</ul>
-								</div>
-
-								<div ng-show="!requestForm.showSearchResult">
-									<!-- {{requestForm.currentPatientProfile}} -->
-									<div class="row">
-										<h1 class="text-center text-black">{{requestForm.currentPatientProfile.patientfullname}}</h1>
-										<div class="form-group col-md-6">
-											<select class="select" ng-model="paymentRequestItem.item">
-												<optgroup label="{{key}}" ng-repeat="(key, item) in requestItems">
-													<option ng-repeat="value in item" value="{{value}}">{{value.BillingTypeItemName}}</option>
-												</optgroup>
-											</select>
-										</div>
-										<div class="input-group col-md-6">
-											<input type="number" placeholder="Item Quantity. Defaults to 1" class="form-control col-md-7" ng-model="paymentRequestItem.quantity"/>
-											<span class="input-group-btn">
-												<button class="btn btn-default btn-success" ng-click="addPaymentRequestItemToList()">add</button>
-											</span>
-										</div>
-										<div class="col-md-12 table-responsive">
-											<table class="table table-condensed hover">
-												<thead>
-													<tr class="warning">
-														<th>S/N</th>
-														<th>Item</th>
-														<th>Quantity</th>
-														<th>Action</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr ng-repeat="item in paymentRequestItems">
-														<td>{{$index + 1}}</td>
-														<td>{{item._item.BillingTypeItemName}}</td>
-														<td>{{item.quantity}}</td>
-														<td><a class="btn btn-link text-danger" href="#"><i class="icon-bin"></i> Remove</a></td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
+									<div class="media-body text-left">
+										<div class="media-heading text-semibold">{{patient["_source"].patientfullname}}</div>
+										<span class="text-muted">{{patient["_source"].patienttypename}}</span>
 									</div>
+								</li>
+							</ul>
+						</div>
+
+						<div ng-show="!requestForm.showSearchResult">
+							<!-- {{requestForm.currentPatientProfile}} -->
+							<div class="row">
+								<h1 class="text-center text-black">{{requestForm.currentPatientProfile.patientfullname}}</h1>
+								<div class="form-group col-md-6">
+									<select class="select" ng-model="paymentRequestItem.item">
+										<optgroup label="{{key}}" ng-repeat="(key, item) in requestItems">
+											<option ng-repeat="value in item" value="{{value}}">{{value.BillingTypeItemName}}</option>
+										</optgroup>
+									</select>
 								</div>
-								<div class="row mt-30">	
-									<button type="button" class="btn btn-warning pull-right" ng-show="!requestForm.showSearchResult" ng-click="createRequest()">
-										<i class="icon-mail"></i> Create payment request
-									</button>
+								<div class="input-group col-md-6">
+									<input type="number" placeholder="Item Quantity. Defaults to 1" class="form-control col-md-7" ng-model="paymentRequestItem.quantity"/>
+									<span class="input-group-btn">
+										<button class="btn btn-default btn-success" ng-click="addPaymentRequestItemToList()">add</button>
+									</span>
+								</div>
+								<div class="col-md-12 table-responsive">
+									<table class="table table-condensed hover">
+										<thead>
+											<tr class="warning">
+												<th>S/N</th>
+												<th>Item</th>
+												<th>Quantity</th>
+												<th>Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="item in paymentRequestItems">
+												<td>{{$index + 1}}</td>
+												<td>{{item._item.BillingTypeItemName}}</td>
+												<td>{{item.quantity}}</td>
+												<td><a class="btn btn-link text-danger" href="#"><i class="icon-bin"></i> Remove</a></td>
+											</tr>
+										</tbody>
+									</table>
 								</div>
 							</div>
+						</div>
+						<div class="row mt-30">	
+							<button type="button" class="btn btn-warning pull-right" ng-show="!requestForm.showSearchResult" ng-click="createRequest()">
+								<i class="icon-mail"></i> Create payment request
+							</button>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
 	<!-- make payment modal or process payment modal -->
 	<div id="request_payment_bill" class="modal fade">
@@ -194,7 +194,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<div class="modal-title">Verify Payment Request</div>
-					<button class="close" data-dismiss="modal">&times</button>
+					<button class="close" data-dismiss="modal">&times;</button>
 				</div>
 				<div class="modal-body">
 					<div class="form-group">

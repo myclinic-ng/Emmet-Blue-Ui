@@ -6,6 +6,7 @@ head.load(controllersLocation+"setting/manage-billing-status-controller.js");
 head.load(controllersLocation+"setting/manage-payment-methods-controller.js");
 head.load(controllersLocation+"setting/manage-customer-categories-controller.js");
 head.load(controllersLocation+"setting/department-billing-link-controller.js");
+head.load(controllersLocation+"setting/manage-payment-rules-controller.js");
 head.load(controllersLocation+"billing-type-controller.js");
 head.load(controllersLocation+"billing-type-items-controller.js");
 head.load(controllersLocation+"new-billing-controller.js");
