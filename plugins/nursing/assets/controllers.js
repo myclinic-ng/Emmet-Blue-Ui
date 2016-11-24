@@ -1,14 +1,8 @@
 var controllersLocation = "plugins/nursing/assets/controllers/";
 
-head.load(controllersLocation+'observation-chart-type-registration-controller.js');
-head.load(controllersLocation+'settings/ward-controller.js');
-head.load(controllersLocation+'settings/section-controller.js');
-head.load(controllersLocation+'settings/section-bed-controller.js');
-head.load(controllersLocation+'settings/observation-chart-fields-controller.js');
-head.load(controllersLocation+'observation-chart-controller.js');
-head.load(controllersLocation+'manage-nursing-controller.js');
-head.load(controllersLocation+'manage-ward-bed-controller.js');
-head.load(controllersLocation+'section-bed-assignment-controller.js');
+head.load(controllersLocation+'settings/manage-observation-type-controller.js');
+head.load(controllersLocation+'settings/manage-observation-type-fields-controller.js');
+head.load(controllersLocation+'settings/link-consultant-departments-controller.js');
 
-head.load(controllersLocation+'view-all-bed-assignment-controller.js');
-head.load(controllersLocation+'beds-assignment-controller.js');
+head.load(controllersLocation+'nursing-queued-patients-controller.js');
+head.load(controllersLocation+'nursing-patient-workspace-controller.js');

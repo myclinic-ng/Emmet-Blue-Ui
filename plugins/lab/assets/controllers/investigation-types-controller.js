@@ -67,11 +67,11 @@ angular.module("EmmetBlue")
 	]);	
 
 	$scope.dtColumns = [
-		utils.DT.columnBuilder.newColumn('InvestigationTypeID').withTitle("ID").withOption('width', '0.5%'),
+		utils.DT.columnBuilder.newColumn('InvestigationTypeID').withTitle("ID"),
 		utils.DT.columnBuilder.newColumn('InvestigationTypeName').withTitle("Name"),
 		utils.DT.columnBuilder.newColumn('LabName').withTitle("Lab"),
 		utils.DT.columnBuilder.newColumn('InvestigationTypeDescription').withTitle("Description"),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(actions).withOption('width', '25%').notSortable()
+		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(actions).notSortable()
 	];
 
 	$scope.reloadInvestigationTypesTable = function(){

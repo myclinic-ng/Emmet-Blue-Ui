@@ -152,6 +152,26 @@ angular.module("EmmetBlue")
 					})
 					$("#field_defaults").modal("show");
 				}
+				break;
+			}
+			case "delete":{
+				if (typeof id !== "undefined"){
+					var title = "Delete Prompt";
+					var text = "Do you want to continue? Please note that this action cannot be undone";
+					var close = true;
+					var callback = function(){
+						utils.serverRequest('/lab/investigation-type-field/delete?resourceId='+id, 'DELETE').then(function(response){
+							$scope.reloadFieldTable();
+						}, function(error){
+							utils.errorHandler(error);
+						})
+					}
+					var type = "warning";
+					var btnText = "Delete";
+
+					utils.confirm(title, text, close, callback, type, btnText);
+				}
+				break;
 			}
 		}
 	}

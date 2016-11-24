@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="EmmetBlue" ng-controller="coreController">
+<head>
+	<meta charset="utf-8">
+	<base href="/">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+
+	<!-- Core JS files -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"> 
+	<script
+		type="text/javascript"
+		src="assets/js/core/libraries/headjs/head.min.js"
+		data-headjs-load="init.js"
+	>
+	</script>
+	<!-- /core js files -->	
+	<style>
+		/*@font-face {
+		  font-family: 'Open Sans';
+		  font-style: normal;
+		  font-weight: 400;
+		  src: local('Open Sans'), local('OpenSans'), url(assets/fonts/opensans.woff2) format('woff2');
+		  unicode-range: U+0460-052F, U+20B4, U+2DE0-2DFF, U+A640-A69F;
+		}*/
+		* {
+			font-family: "Open Sans", Arial;
+		}
+		.dataTables_filter input { width: 50px }
+		/* fade */
+		@-webkit-keyframes fade {
+			from { }
+			to { opacity: 0.3; }
+		}
+		@keyframes fade {
+			from { }
+			to { opacity: 0.3; }
+		}
+
+		/* scale up */
+		@keyframes scaleUp {
+		    from    { opacity: 0.3; -webkit-transform: scale(0.8); }
+		}
+
+    	.pages.ng-enter { animation: scaleUp 0.3s both ease-in; }
+    	.pages.ng-leave { transform-origin: 0% 0%; animation: fade 0.4s both ease-in; }
+
+	</style>
+</head>
+
+<body ng-cloak>
+	<!-- Main navbar -->
+	<div ng-if="!isAuthPage()">
+		<div id="globalHeader" ng-include src="'assets/angular/core/templates/header.html'"></div>
+		<div id="moduleMenu"  ng-include src="moduleMenu"></div>
+		<div id="moduleHeader"  ng-include src="moduleHeader"></div>
+
+		<!-- Page container -->
+		<div class="page-container" >
+			<!-- Page content -->
+			<div class="page-content">
+				<div class="no-login" id="moduleSidebar" ng-include src="moduleSidebar"></div>
+				<div class="content-wrapper">
+					<div class="pages" ng-view></div>
+				</div>
+			</div>
+			<!-- /page content -->
+			<div class="footer text-muted">
+				<!-- &copy; 2016. <a href="#">EmmetBlue</a> by <a href="#" target="_blank">The EmmetBlue Team</a> -->
+			</div>
+		</div>
+		<!-- /page container -->
+	</div>
+	<!-- /main navbar -->
+	<div ng-if="isAuthPage()">
+		<div ng-view></div>
+	</div>
+</body>
+</html>

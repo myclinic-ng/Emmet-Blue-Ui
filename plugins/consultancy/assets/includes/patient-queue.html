@@ -1,0 +1,98 @@
+<div ng-controller="patientQueueController">
+	<div class="modal fade" id="_patient-queue">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<h6 class="modal-title">Queued Patients</h6>
+				</div>
+				<div class="modal-body">
+					<div class="row" ng-if="queuedPatients.length < 1">
+						<div class="col-md-12">
+							<h1 class="text-center text-success">
+								<i class="fa fa-thumbs-up display-block" style="font-size: 5em"></i>
+							</h1>
+							<h5 class="text-center display-block text-primary"><i class="fa fa-info-circle"></i> All clear, there are currently no patients on queue</h5 >
+						</div>
+					</div>
+					<div class="row" ng-if="queuedPatients.length > 0">
+						<div class="col-md-6">
+							<h6 class="pull-right">Enter a patients name to search:</h6>
+						</div>
+						<div class="col-md-6">
+							<input class="form-control pull-right" placeholder="filter patients"/>
+						</div>
+						<table class="table table-condensed table-hover">
+							<thead class="bg-success">
+								<th></th>
+								<th colspan="1">Patients Full Name</th>
+								<th colspan="2">Duration on queue</th>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="text-bold" style="border-right: 1px solid #4CAF50">1</td>
+									<td class="media">
+										<div class="media-left media-middle">
+											<a href="#">
+												<img src="assets/images/image.jpg" class="img-circle" alt="">
+											</a>
+										</div>
+
+										<div class="media-body">
+											<div class="media-heading text-semibold">Jeremiah Somebody</div>
+											<span class="text-muted">Hygeia, NHIS</span>
+										</div>
+									</td>
+									<td>12/12/2009 19:10:02</td>
+									<td>
+										<a class="btn btn-link"><i class="fa fa-cart-plus"></i> Process</a>
+									</td>
+								</tr>
+
+								<tr>
+									<td class="text-bold" style="border-right: 1px solid #4CAF50">2</td>
+									<td class="media">
+										<div class="media-left media-middle">
+											<a href="#">
+												<img src="assets/images/image.jpg" class="img-circle" alt="">
+											</a>
+										</div>
+
+										<div class="media-body">
+											<div class="media-heading text-semibold">Jeremiah Somebody</div>
+											<span class="text-muted">Hygeia, NHIS</span>
+										</div>
+									</td>
+									<td>12/12/2009 19:10:02</td>
+									<td>
+										<a class="btn btn-link"><i class="fa fa-cart-plus"></i> Process</a>
+									</td>
+								</tr>
+
+
+								<tr>
+									<td class="text-bold" style="border-right: 1px solid #4CAF50">3</td>
+									<td class="media">
+										<div class="media-left media-middle">
+											<a href="#">
+												<img src="assets/images/image.jpg" class="img-circle" alt="">
+											</a>
+										</div>
+
+										<div class="media-body">
+											<div class="media-heading text-semibold">Jeremiah Somebody</div>
+											<span class="text-muted">Hygeia, NHIS</span>
+										</div>
+									</td>
+									<td>12/12/2009 19:10:02</td>
+									<td>
+										<a class="btn btn-link"><i class="fa fa-cart-plus"></i> Process</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

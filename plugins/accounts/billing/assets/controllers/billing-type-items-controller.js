@@ -108,8 +108,6 @@ angular.module("EmmetBlue")
 			},
 			editBillingTypeItems: function(id){
 				$scope.tempHolder.name = $(".billing-type-items-btn[data-option-id='"+id+"']").attr('data-option-name');
-				$scope.tempHolder.price = parseInt($(".billing-type-items-btn[data-option-id='"+id+"']").attr('data-option-price'));
-				$scope.tempHolder.rate = $(".billing-type-items-btn[data-option-id='"+id+"']").attr('data-option-rate');
 				$scope.tempHolder.id = id;
 
 				$("#edit_billing_type_items").modal("show");
@@ -319,15 +317,10 @@ angular.module("EmmetBlue")
 		var editBillingTypeItems = $scope.tempHolder;
 
 		var data = {
-			billingTypeItemName:editBillingTypeItems.name,
-			billingTypeItemPrice:""+editBillingTypeItems.price,
+			BillingTypeItemName:editBillingTypeItems.name,
 			resourceId:editBillingTypeItems.id
 		};
-
-		if (editBillingTypeItems.rate == "" || typeof editBillingTypeItems.rate == 'undefined'){
-			data['rateBased'] = 0;
-		}
-
+		
 		var saveEdits = utils.serverRequest('/accounts-biller/billing-type-items/edit', 'PUT', data);
 		saveEdits.then(function(response){
 			functions.billingTypeItemsEdited();

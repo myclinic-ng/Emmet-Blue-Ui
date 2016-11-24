@@ -9,7 +9,7 @@ angular.module("EmmetBlue")
 		},
 
 		loadRepositories: function(patientId){
-			var request = utils.serverRequest("/patients/patient-repository/view?resourceId="+patientId, "GET");
+			var request = utils.serverRequest("/patients/patient-repository/view-by-patient?resourceId="+patientId, "GET");
 
 			return request;
 		}

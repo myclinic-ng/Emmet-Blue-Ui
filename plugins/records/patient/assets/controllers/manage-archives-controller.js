@@ -33,7 +33,7 @@ angular.module("EmmetBlue")
 	$scope.dtInstance = {};
 	$scope.dtOptions = utils.DT.optionsBuilder
 	.fromFnPromise(function(){
-		var billingTypes = utils.serverRequest('/patients/patient-repository/view?resourceId='+$scope.currentPatient.id, 'GET');
+		var billingTypes = utils.serverRequest('/patients/patient-repository/view-by-patient?resourceId='+$scope.currentPatient.id, 'GET');
 		return billingTypes;
 	})
 	.withPaginationType('full_numbers')
@@ -69,14 +69,14 @@ angular.module("EmmetBlue")
 		utils.DT.columnBuilder.newColumn('RepositoryCreator').withTitle("Author"),
 		utils.DT.columnBuilder.newColumn('RepositoryCreationDate').withTitle("Date Created"),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(function(data, type, full, meta){
-			var button = "<button class='btn btn-info btn-clear' ng-click=\""+data.RepositoryID+"\"> view</button>";
+			var button = "<button class='btn btn-info btn-clear' ng-click=\"loadRepo("+data.RepositoryID+")\"> view</button>";
 			return button;
 		}).withOption('width', '15%').notSortable()
 	];
 
 	$scope.submitNewRepository = function(){
 		var newRepository = $scope.newRepository;
-		newRepository.creator = "1";
+		newRepository.creator = utils.userSession.getID();
 		newRepository.patient = $scope.currentPatient.id;
 
 		var submitRequest = utils.serverRequest("/patients/patient-repository/new", "POST", newRepository);
@@ -95,5 +95,11 @@ angular.module("EmmetBlue")
 		}, function(response){
 			utils.errorHandler(response);
 		})
+	}
+
+	$scope.loadRepo = function(repo){
+		$scope.currentRepository = repo;
+		$("#repository_items").modal("show");
+		// utils.alert("Load", repo, "info");
 	}
 })

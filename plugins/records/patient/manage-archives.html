@@ -1,112 +1,132 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-<script>$('select.select').select2();</script>
+<script>
+	$('select.select').select2();
+	$('body').on('hidden.bs.modal', function () {
+	    if($('.modal.in').length > 0)
+	    {
+	        $('body').addClass('modal-open');
+	    }
+	});
+</script>
 
 <div ng-controller="recordsPatientManageArchivesController">
-	
-		<div class="col-md-3">
-			<div class="sidebar sidebar-secondary sidebar-default">
-				<div class="sidebar-content">
+	<div class="col-md-3">
+		<div class="sidebar sidebar-secondary sidebar-default">
+			<div class="sidebar-content">
 
-					<!-- Sidebar search -->
-					<div class="sidebar-category">
-						<div class="category-title">
-							<span>Search</span>
-							<ul class="icons-list">
-								<li><a href="#" data-action="collapse"></a></li>
-							</ul>
-						</div>
-
-						<div class="category-content">
-							<form ng-submit="search()">
-								<div class="has-feedback has-feedback-left">
-									<input type="search" class="form-control" placeholder="Search" ng-model="searchQuery">
-									<div class="form-control-feedback">
-										<i class="icon-search4 text-size-base text-muted"></i>
-									</div>
-								</div>
-							</form>
-						</div>
-					</div>
-					<!-- /sidebar search -->
-
-					<!-- Online users -->
-					<div class="sidebar-category">
-						<div class="category-title">
-							<span class="text-muted">found <ins>{{searched.meta.total}}</ins> profiles</span>
-							<ul class="icons-list">
-								<li><a href="#" data-action="collapse"></a></li>
-							</ul>
-						</div>
-
-						<div class="category-content overflow-auto" style="height: 500px !important;">
-							<ul class="media-list">
-								<li class="media cursor-pointer" ng-repeat="patient in searched.patients" ng-click="loadPatient(patient)">
-									<a href="#" class="media-left"><img ng-src="{{loadImage(patient['_source'].patientpicture)}}" class="img-sm img-circle" alt="user image"></a>
-									<div class="media-body">
-										<a href="#" class="media-heading text-semibold">{{patient["_source"].patientfullname}}</a>
-										<span class="text-size-mini text-muted display-block">{{patient["_source"].patienttypename}}</span>
-									</div>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<!-- /online-users -->
-				</div>
-			</div>
-		</div>
-
-		<!-- Main content -->
-		<div class="col-md-9">
-			<!-- Sidebars overview -->
-			<div class="panel panel-flat">
-				<div class="panel-heading heading-divided">
-					<h3 class="panel-title">{{currentPatient.nameTitle}} Repositories</h3>
-				</div>
-
-				<div class="panel-body">
-					<div class="row">
-						<div class="table-responsive col-md-12">
-							<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
-
-							</table>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- /sidebars overview -->
-		</div>
-		<!-- /main content -->
-
-		<div id="new_repository" class="modal fade">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header bg-warning">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h6 class="modal-title">Create a new repository</h6>
+				<!-- Sidebar search -->
+				<div class="sidebar-category">
+					<div class="category-title">
+						<span>Search</span>
+						<ul class="icons-list">
+							<li><a href="#" data-action="collapse"></a></li>
+						</ul>
 					</div>
 
-					<div class="modal-body">
-						<form role="form">
-							<div class="form-group">
-								<div class="row">
-									<div class="content-group col-sm-12">
-										<label>Name</label>
-										<input type="text" class="form-control" ng-model="newRepository.name">
-									</div>
-									<div class="content-group col-sm-12">
-										<label>Description</label>
-										<textarea class="form-control" cols="3" rows="3" ng-model="newRepository.description"></textarea>
-									</div>
+					<div class="category-content">
+						<form ng-submit="search()">
+							<div class="has-feedback has-feedback-left">
+								<input type="search" class="form-control" placeholder="Search" ng-model="searchQuery">
+								<div class="form-control-feedback">
+									<i class="icon-search4 text-size-base text-muted"></i>
 								</div>
 							</div>
 						</form>
 					</div>
+				</div>
+				<!-- /sidebar search -->
 
-					<div class="modal-footer">
-						<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="newRepository = {}"><i class="fa fa-times-circle-o"></i> Close</button>
-						<button type="button" class="btn btn-warning" ng-click="submitNewRepository()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"> </i></span>  Save</button>
+				<!-- Online users -->
+				<div class="sidebar-category">
+					<div class="category-title">
+						<span class="text-muted">found <ins>{{searched.meta.total}}</ins> profiles</span>
+						<ul class="icons-list">
+							<li><a href="#" data-action="collapse"></a></li>
+						</ul>
+					</div>
+
+					<div class="category-content overflow-auto" style="height: 500px !important;">
+						<ul class="media-list">
+							<li class="media cursor-pointer" ng-repeat="patient in searched.patients" ng-click="loadPatient(patient)">
+								<a href="#" class="media-left"><img ng-src="{{loadImage(patient['_source'].patientpicture)}}" class="img-sm img-circle" alt="user image"></a>
+								<div class="media-body">
+									<a href="#" class="media-heading text-semibold">{{patient["_source"].patientfullname}}</a>
+									<span class="text-size-mini text-muted display-block">{{patient["_source"].patienttypename}}</span>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!-- /online-users -->
+			</div>
+		</div>
+	</div>
+
+	<!-- Main content -->
+	<div class="col-md-9">
+		<!-- Sidebars overview -->
+		<div class="panel panel-flat">
+			<div class="panel-heading heading-divided">
+				<h3 class="panel-title">{{currentPatient.nameTitle}} Repositories</h3>
+			</div>
+
+			<div class="panel-body">
+				<div class="row">
+					<div class="table-responsive col-md-12">
+						<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
+
+						</table>
 					</div>
 				</div>
 			</div>
 		</div>
+		<!-- /sidebars overview -->
+	</div>
+	<!-- /main content -->
+
+	<div id="new_repository" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Create a new repository</h6>
+				</div>
+
+				<div class="modal-body">
+					<form role="form">
+						<div class="form-group">
+							<div class="row">
+								<div class="content-group col-sm-12">
+									<label>Name</label>
+									<input type="text" class="form-control" ng-model="newRepository.name">
+								</div>
+								<div class="content-group col-sm-12">
+									<label>Description</label>
+									<textarea class="form-control" cols="3" rows="3" ng-model="newRepository.description"></textarea>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="newRepository = {}"><i class="fa fa-times-circle-o"></i> Close</button>
+					<button type="button" class="btn btn-warning" ng-click="submitNewRepository()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"> </i></span>  Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="repository_items" class="modal fade" style="margin: 0; margin-right: auto; margin-left: auto; width: 100%">
+		<div class="modal-full modal-lg" style="margin: 0; margin-right: auto; margin-left: auto; width: 100%">
+			<div class="modal-content" style="background-color: transparent;">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times; close</button>
+				</div>
+				<div class="modal-body">
+					<ng-repository repository-id="currentRepository"></ng-repository>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

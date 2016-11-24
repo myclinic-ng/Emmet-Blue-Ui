@@ -128,6 +128,24 @@ angular.module("EmmetBlue")
 		});
 	}
 
+	services.serverUpload = function(url, requestType, data={}){
+		var deferred = $q.defer();
+
+		return $http({
+			url: url,
+			method: requestType,
+			data: data,
+			transformRequest: angular.identity,
+       		headers: {'Content-Type': undefined}
+		}).then(function(result){
+			deferred.resolve(result.data.contentData);
+			return deferred.promise;
+		}, function(result){
+			deferred.reject(result);
+			return deferred.promise;
+		});
+	}
+
 	services.errorHandler = function(errorObject, showSwal=false){
 		var alertType = (showSwal) ? "both" : "notify";
 		switch(errorObject.status){
@@ -172,13 +190,17 @@ angular.module("EmmetBlue")
 	}
 
 	services.userSession = {
+		cookie: function(){
+			if (typeof $cookies.getObject(CONSTANTS.USER_COOKIE_IDENTIFIER) == "undefined"){
+				alert("You are currently not logged in, please log in to continue");
+			}
+			return $cookies.getObject(CONSTANTS.USER_COOKIE_IDENTIFIER)
+		},
 		getUUID: function(){
-			var cookie = $cookies.getObject(CONSTANTS.USER_COOKIE_IDENTIFIER);
-			return cookie.uuid;
+			return services.userSession.cookie().uuid;
 		},
 		getID: function(){
-			var cookie = $cookies.getObject(CONSTANTS.USER_COOKIE_IDENTIFIER);
-			return cookie.staffid;
+			return services.userSession.cookie().staffid;
 		}
 	}
 

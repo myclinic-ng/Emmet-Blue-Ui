@@ -102,7 +102,6 @@ var services = [
 ]
 
 head.ready("appDefaults", function(){
-	head.load({"chart":"assets/js/plugins/visualization/echarts/echarts.js"});
 	head.load(cntrllers);
 	head.load(services);
 });

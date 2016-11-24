@@ -75,30 +75,23 @@
 					</span>
 				</div>
 			</div>
-			<div class="col-md-6 navbar navbar-default navbar-xs navbar-component">
+			<div class="col-md-6 navbar navbar-default navbar-xs navbar-component no-border">
 				<ul class="nav navbar-nav no-border visible-xs-block">
 					<li><a class="text-center collapsed" data-toggle="collapse" data-target="#navbar-filter"><i class="icon-menu7"></i></a></li>
 				</ul>
 
 				<div class="navbar-collapse collapse" id="navbar-filter">
-					<div class="navbar-left">
+					<div class="navbar-right">
 						<ul class="nav navbar-nav">
 							<li><a href="#">Items per page: </a></li>
-							<div class="input-group" style="border-bottom: 1px solid #f6f6f6 !important; border-left: 3px solid #f6f6f6 !important;">
-								<input type="text" class="form-control no-border border-right" min="1" max="100" ng-model="searched.pageSizeInc"/>
+							<div class="input-group">
+								<input type="number" class="form-control" min="1" max="100" ng-model="searched.pageSizeInc"/>
 								<span class="input-group-btn">
-									<button class="btn btn-text" ng-click="searched.pageSize = searched.pageSizeInc">Go</button>
+									<button class="btn btn-text btn-warning" ng-click="searched.pageSize = searched.pageSizeInc">Go</button>
 								</span>
 							</div>
 						</ul>
 		            </div>
-
-					<div class="navbar-right">
-						<ul class="nav navbar-nav">
-							<li class="active"><a href="#"><i class="icon-sort-alpha-asc position-left"></i> Asc</a></li>
-							<li><a href="#"><i class="icon-sort-alpha-desc position-left"></i> Desc</a></li>
-						</ul>
-					</div>
 				</div>
 			</div>
 		</div>

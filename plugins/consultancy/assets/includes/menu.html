@@ -1,60 +1,34 @@
 <script src="assets/js/navbar_fixed_secondary.js"></script>
 <!-- Second navbar -->
-<div class="navbar navbar-default" id="navbar-second">
+<div class="navbar navbar-default" id="navbar-second" ng-controller="mainController">
 	<ul class="nav navbar-nav no-border visible-xs-block">
 		<li><a class="text-center collapsed" data-toggle="collapse" data-target="#navbar-second-toggle"><i class="icon-menu7"></i></a></li>
 	</ul>
 
-		<div class="navbar-collapse collapse" id="navbar-second-toggle">
-			<ul class="nav navbar-nav">
-				<li><a href="consultancy/dashboard"><i class="icon-display4 position-left"></i> Dashboard</a></li>
-				<li><a href="#"><i class="icon-aid-kit position-left"></i> Patient Medical History</a></li>
-				<li><a href="consultancy/diagnosis"><i class="icon-file-empty position-left"></i> New Diagnosis</a></li>
-				<li><a href="#"><i class="fa fa-search-plus position-left"></i> Medical Library</a></li>
+	<div class="navbar-collapse collapse" id="navbar-second-toggle">
+		<ul class="nav navbar-nav">
+			<li><a href="consultancy/dashboard"><i class="icon-display4 position-left"></i> Dashboard</a></li>
+			<li><a href="#" data-toggle="modal" data-target="#_patient-queue" ng-click="reloadQueue()"><i class="icon-aid-kit position-left"></i> Patient Queue</a></li>
+			<li><a href="consultancy/diagnosis"><i class="icon-file-empty position-left"></i> New Diagnosis</a></li>
+			<!-- <li><a href="#"><i class="fa fa-search-plus position-left"></i> Medical Library</a></li> -->
+		</ul>
 
-				<!-- <li class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown">
-						<i class="icon-table2"></i>
-						Billings <span class="caret"></span>
-					</a>
+		<ul class="nav navbar-nav navbar-right">
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					<i class="icon-cog3"></i>
+					<span class="visible-xs-inline-block position-right">Settings<span>
+					<span class="caret"></span>
+				</a>
 
-					<ul class="dropdown-menu width-200">
-						<li ng-repeat="bill in billingItems"><a href="#" data-toggle="modal" ng-click="setBillingTypeID(bill)" data-target="#generate_new_billing"><i class=""></i> {{bill.BillingTypeName}}</a></li>
-					</ul>
-				</li>
-
-				<li><a href="#"><i class="icon-credit-card"></i> New Payment </a></li>
-				<li><a href="#"><i class="icon-list2"></i> Manage Payment </a></li>
-				<li><a href="accounts/billing/reports"><i class="icon-stats-dots"></i> Reports </a></li>
-				<li><a href="#"> <i class="icon-users"></i> Manage Customers </a></li>
-				<li><a href="accounts/billing/billing-types"><i class="icon-user-lock"></i> Billing Types </a></li>
-
-				<li class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown">
-						<i class="icon-books"></i>
-						Libraries <span class="caret"></span>
-					</a>
-
-					<ul class="dropdown-menu width-200">
-						<li><a href="#"><i class=""></i> </a></li>
-					</ul>
-				</li> -->
-			</ul>
-
-			<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-							<i class="icon-cog3"></i>
-							<span class="visible-xs-inline-block position-right">Settings<span>
-							<span class="caret"></span>
-						</a>
-
-						<ul class="dropdown-menu dropdown-menu-right">
-							<li class="divider"></li>
-							<li><a href="#" data-toggle="modal" data-target="#setting_accounts_billing"><i class="icon-gear"></i> All settings</a></li>
-						</ul>
-					</li>
+				<ul class="dropdown-menu dropdown-menu-right">
+					<li class="divider"></li>
+					<li><a href="#"><i class="icon-gear"></i> All settings</a></li>
 				</ul>
-		</div>
+			</li>
+		</ul>
+	</div>
 </div>
 <!-- /second navbar -->
+
+<ng-include src="'plugins/consultancy/assets/includes/patient-queue.html'"></ng-include>

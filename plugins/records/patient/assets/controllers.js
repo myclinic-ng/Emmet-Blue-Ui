@@ -3,6 +3,7 @@ var controllersLocation = "plugins/records/patient/assets/controllers/";
 head.load(controllersLocation+"dashboard-controller.js");
 head.load(controllersLocation+"new-repository-controller.js");
 head.load(controllersLocation+"manage-patients-controller.js");
+head.load(controllersLocation+"manage-repository-controller.js");
 head.load(controllersLocation+"patient-widget-factory.js");
 head.load(controllersLocation+"archives-controller.js");
 head.load(controllersLocation+"manage-archives-controller.js");

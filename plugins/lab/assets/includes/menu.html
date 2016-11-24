@@ -11,9 +11,12 @@
 		<div class="navbar-collapse collapse" id="navbar-second-toggle">
 			<ul class="nav navbar-nav">
 				<li><a href="lab/dashboard"><i class="icon-display4 position-left"></i> Dashboard</a></li>
-				<li><a href="lab/patients"><i class="fa fa-user-plus"></i> Patient Management</a></li>
+				<li><a href="lab/lab-requests"><i class="fa fa-flask"></i> Queued Patients</a></li>
+				<li><a href="lab/patients"><i class="icon-vcard"></i> Patient Management</a></li>
+				<li><a href="#" data-toggle="modal" data-target="#_new_patient"><i class="fa fa-user-plus"></i> External Patient Registration</a></li>
 				<li><a href="#" data-toggle="modal" data-target="#_payment_request"><i class="fa fa-credit-card"></i> Payment Requests</a></li>
-				<li><a href="lab/investigation-types"><i class="fa fa-code-fork"></i> Investigation Types</a></li>
+				<li><a href="lab/lab-results"><i class="fa fa-share"></i> Publish Lab Results</a></li>
+				<!-- <li><a href="lab/investigation-types"><i class="fa fa-code-fork"></i> Investigation Types</a></li> -->
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown">
@@ -24,13 +27,14 @@
 					</a>
 
 					<ul class="dropdown-menu dropdown-menu-right">
+						<li><a href="#" data-toggle="modal" data-target="#setting_lab">All Settings</a></li>
 					</ul>
 				</li>
 			</ul>
 		</div>
 </div>
 
-<div id="_payment_request" class="modal fade" ng-controller="labPaymentRequestController">{
+<div id="_payment_request" class="modal fade" ng-controller="labPaymentRequestController">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
@@ -123,3 +127,102 @@
 		</div>}
 </div>
 <!-- /second navbar -->
+
+
+<div id="_new_patient" class="modal fade" ng-controller="labNewPatientController">
+	<div class="modal-full">
+		<div class="modal-content">
+			<div class="modal-header bg-warning">
+				<button type="button" class="close" data-dismiss="modal">&times; close</button>
+				<div class="modal-title"> New Patient Registration</div>
+			</div>
+			<div class="modal-body">
+				<div class="col-md-12">
+					<div id="new-patient-registration">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="col-md-4">
+									<img class="img img-responsive pull-right img-rounded" width="150" height="150" src="{{loadImage(patient.picture)}}"/>
+								</div>
+								<div class="content-group col-md-4 valign-bottom">
+									<label class="control-label">Patient ID</label>
+									<div class="input-group">
+										<input type="text" class="form-control" ng-model="patientNumber" placeholder="enter patient number to load profile"/>
+										<span class="input-group-btn">
+											<button class="btn btn-primary" ng-click="loadPatientProfile()">Go</button>
+										</span>
+									</div>
+								</div>
+
+								<div class="content-group col-md-4 valign-bottom">
+									<label class="control-label">Select lab to assign patient</label>
+									<select class="select" ng-model="patientLab">
+										<option ng-repeat="lab in labs" value="{{lab.LabID}}">{{lab.LabName}}</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12 mt-15">
+							<div class="content-group col-md-4">
+								<label class="control-label">First Name</label>
+								<input type="text" class="form-control" ng-model="patient.firstName"/>
+							</div>
+							<div class="content-group col-md-4">
+								<label class="control-label">Other Names</label>
+								<input type="text" class="form-control" ng-model="patient.lastName"/>
+							</div>
+							<div class="content-group col-md-4">
+								<label class="control-label">Date Of Birth</label>
+								<input type="date" class="form-control" ng-model="patient.dateOfBirth"/>
+							</div>
+							<div class="content-group col-md-4">
+								<label class="control-label">Gender</label>
+								<select class="select" ng-model="patient.gender">
+									<option value="Male">Male</option>
+									<option value="Female">Female</option>
+								</select>
+							</div>
+							<div class="content-group col-md-4">
+								<label class="control-label">Phone Number</label>
+								<input type="text" class="form-control" ng-model="patient.phoneNumber"/>
+							</div>
+							<div class="content-group col-md-4">
+								<label class="control-label">Address</label>
+								<input type="text" class="form-control" ng-model="patient.address"/>
+							</div>
+							<div class="content-group col-md-12">
+								<label class="control-label">Clinic/Ward</label>
+								<input type="text" class="form-control" ng-model="patient.clinic"/>
+							</div>
+							<div class="content-group col-md-12">
+								<label class="control-label">Clinical Diagnosis</label>
+								<textarea col="3" row="3" class="form-control" ng-model="patient.clinicalDiagnosis"/>
+							</div>
+							<div class="content-group col-md-6">
+								<label class="control-label">Investigation Type</label>
+								<select class="select" ng-model="patient.investigationTypeRequired">
+									<option value="{{type.InvestigationTypeID}}" ng-repeat="type in investigationTypes">{{type.InvestigationTypeName}}</option>
+								</select>
+							</div>
+							<div class="content-group col-md-6">
+								<label class="control-label">Investigation Required</label>
+								<input type="text" class="form-control" ng-model="patient.investigationRequired"/>
+							</div>
+
+							<div class="content-group col-md-6 pull-right">
+								<button type="button" class="col-md-4 btn btn-warning" ng-click="savePatient()"> Save</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-link" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Settings Modal-->
+<ng-include src="'plugins/lab/assets/includes/settings/index.html'"></ng-include>
+<!--/Settings Modal-->

@@ -1,0 +1,178 @@
+<script type="text/javascript" src="assets/js/core/app.js"></script>
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>
+	$('select.select').select2();
+	$(function() {
+		// Initialize lightbox
+		$('[data-popup="lightbox"]').fancybox({
+	        padding: 3,
+	        showCloseButton: true
+	    });	    
+	});
+
+	$('body').on('hidden.bs.modal', function () {
+	    if($('.modal.in').length > 0)
+	    {
+	        $('body').addClass('modal-open');
+	    }
+	});
+</script>
+<div class="row">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h6 class="panel-title">{{repository.RepositoryName}} <small class="text-info" style="font-style: italic;"><i class="fa fa-info-circle"></i>{{repository.RepositoryDescription}}</small></h6>
+		</div>
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-md-3" style="border-top: 1px solid #F5F5F5; border-right: 1px solid #F5F5F5">
+					<div class="col-md-12 mt-15">
+						<p class="text-info text-center">Upload new documents to this repository</p>
+						<div class="content-group">
+							<label class="control-label">Document Title</label>
+							<input class="form-control" ng-model="document.documentTitle"/>
+						</div>
+						<div class="content-group">
+							<label class="control-label">Document Category</label>
+							<select class="select" ng-model="document.documentCategory">
+								<option value="image">Picture (.jpg or .png extension)</option>
+								<option value="pdf">PDF Document (.pdf extension)</option>
+								<option value="text">Text Document (.txt extension)</option>
+							</select>
+						</div>
+						<div class="content-group">
+							<label class="control-label">Document Description</label>
+							<textarea class="form-control" ng-model="document.documentDescription"></textarea>
+						</div>
+						<div class="content-group">
+							<label class="control-label">Documents</label>
+							<input type="file" file-model="document.documents"/>
+						</div>
+						<div class="content-group">
+							<button class="btn btn-warning" ng-click="uploadDocs()">Upload Documents</button>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-9 overflow-auto">
+					<div ng-repeat="item in repository.items">
+						<div class="col-lg-3 col-sm-12" ng-if="item.RepositoryItemCategory == 'image'">
+							<div class="thumbnail" style="height: 100px; width: 100px;">
+								<div class="thumb" style="height: inherit; width: 100%">
+									<img ng-src="{{loadFile(item.RepositoryItemNumber)}}" alt="" style="height: inherit; width: 100%"/>
+									<div class="caption-overflow">
+										<span>
+											<a href="#" ng-click="enlargeImage(item.RepositoryItemNumber)" class="btn border-white text-white btn-flat btn-icon btn-rounded"><i class="fa fa-link"></i></a>
+											<a href="#" ng-click="loadInfo(item.RepositoryItemName, item.RepositoryItemDescription)" class="btn border-white text-white btn-flat btn-icon btn-rounded ml-5"><i class="fa fa-info pull-right"></i></a>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3 col-sm-12" ng-if="item.RepositoryItemCategory == 'text'">
+							<div class="thumbnail" style="height: 100px; width: 100px;">
+								<div class="thumb" style="height: inherit; width: 100%">
+									<img src="assets/images/icon-txt-flat.png" alt="text document" style="height: inherit; width: 100%"/>
+									<div class="caption-overflow">
+										<span>
+											<a href="#" ng-click="enlargeObject(item.RepositoryItemNumber, 'text')" class="btn border-white text-white btn-flat btn-icon btn-rounded"><i class="fa fa-link"></i></a>
+											<a href="#" ng-click="loadInfo(item.RepositoryItemName, item.RepositoryItemDescription)" class="btn border-white text-white btn-flat btn-icon btn-rounded ml-5"><i class="fa fa-info pull-right"></i></a>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3 col-sm-12" ng-if="item.RepositoryItemCategory == 'pdf'">
+							<div class="thumbnail" style="height: 100px; width: 100px;">
+								<div class="thumb" style="height: inherit; width: 100%">
+									<img src="assets/images/icon-pdf-flat.png" alt="pdf" style="height: inherit; width: 100%"/>
+									<div class="caption-overflow">
+										<span>
+											<a href="#" ng-click="enlargeObject(item.RepositoryItemNumber, 'pdf')" class="btn border-white text-white btn-flat btn-icon btn-rounded"><i class="fa fa-link"></i></a>
+											<a href="#" ng-click="loadInfo(item.RepositoryItemName, item.RepositoryItemDescription)" class="btn border-white text-white btn-flat btn-icon btn-rounded ml-5"><i class="fa fa-info pull-right"></i></a>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3 col-sm-12" ng-if="item.RepositoryItemCategory == 'json'">
+							<div class="thumbnail" style="height: 100px; width: 100px;">
+								<div class="thumb" style="height: inherit; width: 100%">
+									<img src="assets/images/icon-json-flat.png" alt="JSON" style="height: inherit; width: 100%"/>
+									<div class="caption-overflow">
+										<span>
+											<a href="#" ng-click="enlargeJson(item.RepositoryItemNumber)" class="btn border-white text-white btn-flat btn-icon btn-rounded"><i class="fa fa-link"></i></a>
+											<a href="#" ng-click="loadInfo(item.RepositoryItemName, item.RepositoryItemDescription)" class="btn border-white text-white btn-flat btn-icon btn-rounded ml-5"><i class="fa fa-info pull-right"></i></a>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="view-image-document" style="margin: 0; margin-right: auto; margin-left: auto; width: 100%">
+		<div class="modal-full modal-lg" style="margin: 0; margin-right: auto; margin-left: auto; width: 100%">
+			<div class="modal-content" style="background-color: transparent;">
+				<div class="modal-header bg-success">
+					<button type="button" class="close" ng-click="closeModal()">&times; close</button>
+				</div>
+				<div class="modal-body" id="currentRepositoryImage" ng-click="rotate('currentRepositoryImage')">
+					<img ng-src="{{currentRepositoryImage}}" class="img img-responsive" style="margin: 0; margin-right: auto; margin-left: auto; width: 100%; height: 100%"/>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="view-object-document" style="margin: 0; margin-right: auto; margin-left: auto; width: 100%">
+		<div class="modal-full modal-lg" style="margin: 0; margin-right: auto; margin-left: auto; width: 100%">
+			<div class="modal-content" style="background-color: {{currentRepositoryObject.background}};">
+				<div class="modal-header bg-success">
+					<button type="button" class="close" ng-click="closeModal()">&times; close</button>
+				</div>
+				<div class="modal-body" id="currentObjectFile">
+					 <object data="{{currentRepositoryObject.url}}" type="{{currentRepositoryObject.type}}" width="100%" height="{{viewPort.height}}">
+				        Unable to display document using buit-in viewer: <a href="{{currentRepositoryObject.url}}">{{currentRepositoryObject.alt}}</a>
+				    </object>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="view-json-document">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-success">
+					<button type="button" class="close" ng-click="closeModal()">&times; close</button>
+				</div>
+				<div class="modal-body" id="currentJsonFile">
+					<div class="row" ng-repeat="(key, value) in currentJsonFile">
+						<div class="content-group col-md-12">
+							<div class="col-md-12 text-bold"><h6 class="text-primary pull-left" style="text-transform: uppercase; text-orientation: all; text-decoration: underline;">{{key}}</h6></div>
+						</div>
+						<div class="content-group col-md-12" ng-repeat="(itemKey, itemValue) in value">
+							<div class="col-md-3 text-bold">{{itemKey}}</div>
+							<div class="col-md-9">{{itemValue}}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="view-info">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" ng-click="closeModal()">&times; close</button>
+					<h6 class="modal-title">{{currentDoc.name}}</h6>
+				</div>
+				<div class="modal-body">
+					<p>{{currentDoc.desc}}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

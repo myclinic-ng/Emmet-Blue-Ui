@@ -1,0 +1,76 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+
+<div ng-controller="manageLabsController">
+	<div class="table-responsive col-md-12">
+		<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
+
+		</table>
+	</div>
+
+	<div id="new_lab" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" onclick="$('#new_lab').modal('hide')">&times;</button>
+					<h6 class="modal-title">Create a new lab</h6>
+				</div>
+
+				<div class="modal-body">
+					<form role="form">
+						<div class="form-group">
+							<div class="row">
+								<div class="content-group col-sm-12">
+									<label>Lab name</label>
+									<input type="text" class="form-control" ng-model="newLab.name">
+								</div>
+								<div class="content-group col-sm-12">
+									<label>Lab description</label>
+									<textarea class="form-control" cols="3" rows="3" ng-model="newLab.description"></textarea>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" onclick="$('#new_lab').modal('hide')" ng-click="newLab = {}"><i class="fa fa-times-circle-o"></i> Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveNewLab()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"> </i></span>  Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="edit_lab" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" onclick="$('#edit_lab').modal('hide')">&times;</button>
+					<h6 class="modal-title">Create a new lab</h6>
+				</div>
+
+				<div class="modal-body">
+					<form role="form">
+						<div class="form-group">
+							<div class="row">
+								<div class="content-group col-sm-12">
+									<label>Lab name</label>
+									<input type="text" class="form-control" ng-model="tempLab.LabName">
+								</div>
+								<div class="content-group col-sm-12">
+									<label>Lab description</label>
+									<textarea class="form-control" cols="3" rows="3" ng-model="tempLab.LabDescription"></textarea>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" onclick="$('#edit_lab').modal('hide')" ng-click="tempLab = {}"><i class="fa fa-times-circle-o"></i> Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveEditedLab()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"> </i></span>  Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

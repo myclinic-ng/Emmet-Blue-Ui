@@ -34,7 +34,7 @@ angular.module("EmmetBlue")
 			utils.serverRequest("/patients/patient-allergy/view?resourceId="+patient, "GET")
 			.then(function(response){
 				$scope.patient.allergies = response;
-				modules.allergies.loadPatientAllergies($scope.patient.profile.patientid);
+				// modules.allergies.loadPatientAllergies($scope.patient.profile.patientid);
 			}, function(error){
 				// utils.errorHandler(error);
 			});
@@ -131,6 +131,7 @@ angular.module("EmmetBlue")
 		},
 		performLabTestSearch: function(){
 			var successCallback = function(response){
+				$scope.labTests.searchPerformed = true;
 				$scope.labTests.searchedTests = response.hits.hits;
 			}
 
@@ -159,7 +160,8 @@ angular.module("EmmetBlue")
 		addToLabList: function(testName, testDescription=""){
 			var test = {
 				title: testName,
-				description: testDescription
+				description: testDescription,
+				status: 0
 			}
 			var duplicationDetected = false;
 			for (var i = 0; i < $scope.labTests.investigations.lab.length; i++){
@@ -181,7 +183,8 @@ angular.module("EmmetBlue")
 		addToImagingList: function(testName, testDescription=""){
 			var test = {
 				title: testName,
-				description: testDescription
+				description: testDescription,
+				status: 0
 			}
 			var duplicationDetected = false;
 			for (var i = 0; i < $scope.labTests.investigations.imaging.length; i++){
@@ -199,6 +202,41 @@ angular.module("EmmetBlue")
 		},
 		removeFromImagingList: function(index){
 			$scope.labTests.investigations.imaging.splice(index, 1);
+		},
+		sendForInvestigation: function(){
+			var data = {
+				investigationType: $scope.labTests.sendVariables.investigationType,
+				patientID: $scope.patient.profile.patientid,
+				clinicalDiagnosis: $scope.labTests.investigations.lab[$scope.labTests.investigations.lab.currentInvestigation].description,
+				investigationRequired: $scope.labTests.investigations.lab[$scope.labTests.investigations.lab.currentInvestigation].title,
+				requestedBy: utils.userSession.getID()
+			}
+
+			utils.serverRequest('/lab/lab-request/new', 'POST', data).then(function(response){
+				$("#modal-send-to-lab").modal("hide");
+				utils.notify("Operation Successful", "Request sent successfully", "success");
+				$scope.labTests.investigations.lab[$scope.labTests.investigations.lab.currentInvestigation].status = -1;
+				console.log(response);
+			}, function(error){
+				utils.errorHandler(error);
+			})
+		},
+		sendForImagingInvestigation: function(){
+			var data = {
+				investigationType: $scope.labTests.sendVariables.investigationType,
+				patientID: $scope.patient.profile.patientid,
+				clinicalDiagnosis: $scope.labTests.investigations.imaging[$scope.labTests.investigations.imaging.currentInvestigation].description,
+				investigationRequired: $scope.labTests.investigations.imaging[$scope.labTests.investigations.imaging.currentInvestigation].title,
+				requestedBy: utils.userSession.getID()
+			}
+
+			utils.serverRequest('/lab/lab-request/new', 'POST', data).then(function(response){
+				$("#modal-send-to-imaging").modal("hide");
+				utils.notify("Operation Successful", "Request sent successfully", "success");
+				$scope.labTests.investigations.imaging[$scope.labTests.investigations.imaging.currentInvestigation].status = -1;
+			}, function(error){
+				utils.errorHandler(error);
+			})
 		}
 	}
 
@@ -226,6 +264,7 @@ angular.module("EmmetBlue")
 					modules.allergies.loadPatientAllergies($scope.patient.profile.patientid);
 					utils.notify("Profile loaded successfully", "", "info");
 					modules.globals.loadSavedDiagnosis();
+					$scope.patient.history.displayPage='profile';
 				}
 			}
 
@@ -240,6 +279,17 @@ angular.module("EmmetBlue")
 			else {
 				utils.notify("Invalid search request", "Please make sure you have not submitted an empty search field", "warning");
 			}
+		},
+		loadRepositories: function(){
+			$scope.patient.history.displayPage = "repositories";
+
+			var request = utils.serverRequest("/patients/patient-repository/view-by-patient?resourceId="+$scope.patient.profile.patientid, "GET");
+
+			request.then(function(response){
+				$scope.patient.history.repositories = response;				
+			}, function(error){
+				utils.errorHandler(error);
+			});
 		}
 	}
 
@@ -309,6 +359,20 @@ angular.module("EmmetBlue")
 
 	modules.globals = {
 		rxNormEndpoint: "https://rxnav.nlm.nih.gov/REST",
+		loadRegisteredLabs: function(){
+			utils.serverRequest('/lab/lab/view', 'GET').then(function(response){
+				$scope.globals.registeredLabs = response;
+			}, function(error){
+				utils.errorHandler(error);
+			})
+		},
+		loadRegisteredInvestigationTypes: function(lab){
+			utils.serverRequest('/lab/investigation-type/view-by-lab?resourceId='+lab, 'GET').then(function(response){
+				$scope.globals.registeredInvestigationTypes = response;
+			}, function(error){
+				utils.errorHandler(error);
+			})
+		},
 		httpGetRequest: function(url, successCallback, errorCallback){
 			utils.serverRequest(url, 'GET')
 			.then(function(response){
@@ -540,8 +604,16 @@ angular.module("EmmetBlue")
 				return date.toLocaleDateString();
 			},
 			save: modules.globals.saveDiagnosis,
-			submit: modules.globals.submitDiagnosis
+			submit: modules.globals.submitDiagnosis,
+			registeredLabs: [],
+			registeredInvestigationTypes: []
 		};
+
+		modules.globals.loadRegisteredLabs();
+
+		$scope.$watch(function(){ return $scope.labTests.sendVariables.lab; }, function(nv){
+			modules.globals.loadRegisteredInvestigationTypes(nv);
+		})
 
 		utils.storage.consultancy = {
 		};
@@ -565,7 +637,9 @@ angular.module("EmmetBlue")
 		$scope.$watch(function(){
 			return $scope.allergies.newAllergy.type;
 		}, function(newValue){
-			modules.allergies.loadAllergyTypeTriggers(newValue);
+			if (typeof newValue != "undefined"){
+				modules.allergies.loadAllergyTypeTriggers(newValue);				
+			}
 		});
 
 
@@ -597,7 +671,11 @@ angular.module("EmmetBlue")
 			addToLabList: modules.labTests.addToLabList,
 			removeFromLabList: modules.labTests.removeFromLabList,
 			addToImagingList: modules.labTests.addToImagingList,
-			removeFromImagingList: modules.labTests.removeFromImagingList
+			removeFromImagingList: modules.labTests.removeFromImagingList,
+			searchPerformed: false,
+			sendVariables: {},
+			sendForInvestigation: modules.labTests.sendForInvestigation,
+			sendForImagingInvestigation: modules.labTests.sendForImagingInvestigation
 		}
 
 		modules.labTests.testSearchAutoSuggestInit();
@@ -607,7 +685,16 @@ angular.module("EmmetBlue")
 
 		$scope.patient = {
 			loadPatientProfile: modules.patient.loadPatientProfile,
-			isProfileReady: false
+			isProfileReady: false,
+			history: {
+				displayPage: 'profile',
+				loadRepositories: modules.patient.loadRepositories,
+				repositories: {},
+				loadRepo: function(repo){
+					$scope.patient.history.repositories.currentRepository = repo;
+					$("#repository-items").modal("show");
+				}
+			}
 		}
 
 		modules.patient.searchAutoSuggestInit();

@@ -1,6 +1,6 @@
 angular.module("EmmetBlue")
 
-.controller('coreController', function($scope, $location, $routeParams, CONSTANTS){
+.controller('coreController', function($scope, $location, $routeParams, CONSTANTS, utils){
 	$scope.$on('$routeChangeSuccess', function(event, current, previous){
 		var path = ($location.path()).split('/');
 
@@ -18,10 +18,14 @@ angular.module("EmmetBlue")
 	});
 
 	$scope.isAuthPage = function(){
-		if ($location.path() == '/user/newlogin'){
+		if ($location.path() == '/user/newlogin' || $location.path() == '/user/login'){
 			return true;
 		}
 
 		return false;
+	}
+
+	$scope.logout = function(){
+		// utils.alert("OK", "Logging out in progress", "info");
 	}
 });

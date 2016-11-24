@@ -8,36 +8,31 @@
 		<div class="navbar-collapse collapse" id="navbar-second-toggle">
 			<ul class="nav navbar-nav">
 				<li><a href="nursing/dashboard"><i class="icon-display4 position-left"></i> Dashboard</a></li>
-				<!-- <li><a href="nursing/observation-chart-field-title-type"><i class="icon-stack"></i> New Chart Field Type</a></li>
-				<li><a href="nursing/view-observation-chart-field-title-type"><i class="icon-history"></i> View Chart Field Type</a></li> -->
-				<li><a href="nursing/observation-chart"><i class="icon-history"></i> Observation Chart</a></li>
+				<li><a href="nursing/queued-patients"><i class="icon-history"></i> Queued Patients</a></li>
+				<li><a href="nursing/patient-workspace"><i class="icon-history"></i> Patient Workspace</a></li>
 				
-				<li><a href="nursing/manage-beds"><i class="fa fa-bed position-left"></i> Manage Beds</a></li>
-				<li><a href="nursing/manage-nursing"><i class="fa fa-user-md position-left"></i> Manage Nursing</a></li>
+				<!-- <li><a href="nursing/manage-beds"><i class="fa fa-bed position-left"></i> Manage Beds</a></li>
+				<li><a href="nursing/manage-nursing"><i class="fa fa-user-md position-left"></i> Manage Nursing</a></li> -->
 			</ul>
 
 			<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-							<i class="icon-cog3"></i>
-							<span class="visible-xs-inline-block position-right">Settings<span>
-							<span class="caret"></span>
-						</a>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon-cog3"></i>
+						<span class="visible-xs-inline-block position-right">Settings<span>
+						<span class="caret"></span>
+					</a>
 
-						<ul class="dropdown-menu dropdown-menu-right">
-							<li><a href="#" data-toggle="modal" data-target="#setting_observation_chart_field"><i class="icon-user-lock"></i> Observation Chart Field</a></li>
-							<li><a href="#" data-toggle="modal" data-target="#setting_ward_management"><i class="fa fa-shield"></i> Ward Management</a></li>
-							<li class="divider"></li>
-							<li><a href="#"><i class="icon-gear"></i> All settings</a></li>
-						</ul>
-					</li>
-				</ul>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li><a href="#" data-toggle="modal" data-target="#setting_nursing"> All settings</a></li>
+					</ul>
+				</li>
+			</ul>
 		</div>
 </div>
 <!-- /second navbar -->
 
 
 <!-- Settings Modal-->
-<ng-include src="'plugins/nursing/assets/includes/settings/wards.html'"></ng-include>
-<ng-include src="'plugins/nursing/assets/includes/settings/observation-chart-fields.html'"></ng-include>
+<ng-include src="'plugins/nursing/assets/includes/settings/index.html'"></ng-include>
 <!--/Settings Modal-->

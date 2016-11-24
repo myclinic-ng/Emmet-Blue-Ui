@@ -1,0 +1,41 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+<div>
+	<div id="setting_nursing" class="modal fade">
+		<div class="modal-dialog modal-full">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title"> Settings <span class="pull-right mr-20">Nursing Department</span></h6>
+				</div>
+
+				<div class="modal-body" style="height: 100vh;">
+					<div class="tabbable">
+						<ul class="nav nav-tabs nav-tabs-bordered">
+							<li href="#manage-observation-types" data-toggle="tab" class="active"><a>Manage Observation Types</a></li>
+							<li href="#manage-observation-type-fields" data-toggle="tab"><a>Manage Observation Type Fields</a></li>
+							<li href="#link-consultant-departments" data-toggle="tab"><a>Link Resident Doctors Departments</a></li>
+						</ul>
+
+						<div class="tab-content">
+							<div class="tab-pane active" id="manage-observation-types">
+								<ng-include src="'plugins/nursing/assets/includes/settings/manage-observation-types.html'"></ng-include>
+							</div>
+
+							<div class="tab-pane" id="manage-observation-type-fields">
+								<ng-include src="'plugins/nursing/assets/includes/settings/manage-observation-type-fields.html'"></ng-include>
+							</div>
+
+							<div class="tab-pane" id="link-consultant-departments">
+								<ng-include src="'plugins/nursing/assets/includes/settings/link-consultant-departments.html'"></ng-include>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

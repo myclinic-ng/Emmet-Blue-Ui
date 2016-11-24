@@ -10,12 +10,13 @@
 .dataTables_wrapper {
     /*border: 1px solid #DDDDDD;*/
     padding: 1rem 0;
+    border-bottom: 2px solid #4CAF50 !important;
 }
 table.dataTable,
 table.dataTable.no-footer{
     margin: 1rem 0;
     width: 100% !important;
-    border-top: 1px solid #DDDDDD;;
+    border-top: 1px solid #DDDDDD;
     border-bottom: 1px solid #DDDDDD;
 }
 /* -- select box --*/
@@ -38,7 +39,8 @@ table.dataTable.no-footer{
 }
 /* -- table --*/
 table.dataTable thead th, table.dataTable thead td {
-    border-bottom: 1px solid #DDDDDD;;
+    border-bottom: 1px solid #DDDDDD;
+    background-color: #4CAF50 !important;
 }
 table.dataTable tbody th, table.dataTable tbody td {
     padding: 10px 18px;

@@ -1,7 +1,21 @@
 angular.module("EmmetBlue")
 
 .controller('labNewPatientController', function($scope, utils, patientEventLogger){
+	$scope.loadImage = utils.loadImage;
 	$scope.patient = {};
+
+	$scope.$watch(function(){
+		return utils.storage.processedNewPatient;
+	}, function(nv){
+		if (typeof nv != "undefined"){
+			$scope.patientNumber = nv.patientUuid;
+			$scope.patientLab = nv.labId;
+			$scope.patient.clinicalDiagnosis = nv.clinicalDiagnosis;
+			$scope.patient.investigationRequired = nv.investigationRequired;
+			$scope.loadPatientProfile();
+		}
+	})
+
 	$scope.loadPatientProfile = function(){
 		var patient = utils.serverRequest("/patients/patient/search", "POST", {
 			"query":$scope.patientNumber,
@@ -17,6 +31,7 @@ angular.module("EmmetBlue")
 			$scope.patient.phoneNumber = profile["phone number"];
 			$scope.patient.address = profile["home address"];
 			$scope.patient.patientID = profile["patientid"];
+			$scope.patient.picture = profile["patientpicture"];
 		}, function(error){
 			utils.errorHandler(error);
 		})

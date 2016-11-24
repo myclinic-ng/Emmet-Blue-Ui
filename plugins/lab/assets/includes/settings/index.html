@@ -1,0 +1,36 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+<div>
+	<div id="setting_lab" class="modal fade">
+		<div class="modal-dialog modal-full">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title"> Settings <span class="pull-right mr-20">Laboratory &amp; Investigations</span></h6>
+				</div>
+
+				<div class="modal-body" style="height: 100vh;">
+					<div class="tabbable">
+						<ul class="nav nav-tabs nav-tabs-bordered">
+							<li href="#manage-labs" data-toggle="tab" class="active"><a>Manage Laboratories</a></li>
+							<li href="#manage-investigation-types" data-toggle="tab"><a>Manage Investigation Types</a></li>
+						</ul>
+
+						<div class="tab-content">
+							<div class="tab-pane active" id="manage-labs">
+								<ng-include src="'plugins/lab/assets/includes/settings/manage-labs.html'"></ng-include>
+							</div>
+
+							<div class="tab-pane" id="manage-investigation-types">
+								<ng-include src="'plugins/lab/assets/includes/settings/manage-investigation-types.html'"></ng-include>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

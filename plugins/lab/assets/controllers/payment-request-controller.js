@@ -12,6 +12,13 @@ angular.module("EmmetBlue")
 		searchIcon: "fa fa-search"
 	}
 
+	$scope.$watch(function(){
+		return utils.storage.currentPaymentRequest;
+	}, function(nv){
+		$scope.search.query = nv;
+		$scope.search();
+	});
+
 	function loadRequestItems(staff){
 		var request = utils.serverRequest("/accounts-biller/billing-type-items/view-by-staff-uuid?resourceId=0&uuid="+staff, "GET");
 
@@ -53,6 +60,7 @@ angular.module("EmmetBlue")
 		}
 
 		search("/lab/patient/view?resourceId="+query);
+		utils.storage.currentPaymentRequest = "";
 	}
 
 	$scope.showRequestForm = function(patient){
