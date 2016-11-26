@@ -83,4 +83,10 @@ angular.module("EmmetBlue")
 			$scope.login.password = "";
 		}
 	}
+
+	$scope.currentType = "password";
+	$scope.togglePassword = function(){
+		$scope.currentType = $scope.currentType == "password" ? "text" : "password";
+		$("#password").attr("type", $scope.currentType);
+	}
 })

@@ -5,3 +5,4 @@ head.load(controllersLocation+"consultation-sheet-controller.js");
 head.load(controllersLocation+"new-diagnosis-controller.js");
 head.load(controllersLocation+"main-controller.js");
 head.load(controllersLocation+"patient-queue-controller.js");
+head.load(controllersLocation+"admit-patient-controller.js");

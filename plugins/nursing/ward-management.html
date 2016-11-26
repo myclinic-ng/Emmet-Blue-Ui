@@ -1,0 +1,32 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+<div ng-controller="nursingWardManagementController">
+	<div class="panel panel-flat">
+		<div class="panel-heading">
+			<h5 class="panel-title">Ward Management</h5>
+			<div class="heading-elements">
+				<ul class="icons-list">
+            		<li><a data-action="reload"></a></li>
+            	</ul>
+        	</div>
+		</div>
+		<div class="panel-body">
+			<div class="row">
+				<div class="tabbable">
+					<ul class="nav nav-tabs nav-justified">
+						<li href="#manage-bed" data-toggle="tab" class="active"><a>Manage Beds and View Occupants</a></li>
+						<li href="#manage-inventory" data-toggle="tab"><a>View Store Inventory</a></li>
+					</ul>
+					<div class="tab-content">
+					  <div id="manage-bed" class="tab-pane fade in active">
+					    <div class="col-md-12"><ng-include src="'plugins/nursing/assets/includes/manage-beds.html'"></ng-include></div>
+					  </div>
+					  <div id="manage-inventory" class="tab-pane fade">
+					   
+					  </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

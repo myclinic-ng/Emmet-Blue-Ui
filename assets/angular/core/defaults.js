@@ -8,7 +8,8 @@ angular.module('EmmetBlue', [
 	'ngCookies',
 	'ngStorage',
 	'ngPrint',
-	'angularUtils.directives.dirPagination'
+	'angularUtils.directives.dirPagination',
+	'angular-toArrayFilter' //<--- LIFE SAVER! Thanks https://github.com/petebacondarwin! (in case, paradventure, probably, you ever read this code)
 ])
 
 .constant("CONSTANTS", getConstants())

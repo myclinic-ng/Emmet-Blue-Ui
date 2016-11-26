@@ -2,6 +2,7 @@ angular.module("EmmetBlue")
 
 .controller("nursingQueuedPatientsController", function($scope, utils){
 	$scope.loadImage = utils.loadImage;
+	$scope.forwardEnabled = false; 
 	function dtAction(data, full, meta, type){
 		// editButtonAction = "manage('edit',"+data.ObservationTypeID+")";
 		// deleteButtonAction = "manage('delete',"+data.ObservationTypeID+")";
@@ -98,6 +99,7 @@ angular.module("EmmetBlue")
 			case "observation":{
 				utils.serverRequest("/patients/patient/view?resourceId="+id, 'GET').then(function(response){
 					$scope.patientInfo = response["_source"];
+					$scope.forwardEnabled = false;
 					$("#observation").modal("show");
 				}, function(error){
 					utils.errorHandler(error);

@@ -19,59 +19,19 @@
 			<div class="col-md-9">
 				<div class="tabbable">
 					<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
-						<li href="#history" data-toggle="tab" class="active"><a>History</a></li>
-						<li href="#archives" data-toggle="tab" ng-click="loadRepositories()"><a>Archives</a></li>
 						<li href="#observation" data-toggle="tab"><a>Observation</a></li>
+						<li href="#observation" data-toggle="tab"><a>Bed Head Ticket</a></li>
 					</ul>
 
 					<div class="tab-content">
-						<div class="tab-pane active" id="history">
-							<ng-patient-profile patient-info="patient"></ng-patient-profile>
-						</div>
-						<div class="tab-pane" id="archives">
-							<div class="row">
-								<div class="col-md-6 col-md-offset-3 mb-15"><input class="form-control" placeholder="search" ng-model="patient.repositoryFilter"/></div>
-								<div class="col-md-6" ng-repeat="repo in patient.repositories | filter:patient.repositoryFilter">
-									<div class="panel border-left-lg border-left-danger">
-										<div class="panel-body">
-											<div class="row">
-												<div class="col-md-8">
-													<h6 class="no-margin-top"><a href="#">{{repo.RepositoryName}}</a></h6>
-													<p class="mb-15">{{repo.RepositoryDescription}}</p>
-												</div>
-
-												<div class="col-md-4">
-													<ul class="list task-details">
-														<li>{{repo.RepositoryCreationDate}}</li>
-														<li class="dropdown">
-									                		Created by: &nbsp; 
-															<a href="#" class="label label-danger dropdown-toggle" data-toggle="dropdown">{{repo.RepositoryCreator}}</a>
-														</li>
-													</ul>
-												</div>
-											</div>
-										</div>
-
-										<div class="panel-footer">
-											<ul>
-												<li>Repo UUID: <span class="text-semibold">{{repo.RepositoryNumber}}</span></li>
-											</ul>
-
-											<ul class="pull-right">
-												<li>
-													<a href="#" ng-click="loadRepo(repo.RepositoryID)"><span class="fa fa-link"></span> Load Repository </a>
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
 						<div class="tab-pane" id="observation">
 							<ng-observation-form patient="patient"></ng-observation-form>
 						</div>
 					</div>
 				</div>
+			</div>
+			<div class="col-md-3">
+				<img class="img img-responsive img-rounded" width="150" height="150" src="{{loadImage(patient.patientpicture)}}"/></center>
 			</div>
 		</div>
 	</div>

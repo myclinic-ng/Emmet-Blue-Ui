@@ -1,0 +1,79 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script src="assets/js/plugins/forms/tags/bootstrap-tagsinput.js"></script>
+<script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
+<script>
+	$('select.select').select2();
+</script>
+<div ng-controller="admitPatientController">
+	<div class="modal fade" id="_patient-admission-form">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" onclick="$('#_patient-admission-form').modal('hide')">&times;</button>
+					<h6 class="modal-title">Admit a new patient</h6>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12 bigSpace">
+							<div class="content-group">
+								<label class="control-label">Patient Number</label>
+								<div class="input-group col-md-12">
+									<input class="form-control patientSearch" id="patientNumber" ng-model="patientNumber"/>
+									<span class="input-group-btn" ng-show="showInfo">
+										<button class="btn btn-danger" ng-click="loadInfo()"><i class="icon-reload-alt"></i></button>
+									</span>
+								</div>
+								<center><button class="btn btn-danger mt-15" ng-click="loadInfo()" ng-hide="showInfo">Load Info</button></center>
+							</div>
+							<div ng-show="showInfo">
+								<div class="content-group">
+									<label class="control-label">Ward</label>
+									<select class="select" ng-model="newAdmission.ward">
+										<option ng-repeat="ward in wards" value="{{ward.WardID}}">{{ward.WardName}}</option>
+									</select>
+								</div>
+								<div class="content-group">
+									<label class="control-label">Section</label>
+									<select class="select" ng-model="newAdmission.section">
+										<option ng-repeat="section in sections" value="{{section.WardSectionID}}">{{section.WardSectionName}}</option>
+									</select>
+								</div>
+								<div class="content-group">
+									<label class="control-label">Reason of Admission</label>
+									<select class="select" ng-model="causeOfAdmission">
+										<option value="diagnosis"> Conclusion of a medical diagnosis</option>
+										<option value="Accident/Emergency"> Accident/Emergency</option>
+									</select>
+								</div>
+								<div class="content-group" ng-show="causeOfAdmission == 'diagnosis'">
+									<label class="control-label">Attach Diagnosis</label>
+									<select class="select" ng-model="newAdmission.diagnosis">
+										<option ng-repeat="diagnosis in diagnoses" value="{{diagnosis.DiagnosisID}}">
+											{{diagnosis.Diagnosis.conclusion.diagnosis.title}} 
+										</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4" ng-show="showInfo">
+							<div class="col-md-12 pl-15">
+								<center><img class="img img-responsive" height="150" width="150" src="{{loadImage(patientInfo.patientpicture)}}"/></center>
+								<h6 class="text-center text-success">{{patientInfo.patientfullname}}</h6>
+								<span ng-show="showDiagInfo && causeOfAdmission == 'diagnosis'">
+									<h6 class="text-center text-primary">Diagnosis</h6>
+									<p class="display-block"><span class="text-bold">Title: </span> {{diagnosisInfo.Diagnosis.conclusion.diagnosis.title}}</p>
+									<span class="text-thin">{{diagnosisInfo.Diagnosis.conclusion.diagnosis.description}}</span>
+								</span>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer" ng-if="showInfo">
+					<button type="button" class="btn btn-link" ng-click="initAdmissionForm()" onclick="$('#_patient-admission-form').modal('hide')">Cancel</button>
+					<button class="btn btn-warning" ng-click="save()">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

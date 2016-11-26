@@ -18,6 +18,8 @@ angular.module("EmmetBlue")
 });
 
 function nursingPatientWorkspaceController($rootScope, $scope, utils){
+	$scope.loadImage = utils.loadImage;
+	
 	$scope.patientProfileLoaded = false;
 	$scope.patient = {};
 	$scope.currentObservationType = 0;
@@ -141,7 +143,7 @@ function nursingPatientWorkspaceController($rootScope, $scope, utils){
 			console.log(data);
 
 			utils.serverRequest("/nursing/observation/new", "POST", data).then(function(response){
-				utils.notify("Operation Successfuly", "Observation Published Successfuly", "success");
+				utils.notify("Operation Completed Successfully", "Observation Published Successfuly", "success");
 				$scope.observationResult = {};
 				$scope.currentRepository = response.repoId;
 				$rootScope.$broadcast("observationComplete");

@@ -49,6 +49,7 @@ var appDefaults = {"appDefaults": "assets/angular/core/defaults.js"}
 var app = {"app": "assets/angular/core/app.js"};
 var angularLibraries = [
 	"assets/angular/libraries/angular-route.js",
+	"assets/angular/libraries/angular-toArrayFilter.js",
 	"assets/angular/libraries/angular-animate.js",
 	"assets/angular/libraries/angular-messages.js",
 	"assets/angular/libraries/angular-cookies.js",
