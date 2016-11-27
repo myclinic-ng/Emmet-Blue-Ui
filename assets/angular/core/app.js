@@ -189,6 +189,11 @@ angular.module("EmmetBlue")
 	    }
 	}
 
+	services.today = function(){
+		var date = new Date();
+		return date.toLocaleDateString();
+	}
+
 	services.userSession = {
 		cookie: function(){
 			if (typeof $cookies.getObject(CONSTANTS.USER_COOKIE_IDENTIFIER) == "undefined"){

@@ -36,7 +36,9 @@ angular.module("EmmetBlue")
 			invoiceRequest.then(function(response){
 				var data = [];
         		angular.forEach(response.hits.hits, function(value){
-        			data.push(value["_source"].billingtransactionnumber);
+        			if (value["_source"].status != "deleted"){
+        				data.push(value["_source"].billingtransactionnumber);
+        			}
         		})
 
         		data = $.map(data, function (string) { return { value: string }; });
@@ -49,22 +51,21 @@ angular.module("EmmetBlue")
 
 	$scope.saveTransaction = function(printReceipt = false){
 		var newPayment = $scope.newPayment;
-
-		console.log(newPayment);
+		$scope.receiptData = newPayment;
+		$scope.receiptData.invoiceData = $scope.invoiceData;
 		var request = utils.serverRequest("/accounts-biller/transaction/new", "POST", newPayment);
 		request.then(function(response){
 			$('.loader').removeClass('show');
 			$scope.newPayment = {};
-			$scope.printReceipt()
+			$scope.showReceipt();
 		}, function(responseObject){
 			$('.loader').removeClass('show');
 			utils.errorHandler(responseObject);
 		})
 	}
 
-	$scope.printReceipt = function(){
-		var receipt = $("#main_payment_receipt").html();
-		$("#transaction_document_area").prepend(receipt);
+	$scope.showReceipt = function(){
+		$("#payment_receipt").modal("show");
 	}
 
 	$scope.loadInvoice = function(){
@@ -81,6 +82,7 @@ angular.module("EmmetBlue")
 
 				$scope.invoiceData = {
 					type:response.BillingType,
+					number: response.BillingTransactionNumber,
 					createdBy: response.CreatedByUUID,
 					status: response.BillingTransactionStatus,
 					amount: response.BilledAmountTotal,

@@ -49,7 +49,7 @@
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-md-8" style="border-right: 1px solid #4CAF50; height: 500px">
-							<div class="overflow-auto" style="height: 100%; overflow-x: hidden;"><ng-patient-profile patient-info="patientInfo"></ng-patient-profile></div>
+							<div ng-if="showPatientInfo" class="overflow-auto" style="height: 100%; overflow-x: hidden;"><ng-patient-profile patient-info="patientInfo"></ng-patient-profile></div>
 						</div>
 						<div class="col-md-4">
 							<h6 class="text-center text-primary">Admission Details</h6>
@@ -79,7 +79,7 @@
 										<tbody>
 											<tr ng-repeat="bed in beds | filter:bedFilter">
 												<td style="border-right: 1px solid #4CAF50">
-													<input type="radio" name="selectedBed" ng-model="$parent.selectedBed" ng-disabled="bed.BedStatus == 1" value="{{bed.SectionBedID}}"/>
+													<input type="radio" name="selectedBed" ng-model="hold.selectedBed" ng-disabled="bed.BedStatus == 1" ng-value="{{bed.SectionBedID}}"/>
 												</td>
 												<td>{{bed.BedName}}</td>
 												<td class="text-bold" ng-if="bed.BedStatus == 1"><span class="label label-danger">Occupied</span></td>

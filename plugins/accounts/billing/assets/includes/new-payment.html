@@ -77,10 +77,6 @@
 						</div>
 						<div class="button-group pull-right">
 							<button class="btn btn-default" ng-click="saveTransaction()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"></i></span><i class="icon-floppy-disk"></i> Save</button>
-							<button class="btn btn-default" ng-click="saveTransaction(true)">
-								<span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"></i></span><i class="icon-floppy-disk"></i> Save &amp; 
-								<i class="icon-printer"></i> Print Receipt
-							</button>
 						</div>
 					</div>
 					<div class="col-md-7" id="transaction_document_area">
@@ -103,10 +99,11 @@
 				</div>
 
 				<div class="modal-body" id="main_payment_receipt">
-					<div ng-payment-receipt></div>
+					<ng-payment-receipt receipt-data="receiptData"></ng-payment-receipt>
 				</div>
 
 				<div class="modal-footer">
+					<button class="btn btn-warning pull-right" ng-print print-element-id="main_payment_receipt">Print</button>
 				</div>
 			</div>
 		</div>

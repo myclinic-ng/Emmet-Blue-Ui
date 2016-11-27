@@ -101,6 +101,7 @@ angular.module("EmmetBlue")
 				$scope.admittedAlready = false;
 				utils.serverRequest("/patients/patient/view?resourceId="+$(".btn-admission-process[data-option-id='"+id+"']").attr('data-option-patient'), 'GET').then(function(response){
 					$scope.patientInfo = response["_source"];
+					$scope.showPatientInfo = true;
 					$elem = $(".btn-admission-process[data-option-id='"+id+"']");
 					$scope.admissionInfo = {
 						consultant: $elem.attr('data-option-consultant'),
@@ -121,6 +122,7 @@ angular.module("EmmetBlue")
 				$scope.admittedAlready = true;
 				utils.serverRequest("/patients/patient/view?resourceId="+$(".btn-admission-process[data-option-id='"+id+"']").attr('data-option-patient'), 'GET').then(function(response){
 					$scope.patientInfo = response["_source"];
+					$scope.showPatientInfo = true;
 					$elem = $(".btn-admission-process[data-option-id='"+id+"']");
 					$scope.admissionInfo = {
 						consultant: $elem.attr('data-option-consultant'),
@@ -129,6 +131,7 @@ angular.module("EmmetBlue")
 						admissionDate: $elem.attr('data-option-admission-date')
 					};
 					
+					$scope.currentAdmission = id;
 					$("#observation").modal("show");
 				}, function(error){
 					utils.errorHandler(error);
@@ -146,18 +149,18 @@ angular.module("EmmetBlue")
 		})
 	}
 
-	$scope.selectedDoctor = "";
+	$scope.hold = {};
 	$scope.admitPatient = function(){
-		if (angular.isDefined($scope.selectedBed) && $scope.selectedBed != ""){
+		if (angular.isDefined($scope.hold.selectedBed) && $scope.hold.selectedBed != ""){
 			var data = {
-				bed: $scope.selectedBed,
+				bed: $scope.hold.selectedBed,
 				admissionId: $scope.currentAdmission,
 				processedBy: utils.userSession.getID(),
 			};
 
 			utils.serverRequest("/nursing/ward-admission/new", "POST", data).then(function(response){
 				reloadTable();
-				delete $scope.selectedBed;	
+				delete $scope.hold.selectedBed;	
 				$("#observation").modal("hide");
 			}, function(error){
 				utils.errorHandler(error);

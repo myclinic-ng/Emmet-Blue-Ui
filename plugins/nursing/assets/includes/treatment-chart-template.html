@@ -1,0 +1,49 @@
+<script src="assets/js/plugins/forms/tags/bootstrap-tagsinput.js"></script>
+<script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+
+<div class="row">
+	<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
+		
+	</table>
+
+	<div id="new_item" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" onclick="$('#new_item').modal('hide')">&times;</button>
+					<h6 class="modal-title">Create a new treatment chart</h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-12 mt-10">
+								<label>Drug</label>
+								<input type="text" class="form-control" ng-model="treatmentChart.drug">
+							</div>
+							<div class="col-sm-6 mt-10">
+								<label>Dose</label>
+								<input type="text" class="form-control" ng-model="treatmentChart.dose">
+							</div>
+							<div class="col-sm-6 mt-10">
+								<label>Route</label>
+								<input type="text" class="form-control" ng-model="treatmentChart.route">
+							</div>
+							<div class="col-sm-12 mt-10">
+								<label>Comment</label>
+								<textarea cols="3" rows="3" class="form-control" ng-model="treatmentChart.note"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" ng-click="treatmentChart = {}" onclick="$('#new_item').modal('hide')">cancel</button>
+					<button type="button" class="btn btn-warning" ng-click="saveChart()">Save Chart</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

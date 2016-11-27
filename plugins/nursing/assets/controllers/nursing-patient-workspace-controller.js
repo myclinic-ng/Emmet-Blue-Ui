@@ -85,16 +85,22 @@ function nursingPatientWorkspaceController($rootScope, $scope, utils){
 	})
 
 	$scope.loadPatient = function(){
-		var data = {
-			query: $scope.patientNumber,
-			size: 1,
-			from: 0
-		}
+		var req = utils.serverRequest("/nursing/ward-admission/view-admitted-patients?resourceId="+$scope.patientNumber, "GET");
+		req.then(function(response){
+			var data = {
+				query: response[0].AdmissionInfo.PatientUUID,
+				size: 1,
+				from: 0
+			}
 
-		utils.serverRequest("/patients/patient/search", "POST", data).then(function(response){
-			$scope.patient = response.hits.hits[0]["_source"];
-			$scope.patientProfileLoaded = true;
-			$scope.loadRepositories();
+			$scope.admissionInfo = response[0];
+			utils.serverRequest("/patients/patient/search", "POST", data).then(function(response){
+				$scope.patient = response.hits.hits[0]["_source"];
+				$scope.patientProfileLoaded = true;
+				$scope.loadRepositories();
+			}, function(error){
+				utils.errorHandler(error);
+			})
 		}, function(error){
 			utils.errorHandler(error);
 		})

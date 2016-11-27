@@ -10,3 +10,6 @@ head.load(controllersLocation+'nursing-patient-workspace-controller.js');
 head.load(controllersLocation+'nursing-patient-admission-controller.js');
 head.load(controllersLocation+'manage-beds-controller.js');
 head.load(controllersLocation+'ward-management-controller.js');
+
+head.load(controllersLocation+'treatment-chart-directive.js');
+head.load(controllersLocation+'services-rendered-directive.js');

@@ -18,7 +18,14 @@ angular.module("EmmetBlue")
 						utils.errorHandler(response);
 					})
 				}
-			})
+			});
+			
+			$scope.getItemName = function(item){
+				utils.serverRequest('/accounts-biller/billing-type-items/view--by-id?resourceId='+item, "GET").then(function(response){
+					console.log(response);
+					return response;
+				})
+			}
 		}
 	}
 })

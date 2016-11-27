@@ -52,7 +52,9 @@ angular.module("EmmetBlue")
 	];
 
 	function reloadTable(){
-		$scope.dtInstance.reloadData();
+		if (typeof $scope.dtInstance.reloadData == 'function'){
+			$scope.dtInstance.reloadData();
+		}
 	}
 
 	function loadObservationTypes(){
