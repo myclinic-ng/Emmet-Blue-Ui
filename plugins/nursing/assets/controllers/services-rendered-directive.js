@@ -4,7 +4,8 @@ angular.module("EmmetBlue")
 	return {
 		restrict: 'AE',
 		scope: {
-			admissionId: '=admissionId'
+			admissionId: '=admissionId',
+			allowNew: '@allowNew'
 		},
 		templateUrl: "plugins/nursing/assets/includes/services-rendered-template.html",
 		controller: function($scope, utils){
@@ -26,15 +27,18 @@ angular.module("EmmetBlue")
 		            $scope.headerCompiled = true;
 		            utils.compile(angular.element(header).contents())($scope);
 		        }
-		    })
-			.withButtons([
-				{
-					text: '<i class="icon-file-plus"></i> New Item',
-					action: function(){
-						$('#new_service_rendered').modal('show')
+		    });
+
+		    if ($scope.allowNew == "true"){
+		    	$scope.dtOptions = $scope.dtOptions.withButtons([
+					{
+						text: '<i class="icon-file-plus"></i> New Item',
+						action: function(){
+							$('#new_service_rendered').modal('show')
+						}
 					}
-				}
-			]);	
+				]);	
+		    }
 
 			$scope.dtColumns = [
 				utils.DT.columnBuilder.newColumn('ServicesRenderedID').withTitle("ID"),
@@ -52,23 +56,26 @@ angular.module("EmmetBlue")
 			}
 
 			$scope.selectedRequestItems = [];
-
+			$scope.currentItemIndex = 1;
 			$scope.addToList = function(index, process = false){
 				if (!process){
+					$scope.currentItemIndex = index;
 					$("#itemQty").modal("show");
 					$scope.requestItems[$scope.currentRequestItemGroup][index]
 				}
 				else  {
-
+					try {
+						$("#itemQty").modal("hide");
+						if ($scope.selectedRequestItems.indexOf($scope.requestItems[$scope.currentRequestItemGroup][$scope.currentItemIndex]) == -1){
+							$scope.requestItems[$scope.currentRequestItemGroup][$scope.currentItemIndex].BillingTypeItemQuantity = $scope.currentItemQty;
+							$scope.selectedRequestItems.push($scope.requestItems[$scope.currentRequestItemGroup][$scope.currentItemIndex]);
+							$scope.currentItemIndex = 1;
+						}
+					}
+					catch(err){
+						console.log(err);
+					}
 				}
-				// try {
-				// 	if ($scope.selectedRequestItems.indexOf($scope.requestItems[$scope.currentRequestItemGroup][index]) == -1){
-				// 		$scope.selectedRequestItems.push($scope.requestItems[$scope.currentRequestItemGroup][index]);
-				// 	}
-				// }
-				// catch(err){
-				// 	console.log(err);
-				// }
 			}
 
 			$scope.removeFromList = function(itemLocation){
@@ -99,17 +106,28 @@ angular.module("EmmetBlue")
 
 			loadRequestItems(utils.userSession.getUUID());
 
-
+			function loadDoctors(){
+				utils.serverRequest("/nursing/load-doctors/view", "GET").then(function(response){
+					$scope.doctors = response;
+				}, function(error){
+					utils.errorHandler(error);
+				})
+			}
+			loadDoctors();
 			
 			$scope.saveService= function(){
 				var service = $scope.servicesRendered;
 				service.nurse = utils.userSession.getID();
 				service.admissionId = $scope.admissionId;
+				service.items = $scope.selectedRequestItems;
 
 				var req = utils.serverRequest("/nursing/services-rendered/new", "POST", service);
 				req.then(function(response){
+					console.log(response);
 					$("#new_service_rendered").modal("hide");
 					utils.alert("Operation Successful", "Billing item saved successfully", "success");
+					$scope.selectedRequestItems  = [];
+					$scope.servicesRendered = {};
 					reloadTable();
 				}, function(error){
 					utils.errorHandler(error);

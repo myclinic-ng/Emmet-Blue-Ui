@@ -4,6 +4,7 @@ head.load(controllersLocation+'settings/manage-observation-type-controller.js');
 head.load(controllersLocation+'settings/manage-observation-type-fields-controller.js');
 head.load(controllersLocation+'settings/link-consultant-departments-controller.js');
 head.load(controllersLocation+'settings/manage-wards-controller.js');
+head.load(controllersLocation+'settings/admission-billing-items-controller.js');
 
 head.load(controllersLocation+'nursing-queued-patients-controller.js');
 head.load(controllersLocation+'nursing-patient-workspace-controller.js');

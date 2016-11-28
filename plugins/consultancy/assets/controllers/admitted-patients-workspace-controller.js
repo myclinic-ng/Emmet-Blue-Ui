@@ -1,23 +1,10 @@
 angular.module("EmmetBlue")
 
-.directive('ngObservationForm', function(){
-	return {
-		restrict: 'AE',
-		scope: {
-			patient: '=patient'
-		},
-		templateUrl: "plugins/nursing/assets/includes/observation-template.html",
-		controller: function($rootScope, $scope, utils){
-			nursingPatientWorkspaceController($rootScope, $scope, utils);
-		}
-	}
-})
-
-.controller("nursingPatientWorkspaceController", function($rootScope, $scope, utils){
-	nursingPatientWorkspaceController($rootScope, $scope, utils);
+.controller("consultancyPatientWorkspaceController", function($rootScope, $scope, utils){
+	consultancyPatientWorkspaceController($rootScope, $scope, utils);
 });
 
-function nursingPatientWorkspaceController($rootScope, $scope, utils){
+function consultancyPatientWorkspaceController($rootScope, $scope, utils){
 	$scope.loadImage = utils.loadImage;
 	
 	$scope.patientProfileLoaded = false;
@@ -160,4 +147,3 @@ function nursingPatientWorkspaceController($rootScope, $scope, utils){
 		}
 	}
 }
-

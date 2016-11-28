@@ -4,7 +4,8 @@ angular.module("EmmetBlue")
 	return {
 		restrict: 'AE',
 		scope: {
-			admissionId: '=admissionId'
+			admissionId: '=admissionId',
+			allowNew: '@allowNew'
 		},
 		templateUrl: "plugins/nursing/assets/includes/treatment-chart-template.html",
 		controller: function($scope, utils){
@@ -26,15 +27,18 @@ angular.module("EmmetBlue")
 		            $scope.headerCompiled = true;
 		            utils.compile(angular.element(header).contents())($scope);
 		        }
-		    })
-			.withButtons([
-				{
-					text: '<i class="icon-file-plus"></i> New Item',
-					action: function(){
-						$('#new_item').modal('show')
+		    });
+
+		    if ($scope.allowNew == 'true'){
+				$scope.dtOptions = $scope.dtOptions.withButtons([
+					{
+						text: '<i class="icon-file-plus"></i> New Item',
+						action: function(){
+							$('#new_item').modal('show')
+						}
 					}
-				}
-			]);	
+				]);	
+		    }
 
 			$scope.dtColumns = [
 				utils.DT.columnBuilder.newColumn('TreatmentChartID').withTitle("ID"),

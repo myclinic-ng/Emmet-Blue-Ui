@@ -3,7 +3,7 @@
 <div ng-controller="nursingPatientAdmissionController">
 	<div class="panel panel-flat">
 		<div class="panel-heading">
-			<h5 class="panel-title">Nursing Dashboard</h5>
+			<h5 class="panel-title">List Of Patients Currently On Admission</h5>
 			<div class="heading-elements">
 				<ul class="icons-list">
             		<li><a data-action="reload"></a></li>
@@ -12,7 +12,7 @@
 		</div>
 		<div class="panel-body">
 			<div class="row">
-				<label class="control-label col-md-3"><span class="pull-right pt-5">Select Ward:</span></label>
+				<label class="control-label col-md-3"><span class="pull-right pt-5">Filter List By Ward:</span></label>
 				<div class="input-group col-md-7">
 					<select class="select" ng-model="currentWard">
 						<option value="{{ward.WardID}}" ng-repeat="ward in wards">{{ward.WardName}}</option>

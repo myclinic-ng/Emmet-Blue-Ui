@@ -1,7 +1,7 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
 <script>$('select.select').select2();</script>
 
-<div ng-controller="nursingPatientWorkspaceController">
+<div ng-controller="consultancyPatientWorkspaceController">
 	<div class="row">
 		<div class="input-group col-md-7 col-md-offset-3">
 			<input class="form-control" ng-model="patientNumber" placeholder="Enter Patient Admission Number" />
@@ -19,21 +19,21 @@
 			<div class="col-md-9">
 				<div class="tabbable">
 					<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
-						<li class="active" href="#observation" data-toggle="tab"><a>Observation</a></li>
+						<li class="active" href="#archives" data-toggle="tab"><a>Archives</a></li>
 						<li href="#treatment-chart" data-toggle="tab"><a>Treatment Chart</a></li>
 						<li href="#services-rendered" data-toggle="tab"><a>Services Rendered</a></li>
-						<li href="#observation" data-toggle="tab"><a>Doctor' Diagnosis/Prescription</a></li>
+						<li href="#archives" data-toggle="tab"><a>Prescription/Diagnosis Note</a></li>
+						<li href="#archives" data-toggle="tab"><a>Investigation Requests</a></li>
 					</ul>
 
 					<div class="tab-content">
-						<div class="tab-pane active" id="observation">
-							<ng-observation-form patient="patient"></ng-observation-form>
+						<div class="tab-pane active" id="archives">
 						</div>
 						<div class="tab-pane" id="treatment-chart">
-							<ng-treatment-chart admission-id="admissionInfo.PatientAdmissionID" ng-if="patientProfileLoaded" allow-new="true"></ng-treatment-chart>
+							<ng-treatment-chart admission-id="admissionInfo.PatientAdmissionID" ng-if="patientProfileLoaded" allow-new="false"></ng-treatment-chart>
 						</div>
 						<div class="tab-pane" id="services-rendered">
-							<ng-services-rendered admission-id="admissionInfo.PatientAdmissionID" ng-if="patientProfileLoaded" allow-new="true"></ng-services-rendered>
+							<ng-services-rendered admission-id="admissionInfo.PatientAdmissionID" ng-if="patientProfileLoaded" allow-new="false"></ng-services-rendered>
 						</div>
 					</div>
 				</div>
@@ -70,4 +70,4 @@
 	</div>
 </div>
 
-<!-- <ng-include src="'plugins/lab/assets/includes/observation-type-fields.html'"></ng-include> -->
+<!-- <ng-include src="'plugins/lab/assets/includes/archives-type-fields.html'"></ng-include> -->
