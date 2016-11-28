@@ -1,4 +1,4 @@
-<div class="navbar navbar-inverse" id="navbar-primary">
+<div class="navbar navbar-inverse" id="navbar-primary" ng-controller="coreController">
 	<div class="navbar-header">
 
 		<a class="navbar-brand" href="index.html"><img src="assets/images/logo.png" class="img img-responsive" style="height: 32px; margin-top: -5px;"/></a>
@@ -40,7 +40,7 @@
 					<li><a href="#"><i class="icon-coins"></i> Inbox</a></li>
 					<li class="divider"></li>
 					<li><a href="#"><i class="icon-cog5"></i> Account settings</a></li>
-					<li><a href="#"><i class="icon-switch2" ng-click="logout()"></i> Logout</a></li>
+					<li><a href="#" ng-click="logout()"><i class="icon-switch2"></i> Logout</a></li>
 				</ul>
 			</li>
 		</ul>

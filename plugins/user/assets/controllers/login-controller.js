@@ -63,18 +63,22 @@ angular.module("EmmetBlue")
 						staffid: response.id
 					};
 
-					$cookies.putObject(utils.globalConstants.USER_COOKIE_IDENTIFIER, responseObject);
-
-					$(".no-login").show();
-					if (response.accountActivated !== "0")
-					{
-						$location.path('/');
-					}
-					else
-					{
-						utils.alert('Looks like its your first time', 'show some tutorial stuff', 'info');
-						$location.path('/');
-					}
+					utils.serverRequest("/human-resources/staff/view-root-url?resourceId="+responseObject.staffid, "GET").then(function(response){
+						responseObject.dashboard = response.Url;
+						$cookies.putObject(utils.globalConstants.USER_COOKIE_IDENTIFIER, responseObject);
+						$location.path(response.Url);
+					});
+					// if (response.accountActivated !== "0")
+					// {
+					// 	utils.serverRequest("/human-resources/staff/view-root-url?resourceId="+responseObject.staffid, "GET").then(function(response){
+					// 		$location.path(response.Url);
+					// 	});
+					// }
+					// else
+					// {
+					// 	utils.alert('Looks like its your first time', 'show some tutorial stuff', 'info');
+					// 	$location.path('/');
+					// }
 				}
 			}, function(response){
 				utils.errorHandler(response);

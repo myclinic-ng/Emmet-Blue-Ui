@@ -17,8 +17,14 @@ angular.module("EmmetBlue")
 		$scope.moduleHeader = moduleHeader;
 	});
 
+	$scope.checkLogin = function(){
+		if ($location.path() != '/user/login'){
+			utils.userSession.cookie();
+		}
+	}
+
 	$scope.isAuthPage = function(){
-		if ($location.path() == '/user/newlogin' || $location.path() == '/user/login'){
+		if ($location.path() == '/user/login'){
 			return true;
 		}
 
@@ -26,6 +32,8 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.logout = function(){
-		// utils.alert("OK", "Logging out in progress", "info");
+		utils.userSession.clear();
 	}
+
+	$scope.checkLogin();
 });

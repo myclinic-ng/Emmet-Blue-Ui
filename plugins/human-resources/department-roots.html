@@ -1,0 +1,85 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+<div ng-controller="humanResourcesDepartmentRootsController as controller">
+	<div class="panel panel-white zoomIn" >
+		<div class="panel-heading">
+			<h6 class="panel-title">Department Root URL Management</h6>
+			<div class="heading-elements">
+				<ul class="icons-list">
+	        		<li><a data-action="reload" ng-click="reloadDepartmentRootsTable()"></a></li>
+	        	</ul>
+	    	</div>
+		</div>
+
+		<div class="panel-body">
+			<div class="table-responsive col-md-12">
+				<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
+
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<!-- New Department Root -->
+	<div id="new_department_root" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Create a new department root</h6>
+				</div>
+
+				<div class="modal-body">
+					<form role="form">
+						<div class="form-root">
+							<div class="row">
+								<div class="col-sm-12">
+									<label>Department ID</label>
+									<input type="number" class="form-control" ng-model="newDepartmentRoot.department">
+								</div>
+								<div class="col-sm-12">
+									<label>URL </label>
+									<input type="text" class="form-control" ng-model="newDepartmentRoot.url">
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="newDepartmentRoot = {}">Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveNewDepartmentRoot()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spn"> </i> </span> Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--/ NEw Department Root  -->
+
+	<!-- Edit Department Root -->
+	<div id="edit_department_root" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Edit department root</h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-root">
+						<div class="row">
+							<div class="col-sm-12">
+								<label>Department root name</label>
+								<input type="text" class="form-control" ng-model="tempHolder.rootName" data-option-id="{{tempHolder.rootId}}">
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="tempHolder = {}">Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveEditDepartmentRoot()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"></i> </span> Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

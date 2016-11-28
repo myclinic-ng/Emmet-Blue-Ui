@@ -197,7 +197,7 @@ angular.module("EmmetBlue")
 	services.userSession = {
 		cookie: function(){
 			if (typeof $cookies.getObject(CONSTANTS.USER_COOKIE_IDENTIFIER) == "undefined"){
-				alert("You are currently not logged in, please log in to continue");
+				$location.path('user/login');
 			}
 			return $cookies.getObject(CONSTANTS.USER_COOKIE_IDENTIFIER)
 		},
@@ -206,6 +206,10 @@ angular.module("EmmetBlue")
 		},
 		getID: function(){
 			return services.userSession.cookie().staffid;
+		},
+		clear: function(){
+			$cookies.remove(CONSTANTS.USER_COOKIE_IDENTIFIER);
+			$location.path('user/login');
 		}
 	}
 

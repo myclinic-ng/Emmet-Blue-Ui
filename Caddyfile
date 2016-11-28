@@ -1,0 +1,4 @@
+:600
+rewrite {
+	to {path} {path}/ index.html
+}
