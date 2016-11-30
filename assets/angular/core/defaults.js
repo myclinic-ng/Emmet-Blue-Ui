@@ -2,6 +2,7 @@ angular.module('EmmetBlue', [
 	'ngRoute',
 	'ngAnimate',
 	'ngMessages',
+	'ngSanitize',
 	'datatables',
 	'datatables.buttons',
 	'datatables.fixedheader',
@@ -29,6 +30,9 @@ angular.module('EmmetBlue', [
 
 .config(function($routeProvider, $locationProvider){
 	$routeProvider
+	.when('/', {
+		templateUrl: 'plugins/user/home.html'
+	})
 	.when('/:page*', {
 		templateUrl: function(url){
 			return determineRouteAvailability(url.page);
@@ -46,6 +50,20 @@ function determineRouteAvailability(url){
 	var urlParts = url.split("/");
 	if (typeof urlParts[1] == "undefined"){
 		urlParts[1] = "dashboard"
+	}
+
+	// alert(route);
+
+	if (typeof $.cookie(getConstants().USER_COOKIE_IDENTIFIER) != "undefined"){
+		var userDashboard = (JSON.parse($.cookie(getConstants().USER_COOKIE_IDENTIFIER))).dashboard;
+		if (userDashboard.split("/")[0] !== urlParts[0]){
+			if (urlParts[0] == 'user'){
+				//do nothing
+			}
+			else {
+				return 'plugins/user/home.html';
+			}
+		}
 	}
 
  	var _url = 'plugins/'+urlParts.join('/')+'.html';

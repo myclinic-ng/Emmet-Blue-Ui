@@ -189,6 +189,16 @@ angular.module("EmmetBlue")
 	    }
 	}
 
+	services.dateDiff = function(dateOne, dateTwo){
+		dateOne = new Date(dateOne);
+		dateTwo = new Date(dateTwo);
+
+		var utc1 = Date.UTC(dateOne.getFullYear(), dateOne.getMonth(), dateOne.getDate());
+	  	var utc2 = Date.UTC(dateTwo.getFullYear(), dateTwo.getMonth(), dateTwo.getDate());
+
+	  	return Math.floor((utc2 - utc1) / (1000 * 60 * 60 * 24));
+	}
+
 	services.today = function(){
 		var date = new Date();
 		return date.toLocaleDateString();
@@ -203,6 +213,9 @@ angular.module("EmmetBlue")
 		},
 		getUUID: function(){
 			return services.userSession.cookie().uuid;
+		},
+		getDashboard: function(){
+			return services.userSession.cookie().dashboard;
 		},
 		getID: function(){
 			return services.userSession.cookie().staffid;

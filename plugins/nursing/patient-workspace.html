@@ -20,9 +20,9 @@
 				<div class="tabbable">
 					<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
 						<li class="active" href="#observation" data-toggle="tab"><a>Observation</a></li>
-						<li href="#treatment-chart" data-toggle="tab"><a>Treatment Chart</a></li>
+						<li href="#diagnosis-note" data-toggle="tab"><a>Doctor's Diagnosis/Prescription</a></li>
 						<li href="#services-rendered" data-toggle="tab"><a>Services Rendered</a></li>
-						<li href="#observation" data-toggle="tab"><a>Doctor' Diagnosis/Prescription</a></li>
+						<li href="#treatment-chart" data-toggle="tab"><a>Treatment Chart</a></li>
 					</ul>
 
 					<div class="tab-content">
@@ -35,6 +35,32 @@
 						<div class="tab-pane" id="services-rendered">
 							<ng-services-rendered admission-id="admissionInfo.PatientAdmissionID" ng-if="patientProfileLoaded" allow-new="true"></ng-services-rendered>
 						</div>
+						<div class="tab-pane" id="diagnosis-note">
+							<div class="col-md-6"><input class="form-control pull-right" placeholder="filter notes" ng-model="noteFilter"/></div>
+							<div class="col-md-12">
+								<ul class="media-list chat-list content-group">
+									<div ng-repeat="note in consultationNotes | filter:noteFilter">
+										<li class="media date-step content-divider">
+											<span>{{note.StaffUsername}}</span>
+										</li>
+
+										<li class="media">
+											<div class="media-left">
+												<a class="fa-stack fa-lg">
+													<i class="fa fa-user-md" style="font-size: 2em"></i>
+												</a>
+											</div>
+
+											<div class="media-body">
+												<div class="media-content" ng-bind-html="note.Note"></div>
+												<span class="media-annotation display-block mt-10">{{note.DateTaken}} <a href="#"><i class="icon-pin-alt position-right text-muted"></i></a></span>
+											</div>
+										</li>
+									</div>
+
+								</ul>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -43,7 +69,7 @@
 				<h6 class="text-center text-primary">{{patient.patientfullname}} ({{patient.patienttypename}}, {{patient.categoryname}})</h6>
 				<h6 class="text-muted">Admission Information</h6>
 				<h6 class="col-md-12"><span class="pull-left">Admission Number</span><span class="pull-right text-bold">{{admissionInfo.PatientAdmissionID}}</span></h6>
-				<h6 class="col-md-12"><span class="pull-left">No. of days spent</span><span class="pull-right text-bold">30</span></h6>
+				<h6 class="col-md-12"><span class="pull-left">No. of days spent</span><span class="pull-right text-bold">{{daysSpent(admissionInfo.AdmissionDate)}}</span></h6>
 				<h6 class="col-md-12"><span class="pull-left">Admitted by</span><span class="pull-right text-bold">{{admissionInfo.AdmissionInfo.Consultant}}</span></h6>
 
 				<h6 class="text-muted">Ward Details</h6>

@@ -2,7 +2,7 @@
 <script>$('select.select').select2();</script>
 <div>
 	<div id="setting_dispensory_store" class="modal fade">
-		<div class="modal-dialog modal-full">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -11,12 +11,16 @@
 
 				<div class="modal-body">
 					<div class="tabbable">
-						<ul class="nav nav-pills nav-pills-bordered">
-							<li class="active"><a href="#dispensory-store-link" data-toggle="tab">Link Stores</a></li>
+						<ul class="nav nav-tabs">
+							<li class="active" href="#dispensories" data-toggle="tab"><a>Dispensories</a></li>
+							<li href="#dispensory-store-link" data-toggle="tab"><a>Link Stores</a></li>
 						</ul>
 
 						<div class="tab-content ">
-							<div class="tab-pane active" id="dispensory-store-link">
+							<div class="tab-pane active" id="dispensories">
+								<ng-include src="'plugins/pharmacy/assets/includes/setting/dispensories.html'"></ng-include>
+							</div>
+							<div class="tab-pane" id="dispensory-store-link">
 								<ng-include src="'plugins/pharmacy/assets/includes/setting/dispensory-store-link.html'"></ng-include>
 							</div>
 						</div>

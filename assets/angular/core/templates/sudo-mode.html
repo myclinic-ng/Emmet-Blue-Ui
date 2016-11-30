@@ -1,0 +1,24 @@
+<div ng-controller="sudoModeController">
+	<div class="modal modal-fade" id="sudoModeModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-success">
+					<h6 class="modal-title">You've entered <span style="text-decoration: underline;">protected mode</span>. <span class="btn" ng-click="showSudoInfo()"><i class="fa fa-question-circle"></i></span></h6>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12">
+							<a class="text-primary btn btn-link pull-right" ng-click="showForgotPasswordInfo()">Forgot your password?</a>
+						</div>
+						<div class="row">
+							<div class="col-md-12"><input type="password" class="form-control password" placeholder="enter your password here to confirm your account" ng-model="password"/></div>
+						</div>
+						<div class="row">
+							<button class="mt-15 btn btn-success col-md-10 col-md-offset-1" ng-click="processLogin()">Confirm password</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

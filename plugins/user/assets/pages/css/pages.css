@@ -131,7 +131,7 @@ body.rtl [class*="col-"] {
   -webkit-animation: none;
   animation: none;
   top: 73px;
-  background: url('../img/progress/progress-circle-success.svg') no-repeat top left;
+  background: url('') no-repeat top left;
   background-size: 100% auto;
   margin: 0 auto;
   border-width: 0;
@@ -2130,10 +2130,10 @@ body.rtl [class*="col-"] {
   opacity: 1;
 }
 .portlet-icon-refresh-lg-master-animated {
-  background-image: url('../img/progress/progress-circle-lg-master.svg');
+  background-image: url();
 }
 .portlet-icon-refresh-lg-white-animated {
-  background-image: url('../img/progress/progress-circle-lg-white.svg');
+  background-image: url();
 }
 /* For demo purpose only */
 .panel-scroll {
@@ -2379,6 +2379,7 @@ hr.double {
 hr.dotted {
   border-style: dotted none none;
 }
+
 /* Font Sizes 
 ------------------------------------
 */
@@ -13225,6 +13226,7 @@ Main components
     content: attr(data-title);
   }
 }
+
 /* Landscape view of all tablet devices */
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
   .page-sidebar .sidebar-menu .menu-items ul {
@@ -13271,6 +13273,7 @@ Main components
     display: none !important;
   }
 }
+
 @media (max-width: 991px) {
   .sm-b-r,
   .sm-b-l,
@@ -13291,6 +13294,7 @@ Main components
     border-bottom-width: 1px;
   }
 }
+
 @media (min-width: 1200px) {
   .row-same-height {
     overflow: hidden;
@@ -13300,6 +13304,7 @@ Main components
     padding-bottom: 99999px;
   }
 }
+
 @media (min-width: 992px) {
   .row-same-height {
     overflow: hidden;
@@ -13315,6 +13320,7 @@ Main components
     padding-top: 50px;
   }
 }
+
 @media (min-width: 768px) {
   .row-same-height {
     overflow: hidden;
@@ -13332,6 +13338,7 @@ Main components
     position: absolute;
   }
 }
+
 /* Portrait view of all tablet devices */
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
   .page-sidebar .sidebar-menu .menu-items > li > a {
@@ -13347,6 +13354,7 @@ Main components
     width: auto;
   }
 }
+
 @media (max-width: 979px) {
   .toggle-secondary-sidebar {
     font-size: 18px;
@@ -13408,6 +13416,7 @@ Main components
     display: block !important;
   }
 }
+
 @media (max-width: 767px) {
   .header {
     height: 48px;

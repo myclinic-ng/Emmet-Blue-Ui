@@ -1,8 +1,6 @@
 angular.module("EmmetBlue")
 
 .controller('userLoginController', function($scope, utils, $cookies, $location){
-	$(".no-login").hide();
-
 	$scope.processLogin = function(){
 		var loginData = $scope.login;
 
@@ -15,7 +13,7 @@ angular.module("EmmetBlue")
 		}
 		else
 		{
-			var block = $(".login-form");
+			var block = $("#form-login");
 			$(block).block({ 
 			    message: '<i class="icon-spinner4 spinner"></i>',
 			    timeout: 3000, //unblock after 3 seconds
@@ -38,7 +36,7 @@ angular.module("EmmetBlue")
 
 			$loginPromise.then(function(response){
 				if (!response.status){
-					$(".form-group").addClass('has-warning')
+					$(".form-control").addClass('has-warning')
 					utils.alert(
 						"Invalid login data",
 						"We were unable to sign you into your account "+
@@ -55,7 +53,7 @@ angular.module("EmmetBlue")
 						"success",
 						"notify"
 					);
-					$(".form-group").removeClass('has-warning').addClass('has-success');
+					$(".controls").removeClass('has-warning').addClass('has-success');
 
 					var responseObject = {
 						uuid: response.uuid,

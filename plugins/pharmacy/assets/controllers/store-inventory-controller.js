@@ -57,14 +57,28 @@ angular.module("EmmetBlue")
 		utils.DT.columnBuilder.newColumn('ItemBrand').withTitle("Item Brand"),
 		utils.DT.columnBuilder.newColumn('ItemManufacturer').withTitle("Item Manufacturer"),
 		utils.DT.columnBuilder.newColumn('ItemQuantity').withTitle("Item Quantity"),
-		utils.DT.columnBuilder.newColumn(null).withTitle("").renderWith(function(data, type, full){
-			var string = "";
-			for (var i = 0; i < data.length; i++) {
-				string += data[i].TagTitle+":"+data[i].TagName;
+		utils.DT.columnBuilder.newColumn(null).withTitle("Tags").renderWith(function(data, type, full){
+			var string = invisible = "";
+			for (var i = 0; i < data.Tags.length; i++) {
+				invisible += data.Tags[i].TagTitle+":"+data.Tags[i].TagName;
+				string += "<h6 class='display-block'><span class='label label-info text-muted pull-left' style='border-right:0px !important;'>"+data.Tags[i].TagTitle+"</span><span class='label label-warning pull-left' style='border-left:0px !important;'> "+data.Tags[i].TagName+"</span></h6>";
 			}
-			return string;
-		}).notVisible(),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(function(data, type, full){return ""}).withOption('width', '25%').notSortable()
+			return "<span style='display: none'>"+invisible+"</span>"+string;
+		}),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(function(data, type, full){
+			var editButtonAction = "manageStore('edit', "+data.StoreID+")";
+			var deleteButtonAction = "manageStore('delete', "+data.StoreID+")";
+			var inventoryButtonAction = "manageStore('inventory', "+data.StoreID+")";
+
+			var dataOpt = "data-option-id='"+data.ItemID+"' data-option-name='"+data.BillingTypeItemName+"' data-option-brand='"+data.ItemBrand+"' data-option-manufacturer='"+data.ItemManufacturer+"'";
+
+			var editButton = "<button class='btn btn-xs btn-link' ng-click=\""+editButtonAction+"\" "+dataOpt+"><i class='fa fa-edit'></i> edit </button>";
+			var deleteButton = "<button class='btn btn-xs btn-link' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"><i class='fa fa-trash-o'></i> delete </button>";
+			var inventoryButton = "<button class='btn btn-xs btn-link' ng-click=\""+inventoryButtonAction+"\" "+dataOpt+"><i class='fa fa-tags'></i> tags</button>";
+			
+			var buttons = "<div class='btn-group'>"+inventoryButton+editButton+deleteButton+"</button>";
+			return buttons;
+		}).notSortable()
 	];
 
 	$scope.ddtInstance = {};

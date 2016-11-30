@@ -53,6 +53,7 @@ var angularLibraries = [
 	"assets/angular/libraries/angular-animate.js",
 	"assets/angular/libraries/angular-messages.js",
 	"assets/angular/libraries/angular-cookies.js",
+	"assets/angular/libraries/angular-sanitize.min.js",
 	"assets/angular/libraries/angular-datatables.js",
 	"assets/angular/libraries/ng-print/ngPrint.js",
 	"assets/angular/libraries/ng-pagination/ng-pagination.js",
@@ -86,6 +87,7 @@ head.ready(["jquery", "bootstrap"], function(){
 // AngularJS Controllers and Services
 var cntrllers = [
 	"assets/angular/core/controllers/core/core-controller.js",
+	"assets/angular/core/controllers/core/sudo-mode-controller.js",
 	"plugins/mortuary/assets/controllers.js",
 	"plugins/user/assets/controllers.js",
 	"plugins/human-resources/assets/controllers.js",

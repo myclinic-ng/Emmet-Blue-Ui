@@ -1,6 +1,9 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script src="assets/js/plugins/forms/tags/bootstrap-tagsinput.js"></script>
+<script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
 <script>$('select.select').select2();</script>
 
+<ng-include src="'assets/angular/core/templates/sudo-mode.html'"></ng-include>
 <div ng-controller="consultancyPatientWorkspaceController">
 	<div class="row">
 		<div class="input-group col-md-7 col-md-offset-3">
@@ -12,28 +15,107 @@
 	</div>
 	<div class="panel panel-white zoomIn mt-10" ng-show="patientProfileLoaded">
 		<div class="panel-heading">
-			<h6 class="panel-title"></h6>
+			<h6 class="panel-title">Admission Workspace for patient number <span class="text-primary">{{admissionInfo.PatientAdmissionID}}</span></h6>
+			<div class="heading-elements">
+				<button class="btn btn-warning" ng-click="discharge()">Process this patient for discharge</button>
+				<button class="btn btn-primary">Transfer to another ward</button>
+			</div>
 		</div>
 
 		<div class="panel-body">
 			<div class="col-md-9">
 				<div class="tabbable">
 					<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
-						<li class="active" href="#archives" data-toggle="tab"><a>Archives</a></li>
+						<li class="active" href="#archives" data-toggle="tab" ng-click="loadRepositories()"><a>Archives</a></li>
 						<li href="#treatment-chart" data-toggle="tab"><a>Treatment Chart</a></li>
 						<li href="#services-rendered" data-toggle="tab"><a>Services Rendered</a></li>
-						<li href="#archives" data-toggle="tab"><a>Prescription/Diagnosis Note</a></li>
-						<li href="#archives" data-toggle="tab"><a>Investigation Requests</a></li>
+						<li href="#diagnosis-note" data-toggle="tab"><a>Prescription/Diagnosis Note</a></li>
+						<!-- <li href="#archives" data-toggle="tab"><a>Investigation Requests</a></li> -->
 					</ul>
 
 					<div class="tab-content">
 						<div class="tab-pane active" id="archives">
+							<div class="col-md-12" ng-repeat="repo in repositories | toArray:false | filter:repositoryFilter track by $index">
+								<div class="panel border-left-lg border-left-danger">
+									<div class="panel-body">
+										<div class="row">
+											<div class="col-md-8">
+												<h6 class="no-margin-top"><a href="#">{{repo.RepositoryName}}</a></h6>
+												<p class="mb-15">{{repo.RepositoryDescription}}</p>
+											</div>
+
+											<div class="col-md-4">
+												<ul class="list task-details">
+													<li>{{repo.RepositoryCreationDate}}</li>
+													<li class="dropdown">
+								                		Created by: &nbsp; 
+														<a href="#" class="label label-danger dropdown-toggle" data-toggle="dropdown">{{repo.RepositoryCreator}}</a>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+
+									<div class="panel-footer">
+										<ul>
+											<li>Repo UUID: <span class="text-semibold">{{repo.RepositoryNumber}}</span></li>
+										</ul>
+
+										<ul class="pull-right">
+											<li>
+												<a href="#" ng-click="loadRepo(repo.RepositoryID)"><span class="fa fa-link"></span> Load Repository </a>
+											</li>
+
+											<!-- <li class="dropdown">
+												<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i> <span class="caret"></span></a>
+												<ul class="dropdown-menu dropdown-menu-right">
+													<li><a href="#"><i class="icon-alarm-add"></i> Check in</a></li>
+													<li><a href="#"><i class="icon-attachment"></i> Attach screenshot</a></li>
+													<li><a href="#"><i class="icon-rotate-ccw2"></i> Reassign</a></li>
+													<li class="divider"></li>
+													<li><a href="#"><i class="icon-pencil7"></i> Edit task</a></li>
+													<li><a href="#"><i class="icon-cross2"></i> Remove</a></li>
+												</ul>
+											</li> -->
+										</ul>
+									</div>
+								</div>
+							</div>
 						</div>
 						<div class="tab-pane" id="treatment-chart">
 							<ng-treatment-chart admission-id="admissionInfo.PatientAdmissionID" ng-if="patientProfileLoaded" allow-new="false"></ng-treatment-chart>
 						</div>
 						<div class="tab-pane" id="services-rendered">
 							<ng-services-rendered admission-id="admissionInfo.PatientAdmissionID" ng-if="patientProfileLoaded" allow-new="false"></ng-services-rendered>
+						</div>
+						<div class="tab-pane" id="diagnosis-note">
+							<div class="col-md-6">
+								<button class="btn btn-warning pull-left" data-toggle="modal" data-target="#diagnosis-prescription-note"><i class="fa fa-file-text"></i> Add a new note</button>
+							</div>
+							<div class="col-md-6"><input class="form-control pull-right" placeholder="filter notes" ng-model="noteFilter"/></div>
+							<div class="col-md-12">
+								<ul class="media-list chat-list content-group">
+									<div ng-repeat="note in consultationNotes | filter:noteFilter">
+										<li class="media date-step content-divider">
+											<span>{{note.StaffUsername}}</span>
+										</li>
+
+										<li class="media">
+											<div class="media-left">
+												<a class="fa-stack fa-lg">
+													<i class="fa fa-user-md" style="font-size: 2em"></i>
+												</a>
+											</div>
+
+											<div class="media-body">
+												<div class="media-content" ng-bind-html="note.Note"></div>
+												<span class="media-annotation display-block mt-10">{{note.DateTaken}} <a href="#"><i class="icon-pin-alt position-right text-muted"></i></a></span>
+											</div>
+										</li>
+									</div>
+
+								</ul>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -43,7 +125,7 @@
 				<h6 class="text-center text-primary">{{patient.patientfullname}} ({{patient.patienttypename}}, {{patient.categoryname}})</h6>
 				<h6 class="text-muted">Admission Information</h6>
 				<h6 class="col-md-12"><span class="pull-left">Admission Number</span><span class="pull-right text-bold">{{admissionInfo.PatientAdmissionID}}</span></h6>
-				<h6 class="col-md-12"><span class="pull-left">No. of days spent</span><span class="pull-right text-bold">30</span></h6>
+				<h6 class="col-md-12"><span class="pull-left">No. of days spent</span><span class="pull-right text-bold">{{daysSpent(admissionInfo.AdmissionDate)}}</span></h6>
 				<h6 class="col-md-12"><span class="pull-left">Admitted by</span><span class="pull-right text-bold">{{admissionInfo.AdmissionInfo.Consultant}}</span></h6>
 
 				<h6 class="text-muted">Ward Details</h6>
@@ -68,6 +150,68 @@
 			</div>
 		</div>
 	</div>
+
+	<div id="diagnosis-prescription-note" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times; close</button>
+					<h5 class="modal-title">Consultation Note (Prescription/Diagnosis)</h5>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="content-group">
+							<div class="input-group col-md-6 col-md-offset-3">
+								<input class="form-control drug-search" placeholder="enter prescription item here" id="conclusion-drug"/>
+								<span class="input-group-btn">
+									<button class="btn" ng-click="searchDrug()" data-toggle="modal" data-target="#modal-drugs">add</button>
+								</span>
+							</div>
+							<div class="content-group mt-10">
+								<textarea ng-model="currentNote" class="form-control" placeholder="Enter diagnosis/prescription note here" style="height: 300px;"></textarea>
+							</div>
+							<div class="content-group mt-10">
+								<button class="btn btn-warning pull-right" ng-click="submitDiagnosisNote()">Save</button>
+							</div>
+						</div>
+                    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="modal-drugs" class="modal fade">
+			<div class="modal-dialog modal-xs">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h5 class="modal-title">Search for: <strong><a data-dismiss="modal" ng-click="addPrescriptionToList(searchDrugGroups.name)">{{searchDrugGroups.name}}</a></strong></h5>
+					</div>
+
+					<div class="modal-body">
+						<div class="content-group">
+							<input class="form-control" placeholder="filter" ng-model="searchedDrugFilter"/>
+						</div>
+						<span ng-repeat="drug in searchDrugGroups.conceptGroup">
+							<span ng-repeat="item in drug.conceptProperties | toArray:false | filter:searchedDrugFilter track by $index">
+								<div class="checkbox checkbox-right">
+									<label>
+										<input type="checkbox" value="{{item.name}}" ng-model="item.selected" name="selectedDrugs[]">
+										<strong><a href="#">{{item.name}}</a></strong>
+										<p><a href="#">{{item.synonym}}</a></p>
+									</label>
+								</div>
+								<hr>
+							</span>
+						</span>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary" ng-click="addDrugsToPrescriptionToList()">Continue</button>
+					</div>
+				</div>
+			</div>
+		</div>
 </div>
 
 <!-- <ng-include src="'plugins/lab/assets/includes/archives-type-fields.html'"></ng-include> -->

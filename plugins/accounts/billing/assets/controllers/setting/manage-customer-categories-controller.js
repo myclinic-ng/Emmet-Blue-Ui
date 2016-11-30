@@ -54,7 +54,7 @@ angular.module("EmmetBlue")
 	$scope.dtColumns = [
 		utils.DT.columnBuilder.newColumn('CustomerCategoryName').withTitle("CustomerCategory"),
 		utils.DT.columnBuilder.newColumn('CustomerCategoryDescription').withTitle("Description"),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(functions.actionMarkups.customerCategoryActionMarkup).withOption('width', '25%').notSortable()
+		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(functions.actionMarkups.customerCategoryActionMarkup).notSortable()
 	]
 
 	$scope.dtInstance = {};

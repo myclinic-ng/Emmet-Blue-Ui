@@ -113,7 +113,9 @@ angular.module("EmmetBlue")
 			}
 			case "inventory":{
 				utils.storage.inventoryStoreID = id;
-				$("#store_inventory").modal("show");
+				$("#store_inventory").modal({
+					backdrop: "static"
+				});
 				break;
 			}
 		}

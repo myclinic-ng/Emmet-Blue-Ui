@@ -56,7 +56,7 @@
 					</ul>
 
 					<div class="tab-content">
-						<div class="tab-pane fade active" id="history">
+						<div class="tab-pane active" id="history">
 							<div class="col-md-3">
 								<div class="sidebar sidebar-main sidebar-default" style="box-shadow: none; border-color: #F5F5F5; border-radius: 0px;">
 									<div class="sidebar-content">
@@ -132,7 +132,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="tab-pane fade" id="allergies">
+						<div class="tab-pane" id="allergies">
 							<div class="tabbable">
 								<ul class="nav nav-tabs nav-justified">
 									<li href="#allergy-list" data-toggle="tab" class="active"><a>List of patient allergies</a></li>
@@ -140,7 +140,7 @@
 								</ul>
 
 								<div class="tab-content">
-									<div class="tab-pane fade has-padding active" id="allergy-list">
+									<div class="tab-pane has-padding active" id="allergy-list">
 										<div class="row">
 											<div class="col-md-12" ng-repeat="allergy in patient.allergies">
 												<div class="panel panel-body" style="box-shadow: none;">
@@ -208,7 +208,7 @@
 											</div>
 											<div class="content-group col-md-12">
 												<label class="control-label">Note</label>
-												<textarea class="form-control" ng-model="allergies.newAllergy.description"></textarea>
+												<textarea class="form-control" ng-model="allergies.newAllergy.description" placeholder="description"></textarea>
 											</div>
 											<div class="content-group col-md-12">
 												<button class="btn btn-info pull-right col-md-3" ng-click="allergies.saveNewAllergy()">Save</button>
@@ -306,7 +306,7 @@
 								</ul>
 
 								<div class="tab-content">
-									<div class="tab-pane fade" id="exam-{{$index+1}}" ng-repeat="type in examination.examinationTypes">
+									<div class="tab-pane" id="exam-{{$index+1}}" ng-repeat="type in examination.examinationTypes">
 										<div class="row">
 											<div class="form-group col-md-12" ng-repeat="option in type.options">
 												<label class="control-label">
@@ -328,7 +328,7 @@
 								</ul>
 
 								<div class="tab-content">
-									<div class="tab-pane fade active" id="lab">
+									<div class="tab-pane active" id="lab">
 										<div class="col-md-5">
 											<input class="form-control" placeholder="basic search" ng-change="labTests.searchPerformed = false" ng-model="labTests.basicInvestigationsFiler"/>
 										</div>
@@ -490,7 +490,7 @@
 												<input class="form-control" placeholder="diagnosis" ng-model="conclusion.diagnosis.title"/>
 											</div>
 											<div class="content-group">
-												<textarea class="form-control" style="height: 400px; border: 0px; border-left: 1px solid #F5F5F5" ng-model="conclusion.diagnosis.description"></textarea>
+												<textarea placeholder="Add extra diagnosis note here (optional)" class="form-control" style="height: 400px; border: 0px; border-left: 1px solid #F5F5F5" ng-model="conclusion.diagnosis.description"></textarea>
 											</div>
 					                    </div>
 									</div>
@@ -545,38 +545,38 @@
 				<div class="table-responsive">
 					<table class="table table-bordered">
 						<tbody>
-							<tr class="danger" ng-show="presentingComplaints.complaints.length > 0">
+							<tr class="bg-success" ng-show="presentingComplaints.complaints.length > 0">
 								<th colspan="3">Complaints</th>
 							</tr>
 							<tr ng-repeat="complaint in presentingComplaints.complaints">
 								<td>{{$index + 1}}</td>
 								<td>{{complaint.title}}</td>
 							</tr>
-							<tr class="danger" ng-show="labTests.investigations.lab.length > 0 || labTests.investigations.imaging.length > 0">
+							<tr class="bg-success" ng-show="labTests.investigations.lab.length > 0 || labTests.investigations.imaging.length > 0">
 								<th colspan="3">Investigations</th>
 							</tr>
-							<tr class="active" ng-show="labTests.investigations.lab.length > 0">
+							<tr class="bg-info" ng-show="labTests.investigations.lab.length > 0">
 								<th colspan="1">Laboratory</th>
 							</tr>
 							<tr ng-repeat="investigation in labTests.investigations.lab">
 								<td>{{$index + 1}}</td>
 								<td>{{investigation.title}}</td>
 							</tr>
-							<tr class="active" ng-show="labTests.investigations.imaging.length > 0">
+							<tr class="bg-info" ng-show="labTests.investigations.imaging.length > 0">
 								<th colspan="1">Radiology</th>
 							</tr>
 							<tr ng-repeat="investigation in labTests.investigations.imaging">
 								<td>{{$index + 1}}</td>
 								<td>{{investigation.title}}</td>
 							</tr>
-							<tr class="danger" ng-show="conclusion.prescriptionList.length > 0">
+							<tr class="bg-success" ng-show="conclusion.prescriptionList.length > 0">
 								<th colspan="3">Prescription</th>
 							</tr>
 							<tr ng-repeat="prescription in conclusion.prescriptionList">
 								<td>{{$index + 1}}</td>
 								<td>{{prescription.item}}</td>
 							</tr>
-							<tr class="danger" ng-show="patient.allergies.length > 0">
+							<tr class="bg-success" ng-show="patient.allergies.length > 0">
 								<th colspan="3">Allergies</th>
 							</tr>
 							<tr ng-repeat="allergy in patient.allergies">

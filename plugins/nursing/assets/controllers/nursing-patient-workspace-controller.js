@@ -37,6 +37,11 @@ function nursingPatientWorkspaceController($rootScope, $scope, utils){
 	}
 	loadObservationTypes();
 
+	$scope.daysSpent = function(date){
+		var today = (new Date()).toLocaleDateString();
+		return utils.dateDiff(date, today);
+	}
+
 	function reloadFields(id){
 		utils.serverRequest('/nursing/observation-type/view?resourceId='+id, 'GET').then(function(response){
 			$scope.currentObservationTypeName = response[0].ObservationTypeName;
@@ -94,14 +99,23 @@ function nursingPatientWorkspaceController($rootScope, $scope, utils){
 			}
 
 			$scope.admissionInfo = response[0];
-			console.log($scope.admissionInfo);
 			utils.serverRequest("/patients/patient/search", "POST", data).then(function(response){
 				$scope.patient = response.hits.hits[0]["_source"];
 				$scope.patientProfileLoaded = true;
 				$scope.loadRepositories();
+				loadConsultationNotes();
 			}, function(error){
 				utils.errorHandler(error);
 			})
+		}, function(error){
+			utils.errorHandler(error);
+		})
+	}
+
+	var loadConsultationNotes = function(){
+		var req = utils.serverRequest("/consultancy/consultation-sheet/view?resourceId="+$scope.admissionInfo.WardAdmissionID, "GET");
+		req.then(function(response){
+			$scope.consultationNotes = response;
 		}, function(error){
 			utils.errorHandler(error);
 		})

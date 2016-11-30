@@ -54,7 +54,7 @@ angular.module("EmmetBlue")
 	$scope.dtColumns = [
 		utils.DT.columnBuilder.newColumn('PaymentMethodName').withTitle("PaymentMethod"),
 		utils.DT.columnBuilder.newColumn('PaymentMethodDescription').withTitle("Description"),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(functions.actionMarkups.paymentMethodActionMarkup).withOption('width', '25%').notSortable()
+		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(functions.actionMarkups.paymentMethodActionMarkup).notSortable()
 	]
 
 	$scope.dtInstance = {};

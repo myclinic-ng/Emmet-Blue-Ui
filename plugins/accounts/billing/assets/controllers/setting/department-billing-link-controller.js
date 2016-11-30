@@ -61,7 +61,7 @@ angular.module("EmmetBlue")
 	$scope.linkDtColumns = [
 		utils.DT.columnBuilder.newColumn('BillingTypeName').withTitle("Linked billing type"),
 		utils.DT.columnBuilder.newColumn('BillingTypeDescription').withTitle("Description"),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(unlinkDepartmentAction).withOption('width', '25%').notSortable()
+		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(unlinkDepartmentAction).notSortable()
 	]
 
 	$scope.linkDtInstance = {};

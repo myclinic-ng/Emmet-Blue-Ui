@@ -2,21 +2,13 @@
 <script>$('select.select').select2();</script>
 
 <div ng-controller="pharmacyStoreInventoryController">
-	<div class="panel panel-white zoomIn" >
-		<div class="panel-body">
-			<div class="table-responsive col-md-12">
-				<table datatable="" dt-options="ddtOptions" dt-columns="ddtColumns" dt-instance="ddtInstance" class="table table-condensed table-striped table-hover">
-
-				</table>
-			</div>
-		</div>
-	</div>
+	<table datatable="" dt-options="ddtOptions" dt-columns="ddtColumns" dt-instance="ddtInstance" class="table table-condensed table-striped table-hover"></table>
 
 	<div id="new_store_inventory" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<button type="button" class="close" onclick="$('#new_store_inventory').modal('hide')">&times;</button>
 					<h6 class="modal-title">Create a new inventory item</h6>
 				</div>
 
@@ -24,7 +16,7 @@
 					<form role="form">
 						<div class="form-group">
 							<div class="row">
-								<div class="content-group col-sm-8">
+								<div class="content-group col-sm-12">
 									<label class="text-bold">Item name</label>
 									<select class="select" ng-model="newItem.name">
 										<optgroup label="{{key}}" ng-repeat="(key, item) in inventoryItems">
@@ -32,10 +24,10 @@
 										</optgroup>
 									</select>
 								</div>
-								<div class="content-group col-sm-4">
+								<!-- <div class="content-group col-sm-4">
 									<label class="text-bold">Quantity</label>
 									<input type="number" class="form-control" ng-model="newItem.quantity"/>
-								</div>
+								</div> -->
 								<div class="content-group col-sm-6">
 									<label class="text-bold">Item Brand</label>
 									<input class="form-control" ng-model="newItem.brand"/>
@@ -83,7 +75,7 @@
 				</div>
 
 				<div class="modal-footer">
-					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="newItem = {}"><i class="fa fa-times-circle-o"></i> Close</button>
+					<button type="button" class="btn btn-link" onclick="$('#new_store_inventory').modal('hide')" ng-click="newItem = {}"><i class="fa fa-times-circle-o"></i> Close</button>
 					<button type="button" class="btn btn-warning" ng-click="saveNewItem()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"> </i></span>  Save</button>
 				</div>
 			</div>
