@@ -4,16 +4,16 @@ angular.module('EmmetBlue')
 	var functions = {
 		actionMarkups: {
 			profileRecordActionMarkup: function (data, type, full, meta){
-				var editButtonAction = "manageProfileRecord('edit', "+data.RecordID+")";
-				var deleteButtonAction = "manageProfileRecord('delete', "+data.RecordID+")";
+				var editButtonAction = "manageProfileRecord('edit', "+data.FieldTitleID+")";
+				var deleteButtonAction = "manageProfileRecord('delete', "+data.FieldTitleID+")";
 
-				var dataOpt = "data-option-id='"+data.RecordID+"' data-option-name='"+data.RecordName+"' data-option-description='"+data.RecordDescription+"'";
+				var dataOpt = "data-option-id='"+data.FieldTitleID+"' data-option-name='"+data.FieldTitleName+"' data-option-description='"+data.FieldTitleDescription+"'";
 
-				var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+dataOpt+"> Edit</button>";
-				var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> Delete</button>";
+				var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+dataOpt+"> <i class='fa fa-edit'></i> Edit</button>";
+				var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> <i class='fa fa-trash'></i> Delete</button>";
 				var viewButton = "<button class='btn btn-default'> View</button>";
 
-				var buttons = "<div class='btn-group'>"+viewButton+editButton+deleteButton+"</button>";
+				var buttons = "<div class='btn-group'>"+editButton+deleteButton+"</button>";
 				return buttons;
 			}
 		},
@@ -119,9 +119,10 @@ angular.module('EmmetBlue')
 	]);	
 
 	$scope.settingsDtColumns = [
-		utils.DT.columnBuilder.newColumn('RecordID').withTitle("Record ID").withOption('width', '0.5%'),
-		utils.DT.columnBuilder.newColumn('RecordName').withTitle("Record"),
-		utils.DT.columnBuilder.newColumn('RecordType').withTitle("Type"),
+		utils.DT.columnBuilder.newColumn('FieldTitleID').withTitle("Field ID"),
+		utils.DT.columnBuilder.newColumn('FieldTitleName').withTitle("Field Name"),
+		utils.DT.columnBuilder.newColumn('FieldTitleType').withTitle("Field Type"),
+		utils.DT.columnBuilder.newColumn('FieldTitleDescription').withTitle("Description"),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(functions.actionMarkups.profileRecordActionMarkup).notSortable()
 	];
 
@@ -144,8 +145,8 @@ angular.module('EmmetBlue')
 	$scope.saveEditProfileRecord = function(){
 		var edits = {
 			resourceId: $scope.tempHolder.id,
-			RecordName: $scope.tempHolder.name,
-			RecordDescription: $scope.tempHolder.description
+			FieldTitleName: $scope.tempHolder.name,
+			FieldTitleDescription: $scope.tempHolder.description
 		}
 
 		var saveEdits = utils.serverRequest('/human-resources/staff-profile-record/edit', 'PUT', edits);

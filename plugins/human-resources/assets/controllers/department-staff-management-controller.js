@@ -56,11 +56,82 @@ angular.module("EmmetBlue")
 
 		save.then(function(response){
 			$('.loader').removeClass('show');
+			utils.storage.hr ={
+				currentNewStaffID: response.lastInsertId
+			}
+
 			functions.newStaffCreated();
 		}, function(response){
 			$('.loader').removeClass('show');
-			$("#new_staff_profile").modal("show");
 			utils.errorHandler(response);
 		});
 	}
+
+	$scope.loadImage = utils.loadImage;
+	function dtAction(data, full, meta, type){
+		// editButtonAction = "manage('edit',"+data.ObservationTypeID+")";
+		// deleteButtonAction = "manage('delete',"+data.ObservationTypeID+")";
+		// var dataOpt = "data-option-id='"+data.ObservationTypeID+
+		// 			"' data-option-name='"+data.ObservationTypeName+
+		// 			"' data-option-description='"+data.ObservationTypeDescription+
+		// 			"'";
+		// editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+dataOpt+"> <i class='fa fa-pencil'></i></button>";
+		// deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> <i class='fa fa-trash-o'></i></button>";
+
+		// viewCardButtonAction = "manage('view',"+data.PatientID+")";
+		// closeButtonAction = "manage('close',"+data.PatientID+")";
+		observationButtonAction = "manage('process',"+data.PatientAdmissionID+")";
+		viewButtonAction = "manage('view',"+data.PatientAdmissionID+")";
+
+		var dataOpts = "data-option-id = '"+data.PatientAdmissionID+"' "+
+					   "data-option-consultant = '"+data.Consultant+"'"+
+					   "data-option-patient = '"+data.Patient+"'"+
+					   "data-option-ward = '"+data.WardName+"'"+
+					   "data-option-section = '"+data.WardSectionName+"'"+
+					   "data-option-section-id = '"+data.Section+"'"+
+					   "data-option-admission-date = '"+data.AdmissionDate+"'";
+
+		// viewCard = "<button class='btn btn-default' ng-click=\""+viewCardButtonAction+"\">View Profile</button>";
+		// closeProfile = "<button class='btn btn-default' ng-click=\""+closeButtonAction+"\">Close</button>";
+		view = "<button class='btn btn-default btn-admission-process' ng-click=\""+viewButtonAction+"\""+dataOpts+">View Profile</button>";
+		return "";//"<div class='btn-group'>"+view+"</div>";
+	}
+
+	$scope.dtInstance = {};
+
+	$scope.dtOptions = utils.DT.optionsBuilder
+	.fromFnPromise(function(){
+		return utils.serverRequest('/human-resources/staff-profile/view-all-staffs', 'GET');
+	})
+	.withPaginationType('full_numbers')
+	.withDisplayLength(10)
+	.withFixedHeader()
+	.withOption('createdRow', function(row, data, dataIndex){
+		utils.compile(angular.element(row).contents())($scope);
+	})
+	.withOption('headerCallback', function(header) {
+        if (!$scope.headerCompiled) {
+            $scope.headerCompiled = true;
+            utils.compile(angular.element(header).contents())($scope);
+        }
+    })
+
+	$scope.dtColumns = [
+		utils.DT.columnBuilder.newColumn(null).withTitle("S/N").renderWith(function(data, type, full, meta){
+			return meta.row + 1;
+		}),
+		utils.DT.columnBuilder.newColumn('StaffID').withTitle("Staff ID"),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Full Name").renderWith(function(data){
+			var image = $scope.loadImage(data.StaffPicture);
+			var val ='<div class="media-left"> <a href="#"> <img src="'+image+'" class="img-circle" alt=""> </a> </div><div class="media-body">'+data.StaffFullName+'</div>';
+			return "<div class='media'>"+val+"</div>";
+		}),
+		utils.DT.columnBuilder.newColumn('DepartmentName').withTitle("Department"),
+		utils.DT.columnBuilder.newColumn('RoleName').withTitle("Staff Role"),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(dtAction).notSortable()
+	];
+
+	$scope.$on("new-staff-profile-registered", function(){
+		$scope.dtInstance.reloadData();
+	})
 })
