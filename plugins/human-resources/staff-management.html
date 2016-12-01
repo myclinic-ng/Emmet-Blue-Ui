@@ -14,17 +14,17 @@
 					<!-- Sidebar tabs -->
 					<div class="tabbable sortable">
 						<ul class="nav nav-lg nav-tabs nav-justified">
-							<li class="active">
-								<a href="#new-staff" data-toggle="tab">
+							<li href="#new-staff" data-toggle="tab" class="active">
+								<a>
 									<i class="icon-user-plus"></i>
 									<span class="visible-xs-inline-block position-right">New Staff</span>
 								</a>
 							</li>
 
-							<li>
-								<a href="#filter-staff" data-toggle="tab">
+							<li href="#filter-staff" data-toggle="tab">
+								<a ng-click="loadStaffsWithNoProfile()">
 									<i class="icon-users"></i>
-									<span class="visible-xs-inline-block position-right">Search</span>
+									<span class="visible-xs-inline-block position-right">Staff Profiles</span>
 								</a>
 							</li>
 						</ul>
@@ -92,7 +92,7 @@
 								<!-- Sidebar search -->
 								<div class="sidebar-category">
 									<div class="category-title">
-										<span>Click on a staff to manage</span>
+										<span>Record staff profile information</span>
 										<ul class="icons-list">
 											<li><a href="#" data-action="collapse"></a></li>
 										</ul>
@@ -102,7 +102,7 @@
 										<div class="content-group">
 											<form action="#">
 												<div class="has-feedback has-feedback-left">
-													<input type="search" class="form-control" placeholder="Search">
+													<input type="search" class="form-control" placeholder="Enter username to search" ng-model="filterStaff"/>
 													<div class="form-control-feedback">
 														<i class="icon-search4 text-size-base text-muted"></i>
 													</div>
@@ -110,13 +110,19 @@
 											</form>
 										</div>
 
-										<table class="table table-responsive table-bordered table-hover table-condensed">
+										<table class="table table-hover table-condensed">
 											<thead>
 												<tr class="bg-warning">
-													<th>Staff ID</th>
-													<th>Staff</th>
+													<th>Username</th>
+													<th>Action</th>
 												</tr>
 											</thead>
+											<tbody>
+												<tr ng-repeat="staff in staffsWithNoProfile | filter:filterStaff">
+													<td>{{staff.StaffUsername}}</td>
+													<th><button class="btn btn-danger" ng-click="addProfileInfo(staff.StaffID)"><i class="fa fa-edit"></i> </button></th>
+												</tr>
+											</tbody>
 										</table>
 									</div>
 								</div>
@@ -136,7 +142,7 @@
 				<div class="panel panel-flat">
 					<div class="panel-content">
 						<div class="panel-body">
-							<h6 class="pull-left">Staff Profile Management</h6>
+							<h6 class="pull-left">Staff Profile Management Dashboard</h6>
 							<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-hover">
 					
 							</table>

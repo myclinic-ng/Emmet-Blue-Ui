@@ -133,5 +133,24 @@ angular.module("EmmetBlue")
 
 	$scope.$on("new-staff-profile-registered", function(){
 		$scope.dtInstance.reloadData();
+		$scope.loadStaffsWithNoProfile();
 	})
+
+	$scope.loadStaffsWithNoProfile = function(){
+		var req = utils.serverRequest("/human-resources/staff/view-staffs-with-no-profile", "GET");
+
+		req.then(function(response){
+			$scope.staffsWithNoProfile = response;
+		}, function(erorr){
+			utils.errorHandler(erorr);
+		})
+	}
+
+	$scope.addProfileInfo = function(id){
+		utils.storage.hr ={
+			currentNewStaffID: id
+		};
+
+		$("#new_staff_profile").modal("show");
+	}
 })
