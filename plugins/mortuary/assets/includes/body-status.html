@@ -1,37 +1,87 @@
-<!-- <script src="assets/js/plugins/forms/wizards/stepy.min.js"></script>
-<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-<script src="assets/js/plugins/forms/styling/uniform.min.js"></script>
-<script src="plugins/mortuary/assets/js/wizard_stepy.js"></script> -->
-
-<div >
-	<div id="changeBodyStatusForm" ng-controller="mortuaryViewBodyController" class="modal fade">
-		<div class="modal-dialog">
+<div ng-controller="mortuaryViewBodyController">
+	<div id="changeBodyStatusForm" class="modal fade">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<div class="modal-title">Change Body Status</div>
 				</div>
 				<div class="modal-body">
-					<form role="form">
-							<div class="form-group">
-								<div class="row">
-									<div class="content-group col-sm-12">
-										<label class="control-label">Change Status</label>
-										<select class="select" name="statusCode" ng-model="bodyStatus" required>
-											<option ng-repeat="key in status" value="{{key.StatusShortCode}}">{{key.StatusName}}</option>		
-										</select>
-									</div>
-									<div class="content-group col-sm-12">
-										<label class="control-label">Payment Request Number</label>
-										<input type="text" class="form-control" name="paymentCode" ng-model="bodyValidationcode.validateCode" required>
+					<div class="col-md-12" ng-show="!isBodyReady">
+						<label class="control-label text-center">Enter Body ID</label>
+						<input class="form-control input-lg" ng-model="bodyId"/>
+						<center><button class="btn btn-large btn-warning mt-15" ng-click="loadBody(bodyId)">Continue</button></center>
+					</div>
+					<div class="row" ng-if="isBodyReady">
+						<div class="col-md-8" style="border-right: 1px solid #4CAF50; height: 400px;">
+							<form role="form">
+								<div class="form-group" ng-cloak>
+									<div class="row">
+										<div class="content-group col-sm-12">
+											<label class="control-label">Select a new status to change to</label>
+											<select class="form-control" name="statusCode" ng-model="bodyStatus" ng-change="bodyStatusWatcher(bodyStatus)" required>
+												<option ng-repeat="key in status" value="{{key.StatusShortCode}}">{{key.StatusName}}</option>		
+											</select>
+										</div>
+										<div class="content-group col-sm-12" ng-if="!noPayment">
+											<label class="control-label">Payment Request Number</label>
+											<input type="text" class="form-control" name="paymentCode" ng-model="bodyValidationcode.validateCode" required>
+										</div>
+										<div ng-if="noPayment">
+											<div class="col-md-12">
+												<div class="form-group col-md-8">
+													<select class="form-control col-md-12" ng-model="paymentRequestItem.item">
+														<optgroup label="{{key}}" ng-repeat="(key, item) in requestItems">
+															<option ng-repeat="value in item" value="{{value}}">{{value.BillingTypeItemName}}</option>
+														</optgroup>
+													</select>
+												</div>
+												<div class="input-group col-md-4">
+													<input type="number" placeholder="Qty" class="form-control col-md-7" ng-model="paymentRequestItem.quantity"/>
+													<span class="input-group-btn">
+														<button class="btn btn-default btn-success" ng-click="addPaymentRequestItemToList()">add</button>
+													</span>
+												</div>
+												<div class="col-md-12 table-responsive">
+													<table class="table table-condensed hover">
+														<thead>
+															<tr class="warning">
+																<th>S/N</th>
+																<th>Item</th>
+																<th>Quantity</th>
+																<th>Action</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr ng-repeat="item in paymentRequestItems">
+																<td>{{$index + 1}}</td>
+																<td>{{item._item.BillingTypeItemName}}</td>
+																<td>{{item.quantity}}</td>
+																<td><a class="btn btn-link text-danger" href="#" ng-click="removeItem($index)"><i class="icon-bin"></i> Remove</a></td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
-							</div>	
-					</form>	
+								<div class="content-group">
+									<button class="btn btn-warning pull-right" ng-click="performStatusChange()">Continue</button>
+								</div>	
+							</form>	
+						</div>
+						<div class="col-md-4">
+							<h6 class="col-md-12 text-center text-thin" style="font-size: 0.5em"><span class="text-bold label label-default">Current Status</span><span class="label label-info">{{currentBodyInfo.StatusName}}</span></h6>
+							<img class="img img-thumbnail img-responsive" ng-src="{{loadImage(currentBodyInfo.PatientInfo.patientpicture)}}"/>
+							<h6 class="col-md-12 text-center "><span class="text-bold text-success">{{currentBodyInfo.BodyFullName}}</span></h6>
+							<h6 class="col-md-12 mb-10"><span class="text-bold pull-left">Body Registration ID:</span><span class="pull-right label label-danger">{{currentBodyInfo.BodyID}}</span></h6>
+						</div>
+					</div>
 				</div>
 				<div class="modal-footer">
-						<button class="btn btn-link" type="submit" data-dismiss="modal" ng-click="changeBodyStatus = {}">close</button>
-					<button class="btn btn-warning" type="submit" ng-click="changeBodyStatus()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin fa-3x"> </i></span> Change Status</button>
+					<!-- <button class="btn btn-link" type="submit" data-dismiss="modal" ng-click="changeBodyStatus = {}">close</button>
+					<button class="btn btn-warning" type="submit" ng-click="changeBodyStatus()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin fa-3x"> </i></span> Change Status</button> -->
 				</div>
 			</div>
 		</div>

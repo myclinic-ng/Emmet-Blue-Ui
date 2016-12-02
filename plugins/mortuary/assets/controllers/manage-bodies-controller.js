@@ -1,6 +1,6 @@
 angular.module("EmmetBlue")
 
-.controller("mortuaryManageBodiesController", function($scope, utils){
+.controller("mortuaryManageBodiesController", function($scope, utils, $location){
 	$scope.pageSegment = "";
 	var urlPart = "plugins/mortuary/";
 	$scope.loadPageSegment = function(segment){
@@ -10,9 +10,12 @@ angular.module("EmmetBlue")
 				break;
 			}
 			case "view-bodies":{
-				$scope.pageSegment = "plugins/mortuary/assets/includes/view-body.html";
+				// $scope.pageSegment = "plugins/mortuary/assets/includes/view-body.html";
+				$location.path("mortuary/view-bodies")
 				break;
 			}
 		}
 	}
+
+	$scope.loadPageSegment("new-body");
 })
