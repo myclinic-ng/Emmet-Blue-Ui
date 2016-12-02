@@ -14,24 +14,25 @@
 		</ul>
 
 		<ul class="no-login nav navbar-nav navbar-right">
-			<!-- <li>
-				<a href="#addStudent">
-					<i class="icon-help"></i>
-					<span class="position-right">Help</span>
+			<li>
+				<a>
+					<i class="icon-vcard"></i>
+					<span class="position-right">{{currentStaffDepartmentInfo.Name}}</span>
 				</a>
 			</li>
 
-			<li>
-				<a href="#">
-					<i class="icon-cog3"></i>
-					<span class="position-right">Settings</span>
+			<!-- <li>
+				<a>
+					<i class="fa fa-user-secret"></i>
+					<span class="position-right"></span>
 				</a>						
 			</li> -->
 
 			<li class="dropdown dropdown-user">
 				<a class="dropdown-toggle" data-toggle="dropdown">
-					<!-- <img src="assets/images/image.jpg" alt=""> -->
-					<span>User Name</span>
+					<img ng-src="{{loadImage(currentStaffInfo.StaffPicture)}}" alt="{{currentStaffInfo.StaffID}}">
+					<!-- <i class="icon-user-lock"></i> -->
+					<span>{{currentStaffInfo.StaffFullName}}</span>
 					<i class="caret"></i>
 				</a>
 

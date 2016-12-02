@@ -1,6 +1,7 @@
 angular.module("EmmetBlue")
 
 .controller('coreController', function($scope, $location, $routeParams, CONSTANTS, utils){
+	$scope.loadImage = utils.loadImage;
 	$scope.$on('$routeChangeSuccess', function(event, current, previous){
 		var path = ($location.path()).split('/');
 		var userDashboard = utils.userSession.getDashboard();
@@ -25,7 +26,7 @@ angular.module("EmmetBlue")
 		$scope.moduleHeader = moduleHeader;
 	});
 
-	$scope.checkLogin = function(){
+	var checkLogin = function(){
 		if ($location.path() != '/user/login'){
 			utils.userSession.cookie();
 		}
@@ -43,5 +44,28 @@ angular.module("EmmetBlue")
 		utils.userSession.clear();
 	}
 
-	$scope.checkLogin();
+	var loadUserProfile = function(){
+		if ($location.path() != '/user/login'){
+			var req = utils.serverRequest("/human-resources/staff/view-staff-with-department-and-role?uuid="+utils.userSession.getUUID(), "GET");
+
+			req.then(function(response){
+				$scope.currentStaffDepartmentInfo = response[0];
+				console.log(response[0]);
+			}, function(error){
+				utils.errorHandler(error);
+			})
+
+			var req2 = utils.serverRequest("/human-resources/staff/view-staff-profile?resourceId="+utils.userSession.getID(), "GET");
+
+			req2.then(function(response){
+				$scope.currentStaffInfo = response[0];
+			}, function(error){
+				utils.errorHandler(error);
+			})
+		}
+	}
+
+
+	checkLogin();
+	loadUserProfile();	
 });
