@@ -10,9 +10,9 @@ angular.module("EmmetBlue")
 
 				var dataOpt = "data-option-id='"+data.DepartmentID+"' data-option-name='"+data.Name+"' data-option-group='"+data.GroupID+"'";
 
-				var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+dataOpt+"><i class='icon-pencil5'></i> </button>";
-				var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"><i class='icon-bin'></i> </button>";
-				var viewButton = "<button class='btn btn-default'><i class='icon-eye'> </i> </button>";
+				var editButton = "<button class='btn btn-default btn-department' ng-click=\""+editButtonAction+"\" "+dataOpt+"><i class='icon-pencil5'></i> </button>";
+				var deleteButton = "<button class='btn btn-default btn-department' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"><i class='icon-bin'></i> </button>";
+				var viewButton = "<button class='btn btn-default btn-department'><i class='icon-eye'> </i> </button>";
 				var roleManagementButton = "<button class='btn btn-default' ng-click=\""+roleManagementButtonAction+"\" "+dataOpt+"><i class='icon-equalizer'></i> Manage Roles</button>";
 
 				var buttons = "<div class='btn-group'>"+viewButton+editButton+deleteButton+roleManagementButton+"</button>";
@@ -71,15 +71,15 @@ angular.module("EmmetBlue")
 				$("#new_department").modal("show");
 			},
 			editDepartment: function(id){
-				$scope.tempHolder.name = $(".btn[data-option-id='"+id+"']").attr('data-option-name');
-				$scope.tempHolder.groupId = $(".btn[data-option-id='"+id+"']").attr('data-option-group');
+				$scope.tempHolder.name = $(".btn-department[data-option-id='"+id+"']").attr('data-option-name');
+				$scope.tempHolder.groupId = $(".btn-department[data-option-id='"+id+"']").attr('data-option-group');
 				$scope.tempHolder.id = id;
 
 				$("#edit_department").modal("show");
 			},
 			deleteDepartment: function(id){
 				var title = "Delete Prompt";
-				var text = "You are about to delete the department named "+$(".btn[data-option-id='"+id+"']").attr('data-option-name')+". Do you want to continue? Please note that this action cannot be undone";
+				var text = "You are about to delete the department named "+$(".btn-department[data-option-id='"+id+"']").attr('data-option-name')+". Do you want to continue? Please note that this action cannot be undone";
 				var close = true;
 				$scope._id = id;
 				var callback = function(){
@@ -101,7 +101,7 @@ angular.module("EmmetBlue")
 			},
 			roleManagement: function(id){
 				var data = {
-					name: $(".btn[data-option-id='"+id+"']").attr('data-option-name'),
+					name: $(".btn-department[data-option-id='"+id+"']").attr('data-option-name'),
 					id: id
 				}
 
@@ -190,25 +190,25 @@ angular.module("EmmetBlue")
         		ctrlKey: false,
         		altKey: true
         	}
-        },
-        {
-        	text: '<i class="icon-equalizer2"></i> <u>M</u>anage the selected departments',
-        	key: {
-        		key: 'm',
-        		ctrlKey: false,
-        		altKey: true
-        	},
-        	action: function(e, dt, node, config){
-        	}
         }
+        //, {
+        // 	text: '<i class="icon-equalizer2"></i> <u>M</u>anage the selected departments',
+        // 	key: {
+        // 		key: 'm',
+        // 		ctrlKey: false,
+        // 		altKey: true
+        // 	},
+        // 	action: function(e, dt, node, config){
+        // 	}
+        // }
 	]);	
 
 	$scope.dtColumns = [
-		utils.DT.columnBuilder.newColumn(null).withTitle(functions.actionMarkups.checkAll.title).renderWith(functions.actionMarkups.checkAll.body).withOption('width', '0.5%').notSortable(),
-		utils.DT.columnBuilder.newColumn('DepartmentID').withTitle("Department ID").withOption('width', '0.5%'),
+		utils.DT.columnBuilder.newColumn(null).withTitle(functions.actionMarkups.checkAll.title).renderWith(functions.actionMarkups.checkAll.body).notSortable(),
+		utils.DT.columnBuilder.newColumn('DepartmentID').withTitle("Department ID"),
 		utils.DT.columnBuilder.newColumn('Name').withTitle("Department Name"),
 		utils.DT.columnBuilder.newColumn('GroupName').withTitle("Department Group"),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(functions.actionMarkups.departmentActionMarkup).withOption('width', '25%').notSortable()
+		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(functions.actionMarkups.departmentActionMarkup).notSortable()
 	];
 
 	$scope.reloadDepartmentTable = function(){

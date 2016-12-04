@@ -4,13 +4,19 @@ angular.module("EmmetBlue")
 	$scope.loadImage = utils.loadImage;
 	$scope.$on('$routeChangeSuccess', function(event, current, previous){
 		var path = ($location.path()).split('/');
-		var userDashboard = utils.userSession.getDashboard();
-		if (path[1] !== "" && userDashboard.split("/")[0] !== path[1]){
+		var userDashboard = ("/"+utils.userSession.getDashboard()).split("/");
+		delete path[path.length - 1];
+		delete userDashboard[userDashboard.length - 1];
+
+		var dirPath = path.join("/");
+		var dirUserDashboard = userDashboard.join("/");
+		if (path[1] !== "" && dirUserDashboard !== dirPath){
 			if (path[1] != "user"){
-				// console.log(userDashboard, path);
-				utils.alert("Accessed Denied", "You tried to access a department page and was redirected back here. please request for the appropriate permissions to do that next time", "info");
+				utils.alert("Access Denied", "You tried to access a department page and was redirected back here. please request for the appropriate permissions to do that next time", "info");
 				$location.path('user/home');
 			}
+		}
+		else {
 		}
 
 		delete path[path.length - 1];
@@ -50,7 +56,6 @@ angular.module("EmmetBlue")
 
 			req.then(function(response){
 				$scope.currentStaffDepartmentInfo = response[0];
-				console.log(response[0]);
 			}, function(error){
 				utils.errorHandler(error);
 			})

@@ -12,7 +12,7 @@ angular.module("EmmetBlue")
 		var deleteButton = "<button class='btn btn-default billing-type-btn' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"><i class='icon-bin'></i> </button>";
 		var inventoryButton = "<button class='btn btn-default' ng-click=\""+inventoryButtonAction+"\" "+dataOpt+"><i class='icon-eye'> </i> Inventory</button>";
 		
-		var buttons = "<div class='btn-group'>"+editButton+deleteButton+inventoryButton+"</button>";
+		var buttons = "<div class='btn-group'>"+editButton+deleteButton+"</button>";
 		return buttons;
 	}
 	

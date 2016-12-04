@@ -24,9 +24,9 @@ angular.module("EmmetBlue")
 
 				var dataOpt = "data-option-id='"+data.RoleID+"' data-option-name='"+data.Name+"'";
 
-				var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+dataOpt+"> <i class='fa fa-pencil'></i></button>";
-				var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> <i class='fa fa-trash-o'></i></button>";
-				var viewButton = "<button class='btn btn-default'> <i class='fa fa-eye'></i></button>";
+				var editButton = "<button class='btn btn-default btn-role' ng-click=\""+editButtonAction+"\" "+dataOpt+"> <i class='fa fa-pencil'></i></button>";
+				var deleteButton = "<button class='btn btn-default btn-role' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> <i class='fa fa-trash-o'></i></button>";
+				var viewButton = "<button class='btn btn-default btn-role'> <i class='fa fa-eye'></i></button>";
 
 				var buttons = "<div class='btn-group'>"+viewButton+editButton+deleteButton+"</button>";
 				return buttons;
@@ -57,14 +57,14 @@ angular.module("EmmetBlue")
 				$("#new_role").modal("show");
 			},
 			editRole: function(id){
-				$scope.tempHolder.name = $(".btn[data-option-id='"+id+"']").attr('data-option-name');
+				$scope.tempHolder.name = $(".btn-role[data-option-id='"+id+"']").attr('data-option-name');
 				$scope.tempHolder.id = id;
 
 				$("#edit_role").modal("show");
 			},
 			deleteRole: function(id){
 				var title = "Delete Prompt";
-				var text = "You are about to delete the Role named "+$(".btn[data-option-id='"+id+"']").attr('data-option-name')+". Do you want to continue? Please note that this action cannot be undone";
+				var text = "You are about to delete the Role named "+$(".btn-role[data-option-id='"+id+"']").attr('data-option-name')+". Do you want to continue? Please note that this action cannot be undone";
 				var close = true;
 				$scope._id = id;
 				var callback = function(){
@@ -118,9 +118,9 @@ angular.module("EmmetBlue")
 	]);	
 
 	$scope.ddtColumns = [
-		utils.DT.columnBuilder.newColumn('RoleID').withTitle("ID").withOption('width', '0.5%').notSortable(),
+		utils.DT.columnBuilder.newColumn('RoleID').withTitle("ID").notSortable(),
 		utils.DT.columnBuilder.newColumn('Name').withTitle("Role"),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(functions.actionMarkups.roleActionMarkup).withOption('width', '25%').notSortable()
+		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(functions.actionMarkups.roleActionMarkup).notSortable()
 	];
 
 	$scope.reloadRoleTable = function(){

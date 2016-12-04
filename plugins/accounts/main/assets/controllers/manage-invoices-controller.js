@@ -3,10 +3,10 @@ angular.module("EmmetBlue")
 .controller("accountsBillingManageInvoicesController", function($scope, utils){
 	$scope.pageSegment = "";
 	$scope.loadPageSegment = function(segment){
-		var urlPart = "plugins/accounts/billing/assets/includes/";
+		var urlPart = "plugins/accounts/main/assets/includes/";
 		switch(segment){
 			case "new-invoice":{
-				$scope.pageSegment = urlPart+"invoice.html";
+				$scope.pageSegment = "plugins/accounts/billing/assets/includes/"+"invoice.html";
 				break;
 			}
 			case "view-archive":{
@@ -23,4 +23,6 @@ angular.module("EmmetBlue")
 			}
 		}
 	}
+
+	$scope.loadPageSegment('view-archive');
 })

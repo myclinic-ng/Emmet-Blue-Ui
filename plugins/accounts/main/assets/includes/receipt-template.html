@@ -1,0 +1,58 @@
+<div class="row">
+	<div class="watermark"></div>
+	<div class="col-xs-12">
+		<div class="row">
+			<div class="col-xs-12">
+				<center><img src="assets/images/logo-black.png" class="img img-responsive"/></center>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-6 content-group">
+				<h6 class="col-xs-12 text-muted text-primary">PAYMENT RECEIPT</h6>
+				<span>
+					<div class="col-xs-12"><h6>Name: <span class="text-bold">{{receiptData.customerName}}</span></h6></div>
+					<div class="col-xs-12"><h6>Method: <span class="text-bold">{{receiptData.paymentMethod}}</span></h6></div>
+				</span>
+			</div>
+			<div class="col-xs-6 content-group">
+				<span class="pull-right">
+					<h6 class="col-xs-12 text-muted text-primary">INVOICE</h6>
+					<span>
+						<div class="col-xs-12"><h6>Number: <span class="text-bold">{{receiptData.invoiceData.number}}</span></h6></div>
+						<div class="col-xs-12"><h6>Status: <span class="text-bold">{{receiptData.invoiceData.status}}</span></h6></div>
+					</span>
+				</span>
+			</div>
+		</div>
+		<div class="row border-top-lg border-bottom-xlg">
+			<div class="col-xs-12">
+				<h3 class="text-bold col-xs-6">Amount Paid</h3>
+				<h3 class="col-xs-6"><span class="pull-right"><span ng-currency ng-currency-symbol></span> {{receiptData.amountPaid}}</span></h3>
+			</div>
+		</div>
+		<div class="col-xs-12">
+			<table class="table table-lg">
+				<thead>
+					<th class="text-bold">QTY</th>
+					<th class="text-bold">ITEM CODE</th>
+					<th class="text-bold">AMOUNT</th>
+				</thead>
+				<tbody>
+					<tr ng-repeat="item in receiptData.invoiceData.items">
+						<td>{{item.itemQuantity}}</td>
+						<td>{{item.BillingTransactionItem}}</td>
+						<td>{{item.itemPrice}}</td>
+					</tr>
+					<tr>
+						<td colspan="1"></td>
+						<td class="text-bold">Total</td>
+						<td class="text-bold">{{receiptData.invoiceData.totalAmount}}</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="col-xs-12">
+				<h6 class="text-muted text-center">Receipt Generated On: {{today()}}</h6>
+			</div>
+		</div>
+	</div>
+</div>

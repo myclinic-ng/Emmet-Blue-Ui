@@ -92,6 +92,8 @@ var cntrllers = [
 	"plugins/user/assets/controllers.js",
 	"plugins/human-resources/assets/controllers.js",
 	"plugins/accounts/billing/assets/controllers.js",
+	"plugins/accounts/main/assets/controllers.js",
+	"plugins/accounts/hmo/assets/controllers.js",
 	"plugins/records/patient/assets/controllers.js",
 	"plugins/nursing/assets/controllers.js",
 	"plugins/pharmacy/assets/controllers.js",

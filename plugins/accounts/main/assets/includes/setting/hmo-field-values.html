@@ -1,0 +1,87 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+<div ng-controller="accountsBillingSettingHmoFieldValuesController">
+	<div class="row">
+		<div class="form-group col-md-6 col-md-offset-3">
+			<label class="control-label">Select Patient Category</label>
+			<select class="select" ng-model="currentPatientCategory">
+				<option ng-repeat="category in patientCategories" value="{{category.CategoryID}}">{{category.CategoryName}}</option>
+			</select>
+		</div>
+	</div>
+	
+	<table datatable="" dt-options="settingsDtOptions" dt-columns="settingsDtColumns" dt-instance="settingsDtInstance" class="table table-condensed table-striped table-hover"></table>
+
+	<div id="setting_new_field_value" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" onclick="$('#setting_new_field_value').modal('hide')">&times;</button>
+					<h6 class="modal-title">Create a new HMO field</h6>
+				</div>
+
+				<div class="modal-body">
+					<form role="form">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-12">
+									<label>Field Name</label>
+									<input type="text" class="form-control" ng-model="newField.name">
+								</div>
+								<div class="col-sm-12">
+									<label>Field Type</label>
+									<select class="select" ng-model="newField.type">
+										<option value="Name">Noun (A word that indicates a name)</option>
+										<option value="Text">Text (An address, a description, etc)</option>
+										<option value="Number">Number (An integer or fractional based number)</option>
+										<option value="Date">Date (includes time)</option>
+									</select>
+								</div>
+								<div class="col-sm-12">
+									<label>Field Description</label>
+									<textarea class="form-control" cols="3" rows="3" ng-model="newField.description"></textarea>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" ng-click="newField = {}" onclick="$('#setting_new_field_value').modal('hide')">Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveNewField()">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="setting_edit_field_value" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" onclick="$('#setting_edit_field_value').modal('hide')">&times;</button>
+					<h6 class="modal-title">Modify HMO field</h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-12">
+								<label>Field Name</label>
+								<input type="text" class="form-control" ng-model="tempHolder.name" data-option-id="{{tempHolder.id}}">
+							</div>
+							<div class="col-sm-12">
+								<label>Field Description</label>
+								<textarea class="form-control" cols="3" rows="3" ng-model="tempHolder.description"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" ng-click="tempHolder = {}" onclick="$('#setting_edit_field_value').modal('hide')">Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveEditField()"> Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

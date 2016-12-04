@@ -24,7 +24,7 @@ angular.module("EmmetBlue")
 		
 		var dataOpt = "data-option-id='"+data.DispensationID+"' data-option-name='"+data.DispensationName+"' data-option-description='"+data.DispensationDescription+"'";
 
-		var viewButton = "<button class='btn btn-default billing-type-btn' ng-click=\""+viewButtonAction+"\" "+dataOpt+"><i class='icon-eye'></i> view</button>";
+		var viewButton = "<button class='btn btn-link text-danger billing-type-btn' ng-click=\""+viewButtonAction+"\" "+dataOpt+"><i class='icon-eye'></i> view</button>";
 		
 		var buttons = "<div class='btn-group'>"+viewButton+"</button>";
 		return buttons;
@@ -81,11 +81,11 @@ angular.module("EmmetBlue")
 	]);	
 
 	$scope.dtColumns = [
-		utils.DT.columnBuilder.newColumn('PatientUUID').withTitle("Patient"),
+		utils.DT.columnBuilder.newColumn('PatientUUID').withTitle("Patient Number"),
 		utils.DT.columnBuilder.newColumn('StoreName').withTitle("Dispensing Store"),
 		utils.DT.columnBuilder.newColumn('Dispensory').withTitle("Dispensory"),
-		utils.DT.columnBuilder.newColumn('DispensationDate').withTitle("Dispensation Date"),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(actions).withOption('width', '25%').notSortable()
+		utils.DT.columnBuilder.newColumn('DispensationDate').withTitle("Dispensation Date &amp; Time"),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(actions).notSortable()
 	];
 
 	$scope.reloadDispensationsTable = function(){

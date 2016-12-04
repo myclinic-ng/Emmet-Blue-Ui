@@ -9,11 +9,11 @@ angular.module("EmmetBlue")
 
 				var dataOpt = "data-option-id='"+data.DepartmentGroupID+"' data-option-name='"+data.GroupName+"'";
 
-				var editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+dataOpt+"><i class='icon-pencil5'></i> Edit</button>";
-				var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"><i class='icon-bin'></i> Delete</button>";
-				var viewButton = "<button class='btn btn-default'><i class='icon-eye'> </i> View</button>";
+				var editButton = "<button class='btn btn-default btn-dept-group' ng-click=\""+editButtonAction+"\" "+dataOpt+"><i class='icon-pencil5'></i> Edit</button>";
+				var deleteButton = "<button class='btn btn-default btn-dept-group' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"><i class='icon-bin'></i> Delete</button>";
+				var viewButton = "<button class='btn btn-default btn-dept-group'><i class='icon-eye'> </i> View</button>";
 
-				var buttons = "<div class='btn-group'>"+viewButton+editButton+deleteButton+"</button>";
+				var buttons = "<div class='btn-group'>"+editButton+deleteButton+"</button>";
 				return buttons;
 			},
 			
@@ -76,12 +76,12 @@ angular.module("EmmetBlue")
 			editDepartmentGroup: function(groupId){
 				$("#edit_department_group").modal("show");
 
-				$scope.tempHolder.groupName = $(".btn[data-option-id='"+groupId+"']").attr('data-option-name');
+				$scope.tempHolder.groupName = $(".btn-dept-group[data-option-id='"+groupId+"']").attr('data-option-name');
 				$scope.tempHolder.groupId = groupId;
 			},
 			deleteDepartmentGroup: function(groupId){
 				var title = "Delete Prompt";
-				var text = "You are about to delete the department group named "+$(".btn[data-option-id='"+groupId+"']").attr('data-option-name')+". Do you want to continue? Please note that this action cannot be undone";
+				var text = "You are about to delete the department group named "+$(".btn-dept-group[data-option-id='"+groupId+"']").attr('data-option-name')+". Do you want to continue? Please note that this action cannot be undone";
 				var close = true;
 				$scope._groupId = groupId;
 				var callback = function(){
@@ -187,10 +187,10 @@ angular.module("EmmetBlue")
 	]);	
 
 	$scope.dtColumns = [
-		utils.DT.columnBuilder.newColumn(null).withTitle(functions.actionMarkups.checkAll.title).renderWith(functions.actionMarkups.checkAll.body).withOption('width', '0.5%').notSortable(),
-		utils.DT.columnBuilder.newColumn('DepartmentGroupID').withTitle("Department Group ID").withOption('width', '0.5%'),
+		utils.DT.columnBuilder.newColumn(null).withTitle(functions.actionMarkups.checkAll.title).renderWith(functions.actionMarkups.checkAll.body).notSortable(),
+		utils.DT.columnBuilder.newColumn('DepartmentGroupID').withTitle("Department Group ID"),
 		utils.DT.columnBuilder.newColumn('GroupName').withTitle("Department Group Name"),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(functions.actionMarkups.departmentGroupActionMarkup).withOption('width', '25%').notSortable()
+		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(functions.actionMarkups.departmentGroupActionMarkup).notSortable()
 	];
 
 	$scope.reloadDepartmentGroupsTable = function(){

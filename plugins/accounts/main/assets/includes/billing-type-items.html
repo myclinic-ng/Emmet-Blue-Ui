@@ -151,17 +151,17 @@
 							<select class="select" ng-model="patientTypeSelector">
 								<option ng-repeat="category in patientCategories" value="{{category.CategoryID}}">{{category.CategoryName}}</option>
 							</select>
-							<div style="height:300px !important; overflow-y: scroll">
+							<div style="height:300px !important; border-right: 1px solid #5cb85c" class="overflow-auto">
 								<table class="table table-condensed table-striped">
 									<thead>
 										<tr>
-											<th><input class="form-control" type="checkbox" ng-model="allPatientTypeCheckboxToggler" ng-click="toggleAllPatientTypeCheckbox()"/></th>
+											<th><input type="checkbox" ng-model="allPatientTypeCheckboxToggler" ng-click="toggleAllPatientTypeCheckbox()"/></th>
 											<th>Patient Type</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr ng-repeat="type in patientTypes">
-											<td><input class="form-control" type="checkbox" ng-model="patientTypeCheckbox[type.PatientTypeID]" ng-click="patientTypeCheckboxNames[type.PatientTypeID] = type.PatientTypeName"/></td>
+											<td><input type="checkbox" ng-model="patientTypeCheckbox[type.PatientTypeID]" ng-click="patientTypeCheckboxNames[type.PatientTypeID] = type.PatientTypeName"/></td>
 											<td>{{type.PatientTypeName}}</td>
 										</tr>
 									</tbody>

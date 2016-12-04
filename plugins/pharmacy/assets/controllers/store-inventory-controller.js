@@ -61,7 +61,7 @@ angular.module("EmmetBlue")
 			var string = invisible = "";
 			for (var i = 0; i < data.Tags.length; i++) {
 				invisible += data.Tags[i].TagTitle+":"+data.Tags[i].TagName;
-				string += "<h6 class='display-block'><span class='label label-info text-muted pull-left' style='border-right:0px !important;'>"+data.Tags[i].TagTitle+"</span><span class='label label-warning pull-left' style='border-left:0px !important;'> "+data.Tags[i].TagName+"</span></h6>";
+				string += "<h6 class='display-block'><span class='label label-info text-muted pull-left' style='border-right:0px !important;'>"+data.Tags[i].TagTitle+"</span><span class='label label-warning pull-left' style='border-left:0px !important;'> "+data.Tags[i].TagName+"</span></h6><br/><br/>";
 			}
 			return "<span style='display: none'>"+invisible+"</span>"+string;
 		}),

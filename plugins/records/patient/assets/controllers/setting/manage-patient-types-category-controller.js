@@ -54,7 +54,7 @@ angular.module("EmmetBlue")
 
 	$scope.categorydtColumns = [
 		utils.DT.columnBuilder.newColumn('CategoryName').withTitle("Category"),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(functions.actionMarkups.categoryActionMarkup).withOption('wicategorydth', '25%').notSortable()
+		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(functions.actionMarkups.categoryActionMarkup).notSortable()
 	]
 
 	$scope.categorydtInstance = {};

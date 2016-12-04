@@ -1,0 +1,47 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>
+	$('select.select').select2();
+
+	$(function() {
+		// Default file input style
+		$(".file-styled").uniform({
+			fileButtonHtml: '<i class="icon-plus2"></i>'
+		});
+
+
+		// Primary file input
+		$(".file-styled-primary").uniform({
+			wrapperClass: 'bg-warning',
+			fileButtonHtml: '<i class="icon-plus2"></i>'
+		});
+
+	});
+</script>
+<div ng-controller="accountsNewPatientHmoProfileController">
+	<div class="col-md-12" ng-if="!isProfileReady">
+		<label class="control-label text-center">Enter patients hospital identification number here to begin</label>
+		<input class="form-control input-lg" ng-model="patientUuid"/>
+		<center><button class="btn btn-large btn-warning mt-15" ng-click="loadPatient(patientUuid)">Continue</button></center>
+	</div>
+	<form role="form" ng-cloak ng-show="isProfileReady">
+		<div class="col-md-9">
+			<h5 class="title text-info text-center">HMO identity registration for <span class="text-bold">{{patientProfile.patientfullname}}</span></h5>
+	        <div class="form-group col-md-12 mt-15">
+				<label class="control-label">Upload Identification Document <small>(Preferably HMO ID Card)</small></label>
+	          	<input type="file" class="file-styled-primary" ng-model="uploadedDocument" name="file" id="document"/>
+	        </div>
+			<div class="form-group col-md-6" ng-repeat="fieldTitle in profileFieldTitles" ng-if="fieldTitle.FieldTitleName != 'PatientID'">
+				<label>{{fieldTitle.FieldTitleName}}</label>
+				<textarea ng-if="fieldTitle.FieldTitleType == 'Text'" cols="3" rows="3" class="form-control" ng-model="hmoPatient[fieldTitle.FieldTitleName]"></textarea>
+				<input ng-if="fieldTitle.FieldTitleType != 'Text'" type="{{fieldTitle.FieldTitleType}}" class="form-control" ng-model="hmoPatient[fieldTitle.FieldTitleName]">
+			</div>
+	        <div class="form-group col-md-12 mt-15">
+	        	<center><button class="btn btn-warning" ng-click="submit()">Submit Profile</button></center>
+	        </div>
+		</div>
+		<div class="col-md-3">
+			<img ng-src="{{utils.loadImage(patientProfile.patientpicture)}}" class="col-md-12 img img-thumbnail img-responsive" style="width:100% !important; height: 100% !important;"/>
+      		<img src="{{hmoPatient.documents}}" class="img img-responsive mt-15"/>
+		</div>
+    </form>
+</div>

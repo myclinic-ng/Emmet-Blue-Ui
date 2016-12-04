@@ -1,0 +1,64 @@
+<div class="row" ng-controller="accountsHmoDashboardController">
+	<div class="col-md-3">
+		<div class="sidebar sidebar-secondary sidebar-default">
+			<div class="sidebar-content">
+				<!-- Actions -->
+				<div class="sidebar-category">
+					<div class="category-title">
+						<span>Actions</span>
+						<ul class="icons-list">
+							<li><a href="#" data-action="collapse"></a></li>
+						</ul>
+					</div>
+
+					<div class="category-content">
+						<div class="row row-condensed">
+							<div class="col-xs-6">
+								<a href="#" type="button" class="btn bg-teal-400 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('new-patient')"><i class="icon-file-plus"></i> <span>New Registration</span></a>
+								<a href="#" type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('view-database')"><i class="icon-archive"></i> <span>View Database</span></a>
+							</div>
+							
+							<div class="col-xs-6">
+								<a type="button" class="btn bg-warning-400 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('verify-identity')"><i class="icon-credit-card"></i> <span>Verify Identity</span></a>
+								<a href="#" type="button" class="btn bg-blue-300 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('update-database')"><i class="icon-archive"></i> <span>Update Database</span></a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /actions -->
+			</div>
+		</div>
+	</div>
+	<div class="col-md-9">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h6 class="panel-title">HMO Patient Information Database</h6>
+			</div>
+			<div class="panel-body">
+				<ng-include src="pageSegment"></ng-include>
+			</div>
+		</div>
+	</div>
+
+	<div ng-controller="accountsHMOPatientsDatabaseController">
+		<div class="modal fade" id="identityVerifier">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header bg-warning">
+						<h6 class="modal-title">HMO Identity Verification</h6>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-12" ng-if="!isProfileReady">
+								<label class="control-label text-center">Enter patients hospital identification number here to begin</label>
+								<input class="form-control input-lg" ng-model="patientUuid"/>
+								<center><button class="btn btn-large btn-warning mt-15" ng-click="manageField('verify', patientUuid, false)" data-dismiss="modal">Continue</button></center>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<ng-include src="'plugins/accounts/hmo/assets/includes/hmo-info-modal.html'"></ng-include>
+	</div>
+</div>

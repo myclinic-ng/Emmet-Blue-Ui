@@ -1,0 +1,56 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+<div>
+	<div id="setting_accounts_billing" class="modal fade">
+		<div class="modal-dialog modal-full">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title"> Settings <span class="pull-right mr-20">Billing</span></h6>
+				</div>
+
+				<div class="modal-body" style="height: 100vh;">
+					<div class="tabbable">
+						<ul class="nav nav-tabs nav-tabs-bordered">
+							<li href="#manage-billing-status" data-toggle="tab" class="active"><a>Billing Statuses</a></li>
+							<li href="#manage-payment-methods" data-toggle="tab"><a>Payment Methods</a></li>
+							<li href="#department-billing-link" data-toggle="tab"><a>Link Billing Types</a></li>
+							<li href="#department-patient-types-link" data-toggle="tab"><a>Link Patient Types</a></li>
+							<li href="#hmo-field-values" data-toggle="tab"><a>HMO Fields</a></li>
+							<li href="#manage-payment-rules" data-toggle="tab"><a>Payment Rules</a></li>
+						</ul>
+
+						<div class="tab-content">
+							<div class="tab-pane active" id="manage-billing-status">
+								<ng-include src="'plugins/accounts/main/assets/includes/setting/manage-billing-status.html'"></ng-include>
+							</div>
+
+							<div class="tab-pane" id="manage-payment-methods">
+								<ng-include src="'plugins/accounts/main/assets/includes/setting/manage-payment-methods.html'"></ng-include>
+							</div>
+
+							<div class="tab-pane" id="department-billing-link">
+								<ng-include src="'plugins/accounts/main/assets/includes/setting/department-billing-link.html'"></ng-include>
+							</div>
+
+							<div class="tab-pane" id="department-patient-types-link">
+								<ng-include src="'plugins/accounts/main/assets/includes/setting/department-patient-types-link.html'"></ng-include>
+							</div>
+
+							<div class="tab-pane" id="hmo-field-values">
+								<ng-include src="'plugins/accounts/main/assets/includes/setting/hmo-field-values.html'"></ng-include>
+							</div>
+
+							<div class="tab-pane" id="manage-payment-rules">
+								<ng-include src="'plugins/accounts/main/assets/includes/setting/manage-payment-rules.html'"></ng-include>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,138 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+<script>
+	$(".styled").uniform({
+        radioClass: 'choice'
+    });
+
+	$(function() {
+
+		// Default file input style
+		$(".file-styled").uniform({
+			fileButtonHtml: '<i class="icon-plus2"></i>'
+		});
+
+
+		// Primary file input
+		$(".file-styled-primary").uniform({
+			wrapperClass: 'bg-warning',
+			fileButtonHtml: '<i class="icon-plus2"></i>'
+		});
+
+	});
+</script>
+<div ng-controller="accountsBillingGenerateNewBillingController">
+	<div class="col-md-6">
+		<div class="col-md-12">
+			<div class="form-group col-md-12">
+				<label class="display-block text-semibold">Filter Patient:</label>
+				<label class="radion pl-30">
+					<input type="radio" name="radio-inline-left" ng-click="filterOption('name')" class="styled"/>
+					Name
+				</label>
+
+				<label class="radion pl-30">
+					<input type="radio" name="radio-inline-left" ng-click="filterOption('phone')" class="styled"/>
+					Phone Number
+				</label>
+
+				<label class="radion pl-30">
+					<input type="radio" name="radio-inline-left" ng-click="filterOption('number')" class="styled" checked="checked"/>
+					Patient Number
+				</label>
+				<input class="form-control input-lg" type="hidden" id="patient" ng-model="patient"/>
+			</div>
+			<div class="form-group" ng-show="show_name">
+				<label class="control-label">Patient Name</label>
+				<select class="select" ng-model="patient"
+						ng-options="patient.PatientID as patient.PatientFullName for patient in patients">
+				</select>
+			</div>
+			<div class="form-group" ng-show="show_phone">
+				<label class="control-label">Patient Phone Number</label>
+				<select class="select" ng-model="patient"
+						ng-options="patient.PatientID as patient.PatientPhoneNumber for patient in patients">
+				</select>
+			</div>
+			<div class="form-group" ng-show="show_number">
+				<label class="control-label">Patient Number</label>
+				<select class="select" ng-model="patient"
+						ng-options="patient.PatientID as patient.PatientUUID for patient in patients">
+				</select>
+			</div>
+		</div>
+		<div class="form-group col-md-12">
+			<label class="control-label">Select Billing Type</label>
+			<select class="select" ng-model="billingTypeId" ng-change="setBillingTypeID()">
+				<option ng-repeat="bill in billingItems" value="{{bill}}">{{bill.BillingTypeName}}</option>
+			</select>
+		</div>
+		<div class="form-group col-md-12">
+			<label class="control-label">Select Item(s) from the category below</label>
+			<select class="select" ng-model="newBillingTypeItems.item" ng-change="showRateQuantityField()">
+				<option ng-repeat="item in billingTypeItems" value="{{item.BillingTypeItemID}}">{{item.BillingTypeItemName}}</option>
+			</select>
+		</div>
+		<div class="form-group col-md-12" ng-show="showRateQuantity && !currentItem.rateBased">
+			<label class="control-label">Quantity</label>
+			<input type="number" min="1" class="form-control" ng-model="newBillingTypeItems.quantity"/>
+		</div>
+		<div class="form-group col-md-12" ng-show="showRateQuantity && currentItem.rateBased">
+			<label class="control-label">Number Of {{currentItem.rateIdentifier}}s</label>
+			<input type="number" min="1" class="form-control" ng-model="newBillingTypeItems.quantity"/>
+		</div>
+		<div class="form-group pull-right">
+			<button type="button" class="btn btn-primary" ng-click="addItemToList()"><i class="fa fa-plus"></i> Add</button>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="table-responsive">
+			<table class="table table-responsive table-condensed table-bordered">
+				<thead class="border-solid">
+					<tr>
+						<th>S/N</th>
+						<th>Item Code</th>
+						<th>Item</th>
+						<th>Quantity</th>
+						<th>Price (<span ng-currency ng-currency-symbol="naira"></span><span ng-currency ng-currency-symbol="naira"></span>)</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="item in itemList">
+						<th>{{$index + 1}}</th>
+						<th>{{item.itemCode}}</th>
+						<th>{{item.itemName}}</th>
+						<th>{{item.itemQuantity}}</th>
+						<th>{{item.itemPrice}}</th>
+						<th>
+							<span class="button-group">
+								<a href="btn btn-default" ng-click="removeFromItemList($index, item)"><i class="icon-bin"></i> remove item</a>
+							</span>
+						</th>
+					</tr>	
+				</tbody>
+				<tfoot>
+					<tr class="warning">
+						<th></th>
+						<th></th>
+						<th></th>
+						<th>Total</th>
+						<th><span ng-currency ng-currency-symbol="naira"></span> {{priceTotal}}</th>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+		<div class="form-group col-md-12">
+			<label class="control-label">Status</label>
+			<select class="select" ng-model="billStatus">
+				<option ng-repeat="item in statuses" value="{{item.StatusName}}">{{item.StatusName}}</option>
+			</select>
+		</div>
+		<div class="button-group pull-right">
+			<button type="button" class="btn btn-default" ng-click="generateBill()" ng-print print-element-id="invoice"><i class="icon-printer"></i> Print Bill</button>
+			<button type="button" class="btn btn-default" ng-click="viewBill()"><i class="icon-eye"></i> View Bill</button>
+			<button type="button" class="btn btn-default" ng-click="acceptPayment()"><i class="icon-credit-card"></i> Accept Payment</button>
+		</div>
+	</div>
+</div>

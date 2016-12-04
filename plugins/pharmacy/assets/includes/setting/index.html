@@ -6,18 +6,22 @@
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h6 class="modal-title"> Settings <span class="pull-right mr-20">Dispensory</span></h6>
+					<h6 class="modal-title"> Settings <span class="pull-right mr-20">Pharmacy</span></h6>
 				</div>
 
 				<div class="modal-body">
 					<div class="tabbable">
 						<ul class="nav nav-tabs">
-							<li class="active" href="#dispensories" data-toggle="tab"><a>Dispensories</a></li>
+							<li class="active" href="#stores" data-toggle="tab"><a>Stores</a></li>
+							<li href="#dispensories" data-toggle="tab"><a>Dispensories</a></li>
 							<li href="#dispensory-store-link" data-toggle="tab"><a>Link Stores</a></li>
 						</ul>
 
 						<div class="tab-content ">
-							<div class="tab-pane active" id="dispensories">
+							<div class="tab-pane active" id="stores">
+								<ng-include src="'plugins/pharmacy/assets/includes/setting/stores.html'"></ng-include>
+							</div>
+							<div class="tab-pane" id="dispensories">
 								<ng-include src="'plugins/pharmacy/assets/includes/setting/dispensories.html'"></ng-include>
 							</div>
 							<div class="tab-pane" id="dispensory-store-link">

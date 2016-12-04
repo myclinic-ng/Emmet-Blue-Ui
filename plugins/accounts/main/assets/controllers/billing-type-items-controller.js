@@ -42,6 +42,7 @@ angular.module("EmmetBlue")
 	$scope.loadPatientCategories();
 
 	$scope.$watch("patientTypeSelector", function(newValue, oldValue){
+		$scope.allPatientTypeCheckboxToggler = false;
 		$scope.loadPatientTypes(newValue);
 	});
 

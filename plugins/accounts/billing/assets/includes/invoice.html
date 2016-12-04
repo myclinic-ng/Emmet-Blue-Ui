@@ -22,7 +22,7 @@
 	});
 </script>
 <div ng-controller="accountsBillingGenerateNewBillingController">
-	<div class="col-md-6">
+	<div class="col-md-4">
 		<div class="col-md-12">
 			<div class="form-group col-md-12">
 				<label class="display-block text-semibold">Filter Patient:</label>
@@ -85,16 +85,17 @@
 			<button type="button" class="btn btn-primary" ng-click="addItemToList()"><i class="fa fa-plus"></i> Add</button>
 		</div>
 	</div>
-	<div class="col-md-6">
+	<div class="col-md-8">
+		<h6 class="panel-title">Selected Items List</h6>
 		<div class="table-responsive">
-			<table class="table table-responsive table-condensed table-bordered">
+			<table class="table table-responsive table-condensed table-hover" style="border-left: 1px solid #5cb85c">
 				<thead class="border-solid">
-					<tr>
+					<tr class="bg-success">
 						<th>S/N</th>
-						<th>Item Code</th>
 						<th>Item</th>
-						<th>Quantity</th>
-						<th>Price (<span ng-currency ng-currency-symbol="naira"></span><span ng-currency ng-currency-symbol="naira"></span>)</th>
+						<th>Name</th>
+						<th>Qty</th>
+						<th>Price (<span ng-currency ng-currency-symbol="naira"></span>)</th>
 						<th>Action</th>
 					</tr>
 				</thead>
@@ -107,17 +108,14 @@
 						<th>{{item.itemPrice}}</th>
 						<th>
 							<span class="button-group">
-								<a href="btn btn-default" ng-click="removeFromItemList($index, item)"><i class="icon-bin"></i> remove item</a>
+								<a ng-click="removeFromItemList($index, item)"><i class="icon-bin"></i> remove item</a>
 							</span>
 						</th>
 					</tr>	
 				</tbody>
 				<tfoot>
-					<tr class="warning">
-						<th></th>
-						<th></th>
-						<th></th>
-						<th>Total</th>
+					<tr class="bg-success-400">
+						<th colspan="4"><span class="text-bold pull-right">Total</span></th>
 						<th><span ng-currency ng-currency-symbol="naira"></span> {{priceTotal}}</th>
 					</tr>
 				</tfoot>

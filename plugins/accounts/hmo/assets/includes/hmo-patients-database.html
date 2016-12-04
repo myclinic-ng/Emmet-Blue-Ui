@@ -1,0 +1,16 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+<div ng-controller="accountsHMOPatientsDatabaseController">
+	<div class="row">
+		<div class="form-group col-md-6 col-md-offset-3">
+			<label class="control-label">Select Patient Type</label>
+			<select class="select" ng-model="currentPatientType">
+				<option ng-repeat="type in patientTypes" value="{{type.PatientTypeID}}">{{type.PatientTypeName}}</option>
+			</select>
+		</div>
+	</div>
+
+	<table datatable="" dt-options="settingsDtOptions" dt-columns="settingsDtColumns" dt-instance="settingsDtInstance" class="table table-condensed table-striped table-hover"></table>
+
+	<ng-include src="'plugins/accounts/hmo/assets/includes/hmo-info-modal.html'"></ng-include>
+</div>
