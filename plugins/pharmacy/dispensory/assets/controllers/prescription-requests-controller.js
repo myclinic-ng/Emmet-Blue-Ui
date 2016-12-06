@@ -3,8 +3,10 @@ angular.module("EmmetBlue")
 .controller('pharmacyDispensationPrescriptionRequestsController', function($scope, utils, patientEventLogger){
 	var actions = function (data, type, full, meta){
 		var viewButtonAction = "manage('view', "+data.RequestID+")";
+
+		console.log(JSON.stringify);
 		
-		var dataOpt = "data-option-id='"+data.RequestID+"' data-option-request='"+data.Request+"' data-option-patient='"+data.patientInfo.patientfullname+"'";
+		var dataOpt = "data-option-id='"+data.RequestID+"' data-option-request='"+JSON.stringify(data.Request)+"' data-option-patient='"+data.patientInfo.patientfullname+"'";
 
 		var viewButton = "<button class='btn btn-danger pharmacy-ack-btn' ng-click=\""+viewButtonAction+"\" "+dataOpt+"><i class='icon-eye'></i> View Prescription</button>";
 		
@@ -72,7 +74,7 @@ angular.module("EmmetBlue")
 				var patientname = $(".pharmacy-ack-btn[data-option-id='"+id+"'").attr("data-option-patient");
 				var request = $(".pharmacy-ack-btn[data-option-id='"+id+"'").attr("data-option-request");
 				$("#ack_modal").modal("show");
-				$scope.currentRequest.Request = request;
+				$scope.currentRequest.Request = $.parseJSON(request);
 				$scope.currentRequest.PatientName = patientname;
 
 				console.log($scope.currentRequest);
