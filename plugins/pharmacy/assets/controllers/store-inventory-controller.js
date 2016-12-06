@@ -3,8 +3,7 @@ angular.module("EmmetBlue")
 .controller('pharmacyStoreInventoryController', function($scope, utils){
 	$scope.ddtOptions = utils.DT.optionsBuilder
 	.fromFnPromise(function(){
-		var storeInventory = utils.serverRequest('/pharmacy/store-inventory/view-by-store?resourceId='+$scope.storeID
-		, 'GET');
+		var storeInventory = utils.serverRequest('/pharmacy/store-inventory/view-by-store?resourceId='+$scope.storeID, 'GET');
 		return storeInventory;
 	})
 	.withPaginationType('full_numbers')
@@ -23,7 +22,7 @@ angular.module("EmmetBlue")
 		{
 			text: '<i class="icon-file-plus"></i> <u>N</u>ew Item',
 			action: function(){
-				$("#new_store_inventory").modal("show");
+				$("#new_inventory_item").modal("show");
 			},
 			key: {
         		key: 'n',
@@ -86,6 +85,11 @@ angular.module("EmmetBlue")
 	$scope.reloadInventoryTable = function(){
 		$scope.ddtInstance.reloadData(null, true);
 	}
+
+	if (typeof utils.storage.inventoryStoreID != "undefined"){
+		$scope.storeID = utils.storage.inventoryStoreID;
+	}
+
 	$scope.$watch(function(){return utils.storage.inventoryStoreID}, function(newValue, oldValue){
 		if (typeof newValue !== "undefined"){
 			$scope.storeID = newValue;
@@ -106,7 +110,8 @@ angular.module("EmmetBlue")
 	loadInventoryItems(utils.userSession.getUUID());
 
 	$scope.newItem = {
-		tags:[]
+		tags:[],
+		quantity: 0
 	}
 	
 	$scope.itemTag = {
@@ -130,9 +135,12 @@ angular.module("EmmetBlue")
 		var request = utils.serverRequest("/pharmacy/store-inventory/new", "POST", store);
 		request.then(function(response){
 			utils.notify("Operation Successful", "New invetory item created successfully", "success");
-			$("#new_store_inventory").modal("hide");
+			$("#new_inventory_item").modal("hide");
 			$scope.reloadInventoryTable();
-			$scope.newItem = {};
+			$scope.newItem = {
+				tags: [],
+				quantity: 0
+			};
 		}, function(response){
 			utils.errorHandler(response);
 		})

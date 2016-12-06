@@ -1,0 +1,62 @@
+<div ng-controller="pharmacyStoreManagementSegmentController">
+	<div class="container-fluid" ng-clock>
+		<div class="row text-center">
+			<div class="col-md-4">
+				<div class="content-group">
+					<h6 class="text-semibold no-margin"><i class="icon-calendar3 position-left text-slate"></i> <span ng-bind-html="statistics.daysSinceLastRestock"></span></h6>
+					<span class="text-muted text-size-small">days since last global restock</span>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="content-group">
+					<h6 class="text-semibold no-margin"><i class="icon-clipboard3 position-left text-slate"></i> <span ng-bind-html="statistics.itemQuantityOfLastRestock"></span></h6>
+					<span class="text-muted text-size-small">items added during last global restock</span>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="content-group">
+					<h6 class="text-semibold no-margin"><i class="fa fa-globe position-left text-slate"></i> <span ng-bind-html="statistics.itemLeftInStore"></span></h6>
+					<span class="text-muted text-size-small">Total items remaining in store</span>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- Tabs -->
+	<ul class="nav nav-lg nav-tabs nav-justified no-margin">
+		<li href="#store_new_global_restock" data-toggle="tab" class="active">
+			<a class="text-size-small text-uppercase">
+				New Global Restock
+			</a>
+		</li>
+
+		<li href="#store_transfer_to_store" data-toggle="tab">
+			<a class="text-size-small text-uppercase">
+				Transfer items to another store
+			</a>
+		</li>
+
+		<li data-toggle="tab" href="#store_settings">
+			<a class="text-size-small text-uppercase">
+				Store Settings
+			</a>
+		</li>
+	</ul>
+	<!-- /tabs -->
+
+
+	<!-- Tabs content -->
+	<div class="tab-content">
+		<div class="tab-pane active fade in has-padding" id="store_new_global_restock">
+			<ng-include src="'plugins/pharmacy/assets/includes/new-store-restock.html'"></ng-include>
+		</div>
+
+		<div class="tab-pane fade has-padding" id="store_transfer_to_store">
+		</div>
+
+		<div class="tab-pane fade has-padding" id="store_settings">
+		</div>
+	</div>
+	<!-- /tabs content -->
+</div>

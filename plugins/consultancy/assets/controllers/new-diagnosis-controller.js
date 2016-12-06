@@ -327,6 +327,21 @@ angular.module("EmmetBlue")
 				$scope.conclusion.prescriptionList.push(prescription);
 			}
 		},
+		sendToPharmacy: function(){
+			var data = {
+				request: $scope.conclusion.prescriptionList,
+				patientId: $scope.patient.profile.patientid,
+				requestedBy: utils.userSession.getID()
+			}
+
+			var req = utils.serverRequest("/pharmacy/pharmacy-request/new", "POST", data);
+
+			req.then(function(response){
+				console.log(response);
+			}, function(error){
+				utils.errorHandler(error);
+			});
+		},
 		drugSearchAutoSuggestInit: function(){
 			$(".drug-search").typeahead({
 	            hint: true,
@@ -708,7 +723,8 @@ angular.module("EmmetBlue")
 			diagnosis: {},
 			addPrescriptionToList: modules.conclusion.addPrescriptionToList,
 			addDrugsToPrescriptionToList: modules.conclusion.addDrugsToPrescriptionToList,
-			searchDrug: modules.conclusion.searchDrug
+			searchDrug: modules.conclusion.searchDrug,
+			sendToPharmacy: modules.conclusion.sendToPharmacy
 		}
 	}
 

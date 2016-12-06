@@ -45,7 +45,7 @@ angular.module("EmmetBlue")
 		utils.DT.columnBuilder.newColumn('InvestigationTypeName').withTitle("Investigation Type Name"),
 		utils.DT.columnBuilder.newColumn('RequestedBy').withTitle("Requested By"),
 		utils.DT.columnBuilder.newColumn('RequestDate').withTitle("Date Requested"),
-		utils.DT.columnBuilder.newColumn('ClinicalDiagnosis').withTitle("Clinical Diagnosis"),
+		utils.DT.columnBuilder.newColumn('ClinicalDiagnosis').withTitle("Nature of Specimen / Clinical Diagnosis"),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Process").renderWith(actions).notSortable()
 	];
 

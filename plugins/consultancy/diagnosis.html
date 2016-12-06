@@ -323,8 +323,8 @@
 						<div class="tab-pane fade" id="investigation">
 							<div class="tabbable">
 								<ul class="nav nav-tabs nav-tabs-solid nav-justified">
-									<li href="#lab" data-toggle="tab" class="active"><a>Laboratory</a></li>
-									<li href="#radiology" data-toggle="tab"><a>Radiology</a></li>
+									<li href="#labForm" data-toggle="tab"><a>Lab Request Form</a></li>
+									<li href="#lab" data-toggle="tab" class="active"><a>Advanced Laboratory / Radiology Investigations Search</a></li>
 								</ul>
 
 								<div class="tab-content">
@@ -421,61 +421,8 @@
 											</div>
 										</div>	
 									</div>
-									<div class="tab-pane fade" id="radiology">
-										<div class="col-md-7 col-md-offset-3 mb-15">
-											<input class="form-control" placeholder="basic search" ng-change="labTests.searchPerformed = false" ng-model="labTests.basicInvestigationsFilter"/>
-										</div>
-										<div class="row">
-											<div class="col-md-5" style="border-right: 1px solid #F5F5F5;">
-												<div class="row">
-													<div class="col-lg-12">
-														<ul class="media-list search-results-list content-group" ng-repeat="test in labTests.imagingTests | toArray:false | filter:labTests.basicInvestigationsFilter track by $index">
-									                    	<li class="media">
-									                    		<div class="media-body">
-										                    		<h6 class="media-heading"><strong><a href="#" ng-click="labTests.addToImagingList(test.MedicalImagingName)">{{test.MedicalImagingName}}</a></strong></h6>
-									                    		</div>
-									                    		<ul class="list-inline list-inline-separate text-muted">
-									                    			<li>{{test.MedicalImagingDescription}}</li>
-									                    		</ul>
-									                    	</li>
-									                    </ul>
-								                    </div>
-												</div>
-											</div>
+									<div class="tab-pane fade" id="labForm">
 
-											<div class="col-md-7">
-												<div class="row pl-5 pr-5">
-													<div class="panel-group panel-group-control panel-group-control-left">
-														<div ng-repeat="investigation in labTests.investigations.imaging" class="panel" style="box-shadow: none; border-top-right-radius: 0px; border-top-left-radius: 0px; border-color: #F5F5F5">
-															<div class="panel-heading cursor-pointer" class="collapsed" data-toggle="collapse" href="#investigation-imaging-{{$index+1}}">
-																<h6 class="panel-title">
-																	<a>
-																		{{investigation.title}}
-																	</a>
-																	<span class="pull-right">
-																		<a class="btn btn-link" data-target="#modal-send-to-imaging" data-toggle="modal" ng-show="investigation.status == 0" ng-click="labTests.investigations.imaging.currentInvestigation = $index"><i class="fa fa-send"></i> Send to lab</a>
-																		<a class="btn btn-link" ng-show="investigation.status == -1"><i class="fa fa-spinner fa-pulse fa-spin"></i> Awaiting result</a>
-																		<a class="btn btn-link" ng-show="investigation.status == 1"><i class="fa fa-file-archive-o"></i> investigation concluded</a>
-																	</span>
-																</h6>
-															</div>
-
-															<div id="investigation-imaging-{{$index+1}}" class="panel-collapse collapse">
-																<div class="panel-body">
-																	<div class="content-group col-md-12">
-																		<textarea class="form-control" ng-model="investigation.description"></textarea>
-																	</div>
-																</div>
-
-																<div class="panel-footer panel-footer-transparent">
-																	<button class="btn btn-link pull-right text-danger" ng-click="labTests.removeFromImagingList($index)"><i class="icon-bin"></i> Remove</button>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>	
 									</div>
 								</div>
 							</div>
@@ -513,7 +460,7 @@
 													<table class="table table-bordered">
 														<tbody>
 															<tr class="active">
-																<th colspan="3">Prescribed Items</th>
+																<th colspan="3">Prescribed Items <span class="pull-right"><a class="btn btn-link" data-target="#modal-send-to-pharmacy" data-toggle="modal"><i class="fa fa-send"></i> Send to pharmacy</a></span></th>
 															</tr>
 															<tr ng-repeat="prescription in conclusion.prescriptionList">
 																<td>{{$index + 1}}</td>
@@ -647,7 +594,7 @@
 							</select>
 						</div>
 						<div class="content-group">
-							<label class="control-label">Clinical Diagnosis</label>
+							<label class="control-label">Nature of Specimen / Clinical Diagnosis</label>
 							<textarea class="form-control" ng-model="labTests.investigations.lab[labTests.investigations.lab.currentInvestigation].description"> </textarea>
 						</div>
 					</div>
@@ -655,6 +602,30 @@
 					<div class="modal-footer">
 						<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
 						<button type="button" class="btn btn-primary" ng-click="labTests.sendForInvestigation()"><i class="fa fa-send"></i> Send</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div>
+		<div id="modal-send-to-pharmacy" class="modal fade">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header bg-warning">
+						<h6 class="title">Drug Prescription Form</h6>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+
+					<div class="modal-body">
+						<div class="content-group" ng-repeat="prescription in conclusion.prescriptionList">
+							<label class="control-label"><span class='text-bold'>{{$index + 1}}.</span> {{prescription.item}}</label>
+							<textarea class="form-control" ng-model="prescription.duration" placeholder="Duration/Extra note for Pharmacist"></textarea>
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary" ng-click="conclusion.sendToPharmacy()"><i class="fa fa-send"></i> Send</button>
 					</div>
 				</div>
 			</div>

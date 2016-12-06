@@ -1,15 +1,15 @@
 angular.module("EmmetBlue")
 
-.controller("pharmacyStoreDashboardController", function($scope, utils){
+.controller("pharmacyDispensoryDashboardController", function($scope, utils){
 	$scope.pageSegment = "";
 	$scope.loadPageSegment = function(segment){
-		var urlPart = "plugins/pharmacy/assets/includes/";
+		var urlPart = "plugins/pharmacy/dispensory/assets/includes/";
 		switch(segment){
-			case "manage-inventories":{
-				$scope.pageSegment = urlPart+"dashboard-store-inventory.html";
+			case "queue":{
+				$scope.pageSegment = urlPart+"queued-requests.html";
 				break;
 			}
-			case "store-management":{
+			case "new-dispensation":{
 				$scope.pageSegment = urlPart+"store-management.html";
 				break;
 			}
@@ -17,12 +17,12 @@ angular.module("EmmetBlue")
 				$scope.pageSegment = urlPart+"dispensory.html";
 				break;
 			}
-			case "summaries-statistics":{
+			case "forward":{
 				$scope.pageSegment = urlPart+"statistics-dashboard.html";
 				break;
 			}
 		}
 	}
 
-	$scope.loadPageSegment('summaries-statistics');
+	$scope.loadPageSegment('queue');
 })

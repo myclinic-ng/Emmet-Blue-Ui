@@ -69,8 +69,8 @@ angular.module("EmmetBlue")
 		var result = utils.serverRequest("/lab/patient/new", "POST", patient);
 		result.then(function(response){
 			utils.alert("Operation successful", "New patient registered successfully", "success");
-			$("#new_patient").modal("hide");
-			$scope.$emit("reloadLabPatients", {});
+			$("#_new_patient").modal("hide");
+			$rootScope.$broadcast("reloadLabPatients", {});
 			if (typeof $scope.patient.patientID !== "undefined"){
 				var eventLog = patientEventLogger.lab.newPatientRegisteredEvent(
 					$scope.patient.patientID,

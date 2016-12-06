@@ -1,0 +1,75 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+
+<div ng-controller="pharmacyStoreRestockController">
+	<div class="row">
+		<div class="content-group col-md-9">
+			<label class="control-label">Select Item(s)</label>
+			<select class="select" multiple="" ng-model="stock.selectedItems" id="#selectedItems">
+				<option ng-repeat="item in inventoryItems" value="{{item.ItemID}}" ng-if="!itemBrandIsNull(item.ItemBrand)">{{item.BillingTypeItemName}} ({{item.ItemBrand}})</option>
+				<option ng-repeat="item in inventoryItems" value="{{item.ItemID}}" ng-if="itemBrandIsNull(item.ItemBrand)">{{item.BillingTypeItemName}}</option>
+			</select>
+		</div>
+		<div class="content-group col-md-3">
+			<label class="control-label">Specify Quantity</label>
+			<input type="number" class="form-control" ng-model="stock.quantity"/>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6 col-md-offset-4">
+			<button class="btn btn-success" ng-click="addStockToList()">Add selected items to the list below</button>
+		</div>
+	</div>
+	<div class="row mt-15">
+		<table class="table table-condensed table-responsive table-hover">
+			<thead class=" no-border-radius bg-indigo-400 border-top border-top-indigo-300">
+				<th>S/N</th>
+				<th>Item Name</th>
+				<th>Quantity Left In Stock</th>
+				<th colspan="2">Quantity Added</th>
+			</thead>
+			<tbody>
+				<tr ng-if="globalRestockItems.length < 1">
+					<td colspan="5"><p class="text-center"> <i class="fa fa-exclamation-triangle"></i> No item added to the restock list yet</p></td>
+				</tr>
+				<tr ng-repeat="item in globalRestockItems">
+					<td>{{$index + 1}}</td>
+					<td>{{item.itemName}}</td>
+					<td>{{item.quantityBefore}}</td>
+					<td>{{item.quantityAdded}}</td>
+					<td><a class="btn btn-link text-info"> <i class="fa fa-trash-o"></i> remove</a></td>
+				</tr>
+			</tbody>
+			<tfoot ng-if="globalRestockItems.length > 0">
+				<tr>
+					<td>
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" ng-model="stock.global" ng-true-value="true" ng-false-value="false">
+								Set as global restock
+							</label>
+						</div>
+					</td>
+					<td colspan="2"><a class="btn btn-link text-danger text-center" data-toggle="modal" data-target="#stockNote"> <i class="fa fa-file"></i> Add note/comment</a></td>
+					<td colspan="2"><a class="btn btn-warning pull-right no-border-radius" ng-click="save()"> Update Inventory Database </a></td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+	<div class="modal fade" id="stockNote">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<h6 class="modal-title">Add note/comment</h6>
+				</div>
+				<div class="modal-body">
+					<textarea class="form-control no-border" ng-model="stockNote" placeholder="start here..." style="height: 400px;"></textarea>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" onclick="$('#stockNote').modal('hide')" ng-click="stockNote = ''"> Cancel</button>
+					<button type="button" class="btn btn-warning" onclick="$('#stockNote').modal('hide')"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"> </i></span>  Continue</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

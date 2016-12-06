@@ -1,0 +1,54 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+<div class="row" ng-controller="pharmacyDispensoryDashboardController">
+	<div class="col-md-3">
+		<div class="sidebar sidebar-secondary sidebar-default">
+			<div class="sidebar-content">
+				<!-- Actions -->
+				<div class="sidebar-category">
+					<div class="category-title">
+						<span>Actions</span>
+						<ul class="icons-list">
+							<li><a href="#" data-action="collapse"></a></li>
+						</ul>
+					</div>
+
+					<div class="category-content">
+						<div class="row row-condensed">
+							<div class="col-xs-6">
+								<a href="#" type="button" class="btn bg-teal-400 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('manage-inventories')"><i class="icon-file-plus"></i> <span>Queued Requests</span></a>
+								<a href="#" type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('store-management')"><i class="icon-archive"></i> <span>Dispensation Log</span></a>
+							</div>
+							
+							<div class="col-xs-6">
+								<a type="button" class="btn bg-warning-400 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('dispensation-log')"><i class="icon-credit-card"></i> <span>New Dispensation</span></a>
+								<a href="#" type="button" class="btn bg-blue-300 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('summaries-statistics')"><i class="icon-archive"></i> <span>Forward Prescription</span></a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /actions -->
+			</div>
+		</div>
+	</div>
+	<div class="col-md-9">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h6 class="panel-title">Pharmacy Dispensory Dashboard</h6>
+				<!-- <div class="heading-elements">
+					<form class="heading-form" style="width: 150px;" ng-controller="pharmacyDashboardStoreInventoryController">
+						<select class="select" ng-model="selectedStore">
+							<option ng-repeat="store in stores" value="{{store.StoreID}}">{{store.StoreName}}</option>
+						</select>
+						<select class="select" ng-model="selectedStore">
+							<option ng-repeat="store in stores" value="{{store.StoreID}}">{{store.StoreName}}</option>
+						</select>
+					</form>
+				</div> -->
+			</div>
+			<div class="panel-body">
+				<ng-include src="pageSegment"></ng-include>
+			</div>
+		</div>
+	</div>
+</div>

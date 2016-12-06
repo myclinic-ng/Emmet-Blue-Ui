@@ -1,5 +1,6 @@
 var controllersLocation = "plugins/lab/assets/controllers/";
 
+head.load(controllersLocation+"dashbard-controller.js");
 head.load(controllersLocation+"labs-controller.js");
 head.load(controllersLocation+"investigation-types-controller.js");
 head.load(controllersLocation+"lab-requests-controller.js");
