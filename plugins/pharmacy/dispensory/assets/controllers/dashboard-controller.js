@@ -9,16 +9,8 @@ angular.module("EmmetBlue")
 				$scope.pageSegment = urlPart+"queued-requests.html";
 				break;
 			}
-			case "new-dispensation":{
-				$scope.pageSegment = urlPart+"store-management.html";
-				break;
-			}
 			case "dispensation-log":{
-				$scope.pageSegment = urlPart+"dispensory.html";
-				break;
-			}
-			case "forward":{
-				$scope.pageSegment = urlPart+"statistics-dashboard.html";
+				$scope.pageSegment = "plugins/pharmacy/assets/includes/dispensory.html";
 				break;
 			}
 		}
