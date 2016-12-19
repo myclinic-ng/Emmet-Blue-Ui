@@ -70,6 +70,9 @@ angular.module("EmmetBlue")
 		}
 	}
 
+	$scope.staffProfileExists = function(){
+		return typeof $scope.currentStaffInfo != "undefined";
+	}
 
 	checkLogin();
 	loadUserProfile();	

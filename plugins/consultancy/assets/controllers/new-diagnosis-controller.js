@@ -568,6 +568,9 @@ angular.module("EmmetBlue")
 
 			var successCallback = function(response){
 				utils.notify("Operation Successful", "Diagnosis has been submitted", "success");
+
+				var req = utils.serverRequest('/consultancy/saved-diagnosis/delete?resourceId='+$scope.globals.currentSavedDiagnosisID, 'DELETE');
+				req.then(function(response){}, function(error){});
 			}
 
 			var errorCallback = function(error){
@@ -590,6 +593,7 @@ angular.module("EmmetBlue")
 						$scope.labTests.investigations.imaging = diagnosis.investigations.imaging;
 						$scope.conclusion.diagnosis = diagnosis.conclusion.diagnosis;
 						$scope.conclusion.prescriptionList = diagnosis.conclusion.prescription;
+						$scope.globals.currentSavedDiagnosisID = response[i].SavedDiagnosisID;
 						utils.notify("Info", "Please note that the last saved diagnosis for this profile has been loaded", "info");
 					}
 				}
@@ -621,7 +625,8 @@ angular.module("EmmetBlue")
 			save: modules.globals.saveDiagnosis,
 			submit: modules.globals.submitDiagnosis,
 			registeredLabs: [],
-			registeredInvestigationTypes: []
+			registeredInvestigationTypes: [],
+			currentSavedDiagnosisID: 0
 		};
 
 		modules.globals.loadRegisteredLabs();

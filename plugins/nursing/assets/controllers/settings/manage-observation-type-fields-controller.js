@@ -5,6 +5,7 @@ angular.module("EmmetBlue")
 		editButtonAction = "manage('edit',"+data.FieldID+")";
 		deleteButtonAction = "manage('delete',"+data.FieldID+")";
 		var fieldsButtonAction = "manage('defaults', "+data.FieldID+")";
+		var dirtButtonAction = "manage('dirtyValues', "+data.FieldID+")";
 
 		var dataOpt = "data-option-id='"+data.FieldID+
 					"' data-option-name='"+data.FieldName+
@@ -13,8 +14,9 @@ angular.module("EmmetBlue")
 		editButton = "<button class='btn btn-default btn-fields' ng-click=\""+editButtonAction+"\" "+dataOpt+"> <i class='fa fa-pencil'></i></button>";
 		deleteButton = "<button class='btn btn-default btn-fields' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> <i class='fa fa-trash-o'></i></button>";
 		fieldsButton = "<button class='btn btn-default' ng-click=\""+fieldsButtonAction+"\" "+dataOpt+"><i class='icon-eye'> </i> Default Values</button>";
+		dirtButton = "<button class='btn btn-default' ng-click=\""+dirtButtonAction+"\" "+dataOpt+"> Dirty Values</button>";
 
-		return "<div class='btn-group'>"+fieldsButton+editButton+deleteButton+"</div>";
+		return "<div class='btn-group'>"+fieldsButton+dirtButton+editButton+deleteButton+"</div>";
 	}
 
 	$scope.dtInstance = {};
@@ -152,6 +154,18 @@ angular.module("EmmetBlue")
 				}
 				break;
 			}
+			case "dirtyValues":{
+				if (typeof id !== "undefined"){
+					utils.serverRequest('/nursing/observation-type-field-dirty-value/view?resourceId='+id, 'GET').then(function(response){
+						$scope.currentDirtyValues = response;
+						$scope.currentDirtyValuesField = id;
+					}, function(error){
+						utils.errorHandler(error);
+					})
+					$("#field_dirty_values").modal("show");
+				}
+				break;
+			}
 		}
 	}
 
@@ -174,6 +188,32 @@ angular.module("EmmetBlue")
 	$scope.deleteDefaultValue = function(id, index){
 		utils.serverRequest('/nursing/observation-type-field-default/delete?resourceId='+id, 'DELETE').then(function(response){
 			$scope.currentDefaultValues.splice(index, 1);
+			utils.alert("Operation successful", "The delete request has been processed successfully", "success", "notify");
+		}, function(error){
+			utils.errorHandler(error);
+		})
+	}
+
+	$scope.saveNewDirtyValue = function(){
+		var value = {
+			"field":$scope.currentDirtyValuesField,
+			"value":$scope.newDirtyValue,
+			"condition":$scope.newDirtyValueCondition
+		}
+
+		var request = utils.serverRequest("/nursing/observation-type-field-dirty-value/new", "POST", value);
+		request.then(function(response){
+			utils.notify("Operation Successful", "New dirty value registered successfully", "success");
+			$scope.manage("dirtyValues", $scope.currentDirtyValuesField);
+			$scope.newDirtyValue = "";
+		}, function(response){
+			utils.errorHandler(response);
+		})
+	}
+
+	$scope.deleteDirtyValue = function(id, index){
+		utils.serverRequest('/nursing/observation-type-field-dirty-value/delete?resourceId='+id, 'DELETE').then(function(response){
+			$scope.currentDirtyValues.splice(index, 1);
 			utils.alert("Operation successful", "The delete request has been processed successfully", "success", "notify");
 		}, function(error){
 			utils.errorHandler(error);

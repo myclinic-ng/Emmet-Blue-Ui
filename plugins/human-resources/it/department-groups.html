@@ -1,0 +1,81 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+<div ng-controller="humanResourcesDepartmentGroupsController as controller">
+	<div class="panel panel-white zoomIn" >
+		<div class="panel-heading">
+			<h6 class="panel-title">Department Groups Management</h6>
+			<div class="heading-elements">
+				<ul class="icons-list">
+	        		<li><a data-action="reload" ng-click="reloadDepartmentGroupsTable()"></a></li>
+	        	</ul>
+	    	</div>
+		</div>
+
+		<div class="panel-body">
+			<div class="table-responsive col-md-12">
+				<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
+
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<!-- New Department Group -->
+	<div id="new_department_group" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Create a new department group</h6>
+				</div>
+
+				<div class="modal-body">
+					<form role="form">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-12">
+									<label>Department group name</label>
+									<input type="text" class="form-control" ng-model="newDepartmentGroup.groupName">
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="newDepartmentGroup = {}">Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveNewDepartmentGroup()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spn"> </i> </span> Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--/ NEw Department Group  -->
+
+	<!-- Edit Department Group -->
+	<div id="edit_department_group" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Edit department group</h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-12">
+								<label>Department group name</label>
+								<input type="text" class="form-control" ng-model="tempHolder.groupName" data-option-id="{{tempHolder.groupId}}">
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="tempHolder = {}">Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveEditDepartmentGroup()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"></i> </span> Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

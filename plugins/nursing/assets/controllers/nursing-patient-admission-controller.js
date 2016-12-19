@@ -55,7 +55,7 @@ angular.module("EmmetBlue")
 		utils.DT.columnBuilder.newColumn(null).withTitle("S/N").renderWith(function(data, type, full, meta){
 			return meta.row + 1;
 		}),
-		utils.DT.columnBuilder.newColumn('PatientAdmissionID').withTitle("Admission Number"),
+		utils.DT.columnBuilder.newColumn('WardDetails.WardAdmissionID').withTitle("Admission Number"),
 		utils.DT.columnBuilder.newColumn('Consultant').withTitle("Admitted By"),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Patient Name").renderWith(function(data){
 			var image = $scope.loadImage(data.PatientPicture);

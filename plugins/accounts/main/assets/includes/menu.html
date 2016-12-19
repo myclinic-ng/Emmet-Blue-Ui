@@ -7,13 +7,130 @@
 
 	<div class="navbar-collapse collapse" id="navbar-second-toggle">
 		<ul class="nav navbar-nav">
-			<li><a href="accounts/main/dashboard"><i class="icon-display4 position-left"></i> Dashboard</a></li>
+			<li class="active"><a href="accounts/main/dashboard"><i class="icon-display4 position-left"></i> Dashboard</a></li>
 
-			<li><a href="accounts/main/account-payment-request"><i class="icon-list2"> </i> Payment Requests</a></li>
-			<!-- <li><a href="accounts/main/manage-invoices"><i class="icon-git"></i> Manage Invoices </a></li> -->
-			<li><a href="#"><i class="icon-list2"></i> Manage Transactions (Invoices &amp; Payments) </a></li>
-			<li><a href="accounts/main/reports"><i class="icon-stats-dots"></i> Reports </a></li>
-			<li><a href="accounts/main/billing-types"><i class="icon-user-lock"></i> Billing Types </a></li>
+			<li class="dropdown mega-menu">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					<i class="icon-menu7 position-left"></i>
+					Financial Transactions
+					<span class="caret"></span>
+				</a>
+
+				<div class="dropdown-menu dropdown-content">
+					<div class="dropdown-content-body">
+						<div class="row">
+							<div class="col-md-4">
+								<span class="menu-heading underlined">Outwards Journals</span>
+								<ul class="menu-list">
+									<li><a href="form_components.html">Write Check</a></li>
+									<li><a href="form_components.html">View and Edit Checks</a></li>
+									<li><a href="form_components.html">Bank Deposits</a></li>
+									<li><a href="form_components.html">Pay Bills</a></li>
+								</ul>
+							</div>
+							<div class="col-md-4">
+								<span class="menu-heading underlined">Inwards Journals</span>
+								<ul class="menu-list">
+									<li><a href="form_components.html">Receive Money</a></li>
+								</ul>
+							</div>
+							<div class="col-md-4">
+								<span class="menu-heading underlined">General Journal Entry</span>
+								<ul class="menu-list">
+									<li><a href="form_components.html">New General Journal Entry</a></li>
+									<li><a href="form_components.html">View &amp; Edit General Journal Entries</a></li>
+									<li><a href="form_components.html">Memorize General Journal Entry</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</li>
+
+			<li><a href="accounts/main/dashboard"><i class=""></i> Account Register/General Ledger</a></li>
+
+			<li class="dropdown mega-menu mega-menu-wide">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					<i class="icon-menu7 position-left"></i>
+					Invoicing and Billing
+					<span class="caret"></span>
+				</a>
+
+				<div class="dropdown-menu dropdown-content">
+					<div class="dropdown-content-body">
+						<div class="row">
+							<div class="col-md-3">
+								<span class="menu-heading underlined">Payment Requests</span>
+								<ul class="menu-list">
+									<li><a href="form_components.html">View Unprocessed Payment Requests</a></li>
+									<li><a href="form_components_advanced.html">View Payment Request Logs</a></li>
+									<li><a href="form_select2.html">View Payment Requests By Departments</a></li>
+								</ul>
+							</div>
+							<div class="col-md-3">
+								<span class="menu-heading underlined">Invoices</span>
+								<ul class="menu-list">
+									<li><a href="components_modals.html">New Invoice</a></li>
+									<li><a href="components_modals.html">View Invoices Log</a></li>
+									<li><a href="components_modals.html">View Processed/Closed Invoices</a></li>
+									<li><a href="components_modals.html">View Unprocessed/Open Invoices</a></li>
+								</ul>
+							</div>
+							<div class="col-md-3">
+								<span class="menu-heading underlined">Payments</span>
+								<ul class="menu-list">
+									<li><a href="sidebar_default_collapse.html">New Payment</a></li>
+									<li><a href="sidebar_mini_collapse.html">View Payment Logs</a></li>
+									<li><a href="sidebar_dual.html">View Receipts</a></li>
+									<li><a href="sidebar_double_collapse.html">Receipts Archives</a></li>
+								</ul>
+							</div>
+							<div class="col-md-3">
+								<span class="menu-heading underlined">Billing Type Items</span>
+								<ul class="menu-list">
+									<li><a href="navigation_horizontal_click.html">New Billing Type Item Category</a></li>
+									<li><a href="navigation_horizontal_hover.html">View Billing Type Items Categories</a></li>
+									<li><a href="navigation_horizontal_elements.html">New Billing Type Item</a></li>
+									<li><a href="navigation_horizontal_tabs.html">Manage Billing Type Items Prices</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</li>
+
+			<li class="dropdown mega-menu">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					<i class="icon-menu7 position-left"></i>
+					Maintain Corporate Accounts
+					<span class="caret"></span>
+				</a>
+
+				<div class="dropdown-menu dropdown-content">
+					<div class="dropdown-content-body">
+						<div class="row">
+							<div class="col-md-6">
+								<span class="menu-heading underlined">Charts of Account</span>
+								<ul class="menu-list">
+									<li><a href="accounts/main/account-types">Manage Account Types</a></li>
+									<li><a href="accounts/main/accounts">Manage Accounts</a></li>
+									<li><a href="form_select2.html">Account Running Balances</a></li>
+								</ul>
+							</div>
+							<div class="col-md-6">
+								<span class="menu-heading underlined">Accounting Periods</span>
+								<ul class="menu-list">
+									<li><a href="accounts/main/accounting-periods">View Periods Database</a></li>
+									<li><a href="components_modals.html">New Accounting Period</a></li>
+									<li><a href="components_modals.html">Beginning Balances</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</li>
+
+
 		</ul>
 
 		<ul class="nav navbar-nav navbar-right">

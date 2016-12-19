@@ -1,0 +1,91 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>
+	$('select.select').select2();
+	$(function() {
+
+	    // Initialize lightbox
+	    $('[data-popup=lightbox]').fancybox({
+	        padding: 3
+	    });
+	    
+	});
+
+	$('body').on('hidden.bs.modal', function () {
+	    if($('.modal.in').length > 0)
+	    {
+	        $('body').addClass('modal-open');
+	    }
+	});
+
+	$(function() {
+		// Default file input style
+		$(".file-styled").uniform({
+			fileButtonHtml: '<i class="icon-plus2"></i>'
+		});
+
+
+		// Primary file input
+		$(".file-styled-primary").uniform({
+			wrapperClass: 'bg-warning',
+			fileButtonHtml: '<i class="icon-plus2"></i>'
+		});
+
+	});
+</script>
+<script src="assets/js/core/app.js"></script>
+<div ng-controller="humanResourcesStaffManagementNewStaffProfileController">
+	<div id="new_staff_profile" class="modal fade">
+		<div class="modal-full modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title"> Staff Management <span class="pull-right mr-20">New Staff Profile</span></h6>
+				</div>
+
+				<div class="modal-body">
+					<form role="form">
+						<div class="col-md-8">
+							<div class="form-group col-md-6" ng-repeat="fieldTitle in profileFieldTitles">
+								<label>{{fieldTitle.FieldTitleName}}</label>
+								<textarea ng-if="fieldTitle.FieldTitleType == 'Text'" cols="3" rows="3" class="form-control" ng-model="staffProfile[fieldTitle.FieldTitleName]"></textarea>
+								<input ng-if="fieldTitle.FieldTitleType != 'Text'" type="{{fieldTitle.FieldTitleType}}" class="form-control" ng-model="staffProfile[fieldTitle.FieldTitleName]">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="panel panel-default col-md-11 col-md-offset-1">
+				                <div class="panel-heading">
+				                  <h6 class="panel-title">Upload Passport</h6>
+				                </div>
+				                <div class="panel-body" id="camera">
+				                  <img src="plugins/records/patient/assets/images/passport-placeholder.png" class="col-md-12 img img-responsive" style="width:100% !important; height: 100% !important;"/>
+				                </div><!-- /.panel-body -->
+				                 <input type="hidden" id="patient-passport"/>
+				                <div class="panel-footer">
+									<div class="text-center">
+										<button class="btn btn-info" onClick="enableCamera()" ng-click="eDisablers('enable')" ng-show="disablers.enable_camera"><i class="icon-camera"></i> Enable Camera</button>
+										<button class="btn btn-success" onClick="takeSnapshot()" ng-click="eDisablers('take')" ng-show="disablers.take_snapshot"><i class="icon-play"></i> Take Snapshot</button>
+										<button class="btn btn-danger" onClick="retakeSnapshot()" ng-click="eDisablers('retake')" ng-show="disablers.snapshot_taken"><i class="icon-undo"></i> Retake Snapshot</button>
+									</div>
+				                </div>
+				              </div><!-- /.panel -->
+				              <div class="form-group col-md-11 col-md-offset-1">
+								<label class="control-label">Upload Identification Document</label>
+				              	<input type="file" class="file-styled-primary" ng-model="uploadedDocument" name="file" id="document"/>
+				              	<img src="{{staffProfile.documents}}" class="img img-responsive"/>
+				              </div>
+						</div>
+			        </form>
+				</div>
+
+				<div class="modal-footer">
+					<div class="col-md-12 pull-right">
+						<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="staffProfile = {}">Close</button>
+						<button class="btn btn-warning btn-lg" ng-click="submit()"><span class="hide loader pull-left"> <i class="fa fa-spinner fa-spin">  </i> </span> Submit</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="plugins/records/patient/assets/js/webcam-controller.js"></script>

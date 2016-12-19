@@ -1,12 +1,20 @@
 angular.module("EmmetBlue")
 
-.controller('userLoginController', function($scope, utils, $cookies, $location){
+.controller('userLoginController', function($scope, utils, $cookies, $location, $timeout){
+	$scope.login = {};
+
+	if (typeof $.cookie("last-stored-login-username") != "undefined"){
+		$scope.login.username = $.	parseJSON($.cookie("last-stored-login-username")).value;
+	}
+
 	$scope.processLogin = function(){
 		var loginData = $scope.login;
 
 		if (typeof loginData == "undefined"
 			|| typeof loginData.username == "undefined"
 			|| typeof loginData.password == "undefined"
+			|| loginData.username == ""
+			|| loginData.password == ""
 		)
 		{
 			utils.alert("All fields are required", "Please enter both your username and password to continue", "warning");
@@ -16,7 +24,7 @@ angular.module("EmmetBlue")
 			var block = $("#form-login");
 			$(block).block({ 
 			    message: '<i class="icon-spinner4 spinner"></i>',
-			    timeout: 3000, //unblock after 3 seconds
+			    //timeout: 3000, //unblock after 3 seconds
 			    overlayCSS: {
 			        backgroundColor: '#fff',
 			        opacity: 0.8,
@@ -44,9 +52,23 @@ angular.module("EmmetBlue")
 						"Please try again with a valid username and password",
 						"error"
 					);
+					$(block).unblock();
 				}
 				else
 				{
+					$(block).block({ 
+					    message: '<i class="icon-spinner2 spinner"></i> redirecting',
+					    overlayCSS: {
+					    	backgroundColor: '#fff',
+			        		opacity: 0.8,
+			        		cursor: 'wait'
+					    },
+					    css: {
+					        border: 0,
+					        padding: 0,
+					        backgroundColor: 'transparent'
+					    }
+					});
 					utils.alert(
 						"Login Successful",
 						"Your sign in request was completed successfully. You are now being redirected to your dashboard",
@@ -55,28 +77,37 @@ angular.module("EmmetBlue")
 					);
 					$(".controls").removeClass('has-warning').addClass('has-success');
 
+					if ($scope.login.remember){
+						$cookies.putObject("last-stored-login-username", {value: $scope.login.username});
+					}
+
 					var responseObject = {
 						uuid: response.uuid,
 						accountActivated: response.accountActivated,
-						staffid: response.id
+						staffid: response.id,
+						username: $scope.login.username
 					};
 
-					utils.serverRequest("/human-resources/staff/view-root-url?resourceId="+responseObject.staffid, "GET").then(function(response){
-						responseObject.dashboard = response.Url;
-						$cookies.putObject(utils.globalConstants.USER_COOKIE_IDENTIFIER, responseObject);
-						$location.path(response.Url);
-					});
-					// if (response.accountActivated !== "0")
-					// {
-					// 	utils.serverRequest("/human-resources/staff/view-root-url?resourceId="+responseObject.staffid, "GET").then(function(response){
-					// 		$location.path(response.Url);
-					// 	});
-					// }
-					// else
-					// {
-					// 	utils.alert('Looks like its your first time', 'show some tutorial stuff', 'info');
-					// 	$location.path('/');
-					// }
+					$timeout(function(){
+						utils.serverRequest("/human-resources/staff/view-root-url?resourceId="+responseObject.staffid, "GET").then(function(response){
+							responseObject.dashboard = response.Url;
+							$cookies.putObject(utils.globalConstants.USER_COOKIE_IDENTIFIER, responseObject);
+							$(".login-wrapper").fadeOut();
+							$location.path(response.Url);
+						});
+
+						// if (response.accountActivated !== "0")
+						// {
+						// 	utils.serverRequest("/human-resources/staff/view-root-url?resourceId="+responseObject.staffid, "GET").then(function(response){
+						// 		$location.path(response.Url);
+						// 	});
+						// }
+						// else
+						// {
+						// 	utils.alert('Looks like its your first time', 'show some tutorial stuff', 'info');
+						// 	$location.path('/');
+						// }
+					}, 4000);
 				}
 			}, function(response){
 				utils.errorHandler(response);

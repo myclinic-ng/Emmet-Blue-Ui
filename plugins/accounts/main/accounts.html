@@ -1,0 +1,126 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+
+<div ng-controller="accountsAccountAccountController">
+	<div class="panel panel-white zoomIn" style="height: 100vh">
+		<div class="panel-heading">
+			<h6 class="panel-title">Accounts Management</h6>
+		</div>
+
+		<div class="panel-body">
+			<div class="table-responsive col-md-12" style="height: 100vh" >
+				<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
+
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<!-- New Account -->
+	<div id="new_account" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Create a new account</h6>
+				</div>
+
+				<div class="modal-body">
+					<form role="form">
+						<div class="form-group">
+							<div class="row">
+								<div class="content-group col-sm-12">
+									<label>Account name</label>
+									<input type="text" class="form-control" ng-model="newAccount.name">
+								</div>
+								<div class="content-group col-sm-12">
+									<label>Account category</label>
+									<select class="select" ng-model="newAccount.type">
+										<optgroup label="{{category.CategoryName}}" ng-repeat="category in accountTypes">
+											<option ng-repeat="type in category.types" value="{{type.TypeID}}">{{type.TypeName}}</option>
+										</optgroup>
+									</select>
+								</div>
+								<div class="content-group col-sm-12">
+									<label>Account description</label>
+									<textarea class="form-control" cols="3" rows="3" ng-model="newAccount.description"></textarea>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="newAccount = {}"><i class="fa fa-times-circle-o"></i> Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveNewAccount()"><span class="hide loader pull-left"><i class="fa fa-circle-o-notch fa-spin"> </i></span>  Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--/ NEw Account Group  -->
+
+	<!-- Edit Account-->
+	<div id="edit_account" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Edit Account </h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="content-group col-sm-12">
+								<label>Account name</label>
+								<input type="text" class="form-control" ng-model="tempHolder.AccountName" data-option-id="{{tempHolder.resourceId}}">
+							</div>
+							<div class="content-group col-sm-12">
+								<label>Description</label>
+								<textarea class="form-control" ng-model="tempHolder.AccountDescription"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="tempHolder = {}"><i class="fa fa-times-circle-o"></i> Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveEditAccount()"><span class="hide loader pull-left"><i class="fa fa-circle-o-notch fa-spin "> </i></span>  Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--/Edit Account  -->
+
+	<div id="change_account_type" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Change Account Type </h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="content-group col-sm-12">
+								<p class="text-center text-muted">Changing selected account type from {{tempHolder.currentType}}</p>
+								<label>Select a new account to change to</label>
+								<select class="select" ng-model="tempHolder.type">
+									<optgroup label="{{category.CategoryName}}" ng-repeat="category in accountTypes">
+										<option ng-repeat="type in category.types" value="{{type.TypeID}}">{{type.TypeName}}</option>
+									</optgroup>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="tempHolder = {}"><i class="fa fa-times-circle-o"></i> Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveChangeAccountType()"><span class="hide loader pull-left"><i class="fa fa-circle-o-notch fa-spin "> </i></span>  Continue</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

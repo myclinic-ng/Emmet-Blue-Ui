@@ -215,10 +215,15 @@ angular.module("EmmetBlue")
 			return services.userSession.cookie().uuid;
 		},
 		getDashboard: function(){
-			return services.userSession.cookie().dashboard;
+			if (typeof services.userSession.cookie() != "undefined"){
+				return services.userSession.cookie().dashboard;
+			}
 		},
 		getID: function(){
 			return services.userSession.cookie().staffid;
+		},
+		getUsername: function(){
+			return services.userSession.cookie().username;
 		},
 		clear: function(){
 			$cookies.remove(CONSTANTS.USER_COOKIE_IDENTIFIER);

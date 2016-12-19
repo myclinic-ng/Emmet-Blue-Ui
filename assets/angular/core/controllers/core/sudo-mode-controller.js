@@ -12,7 +12,7 @@ angular.module("EmmetBlue")
 
 	$scope.processLogin = function(){
 		$loginPromise = utils.serverRequest("/login", "POST", {
-			username: "pharmabigail",
+			username: utils.userSession.getUsername(),
 			password: $scope.password
 		});
 

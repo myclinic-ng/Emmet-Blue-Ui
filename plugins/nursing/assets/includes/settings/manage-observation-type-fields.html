@@ -121,4 +121,59 @@
 			</div>
 		</div>
 	</div>
+
+	<div id="field_dirty_values" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" onclick="$('#field_dirty_values').modal('hide')">&times;</button>
+					<h6 class="modal-title">Manage Observation Type Field Dirty Values</h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="table-responsive">
+						<table class="table table-condensed">
+							<thead>
+								<th>S/N</th>
+								<th>Condition</th>
+								<th>Default Value</th>
+								<th>Action</th>
+							</thead>
+							<tbody>
+								<tr ng-repeat="value in currentDirtyValues">
+									<td>{{$index + 1}}</td>
+									<td ng-if="value.Condition[0] == '='">
+										Must contain <span class="label label-info">=</span>
+									</td>
+									<td ng-if="value.Condition[0] == '>'">
+										Must be greater than <span class="label label-success">&gt;</span>
+									</td>
+									<td ng-if="value.Condition[0] == '<'">
+										Must be less than <span class="label label-danger">&lt;</span>
+									</td>
+									<td>{{value.Value}}</td>
+									<td><a class="btn btn-link btn-warning" ng-click="deleteDirtyValue(value.FieldDirtyValueID, $index)"><i class="fa fa-times"></i> remove</a></td>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<select class="select" ng-model="newDirtyValueCondition">
+											<option value="eq">Must contain</option>
+											<option value="gt">Must be greater than</option>
+											<option value="lt">Must be less than</option>
+										</select>
+									</td>
+									<td><input class="form-control col-md-12" ng-model="newDirtyValue" placeholder="enter a new dirty value" /></td>
+									<td><a class="btn btn-link btn-info" ng-click="saveNewDirtyValue()">save</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" onclick="$('#field_dirty_values').modal('hide')"><i class="fa fa-times-circle-o"></i> Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

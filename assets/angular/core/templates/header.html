@@ -30,9 +30,9 @@
 
 			<li class="dropdown dropdown-user">
 				<a class="dropdown-toggle" data-toggle="dropdown">
-					<img ng-src="{{loadImage(currentStaffInfo.StaffPicture)}}" alt="{{currentStaffInfo.StaffID}}">
-					<!-- <i class="icon-user-lock"></i> -->
-					<span>{{currentStaffInfo.StaffFullName}}</span>
+					<img ng-src="{{loadImage(currentStaffInfo.StaffPicture)}}" alt="" ng-if="staffProfileExists()">
+					<i class="icon-user-lock" ng-if="!staffProfileExists()"></i>
+					<span>&nbsp;<span ng-if="staffProfileExists()">{{currentStaffInfo.StaffFullName}}</span></span>
 					<i class="caret"></i>
 				</a>
 

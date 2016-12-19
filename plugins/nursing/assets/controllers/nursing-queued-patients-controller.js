@@ -1,18 +1,9 @@
 angular.module("EmmetBlue")
 
-.controller("nursingQueuedPatientsController", function($scope, utils){
+.controller("nursingQueuedPatientsController", function($rootScope, $scope, utils){
 	$scope.loadImage = utils.loadImage;
 	$scope.forwardEnabled = false; 
 	function dtAction(data, full, meta, type){
-		// editButtonAction = "manage('edit',"+data.ObservationTypeID+")";
-		// deleteButtonAction = "manage('delete',"+data.ObservationTypeID+")";
-		// var dataOpt = "data-option-id='"+data.ObservationTypeID+
-		// 			"' data-option-name='"+data.ObservationTypeName+
-		// 			"' data-option-description='"+data.ObservationTypeDescription+
-		// 			"'";
-		// editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+dataOpt+"> <i class='fa fa-pencil'></i></button>";
-		// deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> <i class='fa fa-trash-o'></i></button>";
-
 		viewCardButtonAction = "manage('view',"+data.PatientID+")";
 		closeButtonAction = "manage('close',"+data.PatientID+")";
 		observationButtonAction = "manage('observation',"+data.PatientID+")";
@@ -58,8 +49,13 @@ angular.module("EmmetBlue")
 	];
 
 	function reloadTable(){
+		$rootScope.$broadcast("recountQueue");
 		$scope.dtInstance.reloadData();
 	}
+
+	setInterval(function(){
+		reloadTable();
+	}, 5000);
 
 	$scope.manage = function(value, id){
 		switch(value)

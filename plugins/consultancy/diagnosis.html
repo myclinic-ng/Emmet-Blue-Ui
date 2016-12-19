@@ -422,7 +422,35 @@
 										</div>	
 									</div>
 									<div class="tab-pane fade" id="labForm">
+										<div>
+											<div class="panel-default panel-sm">
+												<div class="panel-content">
+													<div class="panel-body">
+														<div class="content-group">
+															<label class="control-label">Select Lab</label>
+															<select class="select" ng-model="labTests.sendVariables.lab">
+																<option value="{{lab.LabID}}" ng-repeat="lab in globals.registeredLabs">{{lab.LabName}}</option>
+															</select>
+														</div>
+														<div class="content-group">
+															<label class="control-label">Select Investigation Type</label>
+															<select class="select" ng-model="labTests.sendVariables.investigationType">
+																<option value="{{type.InvestigationTypeID}}" ng-repeat="type in globals.registeredInvestigationTypes">{{type.InvestigationTypeName}}</option>
+															</select>
+														</div>
+														<div class="content-group">
+															<label class="control-label">Nature of Specimen / Clinical Diagnosis</label>
+															<textarea class="form-control" ng-model="labTests.investigations.lab[labTests.investigations.lab.currentInvestigation].description"> </textarea>
+														</div>
+													</div>
 
+													<div class="panel-footer">
+														<button type="button" class="btn btn-link" data-dismiss="panel">Close</button>
+														<button type="button" class="btn btn-primary" ng-click="labTests.sendForInvestigation()"><i class="fa fa-send"></i> Send</button>
+													</div>
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>

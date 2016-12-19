@@ -1,0 +1,42 @@
+<div class="row" ng-controller="nursingStationDashboardController">
+	<div class="col-md-3">
+		<div class="sidebar sidebar-secondary sidebar-default">
+			<div class="sidebar-content">
+				<!-- Actions -->
+				<div class="sidebar-category">
+					<div class="category-title">
+						<span>Actions</span>
+						<ul class="icons-list">
+							<li><a href="#" data-action="collapse"></a></li>
+						</ul>
+					</div>
+
+					<div class="category-content">
+						<div class="row row-condensed">
+							<div class="col-xs-6">
+								<a href="#" type="button" class="btn bg-teal-400 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('patient-queue')"><i class="icon-file-plus"></i> <span>Patient Queue</span></a>
+								<!-- <a href="#" type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('view-archive')"><i class="icon-archive"></i> <span>Render Service</span></a> -->
+							</div>
+							
+							<div class="col-xs-6">
+								<a href="#" type="button" class="btn bg-warning-300 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('payment-request')"><i class="icon-archive"></i> <span>Payment Request</span></a>
+								<!-- <a type="button" class="btn bg-blue btn-block btn-float btn-float-lg" ng-click="loadPageSegment('load-settings')"><i class="icon-stats-dots"></i> <span>Services Register</span></a> -->
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /actions -->
+			</div>
+		</div>
+	</div>
+	<div class="col-md-9">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h6 class="panel-title">Nursing Station Dashboard</h6>
+			</div>
+			<div class="panel-body" style="height: 100vh">
+				<ng-include src="pageSegment"></ng-include>
+			</div>
+		</div>
+	</div>
+</div>

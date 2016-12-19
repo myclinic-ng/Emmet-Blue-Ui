@@ -3,7 +3,7 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
-					<h6 class="modal-title">Queued Patients</h6>
+					<h6 class="modal-title">Queued Patients <span class="pull-right">(There are {{queuedPatients.length}} unprocessed patients on queue)</span></h6>
 				</div>
 				<div class="modal-body">
 					<div class="row" ng-if="queuedPatients.length < 1">
@@ -19,73 +19,33 @@
 							<h6 class="pull-right">Enter a patients name to search:</h6>
 						</div>
 						<div class="col-md-6">
-							<input class="form-control pull-right" placeholder="filter patients"/>
+							<input class="form-control pull-right" placeholder="filter patients" ng-model="filterQueuedPatients"/>
 						</div>
 						<table class="table table-condensed table-hover">
 							<thead class="bg-success">
 								<th></th>
 								<th colspan="1">Patients Full Name</th>
-								<th colspan="2">Duration on queue</th>
+								<th colspan="2">Queue Time</th>
 							</thead>
 							<tbody>
-								<tr>
-									<td class="text-bold" style="border-right: 1px solid #4CAF50">1</td>
+								<tr ng-repeat="patient in queuedPatients | filter:filterQueuedPatients">
+									<td class="text-bold" style="border-right: 1px solid #4CAF50">{{$index + 1}}</td>
 									<td class="media">
 										<div class="media-left media-middle">
 											<a href="#">
-												<img src="assets/images/image.jpg" class="img-circle" alt="">
+												<img src="{{loadImage(patient.patientInfo.patientpicture)}}" class="img-circle" alt="">
 											</a>
 										</div>
 
 										<div class="media-body">
-											<div class="media-heading text-semibold">Jeremiah Somebody</div>
-											<span class="text-muted">Hygeia, NHIS</span>
+											<div class="media-heading text-semibold">{{patient.patientInfo.patientfullname}}</div>
+											<span ng-hide="true">{{patient.patientInfo.patientuuid}}</span>
+											<span class="text-muted">{{patient.patientInfo.patienttypename}}, {{patient.patientInfo.categoryname}}</span>
 										</div>
 									</td>
-									<td>12/12/2009 19:10:02</td>
+									<td>{{patient.QueueDate}}</td>
 									<td>
-										<a class="btn btn-link"><i class="fa fa-cart-plus"></i> Process</a>
-									</td>
-								</tr>
-
-								<tr>
-									<td class="text-bold" style="border-right: 1px solid #4CAF50">2</td>
-									<td class="media">
-										<div class="media-left media-middle">
-											<a href="#">
-												<img src="assets/images/image.jpg" class="img-circle" alt="">
-											</a>
-										</div>
-
-										<div class="media-body">
-											<div class="media-heading text-semibold">Jeremiah Somebody</div>
-											<span class="text-muted">Hygeia, NHIS</span>
-										</div>
-									</td>
-									<td>12/12/2009 19:10:02</td>
-									<td>
-										<a class="btn btn-link"><i class="fa fa-cart-plus"></i> Process</a>
-									</td>
-								</tr>
-
-
-								<tr>
-									<td class="text-bold" style="border-right: 1px solid #4CAF50">3</td>
-									<td class="media">
-										<div class="media-left media-middle">
-											<a href="#">
-												<img src="assets/images/image.jpg" class="img-circle" alt="">
-											</a>
-										</div>
-
-										<div class="media-body">
-											<div class="media-heading text-semibold">Jeremiah Somebody</div>
-											<span class="text-muted">Hygeia, NHIS</span>
-										</div>
-									</td>
-									<td>12/12/2009 19:10:02</td>
-									<td>
-										<a class="btn btn-link"><i class="fa fa-cart-plus"></i> Process</a>
+										<a class="btn btn-link" ng-click="removeFromQueue(patient.QueueID)"><i class="fa fa-check"></i> mark as processed</a>
 									</td>
 								</tr>
 							</tbody>

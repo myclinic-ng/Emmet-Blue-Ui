@@ -1,0 +1,203 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/ui/moment/moment.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/pickers/daterangepicker.js"></script>
+
+<script>
+	$('select.select').select2();
+	$('.daterange').daterangepicker({
+		showWeekNumbers: true,
+		showDropdowns: true,
+        opens: "right",
+        applyClass: 'bg-success',
+        cancelClass: 'btn-default'
+	});
+</script>
+
+<div ng-controller="accountsAccountingPeriodsController">
+	<div class="panel panel-white zoomIn" style="height: 100vh">
+		<div class="panel-heading">
+			<h6 class="panel-title">Accounting Periods Database</h6>
+		</div>
+
+		<div class="panel-body">
+			<div class="table-responsive col-md-12" style="height: 100vh" >
+				<table datatable="" dt-options="dttOptions" dt-columns="dttColumns" dt-instance="dttInstance" class="table table-condensed table-striped table-hover">
+
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<!-- New Account -->
+	<div id="new_period" class="modal fade">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Create a new accounting period</h6>
+				</div>
+
+				<div class="modal-body">
+					<form role="form">
+						<div class="form-group">
+							<div class="row">
+								<div class="content-group col-sm-12">
+									<label>Period Alias</label>
+									<textarea class="form-control" ng-model="newPeriod.name"></textarea>
+								</div>
+								<div class="content-group col-sm-12">
+									<label>Select Period Dates: </label>
+									<div class="input-group">
+										<span class="input-group-addon"><i class="icon-calendar22"></i></span>
+										<input type="text" class="form-control daterange" ng-model="newPeriod.dates"> 
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="newPeriod = {}"><i class="fa fa-times-circle-o"></i> Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveNewPeriod()"><span class="hide loader pull-left"><i class="fa fa-circle-o-notch fa-spin"> </i></span>  Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--/ NEw Account Group  -->
+
+	<!-- Edit Account-->
+	<div id="edit_period" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Edit Accounting Period Alias </h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="content-group col-sm-12">
+								<label>Period Alias</label>
+								<input type="text" class="form-control" ng-model="tempHolder.PeriodAlias" data-option-id="{{tempHolder.resourceId}}">
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="tempHolder = {}"><i class="fa fa-times-circle-o"></i> Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveEditPeriod()"><span class="hide loader pull-left"><i class="fa fa-circle-o-notch fa-spin "> </i></span>  Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--/Edit Account  -->
+
+	<div id="new_beginning_balance" class="modal fade" ng-controller="accountsAccountingPeriodBeginningBalancesController">
+		<div class="modal-dialog modal-full">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Accounting Period Beginning Balances</h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-7" style="border-right: 1px solid #5cb85c">
+							<p class="text-center text-muted">Current Accounting Period: <span class='text-bold'>{{currentAccountingPeriod.name}}</span></p>
+							<div class="table-responsive">
+								<table class="table table-striped table-hover">
+									<thead>
+										<th>Account</th>
+										<th>Account Name</th>
+										<th>Account Type</th>
+										<th class="text-bold">Beginning Balance</th>
+									</thead>
+									<tbody>
+										<tr ng-repeat="account in accounts">
+											<td>{{account.AccountID}}</td>
+											<td>{{account.AccountName}}</td>
+											<td>{{account.TypeName}}</td>
+											<td>
+												<input class="form-control" type="number" placeholder="0.00" ng-model="balances[account.AccountID].balance" ng-blur="addToTotals($index, account.AccountID)"/>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="col-md-5">
+							<p class="text-center text-muted">Adjustment Trial Balance For Current Accounting Period</p>
+							<table class="table" style="border: 0px !important">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Assets + Revenue</th>
+										<th>Liabilities + Expenses</th>
+									</tr>
+								</thead>
+								<tbody style="border-bottom: 1px solid #333">
+									<tr ng-repeat="account in accounts" style="border: 0px !important;">
+										<td style="border: 0px !important">{{account.AccountName}}</td>
+										<td style="border: 0px; border-right: 1px solid #bbb">
+											<span class="pull-right" ng-if="sidesOnEquation[account.TypeID] == 'L'" ng-bind="balances[account.AccountID].balance"></span>
+										</td>
+										<td style="border: 0px !important">
+											<span ng-if="sidesOnEquation[account.TypeID] == 'R'" ng-bind="balances[account.AccountID].balance"></span>
+										</td>
+									</tr>
+								</tbody>
+								<tfoot>
+									<tr class="{{totals.balanced}} text-bold">
+										<td>Total</td>
+										<td style="border-right: 1px solid #bbb; text-decoration: underline;"><span class="pull-right" style="text-decoration: underline;">{{totals.L}}</span></td>
+										<td style="text-decoration: underline;"><span>{{totals.R}}</span></td>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="balances = {}"><i class="fa fa-times-circle-o"></i> Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveBalances()"><span class="hide loader pull-left"><i class="fa fa-circle-o-notch fa-spin"> </i></span>  Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- <div id="change_account_type" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Change Account Type </h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="content-group col-sm-12">
+								<p class="text-center text-muted">Changing selected account type from {{tempHolder.currentType}}</p>
+								<label>Select a new account to change to</label>
+								<select class="select" ng-model="tempHolder.type">
+									<optgroup label="{{category.CategoryName}}" ng-repeat="category in accountTypes">
+										<option ng-repeat="type in category.types" value="{{type.TypeID}}">{{type.TypeName}}</option>
+									</optgroup>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="tempHolder = {}"><i class="fa fa-times-circle-o"></i> Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveChangeAccountType()"><span class="hide loader pull-left"><i class="fa fa-circle-o-notch fa-spin "> </i></span>  Continue</button>
+				</div>
+			</div>
+		</div>
+	</div> -->
+</div>

@@ -136,16 +136,57 @@ function nursingPatientWorkspaceController($rootScope, $scope, utils){
 		$("#repository-items").modal("show");
 	}
 
+	$scope.getFieldName = function(id){
+		var name = $(".observationData[data-id='"+id+"']").attr("data-value-name");
+
+		return name;
+	}
+
+	
+
+	$scope.submitLikeThat = function(){
+		$("#dirtyValuesPresentModal").modal("hide");
+		$scope.process();
+	}
+
 	$scope.submitObservation = function(){
 		var patient = $scope.patient.patientid;
 		// var observationName = $scope.observation.InvestigationRequired+"("+$scope.observation.InvestigationTypeName+")";
-		var observation = $scope.observationResult;
+		var observation = {};
 		var staffID = utils.userSession.getID();
 
-		if (angular.equals(observation, {})){
+		var data = [];
+		$(".observationData").each(function(){
+			observation[$(this).attr("data-value-name")] = $(this).val();
+			if ($(this).val() != ""){
+				data.push({
+					"field":$(this).attr("data-id"),
+					"value":$(this).val()
+				})
+			}
+		})
+
+		if (angular.equals($scope.observationResult, {})){
 			utils.alert("An error occurred", "Please make sure you've filled in at least one field to continue", "warning");
 		}
 		else {
+			var req = utils.serverRequest("/nursing/observation-type-field-dirty-value/contains-dirt", "POST", data);
+			req.then(function(response){
+				// console.log(!angular.equals(response, {}), response.conclusion)
+				if (!angular.equals(response, {}) && response.conclusion){
+					$scope.dirtyValues = response;
+					delete $scope.dirtyValues.conclusion;
+					$("#dirtyValuesPresentModal").modal("show");
+				}
+				else {
+					$scope.process();
+				}
+			}, function(error){
+				console.log(error);
+			});
+		}
+
+		$scope.process = function(){
 			var data = {
 				patientId: patient,
 				observationType: $scope.currentObservationType,
@@ -154,7 +195,7 @@ function nursingPatientWorkspaceController($rootScope, $scope, utils){
 					"Primary Information":{
 						"Observation Type": $scope.currentObservationType,
 						"Carried Out By": staffID,
-						"Date Of Observation": 'date'
+						"Date Of Observation": (new Date()).toLocaleDateString()
 					},
 					"Deduction": observation
 				},
