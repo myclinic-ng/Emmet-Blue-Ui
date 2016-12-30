@@ -24,13 +24,14 @@ angular.module("EmmetBlue")
 
 	loadRequestItems(utils.userSession.getUUID());	
 
-	function search(url){
+	function search(url, query){
 		$scope.requestForm.showSearchResult = true;
 		$scope.searched.searchIcon = "fa fa-spinner fa-spin";
-		var request = utils.serverRequest(url, "GET");
+		var request = utils.serverRequest(url, "POST", {query: query, from: 1, size: 10});
 
 		request.then(function(response){
-			if (typeof response["_source"] !== 'undefined'){
+			if (typeof response.hits.hits[0] !== "undefined" && typeof response.hits.hits[0]["_source"] !== 'undefined'){
+				response = response.hits.hits[0];
 				response = response["_source"];
 				$scope.showRequestForm(response);
 				$scope.searched.searchIcon = "icon-search4";
@@ -52,7 +53,7 @@ angular.module("EmmetBlue")
 			$scope.searched.fromCounter = 0;
 		}
 
-		search("/patients/patient/view?resourceId="+query);
+		search("/patients/patient/search", query);
 		utils.storage.currentPaymentRequest = "";
 	}
 

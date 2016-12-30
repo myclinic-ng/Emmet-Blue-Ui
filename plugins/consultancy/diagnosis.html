@@ -37,13 +37,13 @@
 	</div>
 	<div class="panel panel-white zoomIn">
 		<div class="panel-heading">
-			<h6 class="panel-title" ng-hide="patient.isProfileReady"><span class="text-bold">Patient Diagnosis Wizard</h6>
+			<h6 class="panel-title text-center pt-15 pb-15" style="height: 100vh !important" ng-hide="patient.isProfileReady"><span class="text-bold text-danger"><i class="fa fa-exclamation-triangle"></i> Start A New Diagnosis By Typing The Patients ID In The Search Field Above</h6>
 			<h6 class="panel-title" ng-show="patient.isProfileReady"><span class="text-bold">New Diagnosis For:</span> {{patient.profile["first name"]}} {{patient.profile["last name"]}} </h6>
-			<div class="heading-elements">
+			<div class="heading-elements" ng-show="patient.isProfileReady">
 				<h6><span class="text-bold">Date:</span> {{globals.today()}} </h6>
 	    	</div>
 		</div>
-		<div class="panel-body table-responsive">
+		<div class="panel-body table-responsive" ng-show="patient.isProfileReady">
 			<div class="col-md-9">
 				<div class="tabbable">
 					<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
@@ -79,12 +79,18 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-md-9">
+							<div class="col-md-9 overflow-auto" style="height: 100vh">
 								<ng-patient-profile patient-info="patient.profile" ng-show="patient.isProfileReady" ng-if="patient.history.displayPage=='profile'"></ng-patient-profile>
-								<div class="row" ng-if="patient.history.displayPage=='repositories'">
-									<div class="col-md-6 col-md-offset-3 mb-15"><input class="form-control" placeholder="search" ng-model="patient.history.repositoryFilter"/></div>
+								<div class="row" ng-show="patient.history.displayPage=='repositories'">
+									<div class="col-md-6 mb-15"><input class="form-control" placeholder="search" ng-model="patient.history.repositoryFilter"/></div>
+									<div class="col-md-6 mb-15">
+										<select class="select" ng-model="patient.history.repositoryFilter	">
+											<option value="lab_result">Lab Result</option>
+											<option value="observation">Vital Signs &amp; Other Observations</option>
+										</select>
+									</div>
 									<div class="col-md-12" ng-repeat="repo in patient.history.repositories | toArray:false | filter:patient.history.repositoryFilter track by $index">
-										<div class="panel border-left-lg border-left-danger">
+										<div class="panel border-left-lg border-left-danger no-border-radius">
 											<div class="panel-body">
 												<div class="row">
 													<div class="col-md-8">

@@ -1,6 +1,6 @@
 angular.module("EmmetBlue")
 
-.controller("patientQueueController", function($scope, utils){
+.controller("patientQueueController", function($rootScope, $scope, utils){
 	$scope.loadImage = utils.loadImage;
 	$scope.queuedPatients = {};
 	var loadQueue = function(consultant){
@@ -24,7 +24,7 @@ angular.module("EmmetBlue")
 		req.then(function(response){
 			var patientsLeft = $scope.queuedPatients.length-1;
 			utils.alert("Profile processed successfully", "This patient has been removed from the queue successfully, there are now "+ patientsLeft +" patients left to process", "success");
-			$scope.$broadcast("reloadQueue");
+			$rootScope.$broadcast("reloadQueue");
 		}, function(error){
 			utils.errorHandler(error);
 		});

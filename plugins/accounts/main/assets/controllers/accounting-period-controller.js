@@ -160,10 +160,10 @@ angular.module("EmmetBlue")
 	$scope.saveEditPeriod = function(){
 		var edits = $scope.tempHolder;
 			$('.loader').addClass('show');
-		var saveEdits = utils.serverRequest('/financial-accounts/account/edit', 'PUT', edits);
+		var saveEdits = utils.serverRequest('/financial-accounts/accounting-period/edit-alias', 'PUT', edits);
 		saveEdits.then(function(response){
 			$('.loader').removeClass('show');
-			functions.accountEdited();
+			functions.periodEdited();
 		}, function(responseObject){
 			$('.loader').removeClass('show');
 			utils.errorHandler(responseObject);

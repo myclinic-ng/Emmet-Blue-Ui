@@ -1,36 +1,76 @@
 angular.module("EmmetBlue")
 
-.controller("recordsPatientDashboardController", function($scope, utils, $log){
-	$scope.dashboardMessage = "Patients Repositories Dashboard";
+.controller("consultancyDashboardController", function($scope, utils){
+	$scope.loadImage = utils.loadImage;
+	$scope.pageSegment = "";
+	$scope.loadPageSegment = function(segment){
+		var urlPart = "plugins/consultancy/";
+		switch(segment){
+			case "admission-register":{
+				$scope.pageSegment = "plugins/nursing/patient-admission-template.html";
+				$scope.pageTitle = "List of Patients Currently On Admission";
+				$scope.pageLink = "consultancy/patient-admission";
+				break;
+			}
+			case "admission-workspace":{
+				$scope.pageSegment = urlPart+"admitted-patient-workspace.html";
+				$scope.pageTitle = "Admitted Patients Workspace";
+				$scope.pageLink = "consultancy/admitted-patient-workspace";
+				break;
+			}
+			case "show-info":{
+				utils.alert("We haven't gathered enough information", "To be able to utilize this feature, we need to gather more information about your use of the software. Usually this takes a week.", "info");
+				break;
+			}
+		}
+	}
 
-	var self = this;
+	$scope.loadPageSegment('admission-register');
 
-	  self.dzAddedFile = function( file ) {
-	    $log.log( file );
-	  };
+	$scope.queuedPatients = {};
+	$scope.queueCount = 0;
+	$scope.savedDiagnosis = {};
 
-	  self.dzError = function( file, errorMessage ) {
-	    $log.log(errorMessage);
-	  };
+	function loadQueue(){
+		var consultant = utils.userSession.getID();
+		$scope.queuedPatients = {};
+		var req = utils.serverRequest("/consultancy/patient-queue/view?resourceId="+consultant, "GET");
 
-	  self.dropzoneConfig = {
-	  	paramName: "file",
-	    parallelUploads: 100,
-	    dictDefaultMessage: 'Drop files here to upload <span>or CLICK</span>',
-	    maxFileSize: 30,
-	    addRemoveLinks: true,
-	    autoProcessQueue: true,
-	    uploadMultiple: true,
-	    MaxFiles: 20
-	  };
+		req.then(function(response){
+			$scope.queuedPatients = response;
+			$scope.queueCount = response.length;
+		}, function(error){
+			utils.errorHandler(error);
+		});
+	}
 
-	  $scope.recordSubmitURL = "http://192.168.173.1/EmmetBlueApi/v1/patients/patient-repository/new";
-	  self.dzSending = function( file, xhr, formData){
-	  		var data = {
-	  			"name":"John Doe",
-	  			"phone":"0909187266389"
-	  		}
+	$scope.$on("reloadQueue", function(){
+		loadQueue();
+	});
 
-	  		formData.append("data", data);
-	  }
+	loadQueue();
+
+	function loadSavedDiagnosis(){
+		var consultant = utils.userSession.getID();
+		var req = utils.serverRequest("/consultancy/saved-diagnosis/view-patients?resourceId="+consultant, "GET");
+
+		req.then(function(response){
+			console.log(response);
+			$scope.savedDiagnosis = response;
+		}, function(error){
+			utils.errorHandler(error);
+		});
+	}
+
+	loadSavedDiagnosis();
+
+	$scope.deleteDiagnosis = function(diagId){
+		var req = utils.serverRequest("/consultancy/saved-diagnosis/delete?resourceId="+diagId, "GET");
+
+		req.then(function(response){
+			loadSavedDiagnosis();
+		}, function(error){
+			utils.errorHandler(error);
+		})
+	}
 })
