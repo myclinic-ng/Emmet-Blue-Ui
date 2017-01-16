@@ -94,6 +94,10 @@ angular.module("EmmetBlue")
 							$cookies.putObject(utils.globalConstants.USER_COOKIE_IDENTIFIER, responseObject);
 							$(".login-wrapper").fadeOut();
 							$location.path(response.Url);
+						}, function(error){
+							utils.alert("Department Dashboard Inaccessible", "This is usually due to your account being associated with an inexistent department, a department on general lockdown or some other indeterminate reasons. Please contact an administrator if this error persists", "error");
+							$(block).unblock();
+							utils.notify("Redirection Incomplete", "Please see previous errors", "warning");
 						});
 
 						// if (response.accountActivated !== "0")
@@ -111,6 +115,7 @@ angular.module("EmmetBlue")
 				}
 			}, function(response){
 				utils.errorHandler(response);
+				$(block).unblock();
 			});
 
 			$scope.login.password = "";

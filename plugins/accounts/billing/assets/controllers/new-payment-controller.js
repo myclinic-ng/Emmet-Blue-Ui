@@ -49,7 +49,10 @@ angular.module("EmmetBlue")
     	}
     })
 
-	$scope.saveTransaction = function(printReceipt = false){
+	$scope.saveTransaction = function(printReceipt){
+		if (typeof(printReceipt) === 'undefined') {
+			printReceipt = false;
+		}
 		var newPayment = $scope.newPayment;
 		$scope.receiptData = newPayment;
 		$scope.receiptData.invoiceData = $scope.invoiceData;
@@ -69,38 +72,40 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.loadInvoice = function(){
-		var id = $("#newPayment-metaId").val();
-		utils.serverRequest("/accounts-biller/transaction-meta/view-by-number?resourceId="+id, "GET")
-		.then(function(response){
-			if (typeof response != "undefined"){
-				response = response[0];
-				for (var i = 0; i < response.BillingTransactionItems.length; i++){
-					response.BillingTransactionItems[i].itemName = response.BillingTransactionItems[i].BillingTransactionItemName;
-					response.BillingTransactionItems[i].itemPrice = response.BillingTransactionItems[i].BillingTransactionItemPrice;
-					response.BillingTransactionItems[i].itemQuantity = response.BillingTransactionItems[i].BillingTransactionItemQuantity;
+		if ($("#newPayment-metaId").val() !== "undefined"){
+			var id = $("#newPayment-metaId").val();
+			utils.serverRequest("/accounts-biller/transaction-meta/view-by-number?resourceId="+id, "GET")
+			.then(function(response){
+				if (typeof response[0] !== "undefined"){
+					response = response[0];
+					for (var i = 0; i < response.BillingTransactionItems.length; i++){
+						response.BillingTransactionItems[i].itemName = response.BillingTransactionItems[i].BillingTransactionItemName;
+						response.BillingTransactionItems[i].itemPrice = response.BillingTransactionItems[i].BillingTransactionItemPrice;
+						response.BillingTransactionItems[i].itemQuantity = response.BillingTransactionItems[i].BillingTransactionItemQuantity;
+					}
+
+					$scope.invoiceData = {
+						type:response.BillingType,
+						number: response.BillingTransactionNumber,
+						createdBy: response.CreatedByUUID,
+						status: response.BillingTransactionStatus,
+						amount: response.BilledAmountTotal,
+						patient: response.PatientID,
+						totalAmount: response.BilledAmountTotal,
+						items: response.BillingTransactionItems
+					};
+
+					utils.serverRequest("/accounts-biller/get-item-price/apply-payment-rule?resourceId="+response.PatientID+"&amount="+response.BilledAmountTotal, "GET")
+					.then(function(response){
+						$scope.newPayment.amountPaid = response.amount;
+						$scope.invoiceData.amount = response.amount;
+					});
+
+					$scope.newPayment.metaId = response.BillingTransactionMetaID;
 				}
-
-				$scope.invoiceData = {
-					type:response.BillingType,
-					number: response.BillingTransactionNumber,
-					createdBy: response.CreatedByUUID,
-					status: response.BillingTransactionStatus,
-					amount: response.BilledAmountTotal,
-					patient: response.PatientID,
-					totalAmount: response.BilledAmountTotal,
-					items: response.BillingTransactionItems
-				};
-
-				utils.serverRequest("/accounts-biller/get-item-price/apply-payment-rule?resourceId="+response.PatientID+"&amount="+response.BilledAmountTotal, "GET")
-				.then(function(response){
-					$scope.newPayment.amountPaid = response.amount;
-					$scope.invoiceData.amount = response.amount;
-				});
-
-				$scope.newPayment.metaId = response.BillingTransactionMetaID;
-			}
-		}, function(error){
-			utils.errorHandler(error);
-		})
+			}, function(error){
+				utils.errorHandler(error);
+			})
+		}
 	}
 })

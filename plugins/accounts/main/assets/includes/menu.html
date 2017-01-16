@@ -37,9 +37,9 @@
 							<div class="col-md-4">
 								<span class="menu-heading underlined">General Journal Entry</span>
 								<ul class="menu-list">
-									<li><a href="form_components.html">New General Journal Entry</a></li>
-									<li><a href="form_components.html">View &amp; Edit General Journal Entries</a></li>
-									<li><a href="form_components.html">Memorize General Journal Entry</a></li>
+									<li><a href="#" data-toggle="modal" data-target="#newGeneralJournal">New General Journal Entry</a></li>
+									<li><a href="accounts/main/view-general-journal">View General Journal</a></li>
+									<li><a href="form_components.html">Adjust General Journal Entries</a></li>
 								</ul>
 							</div>
 						</div>
@@ -49,7 +49,7 @@
 
 			<li><a href="accounts/main/dashboard"><i class=""></i> Account Register/General Ledger</a></li>
 
-			<li class="dropdown mega-menu mega-menu-wide">
+			<li class="dropdown mega-menu mega-menu">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 					<i class="icon-menu7 position-left"></i>
 					Invoicing and Billing
@@ -62,15 +62,13 @@
 							<div class="col-md-3">
 								<span class="menu-heading underlined">Payment Requests</span>
 								<ul class="menu-list">
-									<li><a href="accounts/main/account-payment-request">View Unprocessed Payment Requests</a></li>
-									<li><a href="form_components_advanced.html">View Payment Request Logs</a></li>
-									<li><a href="form_select2.html">View Payment Requests By Departments</a></li>
+									<li><a href="accounts/main/account-payment-request">Load Payment Request Workspace</a></li>
 								</ul>
 							</div>
 							<div class="col-md-3">
 								<span class="menu-heading underlined">Invoices</span>
 								<ul class="menu-list">
-									<li><a href="components_modals.html">New Invoice</a></li>
+									<li><a href="#" data-toggle="modal" data-target="#generate_new_billing">New Invoice</a></li>
 									<li><a href="components_modals.html">View Invoices Log</a></li>
 									<li><a href="components_modals.html">View Processed/Closed Invoices</a></li>
 									<li><a href="components_modals.html">View Unprocessed/Open Invoices</a></li>
@@ -79,7 +77,7 @@
 							<div class="col-md-3">
 								<span class="menu-heading underlined">Payments</span>
 								<ul class="menu-list">
-									<li><a href="sidebar_default_collapse.html">New Payment</a></li>
+									<li><a href="#" data-toggle="modal" data-target="#accept_new_payment" class="reload_invoices">New Payment</a></li>
 									<li><a href="sidebar_mini_collapse.html">View Payment Logs</a></li>
 									<li><a href="sidebar_dual.html">View Receipts</a></li>
 									<li><a href="sidebar_double_collapse.html">Receipts Archives</a></li>
@@ -88,10 +86,7 @@
 							<div class="col-md-3">
 								<span class="menu-heading underlined">Billing Type Items</span>
 								<ul class="menu-list">
-									<li><a href="navigation_horizontal_click.html">New Billing Type Item Category</a></li>
-									<li><a href="navigation_horizontal_hover.html">View Billing Type Items Categories</a></li>
-									<li><a href="navigation_horizontal_elements.html">New Billing Type Item</a></li>
-									<li><a href="navigation_horizontal_tabs.html">Manage Billing Type Items Prices</a></li>
+									<li><a href="accounts/main/billing-types">Manage Billing Type Items</a></li>
 								</ul>
 							</div>
 						</div>
@@ -121,8 +116,7 @@
 								<span class="menu-heading underlined">Accounting Periods</span>
 								<ul class="menu-list">
 									<li><a href="accounts/main/accounting-periods">View Periods Database</a></li>
-									<li><a href="components_modals.html">New Accounting Period</a></li>
-									<li><a href="components_modals.html">Beginning Balances</a></li>
+									<li><a href="#"> View Accounting Period Beginning Balances &amp; GL Balance Sheets</a></li>
 								</ul>
 							</div>
 						</div>
@@ -137,10 +131,29 @@
 			<li><a href="#" data-toggle="modal" data-target="#setting_accounts_billing"><i class="icon-gear"></i> All settings</a></li>
 		</ul>
 	</div>
+
+
+	<!-- Settings Modal-->
+	<ng-include src="'plugins/accounts/main/assets/includes/setting/index.html'"></ng-include>
+	<!--/Settings Modal-->
+
+	<div class="modal fade" id="newGeneralJournal">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-primary">
+					<button type="button" class="close btn-icon btn-danger bg-default" data-dismiss="modal"><i class="icon-cross"></i></button>
+					<h6 class="modal-title">New General Journal Entry</h6>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<ng-include src="'plugins/accounts/main/new-general-journal.html'"></ng-include>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 <!-- /second navbar -->
 
-
-<!-- Settings Modal-->
-<ng-include src="'plugins/accounts/main/assets/includes/setting/index.html'"></ng-include>
-<!--/Settings Modal-->
+<ng-include src="'plugins/accounts/billing/assets/includes/new-billing.html'"></ng-include>
+<ng-include src="'plugins/accounts/billing/assets/includes/new-payment.html'"></ng-include>

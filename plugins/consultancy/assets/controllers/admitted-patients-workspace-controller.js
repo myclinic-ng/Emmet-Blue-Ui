@@ -16,8 +16,9 @@ function consultancyPatientWorkspaceController($rootScope, $scope, utils, $http)
 	$scope.patient = {};
 	$scope.currentObservationType = 0;
 	$scope.observationResult = {};
+	$scope.staffNames = {};
 
-	function loadObservationTypes(){
+	var loadObservationTypes = function(){
 		var request = utils.serverRequest("/nursing/observation-type/view", "GET");
 
 		request.then(function(response){
@@ -26,15 +27,48 @@ function consultancyPatientWorkspaceController($rootScope, $scope, utils, $http)
 		}, function(error){
 			utils.errorHandler(error);
 		});
+	}();
+
+	function loadConsultantsInNotes(id){
+		var request = utils.serverRequest("/consultancy/consultation-sheet/get-filterable-consultants?resourceId="+id, "GET");
+
+		request.then(function(response){
+			$scope.consultantInNotes = response
+
+		}, function(error){
+			utils.notify("Unable to load filters", "Please see previous error(s)", "warning");
+			utils.errorHandler(error);
+		});
 	}
-	loadObservationTypes();
+
+	function loadStaffName(staffId){
+		if (typeof $scope.staffNames[staffId] == 'undefined'){
+			$scope.staffNames[staffId] = staffId;
+			utils.getStaffFullName(staffId).then(function(response){
+				$scope.staffNames[staffId] = response.StaffFullName;
+			}, function(error){
+				$scope.staffNames[staffId] = staffId;
+			})
+		}
+	}
+
+	$scope.toLocaleDateString = function(date){x
+		return new Date(date).toLocaleDateString();
+	}
+
+	$scope.toDateString = function(date){
+		return new Date(date).toDateString();
+	}
 
 	$scope.repositories = [];
 	$scope.loadRepositories = function(){
 		var request = utils.serverRequest("/patients/patient-repository/view-by-patient?resourceId="+$scope.admissionInfo.AdmissionInfo.PatientID, "GET");
 
 		request.then(function(response){
-			$scope.repositories = response;				
+			$scope.repositories = response;
+			for (i  = 0; i < response.length; i++){
+				loadStaffName(response[i].RepositoryCreator);
+			}			
 		}, function(error){
 			utils.errorHandler(error);
 		});
@@ -97,11 +131,14 @@ function consultancyPatientWorkspaceController($rootScope, $scope, utils, $http)
 			}
 
 			$scope.admissionInfo = response[0];
+			loadStaffName($scope.admissionInfo.AdmissionInfo.Consultant);
+			loadStaffName($scope.admissionInfo.AdmissionProcessedBy);
 			utils.serverRequest("/patients/patient/search", "POST", data).then(function(response){
 				$scope.patient = response.hits.hits[0]["_source"];
 				$scope.patientProfileLoaded = true;
 				$scope.loadRepositories();
 				loadConsultationNotes();
+				loadConsultantsInNotes($scope.admissionInfo.WardAdmissionID);
 			}, function(error){
 				utils.errorHandler(error);
 			})
@@ -274,5 +311,10 @@ function consultancyPatientWorkspaceController($rootScope, $scope, utils, $http)
 				break;
 			}
 		}
-	})
+	})	
+
+	if (typeof utils.storage.currentWorkspacePatientToLoad != "undefined" && utils.storage.currentWorkspacePatientToLoad != null){
+		$scope.patientNumber = utils.storage.currentWorkspacePatientToLoad;
+		$scope.loadPatient();
+	}
 }

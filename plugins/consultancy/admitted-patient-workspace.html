@@ -6,19 +6,19 @@
 <ng-include src="'assets/angular/core/templates/sudo-mode.html'"></ng-include>
 <div ng-controller="consultancyPatientWorkspaceController">
 	<div class="row">
-		<div class="input-group col-md-7 col-md-offset-3">
+		<div class="input-group col-md-7 col-md-offset-3 mb-20">
 			<input class="form-control" ng-model="patientNumber" placeholder="Enter Patient Admission Number" />
 			<span class="input-group-btn">
-				<button class="btn btn-danger" ng-click="loadPatient()">continue</button>
+				<button class="btn btn-danger" ng-click="loadPatient()"><i class="icon-play4"></i> continue</button>
 			</span>
 		</div>
 	</div>
-	<div class="panel panel-white zoomIn mt-10" ng-show="patientProfileLoaded">
+	<div class="panel panel-success" ng-show="patientProfileLoaded">
 		<div class="panel-heading">
 			<h6 class="panel-title">Admission Workspace for patient number <span class="text-primary">{{admissionInfo.PatientAdmissionID}}</span></h6>
 			<div class="heading-elements">
-				<button class="btn btn-warning" ng-click="discharge()">Process this patient for discharge</button>
-				<button class="btn btn-primary">Transfer to another ward</button>
+				<button class="btn btn-warning bg-white btn-labeled" ng-click="discharge()"><b><i class="icon-bell-check"></i></b> Process this patient for discharge</button>
+				<button class="btn btn-primary bg-white btn-labeled"><b><i class="icon-database-arrow"></i></b> Transfer to another ward</button>
 			</div>
 		</div>
 
@@ -26,14 +26,14 @@
 			<div class="col-md-9">
 				<div class="tabbable">
 					<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
-						<li class="active" href="#archives" data-toggle="tab" ng-click="loadRepositories()"><a>Archives</a></li>
-						<li href="#treatment-chart" data-toggle="tab"><a>Treatment Chart</a></li>
-						<li href="#services-rendered" data-toggle="tab"><a>Services Rendered</a></li>
-						<li href="#diagnosis-note" data-toggle="tab"><a>Prescription/Diagnosis Note</a></li>
+						<li class="active" href="#archives" data-toggle="tab" ng-click="loadRepositories()"><a><i class='icon-archive'></i> Archives</a></li>
+						<li href="#diagnosis-note" data-toggle="tab"><a><i class='icon-file-plus2'></i> Diagnosis Note</a></li>
+						<li href="#services-rendered" data-toggle="tab"><a><i class='icon-clipboard2'></i> Services Rendered</a></li>
+						<li href="#treatment-chart" data-toggle="tab"><a><i class='icon-stats-growth'></i> Treatment Chart</a></li>
 						<!-- <li href="#archives" data-toggle="tab"><a>Investigation Requests</a></li> -->
 					</ul>
 
-					<div class="tab-content">
+					<div class="tab-content mr-5">
 						<div class="tab-pane active overflow-auto" style="height: 100vh" id="archives">
 							<div class="col-md-6 mb-15"><input class="form-control" placeholder="search" ng-model="repositoryFilter"/></div>
 							<div class="col-md-6 mb-15">
@@ -48,15 +48,16 @@
 										<div class="row">
 											<div class="col-md-8">
 												<h6 class="no-margin-top"><a href="#">{{repo.RepositoryName}}</a></h6>
-												<p class="mb-15">{{repo.RepositoryDescription}}</p>
+												<p class="mb-15" ng-if="repo.RepositoryDescription">{{repo.RepositoryDescription}}</p>
+												<p class="mb-15 text-muted" ng-if="!repo.RepositoryDescription">No extra note/description</p>
 											</div>
 
 											<div class="col-md-4">
 												<ul class="list task-details">
-													<li>{{repo.RepositoryCreationDate}}</li>
+													<li title="{{repo.RepositoryCreationDate}}">{{toDateString(repo.RepositoryCreationDate)}}</li>
 													<li class="dropdown">
-								                		Created by: &nbsp; 
-														<a href="#" class="label label-danger dropdown-toggle" data-toggle="dropdown">{{repo.RepositoryCreator}}</a>
+								                		Created by: &nbsp;
+														<a href="#" class="label label-danger bg-white dropdown-toggle" data-toggle="dropdown">{{staffNames[repo.RepositoryCreator]}}</a>
 													</li>
 												</ul>
 											</div>
@@ -65,25 +66,13 @@
 
 									<div class="panel-footer">
 										<ul>
-											<li>Repo UUID: <span class="text-semibold">{{repo.RepositoryNumber}}</span></li>
+											<li class="text-muted">Repo UUID: <span class="text-semibold">{{repo.RepositoryNumber}}</span></li>
 										</ul>
 
 										<ul class="pull-right">
 											<li>
-												<a href="#" ng-click="loadRepo(repo.RepositoryID)"><span class="fa fa-link"></span> Load Repository </a>
+												<a href="#" ng-click="loadRepo(repo.RepositoryID)"><span class="icon-download4"></span> Load Repository </a>
 											</li>
-
-											<!-- <li class="dropdown">
-												<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i> <span class="caret"></span></a>
-												<ul class="dropdown-menu dropdown-menu-right">
-													<li><a href="#"><i class="icon-alarm-add"></i> Check in</a></li>
-													<li><a href="#"><i class="icon-attachment"></i> Attach screenshot</a></li>
-													<li><a href="#"><i class="icon-rotate-ccw2"></i> Reassign</a></li>
-													<li class="divider"></li>
-													<li><a href="#"><i class="icon-pencil7"></i> Edit task</a></li>
-													<li><a href="#"><i class="icon-cross2"></i> Remove</a></li>
-												</ul>
-											</li> -->
 										</ul>
 									</div>
 								</div>
@@ -96,22 +85,27 @@
 							<ng-services-rendered admission-id="admissionInfo.PatientAdmissionID" ng-if="patientProfileLoaded" allow-new="false"></ng-services-rendered>
 						</div>
 						<div class="tab-pane" id="diagnosis-note">
-							<div class="col-md-6">
-								<button class="btn btn-warning pull-left" data-toggle="modal" data-target="#diagnosis-prescription-note"><i class="fa fa-file-text"></i> Add a new note</button>
+							<div class="col-md-3">
+								<button class="btn btn-info pull-left no-border-radius btn-labeled bg-info-400" data-toggle="modal" data-target="#diagnosis-prescription-note"><b><i class="icon-bell-plus"></i></b> Add a new note</button>
 							</div>
-							<div class="col-md-6"><input class="form-control pull-right" placeholder="filter notes" ng-model="noteFilter"/></div>
+							<div class="col-md-5"><input class="form-control pull-right" placeholder="filter notes" ng-model="noteFilter"/></div>
+							<div class="col-md-4">
+								<div class="col-md-12">
+									<select class="select" ng-model="noteFilter">
+										<option ng-repeat="val in consultantInNotes" value="{{val.ConsultantFullName}}">{{val.ConsultantFullName}}</option>
+									</select>
+								</div>
+							</div>
 							<div class="col-md-12">
 								<ul class="media-list chat-list content-group">
 									<div ng-repeat="note in consultationNotes | filter:noteFilter">
 										<li class="media date-step content-divider">
-											<span>{{note.StaffUsername}}</span>
+											<span class="text-danger">{{note.ConsultantFullName}}</span>
 										</li>
 
 										<li class="media">
 											<div class="media-left">
-												<a class="fa-stack fa-lg">
-													<i class="fa fa-user-md" style="font-size: 2em"></i>
-												</a>
+												<i class="icon-bubbles10 text-danger"></i>
 											</div>
 
 											<div class="media-body">
@@ -131,28 +125,59 @@
 				<center><img class="img img-responsive img-rounded" width="150" height="150" src="{{loadImage(patient.patientpicture)}}"/></center>
 				<h6 class="text-center text-primary">{{patient.patientfullname}} ({{patient.patienttypename}}, {{patient.categoryname}})</h6>
 				<h6 class="text-muted">Admission Information</h6>
-				<h6 class="col-md-12"><span class="pull-left">Admission Number</span><span class="pull-right text-bold">{{admissionInfo.PatientAdmissionID}}</span></h6>
-				<h6 class="col-md-12"><span class="pull-left">No. of days spent</span><span class="pull-right text-bold">{{daysSpent(admissionInfo.AdmissionDate)}}</span></h6>
-				<h6 class="col-md-12"><span class="pull-left">Admitted by</span><span class="pull-right text-bold">{{admissionInfo.AdmissionInfo.Consultant}}</span></h6>
+				<table class="table no-border">
+					<tr>
+						<td><span class="pull-left"><i class='icon-vcard text-success'></i> Reference</span></td>
+						<td><span class="pull-left text-semibold">{{admissionInfo.PatientAdmissionID}}</span></td>
+					</tr>
+					<tr>
+						<td class="no-border"><span class="pull-left"><i class='icon-alarm text-danger'></i> No. of days spent</span></td>
+						<td class="no-border"><span class="pull-left text-semibold">{{daysSpent(admissionInfo.AdmissionDate)}}</span></td>
+					</tr>
+					<tr>
+						<td class="no-border"><span class="pull-left"><i class='fa fa-user-md text-teal-400'></i> Admitted by</span</td>
+						<td class="no-border"><span class="pull-left text-semibold">{{staffNames[admissionInfo.AdmissionInfo.Consultant]}}</span></td>
+					</tr>
+				</table>
 
 				<h6 class="text-muted">Ward Details</h6>
-				<h6 class="col-md-12"><span class="pull-left">Ward</span><span class="pull-right text-bold">{{admissionInfo.AdmissionInfo.WardName}}</span></h6>
-				<h6 class="col-md-12"><span class="pull-left">Section</span><span class="pull-right text-bold">{{admissionInfo.AdmissionInfo.WardSectionName}}</span></h6>
-				<h6 class="col-md-12"><span class="pull-left">Bed</span><span class="pull-right text-bold">{{admissionInfo.Bed}}</span></h6>
-				<h6 class="col-md-12"><span class="pull-left">Admission Processed By</span><span class="pull-right text-bold">{{admissionInfo.AdmissionProcessedBy}}</span></h6>
-				<h6 class="col-md-12"><span class="pull-left">Date</span><span class="pull-right text-bold">{{admissionInfo.AdmissionDate}}</span></h6>
+				<table class="table no-border">
+					<tr>
+						<td><span class="pull-left"><i class='icon-home9 text-warning'></i> Ward</span></td>
+						<td><span class="pull-left text-semibold">{{admissionInfo.AdmissionInfo.WardName}}</span></td>
+					</tr>
+					<tr>
+						<td class="no-border"><span class="pull-left"><i class='icon-stack2 text-info'></i> Section</span></td>
+						<td class="no-border"><span class="pull-left text-semibold">{{admissionInfo.AdmissionInfo.WardSectionName}}</span></td>
+					</tr>
+					<tr>
+						<td class="no-border"><span class="pull-left"><i class='icon-bed2 text-teal'></i> Bed</span></td>
+						<td class="no-border"><span class="pull-left text-semibold">{{admissionInfo.Bed}}</span></td>
+					</tr>
+					<tr>
+						<td class="no-border"><span class="pull-left"><i class='icon-user-check text-warning'></i> Admission Processed By</span></td>
+						<td class="no-border"><span class="pull-left text-semibold">{{staffNames[admissionInfo.AdmissionProcessedBy]}}</span></td>
+					</tr>
+					<tr>
+						<td class="no-border"><span class="pull-left"><i class='icon-database-time2 text-info'></i> Date</span></td>
+						<td class="no-border"><span class="pull-left text-semibold" title="{{admissionInfo.AdmissionDate}}">{{toDateString(admissionInfo.AdmissionDate)}}</span></td>
+					</tr>
+				</table>
 			</div>
 		</div>
 	</div>
 
-	<div id="repository-items" class="modal fade" style="margin: 0; margin-right: auto; margin-left: auto; width: 100%">
-		<div class="modal-full modal-lg" style="margin: 0; margin-right: auto; margin-left: auto; width: 100%">
-			<div class="modal-content" style="background-color: transparent;">
+	<div id="repository-items" class="modal fade no-margin no-padding" style="width: 100%;  height: 100vh;">
+		<div class="modal-full modal-lg no-margin no-padding no-border-radius" style="width: 100%; height: 100vh;">
+			<div class="modal-content no-margin no-padding no-border-radius" style="background-color: transparent;">
 				<div class="modal-header bg-warning">
+					<h6 class="modal-title">Repository View</h6>
 					<button type="button" class="close" data-dismiss="modal">&times; close</button>
 				</div>
-				<div class="modal-body">
-					<ng-repository repository-id="currentRepository"></ng-repository>
+				<div class="modal-body no-padding no-margin">
+					<div class="col-md-12">
+						<ng-repository repository-id="currentRepository"></ng-repository>
+					</div>
 				</div>
 			</div>
 		</div>

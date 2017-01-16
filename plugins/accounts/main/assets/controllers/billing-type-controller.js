@@ -10,13 +10,23 @@ angular.module("EmmetBlue")
 
 				var dataOpt = "data-option-id='"+data.BillingTypeID+"' data-option-name='"+data.BillingTypeName+"' data-option-description='"+data.BillingTypeDescription+"'";
 
-				var editButton = "<button class='btn btn-default billing-type-btn' ng-click=\""+editButtonAction+"\" "+dataOpt+"><i class='icon-pencil5'></i> </button>";
-				var deleteButton = "<button class='btn btn-default billing-type-btn' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"><i class='icon-bin'></i> </button>";
-				var viewButton = "<button class='btn btn-default'><i class='icon-eye'> </i> View</button>";
-				var itemManagementButton = "<button class='btn btn-default billing-type-btn' ng-click=\""+itemManagementButtonAction+"\" "+dataOpt+"><i class='icon-equalizer'></i> Manage Items</button>";
+				// var editButton = "<button class='btn btn-default billing-type-btn' ng-click=\""+editButtonAction+"\" "+dataOpt+"><i class='icon-pencil5'></i> </button>";
+				// var deleteButton = "<button class='btn btn-default billing-type-btn' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"><i class='icon-bin'></i> </button>";
+				// var viewButton = "<button class='btn btn-default'><i class='icon-eye'> </i> View</button>";
+				// var itemManagementButton = "<button class='btn btn-default billing-type-btn' ng-click=\""+itemManagementButtonAction+"\" "+dataOpt+"><i class='icon-equalizer'></i> Manage Items</button>";
 
-				var buttons = "<div class='btn-group'>"+editButton+deleteButton+itemManagementButton+"</button>";
-				return buttons;
+				var group = "<div class='btn-group'>"+
+								"<button type='button' class='btn bg-teal-400 btn-info btn-labeled' ng-click=\""+itemManagementButtonAction+"\" "+dataOpt+"><b><i class='icon-menu7'></i></b> Manage </button>"+
+		                    	"<button type='button' class='btn bg-teal-400 dropdown-toggle' data-toggle='dropdown'><span class='caret'></span></button>"+
+		                    	"<ul class='dropdown-menu dropdown-menu-right'>"+
+									"<li><a href='#' class='billing-type-btn' ng-click=\""+editButtonAction+"\" "+dataOpt+"><i class='icon-pencil5'></i> Edit Category</a></li>"+
+									"<li><a href='#' class='billing-type-btn' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"><i class='icon-cross text-danger'></i> Delete Category</a></li>"+
+									"<li class='divider'></li>"+
+									"<li><a href='#' class='billing-type-btn' ng-click=\""+itemManagementButtonAction+"\" "+dataOpt+"><i class='icon-law'></i> Manage Items In This Category</a></li>"+
+								"</ul>"+
+							"</div>";
+				// var buttons = "<div class='btn-group'>"+editButton+deleteButton+itemManagementButton+"</button>";
+				return group;
 			},
 			checkAll: {
 				title: '<input ng-model="billingTypeSelector.selectAll" ng-click="billingTypeSelector.toggleAll(billingTypeSelector.selectAll, billingTypeSelector.selected)" type="checkbox">',
@@ -136,7 +146,7 @@ angular.module("EmmetBlue")
 		return billingTypes;
 	})
 	.withPaginationType('full_numbers')
-	.withDisplayLength(10)
+	.withDisplayLength(50)
 	.withFixedHeader()
 	.withOption('createdRow', function(row, data, dataIndex){
 		utils.compile(angular.element(row).contents())($scope);
@@ -166,6 +176,9 @@ angular.module("EmmetBlue")
         		key: 'p',
         		ctrlKey: false,
         		altKey: true
+        	},
+        	exportOptions:{
+        		columns: [0, 1, 2]
         	}
         },
         {
@@ -175,6 +188,12 @@ angular.module("EmmetBlue")
         		key: 'c',
         		ctrlKey: false,
         		altKey: true
+        	},
+        	exportOptions:{
+        		columns: [0, 1, 2]
+        	},
+        	exportData: {
+        		decodeEntities: true
         	}
         }
 	]);	

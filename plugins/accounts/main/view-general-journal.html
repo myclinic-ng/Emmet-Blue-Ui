@@ -1,0 +1,209 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/ui/moment/moment.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/pickers/daterangepicker.js"></script>
+
+<script>
+	$('select.select').select2();
+	$('.daterange').daterangepicker({
+		showWeekNumbers: true,
+		showDropdowns: true,
+        opens: "right",
+        applyClass: 'bg-success',
+        cancelClass: 'btn-default'
+	});
+</script>
+<div class="row" ng-controller="accountsMainViewGeneralJournalController">
+	<div class="col-md-3">
+		<div class="sidebar sidebar-secondary sidebar-default">
+			<div class="sidebar-content">
+				<!-- Navigation -->
+				<div class="sidebar-category">
+					<div class="category-title">
+						<span>Tasks</span>
+						<ul class="icons-list">
+							<li><a href="#" data-action="collapse"></a></li>
+						</ul>
+					</div>
+
+					<div class="category-content no-padding">
+						<ul class="navigation navigation-alt navigation-accordion">
+							<li class="navigation-header">Accounts</li>
+							<li><a href="#"><i class="icon-files-empty"></i> View all accounts</a></li>
+							<li><a href="#"><i class="icon-file-plus"></i> Open Account Register</a></li>
+						</ul>
+					</div>
+				</div>
+				<!-- /navigation -->
+
+				<!-- Navigation -->
+				<div class="sidebar-category">
+					<div class="category-title">
+						<span>Reports</span>
+						<ul class="icons-list">
+							<li><a href="#" data-action="collapse"></a></li>
+						</ul>
+					</div>
+
+					<div class="category-content no-padding">
+						<ul class="navigation navigation-alt navigation-accordion">
+							<li class="navigation-header">Standard Reports</li>
+							<li><a href="#"><i class="icon-files-empty"></i> Balance Sheet</a></li>
+							<li><a href="#"><i class="icon-file-plus"></i> Income Statement</a></li>
+							<li class="navigation-divider"></li>
+							<li><a href="#"><i class="icon-cog3"></i> Chart of Accounts</a></li>
+							<li><a href="#"><i class="icon-cog3"></i> General Journal</a></li>
+							<li><a href="#"><i class="icon-cog3"></i> General Ledger</a></li>
+							<li><a href="#"><i class="icon-cog3"></i> General Ledger Trial Balance</a></li>
+						</ul>
+					</div>
+				</div>
+				<!-- /navigation -->
+			</div>
+		</div>
+	</div>
+	<div class="col-md-9">
+		<div class="panel">
+			<div class="panel-heading bg-success">
+				<h6 class="panel-title">General Journal List</h6>
+				<div class="heading-elements">
+					<ul class="icons-list">
+	            		<li>Current Filter: <label class="label label-info">{{journalFilter.description}}</label></li>
+	            		<li><a href="#" title="Toggle Filter Selector" class="btn btn-icon btn-clear text-danger" ng-click="showJournalFilters = !showJournalFilters"><i class="icon-filter3"></i> Toggle Filter Selector</a></li>
+	            	</ul>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="col-md-12" ng-show="showJournalFilters">
+					<div class="form-group col-md-4">
+						<label class="control-label">Filter By</label>
+						<select class="select" ng-model="filterSelector.type" ng-change="filterSelector.value = null">
+							<optgroup label="Sub Groups">					
+								<option value="period">Accounting Period</option>
+								<option value="search">Search Query</option>
+							</optgroup>
+
+							<optgroup label="Date Ranges">
+								<option value="Today's Transactions<seprator>{{getDateRange('today')}}">Today</option>
+								<option value="Yesterday's Transactions<seprator>{{getDateRange('yesterday')}}">Yesterday</option>
+								<option value="This Week<seprator>{{getDateRange('week')}}">This Week</option>
+								<option value="This Month<seprator>{{getDateRange('month')}}">This Month</option>
+								<option status="disabled" value="This Quarter<seprator>{{getDateRange('quarter')}}">This Quarter</option>
+								<option status="disabled" value="This Year<seprator>{{getDateRange('year')}}">This Year</option>
+							</optgroup>
+
+							<option value="dateRange">Specify Date Range</option>
+						</select>
+					</div>
+					<div class="form-group col-md-8" ng-show="filterSelector.type == 'period'">
+						<label class="control-label">Select Period</label>
+						<select class="select" ng-model="filterSelector.value">
+							<option ng-repeat="period in accountingPeriods" value="{{period.PeriodAlias}}<seprator>{{toLocaleDateString(period.PeriodStartDate)}} - {{toLocaleDateString(period.PeriodEndDate)}}">{{period.PeriodAlias}}</option>
+						</select>
+					</div>
+					<div class="form-group col-md-8" ng-show="filterSelector.type == 'dateRange'">
+						<label class="control-label">Pick Date Ranges</label>
+						<div class="input-group">
+							<span class="input-group-addon"><i class="icon-calendar22"></i></span>
+							<input type="text" class="form-control daterange" ng-model="filterSelector.value"> 
+						</div>
+					</div>
+					<div class="form-group col-md-8" ng-show="filterSelector.type == 'search'">
+						<label class="control-label">Enter Search Query</label>
+						<div class="input-group">
+							<span class="input-group-addon"><i class="icon-search4"></i></span>
+							<input type="text" class="form-control" ng-model="filterSelector.value" placeholder="enter your search query ..." /> 
+						</div>
+					</div>
+					<div class="content-group col-md-12">
+						<button class="btn btn-info col-md-3 bg-primary pull-right btn-labeled" ng-click="activateFilter()">
+							<b><i class="icon-filter4"></i></b> Set Filter
+						</button>
+					</div>
+				</div>
+				<div class="row">
+					<div class="table-responsive col-md-12" style="height: 100vh" >
+						<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
+
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="view-current-journal-entries">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-primary">
+					<button type="button" class="close btn-icon btn-danger bg-default" data-dismiss="modal"><i class="icon-cross"></i></button>
+					<h6 class="modal-title">Journal Entry Ref. ID: {{currentJournalEntry.GeneralJournalID}}</h6>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<table class="table table-hover table-striped">
+							<thead>
+								<tr>
+									<th colspan="2" class="text-center no-border-right" width="50%">General Ledger Account</th>
+									<th class="text-center no-border-right no-border-left" width="30%">Description</th>
+									<th class="text-center no-border-right no-border-left" width="10%">Debit (<ng-currency currency-symbol="naira"></ng-currency>)</th>
+									<th class="text-center no-border-left" width="10%">Credit (<ng-currency currency-symbol="naira"></ng-currency>)</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="entry in currentJournalEntry.JournalEntries">
+									<td width="5%" class="text-center no-margin no-padding">
+										{{$index+1}}
+									</td>
+									<td>
+										{{entry.AccountID}} - {{entry.AccountName}}
+									</td>
+									<td>
+										{{entry.EntryDescription}}
+									</td>
+									<td>
+										<span ng-if="entry.EntryType.substring(0, 5) == 'debit'">
+											{{entry.EntryValue}}
+										</span>
+									</td>
+									<td>
+										<span ng-if="entry.EntryType.substring(0, 6) == 'credit'">
+											{{entry.EntryValue}}
+										</span>
+									</td>
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr class="text-bold">
+									<td colspan="2" class="no-border-right">
+									</td>
+									<td class="no-border-left"><span class="pull-right">Totals</span></td>
+									<td>{{currentJournalEntry.GeneralJournalTotalAmount}}</td>
+									<td>{{currentJournalEntry.GeneralJournalTotalAmount}}</td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="view-current-journal-metadata">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header bg-primary">
+					<button type="button" class="close btn-icon btn-danger bg-default" data-dismiss="modal"><i class="icon-cross"></i></button>
+					<h6 class="modal-title">Metadata for Journal Entry: {{currentJournalEntry.GeneralJournalID}}.</h6>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<p class="text-muted text-center">{{currentJournalEntry.GeneralJournalDescription}}</p>
+						<h6><small> Posted By : <span class="text-bold">{{currentJournalEntry.StaffID}}</span></small></h6>
+						<h6><small> Time Posted : <span class="text-bold">{{currentJournalEntry.DateCreated}}</span></small></h6>
+						<h6><small> Last Adjustment Date : <span class="text-bold">{{currentJournalEntry.DateModified}}</span></small></h6>						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

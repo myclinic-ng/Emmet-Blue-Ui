@@ -9,12 +9,12 @@ angular.module("EmmetBlue")
 		templateUrl: "plugins/records/patient/assets/includes/patient-profile-template.html",
 		controller: function($scope, utils){
 			$scope.loadImage = utils.loadImage;
+			$scope.getAge = utils.getAge;
 
 			var loadDiagnosis = function(){
 				utils.serverRequest("/patients/patient-diagnosis/view?resourceId="+$scope.patientInfo.patientid, "GET")
 				.then(function(response){
 					$scope.diagnoses = response;
-					console.log(response);
 				}, function(error){
 					utils.errorHandler(error);
 				})
@@ -28,6 +28,14 @@ angular.module("EmmetBlue")
 
 			$scope.setCurrentDiagnosis = function(index){
 				$scope.diagnosis = $scope.diagnoses[index];
+			}
+
+			$scope.toLocaleDate = function(date){
+				return new Date(date).toLocaleDateString();
+			}
+
+			$scope.toDateString = function(date){
+				return new Date(date).toDateString();
 			}
 		}
 	}

@@ -48,13 +48,8 @@ angular.module("EmmetBlue")
 	];
 
 	function reloadTable(){
-		$rootScope.$broadcast("recountQueue");
 		$scope.dtInstance.reloadData();
 	}
-
-	setInterval(function(){
-		reloadTable();
-	}, 5000);
 
 	$scope.manage = function(value, id){
 		switch(value)
@@ -144,6 +139,8 @@ angular.module("EmmetBlue")
 	$scope.treatmentChart = {};
 	$scope.dtInstance = {};
 
+	$scope.admissionId = utils.storage.patientPharmacyRequestID;
+
 	$scope.dtOptions = utils.DT.optionsBuilder
 	.fromFnPromise(function(){
 		return utils.serverRequest('/nursing/pharmacy-request-treatment-chart/view?resourceId='+$scope.admissionId, 'GET');
@@ -176,7 +173,7 @@ angular.module("EmmetBlue")
 		utils.DT.columnBuilder.newColumn('Route').withTitle("Route"),
 		utils.DT.columnBuilder.newColumn('Time').withTitle("Time"),
 		utils.DT.columnBuilder.newColumn('Note').withTitle("Comment"),
-		utils.DT.columnBuilder.newColumn('Nurse').withTitle("Administered By"),
+		utils.DT.columnBuilder.newColumn('NurseFullName').withTitle("Administered By"),
 	];
 
 	function reloadTable(){
@@ -191,6 +188,8 @@ angular.module("EmmetBlue")
 	}, function(nv){
 		reloadTable();
 	});
+
+	console.log(utils.storage.patientPharmacyRequestID);
 	
 	$scope.saveChart= function(){
 		var chart = $scope.treatmentChart;

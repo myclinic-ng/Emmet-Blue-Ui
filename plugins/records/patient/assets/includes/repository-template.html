@@ -18,11 +18,11 @@
 	});
 </script>
 <div class="row">
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h6 class="panel-title">{{repository.RepositoryName}} <small class="text-info" style="font-style: italic;"><i class="fa fa-info-circle"></i>{{repository.RepositoryDescription}}</small></h6>
+	<div class="panel panel-default no-border-radius">
+		<div class="panel-heading no-border-radius">
+			<h6 class="panel-title"><i class="icon-info22 text-info"></i> {{repository.RepositoryName}} <small class="text-info" style="font-style: italic;"><i class="icon-arrow-right"></i>{{repository.RepositoryDescription}}</small></h6>
 		</div>
-		<div class="panel-body">
+		<div class="panel-body no-border-radius">
 			<div class="row">
 				<div class="col-md-3" style="border-top: 1px solid #F5F5F5; border-right: 1px solid #F5F5F5">
 					<div class="col-md-12 mt-15">
@@ -56,7 +56,7 @@
 					<div ng-repeat="item in repository.items">
 						<div class="col-lg-3 col-sm-12" ng-if="item.RepositoryItemCategory == 'image'">
 							<div class="thumbnail" style="height: 100px; width: 100px;">
-								<div class="thumb" style="height: inherit; width: 100%">
+								<div class="thumb" style="height: 99%; width: 100%">
 									<img ng-src="{{loadFile(item.RepositoryItemNumber)}}" alt="" style="height: inherit; width: 100%"/>
 									<div class="caption-overflow">
 										<span>
@@ -69,7 +69,7 @@
 						</div>
 						<div class="col-lg-3 col-sm-12" ng-if="item.RepositoryItemCategory == 'text'">
 							<div class="thumbnail" style="height: 100px; width: 100px;">
-								<div class="thumb" style="height: inherit; width: 100%">
+								<div class="thumb" style="height: 99%; width: 100%">
 									<img src="assets/images/icon-txt-flat.png" alt="text document" style="height: inherit; width: 100%"/>
 									<div class="caption-overflow">
 										<span>
@@ -82,7 +82,7 @@
 						</div>
 						<div class="col-lg-3 col-sm-12" ng-if="item.RepositoryItemCategory == 'pdf'">
 							<div class="thumbnail" style="height: 100px; width: 100px;">
-								<div class="thumb" style="height: inherit; width: 100%">
+								<div class="thumb" style="height: 99%; width: 100%">
 									<img src="assets/images/icon-pdf-flat.png" alt="pdf" style="height: inherit; width: 100%"/>
 									<div class="caption-overflow">
 										<span>
@@ -95,7 +95,7 @@
 						</div>
 						<div class="col-lg-3 col-sm-12" ng-if="item.RepositoryItemCategory == 'json'">
 							<div class="thumbnail" style="height: 100px; width: 100px;">
-								<div class="thumb" style="height: inherit; width: 100%">
+								<div class="thumb" style="height: 99%; width: 100%">
 									<img src="assets/images/icon-json-flat.png" alt="JSON" style="height: inherit; width: 100%"/>
 									<div class="caption-overflow">
 										<span>
@@ -113,26 +113,31 @@
 	</div>
 
 
-	<div class="modal fade" id="view-image-document" style="margin: 0; margin-right: auto; margin-left: auto; width: 100%">
-		<div class="modal-full modal-lg" style="margin: 0; margin-right: auto; margin-left: auto; width: 100%">
-			<div class="modal-content" style="background-color: transparent;">
+	<div class="modal fade no-margin no-padding" id="view-image-document" style="width: 100%;  height: 100vh;">
+		<div class="modal-full modal-lg no-margin no-padding" style="width: 100%;  height: 100vh;">
+			<div class="modal-content">
 				<div class="modal-header bg-success">
-					<button type="button" class="close" ng-click="closeModal()">&times; close</button>
+					<h6 class="modal-title">
+						Rendered Image Document
+						<span class="pl-10"><i class="icon-info22 text-info"></i> TIP: Click on the image to rotate it by 90°</span>
+					</h6>
+					<button class="close" ng-click="closeModal()"><i class='icon-cross'></i> close</button>
 				</div>
-				<div class="modal-body" id="currentRepositoryImage" ng-click="rotate('currentRepositoryImage')">
-					<img ng-src="{{currentRepositoryImage}}" class="img img-responsive" style="margin: 0; margin-right: auto; margin-left: auto; width: 100%; height: 100%"/>
+				<div class="modal-body no-margin no-padding" id="currentRepositoryImage" ng-click="rotate('currentRepositoryImage')" style="height: 100vh !important;">
+					<img ng-src="{{currentRepositoryImage}}" class="img img-responsive no-margin" style="width: 100%;"/>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="modal fade" id="view-object-document" style="margin: 0; margin-right: auto; margin-left: auto; width: 100%">
-		<div class="modal-full modal-lg" style="margin: 0; margin-right: auto; margin-left: auto; width: 100%">
+	<div class="modal fade no-margin no-padding" id="view-object-document" style="width: 100%;  height: 100vh;">
+		<div class="modal-full modal-lg no-margin no-padding" style="width: 100%;  height: 100vh;">
 			<div class="modal-content" style="background-color: {{currentRepositoryObject.background}};">
 				<div class="modal-header bg-success">
-					<button type="button" class="close" ng-click="closeModal()">&times; close</button>
+					<h6 class="modal-title">Rendered PDF/Epub Document</h6>
+					<button type="button" class="close" ng-click="closeModal()"><i class='icon-cross'></i> close</button>
 				</div>
-				<div class="modal-body" id="currentObjectFile">
+				<div class="modal-body no-margin no-padding" id="currentObjectFile" style="height: 100vh !important;">
 					 <object data="{{currentRepositoryObject.url}}" type="{{currentRepositoryObject.type}}" width="100%" height="{{viewPort.height}}">
 				        Unable to display document using buit-in viewer: <a href="{{currentRepositoryObject.url}}">{{currentRepositoryObject.alt}}</a>
 				    </object>
@@ -145,12 +150,13 @@
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header bg-success">
-					<button type="button" class="close" ng-click="closeModal()">&times; close</button>
+					<h6 class="modal-title">Rendered Text Document</h6>
+					<button type="button" class="close" ng-click="closeModal()"><i class='icon-cross'></i> close</button>
 				</div>
 				<div class="modal-body" id="currentJsonFile">
 					<div class="row" ng-repeat="(key, value) in currentJsonFile">
 						<div class="content-group col-md-12">
-							<div class="col-md-12 text-bold"><h6 class="text-primary pull-left" style="text-transform: uppercase; text-orientation: all; text-decoration: underline;">{{key}}</h6></div>
+							<div class="col-md-12 text-bold"><h6 class="text-success text-center" style="text-transform: uppercase; text-orientation: all; text-decoration: underline;">{{key}}</h6></div>
 						</div>
 						<div class="content-group col-md-12" ng-repeat="(itemKey, itemValue) in value">
 							<div class="col-md-3 text-bold">{{itemKey}}</div>

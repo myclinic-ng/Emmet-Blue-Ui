@@ -18,13 +18,15 @@ angular.module("EmmetBlue")
 		loadQueue(consultant);
 	});
 
-	$scope.removeFromQueue = function(id){
+	$scope.removeFromQueue = function(id, uuid){
 		var req = utils.serverRequest("/consultancy/patient-queue/delete?resourceId="+id, "DELETE");
 
 		req.then(function(response){
 			var patientsLeft = $scope.queuedPatients.length-1;
-			utils.alert("Profile processed successfully", "This patient has been removed from the queue successfully, there are now "+ patientsLeft +" patients left to process", "success");
-			$rootScope.$broadcast("reloadQueue");
+			utils.notify("", "The selected patient has been removed from queue, there are now "+ patientsLeft +" patients left to process", "success");
+			//$rootScope.$broadcast("reloadQueue");
+			utils.storage.currentPatientNumberDiagnosis = uuid;
+			window.location.href = "consultancy/diagnosis";
 		}, function(error){
 			utils.errorHandler(error);
 		});

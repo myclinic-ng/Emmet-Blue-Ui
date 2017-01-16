@@ -123,7 +123,6 @@ var recordsPatientManageRepositoryController = function($scope, utils, $http){
 		url = $scope.repository.RepositoryUrl+url;
 
 		utils.serverRequest("/read-resource?url="+url, "GET").then(function(response){
-			console.log(response);
 			$scope.currentJsonFile = response;
 		}, function(error){
 			utils.notify("An error occurred", "Unable to load document", "error");

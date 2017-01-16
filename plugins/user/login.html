@@ -1,4 +1,4 @@
-<link class="main-stylesheet" href="plugins/user/assets/pages/css/pages.css" rel="stylesheet" type="text/css" />
+<link class="main-stylesheet" href="plugins/user/assets/pages/css/pages.min.css" rel="stylesheet" type="text/css" />
 <style>
   .text-underline-hover:hover{
     text-decoration: underline;
@@ -17,11 +17,12 @@
 
     $("#bgPic").on("click", function(){
       randomize(imgCount);
-    }).on("mouseover", function(){
-      $(this).attr("style", "cursor: url('plugins/user/assets/images/refresh.svg'), auto");
-    }).on("mouseout", function(){
-      $(this).attr("style", "");
-    });
+    })
+    // .on("mouseover", function(){
+    //   $(this).attr("style", "cursor: url('plugins/user/assets/images/refresh.svg'), auto");
+    // }).on("mouseout", function(){
+    //   $(this).attr("style", "");
+    // });
 
     setTimeout(function(){
       $(".preloader").fadeOut().remove();

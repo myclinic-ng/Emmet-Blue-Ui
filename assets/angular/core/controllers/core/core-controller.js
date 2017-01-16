@@ -12,7 +12,7 @@ angular.module("EmmetBlue")
 		var dirUserDashboard = userDashboard.join("/");
 		if (path[1] !== "" && dirUserDashboard !== dirPath){
 			if (path[1] != "user"){
-				utils.alert("Access Denied", "You tried to access a department page and was redirected back here. please request for the appropriate permissions to do that next time", "info");
+				utils.alert("Request cannot be processed", "This is usually due to a request for an inexistent resource or lack of permission to access the requested resource. Please contact an administrator if this error persists", "info");
 				$location.path('user/home');
 			}
 		}

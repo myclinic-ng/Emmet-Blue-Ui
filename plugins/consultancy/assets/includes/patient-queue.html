@@ -9,9 +9,9 @@
 					<div class="row" ng-if="queuedPatients.length < 1">
 						<div class="col-md-12">
 							<h1 class="text-center text-success">
-								<i class="fa fa-thumbs-up display-block" style="font-size: 5em"></i>
+								<i class="icon-thumbs-up3 display-block" style="font-size: 5em"></i>
 							</h1>
-							<h5 class="text-center display-block text-primary"><i class="fa fa-info-circle"></i> All clear, there are currently no patients on queue</h5 >
+							<h5 class="text-center display-block text-primary"><i class="icon-info22"></i> All clear, there are currently no patients on queue</h5 >
 						</div>
 					</div>
 					<div class="row" ng-if="queuedPatients.length > 0">
@@ -45,7 +45,7 @@
 									</td>
 									<td>{{patient.QueueDate}}</td>
 									<td>
-										<a class="btn btn-link" ng-click="removeFromQueue(patient.QueueID)"><i class="fa fa-check"></i> mark as processed</a>
+										<a class="btn btn-link" ng-click="removeFromQueue(patient.QueueID, patient.patientInfo.patientuuid)"><i class="fa fa-check"></i> Begin Diagnosis</a>
 									</td>
 								</tr>
 							</tbody>

@@ -216,7 +216,6 @@ angular.module("EmmetBlue")
 				$("#modal-send-to-lab").modal("hide");
 				utils.notify("Operation Successful", "Request sent successfully", "success");
 				$scope.labTests.investigations.lab[$scope.labTests.investigations.lab.currentInvestigation].status = -1;
-				console.log(response);
 			}, function(error){
 				utils.errorHandler(error);
 			})
@@ -256,6 +255,9 @@ angular.module("EmmetBlue")
 			var successCallback = function(response){
 				var result = response.hits.hits;
 				if (result.length != 1){
+					if (typeof $scope.patient != "undefined" && $scope.patient.isProfileReady == false){
+						$scope.patient.isProfileReady = true;
+					}
 					utils.alert("Unable to load profile", "You have sent an ambiguous request to the server. Please refine your search query and try again. It is recommended to use an actual patient number for search.", "info");
 				}
 				else {
@@ -265,18 +267,35 @@ angular.module("EmmetBlue")
 					utils.notify("Profile loaded successfully", "", "info");
 					modules.globals.loadSavedDiagnosis();
 					$scope.patient.history.displayPage='profile';
+
+					var req = utils.serverRequest("/patients/patient-repository/view-most-recent-json-by-patient?resourceId="+$scope.patient.profile.patientid, 'GET');
+					req.then(function(response){
+						$scope.mostRecentObservation = response
+					}, function(error){
+						utils.errorHandler(error);
+						utils.notify("Unable to load most recent observation", "", "warning");
+					});
 				}
 			}
 
 			var errorCallback = function(error){
+				if (typeof $scope.patient != "undefined" && $scope.patient.isProfileReady == false){
+					$scope.patient.isProfileReady = true;
+				}
 				utils.errorHandler(error);
 			}
 
 			var query = $("#patient-patientSearchQuery").val();
 			if (query != ""){
+				if (typeof $scope.patient != "undefined" && $scope.patient.isProfileReady == true){
+					$scope.patient.isProfileReady = false;
+				}
 				modules.globals.patient.search(query, successCallback, errorCallback);
 			}
 			else {
+				if (typeof $scope.patient != "undefined" && $scope.patient.isProfileReady == false){
+					$scope.patient.isProfileReady = true;
+				}
 				utils.notify("Invalid search request", "Please make sure you have not submitted an empty search field", "warning");
 			}
 		},
@@ -327,6 +346,9 @@ angular.module("EmmetBlue")
 				$scope.conclusion.prescriptionList.push(prescription);
 			}
 		},
+		removePrescriptionFromList: function(index){
+			$scope.conclusion.prescriptionList.splice(index, 1);
+		},
 		sendToPharmacy: function(){
 			var data = {
 				request: $scope.conclusion.prescriptionList,
@@ -337,7 +359,8 @@ angular.module("EmmetBlue")
 			var req = utils.serverRequest("/pharmacy/pharmacy-request/new", "POST", data);
 
 			req.then(function(response){
-				console.log(response);
+				utils.notify("Operation Successful", "The dispensory has been notified", "success");
+				$("#modal-send-to-pharmacy").modal("hide");
 			}, function(error){
 				utils.errorHandler(error);
 			});
@@ -365,7 +388,9 @@ angular.module("EmmetBlue")
 			}
 
 			var errorCallback = function(error){
-				
+				utils.notify("Unable to reach drugs server", "This is probably due to unavailability of internet access or some general error. Please contact an administrator if this error persists", "warning");
+				$scope.conclusion.addPrescriptionToList(drug);
+				$("#modal-drugs").modal("hide");
 			}
 
 			$http.get(modules.globals.rxNormEndpoint+"/drugs?name="+drug).then(successCallback, errorCallback);
@@ -569,6 +594,7 @@ angular.module("EmmetBlue")
 			var successCallback = function(response){
 				utils.notify("Operation Successful", "Diagnosis has been submitted", "success");
 
+				utils.storage.currentPatientNumberDiagnosis = null;
 				var req = utils.serverRequest('/consultancy/saved-diagnosis/delete?resourceId='+$scope.globals.currentSavedDiagnosisID, 'DELETE');
 				req.then(function(response){}, function(error){});
 			}
@@ -617,10 +643,17 @@ angular.module("EmmetBlue")
 	}
 
 	var bootstrap = function(){
+		if (typeof utils.storage.currentPatientNumberDiagnosis != "undefined" && utils.storage.currentPatientNumberDiagnosis != null){
+			$("#patient-patientSearchQuery").val(utils.storage.currentPatientNumberDiagnosis);
+			modules.patient.loadPatientProfile();
+		}
+
+		$scope.mostRecentObservation = {};
+
 		$scope.globals = {
 			today: function(){
 				var date = new Date();
-				return date.toLocaleDateString();
+				return date.toDateString();
 			},
 			save: modules.globals.saveDiagnosis,
 			submit: modules.globals.submitDiagnosis,
@@ -727,12 +760,87 @@ angular.module("EmmetBlue")
 			prescriptionList: [],
 			diagnosis: {},
 			addPrescriptionToList: modules.conclusion.addPrescriptionToList,
+			removePrescriptionFromList: modules.conclusion.removePrescriptionFromList,
 			addDrugsToPrescriptionToList: modules.conclusion.addDrugsToPrescriptionToList,
 			searchDrug: modules.conclusion.searchDrug,
 			sendToPharmacy: modules.conclusion.sendToPharmacy
 		}
+	}();
+
+
+	function dtAction(data, full, meta, type){
+		selectButtonAction = "manage('select',"+data.StaffID+")";
+
+		var dataOpts = "data-option-id = '"+data.StaffID+"' "+
+					   "data-option-name = '"+data.StaffFullName+"' "+
+					   "data-option-role = '"+data.StaffRole+"'";
+
+		select = "<button class='btn btn-success bg-white no-border-radius selectBtn' ng-click=\""+selectButtonAction+"\""+dataOpts+" ><i class='fa fa-user-md'></i> Select</button>";
+		return "<div class='btn-group'>"+select+"</div>";
 	}
 
+	$scope.dtInstance = {};
 
-	bootstrap();
+	$scope.dtOptions = utils.DT.optionsBuilder
+	.fromFnPromise(function(){
+		return utils.serverRequest('/nursing/load-doctors/view', 'GET');
+	})
+	.withPaginationType('full_numbers')
+	.withDisplayLength(10)
+	.withFixedHeader()
+	.withOption('createdRow', function(row, data, dataIndex){
+		utils.compile(angular.element(row).contents())($scope);
+	})
+	.withOption('headerCallback', function(header) {
+        if (!$scope.headerCompiled) {
+            $scope.headerCompiled = true;
+            utils.compile(angular.element(header).contents())($scope);
+        }
+    })
+
+	$scope.dtColumns = [
+		utils.DT.columnBuilder.newColumn(null).withTitle("S/N").renderWith(function(data, type, full, meta){
+			return meta.row + 1;
+		}),
+		utils.DT.columnBuilder.newColumn('StaffFullName').withTitle("Medical Specialist"),
+		utils.DT.columnBuilder.newColumn('StaffRole').withTitle("Specialty"),
+		utils.DT.columnBuilder.newColumn(null).withTitle("").renderWith(dtAction).notSortable()
+	];
+
+	function reloadTable(){
+		$scope.dtInstance.reloadData();
+	}
+
+	$scope.referral = {};
+	$scope.manage = function(option, id){
+		switch (option){
+			case "select":{
+				var referralSpecialist = {
+					id: id,
+					name: $(".selectBtn[data-option-id='"+id+"']").attr("data-option-name"),
+					role: $(".selectBtn[data-option-id='"+id+"']").attr("data-option-role")
+				}
+				$scope.referral.specialist = referralSpecialist;
+				break;
+			}
+		}
+	}
+
+	$scope.newReferral = {};
+	$scope.completeReferral = function(){
+		$scope.newReferral.patient = $scope.patient.profile.patientid;
+		$scope.newReferral.referredTo = $scope.referral.specialist.id;
+		$scope.newReferral.referrer = utils.userSession.getID();
+
+		var req = utils.serverRequest("/consultancy/patient-referral/new", "POST", $scope.newReferral);
+
+		req.then(function(success){
+			$("#refer-patient").modal("hide");
+			$scope.newReferral = {};
+			$scope.referral = {};
+			utils.notify("Patient Referred Successful", $scope.referral.specialist.name+" has been notified about this referral", "success");
+		}, function(error){
+			utils.errorHandler(error);
+		})
+	}
 });

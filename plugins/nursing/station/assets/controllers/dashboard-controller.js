@@ -21,7 +21,7 @@ angular.module("EmmetBlue")
 		var urlPart = "plugins/nursing/station/assets/includes/";
 		switch(segment){
 			case "patient-queue":{
-				$scope.pageSegment = "plugins/nursing/"+"queued-patients.html";
+				$scope.pageSegment = "plugins/nursing/station/"+"queued-patients.html";
 				break;
 			}
 			case "payment-request":{

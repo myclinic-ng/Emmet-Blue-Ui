@@ -117,14 +117,17 @@
 		</div>
 	</div>
 
-	<div id="repository_items" class="modal fade" style="margin: 0; margin-right: auto; margin-left: auto; width: 100%">
-		<div class="modal-full modal-lg" style="margin: 0; margin-right: auto; margin-left: auto; width: 100%">
-			<div class="modal-content" style="background-color: transparent;">
+	<div id="repository_items" class="modal fade no-margin no-padding" style="width: 100%;  height: 100vh;">
+		<div class="modal-full modal-lg no-margin no-padding no-border-radius" style="width: 100%; height: 100vh;">
+			<div class="modal-content no-margin no-padding no-border-radius" style="background-color: transparent;">
 				<div class="modal-header bg-warning">
+					<h6 class="modal-title">Repository View</h6>
 					<button type="button" class="close" data-dismiss="modal">&times; close</button>
 				</div>
-				<div class="modal-body">
-					<ng-repository repository-id="currentRepository"></ng-repository>
+				<div class="modal-body no-padding no-margin">
+					<div class="col-md-12">
+						<ng-repository repository-id="currentRepository"></ng-repository>
+					</div>
 				</div>
 			</div>
 		</div>

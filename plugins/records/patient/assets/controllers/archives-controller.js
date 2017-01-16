@@ -21,7 +21,6 @@ angular.module("EmmetBlue")
 		var repoReq = recordsPatientWidgetFactory.loadRepositories(patientId);
 		repoReq.then(function(response){
 			$scope.repositoryData = response;
-			console.log($scope.repositoryData);
 		}, function(response){
 			utils.errorHandler(response);
 		})

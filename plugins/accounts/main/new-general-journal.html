@@ -1,0 +1,86 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<style>
+	.select-td > .select2-container > .select2-choice{
+		border-radius: 0px !important;
+		border: 0px !important;
+	}
+</style>
+
+<div ng-controller="accountsMainNewGeneralJournalController" class="col-md-12">
+	<div class="row">
+		<div class="content-group col-md-4">
+			<label class="control-label">Transaction Date</label>
+			<input type="date" class="form-control" ng-model="generalJournal.date"/>
+		</div>
+		<div class="content-group col-md-8">
+			<label class="control-label">Transaction Description/Reference Information</label>
+			<input class="form-control" type="text" ng-model="generalJournal.description"/>
+		</div>
+	</div>
+	<div class="row">
+		<div class="content-group col-md-12">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr class="bg-success">
+						<th colspan="2" class="text-center no-border-right" width="30%">General Ledger Account</th>
+						<th class="text-center no-border-right no-border-left" width="50%">Description</th>
+						<th class="text-center no-border-right no-border-left" width="10%">Debit (<ng-currency currency-symbol="naira"></ng-currency>)</th>
+						<th class="text-center no-border-left" width="10%">Credit (<ng-currency currency-symbol="naira"></ng-currency>)</th>
+					</tr>
+					<tr>
+						<td colspan="5" class="no-border no-margin no-padding pb-5 pt-5">
+							<div class="col-md-6 no-border">
+								<button type="button" class="no-border-radius btn btn-xs bg-teal-400 btn-labeled pull-right" ng-click="addNewRow()"><b><i class="fa fa-check-square-o"></i></b> Add new row</button>
+							</div>
+							<div class="col-md-6 no-border">
+								<button type="button" class="no-border-radius btn btn-xs bg-danger-800 btn-labeled pull-left" ng-click="showRemoveEntryBtn = !showRemoveEntryBtn"><b><i class="fa fa-remove"></i></b> Toggle row remove buttons</button>
+							</div>
+						</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="entry in journalEntries">
+						<td width="5%" class="text-center no-margin no-padding">
+							{{$index+1}}
+							<span ng-if="!($index >= 0 && $index < 2)">
+								<span class="btn btn-icon" ng-show="showRemoveEntryBtn" ng-click="removeRow($index)"><i class="text-danger icon-cross"></i></span>
+							</span>
+						</td>
+						<td class="no-margin no-padding select-td">
+							<select class="select" ng-model="entry.account">
+								<option ng-repeat="account in glAccounts" value="{{account.AccountID}}">{{account.AccountID}} - {{account.AccountName}} ({{account.TypeName}})</option>
+							</select>
+						</td>
+						<td class="no-margin no-padding">
+							<input class="form-control no-border no-border-radius" type="text" placeholder="description" ng-model="entry.description"/>
+						</td>
+						<td class="no-margin no-padding">
+							<input class="form-control no-border no-border-radius" type="number" step="5" min="0.0" placeholder="0.0" ng-model="entry.debit" ng-change="calcTotal()"/>
+						</td>
+						<td class="no-margin no-padding">
+							<input class="form-control no-border no-border-radius" type="number" step="5" min="0.0" placeholder="0.0" ng-model="entry.credit" ng-change="calcTotal()"/>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="2" class="no-border-right">
+						</td>
+						<td class="no-border-left"><span class="pull-right">Totals</span></td>
+						<td>{{entryTotals.debit}}</td>
+						<td>{{entryTotals.credit}}</td>
+					</tr>
+					<!-- <tr class="no-border">
+						<td class="no-border no-margin no-padding" colspan="4"></td>
+						<td class="no-border no-margin no-padding">
+							<button class="btn btn-info col-md-12 bg-primary no-border-radius">Save</button>
+						</td>
+					</tr> -->
+				</tfoot>
+			</table>
+		</div>
+		<div class="content-group col-md-12">
+			<button class="btn btn-info col-md-3 bg-primary pull-right btn-labeled" ng-click="processJournal()"><b><i class="icon-floppy-disk"></i></b> Save Journal</button>
+		</div>
+	</div>
+</div>

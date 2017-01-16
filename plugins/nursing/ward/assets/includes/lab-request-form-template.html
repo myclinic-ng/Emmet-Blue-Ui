@@ -1,0 +1,28 @@
+<div class="row">
+	<div class="panel panel-default no-border">
+		<div class="panel-content">
+			<div class="panel-body">
+				<div class="content-group">
+					<label class="control-label">Select Lab</label>
+					<select class="form-control" ng-model="request.lab">
+						<option value="{{lab.LabID}}" ng-repeat="lab in registeredLabs">{{lab.LabName}}</option>
+					</select>
+				</div>
+				<div class="content-group">
+					<label class="control-label">Select Investigation Type</label>
+					<select class="form-control" ng-model="request.investigationType">
+						<option value="{{type.InvestigationTypeID}}" ng-repeat="type in registeredInvestigationTypes">{{type.InvestigationTypeName}}</option>
+					</select>
+				</div>
+				<div class="content-group">
+					<label class="control-label">Nature of Specimen / Clinical Diagnosis</label>
+					<textarea class="form-control" ng-model="request.description" style="height: 250px;"> </textarea>
+				</div>
+			</div>
+
+			<div class="content-group">
+				<button type="button" class="btn btn-primary pull-right no-border-radius" ng-click="sendForInvestigation()"><i class="fa fa-send"></i> Send</button>
+			</div>
+		</div>
+	</div>
+</div>

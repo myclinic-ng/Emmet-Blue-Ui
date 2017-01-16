@@ -1,0 +1,103 @@
+<script src="assets/js/plugins/forms/tags/bootstrap-tagsinput.js"></script>
+<script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
+<div class="row">
+	<div class="table-responsive">
+		<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
+			
+		</table>
+	</div>
+
+	<div id="new_service_rendered" class="modal fade">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-info">
+					<button type="button" class="close" onclick="$('#new_service_rendered').modal('hide')">&times;</button>
+					<h6 class="modal-title">Add a new item to current patient's bill</h6>
+				</div>
+
+				<div class="modal-body" style="height: 500px;">
+					<div class="row">
+						<div class="col-md-7 overflow-auto" style="height: 500px; border-right: 1px solid #4CAF50">
+							<div class="col-md-6">
+								<label class="control-label">Select Item Group</label>
+								<select class="form-control" ng-model="currentRequestItemGroup">
+									<option ng-repeat="(key, item) in requestItems" value="{{key}}">{{key}}</option>
+								</select>
+							</div>
+							<div class="col-md-6">
+								<label class="control-label">Search</label>
+								<input class="form-control" type="search" ng-model="filterRequestItems"/>
+							</div>
+							<div class="col-md-12 mt-10">
+								<table class="table table-condensed table-responsive table-hover" style="border-bottom: 1px solid #4CAF50">
+									<thead class="bg-success">
+										<th colspan="3" class="text-center">Billing Type Item</th>
+									</thead>
+									<tbody>
+										<tr ng-repeat="item in currentRequestItems | filter:filterRequestItems">
+											<td class="text-bold" style="border-right: 1px solid #4CAF50">{{item.BillingTypeItemID}}</td>
+											<td>{{item.BillingTypeItemName}}</td>
+											<td><a class="btn btn-link text-info" ng-click="addToList($index)"> <i class="icon-link"></i> select</a></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="col-md-5 overflow-auto" style="overflow-x: hidden;">
+							<div class="row">
+								<div style=" height: 440px;">
+									<table class="table table-condensed table-responsive" style="border-bottom: 1px solid #4CAF50;">
+										<thead class="bg-success">
+											<th colspan="4" class="text-center">Selected Items</th>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="text-bold" width="5%">Item</td>
+												<td class="text-bold" width="85%">Name</td>
+												<td class="text-bold" width="5%">Qty</td>
+											</tr>
+											<tr ng-repeat="item in selectedRequestItems">
+												<td>{{item.BillingTypeItemID}}</td>
+												<td>{{item.BillingTypeItemName}}</td>
+												<td>{{item.BillingTypeItemQuantity}}</td>
+												<td><a class="btn btn-link border-danger bg-white btn-xs" ng-click="removeFromList($index)"><i class="icon-cross text-danger"></i> </a></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="col-md-12">
+									<label class="control-label">Doctor In Charge</label>
+									<select class="form-control" ng-model="servicesRendered.doctor">
+										<option value="{{doctor.StaffID}}" ng-repeat="doctor in doctors">{{doctor.StaffUsername}}</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer mt-10">
+					<button type="button" class="btn btn-link" ng-click="servicesRendered = {}" onclick="$('#new_service_rendered').modal('hide')">cancel</button>
+					<button type="button" class="btn btn-info btn-labeled no-border-radius btn-sm" ng-click="saveService()"><b><i class="icon-floppy-disk"></i></b> Save</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="itemQty">
+			<div class="modal-dialog" style="margin-top: 15%;">
+				<div class="modal-content">
+					<div class="modal-header bg-warning">
+						<button type="button" class="close" onclick="$('#itemQty').modal('hide')">&times;</button>
+						<h6 class="modal-title">Enter item quantity</h6>
+					</div>
+					<div class="modal-body">
+						<input type="number" class="form-control" placeholder="Enter item quantity here" ng-model="currentItemQty"/>
+					</div>
+					<div class="modal-footer">
+						<button class="pull-right btn btn-default" ng-click="addToList(0, true)">Add to list</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

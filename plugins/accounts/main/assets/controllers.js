@@ -14,6 +14,8 @@ head.load(controllersLocation+"menu-controller.js");
 head.load(controllersLocation+"billing-type-controller.js");
 head.load(controllersLocation+"account-type-controller.js");
 head.load(controllersLocation+"account-controller.js");
+head.load(controllersLocation+"new-general-journal-controller.js");
+head.load(controllersLocation+"view-general-journal-controller.js");
 head.load(controllersLocation+"billing-type-items-controller.js");
 head.load(controllersLocation+"manage-invoices-controller.js");
 head.load(controllersLocation+"manage-invoices/view-invoices-controller.js");

@@ -1,0 +1,52 @@
+<script src="assets/js/plugins/forms/tags/bootstrap-tagsinput.js"></script>
+<script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+
+<div class="row">
+	<div class="text-center col-md-6 col-md-offset-3">
+		<select class="select" ng-model="currentObservationType">
+			<option ng-repeat="type in observationTypes" value="{{type.ObservationTypeID}}">{{type.ObservationTypeName}}</option>
+		</select>
+	</div>
+	<fieldset class="mt-10 col-md-12">
+		<legend>{{currentObservationTypeName}} Observation</legend>
+		<div class="col-md-6 content-group" ng-repeat="field in observationTypeFields">
+			<label class="control-label">{{field.FieldName}}</label>
+			<textarea class="form-control autosuggest observationData" ng-if="field.TypeName == 'longtext'" data-id="{{field.FieldID}}" ng-model="observationResult[field.FieldName]" data-value-name="{{field.FieldName}}"></textarea>
+
+			<input class="form-control autosuggest observationData" ng-if="field.TypeName == 'text'" type="text" data-id="{{field.FieldID}}" ng-model="observationResult[field.FieldName]" data-value-name="{{field.FieldName}}"/>
+			
+			<input class="form-control autosuggest observationData" ng-if="field.TypeName == 'number'" type="number" data-id="{{field.FieldID}}" ng-model="observationResult[field.FieldName]" data-value-name="{{field.FieldName}}"/>
+		</div>
+	</fieldset>
+	<div class="col-md-12 content-group mt-10">
+		<button class="btn btn-warning btn-lg pull-right" ng-click="submitObservation()">Submit Observations Result</button>
+	</div>
+</div>
+
+<div class="modal fade" id="dirtyValuesPresentModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header bg-danger">
+				<h4 class="modal-title">Your submitted data are suspected to contain errors</h4>
+			</div>
+			<div class="modal-body">
+				<h3 class="text-center">Do you really want to submit the following?</h3>
+				<table class="table">
+					<tbody>
+						<tr ng-repeat="val in dirtyValues" ng-if="val.dirty == true"  >
+							<td class="text-muted">field no. {{$index + 1}}</td>
+							<th>{{getFieldName(val.field)}}</th>
+							<td class="text-bold">{{val.value}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-success" onclick="$('#dirtyValuesPresentModal').modal('hide') ">Cancel, I have some corrections</button>
+				<button class="btn btn-danger" ng-click="submitLikeThat()"><i class="fa fa-exclamation-traingle"></i> Yes, Submit</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,20 +1,8 @@
 <div ng-controller="nursingQueuedPatientsController">
-	<div class="panel panel-flat">
-		<div class="panel-heading">
-			<h5 class="panel-title">Nursing Dashboard</h5>
-			<div class="heading-elements">
-				<ul class="icons-list">
-            		<li><a data-action="reload"></a></li>
-            	</ul>
-        	</div>
-		</div>
-		<div class="panel-body">
-			<div class="row">
-				<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-hover">
-					
-				</table>
-			</div>
-		</div>
+	<div class="row">
+		<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-hover">
+			
+		</table>
 	</div>
 	<div class="modal fade" id="patient-card">
 		<div class="modal-dialog modal-lg">
@@ -47,7 +35,7 @@
 							<div class="row">
 								<h6 class="text-primary text-center">Select a doctor from the list below</h6>
 								<div class="text-center col-md-12">
-									<input class="form-control" placeholder="filter doctors" ng-model="doctorFilter"/>
+									<input class="form-control" placeholder="Filter doctors" ng-model="doctorFilter"/>
 								</div>
 								<div class="col-md-12 overflow-auto mt-15" style="height: 350px">
 									<table class="table table-condensed table-hover">
@@ -60,7 +48,10 @@
 												<td style="border-right: 1px solid #4CAF50">
 													<input type="radio" name="selectedDoctor" ng-model="$parent.selectedDoctor" value="{{doctor.StaffID}}"/>
 												</td>
-												<td>{{doctor.StaffUsername}}</td>
+												<td>
+													<span class="display-block">{{doctor.StaffFullName}}</span>
+													<span class="text-muted text-thin">{{doctor.StaffRole}}</span>
+												</td>
 												<td class="text-bold">{{doctor.queueCount}}</td>
 											</tr>
 										</tbody>

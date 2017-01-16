@@ -1,0 +1,19 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>
+	$('select.select').select2();
+</script>
+<div class="row">
+	<div class="panel panel-success">
+		<div class="panel-heading">
+			<h5 class="panel-title">Patient Discharge Workspace</h5>
+			<div class="heading-elements">
+				<ul class="icons-list">
+            		<li><a data-action="reload"></a></li>
+            	</ul>
+        	</div>
+		</div>
+		<div class="panel-body">
+			<ng-include src="'plugins/nursing/ward/patient-discharge-template.html'"></ng-include>
+		</div>
+	</div>
+</div>

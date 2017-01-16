@@ -1,0 +1,91 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+<div ng-controller="nursingPatientDischargeController">
+	<div class="row">
+		<label class="control-label col-md-3"><span class="pull-right pt-5">Filter List By Ward:</span></label>
+		<div class="input-group col-md-7">
+			<select class="select" ng-model="currentWard">
+				<option value="{{ward.WardID}}" ng-repeat="ward in wards">{{ward.WardName}}</option>
+			</select> 
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12 table-responsive">
+			<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-hover">
+				
+			</table>
+		</div>
+	</div>
+	<div class="modal fade" id="patient-card">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times; close</button>
+				</div>
+				<div class="modal-body">
+					<ng-patient-card patient-info="patientInfo"></ng-patient-card>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="observation">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times; close</button>
+					<h6 class="modal-title">Admitting: {{patientInfo.patientfullname}}</h6>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-8" style="border-right: 1px solid #4CAF50; height: 500px">
+							<div ng-if="showPatientInfo" class="overflow-auto" style="height: 100%; overflow-x: hidden;"><ng-patient-profile patient-info="patientInfo"></ng-patient-profile></div>
+						</div>
+						<div class="col-md-4">
+							<h6 class="text-center text-primary">Admission Details</h6>
+							<p class="col-md-12"><span class='text-bold'>Doctor:</span> <span class="pull-right">{{consultantsName[admissionInfo.consultant]}}</span></p>
+							<p class="col-md-12"><span class='text-bold'>Ward:</span> <span class="pull-right">{{admissionInfo.ward}}</span></p>
+							<p class="col-md-12"><span class='text-bold'>Section:</span> <span class="pull-right">{{admissionInfo.section}}</span></p>
+							<p class="col-md-12"><span class='text-bold'>Date:</span> <span class="pull-right">{{admissionInfo.admissionDate}}</span></p>
+
+							<div class="row mt-15" ng-if="admittedAlready">
+								<h6 class="text-center text-primary">Ward Details</h6>
+								<p class="col-md-12"><span class='text-bold'>Admitted By:</span> <span class="pull-right">{{consultantsName[admissionInfo.admissionProcessedBy]}}</span></p>
+								<p class="col-md-12"><span class='text-bold'>Bed:</span> <span class="pull-right">{{admissionInfo.bed}}</span></p>
+								<p class="col-md-12"><span class='text-bold'>Date:</span> <span class="pull-right">{{admissionInfo.admissionProcessedDate}}</span></p>
+							</div>
+
+							<div class="row" ng-if="!admittedAlready">
+								<h6 class="text-primary text-center">Select a bed from the list below</h6>
+								<div class="text-center col-md-12">
+									<input class="form-control" placeholder="filter beds" ng-model="bedFilter"/>
+								</div>
+								<div class="col-md-12 overflow-auto mt-15" style="height: 200px; overflow-x: hidden;">
+									<table class="table table-condensed table-hover">
+										<thead class="bg-success">
+											<th colspan="2" class="text-center">Bed</th>
+											<th>Bed Status</th>
+										</thead>
+										<tbody>
+											<tr ng-repeat="bed in beds | filter:bedFilter">
+												<td style="border-right: 1px solid #4CAF50">
+													<input type="radio" name="selectedBed" ng-model="hold.selectedBed" ng-disabled="bed.BedStatus == 1" ng-value="{{bed.SectionBedID}}"/>
+												</td>
+												<td>{{bed.BedName}}</td>
+												<td class="text-bold" ng-if="bed.BedStatus == 1"><span class="label label-danger">Occupied</span></td>
+												<td class="text-bold" ng-if="bed.BedStatus == 0"><span class="label label-success">Unoccupied</span></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="col-md-12 mt-10">
+									<center><button class="btn btn-warning" ng-click="admitPatient()">Admit and assign selected bed to patient</button></center>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

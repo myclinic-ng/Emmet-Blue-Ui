@@ -1,0 +1,179 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>
+	$('select.select').select2();
+</script>
+<div ng-controller="nursingSettingManageObservationTypeFieldsController">
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+			<label class="control-label">Select observation type to manage</label>
+			<select class="select" ng-model="currentObservationType">
+				<option ng-repeat="type in observationTypes" value="{{type.ObservationTypeID}}">{{type.ObservationTypeName}}</option>
+			</select>
+		</div>
+	</div>
+	<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
+		
+	</table>
+	
+	<div id="edit_setting_observation_type_field" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" onclick="$('#edit_setting_observation_type_field').modal('hide')">&times;</button>
+					<h6 class="modal-title">Edit Field</h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-12">
+								<label>Field Name</label>
+								<input type="text" class="form-control" ng-model="tempHolder.FieldName" data-option-id="{{tempHolder.reourceId}}">
+							</div>
+							<div class="col-sm-12">
+								<label>Description</label>
+								<textarea cols="3" rows="3" class="form-control" ng-model="tempHolder.FieldDescription"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" ng-click="tempHolder = {}" onclick="$('#edit_setting_observation_type_field').modal('hide')">Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveEditObservationTypeField()">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="new_setting_observation_type_field" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" onclick="$('#new_setting_observation_type_field').modal('hide')">&times;</button>
+					<h6 class="modal-title">Create a new field</h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-12">
+								<label>Field Name</label>
+								<input type="text" class="form-control" ng-model="newObservationTypeField.name">
+							</div>
+							<div class="col-sm-12">
+								<label>Field Type</label>
+								<select class="select" ng-model="newObservationTypeField.type">
+									<option ng-repeat="type in fieldTypes" value="{{type.TypeID}}">{{type.TypeName}}</option>
+								</select>
+							</div>
+							<div class="col-sm-12">
+								<label>Description</label>
+								<textarea cols="3" rows="3" class="form-control" ng-model="newObservationTypeField.description"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" ng-click="newObservationTypeField = {}" onclick="$('#new_setting_observation_type_field').modal('hide')">cancel</button>
+					<button type="button" class="btn btn-warning" ng-click="saveNewObservationTypeField()">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="field_defaults" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" onclick="$('#field_defaults').modal('hide')">&times;</button>
+					<h6 class="modal-title">Manage Observation Type Field Default Values</h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="table-responsive">
+						<table class="table table-condensed">
+							<thead>
+								<th>S/N</th>
+								<th>Default Value</th>
+								<th>Action</th>
+							</thead>
+							<tbody>
+								<tr ng-repeat="value in currentDefaultValues">
+									<td>{{$index + 1}}</td>
+									<td>{{value.Value}}</td>
+									<td><a class="btn btn-link btn-warning" ng-click="deleteDefaultValue(value.FieldDefaultID, $index)"><i class="fa fa-times"></i> remove</a></td>
+								</tr>
+								<tr>
+									<td>*</td>
+									<td><input class="form-control col-md-12" ng-model="newDefaultValue" placeholder="enter a new default value" /></td>
+									<td><a class="btn btn-link btn-info" ng-click="saveNewDefaultValue()">save</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" onclick="$('#field_defaults').modal('hide')" ng-click="newField = {}"><i class="fa fa-times-circle-o"></i> Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="field_dirty_values" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" onclick="$('#field_dirty_values').modal('hide')">&times;</button>
+					<h6 class="modal-title">Manage Observation Type Field Dirty Values</h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="table-responsive">
+						<table class="table table-condensed">
+							<thead>
+								<th>S/N</th>
+								<th>Condition</th>
+								<th>Default Value</th>
+								<th>Action</th>
+							</thead>
+							<tbody>
+								<tr ng-repeat="value in currentDirtyValues">
+									<td>{{$index + 1}}</td>
+									<td ng-if="value.Condition[0] == '='">
+										Must contain <span class="label label-info">=</span>
+									</td>
+									<td ng-if="value.Condition[0] == '>'">
+										Must be greater than <span class="label label-success">&gt;</span>
+									</td>
+									<td ng-if="value.Condition[0] == '<'">
+										Must be less than <span class="label label-danger">&lt;</span>
+									</td>
+									<td>{{value.Value}}</td>
+									<td><a class="btn btn-link btn-warning" ng-click="deleteDirtyValue(value.FieldDirtyValueID, $index)"><i class="fa fa-times"></i> remove</a></td>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<select class="select" ng-model="newDirtyValueCondition">
+											<option value="eq">Must contain</option>
+											<option value="gt">Must be greater than</option>
+											<option value="lt">Must be less than</option>
+										</select>
+									</td>
+									<td><input class="form-control col-md-12" ng-model="newDirtyValue" placeholder="enter a new dirty value" /></td>
+									<td><a class="btn btn-link btn-info" ng-click="saveNewDirtyValue()">save</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" onclick="$('#field_dirty_values').modal('hide')"><i class="fa fa-times-circle-o"></i> Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

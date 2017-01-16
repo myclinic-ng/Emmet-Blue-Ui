@@ -7,15 +7,15 @@ angular.module("EmmetBlue")
 		var urlPart = "plugins/consultancy/";
 		switch(segment){
 			case "admission-register":{
-				$scope.pageSegment = "plugins/nursing/patient-admission-template.html";
+				$scope.pageSegment = "plugins/nursing/ward/patient-admission-template.html";
 				$scope.pageTitle = "List of Patients Currently On Admission";
 				$scope.pageLink = "consultancy/patient-admission";
 				break;
 			}
 			case "admission-workspace":{
-				$scope.pageSegment = urlPart+"admitted-patient-workspace.html";
+				$scope.pageSegment = urlPart+"patient-workspace.html";
 				$scope.pageTitle = "Admitted Patients Workspace";
-				$scope.pageLink = "consultancy/admitted-patient-workspace";
+				$scope.pageLink = "consultancy/patient-workspace";
 				break;
 			}
 			case "show-info":{
@@ -55,7 +55,6 @@ angular.module("EmmetBlue")
 		var req = utils.serverRequest("/consultancy/saved-diagnosis/view-patients?resourceId="+consultant, "GET");
 
 		req.then(function(response){
-			console.log(response);
 			$scope.savedDiagnosis = response;
 		}, function(error){
 			utils.errorHandler(error);

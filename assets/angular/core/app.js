@@ -153,12 +153,19 @@ angular.module("EmmetBlue")
 				services.notify('Invalid Resource Requested', 'The requested resource was not found on this server, please contact an administrator', 'warning');
 				break;
 			}
+			case 500:{
+				services.notify('Unable To Process Request', 'This is usually due to making request for a missing resource or sending improperly formatted data to the server. Please contact an administrator if this error persists');
+				break;
+			}
 			default:
 			{
 				if (typeof errorObject.data != "undefined" && errorObject.data != null){
 					services.alert(errorObject.status+': '+errorObject.statusText, errorObject.data.errorMessage, 'error');
 				}
 				else{
+					if (errorObject.status == -1){
+						services.notify('Unable to reach server', "Please check your network connectivity to confirm the server is still accessible from this computer. Contact an administrator if this error persists", "warning");
+					}
 					services.alert("Unknown error", "A general error has occurred, please contact an administrator", 'error');
 				}
 			}
@@ -167,6 +174,9 @@ angular.module("EmmetBlue")
 
 
 	services.loadImage = function(image){
+		if (typeof image == "undefined"){
+			return null;
+		}
 		return CONSTANTS.EMMETBLUE_SERVER+image
 	}
 
@@ -202,6 +212,10 @@ angular.module("EmmetBlue")
 	services.today = function(){
 		var date = new Date();
 		return date.toLocaleDateString();
+	}
+
+	services.getStaffFullName = function(id){
+		return services.serverRequest('/human-resources/staff-profile/view-staff-full-name?resourceId='+id, 'GET');
 	}
 
 	services.userSession = {

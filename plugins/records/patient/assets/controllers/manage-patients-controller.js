@@ -194,15 +194,17 @@ angular.module("EmmetBlue")
 			$("#patientTable").removeClass("col-md-12").addClass("col-md-3");
 			$scope.profileSelected = true;
 		}
-		var loadProfile = utils.serverRequest("/patients/patient/view?resourceId="+id, "GET");
+		if (typeof(id) === "undefined"){
+			var loadProfile = utils.serverRequest("/patients/patient/view?resourceId="+id, "GET");
 
-		loadProfile.then(function(response){
-			$scope.patientProfileMeta = response[0];
-			delete response[0];
-			$scope.patientProfile = response;
-		}, function(response){
-			utils.errorHandler(response);
-		})
+			loadProfile.then(function(response){
+				$scope.patientProfileMeta = response[0];
+				delete response[0];
+				$scope.patientProfile = response;
+			}, function(response){
+				utils.errorHandler(response);
+			})
+		}
 	}
 
 	$scope.newPatient = {};
@@ -286,14 +288,15 @@ angular.module("EmmetBlue")
 				$scope.eDisablers("enable");
 				$("#new_patient").modal("hide");
 				setTimeout(function(){
-					var _patient = utils.serverRequest("/patients/patient/view?resourceId="+response.lastInsertId, "GET");
+					if (typeof (response.lastInsertId) !== "undefined"){
+						var _patient = utils.serverRequest("/patients/patient/view?resourceId="+response.lastInsertId, "GET");
 
-					_patient.then(function(response){
-						$scope.currentPatientCardData = response["_source"];
-						console.log($scope.currentPatientCardData);
-					}, function(response){
-						utils.errorHandler(response);
-					})
+						_patient.then(function(response){
+							$scope.currentPatientCardData = response["_source"];
+						}, function(response){
+							utils.errorHandler(response);
+						})
+					}
 				}, 1000);
 
 				$("#patient_card").modal("show");
