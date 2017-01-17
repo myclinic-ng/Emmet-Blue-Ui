@@ -60,7 +60,6 @@ angular.module("EmmetBlue")
 
 	$scope.submit = function(){
 		$scope.hmoPatient.patientId = $scope.patientProfile.patientid;
-		console.log($scope.hmoPatient);
 		var hmoPatient = utils.serverRequest('/accounts-biller/hmo-field-value/new', 'post', $scope.hmoPatient);
 		hmoPatient.then(function(response){
 			utils.alert('Operation Successful', 'The patient HMO registration was completed successfully', 'success', 'both');

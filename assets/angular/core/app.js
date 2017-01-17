@@ -234,7 +234,9 @@ angular.module("EmmetBlue")
 			}
 		},
 		getID: function(){
-			return services.userSession.cookie().staffid;
+			if (typeof services.userSession.cookie() != "undefined"){
+				return services.userSession.cookie().staffid;
+			}
 		},
 		getUsername: function(){
 			return services.userSession.cookie().username;

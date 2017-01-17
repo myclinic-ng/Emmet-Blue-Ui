@@ -4,12 +4,14 @@ angular.module("EmmetBlue")
 	$scope.patientTypes = {};
 	$scope.loadImage = utils.loadImage;
 	$scope.loadPatientTypes = function(){
-		var requestData = utils.serverRequest("/accounts-biller/department-patient-types-report-link/view-by-staff?resourceId="+utils.userSession.getID(), "GET");
-		requestData.then(function(response){
-			$scope.patientTypes = response;
-		}, function(responseObject){
-			utils.errorHandler(responseObject);
-		});
+		if (typeof (utils.userSession.getID()) !== "undefined"){
+			var requestData = utils.serverRequest("/accounts-biller/department-patient-types-report-link/view-by-staff?resourceId="+utils.userSession.getID(), "GET");
+			requestData.then(function(response){
+				$scope.patientTypes = response;
+			}, function(responseObject){
+				utils.errorHandler(responseObject);
+			});
+		}
 	}
 
 	$scope.loadPatientTypes();
