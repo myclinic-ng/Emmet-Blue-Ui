@@ -36,47 +36,88 @@
 		<div class="modal-dialog modal-full">
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<button type="button" class="close" data-dismiss="modal" ng-click="clearInvoiceStorage();">&times;</button>
 					<h6 class="modal-title"> New Transaction</h6>
 				</div>
 
 				<div class="modal-body">
-					<div class="col-md-5">
-						<div class="form-group">
+					<div class="col-md-5" style="border-right: 1px solid #4CAF50;">
+						<div class="content-group">
 							<label class="control-label">Invoice Number</label>
 							<div class="input-group">
 								<input class="form-control invoice-search" ng-model="newPayment.metaId" id="newPayment-metaId"/>
 								<span class="input-group-btn">
-									<button class="btn btn-warning" ng-click="loadInvoice()">Load Invoice</button>
+									<button class="btn btn-warning" ng-click="loadInvoice()" style="margin-top: -5px !important;">Load Invoice</button>
 								</span>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="inline-block">
+							<h6 class="text-center"><u>Deposit Account Info</u></h6>
+						</div>
+						<div class="content-group col-md-12">
+							<div class="col-md-6">
+								<table class="table">
+									<tbody>
+										<tr>
+											<td class="no-border"><i class="icon-circle-small text-info"></i> Account ID:</td>
+											<td class="no-border">{{invoiceData.depositAccount.AccountID}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="col-md-6">
+								<table class="table">
+									<tbody>
+										<tr>
+											<td class="no-border"><i class="icon-circle-small text-info"></i> Balance:</td>
+											<td class="no-border text-danger text-bold" ng-if="invoiceData.depositAccount.AccountBalance != -1 && invoiceData.depositAccount.AccountBalance < invoiceData.amount">
+												<span ng-currency ng-currency-symbol="naira"></span> {{invoiceData.depositAccount.AccountBalance}}
+											</td>
+											<td class="no-border text-success text-bold" ng-if="invoiceData.depositAccount.AccountBalance >= invoiceData.amount">
+												<span ng-currency ng-currency-symbol="naira"></span> {{invoiceData.depositAccount.AccountBalance}}
+											</td>
+											<td class="no-border text-warning text-bold" ng-if="invoiceData.depositAccount.AccountBalance == -1">
+												N/A
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<h6 class="text-center"><u>Payment Form</u></h6>
+						<div class="content-group col-md-12">
+							<label class="checkbox-inline">
+								<input type="checkbox" ng-model="newPayment.billFromDepositAccount" ng-disabled="invoiceData.depositAccount.AccountBalance < invoiceData.amount">
+								Bill this invoice from patient's deposit account
+							</label>
+						</div>
+						<div class="content-group col-md-7">
 							<label class="control-label">Payee Name</label>
 							<input type="text" class="form-control" ng-model="newPayment.customerName"/>
 						</div>
-						<div class="form-group">
+						<div class="content-group col-md-5">
 							<label class="control-label">Payee Phone Number</label>
 							<input type="text" class="form-control" ng-model="newPayment.customerPhone"/>
 						</div>
-						<div class="form-group">
+						<div class="content-group col-md-12">
 							<label class="control-label">Amount Paid</label>
 							<input type="number" class="form-control" ng-model="newPayment.amountPaid"/>
 						</div>
-						<div class="form-group">
+						<div class="content-group col-md-6">
 							<label class="control-label">Payment Method</label>
 							<select class="select" ng-model="newPayment.paymentMethod" ng-options="method.PaymentMethodName as method.PaymentMethodName for method in paymentMethods">
 								<!-- <option value=""></option> -->
 							</select>
 						</div>
-						<div class="form-group">
+						<div class="content-group col-md-6">
 							<label class="control-label">Transaction Status</label>
 							<select class="select" ng-model="newPayment.transactionStatus" ng-options="status.StatusName as status.StatusName for status in statuses">
 								<!-- <option value=""></option> -->
 							</select>
 						</div>
 						<div class="button-group pull-right">
-							<button class="btn btn-default" ng-click="saveTransaction()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"></i></span><i class="icon-floppy-disk"></i> Save</button>
+							<span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"></i></span>
+							<button class="btn btn-success btn-labeled" ng-click="processPayment()"><b><i class="icon-floppy-disk"></i></b> Save Transaction</button>
 						</div>
 					</div>
 					<div class="col-md-7" id="transaction_document_area">

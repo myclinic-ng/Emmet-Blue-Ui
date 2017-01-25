@@ -1,8 +1,24 @@
 angular.module("EmmetBlue")
 
 .controller("accountsBillingSettingPaymentRulesController", function($scope, utils){
+	$scope.patientCategories = [];
+	$scope.patientTypes = [];
+	$scope.patientTypeCheckbox = {};
+	$scope.patientTypeCheckboxNames = {};
+
+	$scope.billingTypes = [];
+	$scope.billingTypeItems = [];
+	$scope.billingTypeCheckbox = {};
+	$scope.billingTypeCheckboxNames = {};
+
 	$scope.linkDtOptions = utils.DT.optionsBuilder.fromFnPromise(function(){
-		var request = utils.serverRequest('/accounts-biller/bill-payment-rule/view', 'GET');
+		if (typeof $scope.billingTypeSelector === "undefined"){
+			$scope.billingTypeSelector = 0;
+		}
+		if(typeof $scope.patientTypeSelector === "undefined") {
+			$scope.patientTypeSelector = "";
+		}
+		var request = utils.serverRequest('/accounts-biller/bill-payment-rule/view?resourceId='+$scope.billingTypeSelector+"&patientcategory="+$scope.patientTypeSelector, 'GET');
 
 		return request;
 	})
@@ -35,8 +51,8 @@ angular.module("EmmetBlue")
     ]);
 
 	$scope.linkDtColumns = [
-		utils.DT.columnBuilder.newColumn('CategoryName').withTitle("Patient Type Category"),
 		utils.DT.columnBuilder.newColumn('PatientTypeName').withTitle("Patient Type"),
+		utils.DT.columnBuilder.newColumn('BillingTypeItemName').withTitle("Billing Type Item"),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Rule Type").renderWith(function(data, type, full, meta){
 			switch(data.RuleType)
 			{
@@ -72,14 +88,10 @@ angular.module("EmmetBlue")
 		return "<div class='btn-group'>"+editBtn+deleteBtn+"</div>";
 	}
 
-	function reloadTable(){
+	$scope.reloadTable = function(){
 		$scope.linkDtInstance.reloadData();
 	}
 
-	$scope.patientCategories = {};
-	$scope.patientTypes = {};
-	$scope.patientTypeCheckbox = [];
-	$scope.patientTypeCheckboxNames = [];
 	$scope.loadPatientCategories = function(){
 		var requestData = utils.serverRequest("/patients/patient-type-category/view", "GET");
 		requestData.then(function(response){
@@ -89,20 +101,46 @@ angular.module("EmmetBlue")
 		});
 	}
 
+	function loadBillingTypes(){
+		var request = utils.serverRequest("/accounts-biller/billing-type/view", "GET");
+		request.then(function(result){
+			$scope.billingTypes = result;
+		}, function(error){
+			utils.errorHandler(error);
+		})
+	}
+
 	$scope.loadPatientTypes = function(categoryId){
 		var requestData = utils.serverRequest("/patients/patient-type/view-by-category?resourceId="+categoryId, "GET");
 		requestData.then(function(response){
 			$scope.patientTypes = response;
+			$scope.patientTypeCheckboxNames = {};
 		}, function(responseObject){
 			utils.errorHandler(responseObject);
 		});
 	}
 
+	function loadBillingTypeItems(id){
+		var request = utils.serverRequest('/accounts-biller/billing-type-items/view?resourceId='+id, "GET");
+		request.then(function(result){
+			$scope.billingTypeItems = result;
+			$scope.billingTypeCheckboxNames = {};
+		}, function(error){
+			utils.errorHandler(error);
+		})
+	}
 
 	$scope.loadPatientCategories();
+	loadBillingTypes();
 
 	$scope.$watch("patientTypeSelector", function(newValue, oldValue){
 		$scope.loadPatientTypes(newValue);
+	});
+
+	$scope.$watch("billingTypeSelector", function(newValue, oldValue){
+		if (typeof newValue !== "undefined"){
+			loadBillingTypeItems(newValue);
+		}
 	});
 
 	$scope.toggleAllPatientTypeCheckbox = function(){	
@@ -113,11 +151,20 @@ angular.module("EmmetBlue")
 		})
 	}
 
+	$scope.toggleAllBillingTypeCheckbox = function(){	
+		angular.forEach($scope.billingTypeItems, function(billingType){
+			var id = billingType.BillingTypeItemID;
+			$scope.billingTypeCheckbox[id] = $scope.allBillingTypeCheckboxToggler;
+			$scope.billingTypeCheckboxNames[id] = id;
+		})
+	}
+
 	$scope.submitRules = function(){
 		var data = {
 			ruleType: $scope.newRule.ruleType,
 			ruleValue: $scope.newRule.ruleValue,
-			patientTypes: $scope.patientTypeCheckboxNames
+			patientTypes: $scope.patientTypeCheckboxNames,
+			billingTypes: $scope.billingTypeCheckboxNames
 		};
 
 		utils.serverRequest("/accounts-biller/bill-payment-rule/new", "POST", data)
@@ -125,11 +172,13 @@ angular.module("EmmetBlue")
 			$("#new_setting_new_rule").modal("hide");
 			utils.notify("Operation succesful", "Payment Rules has been created succesfully", "success");
 			$scope.newRule = {};
-			$scope.patientTypeCheckboxNames = [];
-			$scope.patientTypeCheckbox = [];
-			reloadTable();
+			$scope.patientTypeCheckboxNames = {};
+			$scope.patientTypeCheckbox = {};
+			$scope.billingTypeCheckboxNames = {};
+			$scope.billingTypeCheckbox = {};
+			$scope.reloadTable();
 		}, function(error){
-			reloadTable();
+			$scope.reloadTable();
 			utils.errorHandler(error);
 		});
 	}
@@ -138,7 +187,7 @@ angular.module("EmmetBlue")
 		utils.serverRequest("/accounts-biller/bill-payment-rule/delete?resourceId="+id, "DELETE")
 		.then(function(response){
 			utils.notify("Operation succesful", "The selected rule has been deleted succesfully", "success");
-			reloadTable();
+			$scope.reloadTable();
 		}, function(error){
 			utils.errorHandler(error);
 		});

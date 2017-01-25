@@ -41,10 +41,10 @@
 
 					<!-- Actions -->
 					<div class="sidebar-category">
-						<div class="category-title">
+						<div class="category-title bg-success">
 							<span>Dashboard</span>
 							<ul class="icons-list">
-								<li><a href="#" data-action="collapse"></a></li>
+								<li><i class="icon-users"></i></li>
 							</ul>
 						</div>
 
@@ -65,11 +65,12 @@
 			</div>
 	</div>
 	<div class="col-md-9">
-	<div class="panel panel-default">
-		<div class="pt-20 pl-10 pr-10">
-			<div class="form-group col-md-6">
-				<div class="input-group">
-					<input class="form-control input-lg" placeholder="Enter a patients number or name here to search" type="search" data-popup="tooltip" data-trigger="focus" title="Click the Advanced link below for more search options" ng-model="search.query"/>
+	<div class="panel panel-success">
+		<div class="pt-5 pb-10 bg-success">
+			<div class="form-group col-md-6 bg-success" style="margin-left: 0px;">
+				<label class="control-label">Patient Search</label>
+				<div class="input-group mb-5">
+					<input class="form-control input-lg no-border-radius" placeholder="Enter a patients number or name here to search" type="search" data-popup="tooltip" data-trigger="focus" title="Click the Advanced link below for more search options" ng-model="search.query"/>
 					<span class="input-group-btn">
 						<button class="btn btn-warning btn-lg" type="button" ng-click="search(true)"> <i class="{{searched.searchIcon}}"></i></button>
 					</span>
@@ -80,12 +81,12 @@
 					<li><a class="text-center collapsed" data-toggle="collapse" data-target="#navbar-filter"><i class="icon-menu7"></i></a></li>
 				</ul>
 
-				<div class="navbar-collapse collapse" id="navbar-filter">
-					<div class="navbar-right">
-						<ul class="nav navbar-nav">
+				<div class="navbar-collapse collapse bg-success" id="navbar-filter">
+					<div class="navbar-right bg-success">
+						<ul class="nav navbar-nav bg-success">
 							<li><a href="#">Items per page: </a></li>
-							<div class="input-group">
-								<input type="number" class="form-control" min="1" max="100" ng-model="searched.pageSizeInc"/>
+							<div class="input-group mr-5">
+								<input type="number" class="form-control no-border-radius" min="1" max="100" ng-model="searched.pageSizeInc"/>
 								<span class="input-group-btn">
 									<button class="btn btn-text btn-warning" ng-click="searched.pageSize = searched.pageSizeInc">Go</button>
 								</span>
@@ -98,7 +99,6 @@
 
 		<div class="panel-body">
 			<!-- Invoice grid options -->
-
 				<div class="col-md-12 pull-left">
 					<dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="assets/angular/libraries/ng-pagination/ng-pagination.tpl.html"></dir-pagination-controls>
 				</div>

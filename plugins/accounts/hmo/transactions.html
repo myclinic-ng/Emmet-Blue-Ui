@@ -1,0 +1,197 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/ui/moment/moment.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/pickers/daterangepicker.js"></script>
+<script src="assets/js/plugins/forms/tags/tagsinput.min.js"></script>
+<script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
+
+<script>
+	$('select.select').select2();
+	$('.daterange').daterangepicker({
+		showWeekNumbers: true,
+		showDropdowns: true,
+        opens: "right",
+        applyClass: 'bg-success',
+        cancelClass: 'btn-default'
+	});
+</script>
+<div id="account_payment_request" ng-controller="hmoTransactionsController">
+	<div class="panel panel-success" >
+		<div class="panel-heading">
+			<h6 class="panel-title">All Transactions</h6>
+			<div class="heading-elements">
+				<ul class="icons-list">
+	        		<li>Current Filter: <label class="label label-info">{{requestFilter.description}}</label></li>
+	        		<li><a data-action="reload" ng-click="reloadTable()" class="btn btn-icon btn-clear"> Reload Requests</a></li>
+            		<li><a href="#" title="Toggle Filter Selector" class="btn btn-icon btn-clear text-danger" ng-click="showRequestFilters = !showRequestFilters"><i class="icon-filter3"></i> Toggle Filter Selector</a></li>
+	        	</ul>
+	    	</div>
+		</div>
+
+		<div class="panel-body">
+			<div class="col-md-12" ng-show="showRequestFilters">
+				<div class="form-group col-md-2">
+					<label class="control-label">Filter By</label>
+					<select class="select" ng-model="filterSelector.type" ng-change="filterSelector.value = null">
+						<optgroup label="Sub Groups">					
+							<option value="patienttype">Patient Type</option>
+							<option value="patient">Patient</option>
+						</optgroup>
+
+						<optgroup label="Date Ranges">
+							<option value="Today's Requests<seprator>{{getDateRange('today')}}">Today</option>
+							<option value="Yesterday's Requests<seprator>{{getDateRange('yesterday')}}">Yesterday</option>
+							<option value="This Week's Requests<seprator>{{getDateRange('week')}}">This Week</option>
+							<option value="This Month's Requests<seprator>{{getDateRange('month')}}">This Month</option>
+							<option status="disabled" value="This Quarter's Requests<seprator>{{getDateRange('quarter')}}">This Quarter</option>
+							<option status="disabled" value="This Year's Requests<seprator>{{getDateRange('year')}}">This Year</option>
+						</optgroup>
+
+						<option value="dateRange">Specify Date Range</option>
+					</select>
+				</div>
+				<div class="form-group col-md-10" ng-show="filterSelector.type == 'patienttype'">
+					<label class="control-label">Select Patient Type</label>
+					<select class="select" ng-model="filterSelector.value">
+						<option ng-repeat="type in patientTypes" value="{{type.PatientTypeName}}<seprator>{{type.PatientTypeID}}">{{type.PatientTypeName}}</option>
+					</select>
+				</div>
+				<div class="form-group col-md-8" ng-show="filterSelector.type == 'department'">
+					<label class="control-label">Select Department</label>
+					<select class="select" ng-model="filterSelector.value">
+						<option ng-repeat="department in departments" value="{{department.Name}} ({{department.GroupName}})<seprator>{{department.DepartmentID}}">{{department.Name}} ({{department.GroupName}})</option>
+					</select>
+				</div>
+				<div class="form-group col-md-8" ng-show="filterSelector.type == 'patient'">
+					<label class="control-label">Enter Patient's Hospital Number</label>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-user-lock"></i></span>
+						<input type="text" class="form-control" ng-model="filterSelector.value" placeholder="Patient ID" /> 
+					</div>
+				</div>
+				<div class="form-group col-md-8" ng-show="filterSelector.type == 'staff'">
+					<label class="control-label">Enter Staff's Username Here</label>
+					<div class="input-group col-md-6">
+						<span class="input-group-addon"><i class="icon-user-lock"></i></span>
+						<input type="text" class="form-control col-md-6" ng-model="filterSelector.value" placeholder="Staff Username" /> 
+					</div>
+					<input type="text" data-role="tagsinput" class="tagsinput-typeahead col-md-6" ng-model="filterSelector.date" placeholder="Add dates to show (mm/dd/yyyy)" /> 
+				</div>
+				<div class="form-group col-md-8" ng-show="filterSelector.type == 'dateRange'">
+					<label class="control-label">Pick Date Ranges</label>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-calendar22"></i></span>
+						<input type="text" class="form-control daterange" ng-model="filterSelector.value"> 
+					</div>
+				</div>
+				<div class="content-group col-md-12">
+					<button class="btn btn-info col-md-3 bg-primary pull-right btn-labeled" ng-click="activateFilter()">
+						<b><i class="icon-filter4"></i></b> Set Filter
+					</button>
+				</div>
+			</div>
+
+			<div class="table-responsive col-md-12">
+				<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
+
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div id="show_analysis" class="modal fade">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-info">
+					<div class="modal-title">Transaction Analysis <span class="pull-right" style="font-variant: small-caps; ">{{requestFilter.type}} based filter</span></div>
+					<button class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="fieldset col-md-4">
+							<label>Add/Remove analysis filters to/from the form below</label>
+							<div class="form-group col-sm-12">
+								<label>
+								Patient Type <span class="text-muted">(select one or more)</span></label>
+								<!-- <input type="text" data-role="tagsinput" class="tagsinput-typeahead" ng-model="body.tags"/> -->
+								<select class="select" multiple="multiple" ng-model="analysisFilters.patienttype">
+									<option ng-repeat="type in patientTypes" value="{{type.PatientTypeID}}">{{type.PatientTypeName}}</option>
+								</select>
+							</div>
+							<div class="form-group col-sm-12">
+								<label>
+								Dates <span class="text-muted">(mm/dd/yyyy)</span></label>
+								<input type="text" data-role="tagsinput" class="tagsinput-typeahead" ng-model="analysisFilters.date"/>
+							</div>
+							<div class="form-group col-sm-12">
+								<label>
+								Department <span class="text-muted">(select one or more)</span></label>
+								<!-- <input type="text" data-role="tagsinput" class="tagsinput-typeahead" ng-model="body.tags"/> -->
+								<select class="select" multiple="multiple" ng-model="analysisFilters.department">
+									<option ng-repeat="department in departments" value="{{department.DepartmentID}}">{{department.Name}} ({{department.GroupName}})</option>
+								</select>
+							</div>
+							<div class="form-group col-sm-12">
+								<label class="display-block text-semibold">Options</label>
+								<label class="checkbox-inline">
+									<input type="checkbox" checked="checked" ng-model="toggleBreakdown">
+									Show analysis breakdown
+								</label>
+							</div>
+							<div class="form-group col-sm-12">
+								<button class="btn btn-success no-border" ng-click="retriveAnalysisForCurrentTable()">Apply Filters</button>
+							</div>
+						</div>
+						<div class="clear"></div>
+						<div class="col-md-8" style="border-left: 1px solid #4CAF50;">
+							<div class="table-responsive col-md-12">
+								<table class="table table-bordered">
+									<thead class="bg-success">
+										<th colspan="2" class="text-center no-border"><span class="text-center">Variable</span></th>
+										<th class="no-border">Value</th>
+									</thead>
+									<tbody>
+										<tr ng-repeat="(key, value) in currentFilterAnalysis.summary">
+											<td class="no-border-top no-border-bottom">{{$index + 1}}</td>
+											<td class="no-border-top no-border-bottom">{{key}}</td>
+											<td class="no-border-top no-border-bottom" ng-if="value.value > 0">
+												<icon class="icon-circle-small text-success"></icon>
+												<span ng-currency ng-currency-symbol="naira" ng-if="value.type=='netTotal'"></span> {{value.value}}
+											</td>
+											<td class="no-border-top no-border-bottom" ng-if="value.value == 0">
+												<span ng-currency ng-currency-symbol="naira" ng-if="value.type=='netTotal'"></span> {{value.value}}
+											</td>
+											<td class="no-border-top no-border-bottom text-danger" ng-if="value.value < 0">
+												<icon class="icon-arrow-up5 text-danger"></icon>
+												<span ng-currency ng-currency-symbol="naira" ng-if="value.type=='netTotal'"></span> {{-1 * value.value}}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<div class="table-responsive col-md-12" ng-show="toggleBreakdown">
+								<table class="table table-bordered">
+									<thead class="bg-info">
+										<th colspan="2" class="text-center no-border"><span class="text-center">Net Total Breakdown</span></th>
+										<th class="no-border">Billed Amount</th>
+										<th class="no-border">HMO/Company Accrual</th>
+									</thead>
+									<tbody>
+										<tr ng-repeat="(key, value) in currentFilterAnalysis.breakdown">
+											<td class="no-border-top no-border-bottom">{{key}}</td>
+											<td class="no-border-top no-border-bottom">{{value.name}}  <span class="text-muted">(&times;{{value.qty}})</span></td>
+											<td class="no-border-top no-border-bottom"><span ng-currency ng-currency-symbol="naira"></span> {{value.expectedPrice}}</td>
+											<td class="no-border-top no-border-bottom"><span ng-currency ng-currency-symbol="naira"></span> {{value.balPrice}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<div class="clear"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>		
+	</div>
+</div>

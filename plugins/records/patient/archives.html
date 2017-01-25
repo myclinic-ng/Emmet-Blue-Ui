@@ -23,7 +23,7 @@
 
 					<!-- Sidebar search -->
 					<div class="sidebar-category">
-						<div class="category-title">
+						<div class="category-title bg-success">
 							<span>Search</span>
 							<ul class="icons-list">
 								<li><a href="#" data-action="collapse"></a></li>
@@ -78,9 +78,10 @@
 			<!-- Sidebars overview -->
 			<div class="panel panel-flat">
 				<span class="col-md-12">
-					<div class="panel-heading heading-divided col-md-4 border-right center-block text-center" style="border-color: #DDDDDD !important;"><center>
+					<div class="panel-heading heading-divided col-md-4 border-right center-block text-center bg-success no-border-radius" style="border-color: #DDDDDD !important; margin-left: -10px;"><center>
 						<span class="col-xs-12"><img ng-src="{{currentPatient.picture}}" class="img-responsive img-circle" alt="" style="width: 88px; height: 88px;"/></span>
-						<h5 class="panel-title text-center"><span class="col-xs-12"><i class="icon-instagram"></i> {{currentPatient.name}}</span></h5></center>
+						<h5 class="panel-title text-center"><span class="col-xs-12"><i class="icon-instagram"></i> {{currentPatient.name}}</span></h5>
+					</center>
 					</div>
 
 					<div class="content-group col-md-8 mt-15">
@@ -91,14 +92,14 @@
 							</div>
 						</div>
 					</div>
-					<div class="content-group col-md-8">
+					<div class="content-group col-md-8" style="border-bottom: 1px solid green !important;">
 						<div class="navbar navbar-default navbar-xs navbar-component">
 							<ul class="nav navbar-nav no-border visible-xs-block">
 								<li><a class="text-center collapsed" data-toggle="collapse" data-target="#navbar-filter"><i class="icon-menu7"></i></a></li>
 							</ul>
 
 							
-						<div class="navbar-collapse collapse" id="navbar-filter">
+						<div class="navbar-collapse collapse mb-5" id="navbar-filter">
 								<div class="navbar-left">
 									<p class="navbar-text">Sort by: </p>
 									<ul class="nav navbar-nav">
@@ -136,7 +137,7 @@
 							</div>
 						</div>
 
-						<div class="col-md-8 mt-20 overflow-auto" style="height: 400px">
+						<div class="col-md-8 mt-20 overflow-auto" style="height: 1024px; border-right: 1px solid green">
 							<div class="row heading-divided" style="border-color: #DDDDDD !important;" ng-repeat="timeline in timelineData | filter:timelineFilter">
 								<ng-timeline-item event-data="timeline['_source']"></ng-timeline-item>
 							</div>

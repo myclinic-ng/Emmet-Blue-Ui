@@ -26,15 +26,13 @@
 					<li class="dropdown">
 						<a href="#" class="navHref dropdown-toggle" data-toggle="dropdown"><i class="icon-sort-time-asc position-left"></i> By date <span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li class="no-padding no-margin"><input type="text" class="form-control daterange no-border-radius no-border"/></li>
+							<li class="no-padding no-margin">
+								<input type="text" class="form-control daterange no-border-radius no-border" ng-change="filterInvoices('daterange')" ng-model="dateRangeFilter"/>
+							</li>
 							<li class="divider"></li>
-							<li><a href="#"><strike>Show all</strike></a></li>
-							<li class="divider"></li>
-							<li class="no-padding no-margin"><a href="#">Today</a></li>
-							<li class="no-padding no-margin"><a href="#">Yesterday</a></li>
-							<li class="no-padding no-margin"><a href="#">This week</a></li>
-							<li class="no-padding no-margin"><a href="#">This month</a></li>
-							<li class="no-padding no-margin"><a href="#">This year</a></li>
+							<li class="no-padding no-margin"><a href="#" ng-click="filterInvoices('today')">Today</a></li>
+							<li class="no-padding no-margin"><a href="#" ng-click="filterInvoices('yesterday')">Yesterday</a></li>
+							<li class="no-padding no-margin"><a href="#" ng-click="filterInvoices('week')">This week</a></li>
 						</ul>
 					</li>
 
@@ -63,7 +61,7 @@
 	<div class="col-md-12">
 		<!-- Invoice grid -->
 		<div class="text-center content-group text-muted content-divider text-info">
-			<span class="pt-10 pb-10 text-black">Today</span>
+			<span class="pt-10 pb-10 text-black">{{filter.label}}</span>
 		</div>
 
 		<div class="col-md-12 no-margin">

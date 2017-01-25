@@ -22,16 +22,16 @@
 							<div class="col-md-4">
 								<span class="menu-heading underlined">Outwards Journals</span>
 								<ul class="menu-list">
-									<li><a href="form_components.html">Write Check</a></li>
-									<li><a href="form_components.html">View and Edit Checks</a></li>
-									<li><a href="form_components.html">Bank Deposits</a></li>
-									<li><a href="form_components.html">Pay Bills</a></li>
+									<li><a href="#">Write Check</a></li>
+									<li><a href="#">View and Edit Checks</a></li>
+									<li><a href="#">Bank Deposits</a></li>
+									<li><a href="#">Pay Bills</a></li>
 								</ul>
 							</div>
 							<div class="col-md-4">
 								<span class="menu-heading underlined">Inwards Journals</span>
 								<ul class="menu-list">
-									<li><a href="form_components.html">Receive Money</a></li>
+									<li><a href="#">Receive Money</a></li>
 								</ul>
 							</div>
 							<div class="col-md-4">
@@ -39,7 +39,7 @@
 								<ul class="menu-list">
 									<li><a href="#" data-toggle="modal" data-target="#newGeneralJournal">New General Journal Entry</a></li>
 									<li><a href="accounts/main/view-general-journal">View General Journal</a></li>
-									<li><a href="form_components.html">Adjust General Journal Entries</a></li>
+									<li><a href="#">Adjust General Journal Entries</a></li>
 								</ul>
 							</div>
 						</div>
@@ -47,7 +47,7 @@
 				</div>
 			</li>
 
-			<li><a href="accounts/main/dashboard"><i class=""></i> Account Register/General Ledger</a></li>
+			<li><a href="#"><i class=""></i> Account Register/General Ledger</a></li>
 
 			<li class="dropdown mega-menu mega-menu">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -63,24 +63,23 @@
 								<span class="menu-heading underlined">Payment Requests</span>
 								<ul class="menu-list">
 									<li><a href="accounts/main/account-payment-request">Load Payment Request Workspace</a></li>
+									<li><a href="#">Verify Payment</a></li>
 								</ul>
 							</div>
 							<div class="col-md-3">
-								<span class="menu-heading underlined">Invoices</span>
+								<span class="menu-heading underlined">Invoices &amp; Payments</span>
 								<ul class="menu-list">
 									<li><a href="#" data-toggle="modal" data-target="#generate_new_billing">New Invoice</a></li>
-									<li><a href="components_modals.html">View Invoices Log</a></li>
-									<li><a href="components_modals.html">View Processed/Closed Invoices</a></li>
-									<li><a href="components_modals.html">View Unprocessed/Open Invoices</a></li>
+									<li><a href="#" data-toggle="modal" data-target="#accept_new_payment" class="reload_invoices">New Payment</a></li>
+									<li><a href="#">Invoice Archives</a></li>
+									<li><a href="#">Receipts Archives</a></li>
 								</ul>
 							</div>
 							<div class="col-md-3">
-								<span class="menu-heading underlined">Payments</span>
+								<span class="menu-heading underlined">Patient Deposit Accounts</span>
 								<ul class="menu-list">
-									<li><a href="#" data-toggle="modal" data-target="#accept_new_payment" class="reload_invoices">New Payment</a></li>
-									<li><a href="sidebar_mini_collapse.html">View Payment Logs</a></li>
-									<li><a href="sidebar_dual.html">View Receipts</a></li>
-									<li><a href="sidebar_double_collapse.html">Receipts Archives</a></li>
+									<li><a href="#" data-toggle="modal" data-target="#deposits_account">Load Deposit Account</a></li>
+									<li><a href="#">Open Deposit Workspace</a></li>
 								</ul>
 							</div>
 							<div class="col-md-3">
@@ -109,7 +108,7 @@
 								<ul class="menu-list">
 									<li><a href="accounts/main/account-types">Manage Account Types</a></li>
 									<li><a href="accounts/main/accounts">Manage Accounts</a></li>
-									<li><a href="form_select2.html">Account Running Balances</a></li>
+									<li><a href="#">Account Running Balances</a></li>
 								</ul>
 							</div>
 							<div class="col-md-6">
@@ -157,3 +156,4 @@
 
 <ng-include src="'plugins/accounts/billing/assets/includes/new-billing.html'"></ng-include>
 <ng-include src="'plugins/accounts/billing/assets/includes/new-payment.html'"></ng-include>
+<ng-include src="'plugins/accounts/billing/assets/includes/deposits-account.html'"></ng-include>

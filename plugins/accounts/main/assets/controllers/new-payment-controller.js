@@ -68,36 +68,41 @@ angular.module("EmmetBlue")
 		$("#payment_receipt").modal("show");
 	}
 
-	$scope.loadInvoice = function(){
+	$scope.loadInvoices = function(){
 		var id = $("#newPayment-metaId").val();
 		utils.serverRequest("/accounts-biller/transaction-meta/view-by-number?resourceId="+id, "GET")
 		.then(function(response){
 			if (typeof response != "undefined"){
 				response = response[0];
-				for (var i = 0; i < response.BillingTransactionItems.length; i++){
-					response.BillingTransactionItems[i].itemName = response.BillingTransactionItems[i].BillingTransactionItemName;
-					response.BillingTransactionItems[i].itemPrice = response.BillingTransactionItems[i].BillingTransactionItemPrice;
-					response.BillingTransactionItems[i].itemQuantity = response.BillingTransactionItems[i].BillingTransactionItemQuantity;
-				}
+				var items = [];
+				console.log(response);
+				// for (var i = 0; i < response.BillingTransactionItems.length; i++){
+				// 	response.BillingTransactionItems[i].itemName = response.BillingTransactionItems[i].BillingTransactionItemName;
+				// 	response.BillingTransactionItems[i].itemPrice = response.BillingTransactionItems[i].BillingTransactionItemPrice;
+				// 	response.BillingTransactionItems[i].itemQuantity = response.BillingTransactionItems[i].BillingTransactionItemQuantity;
+				// 	items.push[response.BillingTransactionItems[i].BillingTransactionItem];
+				// }
 
-				$scope.invoiceData = {
-					type:response.BillingType,
-					number: response.BillingTransactionNumber,
-					createdBy: response.CreatedByUUID,
-					status: response.BillingTransactionStatus,
-					amount: response.BilledAmountTotal,
-					patient: response.PatientID,
-					totalAmount: response.BilledAmountTotal,
-					items: response.BillingTransactionItems
-				};
+				console.log(items);
 
-				utils.serverRequest("/accounts-biller/get-item-price/apply-payment-rule?resourceId="+response.PatientID+"&amount="+response.BilledAmountTotal, "GET")
-				.then(function(response){
-					$scope.newPayment.amountPaid = response.amount;
-					$scope.invoiceData.amount = response.amount;
-				});
+				// $scope.invoiceData = {
+				// 	type:response.BillingType,
+				// 	number: response.BillingTransactionNumber,
+				// 	createdBy: response.CreatedByUUID,
+				// 	status: response.BillingTransactionStatus,
+				// 	amount: response.BilledAmountTotal,
+				// 	patient: response.PatientID,
+				// 	totalAmount: response.BilledAmountTotal,
+				// 	items: response.BillingTransactionItems
+				// };
 
-				$scope.newPayment.metaId = response.BillingTransactionMetaID;
+				// utils.serverRequest("/accounts-biller/get-item-price/apply-payment-rule?resourceId="+response.PatientID+"&amount="+response.BilledAmountTotal, "GET")
+				// .then(function(response){
+				// 	$scope.newPayment.amountPaid = response.amount;
+				// 	$scope.invoiceData.amount = response.amount;
+				// });
+
+				// $scope.newPayment.metaId = response.BillingTransactionMetaID;
 			}
 		}, function(error){
 			utils.errorHandler(error);

@@ -1,0 +1,101 @@
+<div class="modal fade" id="verificationRequestInfo">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header bg-warning">
+				<h6 class="modal-title">Verification Request Information</h6>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-4">
+						<a href="{{loadImage(currentRequest.PatientInformation.patientidentificationdocument)}}" data-popup="lightbox">
+							<img class="img img-responsive" ng-src="{{loadImage(currentRequest.PatientInformation.patientpicture)}}" alt="No picture has been uploaded, continue working with this profile at your discretion"/>
+						</a>
+					</div>
+					<div class="col-md-8">
+						<h1 class="text-bold text-uppercase" style="margin-top: -8px; ">{{currentRequest.PatientInformation.patientfullname}}</h1>
+						<p class="text-thin text-uppercase">{{currentRequest.PatientInformation.patientuuid}}</p>
+						<h1 class="text-size-large text-light text-muted">{{currentRequest.PatientInformation.patienttypename}}, {{currentRequest.PatientInformation.categoryname}}</h1>
+					</div>
+					<div class="clear"></div>
+					<div class=" col-md-12 mt-15">
+						<h6 class="text-center"><u>Request Items</u></h6>
+					</div>
+					<div class="col-md-12">
+						<div class="content-group" ng-repeat="request in currentRequest.SaleRequest">
+							<label class="control-label"><span class='text-bold'>{{$index + 1}}.</span> {{request.item}}</label>
+							<p class="text-bold pl-10">{{request.duration}}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="pull-right btn btn-success btn-labeled" ng-click="signRequest()"><b><i class="icon-arrow-right5"></i></b> Process this request</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="verificationRequestInfoSigning">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header bg-warning">
+				<h6 class="modal-title">Verification Request</h6>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-8">
+						<div class="col-md-4">
+							<a href="{{loadImage(currentRequest.PatientInformation.patientidentificationdocument)}}" data-popup="lightbox">
+								<img class="img img-responsive" ng-src="{{loadImage(currentRequest.PatientInformation.patientpicture)}}" alt="No picture has been uploaded, continue working with this profile at your discretion"/>
+							</a>
+						</div>
+						<div class="col-md-8">
+							<h1 class="text-bold text-uppercase" style="margin-top: -8px; ">{{currentRequest.PatientInformation.patientfullname}}</h1>
+							<p class="text-thin text-uppercase">{{currentRequest.PatientInformation.patientuuid}}</p>
+							<h1 class="text-size-large text-light text-muted">{{currentRequest.PatientInformation.patienttypename}}, {{currentRequest.PatientInformation.categoryname}}</h1>
+						</div>
+						<div class="clear"></div>
+						<div class=" col-md-12 mt-15">
+							<h6 class="text-center"><u>Request Items</u></h6>
+						</div>
+						<div class="col-md-12">
+							<div class="content-group" ng-repeat="request in currentRequest.SaleRequest">
+								<label class="control-label"><span class='text-bold'>{{$index + 1}}.</span> {{request.item}}</label>
+								<p class="text-bold pl-10">{{request.duration}}</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4" style="border-left: 1px solid #4CAF50;">
+						<div class="content-group">
+							<label class="control-label text-semibold">Proceed Status</label>
+							<div class="radio">
+								<label>
+									<input type="radio" name="signedRequestProceedStatus" ng-model="$parent.signedRequest.proceedStatus" value="1">
+									Approve Request
+								</label>
+							</div>
+
+							<div class="radio">
+								<label>
+									<input type="radio" name="signedRequestProceedStatus" ng-model="$parent.signedRequest.proceedStatus" value="0">
+									Decline Request
+								</label>
+							</div>
+						</div>
+						<div class="content-group">
+							<label class="control-label">Detailed Comment</label>
+							<textarea class="form-control" ng-model="signedRequest.signComment" style="height: 200px;" placeholder="Enter things like sort codes here, HMO Confirmation code or any other information that might be useful during report generation, billing or auditing for this patient"></textarea>
+						</div>
+						<div class="content-group">
+							<label class="control-label">Confirmation Note (optional)</label>
+							<textarea class="form-control" ng-model="signedRequest.status" placeholder="This is what is shown to the request referrer when verifying this request"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="pull-right btn btn-success btn-labeled" ng-click="completeRequestVerification()"><b><i class="icon-user-check"></i></b> Complete Request Verification</button>
+			</div>
+		</div>
+	</div>
+</div>

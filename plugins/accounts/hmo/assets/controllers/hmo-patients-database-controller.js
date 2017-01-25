@@ -81,7 +81,7 @@ angular.module("EmmetBlue")
 
 				req.then(function(response){
 					if (typeof response[0] == 'undefined'){
-						utils.alert("HMO Profile Not Found", "Seems like this patient has not been registered into the HMO Database", "error");
+						utils.notify("HMO Profile Not Found", "Seems like this patient has not been registered into the HMO Database", "error");
 					}
 					else {
 						$scope.currentHmoProfile = {

@@ -1,5 +1,5 @@
 angular.module("EmmetBlue")
-.controller("accountPaymentRequestController", function($scope, utils, patientEventLogger){
+.controller("hmoTransactionsController", function($scope, utils, patientEventLogger){
 	$scope.copyToClipboard = function(text) {
 	    if (window.clipboardData && window.clipboardData.setData) {
 	        // IE specific code path to prevent textarea being shown while dialog is visible.
@@ -25,71 +25,14 @@ angular.module("EmmetBlue")
 
 	$scope.requestFilter = {
 		type: 'status',
-		description: 'Open Unfulfilled Requests',
-		value: 0
+		description: 'All Transactions',
+		value: 1
 	}
 
 	$("option[status='disabled']").attr("disabled", "disabled");
 
 	var functions = {
 		actionsMarkUp: function(meta, full, data){
-			var deleteButtonAction = "functions.managePaymentRequest.deletePaymentRequest("+data.PaymentRequestID+")";
-			var makePaymentButtonAction = "functions.managePaymentRequest.requestPaymentBill("+data.PaymentRequestID+")";
-			var viewButtonAction = "functions.managePaymentRequest.viewPaymentBill("+data.PaymentRequestID+")";
-			
-			var options = 
-				" data-option-id='"+data.PaymentRequestID+
-				"' data-option-payment-request-uuid='"+data.PaymentRequestUUID+
-				"' data-option-patient-uuid='"+data.PatientUUID+
-				"' data-option-patient-id='"+data.RequestPatientID+
-				"' data-option-patient-fullname='"+data.PatientFullName+
-				"' data-option-patient-type='"+data.PatientType+
-				"' data-option-staff-id='"+data.RequestBy+
-				"' data-option-request-date='"+data.RequestDate+
-				"' data-option-fulfillment-status='"+data.RequestFulfillmentStatus+
-				"' data-option-fulfilled-date='"+data.RequestFulFilledDate+
-				"' data-option-fulfilled-by='"+data.RequestFulfilledBy+
-				"' data-option-department-name='"+data.GroupName+
-				"' data-option-sub-dept-name='"+data.Name+
-				"' data-option-patient-category-name='"+data.PatientCategoryName+
-				"' data-option-patient-type-name='"+data.PatientTypeName+
-				"' ";
-			var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+options+"><i class='icon-bin'></i> </button>";
-			var makePaymentButton = "<button class='btn btn-default' ng-click=\""+makePaymentButtonAction+"\" "+options+">Process Request</button>"
-			var buttons = "<div class='btn-group'>"+makePaymentButton+deleteButton+"</button>";
-
-			var viewButton = "<button type='button' class='btn btn-payment-request bg-danger-400  bg-white btn-danger btn-labeled btn-xs' ng-click=\""+viewButtonAction+"\" "+options+"><b><i class='icon-menu7'></i></b> View Request</button>";
-
-			if (data.RequestFulfillmentStatus == 1){
-				var viewButton = "<button type='button' class='btn btn-payment-request bg-success-400 bg-white btn-success btn-labeled btn-xs' ng-click=\""+viewButtonAction+"\" "+options+"><b><i class='icon-menu7'></i></b> Open Request</button>";
-			}
-
-			if (data.RequestFulfillmentStatus == -1){
-				var viewButton = "<button type='button' class='btn btn-payment-request bg-info-400 bg-white btn-info btn-labeled btn-xs' ng-click=\""+viewButtonAction+"\" "+options+"><b><i class='icon-menu7'></i></b> Open Request</button>";
-			}
-
-			var string = "<li><a href='#' class='billing-type-btn' ng-click=\""+makePaymentButtonAction+"\" "+options+"><i class='icon-pencil5'></i> Process Request</a></li>";
-
-			if (data.RequestFulfillmentStatus != 0){
-				var string = "<li><a href='#'><i class='icon-pencil5'></i> <strike>Process Request</strike></a></li>";
-			}
-
-			if (typeof data.AttachedInvoiceNumber !== "undefined"){
-				var val = "<li><a href='#' ng-click='copyToClipboard("+data.AttachedInvoiceNumber+")'><i class='icon-copy2 text-primary'></i> Copy Invoice Number</a></li>";
-
-				string += val;
-			}
-
-			var group = "<div class='btn-group'>"+
-								viewButton+
-		                    	"<button type='button' class='btn bg-teal-400 dropdown-toggle btn-xs' data-toggle='dropdown'><span class='caret'></span></button>"+
-		                    	"<ul class='dropdown-menu dropdown-menu-right'>"+
-									string+
-									"<li class='divider'></li>"+
-									"<li><a href='#' class='billing-type-btn' ng-click=\""+deleteButtonAction+"\" "+options+"><i class='icon-cross text-danger'></i> Delete Request</a></li>"+
-								"</ul>"+
-							"</div>";
-			return group;
 		},
 		managePaymentRequest:{
 			newAccountPaymentRequest: function(){
@@ -202,7 +145,7 @@ angular.module("EmmetBlue")
 	$scope.dtInstance = {};
 	$scope.dtOptions = utils.DT.optionsBuilder
 	.fromFnPromise(function(){
-		var url = '/accounts-biller/payment-request/load-all-requests?';
+		var url = '/accounts-biller/payment-request/load-all-requests?constantstatus=1&';
 		var filter = $scope.requestFilter;
 		var _filter = "";
 		if (filter.type == 'date'){
@@ -222,6 +165,9 @@ angular.module("EmmetBlue")
 			_filter += 'filtertype=staff&query='+filter.staff;
 			_filter += "&_date="+filter.date;
 
+		}
+		else if (filter.type == 'patienttype'){
+			_filter += 'filtertype=patienttype&query='+filter.value;
 		}
 
 		$scope.currentRequestsFilter = _filter;
@@ -255,13 +201,6 @@ angular.module("EmmetBlue")
 
 				$scope.retriveAnalysisForCurrentTable();
 				$("#show_analysis").modal("show");
-        	}
-        },
-        {
-        	//extend: 'new',
-        	text: '<i class="icon-qrcode"></i> <u>V</u>erify Payment Request',
-        	action: function(){
-        		functions.managePaymentRequest.verifyPaymentRequestForm();
         	}
         },
         {
@@ -315,7 +254,7 @@ angular.module("EmmetBlue")
 		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Status").renderWith(function(data, full, meta){
 			if (data.RequestFulfillmentStatus == 1){
-				var string = "<p class='no-border-radius label label-success label-lg'>Fulfilled</p>";
+				var string = "<p class='no-border-radius label label-success label-lg'>Txn. Billed</p>";
 			}
 			else if(data.RequestFulfillmentStatus == -1) {
 				var string = "<p class='label label-info label-lg'>Invoice Generated</p>";
@@ -327,7 +266,7 @@ angular.module("EmmetBlue")
 			return "<h6>"+string+"</h6>";
 		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle('').notVisible().renderWith(function(meta, full, data){ return data.PatientCategoryName+data.PatientTypeName; }),
-		utils.DT.columnBuilder.newColumn(null).withTitle('').notSortable().renderWith(functions.actionsMarkUp)
+		utils.DT.columnBuilder.newColumn("PatientTypeName").withTitle('Type')
 	];
 
 	$scope.paymentRequestBillingItems = function(paymentRequestId, acceptPayment){
@@ -454,7 +393,20 @@ angular.module("EmmetBlue")
 			utils.errorHandler(error);
 		})
 	}
+	$scope.patientTypes = {};
 
+	$scope.loadPatientTypes = function(){
+		if (typeof (utils.userSession.getID()) !== "undefined"){
+			var requestData = utils.serverRequest("/accounts-biller/department-patient-types-report-link/view-by-staff?resourceId="+utils.userSession.getID(), "GET");
+			requestData.then(function(response){
+				$scope.patientTypes = response;
+			}, function(responseObject){
+				utils.errorHandler(responseObject);
+			});
+		}
+	}
+
+	$scope.loadPatientTypes();
 	loadDepartments();
 
 	$scope.getDateRange = function(selector){
@@ -542,6 +494,14 @@ angular.module("EmmetBlue")
 				$scope.reloadTable();
 				break;
 			}
+			case "patienttype":{
+				$scope.requestFilter.type = "patienttype";
+				var value = selector.value.split("<seprator>");
+				$scope.requestFilter.value = value[1];
+				$scope.requestFilter.description = "Patient Type: '"+value[0]+"'";
+				$scope.reloadTable();
+				break;
+			}
 			default:{
 				$scope.requestFilter.type = "date";
 				var value = selector.type.split("<seprator>");
@@ -563,8 +523,8 @@ angular.module("EmmetBlue")
 
 		var filter = $scope.currentRequestsFilter;
 		var _filters = [];
-		if (typeof $scope.analysisFilters.status !== "undefined"){
-			var string = "_status="+$scope.analysisFilters.status.join(",");
+		if (typeof $scope.analysisFilters.patienttype !== "undefined"){
+			var string = "_patienttype="+$scope.analysisFilters.patienttype.join(",");
 			_filters.push(string);
 		}
 
@@ -580,7 +540,7 @@ angular.module("EmmetBlue")
 		}
 
 		filter += "&"+_filters.join("&");
-		var req = utils.serverRequest("/accounts-biller/payment-request/analyse-requests?"+filter, "GET");
+		var req = utils.serverRequest("/accounts-biller/payment-request/analyse-requests?constantstatus=1&"+filter, "GET");
 
 		req.then(function(result){
 			$scope.currentFilterAnalysis = result;

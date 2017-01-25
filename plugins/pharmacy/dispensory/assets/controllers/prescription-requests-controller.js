@@ -4,8 +4,6 @@ angular.module("EmmetBlue")
 	var actions = function (data, type, full, meta){
 		var viewButtonAction = "manage('view', "+data.RequestID+")";
 		var dispenseButtonAction = "manage('dispense', "+data.RequestID+")";
-
-		console.log(JSON.stringify);
 		
 		var dataOpt = "data-option-id='"+data.RequestID+"' data-option-request='"+JSON.stringify(data.Request)+"' data-option-patient='"+data.patientInfo.patientfullname+"' data-option-patient-id='"+data.patientInfo.patientid+"'";
 
@@ -89,6 +87,7 @@ angular.module("EmmetBlue")
 				$("#ack_modal").modal("show");
 				$scope.currentRequest.Request = $.parseJSON(request);
 				$scope.currentRequest.PatientName = patientname;
+				$scope.currentRequest.PatientID =  $(".pharmacy-ack-btn[data-option-id='"+id+"'").attr("data-option-patient-id");
 
 				// utils.serverRequest("/read-resource", "POST", {data: request}).then(function(response){
 				// 	$("#ack_modal").modal("show");
@@ -135,7 +134,7 @@ angular.module("EmmetBlue")
 
 		request.then(function(response){
 			console.log(typeof response[0].ProceedStatus != "undefined", response[0].ProceedStatus != false, response[0].ProceedStatus);
-			if (typeof response[0].ProceedStatus != "undefined" && response[0].ProceedStatus != false && response[0].ProceedStatus != null){
+			if (typeof response[0].ProceedStatus !== "undefined" && response[0].ProceedStatus != false && response[0].ProceedStatus != null){
 				utils.alert("Verification successful", "Proceed status confirmed", "success");
 			}
 			else if ( response[0].ProceedStatus == null){

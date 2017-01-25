@@ -298,7 +298,8 @@ function consultancyPatientWorkspaceController($rootScope, $scope, utils, $http)
 			{
 				var data = {
 					admissionId: $scope.admissionInfo.PatientAdmissionID,
-					dischargedBy: utils.userSession.getID()
+					dischargedBy: utils.userSession.getID(),
+					staff: utils.userSession.getUUID()
 				};
 
 				var req = utils.serverRequest("/consultancy/patient-admission/discharge", "POST", data);

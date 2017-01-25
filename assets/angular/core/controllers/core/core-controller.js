@@ -56,6 +56,7 @@ angular.module("EmmetBlue")
 
 			req.then(function(response){
 				$scope.currentStaffDepartmentInfo = response[0];
+				utils.storage.currentStaffDepartmentID = response[0].DepartmentID;
 			}, function(error){
 				utils.errorHandler(error);
 			})

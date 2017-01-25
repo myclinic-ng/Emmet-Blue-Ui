@@ -55,7 +55,7 @@ var recordsPatientManageRepositoryController = function($scope, utils, $http){
 		formData.append("creator", utils.userSession.getID());
 		formData.append("repository", $scope.currentRepository);
 
-		var res = utils.serverUpload("http://192.168.173.1:700/v1/patients/repository-item/new", "POST", formData);
+		var res = utils.serverUpload(utils.restServer+"/patients/repository-item/new", "POST", formData);
 
 		res.then(function(response){
 			$scope.document = {};

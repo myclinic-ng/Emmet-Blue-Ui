@@ -1,6 +1,8 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
 <script type="text/javascript" src="assets/js/plugins/ui/moment/moment.min.js"></script>
 <script type="text/javascript" src="assets/js/plugins/pickers/daterangepicker.js"></script>
+<script src="assets/js/plugins/forms/tags/tagsinput.min.js"></script>
+<script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
 
 <script>
 	$('select.select').select2();
@@ -34,6 +36,7 @@
 							<option value="status">Status</option>
 							<option value="department">Department</option>
 							<option value="patient">Patient</option>
+							<option value="staff">Staff</option>
 						</optgroup>
 
 						<optgroup label="Date Ranges">
@@ -68,6 +71,14 @@
 						<span class="input-group-addon"><i class="icon-user-lock"></i></span>
 						<input type="text" class="form-control" ng-model="filterSelector.value" placeholder="Patient ID" /> 
 					</div>
+				</div>
+				<div class="form-group col-md-8" ng-show="filterSelector.type == 'staff'">
+					<label class="control-label">Enter Staff's Username Here</label>
+					<div class="input-group col-md-6">
+						<span class="input-group-addon"><i class="icon-user-lock"></i></span>
+						<input type="text" class="form-control col-md-6" ng-model="filterSelector.value" placeholder="Staff Username" /> 
+					</div>
+					<input type="text" data-role="tagsinput" class="tagsinput-typeahead col-md-6" ng-model="filterSelector.date" placeholder="Add dates to show (mm/dd/yyyy)" /> 
 				</div>
 				<div class="form-group col-md-8" ng-show="filterSelector.type == 'dateRange'">
 					<label class="control-label">Pick Date Ranges</label>
@@ -188,102 +199,100 @@
 					<button class="close btn-danger no-bg btn" data-dismiss="modal"><i class="icon-cross"></i></button>
 				</div>
 				<div class="modal-body">
-					<div class="col-md-6">
-		                <table class="table">
-							<thead class="bg-success">
-								<th colspan="2" class="text-center">
-									Request Details
-								</th>
-							</thead>
-							<tbody>
-								<tr>
-									<td>Request Number</td>
-									<td>{{temp.requestNumber}}</td>
-								</tr>
-								<tr>
-									<td>Patient ID</td>
-									<td>{{temp.patientUUID}}</td>
-								</tr>
-								<tr>
-									<td>Patient Name</td>
-									<td>{{temp.patientFullName}}</td>
-								</tr>
-								<tr>
-									<td>Patient Type</td>
-									<td>{{temp.patientCategoryName}}, {{temp.patientTypeName}}</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<div class="col-md-6">
-						<table class="table">
-							<thead class="bg-success">
-								<th colspan="2">
-									Request Status:
-									<span class='label label-danger label-lg' ng-if="temp.fulfillmentStatus == '0'">Unfulfilled</span>
-				                	<span ng-if="temp.fulfillmentStatus == '1'">
-				                		<span class='label label-success label-lg'>Fulfilled</span>
-				                		<span class="pull-right"> Date Processed: <span class="label label-info label-lg">{{temp.fulfilledDate}}</span></span>
-				                	</span>
-								</th>
-							</thead>
-							<tbody>
-								<tr>
-									<td>Requesting Staff ID</td>
-									<td>{{temp.staffUUID}}</td>
-								</tr>
-								<tr>
-									<td>Department | Unit</td>
-									<td>{{temp.deptName}} | {{temp.subDeptName}}</td>
-								</tr>
-								<tr>
-									<td>Request Date</td>
-									<td>{{temp.requestDate}}</td>
-								</tr>
-								<tr>
-									<td>Fulfilled By</td>
-									<td>{{temp.fulfilledBy}}</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<div class="col-md-12">
-						<div class="table-responsive">
-						<table class="table table-responsive table-condensed">
-							<thead class="border-solid bg-success">
-								<tr>
-									<th>S/N</th>
-									<th>Item Code</th>
-									<th>Item</th>
-									<th>Quantity</th>
-									<th>Rate</th>
-									<th>Price (<span ng-currency ng-currency-symbol="naira"></span>)</th>
-									<th>Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr ng-repeat="bills in itemsList">
-									<th>{{$index + 1}}</th>
-									<th class="text-bold">{{bills.ItemID}}</th>
-									<th>{{bills.BillingTypeItemName}}</th>
-									<th>{{bills.ItemQuantity}}</th>
-									<th>{{bills.rateIdentifier}}</th>
-									<th ng-model="itemAmount" class="text-bold">{{bills.totalPrice}}</th>
-									<th>
-										<span class="button-group">
-											<a href="#" ng-click="removeFromItemList($index, item)"><i class="icon-bin"></i> remove item</a>
-										</span>
+					<div class="row">
+						<div class="col-md-6">
+			                <table class="table">
+								<thead class="bg-success">
+									<th colspan="2" class="text-center">
+										Request Details
 									</th>
-								</tr>	
-							</tbody>
-							<tfoot>
-								<tr>
-									<th colspan="5"><span class="pull-right text-bold">Total Amount : </span></th>
-									<th class="text-bold"><span ng-currency ng-currency-symbol="naira"></span> {{itemsList.globalTotal}}</th>
-								</tr>
-							</tfoot>
-						</table>
-					</div>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="no-border">Request Number</td>
+										<td class="no-border">{{temp.requestNumber}}</td>
+									</tr>
+									<tr>
+										<td class="no-border">Patient ID</td>
+										<td class="no-border">{{temp.patientUUID}}</td>
+									</tr>
+									<tr>
+										<td class="no-border">Patient Name</td>
+										<td class="no-border">{{temp.patientFullName}}</td>
+									</tr>
+									<tr>
+										<td class="no-border">Patient Type</td>
+										<td class="no-border">{{temp.patientCategoryName}}, {{temp.patientTypeName}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="col-md-6">
+							<table class="table">
+								<thead class="bg-success">
+									<th colspan="2">
+										Request Status:
+										<span class='label label-danger label-lg' ng-if="temp.fulfillmentStatus == '0'">Unfulfilled</span>
+					                	<span ng-if="temp.fulfillmentStatus == '1'">
+					                		<span class='label label-success label-lg'>Fulfilled</span>
+					                		<span class="pull-right"> Date Processed: <span class="label label-info label-lg">{{temp.fulfilledDate}}</span></span>
+					                	</span>
+									</th>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="no-border">Requesting Staff</td>
+										<td class="no-border">{{temp.staffUUID}}</td>
+									</tr>
+									<tr>
+										<td class="no-border">Department, Unit</td>
+										<td class="no-border">{{temp.subDeptName}} <span ng-if="temp.deptName">({{temp.deptName}})</span></td>
+									</tr>
+									<tr>
+										<td class="no-border">Request Date</td>
+										<td class="no-border">{{temp.requestDate}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="col-md-12">
+							<div class="table-responsive">
+								<table class="table table-responsive table-condensed">
+									<thead class="border-solid bg-success">
+										<tr>
+											<th>S/N</th>
+											<th>Item Code</th>
+											<th>Item</th>
+											<th>Quantity</th>
+											<th>Rate</th>
+											<th>Price (<span ng-currency ng-currency-symbol="naira"></span>)</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="bills in itemsList">
+											<th>{{$index + 1}}</th>
+											<th class="text-bold">{{bills.ItemID}}</th>
+											<th>{{bills.BillingTypeItemName}}</th>
+											<th>{{bills.ItemQuantity}}</th>
+											<th>{{bills.rateIdentifier}}</th>
+											<th ng-model="itemAmount" class="text-bold">{{bills.totalPrice}}</th>
+											<th>
+												<span class="button-group">
+													<a href="#" ng-click="removeFromItemList($index, item)"><i class="icon-bin"></i> remove item</a>
+												</span>
+											</th>
+										</tr>	
+									</tbody>
+									<tfoot>
+										<tr>
+											<th colspan="5"><span class="pull-right text-bold">Total Amount : </span></th>
+											<th class="text-bold"><span ng-currency ng-currency-symbol="naira"></span> {{itemsList.globalTotal}}</th>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -297,7 +306,7 @@
 	<div id="verify_payment" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header">
+				<div class="modal-header bg-warning">
 					<div class="modal-title">Verify Payment Request</div>
 					<button class="close" data-dismiss="modal">&times;</button>
 				</div>
@@ -313,5 +322,110 @@
 				</div>
 			</div>
 		</div>
+	</div>
+
+	<div id="show_analysis" class="modal fade">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-info">
+					<div class="modal-title">Payment Request Analysis <span class="pull-right" style="font-variant: small-caps; ">{{requestFilter.type}} based filter</span></div>
+					<button class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="fieldset col-md-4">
+							<label>Add/Remove analysis filters to/from the form below</label>
+							<div class="form-group col-sm-12">
+								<label>
+								Status <span class="text-muted">(select one or more)</span></label>
+								<!-- <input type="text" data-role="tagsinput" class="tagsinput-typeahead" ng-model="body.tags"/> -->
+								<select class="select" multiple="multiple" ng-model="analysisFilters.status">
+									<option value="0" selected="selected">Unfulfilled Requests</option>
+									<option value="-1" selected="selected">Requests For Which Invoices Have Been Generated</option>
+									<option value="1">Fullfilled Requests</option>
+								</select>
+							</div>
+							<div class="form-group col-sm-12">
+								<label>
+								Dates <span class="text-muted">(mm/dd/yyyy)</span></label>
+								<input type="text" data-role="tagsinput" class="tagsinput-typeahead" ng-model="analysisFilters.date"/>
+							</div>
+							<div class="form-group col-sm-12">
+								<label>
+								Department <span class="text-muted">(select one or more)</span></label>
+								<!-- <input type="text" data-role="tagsinput" class="tagsinput-typeahead" ng-model="body.tags"/> -->
+								<select class="select" multiple="multiple" ng-model="analysisFilters.department">
+									<option ng-repeat="department in departments" value="{{department.DepartmentID}}">{{department.Name}} ({{department.GroupName}})</option>
+								</select>
+							</div>
+							<div class="form-group col-sm-12">
+								<label class="display-block text-semibold">Options</label>
+								<label class="checkbox-inline">
+									<input type="checkbox" checked="checked" ng-model="toggleBreakdown">
+									Show analysis breakdown
+								</label>
+							</div>
+							<div class="form-group col-sm-12">
+								<button class="btn btn-success no-border" ng-click="retriveAnalysisForCurrentTable()">Apply Filters</button>
+							</div>
+						</div>
+						<div class="clear"></div>
+						<div class="col-md-8" style="border-left: 1px solid #4CAF50;">
+							<div class="table-responsive col-md-12">
+								<table class="table table-bordered">
+									<thead class="bg-success">
+										<th colspan="2" class="text-center no-border"><span class="text-center">Variable</span></th>
+										<th class="no-border">Value</th>
+									</thead>
+									<tbody>
+										<tr ng-repeat="(key, value) in currentFilterAnalysis.summary">
+											<td class="no-border-top no-border-bottom">{{$index + 1}}</td>
+											<td class="no-border-top no-border-bottom">{{key}}</td>
+											<td class="no-border-top no-border-bottom" ng-if="value.value > 0">
+												<icon class="icon-circle-small text-success"></icon>
+												<span ng-currency ng-currency-symbol="naira" ng-if="value.type=='netTotal'"></span> {{value.value}}
+											</td>
+											<td class="no-border-top no-border-bottom" ng-if="value.value == 0">
+												<span ng-currency ng-currency-symbol="naira" ng-if="value.type=='netTotal'"></span> {{value.value}}
+											</td>
+											<td class="no-border-top no-border-bottom text-danger" ng-if="value.value < 0">
+												<icon class="icon-arrow-up5 text-danger"></icon>
+												<span ng-currency ng-currency-symbol="naira" ng-if="value.type=='netTotal'"></span> {{-1 * value.value}}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<div class="table-responsive col-md-12" ng-show="toggleBreakdown">
+								<table class="table table-bordered">
+									<thead class="bg-info">
+										<th colspan="2" class="text-center no-border"><span class="text-center">Net Total Breakdown</span></th>
+										<th class="no-border">Value</th>
+									</thead>
+									<tbody>
+										<tr ng-repeat="(key, value) in currentFilterAnalysis.breakdown">
+											<td class="no-border-top no-border-bottom">{{key}}</td>
+											<td class="no-border-top no-border-bottom">{{value.name}}  <span class="text-muted">(&times;{{value.qty}})</span></td>
+											<td class="no-border-top no-border-bottom"><span ng-currency ng-currency-symbol="naira"></span> {{value.value}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<div class="clear"></div>
+							<!-- <div class="col-md-12 mt-20">
+								<div class="text-center mt-20" ng-if="requestFilter.type=='patient'">
+									<button class="btn btn-labeled btn-warning" ng-click="applyPaymentRule(currentFilterAnalysis.summary['Net Total'].value)"><b><i class="icon-price-tag"></i></b> Apply Payment Rule On Net Total</button>
+									<h3 class="mt-20">
+										<span class="text-muted display-block">Total Amount Payable</span> <span ng-currency ng-currency-symbol="naira"></span> {{paymentRuleAppliedAmount}}
+									</h3>
+								</div>
+							</div> -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>		
 	</div>
 </div>

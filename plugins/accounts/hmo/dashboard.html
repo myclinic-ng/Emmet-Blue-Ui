@@ -4,28 +4,57 @@
 			<div class="sidebar-content">
 				<!-- Actions -->
 				<div class="sidebar-category">
-					<div class="category-title">
+					<div class="category-title bg-success">
 						<span>Actions</span>
 						<ul class="icons-list">
-							<li><a href="#" data-action="collapse"></a></li>
+							<li><i class="icon-meter-slow"></i></li>
 						</ul>
 					</div>
 
 					<div class="category-content">
 						<div class="row row-condensed">
 							<div class="col-xs-6">
-								<a href="#" type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('view-database')"><i class="icon-users4"></i> <span>View Patients</span></a>
-								<a href="#" type="button" class="btn bg-teal-400 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('new-patient')"><i class="icon-file-plus"></i> <span>New Registration</span></a>
+								<a href="#" type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('view-database', 'View Patient Database')"><i class="icon-users4"></i> <span>View Patients</span></a>
+								<a href="#" type="button" class="btn bg-teal-400 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('new-patient', 'New Patient Registration')"><i class="icon-file-plus"></i> <span>New Registration</span></a>
 							</div>
 							
 							<div class="col-xs-6">
-								<a type="button" class="btn bg-warning-400 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('verify-identity')"><i class="icon-user-block"></i> <span>Verification Requests</span></a>
-								<a href="#" type="button" class="btn bg-blue-300 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('update-database')"><i class="icon-bed2"></i> <span>Current In-Patients</span></a>
+								<a type="button" class="btn bg-warning-400 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('verify-identity', 'Unprocessed Verification Requests')"><i class="icon-shield-notice"></i> <span>Verification Requests</span></a>
+								<a href="#" type="button" class="btn bg-blue-300 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('load-documents', 'Current In Patients')"><i class="icon-archive"></i> <span>HMO Documents</span></a>
 							</div>
 						</div>
 					</div>
 				</div>
 				<!-- /actions -->
+				<div class="sidebar-category">
+					<div class="category-title">
+						<span>Current Out-Patients</span>
+						<ul class="icons-list" style="margin-top: -20px;">
+							<li ng-click="loadUnlockedPatients()" class="btn btn-link"><i class="icon-spinner11 sp"></i></li>
+						</ul>
+					</div>
+
+					<div class="category-content no-padding">
+						<ul class="navigation navigation-alt navigation-accordion">
+							<li class="navigation-header">
+								Last Updated <span class="label label-primary pl-15 pr-15 no-border-radius">{{lastRefreshTime}}</span>
+							</li>
+							<li ng-repeat="patient in unlockedPatients" class="media pl-15 pb-15">
+								<div class="media-left media-middle">
+									<a href="#">
+										<img src="{{loadImage(patient.PatientPicture)}}" class="img-circle" alt="profile image">
+									</a>
+								</div>
+
+								<div class="media-body">
+									<div class="media-heading text-semibold">{{patient.PatientFullName}}</div>
+									<span class="text-muted display-block">{{patient.PatientUUID}}</span>
+									<span class="pull-left">{{patient.PatientTypeName}}</span>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -33,6 +62,12 @@
 		<div class="panel panel-success">
 			<div class="panel-heading">
 				<h6 class="panel-title">HMO Patient Information Database</h6>
+				<div class="heading-elements">
+					<ul class="icons-list">
+	            		<li><span class=""><i class="icon-location4 text-info"></i></span> {{pageTitle}}</li></li>
+	            	</ul>
+					<h6></h6>
+				</div>
 			</div>
 			<div class="panel-body">
 				<ng-include src="pageSegment"></ng-include>

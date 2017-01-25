@@ -1,0 +1,102 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+<div ng-controller="accountsHMOPatientsDocumentController">
+	<div class="table-responsive">
+		<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover"></table>
+	</div>
+
+	<div class="modal fade" id="uploadNew">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-info">
+					<h6 class="modal-title">Upload a new HMO document</h6>
+				</div>
+				<div class="modal-body">
+					<div class="row" style="border-top: 1px solid #F5F5F5; border-right: 1px solid #F5F5F5">
+						<div class="col-md-12 mt-15">
+							<p class="text-info text-center">Upload new documents to this repository</p>
+							<div class="content-group">
+								<label class="control-label">Document Title</label>
+								<input class="form-control" ng-model="document.documentTitle"/>
+							</div>
+							<div class="content-group">
+								<label class="control-label">Document Category</label>
+								<select class="select" ng-model="document.documentCategory">
+									<option value="image">Picture (.jpg or .png extension)</option>
+									<option value="pdf">PDF Document (.pdf extension)</option>
+									<option value="text">Text Document (.txt extension)</option>
+								</select>
+							</div>
+							<div class="content-group">
+								<label class="control-label">Document Description</label>
+								<textarea class="form-control" ng-model="document.documentDescription"></textarea>
+							</div>
+							<div class="content-group">
+								<label class="control-label">Documents</label>
+								<input type="file" file-model="document.documents"/>
+							</div>
+							<div class="content-group">
+								<button class="pull-right btn btn-info" ng-click="uploadDocs()">Upload Documents</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade no-margin no-padding" id="view-image-document" style="width: 100%;  height: 100vh;">
+		<div class="modal-full modal-lg no-margin no-padding" style="width: 100%;  height: 100vh;">
+			<div class="modal-content">
+				<div class="modal-header bg-success">
+					<h6 class="modal-title">
+						Rendered Image Document
+						<span class="pl-10"><i class="icon-info22 text-info"></i> TIP: Click on the image to rotate it by 90°</span>
+					</h6>
+					<button class="close" ng-click="closeModal()"><i class='icon-cross'></i> close</button>
+				</div>
+				<div class="modal-body no-margin no-padding" id="currentRepositoryImage" ng-click="rotate('currentRepositoryImage')" style="height: 100vh !important;">
+					<img ng-src="{{currentRepositoryImage}}" class="img img-responsive no-margin" style="width: 100%;"/>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade no-margin no-padding" id="view-object-document" style="width: 100%;  height: 100vh;">
+		<div class="modal-full modal-lg no-margin no-padding" style="width: 100%;  height: 100vh;">
+			<div class="modal-content" style="background-color: {{currentRepositoryObject.background}};">
+				<div class="modal-header bg-success">
+					<h6 class="modal-title">Rendered PDF/Epub Document</h6>
+					<button type="button" class="close" ng-click="closeModal()"><i class='icon-cross'></i> close</button>
+				</div>
+				<div class="modal-body no-margin no-padding" id="currentObjectFile" style="height: 100vh !important;">
+					 <object data="{{currentRepositoryObject.url}}" type="{{currentRepositoryObject.type}}" width="100%" height="{{viewPort.height}}">
+				        Unable to display document using buit-in viewer: <a href="{{currentRepositoryObject.url}}">{{currentRepositoryObject.alt}}</a>
+				    </object>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="view-json-document">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-success">
+					<h6 class="modal-title">Rendered Text Document</h6>
+					<button type="button" class="close" ng-click="closeModal()"><i class='icon-cross'></i> close</button>
+				</div>
+				<div class="modal-body" id="currentJsonFile">
+					<div class="row" ng-repeat="(key, value) in currentJsonFile">
+						<div class="content-group col-md-12">
+							<div class="col-md-12 text-bold"><h6 class="text-success text-center" style="text-transform: uppercase; text-orientation: all; text-decoration: underline;">{{key}}</h6></div>
+						</div>
+						<div class="content-group col-md-12" ng-repeat="(itemKey, itemValue) in value">
+							<div class="col-md-3 text-bold">{{itemKey}}</div>
+							<div class="col-md-9">{{itemValue}}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

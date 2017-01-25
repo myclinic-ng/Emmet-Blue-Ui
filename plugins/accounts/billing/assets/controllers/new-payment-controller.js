@@ -5,6 +5,10 @@ angular.module("EmmetBlue")
 	$scope.newPayment = {};
 	$scope.invoiceData = {};
 
+	$scope.clearInvoiceStorage = function(){
+		delete utils.storage.currentInvoiceNumber;
+	}
+
 	$scope.$watch(function(){
 		return utils.storage.currentInvoiceNumber;
 	}, function(nv){
@@ -56,10 +60,12 @@ angular.module("EmmetBlue")
 		var newPayment = $scope.newPayment;
 		$scope.receiptData = newPayment;
 		$scope.receiptData.invoiceData = $scope.invoiceData;
+		newPayment.staff = utils.userSession.getID();
 		var request = utils.serverRequest("/accounts-biller/transaction/new", "POST", newPayment);
 		request.then(function(response){
 			$('.loader').removeClass('show');
 			$scope.newPayment = {};
+			$scope.clearInvoiceStorage();
 			$scope.showReceipt();
 		}, function(responseObject){
 			$('.loader').removeClass('show');
@@ -67,21 +73,52 @@ angular.module("EmmetBlue")
 		})
 	}
 
+	$scope.processPayment = function(){
+		if ($scope.newPayment.billFromDepositAccount){
+			var data = {
+				patient: $scope.invoiceData.patient,
+				staff: utils.userSession.getID(),
+				amount: -1 * $scope.newPayment.amountPaid,
+				comment: "Tx. Invoice #: "+$scope.invoiceData.number
+			}
+
+			var req = utils.serverRequest("/accounts-biller/deposit-account/new-transaction", "POST", data);
+
+			req.then(function(response){
+				if (response){
+					$scope.saveTransaction();
+				}
+				else {
+					utils.notify("Unable to complete transaction", "This is usally due to insufficient balance in the deposit account", "error");
+				}
+			})
+		}
+		else {
+			$scope.saveTransaction();
+		}
+	}
+
 	$scope.showReceipt = function(){
+		$scope.invoiceData = {};
+		$("#accept_new_payment").modal("hide");
 		$("#payment_receipt").modal("show");
 	}
 
 	$scope.loadInvoice = function(){
-		if ($("#newPayment-metaId").val() !== "undefined"){
+		if ($("#newPayment-metaId").val() !== "undefined" && $("#newPayment-metaId").val() !== ""){
 			var id = $("#newPayment-metaId").val();
 			utils.serverRequest("/accounts-biller/transaction-meta/view-by-number?resourceId="+id, "GET")
 			.then(function(response){
 				if (typeof response[0] !== "undefined"){
 					response = response[0];
+					var items = [];
+					var amounts = {};
 					for (var i = 0; i < response.BillingTransactionItems.length; i++){
 						response.BillingTransactionItems[i].itemName = response.BillingTransactionItems[i].BillingTransactionItemName;
 						response.BillingTransactionItems[i].itemPrice = response.BillingTransactionItems[i].BillingTransactionItemPrice;
 						response.BillingTransactionItems[i].itemQuantity = response.BillingTransactionItems[i].BillingTransactionItemQuantity;
+						items.push(response.BillingTransactionItems[i].BillingTransactionItem);
+						amounts[response.BillingTransactionItems[i].BillingTransactionItem] = response.BillingTransactionItems[i].BillingTransactionItemPrice;
 					}
 
 					$scope.invoiceData = {
@@ -92,14 +129,35 @@ angular.module("EmmetBlue")
 						amount: response.BilledAmountTotal,
 						patient: response.PatientID,
 						totalAmount: response.BilledAmountTotal,
-						items: response.BillingTransactionItems
+						items: response.BillingTransactionItems,
+						paid: response._meta.status,
+						amountPaid: response.BillingAmountPaid
 					};
 
-					utils.serverRequest("/accounts-biller/get-item-price/apply-payment-rule?resourceId="+response.PatientID+"&amount="+response.BilledAmountTotal, "GET")
+					var paymentRuleData = {
+						resourceId: response.PatientID,
+						amounts: amounts,
+						items: items
+					};
+
+					utils.serverRequest("/accounts-biller/get-item-price/apply-payment-rule", "POST", paymentRuleData)
 					.then(function(response){
-						$scope.newPayment.amountPaid = response.amount;
-						$scope.invoiceData.amount = response.amount;
+						$scope.newPayment.amountPaid = response._meta.amount;
+						$scope.invoiceData.amount = response._meta.amount;
 					});
+
+					utils.serverRequest('/accounts-biller/deposit-account/view-account-info?resourceId='+response.PatientID, "GET")
+					.then(function(response){
+						if (typeof response.AccountID !== "undefined"){
+							$scope.invoiceData.depositAccount = response;
+						}
+						else {
+							$scope.invoiceData.depositAccount = {
+								AccountID: "N/A",
+								AccountBalance: -1
+							}
+						}
+					})
 
 					$scope.newPayment.metaId = response.BillingTransactionMetaID;
 				}
