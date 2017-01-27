@@ -5,9 +5,13 @@
 				<h6 class="text-semibold no-margin-top">{{invoice.invoicePatientName}}</h6>
 				<ul class="list list-unstyled">
 					<li>Invoice #: &nbsp;{{invoice.invoiceNumber}}</li>
-					<li>
+					<li ng-if="!invoice.paid">
 						Status: &nbsp;
-						<a href="#" class="label label-info dropdown-toggle" data-toggle="dropdown">{{invoice.invoiceStatus}} </a>
+						<span class="label label-danger">UNPAID </span>
+					</li>
+					<li ng-if="invoice.paid">
+						Status: &nbsp;
+						<span class="label label-success">PAID </span>
 					</li>
 				</ul>
 			</div>
@@ -15,8 +19,7 @@
 			<div class="col-sm-6">
 				<h6 class="text-semibold text-right no-margin-top"><span ng-currency-symbol ng-currency="naira"></span> {{invoice.invoiceAmount}}</h6>
 				<ul class="list list-unstyled text-right">
-					<li>Patient type: <span class="text-semibold">NHIS</span></li>
-					
+					<li>Amount Paid: <span class="text-semibold"><span ng-currency-symbol ng-currency="naira"></span> {{invoice.invoiceAmountPaid}}</span></li>
 				</ul>
 			</div>
 		</div>
@@ -25,10 +28,11 @@
 	<div class="panel-footer">
 		<ul>
 			<li><span class="status-mark border-success position-left"></span> Issued on: <span class="text-semibold">{{invoice.invoiceDate}}</span></li>
+			<li><span class="label label-info">{{invoice.invoiceStatus}} </span></li>
 		</ul>
 
 		<ul class="pull-right">
-			<li><a href="#" data-toggle="modal" data-target="#invoice"><i class="icon-eye8"></i></a></li>
+			<li><a class="btn btn-link" href="#" data-toggle="modal" data-target="#view-invoice-{{invoice.invoiceNumber}}"><i class="icon-file-eye"></i> view invoice</a></li>
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i> <span class="caret"></span></a>
 				<ul class="dropdown-menu dropdown-menu-right">
@@ -40,5 +44,27 @@
 				</ul>
 			</li>
 		</ul>
+	</div>
+</div>
+
+<div class="modal fade" id="view-invoice-{{invoice.invoiceNumber}}">
+	<div class="modal-dialog modal-full">
+		<div class="modal-content">
+			<div class="modal-header bg-warning">
+				<h6 class="modal-title">Invoice</h6>
+				<button class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-5 overflow-auto" style="border-right: 1px solid green; height: 550px;">
+						<ng-invoice invoice-data="invoiceData"></ng-invoice>
+					</div>
+					<div class="col-md-7 overflow-auto" style="height: 550px">
+						<h6 class="text-center"><u>Associated Payment Request</u></h6>
+						<ng-preview-invoice preview-invoice-data="temp"></ng-preview-invoice>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

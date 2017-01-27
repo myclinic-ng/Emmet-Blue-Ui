@@ -107,25 +107,9 @@ angular.module("EmmetBlue")
 				$('#verify_payment').modal('show');
 			},
 			requestPaymentBill: function(id){
-				$scope.temp = {
-					requestId:id,
-					requestNumber:$(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-payment-request-uuid"),
-					staffUUID: $(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-staff-id"),
-					patientUUID: $(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-patient-uuid"),
-					patientID:$(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-patient-id"),
-					patientFullName: $(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-patient-fullname"),
-					patientType: $(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-patient-type"),
-					patientCategoryName: $(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-patient-category-name"),
-					patientTypeName: $(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-patient-type-name"),
-					requestDate: (new Date($(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-request-date"))).toDateString(),
-					fulfillmentStatus: $(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-fulfillment-status"),
-					fulfilledDate: (new Date($(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-fulfilled-date"))).toDateString(),
-					fulfilledBy: $(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-fulfilled-by"),
-					deptName: $(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-department-name"),
-					subDeptName: $(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-sub-dept-name")
-				};
+				functions.managePaymentRequest.viewPaymentBill(id);
 				$scope.paymentRequestBillingItems(id);
-				$('#request_payment_bill').modal('show');
+				$('#request_payment_bill').modal('hide');
 			},
 			viewPaymentBill: function(id){
 				$scope.temp = {
@@ -145,8 +129,7 @@ angular.module("EmmetBlue")
 					deptName: $(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-department-name"),
 					subDeptName: $(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-sub-dept-name")
 				};
-
-				$scope.paymentRequestBillingItems(id, false);
+				
 				$('#request_payment_bill').modal('show');
 			},
 			makePayment: function(edits){

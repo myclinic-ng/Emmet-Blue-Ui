@@ -7,7 +7,7 @@ angular.module("EmmetBlue")
 		var viewButtonAction = "manageDoc('view', '"+data.DocumentCategory+"', '"+data.DocumentNumber+"')";
 		var deleteButtonAction = "manageDoc('delete', '"+data.DocumentCategory+"', '"+data.DocumentNumber+"')";
 
-		var dataOpt = "data-option-id='"+data.DocumentNumber+"' data-option-loc='"+data.DocLoc+"'";
+		var dataOpt = "data-option-id='"+data.DocumentNumber+"' data-option-loc='"+data.DocLoc+"' data-option-name='"+data.DocumentName+"'";
 
 		var viewButton = "<button class='btn btn-info bg-white btn-labeled btn-hmo-doc btn-xs' ng-click=\""+viewButtonAction+"\" "+dataOpt+"><b><i class='icon-file-eye'></i></b> View</button>";
 		var deleteButton = "<button class='btn btn-default btn-hmo-doc' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> <i class='fa fa-trash'></i> Delete</button>";
@@ -71,6 +71,7 @@ angular.module("EmmetBlue")
 		switch(manageGroup.toLowerCase()){
 			case "view":{
 				var loc = $(".btn-hmo-doc[data-option-id='"+number+"']").attr("data-option-loc");
+				$scope.currentDocumentTitle = $(".btn-hmo-doc[data-option-id='"+number+"']").attr("data-option-name");
 				if(type == "image"){
 					$scope.enlargeImage(loc);
 				}
