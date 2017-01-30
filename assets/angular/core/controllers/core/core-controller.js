@@ -38,6 +38,8 @@ angular.module("EmmetBlue")
 		}
 	}
 
+	$scope.currentYear = (new Date()).getFullYear();
+
 	$scope.isAuthPage = function(){
 		if ($location.path() == '/user/login'){
 			return true;
@@ -73,6 +75,10 @@ angular.module("EmmetBlue")
 
 	$scope.staffProfileExists = function(){
 		return typeof $scope.currentStaffInfo != "undefined";
+	}
+
+	$scope.showEmmetBlueInfo = function(){
+		utils.alert("Emmetblue "+$scope.currentYear, "This software has been designed for and deployed to St. Gerard's Catholic Hospital. Unless stated otherwise, every part of the system is considered a property of Emmetblue and are presently in the closed-source domain with appropriate licenses. Contact an appropriate department for help or samueladeshina73@gmail.com for technical support.", "info");
 	}
 
 	checkLogin();

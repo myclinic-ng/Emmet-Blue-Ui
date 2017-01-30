@@ -203,9 +203,16 @@ angular.module("EmmetBlue")
 			}
 			case "viewmetadata":{
 				$scope.currentJournalEntry = $scope.journalEntries[id];
+
+				$scope.currentJournalEntry.DateCreated = (new Date($scope.currentJournalEntry.DateCreated)).toDateString()+" at "+(new Date($scope.currentJournalEntry.DateCreated)).toLocaleTimeString()
+				$scope.currentJournalEntry.DateModified = (new Date($scope.currentJournalEntry.DateModified)).toDateString()+" at "+(new Date($scope.currentJournalEntry.DateModified)).toLocaleTimeString()
 				$("#view-current-journal-metadata").modal("show");
 				break;
 			}
 		}
+	}
+
+	$scope.loadRunningBalances = function(){
+		$rootScope.$broadcast("load-running-balances");
 	}
 })

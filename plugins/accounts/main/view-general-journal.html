@@ -18,17 +18,17 @@
 			<div class="sidebar-content">
 				<!-- Navigation -->
 				<div class="sidebar-category">
-					<div class="category-title">
+					<div class="category-title bg-success">
 						<span>Tasks</span>
 						<ul class="icons-list">
-							<li><a href="#" data-action="collapse"></a></li>
+							<li><i class="icon-pulse2"></i></li>
 						</ul>
 					</div>
 
 					<div class="category-content no-padding">
 						<ul class="navigation navigation-alt navigation-accordion">
 							<li class="navigation-header">Accounts</li>
-							<li><a href="#"><i class="icon-files-empty"></i> View all accounts</a></li>
+							<li><a href="#" data-toggle="modal" data-target="#viewAccountRunningBalances" ng-click="loadRunningBalances()"><i class="icon-files-empty"></i> View all accounts</a></li>
 							<li><a href="#"><i class="icon-file-plus"></i> Open Account Register</a></li>
 						</ul>
 					</div>
@@ -40,7 +40,7 @@
 					<div class="category-title">
 						<span>Reports</span>
 						<ul class="icons-list">
-							<li><a href="#" data-action="collapse"></a></li>
+							<li><i class="icon-stats-growth"></i></li>
 						</ul>
 					</div>
 
@@ -49,11 +49,11 @@
 							<li class="navigation-header">Standard Reports</li>
 							<li><a href="#"><i class="icon-files-empty"></i> Balance Sheet</a></li>
 							<li><a href="#"><i class="icon-file-plus"></i> Income Statement</a></li>
-							<li class="navigation-divider"></li>
+							<!-- <li class="navigation-divider"></li>
 							<li><a href="#"><i class="icon-cog3"></i> Chart of Accounts</a></li>
 							<li><a href="#"><i class="icon-cog3"></i> General Journal</a></li>
 							<li><a href="#"><i class="icon-cog3"></i> General Ledger</a></li>
-							<li><a href="#"><i class="icon-cog3"></i> General Ledger Trial Balance</a></li>
+							<li><a href="#"><i class="icon-cog3"></i> General Ledger Trial Balance</a></li> -->
 						</ul>
 					</div>
 				</div>
@@ -132,21 +132,21 @@
 	</div>
 
 	<div class="modal fade" id="view-current-journal-entries">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
-				<div class="modal-header bg-primary">
+				<div class="modal-header bg-warning">
 					<button type="button" class="close btn-icon btn-danger bg-default" data-dismiss="modal"><i class="icon-cross"></i></button>
-					<h6 class="modal-title">Journal Entry Ref. ID: {{currentJournalEntry.GeneralJournalID}}</h6>
+					<h6 class="modal-title">Journal Entry Reference ID: {{currentJournalEntry.GeneralJournalID}}</h6>
 				</div>
 				<div class="modal-body">
 					<div class="row">
 						<table class="table table-hover table-striped">
 							<thead>
 								<tr>
-									<th colspan="2" class="text-center no-border-right" width="50%">General Ledger Account</th>
-									<th class="text-center no-border-right no-border-left" width="30%">Description</th>
-									<th class="text-center no-border-right no-border-left" width="10%">Debit (<ng-currency currency-symbol="naira"></ng-currency>)</th>
-									<th class="text-center no-border-left" width="10%">Credit (<ng-currency currency-symbol="naira"></ng-currency>)</th>
+									<th colspan="2" class="text-center no-border-right">GL Account</th>
+									<th class="no-border-right no-border-left">Reference</th>
+									<th  style="border-bottom: 1px solid green" class="text-center no-border-right no-border-left">Debit (<ng-currency currency-symbol="naira"></ng-currency>)</th>
+									<th  style="border-bottom: 1px solid green" class="text-center no-border-left">Credit (<ng-currency currency-symbol="naira"></ng-currency>)</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -161,13 +161,13 @@
 										{{entry.EntryDescription}}
 									</td>
 									<td>
-										<span ng-if="entry.EntryType.substring(0, 5) == 'debit'">
-											{{entry.EntryValue}}
+										<span ng-if="entry.EntryType.substring(0, 5) == 'debit'" class="pull-right">
+											<ng-currency currency-symbol="naira"></ng-currency> {{entry.EntryValue}}
 										</span>
 									</td>
-									<td>
+									<td style="border-left: 1px solid green">
 										<span ng-if="entry.EntryType.substring(0, 6) == 'credit'">
-											{{entry.EntryValue}}
+											<ng-currency currency-symbol="naira"></ng-currency> {{entry.EntryValue}}
 										</span>
 									</td>
 								</tr>
@@ -177,8 +177,8 @@
 									<td colspan="2" class="no-border-right">
 									</td>
 									<td class="no-border-left"><span class="pull-right">Totals</span></td>
-									<td>{{currentJournalEntry.GeneralJournalTotalAmount}}</td>
-									<td>{{currentJournalEntry.GeneralJournalTotalAmount}}</td>
+									<td><span class="pull-right"><ng-currency currency-symbol="naira"></ng-currency> {{currentJournalEntry.GeneralJournalTotalAmount}}</span></td>
+									<td><ng-currency currency-symbol="naira"></ng-currency> {{currentJournalEntry.GeneralJournalTotalAmount}}</td>
 								</tr>
 							</tfoot>
 						</table>
@@ -193,14 +193,15 @@
 			<div class="modal-content">
 				<div class="modal-header bg-primary">
 					<button type="button" class="close btn-icon btn-danger bg-default" data-dismiss="modal"><i class="icon-cross"></i></button>
-					<h6 class="modal-title">Metadata for Journal Entry: {{currentJournalEntry.GeneralJournalID}}.</h6>
+					<h6 class="modal-title">Metadata for Journal Entry: {{currentJournalEntry.GeneralJournalID}}</h6>
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<p class="text-muted text-center">{{currentJournalEntry.GeneralJournalDescription}}</p>
-						<h6><small> Posted By : <span class="text-bold">{{currentJournalEntry.StaffID}}</span></small></h6>
-						<h6><small> Time Posted : <span class="text-bold">{{currentJournalEntry.DateCreated}}</span></small></h6>
-						<h6><small> Last Adjustment Date : <span class="text-bold">{{currentJournalEntry.DateModified}}</span></small></h6>						
+						<p class="text-center" ng-if="currentJournalEntry.GeneralJournalDescription != ''">{{currentJournalEntry.GeneralJournalDescription}}</p>
+						<p class="text-center text-muted" ng-if="currentJournalEntry.GeneralJournalDescription == ''">&lt;no description&gt;</p>
+						<h6>Posted By : <span class="text-bold">{{currentJournalEntry.StaffID}}</span></h6>
+						<h6>Time Posted : <span class="text-bold">{{currentJournalEntry.DateCreated}}</span></h6>
+						<h6>Last Adjustment Date : <span class="text-bold">{{currentJournalEntry.DateModified}}</span></h6>						
 					</div>
 				</div>
 			</div>

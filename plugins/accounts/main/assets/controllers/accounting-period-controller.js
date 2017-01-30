@@ -5,19 +5,27 @@ angular.module("EmmetBlue")
 		actionMarkups: {
 			accountActionMarkup: function (data, full, meta){
 				var editButtonAction = "managePeriod('edit', "+data.PeriodID+")";
+				var deleteButtonAction = "managePeriod('delete', "+data.PeriodID+")";
 				var begBalButtonAction = "managePeriod('beginningBalances', "+data.PeriodID+")";
 				var deactivateButtonAction = "managePeriod('toggleAccountStatus', "+data.PeriodID+")";
 
 				var dataOpt = "data-option-id='"+data.PeriodID+"' data-option-name='"+data.PeriodAlias+"'";
 
+				var begBal = "	<li><a href='#' class='account-btn'><i class='fa fa-money'><strike></i> Beginning Balances</strike></a></li>";
+				if (data.PeriodEditable == 1){
+					var begBal = "	<li><a href='#' class='account-btn' ng-click=\""+begBalButtonAction+"\" "+dataOpt+"><i class='fa fa-money'></i> Beginning Balances</a></li>";
+				}
+
 				var manageButton  = "<div class='btn-group'>"+
-					                	"<button type='button' class='btn bg-active btn-labeled dropdown-toggle' data-toggle='dropdown'><b><i class='icon-cog3'></i></b> manage <span class='caret'></span></button>"+
+					                	"<button type='button' class='btn bg-info btn-labeled dropdown-toggle' data-toggle='dropdown'><b><i class='icon-cog3'></i></b> manage <span class='caret'></span></button>"+
 					                	"<ul class='dropdown-menu dropdown-menu-right'>"+
 										"	<li><a href='#' class='account-btn' ng-click=\""+editButtonAction+"\" "+dataOpt+"><i class='icon-pencil5'></i> Change Alias</a></li>"+
-										"	<li><a href='#' class='account-btn' ng-click=\""+begBalButtonAction+"\" "+dataOpt+"><i class='fa fa-money'></i> Beginning Balances</a></li>"+
+											begBal+
 										"	<li><a href='#'><i class='fa fa-file-text-o'></i> View Period Ledgers</a></li>"+
 										"	<li class='divider'></li>"+
 										"	<li><a href='#' class='account-btn' ng-click=\""+deactivateButtonAction+"\" "+dataOpt+"><i class='fa fa-area-chart'></i> Generate Reports</a></li>"+
+										"	<li class='divider'></li>"+
+										"	<li><a href='#' class='account-btn' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"><i class='icon-cross text-danger'></i> Delete Alias</a></li>"+
 										"</ul>"+
 									"</div>";
 				var buttons = manageButton;
@@ -49,6 +57,26 @@ angular.module("EmmetBlue")
 
 				$("#edit_period").modal("show");
 			},
+			deletePeriod: function(id){
+				var title = "Please Confirm";
+				var text = "Do you really want to delete this accounting period?"
+				var close = true;
+				var type = "warning";
+				var btnText = "Yes, please continue";
+
+				var process = function(){
+					var req = utils.serverRequest("/financial-accounts/accounting-period/delete-alias?resourceId="+id, "DELETE");
+
+					req.then(function(response){
+						utils.notify("Operation successful", "The selected period has been deleted successfully", "success");
+						$scope.reloadPeriodTable();
+					}, function(error){
+						utils.errorHandler(error);
+					})
+				}
+
+				utils.confirm(title, text, close, process, type, btnText);
+			},
 			beginningBalances: function(id){
 				var data = {
 					id: id,
@@ -70,7 +98,7 @@ angular.module("EmmetBlue")
 		return periods;
 	})
 	.withPaginationType('full_numbers')
-	.withDisplayLength(10)
+	.withDisplayLength(100)
 	.withFixedHeader()
 	.withOption('createdRow', function(row, data, dataIndex){
 		utils.compile(angular.element(row).contents())($scope);
@@ -120,15 +148,16 @@ angular.module("EmmetBlue")
 		utils.DT.columnBuilder.newColumn('PeriodEndDate').withTitle("End Date"),
 		utils.DT.columnBuilder.newColumn(null).withTitle(" ").renderWith(function(data){
 			if (data.PeriodEditable == "0"){
-				var val = "<span class='text-success'><i class='icon-lock2'></i></span>";
+				var val = "<span class='text-success'><i class='icon-lock2'></i></span> &nbsp;<button class='btn btn-xs'>View Beg/Bals</button>";
+
 			}
 			else {
-				var val = "<span class='text-danger'><i class='icon-unlocked'></i></span>";
+				var val = "<center><span class='text-danger'><i class='icon-unlocked'></i></span></center>";
 			}
 
 			return val;
 		}).notSortable(),
-		utils.DT.columnBuilder.newColumn('NetBeginningBalance').withTitle("Net Beginning Balance"),
+		utils.DT.columnBuilder.newColumn('NetBeginningBalance').withTitle("Beg/Bal Net Total"),
 		utils.DT.columnBuilder.newColumn(null).withTitle(" ").renderWith(functions.actionMarkups.accountActionMarkup).notSortable()
 	];
 
@@ -177,6 +206,10 @@ angular.module("EmmetBlue")
 				functions.managePeriod.editPeriod(id);
 				break;
 			}
+			case "delete":{
+				functions.managePeriod.deletePeriod(id);
+				break;
+			}
 			case "beginningbalances":{
 				functions.managePeriod.beginningBalances(id);
 				break;
@@ -192,4 +225,12 @@ angular.module("EmmetBlue")
 		$("#new_beginning_balance").modal("hide");
 		$scope.reloadPeriodTable();
 	})
+
+	var currentPeriod = function(){
+		utils.serverRequest("/financial-accounts/accounting-period/get-current-period", "GET").then(function(response){
+			$scope.currentPeriod = response;
+		}, function(error){
+			utils.errorHandler(error);
+		});
+	}();
 });

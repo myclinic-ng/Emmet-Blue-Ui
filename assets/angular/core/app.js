@@ -150,7 +150,7 @@ angular.module("EmmetBlue")
 		var alertType = (showSwal) ? "both" : "notify";
 		switch(errorObject.status){
 			case 404:{
-				services.notify('Invalid Resource Requested', 'The requested resource was not found on this server, please contact an administrator', 'warning');
+				services.notify('Invalid Resource Requested', 'The requested resource was not found on this server, please contact an administrator if this error persists', 'warning');
 				break;
 			}
 			case 500:{
@@ -166,7 +166,9 @@ angular.module("EmmetBlue")
 					if (errorObject.status == -1){
 						services.notify('Unable to reach server', "Please check your network connectivity to confirm the server is still accessible from this computer. Contact an administrator if this error persists", "warning");
 					}
-					services.alert("Unknown error", "A general error has occurred, please contact an administrator", 'error');
+					else {
+						services.notify("Unknown error", "A general error has occurred, please contact an administrator", 'error');
+					}
 				}
 			}
 		}

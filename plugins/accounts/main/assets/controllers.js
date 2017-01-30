@@ -21,4 +21,6 @@ head.load(controllersLocation+"manage-invoices-controller.js");
 head.load(controllersLocation+"manage-invoices/view-invoices-controller.js");
 head.load(controllersLocation+"accounting-period-controller.js");
 head.load(controllersLocation+"accounting-period-beginning-balances-controller.js");
+head.load(controllersLocation+"accounting-period-management-controller.js");
+head.load(controllersLocation+"account-running-balance-controller.js");
 head.load(controllersLocation+"manage-invoices/invoice-grid-directive.js");

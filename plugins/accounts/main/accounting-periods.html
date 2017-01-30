@@ -14,9 +14,15 @@
 </script>
 
 <div ng-controller="accountsAccountingPeriodsController">
-	<div class="panel panel-white zoomIn" style="height: 100vh">
-		<div class="panel-heading">
+	<div class="panel" style="height: 100vh">
+		<div class="panel-heading bg-success">
 			<h6 class="panel-title">Accounting Periods Database</h6>
+			<div class="heading-elements">
+				<ul class="icons-list">
+	        		<li>Current Accounting Period: <label class="label label-info">{{currentPeriod.PeriodAlias}}</label></li>
+            		<li><a href="#" title="Toggle Filter Selector" class="btn btn-xs text-danger" data-toggle="modal" data-target="#manage_periods"><i class="icon-cog"></i> manage</a></li>
+	        	</ul>
+	    	</div>
 		</div>
 
 		<div class="panel-body">
@@ -169,35 +175,41 @@
 		</div>
 	</div>
 
-	<!-- <div id="change_account_type" class="modal fade">
-		<div class="modal-dialog">
+	<div id="manage_periods" class="modal fade" ng-controller="accountsAccountingPeriodsManagementController">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h6 class="modal-title">Change Account Type </h6>
+					<button type="button" class="close" data-dismiss="modal"><i class="icon-cross"></i></button>
+					<h6 class="modal-title">Manage Accounting Periods <button ng-click="reload()" class="btn btn-link btn-xs"><i class="icon-reload-alt"></i> reload</button></h6>
 				</div>
 
 				<div class="modal-body">
-					<div class="form-group">
-						<div class="row">
-							<div class="content-group col-sm-12">
-								<p class="text-center text-muted">Changing selected account type from {{tempHolder.currentType}}</p>
-								<label>Select a new account to change to</label>
-								<select class="select" ng-model="tempHolder.type">
-									<optgroup label="{{category.CategoryName}}" ng-repeat="category in accountTypes">
-										<option ng-repeat="type in category.types" value="{{type.TypeID}}">{{type.TypeName}}</option>
-									</optgroup>
-								</select>
+					<div class="row">
+						<div class="form-group col-md-5">
+							<div class="row">
+								<div class="content-group col-sm-12">
+									<p class="text-center text-bold"><i class="icon-calendar2"></i> {{currentPeriod.PeriodAlias}}</p>
+									<label>Select a new default accounting period</label>
+									<select class="select" ng-model="tempHolder.period">
+										<option ng-repeat="period in periods" value="{{period.PeriodID}}">{{period.PeriodAlias}}</option>
+									</select>
+								</div>
+								<div class="content-group col-sm-12">
+									<button type="button" class="btn btn-warning pull-right bg-white btn-labeled" ng-click="setDefaultPeriod()"><b><i class="icon-warning2"></i></b> Set as current period</button>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-7" style="border-left: 1px solid green">
+							<p class="text-center text-muted"><i class="icon-history"></i> Accounting periods history</p>
+							<div class="table-responsive col-md-12">
+								<table datatable="" dt-options="dttOptions" dt-columns="dttColumns" dt-instance="dttInstance" class="table table-condensed table-striped table-hover">
+
+								</table>
 							</div>
 						</div>
 					</div>
 				</div>
-
-				<div class="modal-footer">
-					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="tempHolder = {}"><i class="fa fa-times-circle-o"></i> Close</button>
-					<button type="button" class="btn btn-warning" ng-click="saveChangeAccountType()"><span class="hide loader pull-left"><i class="fa fa-circle-o-notch fa-spin "> </i></span>  Continue</button>
-				</div>
 			</div>
 		</div>
-	</div> -->
+	</div>
 </div>
