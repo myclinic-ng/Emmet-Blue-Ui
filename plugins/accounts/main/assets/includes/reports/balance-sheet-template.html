@@ -1,0 +1,40 @@
+<div class="col-xs-12">
+	<div class="row">
+		<div class="col-xs-4 text-center">
+			<img src="assets/images/logo-orange-full.png" class="col-xs-6 img img-responsive"/>
+		</div>
+		<div class="col-xs-8 text-center" style="margin-left: -120px;">
+			<h2>BALANCE SHEET</h2>
+			<h3 class="">{{periodInfo.PeriodAlias}}</h3>
+		</div>
+	</div>
+	<div ng-repeat="(categoryId, category) in balancesByType" class="mt-10">
+		<h6 class="text-center" style="text-transform: uppercase;"><u>{{balancesByType[categoryId]["_meta"].CategoryName}}</u></h6>
+		<div ng-repeat="(typeId, type) in category">
+			<label class="control-label text-bold" style="font-variant: small-caps;"><i class="icon-plus"></i> {{category[typeId]["_meta"].TypeName}}</label>
+			<table class="table" ng-if="typeId != '_meta'">
+				<tr class="text-bold text-center">
+					<th>Account ID</th>
+					<th>Account Name</th>
+					<th>Running Balance</th>
+				</tr>
+				<tr ng-repeat="(accountId, account) in type">
+					<td>{{account.AccountID}}</td>
+					<td>{{account.AccountName}}</td>
+					<td ng-if="account.Balance.value >= 0"><span ng-currency ng-currency-symbol="naira"></span> {{account.Balance.value}}</td>
+					<td ng-if="account.Balance.value < 0" class="text-danger"><span ng-currency ng-currency-symbol="naira"></span> ({{account.Balance.value}})</td>
+				</tr>
+				<tr>
+					<td class="no-border text-bold" colspan="2"><center>{{type["_meta"]["TypeName"]}} Total Balance</center></td>
+					<td class="no-border text-bold"><span ng-currency ng-currency-symbol="naira"></span> {{type["_meta"]["Total"]}}</td>
+				</tr>
+			</table>
+		</div>
+		<table class="table">
+			<tr>
+				<td class="text-bold" style="text-transform: uppercase;">{{category["_meta"].CategoryName}} Total Balance</td>
+				<td class="text-bold"><span ng-currency ng-currency-symbol="naira"></span> {{category["_meta"].Total}}</td>
+			</tr>
+		</table>
+	</div>
+</div>

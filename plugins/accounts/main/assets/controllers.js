@@ -9,6 +9,8 @@ head.load(controllersLocation+"setting/department-patient-types-controller.js");
 head.load(controllersLocation+"setting/manage-payment-rules-controller.js");
 head.load(controllersLocation+"setting/hmo-field-values-controller.js");
 
+head.load(controllersLocation+"reports/balance-sheet-directive.js");
+
 head.load(controllersLocation+"dashboard-controller.js");
 head.load(controllersLocation+"menu-controller.js");
 head.load(controllersLocation+"billing-type-controller.js");
