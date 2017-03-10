@@ -6,7 +6,7 @@
 </style>
 <script>
   $(document).ready(function(){
-    var imgCount = 12;
+    var imgCount = 5;
     var randomize = function(imgCount){
       var ramdomNum = Math.floor((Math.random() * imgCount) + 1);
       var image = "plugins/user/assets/assets/img/demo/"+ramdomNum+".jpg";
@@ -18,11 +18,6 @@
     $("#bgPic").on("click", function(){
       randomize(imgCount);
     })
-    // .on("mouseover", function(){
-    //   $(this).attr("style", "cursor: url('plugins/user/assets/images/refresh.svg'), auto");
-    // }).on("mouseout", function(){
-    //   $(this).attr("style", "");
-    // });
 
     setTimeout(function(){
       $(".preloader").fadeOut().remove();
@@ -37,8 +32,8 @@
   <center>
     <h3 class="text-thin text-danger"> <i class="icon-spinner2 spinner"></i> Loading...</h3>
     <h1>
-      <img src="assets/images/logo-orange-full.png" alt="logo" data-src="assets/images/logo-orange-full.png" data-src-retina="plugins/user/assets/assets/img/logo_2x.png" width="10%"> 
-      &nbsp;Saint Gerards Catholic Hospital Local Intranet.
+      <img src="assets/images/logo-orange-small.png" alt="logo" data-src="assets/images/logo-orange-small.png" data-src-retina="plugins/user/assets/assets/img/logo_2x.png" width="10%"> 
+      &nbsp;Harmony Hospital Local Intranet.
     </h1>
   </center>
 </div>
@@ -50,7 +45,7 @@
   <!-- END Background Pic-->
   <!-- START Background Caption-->
   <div class="bg-caption pull-bottom sm-pull-bottom text-white p-l-20 m-b-20">
-    <h2 class="semi-bold text-white">St. Gerard's Catholic Hospital.</h2>
+    <h2 class="semi-bold text-white">Harmony Hospital.</h2>
     <p class="small mt-15">
       All work copyright of respective owners, otherwise © 2016 Emmetblue.
     </p>
@@ -61,7 +56,7 @@
 <!-- START Login Right Container-->
 <div class="login-container bg-white" style="height: 100vh !important;">
   <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40">
-    <center><img src="assets/images/logo-orange-full.png" alt="logo" data-src="assets/images/logo-orange-full.png" data-src-retina="plugins/user/assets/assets/img/logo_2x.png" width="30%"></center>
+    <center><img src="assets/images/logo-orange-full.png" alt="logo" data-src="assets/images/logo-orange-full.png" data-src-retina="plugins/user/assets/assets/img/logo_2x.png" width="100%"></center>
     <p class="p-t-35 text-center text-bold">Sign into your account</p>
     <span class="fade"><center><small class="text-danger text-center scaleUp" ng-show="currentType == 'text'"><i class="fa fa-exclamation-triangle"></i> <span class="text-bold">Security Risk:</span> Your password is visible to the general public</small></center></span>
     <!-- START Login Form -->
