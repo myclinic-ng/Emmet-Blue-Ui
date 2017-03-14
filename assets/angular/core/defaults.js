@@ -78,7 +78,7 @@ function determineRouteAvailability(url){
 
 
 function getConstants(){
-	var server = "https://emmetblue.harmony.intra:700/";
+	var server = "https://sglt:700/";
 
 	return {
 		"TEMPLATE_DIR":"plugins/",
