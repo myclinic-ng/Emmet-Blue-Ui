@@ -1,32 +1,21 @@
 <div class="navbar navbar-inverse" id="navbar-primary" ng-controller="coreController">
 	<div class="navbar-header">
 
-		<a class="navbar-brand" href="/user/home"><img src="assets/images/logo.png" class="img img-responsive" style="height: 32px; margin-top: -5px;"/></a>
+		<a class="navbar-brand" href="/user/home"><img src="assets/images/logo.png" class="img img-responsive" style="width: 100%; height: 32px; margin-top: -5px;"/></a>
 
 		<ul class="nav navbar-nav pull-right visible-xs-block">
 			<li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-menu5"></i></a></li>
 		</ul>
 	</div>
 
-	<div class=" navbar-collapse collapse" id="navbar-mobile">
-		<ul class="nav navbar-nav">
-			
-		</ul>
-
+	<div class="navbar-collapse collapse" id="navbar-mobile">
 		<ul class="no-login nav navbar-nav navbar-right">
 			<li>
 				<a>
-					<i class="icon-vcard"></i>
+					<i class="icon-vcard"></i> Primary Department: 
 					<span class="position-right">{{currentStaffDepartmentInfo.Name}}</span>
 				</a>
 			</li>
-
-			<!-- <li>
-				<a>
-					<i class="fa fa-user-secret"></i>
-					<span class="position-right"></span>
-				</a>						
-			</li> -->
 
 			<li class="dropdown dropdown-user">
 				<a class="dropdown-toggle" data-toggle="dropdown">
@@ -37,10 +26,10 @@
 				</a>
 
 				<ul class="dropdown-menu dropdown-menu-right">
-					<!-- <li><a href="#"><i class="icon-user-plus"></i> My profile</a></li>
-					<li><a href="#"><i class="icon-coins"></i> Inbox</a></li>
-					<li class="divider"></li>
-					<li><a href="#"><i class="icon-cog5"></i> Account settings</a></li> -->
+					<li><a href="/user/switch-department"><i class="icon-cog5"></i> Switch Department</a></li>
+					<!-- <li><a href="#"><i class="icon-coins"></i> Inbox</a></li> -->
+					<li class="divider"></li>	
+					<!-- <li><a href="#"><i class="icon-cog5"></i> Account settings</a></li> -->
 					<li><a href="#" ng-click="logout()"><i class="icon-switch2"></i> Logout</a></li>
 				</ul>
 			</li>

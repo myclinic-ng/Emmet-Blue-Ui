@@ -19,7 +19,7 @@
 			</div>
 			<div class="form-group col-xs-12">
 				<label class="col-xs-3">DOB | Gender: </label>
-				<div class="col-xs-9"><p class="text text-bold">{{patientInfo["date of birth"]}} | {{patientInfo["gender"]}}</p class="text text-bold"></div>
+				<div class="col-xs-9"><p class="text text-bold">{{toLocaleDate(patientInfo["date of birth"])}} | {{patientInfo["gender"]}}</p class="text text-bold"></div>
 			</div>
 			<div class="form-group col-xs-12">
 				<label class="col-xs-3">Emergency Contact: </label>
@@ -31,12 +31,12 @@
 				<center><img ng-src="{{loadImage(patientInfo.patientpicture)}}" class="img img-rounded img-responsive pull-left" style="width: 250px; height: 200px" alt="No picture has been uploaded, continue working with this profile at your discretion"/></center>
 			</div>
 			 <div class="form-group col-xs-12">
-				<label class="col-xs-3">Issued On: </label>
-				<div class="col-xs-9"><p class="text text-bold">09/12/2016</p class="text text-bold"></div>
+				<label class="col-xs-4">Issued On: </label>
+				<div class="col-xs-8"><p class="text text-bold">{{toDateString(patientInfo["lastmodified"])}}</p class="text text-bold"></div>
 			</div>
 		</div>
 	</div>
 	<div class="col-xs-12 text-center">
-		<p class="text-thin text-info">This is a property of St. Gerard Catholic Hospital. Always bring this along to the hospital. If found, Please return to the Hospital Records Office</p>
+		<p class="text-thin text-info">This is a property of Harmony Hospital &amp; Specialists Clinic. Always bring this along to the hospital. If found, Please return to the Hospital Records Office</p>
 	</div>
 </div>

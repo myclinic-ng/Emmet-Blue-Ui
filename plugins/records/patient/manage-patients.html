@@ -66,7 +66,7 @@
 	</div>
 	<div class="col-md-9">
 	<div class="panel panel-success">
-		<div class="pt-5 pb-10 bg-success">
+		<div class="pt-5 pb-5 bg-success">
 			<div class="form-group col-md-6 bg-success" style="margin-left: 0px;">
 				<label class="control-label">Patient Search</label>
 				<div class="input-group mb-5">
@@ -98,17 +98,11 @@
 		</div>
 
 		<div class="panel-body">
-			<!-- Invoice grid options -->
-				<div class="col-md-12 pull-left">
+				<div class="col-md-12 text-center" ng-if="searched.totalPageCount > 0">
+					<h6 class="text-muted">Found <strong><span class="text-bold text-black">{{searched.totalPageCount}}</span></strong> Profile<span ng-if="searched.totalPageCount > 1">s</span> Matching Search Query</h6>
 					<dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="assets/angular/libraries/ng-pagination/ng-pagination.tpl.html"></dir-pagination-controls>
 				</div>
-				<!-- /invoice grid options -->
 
-
-				<!-- Invoice grid -->
-				<!-- <div class="text-center content-group text-muted content-divider">
-					<span class="pt-10 pb-10">Today</span>
-				</div> -->
 				<div class="row">
 					<div class="col-lg-6 col-md-6" dir-paginate="patient in searched.patients | itemsPerPage: searched.pageSize" total-items="searched.totalPageCount" current-page="searched.currentPage">
 						<ng-patient-grid patient-info="patient['_source']"></ng-patient-grid>
@@ -123,21 +117,21 @@
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h6 class="modal-title">Service User Registration</h6>
+					<h6 class="modal-title">New Patient Registration</h6>
 				</div>
 
 				<div class="modal-body">
 					<form role="form">
 						<div class="col-md-8">
 							<fieldset>
-								<legend>
+								<!-- <legend>
 									<div class="btn-group">
 										<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#patient_hospital_history" data-backdrop="static" data-keyboard="false"><i class="fa fa-building-o"></i> Hospital History</button>
 										<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#patient_diagnosis" data-backdrop="static" data-keyboard="false"><i class="fa fa-bed"></i> Diagnosis</button>
 										<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#patient_operation" data-backdrop="static" data-keyboard="false"><i class="fa fa-bed"></i> Operation</button>
 										<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#patient_process_check" data-backdrop="static" data-keyboard="false""><i class="fa fa-bed"></i> Process Check</button>
 									</div>
-								</legend>
+								</legend> -->
 
 								<div class="row">
 									<div class="form-group col-sm-3">

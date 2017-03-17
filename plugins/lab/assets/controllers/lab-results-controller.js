@@ -8,9 +8,15 @@ angular.module("EmmetBlue")
 
 		utils.serverRequest('/lab/patient/view?resourceId='+labNumber, 'GET')
 		.then(function(response){
-			$scope.investigation = response[0];
-			$scope.investigationLoaded = true;
-			loadFields($scope.investigation.InvestigationTypeID);
+			if (typeof response[0] !== "undefined"){
+				$scope.investigation = response[0];
+				$scope.investigationLoaded = true;
+				loadFields($scope.investigation.InvestigationTypeID);
+			}
+			else {
+				$scope.investigationLoaded = false;
+				utils.notify("Unrecognized Lab Number", "The lab number you've specified seems to be invalid, please try again or contact an administrator if this error persists", "warning");
+			}
 		}, function(error){
 			utils.errorHandler(error);
 		})
@@ -50,9 +56,13 @@ angular.module("EmmetBlue")
 		})
 	}
 
+	$scope.dateObject = function(date){
+		return new Date(date);
+	}
+
 	$scope.submitResult = function(){
 		var patient = $scope.patientLabNumber;
-		var investigationName = $scope.investigation.InvestigationRequired+"("+$scope.investigation.InvestigationTypeName+")";
+		var investigationName = $scope.investigation.InvestigationTypeName+"("+$scope.investigation.LabName+")";
 		var report = $scope.investigationResult;
 		var reportedBy = utils.userSession.getID();
 
@@ -65,9 +75,9 @@ angular.module("EmmetBlue")
 				investigationName: investigationName,
 				report: {
 					"Investigation Request Information":{
-						"Investigation Required": $scope.investigation.InvestigationRequired,
-						"Requested By": $scope.investigation.RequestedBy,
-						"Date Requested": $scope.investigation.DateRequested,
+						"Investigation Required": $scope.investigation.InvestigationTypeName,
+						"Requested By": $scope.investigation.RequestedByFullName,
+						"Date Requested": $scope.dateObject($scope.investigation.DateRequested).toDateString(),
 						"Clinic/Ward": $scope.investigation.Clinic,
 						"Request Note":	$scope.investigation.ClinicalDiagnosis
 					},
@@ -81,6 +91,8 @@ angular.module("EmmetBlue")
 				$scope.investigationResult = {};
 				$scope.currentRepository = response.repoId;
 				$("#repository-items").modal("show");
+
+				window.location.path = "lab/patients";
 			}, function(error){
 				utils.errorHandler(error);
 			})

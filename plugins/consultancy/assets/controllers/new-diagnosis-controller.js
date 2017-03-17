@@ -289,6 +289,7 @@ angular.module("EmmetBlue")
 			if (query != ""){
 				if (typeof $scope.patient != "undefined" && $scope.patient.isProfileReady == true){
 					$scope.patient.isProfileReady = false;
+					$scope.patient.profileLoading = true;
 				}
 				modules.globals.patient.search(query, successCallback, errorCallback);
 			}

@@ -135,47 +135,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td class="no-border">1</td>
-									<td class="no-border">09/10/2015</td>
-									<td class="no-border">Adelaja Amos</td>
-									<td class="no-border">Dr. Abubakar</td>
-									<td class="no-border">Male Orthopedic</td>
-									<td class="no-border">09/14/2015</td>
-									<td class="no-border">Adelaja Amos</td>
-									<td class="no-border" class="success">Improved</td>
-								</tr>
-								<tr>
-									<td class="no-border">2</td>
-									<td class="no-border">09/10/2015</td>
-									<td class="no-border">Adelaja Amos</td>
-									<td class="no-border">Dr. Abubakar</td>
-									<td class="no-border">Male Orthopedic</td>
-									<td class="no-border">09/14/2015</td>
-									<td class="no-border">Adelaja Amos</td>
-									<td class="no-border" class="active">Transfered</td>
-								</tr>
-								<tr>
-									<td class="no-border">3</td>
-									<td class="no-border">09/10/2015</td>
-									<td class="no-border">Adelaja Amos</td>
-									<td class="no-border">Dr. Abubakar</td>
-									<td class="no-border">Male Orthopedic</td>
-									<td class="no-border">09/14/2015</td>
-									<td class="no-border">Adelaja Amos</td>
-									<td class="no-border" class="success">Cured</td>
-								</tr>
-								<tr>
-									<td class="no-border">4</td>
-									<td class="no-border">09/10/2015</td>
-									<td class="no-border">Adelaja Amos</td>
-									<td class="no-border">Dr. Abubakar</td>
-									<td class="no-border">Male Orthopedic</td>
-									<td class="no-border">09/14/2015</td>
-									<td class="no-border">Adelaja Amos</td>
-									<td class="no-border" class="warning">Variant</td>
-								</tr>
-								<tr>
+								<!-- <tr>
 									<td class="no-border">5</td>
 									<td class="no-border">09/10/2015</td>
 									<td class="no-border">Adelaja Amos</td>
@@ -184,7 +144,7 @@
 									<td class="no-border">09/14/2015</td>
 									<td class="no-border">Adelaja Amos</td>
 									<td class="no-border" class="danger">Worsened</td>
-								</tr>
+								</tr> -->
 							</tbody>
 						</table>
 					</div>
@@ -207,6 +167,9 @@
 								<td class="no-border" ng-if="item.DiagnosisTitle">{{item.DiagnosisTitle}}</td>
 								<td class="no-border" ng-if="!item.DiagnosisTitle">N/A</td>
 								<td class="no-border"><em><a data-toggle="modal" data-target="#modal-diagnosis" ng-click="setCurrentDiagnosis($index)"><i class="icon-info22"></i> Load diagnosis information</a></em></td>
+							</tr>
+							<tr ng-if="diagnoses.length < 1">
+								<td colspan="5" class="text-muted text-center">No Diagnosis Has Been Completed For This Patient</td>
 							</tr>
 						</tbody>
 					</table>

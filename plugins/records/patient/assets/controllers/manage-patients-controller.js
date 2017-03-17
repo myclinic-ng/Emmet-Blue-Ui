@@ -343,7 +343,7 @@ angular.module("EmmetBlue")
 		$scope.searched.currentPage = newPageNumber;
 		if (newPageNumber != 1)
 		{
-			$scope.searched.fromCounter = newPageNumber - 1 + ($scope.searched.pageSize * newPageNumber);
+			$scope.searched.fromCounter = $scope.searched.pageSize * (newPageNumber - 1);
 		}
 		else
 		{

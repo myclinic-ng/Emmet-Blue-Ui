@@ -27,7 +27,7 @@ angular.module("EmmetBlue")
 	function search(url, query){
 		$scope.requestForm.showSearchResult = true;
 		$scope.searched.searchIcon = "fa fa-spinner fa-spin";
-		var request = utils.serverRequest(url, "POST", {query: query, from: 1, size: 10});
+		var request = utils.serverRequest(url+"?query="+query+"&size=1&from=0", "GET");
 
 		request.then(function(response){
 			if (typeof response.hits.hits[0] !== "undefined" && typeof response.hits.hits[0]["_source"] !== 'undefined'){

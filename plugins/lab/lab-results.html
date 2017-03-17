@@ -14,7 +14,7 @@
 	</div>
 	<div class="panel panel-white zoomIn mt-10" ng-show="investigationLoaded">
 		<div class="panel-heading">
-			<h6 class="panel-title">{{investigation.InvestigationRequired}} ({{investigation.InvestigationTypeName}})</h6>
+			<h6 class="panel-title">{{investigation.InvestigationTypeName}} ({{investigation.LabName}})</h6>
 		</div>
 
 		<div class="panel-body">
@@ -29,7 +29,7 @@
 					</div>
 					<div class="content-group col-md-12">
 						<div class="col-md-3 text-bold">Date Of Birth</div>
-						<div class="col-md-9">{{investigation.DateOfBirth}}</div>
+						<div class="col-md-9">{{dateObject(investigation.DateOfBirth).toLocaleDateString()}}</div>
 					</div>
 					<div class="content-group col-md-12">
 						<div class="col-md-3 text-bold">Gender</div>
@@ -49,15 +49,15 @@
 					</div>
 					<div class="content-group col-md-12">
 						<div class="col-md-3 text-bold">Investigation Required</div>
-						<div class="col-md-9">{{investigation.InvestigationRequired}}</div>
+						<div class="col-md-9">{{investigation.InvestigationTypeName}}</div>
 					</div>
 					<div class="content-group col-md-12">
 						<div class="col-md-3 text-bold">Requested By</div>
-						<div class="col-md-9">{{investigation.RequestedBy}}</div>
+						<div class="col-md-9">{{investigation.RequestedByFullName}}</div>
 					</div>
 					<div class="content-group col-md-12">
 						<div class="col-md-3 text-bold">Date Requested</div>
-						<div class="col-md-9">{{investigation.DateRequested}}</div>
+						<div class="col-md-9">{{dateObject(investigation.DateRequested).toDateString()}}</div>
 					</div>
 					<div class="content-group col-md-12">
 						<div class="col-md-3 text-bold">Clinic/Ward</div>
@@ -66,17 +66,6 @@
 					<div class="content-group col-md-12">
 						<div class="col-md-3 text-bold">Request Note</div>
 						<div class="col-md-9">{{investigation.ClinicalDiagnosis}}</div>
-					</div>
-
-					<div class="content-group col-md-12">
-						<div class="col-md-12 text-bold"><h6 class="text-primary pull-left">Nature Of Specimen</h6></div>
-					</div>
-					<div class="content-group col-md-12">
-						<ol>
-							<li>Serum</li>
-							<li>Saliva</li>
-							<li>Urine</li>
-						</ol>
 					</div>
 				</div>
 				<div class="col-md-7">

@@ -57,11 +57,14 @@ angular.module("EmmetBlue")
 
 	$scope.dtColumns = [
 		utils.DT.columnBuilder.newColumn('PatientLabNumber').withTitle("Lab Number"),
-		utils.DT.columnBuilder.newColumn('LabName').withTitle("LabName"),
-		utils.DT.columnBuilder.newColumn('FullName').withTitle("Name"),
+		utils.DT.columnBuilder.newColumn('LabName').withTitle("Required Lab"),
+		utils.DT.columnBuilder.newColumn('FullName').withTitle("Patient"),
 		utils.DT.columnBuilder.newColumn('InvestigationTypeName').withTitle("Investigation Required"),
-		utils.DT.columnBuilder.newColumn('RegistrationDate').withTitle("Registration Date"),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(actions).withOption('width', '25%').notSortable()
+		utils.DT.columnBuilder.newColumn(null).withTitle("Registration Date").renderWith(function(data, b, c){
+			return (new Date(data.RegistrationDate)).toDateString()+ " "+ (new Date(data.RegistrationDate)).toLocaleTimeString()
+		}),
+		utils.DT.columnBuilder.newColumn('RequestedByFullName').withTitle("Requested By"),
+		utils.DT.columnBuilder.newColumn('ClinicalDiagnosis').withTitle("Clinical Diagnosis/Nature Of Specimen")
 	];
 
 	$scope.reloadPatientsTable = function(){
