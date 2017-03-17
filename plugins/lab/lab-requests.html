@@ -2,13 +2,18 @@
 <script>$('select.select').select2();</script>
 
 <div ng-controller="labRequestsController">
-	<div class="panel panel-white zoomIn" >
+	<div class="panel panel-success" >
 		<div class="panel-heading">
 			<h6 class="panel-title">Lab Investigation Requests</h6>
+			<div class="heading-elements">
+				<ul class="icons-list">
+            		<li><a href="#" ng-click="labView = !labView" title="Switch View" class="btn btn-info" style="margin-top:-10px;"><i class="icon-screen-full text-warning"></i> Switch Request View</a></li>
+            	</ul>
+			</div>
 		</div>
 
 		<div class="panel-body">
-			<div class="row">
+			<div class="row" ng-show="labView">
 				<label class="control-label col-md-3"><span class="pull-right pt-5">Select Lab:</span></label>
 				<div class="input-group col-md-7">
 					<select class="select" ng-model="currentLab">
@@ -19,82 +24,19 @@
 					</span>
 				</div>
 	    	</div>
+	    	<div class="row" ng-show="!labView">
+				<label class="control-label col-md-3"><span class="pull-right pt-5">Enter Patient Number:</span></label>
+				<div class="input-group col-md-7">
+					<input type="text" class="form-control" ng-model="patientUuid"/> 
+					<span class="input-group-btn">
+						<button class="btn btn-danger" ng-click="reloadInvestigationTypesTable(1)">Load Requests</button>
+					</span>
+				</div>
+	    	</div>
 			<div class="table-responsive col-md-12">
 				<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
 
 				</table>
-			</div>
-		</div>
-	</div>
-
-	<div id="new_investigation_type" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header bg-warning">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h6 class="modal-title">Create a new investigation type</h6>
-				</div>
-
-				<div class="modal-body">
-					<form role="form">
-						<div class="form-group">
-							<div class="row">
-								<div class="content-group col-sm-12">
-									<label>Lab</label>
-									<select class="select" ng-model="newInvestigationType.lab">
-										<option value="{{lab.LabID}}" ng-repeat="lab in labs">{{lab.LabName}}</option>
-									</select>
-								</div>
-								<div class="content-group col-sm-12">
-									<label>Investigation Type name</label>
-									<input type="text" class="form-control" ng-model="newInvestigationType.name">
-								</div>
-								<div class="content-group col-sm-12">
-									<label>Investigation Type description</label>
-									<textarea class="form-control" cols="3" rows="3" ng-model="newInvestigationType.description"></textarea>
-								</div>
-							</div>
-						</div>
-					</form>
-				</div>
-
-				<div class="modal-footer">
-					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="newInvestigationType = {}"><i class="fa fa-times-circle-o"></i> Close</button>
-					<button type="button" class="btn btn-warning" ng-click="saveNewInvestigationType()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"> </i></span>  Save</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div id="edit_investigation_type" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header bg-warning">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h6 class="modal-title">Create a new investigation type</h6>
-				</div>
-
-				<div class="modal-body">
-					<form role="form">
-						<div class="form-group">
-							<div class="row">
-								<div class="content-group col-sm-12">
-									<label>Investigation Type name</label>
-									<input type="text" class="form-control" ng-model="tempInvestigationType.InvestigationTypeName">
-								</div>
-								<div class="content-group col-sm-12">
-									<label>Investigation Type description</label>
-									<textarea class="form-control" cols="3" rows="3" ng-model="tempInvestigationType.InvestigationTypeDescription"></textarea>
-								</div>
-							</div>
-						</div>
-					</form>
-				</div>
-
-				<div class="modal-footer">
-					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="tempInvestigationType = {}"><i class="fa fa-times-circle-o"></i> Close</button>
-					<button type="button" class="btn btn-warning" ng-click="saveEditedInvestigationType()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"> </i></span>  Save</button>
-				</div>
 			</div>
 		</div>
 	</div>

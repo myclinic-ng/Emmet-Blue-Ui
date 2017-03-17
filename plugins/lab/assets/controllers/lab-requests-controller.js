@@ -7,13 +7,14 @@ angular.module("EmmetBlue")
 		var dataOpt = "data-option-id='"+data.RequestID+"'"+
 					  "data-option-patient-uuid='"+data.PatientUUID+"'"+
 					  "data-option-lab-id='"+data.LabID+"'"+
+					  "data-option-lab-name='"+data.LabName+"'"+
 					  "data-option-investigation-required='"+data.InvestigationRequired+"'"+
 					  "data-option-clinical-diagnosis='"+data.ClinicalDiagnosis+"'"+
 					  "data-option-requested-by='"+data.RequestedBy+"'"+
 					  "data-option-request-date='"+data.RequestDate+"'";
 
 
-		var deleteButton = "<button class='btn btn-default process-btn btn-danger' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"><i class='icon-link'></i> Generate Lab Number</button>";
+		var deleteButton = "<button class='btn btn-default process-btn btn-danger' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> proceed</button>";
 		
 		var buttons = "<div class='btn-group'>"+deleteButton+"</button>";
 		return buttons;
@@ -23,7 +24,12 @@ angular.module("EmmetBlue")
 	$scope.dtInstance = {};
 	$scope.dtOptions = utils.DT.optionsBuilder
 	.fromFnPromise(function(){
-		var investigationTypes = utils.serverRequest('/lab/lab-request/view?resourceId='+$scope.currentLab, 'GET');
+		if (typeof $scope.currentPatient !== "undefined"){
+			var investigationTypes = utils.serverRequest('/lab/lab-request/view-by-patient?resourceId&patient='+$scope.currentPatient, 'GET');
+		}
+		else {
+			var investigationTypes = utils.serverRequest('/lab/lab-request/view?resourceId='+$scope.currentLab, 'GET');
+		}
 		return investigationTypes;
 	})
 	.withPaginationType('full_numbers')
@@ -41,15 +47,26 @@ angular.module("EmmetBlue")
 
 	$scope.dtColumns = [
 		utils.DT.columnBuilder.newColumn('PatientFullName').withTitle("Patient"),
-		utils.DT.columnBuilder.newColumn('InvestigationRequired').withTitle("Investigation Required"),
+		utils.DT.columnBuilder.newColumn('LabName').withTitle("Required Laboratory"),
 		utils.DT.columnBuilder.newColumn('InvestigationTypeName').withTitle("Investigation Type Name"),
-		utils.DT.columnBuilder.newColumn('RequestedBy').withTitle("Requested By"),
-		utils.DT.columnBuilder.newColumn('RequestDate').withTitle("Date Requested"),
-		utils.DT.columnBuilder.newColumn('ClinicalDiagnosis').withTitle("Nature of Specimen / Clinical Diagnosis"),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Process").renderWith(actions).notSortable()
+		utils.DT.columnBuilder.newColumn('RequestedByFullName').withTitle("Requested By"),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Date Requested").renderWith(function(data, b, c){
+			return (new Date(data.RequestDate)).toDateString()+ " "+ (new Date(data.RequestDate)).toLocaleTimeString()
+		}),
+		utils.DT.columnBuilder.newColumn('ClinicalDiagnosis').withTitle("Clinical Diagnosis"),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Generate Lab Number").renderWith(actions).notSortable()
 	];
 
-	$scope.reloadInvestigationTypesTable = function(){
+	$scope.reloadInvestigationTypesTable = function(type = ""){
+		if (type == 1){
+			$scope.currentPatient = $scope.patientUuid;
+		}
+		else {
+			if (typeof $scope.currentPatient !== "undefined"){
+				delete $scope.currentPatient;
+			}
+		}
+
 		$scope.dtInstance.reloadData();
 	}
 
@@ -61,7 +78,9 @@ angular.module("EmmetBlue")
 					patientUuid: $(".process-btn[data-option-id='"+id+"']").attr("data-option-patient-uuid"),
 					labId: $(".process-btn[data-option-id='"+id+"']").attr("data-option-lab-id"),
 					clinicalDiagnosis: $(".process-btn[data-option-id='"+id+"']").attr("data-option-clinical-diagnosis"),
-					investigationRequired: $(".process-btn[data-option-id='"+id+"']").attr("data-option-investigation-required")
+					investigationRequired: $(".process-btn[data-option-id='"+id+"']").attr("data-option-investigation-required"),
+					requestedBy: $(".process-btn[data-option-id='"+id+"']").attr("data-option-requested-by"),
+					dateRequested: $(".process-btn[data-option-id='"+id+"']").attr("data-option-request-date")
 				}
 
 				utils.storage.processedNewPatient = data;

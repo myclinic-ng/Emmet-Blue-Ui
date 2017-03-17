@@ -55,7 +55,7 @@ $("select").select2();
 			<label class="control-label">Address</label>
 			<input type="text" class="form-control" ng-model="patient.address"/>
 		</div>
-		<div class="content-group col-md-12">
+		<div class="content-group col-md-12" ng-hide="true">
 			<label class="control-label">Clinic/Ward</label>
 			<input type="text" class="form-control" ng-model="patient.clinic"/>
 		</div>
@@ -68,10 +68,6 @@ $("select").select2();
 			<select class="select" ng-model="patient.investigationTypeRequired">
 				<option value="{{type.InvestigationTypeID}}" ng-repeat="type in investigationTypes">{{type.InvestigationTypeName}}</option>
 			</select>
-		</div>
-		<div class="content-group col-md-6">
-			<label class="control-label">Investigation Required</label>
-			<input type="text" class="form-control" ng-model="patient.investigationRequired"/>
 		</div>
 
 		<div class="content-group col-md-6 pull-right">

@@ -44,7 +44,6 @@ angular.module("EmmetBlue")
 			}
 			else {
 				$scope.searched.searchIcon = "icon-search4";
-				utils.notify("Lab number does not exist", "The specified patient lab number does not exist, please check for errors and try again", "warning");
 			}
 		}, function(response){
 			utils.errorHandler(response);

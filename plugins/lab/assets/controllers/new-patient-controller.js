@@ -12,6 +12,8 @@ angular.module("EmmetBlue")
 			$scope.patientLab = nv.labId;
 			$scope.patient.clinicalDiagnosis = nv.clinicalDiagnosis;
 			$scope.patient.investigationRequired = nv.investigationRequired;
+			$scope.patient.requestedBy = nv.requestedBy;
+			$scope.patient.dateRequested = nv.dateRequested;
 			$scope.loadPatientProfile();
 		}
 	})
@@ -24,14 +26,17 @@ angular.module("EmmetBlue")
 		});
 
 		patient.then(function(response){
-			var profile = response.hits.hits[0]["_source"];
-			$scope.patient.firstName = profile["first name"];
-			$scope.patient.lastName = profile["last name"];
-			$scope.patient.gender = profile["gender"];
-			$scope.patient.phoneNumber = profile["phone number"];
-			$scope.patient.address = profile["home address"];
-			$scope.patient.patientID = profile["patientid"];
-			$scope.patient.picture = profile["patientpicture"];
+			if (typeof response.hits.hits[0] !== "undefined"){
+				var profile = response.hits.hits[0]["_source"];
+				$scope.patient.firstName = profile["first name"];
+				$scope.patient.lastName = profile["last name"];
+				$scope.patient.gender = profile["gender"];
+				$scope.patient.phoneNumber = profile["phone number"];
+				$scope.patient.dateOfBirth = profile["date of birth"];
+				$scope.patient.address = profile["home address"];
+				$scope.patient.patientID = profile["patientid"];
+				$scope.patient.picture = profile["patientpicture"];	
+			}
 		}, function(error){
 			utils.errorHandler(error);
 		})
@@ -66,6 +71,7 @@ angular.module("EmmetBlue")
 	$scope.savePatient = function(){
 		var patient = $scope.patient;
 
+		console.log(patient);
 		var result = utils.serverRequest("/lab/patient/new", "POST", patient);
 		result.then(function(response){
 			utils.alert("Operation successful", "New patient registered successfully", "success");

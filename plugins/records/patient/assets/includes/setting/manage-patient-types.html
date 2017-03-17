@@ -57,13 +57,14 @@
 								<label>Patient type</label>
 								<input type="text" class="form-control" ng-model="newPatientType.patientTypeName">
 							</div>
-							<div class="col-sm-12">
-								<div class="input-group">
-									<label>Category</label>
+							<div class="clear"></div>
+							<div class="col-sm-12 mt-15">
+								<label class="control-label col-lg-2">Category</label>
+								<div class="input-group col-lg-10">
 									<select class="select" ng-model="newPatientType.patientTypeCategory">
 										<option ng-repeat="category in patientTypeCategories" value="{{category.CategoryName}}">{{category.CategoryName}}</option>
 									</select>
-									<div class="input-group-addon">
+									<div class="input-group-btn">
 										<button class="btn" ng-click="loadPatientTypeCategories()">reload</button>
 									</div>
 								</div>
