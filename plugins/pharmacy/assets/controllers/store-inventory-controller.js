@@ -37,6 +37,9 @@ angular.module("EmmetBlue")
         		key: 'p',
         		ctrlKey: false,
         		altKey: true
+        	},
+        	exportOptions:{
+        		columns: [0, 1, 2, 3, 4, 5]
         	}
         },
         {
@@ -46,7 +49,10 @@ angular.module("EmmetBlue")
         		key: 'c',
         		ctrlKey: false,
         		altKey: true
-        	}
+        	},
+        	exportOptions:{
+        		columns: [0, 1, 2, 3, 4, 5]
+        	} 
         }
 	]);	
 
@@ -59,23 +65,32 @@ angular.module("EmmetBlue")
 		utils.DT.columnBuilder.newColumn(null).withTitle("Tags").renderWith(function(data, type, full){
 			var string = invisible = "";
 			for (var i = 0; i < data.Tags.length; i++) {
-				invisible += data.Tags[i].TagTitle+":"+data.Tags[i].TagName;
+				invisible += data.Tags[i].TagTitle+": "+data.Tags[i].TagName+" ";
 				string += "<h6 class='display-block'><span class='label label-info text-muted pull-left' style='border-right:0px !important;'>"+data.Tags[i].TagTitle+"</span><span class='label label-warning pull-left' style='border-left:0px !important;'> "+data.Tags[i].TagName+"</span></h6><br/><br/>";
 			}
-			return "<span style='display: none'>"+invisible+"</span>"+string;
-		}),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(function(data, type, full){
-			var editButtonAction = "manageStore('edit', "+data.StoreID+")";
-			var deleteButtonAction = "manageStore('delete', "+data.StoreID+")";
-			var inventoryButtonAction = "manageStore('inventory', "+data.StoreID+")";
-
-			var dataOpt = "data-option-id='"+data.ItemID+"' data-option-name='"+data.BillingTypeItemName+"' data-option-brand='"+data.ItemBrand+"' data-option-manufacturer='"+data.ItemManufacturer+"'";
-
-			var editButton = "<button class='btn btn-xs btn-link' ng-click=\""+editButtonAction+"\" "+dataOpt+"><i class='fa fa-edit'></i> edit </button>";
-			var deleteButton = "<button class='btn btn-xs btn-link' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"><i class='fa fa-trash-o'></i> delete </button>";
-			var inventoryButton = "<button class='btn btn-xs btn-link' ng-click=\""+inventoryButtonAction+"\" "+dataOpt+"><i class='fa fa-tags'></i> tags</button>";
 			
-			var buttons = "<div class='btn-group'>"+inventoryButton+editButton+deleteButton+"</button>";
+			return string;
+		}),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Manage").renderWith(function(data, type, full){
+			var editButtonAction = "manageStore('edit', "+data.ItemID+")";
+			var deleteButtonAction = "manageStore('delete', "+data.ItemID+")";
+			var inventoryButtonAction = "manageStore('tags', "+data.ItemID+")";
+
+			var tags = JSON.stringify(data.Tags);
+
+			var dataOpt = "data-option-id='"+data.ItemID+"' data-option-name='"+data.BillingTypeItemName+"' data-option-brand='"+data.ItemBrand+"' data-option-manufacturer='"+data.ItemManufacturer+"' data-option-tags='"+tags+"'";
+
+			var manageButton  = "<div class='btn-group'>"+
+					                	"<button type='button' class='btn bg-active btn-labeled dropdown-toggle' data-toggle='dropdown'><b><i class='icon-cog3'></i></b> manage <span class='caret'></span></button>"+
+					                	"<ul class='dropdown-menu dropdown-menu-right'>"+
+										"	<li><a href='#' class='storeInventory-btn' ng-click=\""+editButtonAction+"\" "+dataOpt+"><i class='icon-pencil5'></i> Edit Brand Info</a></li>"+
+										"	<li><a href='#' class='storeInventory-btn' ng-click=\""+inventoryButtonAction+"\" "+dataOpt+"><i class='fa fa-bar-chart'></i> Manage Thresholds</a></li>"+
+										"	<li class='divider'></li>"+
+										"	<li><a href='#' class='storeInventory-btn' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"><i class='fa fa-trash-o'></i> Delete Item</a></li>"+
+										"</ul>"+
+									"</div>";
+			
+			var buttons = manageButton;
 			return buttons;
 		}).notSortable()
 	];
@@ -122,6 +137,35 @@ angular.module("EmmetBlue")
 		$scope.itemTag = {};
 	}
 
+	$scope.removeTagFromList = function(index){
+		$scope.newItem.tags.splice(index, 1);
+	}
+
+	$scope.deleteTag = function(id, index){
+		if (id == 0){
+			$scope.tempHolder.tags.splice(index, 1);
+		}
+		else {			
+			var req = utils.serverRequest("/pharmacy/store-inventory/delete-store-inventory-tag?resourceId="+id, "DELETE");
+
+			req.then(function(response){
+				if (response){
+					$scope.tempHolder.tags.splice(index, 1);
+				}
+				else {
+					utils.notify("Temporarily unable to delete tag", "Please try again later or contact an administrator if this error persists", "warning");
+				}
+			}, function(error){
+				utils.errorHandler(error);
+			})
+		}
+	}
+
+	$scope.addTagToTempHolder = function(){
+		$scope.tempHolder.tags.push({"TagName":$scope.itemTag.name, "TagTitle":$scope.itemTag.title, "TagID":0});
+		$scope.itemTag = {};
+	}
+
 	$scope.saveNewItem = function(){
 		var store = {
 			tags: $scope.newItem.tags,
@@ -134,7 +178,7 @@ angular.module("EmmetBlue")
 
 		var request = utils.serverRequest("/pharmacy/store-inventory/new", "POST", store);
 		request.then(function(response){
-			utils.notify("Operation Successful", "New invetory item created successfully", "success");
+			utils.notify("Operation Successful", "New inventory item created successfully", "success");
 			$("#new_inventory_item").modal("hide");
 			$scope.reloadInventoryTable();
 			$scope.newItem = {
@@ -143,6 +187,75 @@ angular.module("EmmetBlue")
 			};
 		}, function(response){
 			utils.errorHandler(response);
+		})
+	}
+
+	$scope.manageStore = function(manageGroup, id){
+		switch(manageGroup.toLowerCase()){
+			case "edit":{
+				$scope.tempHolder = {};
+				$scope.tempHolder.resourceId = id;
+				$scope.tempHolder.name = $(".storeInventory-btn[data-option-id='"+id+"']").attr('data-option-name');
+				$scope.tempHolder.brand = $(".storeInventory-btn[data-option-id='"+id+"']").attr('data-option-brand');
+				$scope.tempHolder.manufacturer = $(".storeInventory-btn[data-option-id='"+id+"']").attr('data-option-manufacturer');
+				$scope.tempHolder.tags = JSON.parse($(".storeInventory-btn[data-option-id='"+id+"']").attr('data-option-tags'));
+
+				$("#edit_inventory_item").modal("show");
+				break;
+			}
+			case "delete":{
+				functions.manageAccount.changeAccountType(id);
+				break;
+			}
+			case "tags":{
+				functions.manageAccount.toggleAccountStatus(id);
+				break;
+			}
+		}
+	}
+
+	$scope.saveEditInventoryItem = function(){
+		var edits = {
+			ItemBrand: $scope.tempHolder.brand,
+			ItemManufacturer: $scope.tempHolder.manufacturer,
+			resourceId: $scope.tempHolder.resourceId
+		}
+
+		var tags = [];
+		for (var i = 0; i < $scope.tempHolder.tags.length; i++){
+			var tem = $scope.tempHolder.tags[i];
+			if (tem.TagID == 0){
+				tags.push({
+					name: tem.TagName,
+					title: tem.TagTitle
+				});
+			}
+		}
+
+		var req = utils.serverRequest("/pharmacy/store-inventory/edit", "PUT", edits);
+
+		var reqTag = utils.serverRequest("/pharmacy/store-inventory/new-store-inventory-tags", "POST", {
+			tags: tags,
+			item: edits.resourceId
+		});
+
+		req.then(function(response){
+			if (response){
+				utils.notify("Operation Successful", $scope.tempHolder.name+"'s brand information has been updated successfully.", "success");
+				$scope.reloadInventoryTable();
+				$scope.tempHolder = {};
+				$("#edit_inventory_item").modal("hide");
+			}
+			else {
+				utils.alert("An error occurred", "Your updates have been rejected by the server. Please try again or contact an administrator if this error persists", "danger");
+			}
+		}, function(error){
+			utils.errorHandler(error);
+		})
+
+		reqTag.then(function(response){
+		}, function(error){
+			utils.errorHandler(error);
 		})
 	}
 });

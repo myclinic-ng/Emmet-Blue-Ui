@@ -153,8 +153,13 @@ angular.module("EmmetBlue")
 				services.notify('Invalid Resource Requested', 'The requested resource was not found on this server, please contact an administrator if this error persists', 'warning');
 				break;
 			}
-			case 500:{
-				services.notify('Unable To Process Request', 'This is usually due to making request for a missing resource or sending improperly formatted data to the server. Please contact an administrator if this error persists');
+			case 500:
+			case 400:{
+				services.notify('Unable To Process Request', 'This is usually due to making request for a missing resource or sending improperly formatted data to the server. Please contact an administrator if this error persists. Error Code: AB0'+errorObject.status, "error");
+				break;
+			}
+			case 503:{
+				services.notify('Duplicate Data Detected', 'Request denied. This resource does not allow you to create data of the same exact type, please contact an administrator if this error persists. Error Code: AB0'+errorObject.status, 'warning');
 				break;
 			}
 			default:
@@ -164,7 +169,7 @@ angular.module("EmmetBlue")
 				}
 				else{
 					if (errorObject.status == -1){
-						services.notify('Unable to reach server', "Please check your network connectivity to confirm the server is still accessible from this computer. Contact an administrator if this error persists", "warning");
+						services.notify('Unable to reach server', "Please check your network connectivity to confirm the server is still accessible from this computer. Contact an administrator if this error persists. Error Code: AB0"+errorObject.status, "warning");
 					}
 					else {
 						services.notify("Unknown error", "A general error has occurred, please contact an administrator", 'error');
