@@ -45,6 +45,7 @@ angular.module("EmmetBlue")
 				"' data-option-patient-fullname='"+data.PatientFullName+
 				"' data-option-patient-type='"+data.PatientType+
 				"' data-option-staff-id='"+data.RequestBy+
+				"' data-option-staff-uuid-fullname='"+data.RequestByFullName+
 				"' data-option-request-date='"+data.RequestDate+
 				"' data-option-fulfillment-status='"+data.RequestFulfillmentStatus+
 				"' data-option-fulfilled-date='"+data.RequestFulFilledDate+
@@ -116,6 +117,7 @@ angular.module("EmmetBlue")
 					requestId:id,
 					requestNumber:$(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-payment-request-uuid"),
 					staffUUID: $(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-staff-id"),
+					staffUUIDFullName: $(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-staff-uuid-fullname"),
 					patientUUID: $(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-patient-uuid"),
 					patientID:$(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-patient-id"),
 					patientFullName: $(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-patient-fullname"),
