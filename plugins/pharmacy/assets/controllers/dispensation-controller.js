@@ -123,7 +123,9 @@ angular.module("EmmetBlue")
 	$scope.$watch(function(){
 		return $scope.currentStore;
 	}, function(newValue){
-		$scope.reloadInventoryTable();
+		if (typeof newValue !== "undefined"){
+			$scope.reloadInventoryTable();
+		}
 	})
 
 
@@ -141,7 +143,7 @@ angular.module("EmmetBlue")
 	$scope.ddtInstance = {};
 	$scope.ddtOptions = utils.DT.optionsBuilder
 	.fromFnPromise(function(){
-		var inventory = utils.serverRequest('/pharmacy/store-inventory/view?resourceId='+$scope.currentStore, 'GET');
+		var inventory = utils.serverRequest('/pharmacy/store-inventory/view-by-store?resourceId='+$scope.currentStore, 'GET');
 		return inventory;
 	})
 	.withPaginationType('full_numbers')
@@ -162,6 +164,15 @@ angular.module("EmmetBlue")
 		utils.DT.columnBuilder.newColumn('BillingTypeItemName').withTitle("Item"),
 		utils.DT.columnBuilder.newColumn('ItemBrand').withTitle("Brand"),
 		utils.DT.columnBuilder.newColumn('ItemManufacturer').withTitle("Manufacturer"),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Tags").renderWith(function(data, type, full){
+			var string = invisible = "";
+			for (var i = 0; i < data.Tags.length; i++) {
+				invisible += data.Tags[i].TagTitle+": "+data.Tags[i].TagName+" ";
+				string += "<h6 class='display-block'><span class='label label-info text-muted pull-left' style='border-right:0px !important;'>"+data.Tags[i].TagTitle+"</span><span class='label label-warning pull-left' style='border-left:0px !important;'> "+data.Tags[i].TagName+"</span></h6><br/><br/>";
+			}
+			
+			return string;
+		}),
 		utils.DT.columnBuilder.newColumn('ItemQuantity').withTitle("Quantity in stock"),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(inventoryActions).withOption('width', '25%').notSortable()
 	];

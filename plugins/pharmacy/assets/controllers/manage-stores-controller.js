@@ -67,10 +67,10 @@ angular.module("EmmetBlue")
 	]);	
 
 	$scope.dtColumns = [
-		utils.DT.columnBuilder.newColumn('StoreID').withTitle("ID").withOption('width', '0.5%'),
+		utils.DT.columnBuilder.newColumn('StoreID').withTitle("ID"),
 		utils.DT.columnBuilder.newColumn('StoreName').withTitle("Name"),
 		utils.DT.columnBuilder.newColumn('StoreDescription').withTitle("Description"),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(actions).withOption('width', '25%').notSortable()
+		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(actions)
 	];
 
 	$scope.reloadStoresTable = function(){

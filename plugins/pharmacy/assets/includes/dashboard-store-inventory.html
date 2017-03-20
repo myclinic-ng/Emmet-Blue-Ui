@@ -52,12 +52,12 @@
 								</fieldset>
 								<div class="col-md-8">
 									<p class="text-bold">Associated Tags</p class="text-bold">
-									<table class="table table-bordered table-condensed table-responsive">
+									<table class="table table-condensed table-responsive">
 										<thead class="bg-success">
 											<tr>
 												<th>S/N</th>
 												<th>Title</th>
-												<th>Value</th>
+												<th colspan="2" class="text-center"><span class="text-center">Value</span></th>
 											</tr>
 										</thead>
 										<tbody>
@@ -65,6 +65,7 @@
 												<th>{{$index + 1}}</th>
 												<th>{{tag.title}}</th>
 												<th>{{tag.name}}</th>
+												<th><a class="btn btn-link btn-clear btn-icon btn-xs text-danger" ng-click="removeTagFromList($index)"><i class="fa fa-times"></i></a></th>
 											</tr>
 										</tbody>
 									</table>
@@ -77,6 +78,77 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-link" onclick="$('#new_inventory_item').modal('hide')" ng-click="newItem = {}"><i class="fa fa-times-circle-o"></i> Close</button>
 					<button type="button" class="btn btn-warning" ng-click="saveNewItem()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"> </i></span>  Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="edit_inventory_item" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title">Edit Brand Information For <span class="label label-default">{{tempHolder.name}}</span></h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="content-group col-sm-12">
+								<label>Brand name</label>
+								<input type="text" class="form-control" ng-model="tempHolder.brand" data-option-id="{{tempHolder.resourceId}}">
+							</div>
+							<div class="content-group col-sm-12">
+								<label>Manufacturer</label>
+								<input type="text" class="form-control" ng-model="tempHolder.manufacturer" data-option-id="{{tempHolder.resourceId}}">
+							</div>
+						</div>
+						<div class="row">
+							<fieldset class="col-md-4">
+								<label class="text-bold">Add New Tag(s)</label>
+								<div class="content-group col-sm-12">
+									<label>Title</label>
+									<input class="form-control" ng-model="itemTag.title"/>
+								</div>
+								<div class="content-group col-sm-12">
+									<label>Value</label>
+									<input class="form-control" ng-model="itemTag.name"/>
+								</div>
+								<div class="content-group col-sm-12">
+									<button class="btn btn-wwarning" ng-click="addTagToTempHolder()">Add to list</button>
+								</div>
+							</fieldset>
+							<div class="col-md-8">
+								<p class="text-bold">Manage Existing Tags</p class="text-bold">
+								<table class="table table-condensed table-responsive">
+									<thead class="bg-success">
+										<tr>
+											<th ng-if="tempHolder.tags.length < 1" colspan="4" class="text-center">Tag</th>
+											<th ng-if="tempHolder.tags.length > 0">S/N</th>
+											<th ng-if="tempHolder.tags.length > 0">Title</th>
+											<th colspan="2" ng-if="tempHolder.tags.length > 0" class="text-center"><span class="text-center">Value</span></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="tag in tempHolder.tags" ng-if="tempHolder.tags.length > 0">
+											<th>{{$index + 1}}</th>
+											<th>{{tag.TagTitle}}</th>
+											<th>{{tag.TagName}}</th>
+											<th><a class="btn btn-link btn-clear btn-icon btn-xs text-danger" ng-click="deleteTag(tag.TagID, $index)"><i class="fa fa-times"></i></a></th>
+										</tr>
+										<tr ng-if="tempHolder.tags.length < 1">
+											<td class="text-muted text-center">NO TAG HAS BEEN ASSOCIATED WITH THIS ITEM</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="tempHolder = {}"><i class="fa fa-times-circle-o"></i> Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveEditInventoryItem()"><span class="hide loader pull-left"><i class="fa fa-circle-o-notch fa-spin "> </i></span>  Save changes</button>
 				</div>
 			</div>
 		</div>

@@ -281,7 +281,7 @@
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h6 class="modal-title"> Price Structure Management <span class="pull-right mr-20"></span></h6>
+					<h6 class="modal-title"> Price Structure Management  <span class="pull-right mr-20">{{billingTypeItemCurrentName}}</span></h6>
 				</div>
 				<div class="modal-body">
 					<div class="table-responsive col-md-12">
@@ -296,4 +296,92 @@
 		</div>
 	</div>
 	<!--/Edit Billing Type Items  -->
+
+	<div id="control_billing_type_item_prices" class="modal fade">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title"> General Price Structure Control  <span class="pull-right mr-20">{{billingTypeItemCurrentName}}</span></h6>
+				</div>
+				<div class="modal-body">
+					<div class="col-md-6 pt-15 pl-5 pb-15 pr-5">
+						<div class="col-md-12 mt-15">
+							<h6 class="text-center"><u>General Price For This Item</u></h6>
+						</div>
+						<div class="table-responsive col-md-12">
+							<table class="table table-hover table-bordered">
+								<thead class="bg-info">
+									<th class="text-center">Amount</th>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="text-center">{{currentItemGeneralPrice.BillingTypeItemPrice}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<div class="table-responsive col-md-12 mt-15">
+							<table class="table table-hover">
+								<thead class="bg-success">
+									<th class="text-center" colspan="2">Change The General Price For This Item</th>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="text-center">
+											<input type="text" class="form-control" ng-model="currentItemGeneralPrice.BillingTypeItemPrice"/>
+										</td>
+										<td class="text-center">
+											<button class="btn btn-warning" ng-click="saveCurrentItemGeneralPrice()">Save Changes</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="col-md-6 pt-5 pl-5 pb-15 pr-5" style="border-left: 1px solid green">
+						<div class="col-md-12">
+							<h6 class="text-center"><u>Default Prices Associated With This Item Based On Patient Type Category</u></h6>
+						</div>
+						<div class="table-responsive col-md-12">
+							<table class="table table-hover">
+								<thead class="bg-info">
+									<th>Patient Type Category</th>
+									<th>Item Price</th>
+									<th>Rate</th>
+								</thead>
+								<tbody>
+									<tr ng-repeat="item in currentItemGeneralPrices">
+										<td>{{item.CategoryName}}</td>
+										<td>{{item.BillingTypeItemPrice}}</td>
+										<td>{{item.RateIdentifier}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="row">
+						<div class="table-responsive col-md-12">
+							<table class="table table-bordered">
+								<thead class="bg-success">
+									<th ng-repeat="item in currentItemGeneralPrices">{{item.CategoryName}}</th>
+								</thead>
+								<tbody>
+									<tr>
+										<td ng-repeat="item in currentItemGeneralPrices">
+											<input type="text" class="form-control" ng-model="item.BillingTypeItemPrice"/>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="text-center mt-5"><button class="btn btn-warning" ng-click="saveCurrentItemGeneralPrices()">Save Changes</button></div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
