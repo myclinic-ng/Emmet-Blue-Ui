@@ -7,8 +7,8 @@ angular.module("EmmetBlue")
 		
 		var dataOpt = "data-option-id='"+data.RequestID+"' data-option-request='"+JSON.stringify(data.Request)+"' data-option-patient='"+data.patientInfo.patientfullname+"' data-option-patient-id='"+data.patientInfo.patientid+"'";
 
-		var viewButton = "<button class='btn btn-info no-border pharmacy-ack-btn' ng-click=\""+viewButtonAction+"\" "+dataOpt+"><i class='icon-eye'></i> View </button>";
-		var dispenseButton = "<button class='btn btn-danger no-border pharmacy-ack-btn' ng-click=\""+dispenseButtonAction+"\" "+dataOpt+">Dispense Items </button>";
+		var viewButton = "<button class='btn btn-xs no-border pharmacy-ack-btn' ng-click=\""+viewButtonAction+"\" "+dataOpt+"><i class='icon-eye'></i> </button>";
+		var dispenseButton = "<button class='btn btn-xs btn-danger no-border pharmacy-ack-btn' ng-click=\""+dispenseButtonAction+"\" "+dataOpt+"><i class='icon-check'></i></button>";
 		
 		var buttons = "<div class='btn-group'>"+viewButton+dispenseButton+"</button>";
 		return buttons;
@@ -65,12 +65,16 @@ angular.module("EmmetBlue")
 	]);	
 
 	$scope.dtColumns = [
-		utils.DT.columnBuilder.newColumn('patientInfo.patientuuid').withTitle("Patient Number"),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Patient Number").renderWith(function(data){
+			return data.patientInfo.patientfullname+" <br/>"+data.patientInfo.patientuuid+"";
+		}),,
 		utils.DT.columnBuilder.newColumn(null).withTitle("Patient Type").renderWith(function(data){
 			return data.patientInfo.patienttypename+" ("+data.patientInfo.categoryname+")";
 		}),
 		utils.DT.columnBuilder.newColumn('RequestedBy').withTitle("Dispensation Request Sent By"),
-		utils.DT.columnBuilder.newColumn('RequestDate').withTitle("Requested Date &amp; Time"),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Requested Date &amp; Time").renderWith(function(data, a, b){
+			return (new Date(data.RequestDate)).toDateString()+" "+(new Date(data.RequestDate)).toLocaleTimeString();
+		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(actions).notSortable()
 	];
 
