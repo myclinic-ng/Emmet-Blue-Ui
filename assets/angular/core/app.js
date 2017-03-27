@@ -154,6 +154,7 @@ angular.module("EmmetBlue")
 				break;
 			}
 			case 500:
+			case 501:
 			case 400:{
 				services.notify('Unable To Process Request', 'This is usually due to making request for a missing resource or sending improperly formatted data to the server. Please contact an administrator if this error persists. Error Code: AB0'+errorObject.status, "error");
 				break;
@@ -249,8 +250,12 @@ angular.module("EmmetBlue")
 			return services.userSession.cookie().username;
 		},
 		clear: function(){
-			$cookies.remove(CONSTANTS.USER_COOKIE_IDENTIFIER);
-			$location.path('user/login');
+			services.serverRequest("/user/session/deactivate?resourceId="+services.userSession.getID(), "GET").then(function(response){
+				$cookies.remove(CONSTANTS.USER_COOKIE_IDENTIFIER);
+				$location.path('user/login');
+			}, function(error){
+				services.errorHandler(error);
+			})
 		}
 	}
 

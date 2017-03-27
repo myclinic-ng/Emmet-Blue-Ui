@@ -3,6 +3,7 @@ angular.module("EmmetBlue")
 .controller('labRequestsController', function($scope, utils){
 	var actions = function (data, type, full, meta){
 		var deleteButtonAction = "manage('process', "+data.RequestID+")";
+		var hmoButtonAction = "manage('hmoReq', "+data.RequestID+")";
 
 		var dataOpt = "data-option-id='"+data.RequestID+"'"+
 					  "data-option-patient-uuid='"+data.PatientUUID+"'"+
@@ -11,12 +12,14 @@ angular.module("EmmetBlue")
 					  "data-option-investigation-required='"+data.InvestigationRequired+"'"+
 					  "data-option-clinical-diagnosis='"+data.ClinicalDiagnosis+"'"+
 					  "data-option-requested-by='"+data.RequestedBy+"'"+
+					  "data-option-patient-id='"+data.PatientID+"'"+
 					  "data-option-request-date='"+data.RequestDate+"'";
 
 
-		var deleteButton = "<button class='btn btn-default process-btn btn-danger' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> proceed</button>";
+		var deleteButton = "<button class='btn btn-default process-btn btn-danger col-md-12' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> proceed</button>";
+		var hmoButton = "<button class='btn btn-default process-btn col-md-offset-3 col-md-12' ng-click=\""+hmoButtonAction+"\" "+dataOpt+"> Send to HMO office</button>";
 		
-		var buttons = "<div class='btn-group'>"+deleteButton+"</button>";
+		var buttons = "<div class='btn-group'>"+deleteButton+hmoButton+"</button>";
 		return buttons;
 	}
 	
@@ -46,7 +49,10 @@ angular.module("EmmetBlue")
     })
 
 	$scope.dtColumns = [
-		utils.DT.columnBuilder.newColumn('PatientFullName').withTitle("Patient"),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Patient").renderWith(function(data, a, b){
+			var string = "<span class='text-bold'>"+data.PatientFullName+"</span><br/>"+data.PatientTypeName+" ("+data.CategoryName+")";
+			return string;
+		}),
 		utils.DT.columnBuilder.newColumn('LabName').withTitle("Required Laboratory"),
 		utils.DT.columnBuilder.newColumn('InvestigationTypeName').withTitle("Investigation Type Name"),
 		utils.DT.columnBuilder.newColumn('RequestedByFullName').withTitle("Requested By"),
@@ -57,6 +63,9 @@ angular.module("EmmetBlue")
 		utils.DT.columnBuilder.newColumn(null).withTitle("Generate Lab Number").renderWith(actions).notSortable()
 	];
 
+	$scope.$on("ReloadQueue", function(){
+		$scope.dtInstance.reloadData();
+	})
 	$scope.reloadInvestigationTypesTable = function(type = ""){
 		if (type == 1){
 			$scope.currentPatient = $scope.patientUuid;
@@ -86,6 +95,44 @@ angular.module("EmmetBlue")
 				utils.storage.processedNewPatient = data;
 
 				$("#_new_patient").modal("show");	
+				break;
+			}
+			case "hmoReq":{
+				datum = {
+					investigationId: id,
+					patientUuid: $(".process-btn[data-option-id='"+id+"']").attr("data-option-patient-uuid"),
+					labId: $(".process-btn[data-option-id='"+id+"']").attr("data-option-lab-id"),
+					clinicalDiagnosis: $(".process-btn[data-option-id='"+id+"']").attr("data-option-clinical-diagnosis"),
+					investigationRequired: $(".process-btn[data-option-id='"+id+"']").attr("data-option-investigation-required"),
+					requestedBy: $(".process-btn[data-option-id='"+id+"']").attr("data-option-requested-by"),
+					dateRequested: $(".process-btn[data-option-id='"+id+"']").attr("data-option-request-date")
+				}
+
+				items = [];
+
+				datumText = "Investigation ID: "+datum.investigationId+" <br/> Clinical Diagnosis: "+datum.clinicalDiagnosis+" <br/> Investigation Required: "+datum.investigationRequired+" <br/> Requested By: "+datum.requestedBy+" Date Requested: "+datum.dateRequested;
+
+				items.push({
+					"item":datumText,
+					"duration": null
+				});
+
+				data = {
+					items: items,
+					patient: $(".process-btn[data-option-id='"+id+"']").attr("data-option-patient-id"),
+					requestBy: utils.userSession.getID()
+				};
+
+
+				var req = utils.serverRequest("/accounts-biller/hmo-sales-verification/new", "POST", data);
+
+				req.then(function(response){
+					$("#ack_modal").modal("hide");
+					utils.alert("Request Sent Successfully", "This patient's HMO has been notified successfully. Please refer him/her to their respective departments", "success");
+				}, function(error){
+					utils.errorHandler(error);
+				})
+				break;
 			}
 		}
 	}

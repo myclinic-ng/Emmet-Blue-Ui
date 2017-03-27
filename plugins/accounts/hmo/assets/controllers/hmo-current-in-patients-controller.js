@@ -8,10 +8,10 @@ angular.module("EmmetBlue")
 
 		var dataOpt = "data-option-id='"+data.patientid+"' data-option-uuid='"+data.patientuuid+"'";
 
-		var verifyButton = "<button class='btn btn-danger btn-labeled bg-white no-border-radius btn-hmo-profile' ng-click=\""+verifyButtonAction+"\" "+dataOpt+"> <b><i class='icon-user-block'></i></b> Load Request</button>";
+		var verifyButton = "<button class='btn btn-danger btn-labeled bg-white no-border-radius btn-hmo-profile' ng-click=\""+verifyButtonAction+"\" "+dataOpt+"> <b><i class='icon-user-block'></i></b> Load Workspace</button>";
 		
 		var buttons = "<div class='btn-group'>"+verifyButton+"</button>";
-		return buttons;
+		return ""; //buttons;
 	}
 
 	$scope.dtInstance = {};
@@ -34,7 +34,7 @@ angular.module("EmmetBlue")
     })
 
 	$scope.dtColumns = [
-		utils.DT.columnBuilder.newColumn("PatientAdmissionID").withTitle("Admission Reference No."),
+		utils.DT.columnBuilder.newColumn("PatientAdmissionID").withTitle("Ref. No."),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Patient").renderWith(function(data){
 			var image = $scope.loadImage(data.PatientInformation.patientpicture);
 			var val = "<div class='media'>"+
@@ -59,11 +59,11 @@ angular.module("EmmetBlue")
 			var val = data.WardName+"<span>";
 
 			val += "&nbsp;<span class='label label-info mb-5'> "+data.WardSectionName+"</span>"
-			if (data.ReceivedInWard == 0){
-				val += "<span class='label label-danger display-block text-muted' title='The selected ward has not admitted the patient yet'> Admission In Progress</span>"
+			if (data.DischargeStatus == -1){
+				val += "<span class='label label-danger display-block text-muted' title='Discharge Process Started'> Discharge In Progress</span>"
 			}
-			else if (data.ReceivedInWard == 1){
-				val += "<span class='label label-success display-block text-muted' title='The patient has been assigned a bed'> Admission process completed</span>"
+			else if (data.DischargeStatus == 1){
+				val += "<span class='label label-success display-block text-muted' title='The patient has been assigned a bed'> Discharged</span>"
 			}
 
 			return val+"</span>";

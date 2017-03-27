@@ -65,7 +65,12 @@ angular.module("EmmetBlue")
 		},
 		performSymptomSearch: function(){
 			var successCallback = function(response){
-				$scope.presentingComplaints.searchedSymptoms = response.hits.hits;
+				if (response.hits.hits.length > 0){
+					$scope.presentingComplaints.searchedSymptoms = response.hits.hits;
+				}
+				else {
+					modules.presentingComplaints.addSymptomToComplaintList($scope.currentGlobalQuery);
+				}
 			}
 
 			var errorCallback = function(error){
@@ -73,6 +78,7 @@ angular.module("EmmetBlue")
 			}
 
 			var query = $("#presentingComplaints-symptomSearchQuery").val();
+			$scope.currentGlobalQuery = query;
 			if (query != ""){
 				modules.globals.symptoms.search(query, successCallback, errorCallback);
 			}

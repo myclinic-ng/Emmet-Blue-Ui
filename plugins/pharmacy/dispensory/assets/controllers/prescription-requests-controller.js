@@ -1,14 +1,14 @@
 angular.module("EmmetBlue")
 
-.controller('pharmacyDispensationPrescriptionRequestsController', function($scope, utils, patientEventLogger){
+.controller('pharmacyDispensationPrescriptionRequestsController', function($scope, utils, patientEventLogger, $rootScope){
 	var actions = function (data, type, full, meta){
 		var viewButtonAction = "manage('view', "+data.RequestID+")";
 		var dispenseButtonAction = "manage('dispense', "+data.RequestID+")";
 		
-		var dataOpt = "data-option-id='"+data.RequestID+"' data-option-request='"+JSON.stringify(data.Request)+"' data-option-patient='"+data.patientInfo.patientfullname+"' data-option-patient-id='"+data.patientInfo.patientid+"'";
+		var dataOpt = "data-option-id='"+data.RequestID+"' data-option-request='"+JSON.stringify(data.Request)+"' data-option-patient='"+data.patientInfo.patientfullname+"' data-option-patient-id='"+data.patientInfo.patientid+"' data-option-patient-uuid='"+data.patientInfo.patientuuid+"'";
 
-		var viewButton = "<button class='btn btn-info no-border pharmacy-ack-btn' ng-click=\""+viewButtonAction+"\" "+dataOpt+"><i class='icon-eye'></i> View </button>";
-		var dispenseButton = "<button class='btn btn-danger no-border pharmacy-ack-btn' ng-click=\""+dispenseButtonAction+"\" "+dataOpt+">Dispense Items </button>";
+		var viewButton = "<button class='btn btn-xs no-border pharmacy-ack-btn' ng-click=\""+viewButtonAction+"\" "+dataOpt+"><i class='icon-eye'></i> </button>";
+		var dispenseButton = "<button class='btn btn-xs btn-danger no-border pharmacy-ack-btn' ng-click=\""+dispenseButtonAction+"\" "+dataOpt+"><i class='icon-check'></i></button>";
 		
 		var buttons = "<div class='btn-group'>"+viewButton+dispenseButton+"</button>";
 		return buttons;
@@ -65,12 +65,16 @@ angular.module("EmmetBlue")
 	]);	
 
 	$scope.dtColumns = [
-		utils.DT.columnBuilder.newColumn('patientInfo.patientuuid').withTitle("Patient Number"),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Patient Number").renderWith(function(data){
+			return "<span class='text-bold'>"+data.patientInfo.patientfullname+"</span> <br/>"+data.patientInfo.patientuuid+"";
+		}),,
 		utils.DT.columnBuilder.newColumn(null).withTitle("Patient Type").renderWith(function(data){
 			return data.patientInfo.patienttypename+" ("+data.patientInfo.categoryname+")";
 		}),
-		utils.DT.columnBuilder.newColumn('RequestedBy').withTitle("Dispensation Request Sent By"),
-		utils.DT.columnBuilder.newColumn('RequestDate').withTitle("Requested Date &amp; Time"),
+		utils.DT.columnBuilder.newColumn('RequestedByFullName').withTitle("Dispensation Request Sent By"),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Requested Date &amp; Time").renderWith(function(data, a, b){
+			return (new Date(data.RequestDate)).toDateString()+" "+(new Date(data.RequestDate)).toLocaleTimeString();
+		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(actions).notSortable()
 	];
 
@@ -105,6 +109,8 @@ angular.module("EmmetBlue")
 				$scope.currentRequest.PatientName = patientname;
 				$scope.currentRequest.PatientID =  $(".pharmacy-ack-btn[data-option-id='"+id+"'").attr("data-option-patient-id");
 
+				utils.storage.patientNumberForDispensation = $(".pharmacy-ack-btn[data-option-id='"+id+"'").attr("data-option-patient-uuid");
+				$rootScope.$broadcast("loadPatientNumberForDispensation");
 				$("#new_dispensation").modal({
 					backdrop: "static"
 				});
@@ -130,18 +136,23 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.getHmoProceedStatus = function(id){
-		var request = utils.serverRequest("/accounts-biller/hmo-sales-verification/get-status?uuid="+id+"&department=1", "GET");
+		var request = utils.serverRequest("/accounts-biller/hmo-sales-verification/get-status?uuid="+id+"&staff="+utils.userSession.getID(), "GET");
 
 		request.then(function(response){
-			console.log(typeof response[0].ProceedStatus != "undefined", response[0].ProceedStatus != false, response[0].ProceedStatus);
-			if (typeof response[0].ProceedStatus !== "undefined" && response[0].ProceedStatus != false && response[0].ProceedStatus != null){
+			if (typeof response[0] !== "undefined" && typeof response[0].ProceedStatus !== "undefined" && response[0].ProceedStatus != false && response[0].ProceedStatus != null){
 				utils.alert("Verification successful", "Proceed status confirmed", "success");
+				if (response[0].SignComment !== null && response[0].SignComment !== ""){
+					utils.notify("HMO Proceed Message", response[0].SignComment, "info");
+				}
 			}
-			else if ( response[0].ProceedStatus == null){
-				utils.alert("Request unconfirmed", "The specified request has not been processed, please refer patient to HMO", "warning");
+			else if (typeof response[0] !== "undefined" && response[0].ProceedStatus == null){
+				utils.notify("Request unconfirmed", "The specified request has not been processed, please refer patient to HMO", "info");
 			}
 			else{
-				utils.alert("Verification Denied", "The specified has been denied, please refer patient to HMO", "error");
+				utils.alert("Verification Denied", "The specified request has been denied, please refer patient to HMO", "error");
+				if (typeof response[0] !== "undefined" && response[0].SignComment !== null && response[0].SignComment !== ""){
+					utils.notify("HMO Proceed Message", response[0].SignComment, "info");
+				}
 			}
 			
 			$("#verifyHmoProceed").modal("hide");

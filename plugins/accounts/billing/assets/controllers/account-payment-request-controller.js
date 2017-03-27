@@ -419,9 +419,6 @@ angular.module("EmmetBlue")
 			utils.errorHandler(error);
 		})
 	}
-	$scope.removeFromItemList = function(index, item){
-		utils.alert("Operation not allowed", "You are not allowed to perform that action", "info");
-	}
 
 	$scope.functions = functions;
 

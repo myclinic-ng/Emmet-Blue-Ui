@@ -9,3 +9,4 @@ head.load(controllersLocation+"investigation-type-fields-controller.js");
 head.load(controllersLocation+"patient-controller.js");
 head.load(controllersLocation+"new-patient-controller.js");
 head.load(controllersLocation+"payment-request-controller.js");
+head.load(controllersLocation+"verify-hmo-proceed-controller.js");

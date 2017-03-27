@@ -12,6 +12,7 @@
 			<ul class="nav navbar-nav">
 				<li><a href="lab/dashboard"><i class="icon-display4 position-left"></i> Dashboard</a></li>
 				<li><a href="lab/lab-requests"><i class="fa fa-flask"></i> Queued Patients</a></li>
+				<li><a href="#" data-toggle="modal" data-target="#verifyHmoProceed"><i class="fa fa-credit-card"></i> Verify HMO Confirmation Status</a></li>
 				<li><a href="lab/patients"><i class="icon-vcard"></i> Patient Management</a></li>
 				<li><a href="#" data-toggle="modal" data-target="#_new_patient"><i class="fa fa-user-plus"></i> External Patient Registration</a></li>
 				<li><a href="#" data-toggle="modal" data-target="#_payment_request"><i class="fa fa-credit-card"></i> Payment Requests</a></li>
@@ -222,6 +223,34 @@
 		</div>
 	</div>
 </div>
+
+<div ng-controller="verifyHmoProceedController">
+	<div id="verifyHmoProceed" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal" ng-click="reloadDispensationsTable()">&times; close</button>
+					<div class="modal-title"> Verify HMO Proceed Status For Dispensation</div>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="content-group">
+								<label class="control-label">Enter Patient's Number</label>
+								<input class="form-control" type="text" ng-model="verifyPatientID"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-warning pull-right" ng-click="getHmoProceedStatus(verifyPatientID)">Verify</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
 
 <!-- Settings Modal-->
 <ng-include src="'plugins/lab/assets/includes/settings/index.html'"></ng-include>

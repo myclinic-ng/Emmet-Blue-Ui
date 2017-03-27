@@ -1,4 +1,4 @@
-<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+	<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
 <script>$('select.select').select2();</script>
 <div ng-controller="pharmacyDispensationController">
 	<div class="col-md-12">
@@ -43,14 +43,14 @@
 						<thead class="bg-success">
 							<th>S/N</th>
 							<th>Item</th>
-							<th colspan="2">Qty</th>
+							<th>remove</th>
 						</thead>
 						<tbody>
 							<tr ng-repeat="item in dispensationItems">
 								<td>{{$index + 1}}</td>
 								<!-- <td>{{item.ItemCode}}</td> -->
-								<td>{{item.Item}}</td>
-								<td contenteditable="">{{item.quantity}}</td>
+								<td>{{item.Item}} (x {{item.quantity}})</td>
+								<!-- <td contenteditable="">{{item.quantity}}</td> -->
 								<td><a class="btn btn-link btn-clear btn-icon text-danger" ng-click="removeItemFromList($index)"><i class="fa fa-times"></i></a></td>
 							</tr>
 						</tbody>
