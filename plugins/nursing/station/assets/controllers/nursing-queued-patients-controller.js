@@ -52,11 +52,19 @@ angular.module("EmmetBlue")
 	function reloadTable(){
 		$rootScope.$broadcast("recountQueue");
 		$scope.dtInstance.reloadData();
+		utils.notify("Operation Succesful", "The queue has been reloaded", "info");
 	}
 
-	setInterval(function(){
+	$scope.reloadTable = function(){
 		reloadTable();
-	}, 5000);
+	}
+
+	$scope.$on("reloadQueue", function(){
+		reloadTable();
+	})
+	// setInterval(function(){
+	// 	reloadTable();
+	// }, 5000);
 
 	$scope.manage = function(value, id){
 		switch(value)

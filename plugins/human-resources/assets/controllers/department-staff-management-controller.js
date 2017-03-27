@@ -69,32 +69,24 @@ angular.module("EmmetBlue")
 
 	$scope.loadImage = utils.loadImage;
 	function dtAction(data, full, meta, type){
-		// editButtonAction = "manage('edit',"+data.ObservationTypeID+")";
-		// deleteButtonAction = "manage('delete',"+data.ObservationTypeID+")";
-		// var dataOpt = "data-option-id='"+data.ObservationTypeID+
-		// 			"' data-option-name='"+data.ObservationTypeName+
-		// 			"' data-option-description='"+data.ObservationTypeDescription+
-		// 			"'";
-		// editButton = "<button class='btn btn-default' ng-click=\""+editButtonAction+"\" "+dataOpt+"> <i class='fa fa-pencil'></i></button>";
-		// deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> <i class='fa fa-trash-o'></i></button>";
+		var editButtonAction = "manageStaff('edit', "+data.StaffID+")";
+		var changeTypeButtonAction = "manageStaff('department', "+data.StaffID+")";
+		var deactivateButtonAction = "manageStaff('profile', "+data.StaffID+")";
 
-		// viewCardButtonAction = "manage('view',"+data.PatientID+")";
-		// closeButtonAction = "manage('close',"+data.PatientID+")";
-		observationButtonAction = "manage('process',"+data.PatientAdmissionID+")";
-		viewButtonAction = "manage('view',"+data.PatientAdmissionID+")";
+		var dataOpt = "data-option-id='"+data.SaffID+"' data-option-name='"+data.StaffUsername+"' data-option-department='"+data.DepartmentID+"'";
 
-		var dataOpts = "data-option-id = '"+data.PatientAdmissionID+"' "+
-					   "data-option-consultant = '"+data.Consultant+"'"+
-					   "data-option-patient = '"+data.Patient+"'"+
-					   "data-option-ward = '"+data.WardName+"'"+
-					   "data-option-section = '"+data.WardSectionName+"'"+
-					   "data-option-section-id = '"+data.Section+"'"+
-					   "data-option-admission-date = '"+data.AdmissionDate+"'";
-
-		// viewCard = "<button class='btn btn-default' ng-click=\""+viewCardButtonAction+"\">View Profile</button>";
-		// closeProfile = "<button class='btn btn-default' ng-click=\""+closeButtonAction+"\">Close</button>";
-		view = "<button class='btn btn-default btn-admission-process' ng-click=\""+viewButtonAction+"\""+dataOpts+">View Profile</button>";
-		return "";//"<div class='btn-group'>"+view+"</div>";
+		var manageButton  = "<div class='btn-group'>"+
+			                	"<button type='button' class='btn bg-active btn-labeled dropdown-toggle' data-toggle='dropdown'><b><i class='icon-cog3'></i></b> manage <span class='caret'></span></button>"+
+			                	"<ul class='dropdown-menu dropdown-menu-right'>"+
+								"	<li><a href='#' class='staff-management-btn' ng-click=\""+editButtonAction+"\" "+dataOpt+"><i class='icon-pencil5'></i> Edit Account</a></li>"+
+								"	<li><a href='#' class='staff-management-btn' ng-click=\""+changeTypeButtonAction+"\" "+dataOpt+"><i class='fa fa-unlink'></i> Manage Departments</a></li>"+
+								"	<li><a href='#'><i class='fa fa-file-text-o'></i> View Log</a></li>"+
+								"	<li class='divider'></li>"+
+								"	<li><a href='#' class='staff-management-btn' ng-click=\""+deactivateButtonAction+"\" "+dataOpt+">Manage Profile</a></li>"+
+								"</ul>"+
+							"</div>";
+		var buttons = manageButton;
+		return buttons;
 	}
 
 	$scope.dtInstance = {};
@@ -117,17 +109,37 @@ angular.module("EmmetBlue")
     })
 
 	$scope.dtColumns = [
-		utils.DT.columnBuilder.newColumn(null).withTitle("S/N").renderWith(function(data, type, full, meta){
-			return meta.row + 1;
-		}),
 		utils.DT.columnBuilder.newColumn('StaffID').withTitle("Staff ID"),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Full Name").renderWith(function(data){
 			var image = $scope.loadImage(data.StaffPicture);
-			var val ='<div class="media-left"> <a href="#"> <img src="'+image+'" class="img-circle" alt=""> </a> </div><div class="media-body">'+data.StaffFullName+'</div>';
-			return "<div class='media'>"+val+"</div>";
+			var val = "<div class='media'>"+
+						"<div class='media-left'>"+
+							"<a href='#'>"+
+								"<img src='"+image+"' class='img-circle img-lg' alt=''>"+
+							"</a>"+
+						"</div>"+
+
+						"<div class='media-body' style='width: auto !important;'>"+
+							"<h6 class='media-heading text-bold'>"+data.StaffFullName+"</h6>"+
+							"<span class='text-muted'> "+data.RoleName+"</span>"+
+						"</div>"+
+					"</div>";
+
+			return "<div class='content-group'>"+val+"</div>";
 		}),
 		utils.DT.columnBuilder.newColumn('DepartmentName').withTitle("Department"),
-		utils.DT.columnBuilder.newColumn('RoleName').withTitle("Staff Role"),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Account").renderWith(function(data, b, c){
+			var val = data.StaffUsername+"<span>";
+
+			if (data.isLoggedIn == 1){
+				val += "<br/><span class='label label-success mb-5'> Online</span>"
+			}
+			else if (data.isLoggedIn == 0){
+				val += "<br/><span class='label label-danger mb-5'> Away</span>"
+			}
+
+			return val+"</span>";
+		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(dtAction).notSortable()
 	];
 
@@ -152,5 +164,63 @@ angular.module("EmmetBlue")
 		};
 
 		$("#new_staff_profile").modal("show");
+	}
+
+	$scope.manageStaff = function(action, id){
+		switch (action){
+			case "edit":{
+				break;
+			}
+			case "department":{
+				var staff = id;
+
+				utils.serverRequest("/human-resources/staff-department/view-secondary-departments?resourceId="+staff, "GET").then(function(response){
+					$scope.switchDept = {
+						currentStaff: id,
+						secondaryDept: ""
+					};
+
+					$scope.secondaryDept = "";
+					$scope.currentSecondaryDepartments = response;
+				}, function(error){
+					utils.errorHandler(error);
+				});
+
+				$("#manage_staff_department").modal("show");
+				break;
+			}
+			case "profile":{
+				break;
+			}
+		}
+	}
+
+	$scope.addSecondaryDepartment = function(){
+		var data = {
+			staff: $scope.switchDept.currentStaff,
+			department: $scope.switchDept.secondaryDept
+		};
+
+		utils.serverRequest("/human-resources/staff-department/assign-secondary", "POST", data).then(function(response){
+			utils.notify("Operation Successful", "The selected account has been granted access to the specified department", "success");
+			$scope.manageStaff("department", $scope.switchDept.currentStaff);
+		}, function(error){
+			utils.errorHandler(error);
+		})
+	}
+
+	$scope.changePrimaryDepartment = function(){
+		var data = {
+			resourceId: $scope.switchDept.currentStaff,
+			DepartmentID: $scope.switchDept.secondaryDept
+		};
+
+		utils.serverRequest("/human-resources/staff-department/edit", "PUT", data).then(function(response){
+			utils.notify("Operation Successful", "The selected account has been assigned to the specified department", "success");
+			$scope.manageStaff("department", $scope.switchDept.currentStaff);
+			$scope.dtInstance.reloadData();
+		}, function(error){
+			utils.errorHandler(error);
+		})
 	}
 })

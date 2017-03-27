@@ -352,6 +352,8 @@ angular.module("EmmetBlue")
 			else {
 				$scope.conclusion.prescriptionList.push(prescription);
 			}
+
+			console.log($scope.conclusion.prescriptionList);
 		},
 		removePrescriptionFromList: function(index){
 			$scope.conclusion.prescriptionList.splice(index, 1);
@@ -383,24 +385,33 @@ angular.module("EmmetBlue")
 	        	}
 	        })
 		},
+		catchSearchDrugEnterPress: function(e){
+			if (e.which == 13){
+				modules.conclusion.searchDrug();
+			}
+		},
 		searchDrug: function(){
-			var drug = $("#conclusion-drug").val()
+			var drug = $("#conclusion-drug").val();
 
-			$scope.conclusion.searchDrugGroups = {
-				name: drug
-			}
+			$scope.conclusion.addPrescriptionToList(drug);
 
-			var successCallback = function(response){
-				$scope.conclusion.searchDrugGroups = response.data.drugGroup;
-			}
+			$("#conclusion-drug").val("");
 
-			var errorCallback = function(error){
-				utils.notify("Unable to reach drugs server", "This is probably due to unavailability of internet access or some general error. Please contact an administrator if this error persists", "warning");
-				$scope.conclusion.addPrescriptionToList(drug);
-				$("#modal-drugs").modal("hide");
-			}
 
-			$http.get(modules.globals.rxNormEndpoint+"/drugs?name="+drug).then(successCallback, errorCallback);
+			// $scope.conclusion.searchDrugGroups = {
+			// 	name: drug
+			// }
+
+			// var successCallback = function(response){
+			// 	$scope.conclusion.searchDrugGroups = response.data.drugGroup;
+			// }
+
+			// var errorCallback = function(error){
+			// 	utils.notify("Unable to reach drugs server", "This is probably due to unavailability of internet access or some general error. Please contact an administrator if this error persists", "warning");
+			// 	$("#modal-drugs").modal("hide");
+			// }
+
+			// $http.get(modules.globals.rxNormEndpoint+"/drugs?name="+drug).then(successCallback, errorCallback);
 		}
 	}
 
@@ -524,10 +535,10 @@ angular.module("EmmetBlue")
 		},
 		conclusion:{
 			drugTypeAheadSource: function(query, process){
-	    		utils.serverRequest("/consultancy/drug-names/search?phrase="+query, "GET").then(function(response){
+	    		utils.serverRequest("/consultancy/drug-names/search?phrase="+query+"&staff="+utils.userSession.getUUID(), "GET").then(function(response){
 	    			var data = [];
-	        		angular.forEach(response.hits.hits, function(value){
-	        			data.push(value["_source"].displayTermsList.term);
+	        		angular.forEach(response, function(value){
+	        			data.push(value);
 	        		})
 
 	        		data = $.map(data, function (string) { return { value: string }; });
@@ -770,7 +781,8 @@ angular.module("EmmetBlue")
 			removePrescriptionFromList: modules.conclusion.removePrescriptionFromList,
 			addDrugsToPrescriptionToList: modules.conclusion.addDrugsToPrescriptionToList,
 			searchDrug: modules.conclusion.searchDrug,
-			sendToPharmacy: modules.conclusion.sendToPharmacy
+			sendToPharmacy: modules.conclusion.sendToPharmacy,
+			catchSearchDrugEnterPress: modules.conclusion.catchSearchDrugEnterPress
 		}
 	}();
 

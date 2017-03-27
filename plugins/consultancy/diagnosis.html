@@ -478,23 +478,29 @@
 											<h6 class="text-center text-bold"> <i class="icon-basket text-info"></i> Prescription</h6>
 											<div class="content-group">
 												<div class="input-group">
-													<input class="form-control drug-search" placeholder="enter prescription item here" id="conclusion-drug"/>
+													<input class="form-control drug-search input-lg" placeholder="enter prescription item here" id="conclusion-drug" ng-keypress="conclusion.catchSearchDrugEnterPress($event)"/>
 													<span class="input-group-btn">
-														<button class="btn" ng-click="conclusion.searchDrug()" data-toggle="modal" data-target="#modal-drugs">add</button>
+														<button class="btn" ng-click="conclusion.searchDrug()">add</button>
 													</span>
 												</div>
 											</div>
 											<div class="content-group">
 												<div class="table-responsive">
 													<table class="table table-bordered">
+														<thead class="bg-default">
+															<th colspan="3"">
+																<span class="text-center">
+																	<center><a class="btn btn-xs btn-danger bg-white" ng-click="conclusion.sendToPharmacy()"><i class="fa fa-send"></i> 
+																		Forward selected items to pharmacy
+																	</a></center>
+																</span>
+															</th>	
+														</thead>
 														<tbody>
-															<tr class="active">
-																<th colspan="3">Prescribed Items <span class="pull-right"><a class="btn btn-link" data-target="#modal-send-to-pharmacy" data-toggle="modal"><i class="fa fa-send"></i> Send to pharmacy</a></span></th>
-															</tr>
 															<tr ng-repeat="prescription in conclusion.prescriptionList">
-																<td>{{$index + 1}}</td>
-																<td>{{prescription.item}}</td>
-																<td><a class="btn btn-link text-danger" ng-click="conclusion.removePrescriptionFromList($index)"><i class="icon-cross"></i> remove</a></td>
+																<td style="width: 10%">{{$index + 1}}</td>
+																<td style="width: 80%">{{prescription.item}}</td>
+																<td style="width: 10%"><a class="btn btn-xs bg-white btn-danger" ng-click="conclusion.removePrescriptionFromList($index)"><i class="icon-cross"></i> </a></td>
 															</tr>
 														</tbody>
 													</table>

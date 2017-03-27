@@ -2,6 +2,13 @@ angular.module("EmmetBlue")
 
 .controller('pharmacyDispensationController', function($scope, utils, patientEventLogger){
 	$scope.patient = {};
+
+	$scope.$on("loadPatientNumberForDispensation", function(){
+		$scope.patientNumber = utils.storage.patientNumberForDispensation;
+		utils.storage.patientNumberForDispensation = null;
+		$scope.loadPatientProfile();
+	});
+
 	$scope.loadPatientProfile = function(){
 		var patient = utils.serverRequest("/patients/patient/search", "POST", {
 			"query":$scope.patientNumber,
@@ -21,10 +28,11 @@ angular.module("EmmetBlue")
 
 	var actions = function (data, type, full, meta){
 		var viewButtonAction = "manageDispensation('view', "+data.DispensationID+")";
-		
-		var dataOpt = "data-option-id='"+data.DispensationID+"' data-option-name='"+data.DispensationName+"' data-option-description='"+data.DispensationDescription+"'";
+			
+		var items = JSON.stringify(data.items);
+		var dataOpt = "data-option-id='"+data.DispensationID+"' data-option-name='"+data.DispensationName+"' data-option-description='"+data.DispensationDescription+"' data-option-items='"+items+"'";
 
-		var viewButton = "<button class='btn btn-link text-danger billing-type-btn' ng-click=\""+viewButtonAction+"\" "+dataOpt+"><i class='icon-eye'></i> view</button>";
+		var viewButton = "<button class='btn btn-danger billing-type-pharm-btn' ng-click=\""+viewButtonAction+"\" "+dataOpt+"><i class='icon-eye'></i> view</button>";
 		
 		var buttons = "<div class='btn-group'>"+viewButton+"</button>";
 		return buttons;
@@ -84,7 +92,9 @@ angular.module("EmmetBlue")
 		utils.DT.columnBuilder.newColumn('PatientUUID').withTitle("Patient Number"),
 		utils.DT.columnBuilder.newColumn('StoreName').withTitle("Dispensing Store"),
 		utils.DT.columnBuilder.newColumn('Dispensory').withTitle("Dispensory"),
-		utils.DT.columnBuilder.newColumn('DispensationDate').withTitle("Dispensation Date &amp; Time"),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Dispensation Date &amp; Time").renderWith(function(data, a, b){
+			return (new Date(data.DispensationDate)).toDateString()+" "+(new Date(data.DispensationDate)).toLocaleTimeString();
+		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(actions).notSortable()
 	];
 
@@ -163,7 +173,7 @@ angular.module("EmmetBlue")
 		utils.DT.columnBuilder.newColumn('Item').withTitle("Item Code").notVisible(),
 		utils.DT.columnBuilder.newColumn('BillingTypeItemName').withTitle("Item"),
 		utils.DT.columnBuilder.newColumn('ItemBrand').withTitle("Brand"),
-		utils.DT.columnBuilder.newColumn('ItemManufacturer').withTitle("Manufacturer"),
+		utils.DT.columnBuilder.newColumn('ItemManufacturer').withTitle("Manufacturer").notVisible(),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Tags").renderWith(function(data, type, full){
 			var string = invisible = "";
 			for (var i = 0; i < data.Tags.length; i++) {
@@ -174,7 +184,7 @@ angular.module("EmmetBlue")
 			return string;
 		}),
 		utils.DT.columnBuilder.newColumn('ItemQuantity').withTitle("Quantity in stock"),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(inventoryActions).withOption('width', '25%').notSortable()
+		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(inventoryActions).notSortable()
 	];
 
 	$scope.reloadInventoryTable = function(){
@@ -271,5 +281,21 @@ angular.module("EmmetBlue")
 	$scope.generatePaymentRequest = function(){
 		saveDispensation();
 		createRequest();
+	}
+
+	$scope.manageDispensation = function(action, id){
+		switch(action){
+			case "view":{
+				var items = $(".billing-type-pharm-btn[data-option-id='"+id+"'").attr("data-option-items");
+
+				items = JSON.parse(items);
+
+				console.log(items);
+
+				$scope.currrentDispensedItems = items;
+				$("#ack_view_modal").modal("show");
+				break;
+			}
+		}
 	}
 });

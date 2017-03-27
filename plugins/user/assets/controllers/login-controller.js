@@ -4,7 +4,7 @@ angular.module("EmmetBlue")
 	$scope.login = {};
 
 	if (typeof $.cookie("last-stored-login-username") != "undefined"){
-		$scope.login.username = $.	parseJSON($.cookie("last-stored-login-username")).value;
+		$scope.login.username = $.parseJSON($.cookie("last-stored-login-username")).value;
 	}
 
 	$scope.processLogin = function(){

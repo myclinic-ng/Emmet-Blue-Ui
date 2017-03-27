@@ -1,6 +1,6 @@
 angular.module("EmmetBlue")
 
-.controller('labNewPatientController', function($scope, utils, patientEventLogger){
+.controller('labNewPatientController', function($scope, utils, patientEventLogger, $rootScope){
 	$scope.loadImage = utils.loadImage;
 	$scope.patient = {};
 
@@ -10,6 +10,7 @@ angular.module("EmmetBlue")
 		if (typeof nv != "undefined"){
 			$scope.patientNumber = nv.patientUuid;
 			$scope.patientLab = nv.labId;
+			$scope.currentRequestId = nv.investigationId;
 			$scope.patient.clinicalDiagnosis = nv.clinicalDiagnosis;
 			$scope.patient.investigationRequired = nv.investigationRequired;
 			$scope.patient.requestedBy = nv.requestedBy;
@@ -75,6 +76,14 @@ angular.module("EmmetBlue")
 		var result = utils.serverRequest("/lab/patient/new", "POST", patient);
 		result.then(function(response){
 			utils.alert("Operation successful", "New patient registered successfully", "success");
+
+			utils.serverRequest("/lab/lab-request/close-request", "POST", {"request": $scope.currentRequestId, "staff": utils.userSession.getID()})
+			.then(function(response){
+				$rootScope.$broadcast("ReloadQueue");
+			}, function(error){
+				utils.errorHandler(error);
+			});
+
 			$("#_new_patient").modal("hide");
 			$rootScope.$broadcast("reloadLabPatients", {});
 			if (typeof $scope.patient.patientID !== "undefined"){

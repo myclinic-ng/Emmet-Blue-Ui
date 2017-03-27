@@ -141,6 +141,7 @@ angular.module("EmmetBlue")
 			$("#_patient-admission-form").modal("hide");
 			$scope.initAdmissionForm();
 		}, function(error){
+			utils.notify("Unable to admit patient", "Please make sure this patient is not already admitted or being processed for discharge", "info");
 			utils.errorHandler(error);
 		});
 	}

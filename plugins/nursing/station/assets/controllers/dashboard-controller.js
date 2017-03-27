@@ -15,7 +15,7 @@ angular.module("EmmetBlue")
 	countQueue();
 })
 
-.controller("nursingStationDashboardController", function($scope, utils){
+.controller("nursingStationDashboardController", function($scope, utils, $rootScope){
 	$scope.pageSegment = "";
 	$scope.loadPageSegment = function(segment){
 		var urlPart = "plugins/nursing/station/assets/includes/";
@@ -37,6 +37,10 @@ angular.module("EmmetBlue")
 				break;
 			}
 		}
+	}
+
+	$scope.reloadQueue = function(){
+		$rootScope.$broadcast("reloadQueue")
 	}
 
 	$scope.loadPageSegment('patient-queue');
