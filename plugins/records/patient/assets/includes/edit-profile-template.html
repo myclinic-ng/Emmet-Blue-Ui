@@ -1,0 +1,104 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>
+	$('select.select').select2();
+	$(function() {
+
+	    // Initialize lightbox
+	    $('[data-popup=lightbox]').fancybox({
+	        padding: 3
+	    });
+	    
+	});
+
+	$('body').on('hidden.bs.modal', function () {
+	    if($('.modal.in').length > 0)
+	    {
+	        $('body').addClass('modal-open');
+	    }
+	});
+
+	$(function() {
+		// Default file input style
+		$(".file-styled").uniform({
+			fileButtonHtml: '<i class="icon-plus2"></i>'
+		});
+
+
+		// Primary file input
+		$(".file-styled-primary").uniform({
+			wrapperClass: 'bg-warning',
+			fileButtonHtml: '<i class="icon-plus2"></i>'
+		});
+
+	});
+</script>
+<div class="row mt-20">
+	<div class="col-md-12">
+		<div class="tabbable">
+			<ul class="nav nav-tabs nav-tabs-highlight nav-justified">
+				<li class="active" href="#{{patientInfo['patientid']}}-edit-profile-info" data-toggle="tab"><a>Basic Profile Information</a></li>
+				<li href="#{{patientInfo['patientid']}}-edit-type" data-toggle="tab"><a>Type Information</a></li>
+				<li href="#{{patientInfo['patientid']}}-edit-docs" data-toggle="tab"><a>Passport &amp; Other Documents</a></li>
+			</ul>
+
+			<div class="tab-content">
+				<div class="tab-pane active" id="{{patientInfo['patientid']}}-edit-profile-info">
+
+					<div class="col-md-12">
+						<div class="form-group col-sm-4" ng-repeat="field in fields" ng-if="field.FieldTitle != 'Patient'">
+							<label>{{field.FieldTitle}} </label>
+							<input type="text" class="form-control edit-profile-field" ng-model="field.FieldValue" ng-change="field.edited=true">
+						</div>
+						<div class="col-md-12">
+							<button class="pull-right btn btn-warning" ng-click="saveEditedFields()">Save Changes</button>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="tab-pane" id="{{patientInfo['patientid']}}-edit-type">
+					<div class="col-md-12">
+						<h1 class="text-center">Select a new type for this patient</h1>
+						<div class="row">
+							<div class="form-group col-sm-6">
+								<label>Patient Category </label>
+								<select class="form-control" ng-model="patientCategory">
+									<option ng-repeat="category in patientCategories" value="{{category.CategoryID}}">{{category.CategoryName}}</option>
+								</select>
+							</div>
+							<div class="form-group col-sm-6">
+								<label>Patient Type </label>
+								<select class="form-control" ng-model="patientType">
+									<option ng-repeat="type in patientTypes" value="{{type.PatientTypeID}}">{{type.PatientTypeName}}</option>
+								</select>
+							</div>
+							<div class="col-md-12">
+								<button class="pull-right btn btn-warning" ng-click="saveChangeType()">Save</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="tab-pane" id="{{patientInfo['patientid']}}-edit-docs">
+					<div class="panel panel-default col-md-5 col-md-offset-3">
+		                <div class="panel-heading">
+		                  <h6 class="panel-title">Upload A New Patient Picture</h6>
+		                </div>
+		                <div class="panel-body" id="camera">
+		                  <img src="plugins/records/patient/assets/images/passport-placeholder.png" class="col-md-12 img img-responsive" style="width:100% !important; height: 100% !important;"/>
+		                </div><!-- /.panel-body -->
+		                 <input type="hidden" id="patient-passport"/>
+		                <div class="panel-footer">
+							<div class="text-center">
+								<button class="btn btn-info" onClick="enableCamera()" ng-click="eDisablers('enable')" ng-show="disablers.enable_camera"><i class="icon-camera"></i> Enable Camera</button>
+								<button class="btn btn-success" onClick="takeSnapshot()" ng-click="eDisablers('take')" ng-show="disablers.take_snapshot"><i class="icon-play"></i> Take Snapshot</button>
+								<button class="btn btn-danger" onClick="retakeSnapshot()" ng-click="eDisablers('retake')" ng-show="disablers.snapshot_taken"><i class="icon-undo"></i> Retake Snapshot</button>
+								<button class="btn btn-info" ng-click="saveNewPassport()"  ng-show="disablers.snapshot_taken"><i class="icon-camera"></i> Save</button>
+							</div>
+		                </div>
+		              </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

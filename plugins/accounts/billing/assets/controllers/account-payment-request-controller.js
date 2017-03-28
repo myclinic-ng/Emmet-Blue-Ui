@@ -357,7 +357,7 @@ angular.module("EmmetBlue")
 							resourceId: $scope.temp.requestId
 						};
 
-						utils.storage.currentInvoiceNumber = response.transactionNumber;
+						$scope.cTxNum = response.transactionNumber;
 
 						if (acceptPayment){
 							$("#request_payment_bill").modal("hide");
@@ -366,6 +366,7 @@ angular.module("EmmetBlue")
 							utils.serverRequest("/accounts-biller/payment-request/edit?resourceId="+$scope.temp.requestId, "PUT", edits)
 							.then(function(response){
 								utils.notify("Info", "An invoice has been generated successfully for this payment request and request status has been updated", "success");
+								utils.storage.currentInvoiceNumber = $scope.cTxNum;
 								$scope.reloadTable();
 							}, function(error){
 								utils.errorHandler(error);

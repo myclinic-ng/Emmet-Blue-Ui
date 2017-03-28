@@ -19,16 +19,18 @@ angular.module("EmmetBlue")
 			});
 		},
 		populateSymptomsTagsInput: function(){
-		    $('.tagsinput-typeahead').tagsinput('input').typeahead({
-	            hint: true,
-	            highlight: true,
-	            minLength: 1
-	        },
-	        {
-	        	source: function(query, process){
-	        		modules.globals.symptoms.typeAheadSource(query, process);
-	        	}
-	        })
+			if (typeof $('.tagsinput-typeahead').tagsinput('input') !== "undefined"){
+			    $('.tagsinput-typeahead').tagsinput('input').typeahead({
+		            hint: true,
+		            highlight: true,
+		            minLength: 1
+		        },
+		        {
+		        	source: function(query, process){
+		        		modules.globals.symptoms.typeAheadSource(query, process);
+		        	}
+		        })
+			}
 		},
 		loadPatientAllergies: function(patient){
 			utils.serverRequest("/patients/patient-allergy/view?resourceId="+patient, "GET")
@@ -682,7 +684,7 @@ angular.module("EmmetBlue")
 
 		modules.globals.loadRegisteredLabs();
 
-		$scope.$watch(function(){ return $scope.labTests.sendVariables.lab; }, function(nv){
+		$scope.$watch(function(){ if (typeof $scope.labTests !== "undefined") { return $scope.labTests.sendVariables.lab; } }, function(nv){
 			modules.globals.loadRegisteredInvestigationTypes(nv);
 		})
 

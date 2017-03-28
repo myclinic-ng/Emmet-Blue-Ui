@@ -217,8 +217,20 @@ angular.module("EmmetBlue")
 		$scope.currentItem.quantity = $scope.itemQuantityBoxValue;
 		$scope.itemQuantityBoxValue = 1;
 		$("#item_qty").modal("hide");
-		$scope.dispensationItems.push($scope.currentItem);
-		$scope.currentItem = {};
+
+		var _i = $scope.currentItem.ItemCode;
+		var _p = $scope.patient.id;
+		var _q = $scope.currentItem.quantity;
+
+		utils.serverRequest("/accounts-biller/get-item-price/calculate?resourceId="+_p+"&item="+_i+"&quantity="+_q, "GET")
+		.then(function(response){
+			$scope.currentItem.price = response.totalPrice;
+
+			$scope.dispensationItems.push($scope.currentItem);
+			$scope.currentItem = {};
+		}, function(error){
+			utils.errorHandler(error);
+		});
 	}
 
 	$scope.removeItemFromList = function(index){

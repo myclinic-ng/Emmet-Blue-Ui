@@ -2,6 +2,7 @@ angular.module("EmmetBlue")
 
 .controller('labRequestsController', function($scope, utils){
 	var actions = function (data, type, full, meta){
+		console.log(data);
 		var deleteButtonAction = "manage('process', "+data.RequestID+")";
 		var hmoButtonAction = "manage('hmoReq', "+data.RequestID+")";
 
@@ -10,8 +11,9 @@ angular.module("EmmetBlue")
 					  "data-option-lab-id='"+data.LabID+"'"+
 					  "data-option-lab-name='"+data.LabName+"'"+
 					  "data-option-investigation-required='"+data.InvestigationRequired+"'"+
+					  "data-option-investigation-type-name='"+data.InvestigationTypeName+"'"+
 					  "data-option-clinical-diagnosis='"+data.ClinicalDiagnosis+"'"+
-					  "data-option-requested-by='"+data.RequestedBy+"'"+
+					  "data-option-requested-by='"+data.RequestedByFullName+"'"+
 					  "data-option-patient-id='"+data.PatientID+"'"+
 					  "data-option-request-date='"+data.RequestDate+"'";
 
@@ -98,24 +100,46 @@ angular.module("EmmetBlue")
 				break;
 			}
 			case "hmoReq":{
-				datum = {
-					investigationId: id,
-					patientUuid: $(".process-btn[data-option-id='"+id+"']").attr("data-option-patient-uuid"),
-					labId: $(".process-btn[data-option-id='"+id+"']").attr("data-option-lab-id"),
-					clinicalDiagnosis: $(".process-btn[data-option-id='"+id+"']").attr("data-option-clinical-diagnosis"),
-					investigationRequired: $(".process-btn[data-option-id='"+id+"']").attr("data-option-investigation-required"),
-					requestedBy: $(".process-btn[data-option-id='"+id+"']").attr("data-option-requested-by"),
-					dateRequested: $(".process-btn[data-option-id='"+id+"']").attr("data-option-request-date")
-				}
+				datum = [
+					{investigationId: id},
+					{patientUuid: $(".process-btn[data-option-id='"+id+"']").attr("data-option-patient-uuid")},
+					{labId: $(".process-btn[data-option-id='"+id+"']").attr("data-option-lab-id")},
+					{clinicalDiagnosis: $(".process-btn[data-option-id='"+id+"']").attr("data-option-clinical-diagnosis")},
+					{investigationRequired: $(".process-btn[data-option-id='"+id+"']").attr("data-option-investigation-required")},
+					{requestedBy: $(".process-btn[data-option-id='"+id+"']").attr("data-option-requested-by")},
+					{dateRequested: $(".process-btn[data-option-id='"+id+"']").attr("data-option-request-date")}
+				]
 
-				items = [];
+				// items = [];
 
-				datumText = "Investigation ID: "+datum.investigationId+" <br/> Clinical Diagnosis: "+datum.clinicalDiagnosis+" <br/> Investigation Required: "+datum.investigationRequired+" <br/> Requested By: "+datum.requestedBy+" Date Requested: "+datum.dateRequested;
+				// datumText = "Investigation ID: "+datum.investigationId+" <br/> Clinical Diagnosis: "+datum.clinicalDiagnosis+" <br/> Investigation Required: "+datum.investigationRequired+" <br/> Requested By: "+datum.requestedBy+" Date Requested: "+datum.dateRequested;
 
-				items.push({
-					"item":datumText,
-					"duration": null
-				});
+				items = [
+					{
+						item: "Investigation ID",
+						duration: id
+					},
+					{
+						item: "Laboratory",
+						duration: $(".process-btn[data-option-id='"+id+"']").attr("data-option-lab-name")
+					},
+					{
+						item: "Clinical Diagnosis",
+						duration: $(".process-btn[data-option-id='"+id+"']").attr("data-option-clinical-diagnosis")
+					},
+					{
+						item: "Investigation Required",
+						duration: $(".process-btn[data-option-id='"+id+"']").attr("data-option-investigation-type-name")
+					},
+					{
+						item: "Requested By",
+						duration: $(".process-btn[data-option-id='"+id+"']").attr("data-option-requested-by")
+					},
+					{
+						item: "Date Requested",
+						duration: $(".process-btn[data-option-id='"+id+"']").attr("data-option-request-date")
+					}
+				]
 
 				data = {
 					items: items,

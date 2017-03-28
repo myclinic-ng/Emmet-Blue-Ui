@@ -83,16 +83,20 @@
 												<thead>
 													<tr class="warning">
 														<th>S/N</th>
+														<th>Item Code</th>
 														<th>Item</th>
 														<th>Quantity</th>
+														<th>Amount (<span ng-currency symbol="naira"></span>)</th>
 														<th>Action</th>
 													</tr>
 												</thead>
 												<tbody>
 													<tr ng-repeat="item in paymentRequestItems">
 														<td>{{$index + 1}}</td>
+														<td>{{item._item.BillingTypeItemID}}</td>
 														<td>{{item._item.BillingTypeItemName}}</td>
 														<td>{{item.quantity}}</td>
+														<td>{{item.price}}</td>
 														<td><a class="btn btn-link text-danger" href="#" ng-click="removeItem($index)"><i class="icon-bin"></i> Remove</a></td>
 													</tr>
 												</tbody>

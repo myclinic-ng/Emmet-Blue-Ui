@@ -65,8 +65,22 @@ angular.module("EmmetBlue")
 			_item:  JSON.parse($scope.paymentRequestItem.item)
 		}
 		item.item = item._item.BillingTypeItemID;
-		$scope.paymentRequestItems.push(item);
-		$scope.paymentRequestItem = {};
+
+		var _i = item._item.BillingTypeItemID;
+		var _p = $scope.requestForm.currentPatientProfile.patientid;
+		var _q = item.quantity;
+
+		$scope.item = item;
+
+		utils.serverRequest("/accounts-biller/get-item-price/calculate?resourceId="+_p+"&item="+_i+"&quantity="+_q, "GET")
+		.then(function(response){
+			$scope.item.price = response.totalPrice;
+
+			$scope.paymentRequestItems.push(item);
+			$scope.paymentRequestItem = {};
+		}, function(error){
+			utils.errorHandler(error);
+		});
 	}
 
 	$scope.removeItem = function(index){

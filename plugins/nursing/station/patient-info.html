@@ -1,0 +1,183 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script src="assets/js/plugins/forms/tags/bootstrap-tagsinput.js"></script>
+<script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
+<script src="assets/js/core/app.js"></script>
+<script>
+	$('select.select').select2();
+	$(function() {
+
+	    // Initialize lightbox
+	    $('[data-popup=lightbox]').fancybox({
+	        padding: 3
+	    });
+	    
+	});
+
+	$('body').on('hidden.bs.modal', function () {
+	    if($('.modal.in').length > 0)
+	    {
+	        $('body').addClass('modal-open');
+	    }
+	});
+</script>
+<div ng-controller="consultancyNewDiagnosisController">
+	<div class="row mb-15">
+		<div class="col-md-7 col-md-offset-3 valign-middle">
+			<div class="form-group pb-10">
+				<div class="col-lg-12">
+					<p class="control-label text-center"><i class="icon-info22 text-info"></i> Enter a patients hospital number in the text field below</p>
+					<div class="content-group no-margin">
+						<input type="text" id="patient-patientSearchQuery" class="form-control patient-search" placeholder="Enter patient hospital number here" ng-model="patientSearchQuery"/>
+					</div>					
+					<span class="content-group text-center">
+						<center><button class="btn btn-sm btn-danger bg-danger-400 no-border-radius btn-labeled mt-5" ng-click="patient.loadPatientProfile()"><b><i class='icon-profile'></i></b> Load Profile</button></center>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-12 mt-20" ng-show="patient.profileLoading && !patient.isProfileReady">
+		<h5 class="text-center mt-15"><i class="icon-spinner2 fa-spin text-danger"></i> Loading...</h5>
+	</div>
+	<div class="panel panel-success" ng-show="patient.isProfileReady">
+		<div class="panel-heading">
+			<h6 class="panel-title" ng-show="patient.isProfileReady"><span class="text-bold">Current Patient: </span> {{patient.profile["first name"]}} {{patient.profile["last name"]}} </h6>
+			<div class="heading-elements" ng-show="patient.isProfileReady">
+				<h6><span class="text-bold">Date:</span> {{globals.today()}} </h6>
+	    	</div>
+		</div>
+		<div class="panel-body table-responsive" ng-show="patient.isProfileReady">
+			<div class="col-md-9">
+				<div class="tabbable">
+					<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
+						<li href="#history" data-toggle="tab" class="active"><a><i class="icon-history"></i> History</a></li>
+					</ul>
+
+					<div class="tab-content">
+						<div class="tab-pane active" id="history">
+							<div class="col-md-3">
+								<div class="sidebar sidebar-main sidebar-default" style="box-shadow: none; border-color: #F5F5F5; border-radius: 0px;">
+									<div class="sidebar-content">
+										<!-- Main navigation -->
+										<div class="sidebar-category sidebar-category-visible">
+											<div class="category-content no-padding">
+												<ul class="navigation navigation-main navigation-accordion navigation-bordered">
+													<!-- Main -->
+													<li ng-click="patient.history.displayPage='profile'">
+														<a href="#"><i class="icon-file-eye text-info"></i> <span> View Profile</span></a>
+													</li>
+													<li ng-click="patient.history.loadRepositories()">
+														<a href="#"><i class="icon-library2 text-teal"></i> <span> Load Archives</span></a>
+													</li>
+													<!-- /main -->
+												</ul>
+											</div>
+										</div>
+										<!-- /main navigation -->
+									</div>
+								</div>
+							</div>
+							<div class="col-md-9" style="height: 100vh">
+								<ng-patient-profile patient-info="patient.profile" ng-show="patient.isProfileReady" ng-if="patient.history.displayPage=='profile'"></ng-patient-profile>
+								<div class="row" ng-show="patient.history.displayPage=='repositories'">
+									<div class="col-md-6 mb-15"><input class="form-control" placeholder="search" ng-model="patient.history.repositoryFilter"/></div>
+									<div class="col-md-6 mb-15">
+										<select class="select" ng-model="patient.history.repositoryFilter	">
+											<option value="lab_result">Lab Result</option>
+											<option value="observation">Vital Signs &amp; Other Observations</option>
+										</select>
+									</div>
+									<div class="col-md-12" ng-repeat="repo in patient.history.repositories | toArray:false | filter:patient.history.repositoryFilter track by $index">
+										<div class="panel border-left-lg border-left-danger no-border-radius">
+									<div class="panel-body">
+										<div class="row">
+											<div class="col-md-8">
+												<h6 class="no-margin-top"><a href="#">{{repo.RepositoryName}}</a></h6>
+												<p class="mb-15" ng-if="repo.RepositoryDescription">{{repo.RepositoryDescription}}</p>
+												<p class="mb-15 text-muted" ng-if="!repo.RepositoryDescription">No extra note/description</p>
+											</div>
+
+											<div class="col-md-4">
+												<ul class="list task-details">
+													<li title="{{repo.RepositoryCreationDate}}">{{toDateString(repo.RepositoryCreationDate)}}</li>
+													<li class="dropdown">
+								                		Created by: &nbsp;
+														<a href="#" class="label label-danger bg-white dropdown-toggle" data-toggle="dropdown">{{staffNames[repo.RepositoryCreator]}}</a>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+
+									<div class="panel-footer">
+										<ul>
+											<li class="text-muted">Repo UUID: <span class="text-semibold">{{repo.RepositoryNumber}}</span></li>
+										</ul>
+
+										<ul class="pull-right">
+											<li>
+												<a href="#" ng-click="patient.history.loadRepo(repo.RepositoryID)"><span class="icon-download4"></span> Load Repository </a>
+											</li>
+										</ul>
+									</div>
+								</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3" style="border: 1px solid #F5F5F5; border-bottom: 0px; height: 2000px;">
+				<div class="row">
+					<div class="col-md-12">
+						<h5 class="text-center text-primary"><small>Summary</small></h5>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-bordered">
+						<tbody>
+							<tr class="bg-success">
+								<th colspan="3">Most recent Observation</th>
+							</tr>
+							<tr ng-repeat="(repoItem, id) in mostRecentObservation.RepositoryItemContent">
+								<td colspan="3">
+									<ul class="media-list">
+										<li class="media-header text-muted">{{repoItem}}</li>
+										<li class="media" ng-repeat="(val, key) in id">
+											<span>{{val}}</span>
+											<span class="pull-right text-bold">{{key}}</span>
+										</tr>
+									</ul>
+								</td>
+							</tr>
+							<tr class="bg-warning" ng-show="patient.allergies.length > 0">
+								<th colspan="3">Allergies</th>
+							</tr>
+							<tr ng-repeat="allergy in patient.allergies">
+								<td>{{$index + 1}}</td>
+								<td colspan="2">{{allergy.AllergyTitle}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="repository-items" class="modal fade no-margin no-padding" style="width: 100%;  height: 100vh;">
+		<div class="modal-full modal-lg no-margin no-padding no-border-radius" style="width: 100%; height: 100vh;">
+			<div class="modal-content no-margin no-padding no-border-radius" style="background-color: transparent;">
+				<div class="modal-header bg-warning">
+					<h6 class="modal-title">Repository View</h6>
+					<button type="button" class="close" data-dismiss="modal">&times; close</button>
+				</div>
+				<div class="modal-body no-padding no-margin">
+					<div class="col-md-12">
+						<ng-repository repository-id="patient.history.repositories.currentRepository"></ng-repository>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

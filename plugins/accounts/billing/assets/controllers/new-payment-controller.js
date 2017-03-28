@@ -64,6 +64,12 @@ angular.module("EmmetBlue")
 		var request = utils.serverRequest("/accounts-biller/transaction/new", "POST", newPayment);
 		request.then(function(response){
 			$('.loader').removeClass('show');
+			var method = $scope.invoiceData.paymentMethod;
+			var status = $scope.invoiceData.transactionStatus;
+			$scope.newPayment = {
+				transactionStatus: status,
+				paymentMethod: method
+			};
 			$scope.newPayment = {};
 			$scope.clearInvoiceStorage();
 			$scope.showReceipt();
@@ -99,7 +105,9 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.showReceipt = function(){
-		$scope.invoiceData = {};
+		$scope.invoiceData = {
+		};
+
 		$("#accept_new_payment").modal("hide");
 		$("#payment_receipt").modal("show");
 	}
@@ -131,7 +139,8 @@ angular.module("EmmetBlue")
 						totalAmount: response.BilledAmountTotal,
 						items: response.BillingTransactionItems,
 						paid: response._meta.status,
-						amountPaid: response.BillingAmountPaid
+						amountPaid: response.BillingAmountPaid,
+						department: response.RequestDepartmentName
 					};
 
 					var paymentRuleData = {

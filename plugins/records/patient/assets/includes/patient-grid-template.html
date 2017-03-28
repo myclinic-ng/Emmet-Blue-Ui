@@ -1,3 +1,4 @@
+<script src="plugins/records/patient/assets/js/webcam-controller.js"></script>
 <div class="panel panel-body">
 	<div class="media">
 		<div class="media-left">
@@ -79,7 +80,7 @@
 											
 											<div class="col-xs-6">
 												<button type="button" class="btn bg-warning-400 btn-block btn-float btn-float-lg"><i class="icon-stats-bars"></i> <span>Repositories</span></button>
-												<button type="button" class="btn bg-danger btn-block btn-float btn-float-lg"><i class="icon-cog3"></i> <span>Edit Profile</span></button>
+												<button type="button" class="btn bg-danger btn-block btn-float btn-float-lg" ng-click="toggleView('editProfile')"><i class="icon-cog3"></i> <span>Edit Profile</span></button>
 											</div>
 										</div>
 									</div>
@@ -92,6 +93,7 @@
 					<div class="watermark"></div>
 					<ng-patient-card patient-info="patientInfo" ng-show="viewItems.card"></ng-patient-card>
 					<ng-patient-profile patient-info="patientInfo" ng-show="viewItems.profile"></ng-patient-profile>
+					<ng-edit-profile patient-info="patientInfo" ng-show="viewItems.editProfile"></ng-edit-profile>
 				</div>
 			</div>
 			<div class="modal-footer">

@@ -15,7 +15,8 @@ angular.module("EmmetBlue")
 
 			$scope.viewItems = {
 				card: true,
-				profile:false
+				profile:false,
+				editProfile: false
 			}
 
 			$scope.toggleView = function(view){

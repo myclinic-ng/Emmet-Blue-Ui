@@ -43,6 +43,7 @@
 						<thead class="bg-success">
 							<th>S/N</th>
 							<th>Item</th>
+							<th>Price</th>
 							<th>remove</th>
 						</thead>
 						<tbody>
@@ -50,6 +51,7 @@
 								<td>{{$index + 1}}</td>
 								<!-- <td>{{item.ItemCode}}</td> -->
 								<td>{{item.Item}} (x {{item.quantity}})</td>
+								<td>{{item.price}}</td>
 								<!-- <td contenteditable="">{{item.quantity}}</td> -->
 								<td><a class="btn btn-link btn-clear btn-icon text-danger" ng-click="removeItemFromList($index)"><i class="fa fa-times"></i></a></td>
 							</tr>
