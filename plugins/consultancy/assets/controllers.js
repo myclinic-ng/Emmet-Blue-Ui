@@ -6,3 +6,5 @@ head.load(controllersLocation+"main-controller.js");
 head.load(controllersLocation+"patient-queue-controller.js");
 head.load(controllersLocation+"admit-patient-controller.js");
 head.load(controllersLocation+"admitted-patients-workspace-controller.js");
+
+head.load(controllersLocation+"settings/exam-type-controller.js");

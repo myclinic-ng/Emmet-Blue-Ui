@@ -85,6 +85,12 @@ angular.module("EmmetBlue")
 			else {
 				utils.notify("Invalid search request", "Please make sure you have not submitted an empty search field", "warning");
 			}
+		},		
+		catchSearchPress: function(e){
+			console.log(e.which);
+			if (e.which == 13){
+				modules.presentingComplaints.performSymptomSearch();
+			}
 		},
 		loadSymptom: function(id){
 			return utils.storage.consultancy.symptoms[id];
@@ -261,9 +267,9 @@ angular.module("EmmetBlue")
 			var successCallback = function(response){
 				var result = response.hits.hits;
 				if (result.length != 1){
-					if (typeof $scope.patient != "undefined" && $scope.patient.isProfileReady == false){
-						$scope.patient.isProfileReady = true;
-					}
+					// if (typeof $scope.patient != "undefined" && $scope.patient.isProfileReady == false){
+					// 	$scope.patient.isProfileReady = true;
+					// }
 					utils.alert("Unable to load profile", "You have sent an ambiguous request to the server. Please refine your search query and try again. It is recommended to use an actual patient number for search.", "info");
 				}
 				else {
@@ -720,7 +726,8 @@ angular.module("EmmetBlue")
 			loadSymptom: modules.presentingComplaints.loadSymptom,
 			complaints: [],
 			addToList: modules.presentingComplaints.addSymptomToComplaintList,
-			removeFromList: modules.presentingComplaints.removeSymptomFromComplaintList
+			removeFromList: modules.presentingComplaints.removeSymptomFromComplaintList,
+			catchSearchPress: modules.presentingComplaints.catchSearchPress
 		};
 
 		modules.presentingComplaints.symptomSearchAutoSuggestInit();

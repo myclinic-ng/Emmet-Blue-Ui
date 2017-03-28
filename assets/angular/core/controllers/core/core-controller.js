@@ -78,7 +78,7 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.showEmmetBlueInfo = function(){
-		utils.alert("Emmetblue "+$scope.currentYear, "This software has been designed for and deployed to St. Gerard's Catholic Hospital. Unless stated otherwise, every part of the system is considered a property of Emmetblue and are presently in the closed-source domain with appropriate licenses. Contact an appropriate department for help or samueladeshina73@gmail.com for technical support.", "info");
+		utils.alert("Emmetblue "+$scope.currentYear, "This software has been designed for and deployed to Harmony Hospital. Unless stated otherwise, every part of the system is considered a property of Emmetblue and are presently in the closed-source domain with appropriate licenses. Contact an appropriate department for help or samueladeshina73@gmail.com for technical support.", "info");
 	}
 
 	checkLogin();

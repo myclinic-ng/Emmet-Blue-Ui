@@ -13,6 +13,9 @@
 				<span class="badge badge-success" ng-if="patientInfo.patientprofilelockstatus"><i class="icon-lock2"></i> profile locked</span>
 				<span class="badge badge-danger" ng-if="!patientInfo.patientprofilelockstatus"><i class="icon-unlocked2"></i> profile unlocked</span>
 				<!-- <span class="badge badge-info"><i class="icon-calendar"></i> last visit: <u>12/10/2016</u></info> -->
+            	<button class="btn btn-xs" data-popup="tooltip" title="View Profile" data-container="body" data-toggle="modal" data-target="#view-patient-{{patientInfo.patientid}}">
+            		<i class="icon-new-tab"></i> Load Profile
+            	</button>
 			</p>
 
 			<div class="btn-group">
@@ -22,8 +25,8 @@
             	<button class="btn btn-xs" ng-if="patientInfo.patientprofilelockstatus" data-popup="tooltip" title="Unlock Profile" data-container="body" data-toggle="modal" data-target="#paymentRequestLocker" ng-click="toggleProfileLockState(false, patientInfo.patientid)">
             		<i class="icon-shield-notice"></i> Unlock profile
             	</button>
-            	<button class="btn btn-xs" data-popup="tooltip" title="View Profile" data-container="body" data-toggle="modal" data-target="#view-patient-{{patientInfo.patientid}}">
-            		<i class="icon-new-tab"></i> 
+            	<button class="btn btn-xs" data-popup="tooltip" title="Lock profile" data-container="body" data-toggle="modal" data-target="#forward-patient-{{patientInfo.patientid}}">
+            		<i class="icon-arrow-right5"></i> Forward to doctor
             	</button>
             	<!-- <button class="btn btn-xs" data-popup="tooltip" title="Print Card" data-container="body" data-toggle="modal" data-target="#">
             		<i class="icon-history"></i> 
@@ -121,6 +124,45 @@
 				<button type="button" class="btn btn-labeled btn-success" ng-click="unlockProfile()">
 					<b><i class="icon-arrow-right5"></i></b> Continue
 				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div>
+	<div class="modal fade" id="forward-patient-{{patientInfo.patientid}}">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-success">
+					<h6 class="modal-title">Forward To Specialist</h6>
+					<button class="close"><i class="icon-cross"></i></button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-8" style="border-right: 1px solid #4CAF50; height: 500px"s>
+							<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-hover">
+		
+							</table>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label class="control-label">Medical Specialist</label>
+								<input class="form-control" disabled="disabled" ng-model="referral.specialist.name"/>
+							</div>
+							<div class="form-group">
+								<label class="control-label">Specialty</label>
+								<input class="form-control" disabled="disabled" ng-model="referral.specialist.role"/>
+							</div>
+							<div class="form-group">
+								<label class="control-label">Referral Note</label>
+								<textarea class="form-control" placeholder="Add any information that might be useful to the selected specialist here. Add as much as is needed." style="height: 260px;" ng-model="newReferral.referralNote"></textarea>
+							</div>
+							<div class="form-group">
+								<button class="btn btn-info btn-labeled pull-right" ng-click="completeReferral()"><b><i class="icon-check"></i></b> Complete Referral</button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

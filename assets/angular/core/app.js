@@ -150,16 +150,17 @@ angular.module("EmmetBlue")
 		var alertType = (showSwal) ? "both" : "notify";
 		switch(errorObject.status){
 			case 404:{
-				services.notify('Invalid Resource Requested', 'The requested resource was not found on this server, please contact an administrator if this error persists. Error Code: A0'+errorObject.status, 'error');
+				services.notify('Invalid Resource Requested', 'The requested resource was not found on this server, please contact an administrator if this error persists', 'warning');
 				break;
 			}
 			case 500:
-			{
-				services.notify('Unable To Process Request', 'This is usually due to making request for a missing resource or sending improperly formatted data to the server. Please contact an administrator if this error persists. Error Code: A0'+errorObject.status, "warning");
+			case 501:
+			case 400:{
+				services.notify('Unable To Process Request', 'This is usually due to making request for a missing resource or sending improperly formatted data to the server. Please contact an administrator if this error persists. Error Code: AB0'+errorObject.status, "error");
 				break;
 			}
-			case 400:{
-				services.notify('Resource Duplication Prevented', 'The current resource does not allow item duplication. Please try again or contact an administrator if this error persists. Error Code: A0'+errorObject.status, "warning");
+			case 503:{
+				services.notify('Duplicate Data Detected', 'Request denied. This resource does not allow you to create data of the same exact type, please contact an administrator if this error persists. Error Code: AB0'+errorObject.status, 'warning');
 				break;
 			}
 			default:
@@ -169,10 +170,10 @@ angular.module("EmmetBlue")
 				}
 				else{
 					if (errorObject.status == -1){
-						services.notify('Unable to reach server', "Please check your network connectivity to confirm the server is still accessible from this computer. Contact an administrator if this error persists. Error Code: A0"+errorObject.status, "warning");
+						services.notify('Unable to reach server', "Please check your network connectivity to confirm the server is still accessible from this computer. Contact an administrator if this error persists. Error Code: AB0"+errorObject.status, "warning");
 					}
 					else {
-						services.notify("Unknown error", "A general error has occurred, please contact an administrator. Error Code: A0"+errorObject.status, 'error');
+						services.notify("Unknown error", "A general error has occurred, please contact an administrator", 'error');
 					}
 				}
 			}
@@ -249,8 +250,12 @@ angular.module("EmmetBlue")
 			return services.userSession.cookie().username;
 		},
 		clear: function(){
-			$cookies.remove(CONSTANTS.USER_COOKIE_IDENTIFIER);
-			$location.path('user/login');
+			services.serverRequest("/user/session/deactivate?resourceId="+services.userSession.getID(), "GET").then(function(response){
+				$cookies.remove(CONSTANTS.USER_COOKIE_IDENTIFIER);
+				$location.path('user/login');
+			}, function(error){
+				services.errorHandler(error);
+			})
 		}
 	}
 
