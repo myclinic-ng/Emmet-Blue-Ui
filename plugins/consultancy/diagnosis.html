@@ -36,10 +36,10 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-md-12 mt-20" ng-show="patient.profileLoading && !patient.isProfileReady">
+	<div class="col-md-12 mt-20" ng-show="patient.profileLoading && !patient.isProfileReady" ng-cloak>
 		<h5 class="text-center mt-15"><i class="icon-spinner2 fa-spin text-danger"></i> Loading...</h5>
 	</div>
-	<div class="panel panel-success" ng-show="patient.isProfileReady">
+	<div class="panel panel-success" ng-show="patient.isProfileReady" ng-cloak>
 		<div class="panel-heading">
 			<h6 class="panel-title" ng-show="patient.isProfileReady"><span class="text-bold">Current Patient: </span> {{patient.profile["first name"]}} {{patient.profile["last name"]}} </h6>
 			<div class="heading-elements" ng-show="patient.isProfileReady">
@@ -220,7 +220,7 @@
 						<div class="tab-pane fade" id="presenting-complaints">
 							<div class="col-md-7 col-md-offset-3 mb-15">
 								<div class="input-group">
-									<input id="presentingComplaints-symptomSearchQuery" type="text" class="form-control symptom-search" placeholder="enter symptom to search" ng-model="presentingComplaints.symptomSearchQuery"/>
+									<input id="presentingComplaints-symptomSearchQuery" type="text" class="form-control symptom-search" placeholder="enter symptom to search" ng-model="presentingComplaints.symptomSearchQuery" ng-keypress="presentingComplaints.catchSearchPress($event)"/>
 									<span class="input-group-btn">
 										<button class="btn btn-danger" ng-click="presentingComplaints.performSymptomSearch()"> <i class="icon-search4"></i> search</button>
 									</span>
