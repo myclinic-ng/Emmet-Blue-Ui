@@ -8,31 +8,40 @@
 		<li><a class="text-center collapsed" data-toggle="collapse" data-target="#navbar-second-toggle"><i class="icon-menu7"></i></a></li>
 	</ul>
 
-		<div class="navbar-collapse collapse" id="navbar-second-toggle">
-			<ul class="nav navbar-nav">
-				<li><a href="lab/dashboard"><i class="icon-display4 position-left"></i> Dashboard</a></li>
-				<li><a href="lab/lab-requests"><i class="fa fa-flask"></i> Queued Patients</a></li>
-				<li><a href="#" data-toggle="modal" data-target="#verifyHmoProceed"><i class="fa fa-credit-card"></i> Verify HMO Confirmation Status</a></li>
-				<li><a href="lab/patients"><i class="icon-vcard"></i> Patient Management</a></li>
-				<li><a href="#" data-toggle="modal" data-target="#_new_patient"><i class="fa fa-user-plus"></i> External Patient Registration</a></li>
-				<li><a href="#" data-toggle="modal" data-target="#_payment_request"><i class="fa fa-credit-card"></i> Payment Requests</a></li>
-				<li><a href="lab/lab-results"><i class="fa fa-share"></i> Publish Lab Results</a></li>
-				<!-- <li><a href="lab/investigation-types"><i class="fa fa-code-fork"></i> Investigation Types</a></li> -->
-			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<i class="icon-cog3"></i>
-						<span class="visible-xs-inline-block position-right">Settings<span>
-						<span class="caret"></span>
-					</a>
+	<div class="navbar-collapse collapse" id="navbar-second-toggle">
+		<ul class="nav navbar-nav">
+			<li><a href="lab/lab-requests"><i class="fa fa-flask"></i> Queued Patients</a></li>
+			<li><a href="lab/patients"><i class="icon-vcard"></i> Patient Management</a></li>
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					<i class="icon-books position-left"></i>
+						Requests
+					<span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu">
+					<li><a href="#" data-toggle="modal" data-target="#verifyHmoProceed"><i class="fa fa-credit-card"></i> Verify HMO Confirmation Status</a></li>
+					<li><a href="#" data-toggle="modal" data-target="#_payment_request"><i class="fa fa-credit-card"></i> Payment Requests</a></li>
+				</ul>
+			</li>
+			<li><a href="lab/lab-results"><i class="fa fa-share"></i> Publish Lab Results</a></li>
+			<li><a href="#" data-toggle="modal" data-target="#_new_patient"><i class="fa fa-user-plus"></i> External Patient Registration</a></li>
+			<li><a href="lab/patient-info"><i class="fa fa-archive"></i> Load Patient Library</a></li>
+			<!-- <li><a href="lab/investigation-types"><i class="fa fa-code-fork"></i> Investigation Types</a></li> -->
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					<i class="icon-cog3"></i>
+					<span class="visible-xs-inline-block position-right">Settings<span>
+					<span class="caret"></span>
+				</a>
 
-					<ul class="dropdown-menu dropdown-menu-right">
-						<li><a href="#" data-toggle="modal" data-target="#setting_lab">All Settings</a></li>
-					</ul>
-				</li>
-			</ul>
-		</div>
+				<ul class="dropdown-menu dropdown-menu-right">
+					<li><a href="#" data-toggle="modal" data-target="#setting_lab">All Settings</a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
 </div>
 
 <div id="_payment_request" class="modal fade" ng-controller="labPaymentRequestController">

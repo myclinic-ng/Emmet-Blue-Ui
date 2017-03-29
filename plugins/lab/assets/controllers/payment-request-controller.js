@@ -77,7 +77,7 @@ angular.module("EmmetBlue")
 		item.item = item._item.BillingTypeItemID;
 
 		var _i = item._item.BillingTypeItemID;
-		var _p = $scope.requestForm.currentPatientProfile.patientid;
+		var _p = $scope.requestForm.currentPatientProfile.PatientID;
 		var _q = item.quantity;
 
 		$scope.item = item;

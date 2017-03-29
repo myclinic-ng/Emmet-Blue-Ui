@@ -89,8 +89,7 @@ angular.module("EmmetBlue")
 			}
 		},		
 		catchSearchPress: function(e){
-			console.log(e.which);
-			if (e.which == 13){
+			if(e.which == 13){
 				modules.presentingComplaints.performSymptomSearch();
 			}
 		},
@@ -690,7 +689,7 @@ angular.module("EmmetBlue")
 
 		modules.globals.loadRegisteredLabs();
 
-		$scope.$watch(function(){ return if (typeof $scope.labTests !== "undefined"){$scope.labTests.sendVariables.lab;} }, function(nv){
+		$scope.$watch(function(){ if (typeof $scope.labTests !== "undefined"){ return $scope.labTests.sendVariables.lab;} }, function(nv){
 			modules.globals.loadRegisteredInvestigationTypes(nv);
 		})
 

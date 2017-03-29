@@ -48,7 +48,7 @@ angular.module("EmmetBlue")
         		data = $.map(data, function (string) { return { value: string }; });
 		        process(data);
 			}, function(responseObject){
-				utils.errorHandler(responseObject);
+				// utils.errorHandler(responseObject);
 			});
     	}
     })

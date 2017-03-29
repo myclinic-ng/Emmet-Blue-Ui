@@ -10,9 +10,10 @@ angular.module("EmmetBlue")
 					  "data-option-patient-uuid='"+data.PatientUUID+"'"+
 					  "data-option-lab-id='"+data.LabID+"'"+
 					  "data-option-lab-name='"+data.LabName+"'"+
-					  "data-option-investigation-required='"+data.InvestigationRequire+"'"+
+					  "data-option-investigation-required='"+data.InvestigationRequired+"'"+
 					  "data-option-investigation-type-name='"+data.InvestigationTypeName+"'"+
 					  "data-option-clinical-diagnosis='"+data.ClinicalDiagnosis+"'"+
+					  "data-option-requested-by-id='"+data.RequestedBy+"'"+
 					  "data-option-requested-by='"+data.RequestedByFullName+"'"+
 					  "data-option-patient-id='"+data.PatientID+"'"+
 					  "data-option-request-date='"+data.RequestDate+"'";
@@ -90,7 +91,7 @@ angular.module("EmmetBlue")
 					labId: $(".process-btn[data-option-id='"+id+"']").attr("data-option-lab-id"),
 					clinicalDiagnosis: $(".process-btn[data-option-id='"+id+"']").attr("data-option-clinical-diagnosis"),
 					investigationRequired: $(".process-btn[data-option-id='"+id+"']").attr("data-option-investigation-required"),
-					requestedBy: $(".process-btn[data-option-id='"+id+"']").attr("data-option-requested-by"),
+					requestedBy: $(".process-btn[data-option-id='"+id+"']").attr("data-option-requested-by-id"),
 					dateRequested: $(".process-btn[data-option-id='"+id+"']").attr("data-option-request-date")
 				}
 
