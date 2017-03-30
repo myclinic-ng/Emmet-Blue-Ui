@@ -322,13 +322,13 @@
 						<div class="tab-pane fade" id="investigation">
 							<div class="tabbable">
 								<ul class="nav nav-tabs nav-tabs-solid nav-justified">
-									<li href="#labForm-new" data-toggle="tab"><a>Lab Request Form <span class="label label-success">NEW</span></a></li>
-									<li href="#labForm" data-toggle="tab"><a>Lab Request Form</a></li>
-									<li href="#lab" data-toggle="tab" class="active"><a>Advanced Laboratory / Radiology Investigations Search</a></li>
+									<li href="#labForm-new" data-toggle="tab" class="active"><a>Lab Request Form <span class="label label-success">NEW</span></a></li>
+									<li href="#labForm" data-toggle="tab"><a>Lab Request Selector</a></li>
+									<li href="#lab" data-toggle="tab"><a>Investigation Finder</a></li>
 								</ul>
 
 								<div class="tab-content">
-									<div class="tab-pane active" id="lab">
+									<div class="tab-pane fade" id="lab">
 										<div class="col-md-5">
 											<input class="form-control" placeholder="basic search" ng-change="labTests.searchPerformed = false" ng-model="labTests.basicInvestigationsFiler"/>
 										</div>
@@ -454,7 +454,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="tab-pane fade" id="labForm-new">
+									<div class="tab-pane active" id="labForm-new">
 										<ng-lab-request-form-design patient-info="samuel"></ng-lab-request-form-design>
 									</div>
 								</div>
