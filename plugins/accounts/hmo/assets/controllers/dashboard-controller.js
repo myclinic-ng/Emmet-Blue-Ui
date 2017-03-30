@@ -58,5 +58,5 @@ angular.module("EmmetBlue")
 		})
 	}
 
-	$scope.loadPageSegment('view-database', 'View Patient Database');
+	$scope.loadPageSegment('verify-identity', 'Unprocessed Verification Requests');
 })

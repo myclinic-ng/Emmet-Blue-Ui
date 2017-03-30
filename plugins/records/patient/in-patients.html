@@ -1,0 +1,35 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>
+	$('select.select').select2();
+</script>
+<div class="row">
+	<div class="panel panel-success">
+		<div class="panel-heading">
+			<h5 class="panel-title">List Of Patients Currently On Admission</h5>
+			<div class="heading-elements">
+				<ul class="icons-list">
+            		<li><a data-action="reload"></a></li>
+            	</ul>
+        	</div>
+		</div>
+		<div class="panel-body">
+			<div ng-controller="recordsInPatientController">
+				<div class="row">
+					<label class="control-label col-md-3"><span class="pull-right pt-5">Filter List By Ward:</span></label>
+					<div class="input-group col-md-7">
+						<select class="select" ng-model="currentWard">
+							<option value="{{ward.WardID}}" ng-repeat="ward in wards">{{ward.WardName}}</option>
+						</select> 
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 table-responsive">
+						<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-hover">
+							
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

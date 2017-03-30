@@ -33,6 +33,10 @@ angular.module("EmmetBlue")
 					$scope.paymentRequestBillingItems(nv);
 				}
 			})
+
+			$scope.removeFromItemList = function(index, item){
+				utils.alert("Operation not allowed", "You are not allowed to perform that action", "info");
+			}
 		}
 	}
 })

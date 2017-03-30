@@ -8,31 +8,40 @@
 		<li><a class="text-center collapsed" data-toggle="collapse" data-target="#navbar-second-toggle"><i class="icon-menu7"></i></a></li>
 	</ul>
 
-		<div class="navbar-collapse collapse" id="navbar-second-toggle">
-			<ul class="nav navbar-nav">
-				<li><a href="lab/dashboard"><i class="icon-display4 position-left"></i> Dashboard</a></li>
-				<li><a href="lab/lab-requests"><i class="fa fa-flask"></i> Queued Patients</a></li>
-				<li><a href="#" data-toggle="modal" data-target="#verifyHmoProceed"><i class="fa fa-credit-card"></i> Verify HMO Confirmation Status</a></li>
-				<li><a href="lab/patients"><i class="icon-vcard"></i> Patient Management</a></li>
-				<li><a href="#" data-toggle="modal" data-target="#_new_patient"><i class="fa fa-user-plus"></i> External Patient Registration</a></li>
-				<li><a href="#" data-toggle="modal" data-target="#_payment_request"><i class="fa fa-credit-card"></i> Payment Requests</a></li>
-				<li><a href="lab/lab-results"><i class="fa fa-share"></i> Publish Lab Results</a></li>
-				<!-- <li><a href="lab/investigation-types"><i class="fa fa-code-fork"></i> Investigation Types</a></li> -->
-			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<i class="icon-cog3"></i>
-						<span class="visible-xs-inline-block position-right">Settings<span>
-						<span class="caret"></span>
-					</a>
+	<div class="navbar-collapse collapse" id="navbar-second-toggle">
+		<ul class="nav navbar-nav">
+			<li><a href="lab/lab-requests"><i class="fa fa-flask"></i> Queued Patients</a></li>
+			<li><a href="lab/patients"><i class="icon-vcard"></i> Patient Management</a></li>
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					<i class="icon-books position-left"></i>
+						Requests
+					<span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu">
+					<li><a href="#" data-toggle="modal" data-target="#verifyHmoProceed"><i class="fa fa-credit-card"></i> Verify HMO Confirmation Status</a></li>
+					<li><a href="#" data-toggle="modal" data-target="#_payment_request"><i class="fa fa-credit-card"></i> Payment Requests</a></li>
+				</ul>
+			</li>
+			<li><a href="lab/lab-results"><i class="fa fa-share"></i> Publish Lab Results</a></li>
+			<li><a href="#" data-toggle="modal" data-target="#_new_patient"><i class="fa fa-user-plus"></i> External Patient Registration</a></li>
+			<li><a href="lab/patient-info"><i class="fa fa-archive"></i> Load Patient Library</a></li>
+			<!-- <li><a href="lab/investigation-types"><i class="fa fa-code-fork"></i> Investigation Types</a></li> -->
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					<i class="icon-cog3"></i>
+					<span class="visible-xs-inline-block position-right">Settings<span>
+					<span class="caret"></span>
+				</a>
 
-					<ul class="dropdown-menu dropdown-menu-right">
-						<li><a href="#" data-toggle="modal" data-target="#setting_lab">All Settings</a></li>
-					</ul>
-				</li>
-			</ul>
-		</div>
+				<ul class="dropdown-menu dropdown-menu-right">
+					<li><a href="#" data-toggle="modal" data-target="#setting_lab">All Settings</a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
 </div>
 
 <div id="_payment_request" class="modal fade" ng-controller="labPaymentRequestController">
@@ -83,16 +92,20 @@
 												<thead>
 													<tr class="warning">
 														<th>S/N</th>
+														<th>Item Code</th>
 														<th>Item</th>
 														<th>Quantity</th>
+														<th>Amount (<span ng-currency symbol="naira"></span>)</th>
 														<th>Action</th>
 													</tr>
 												</thead>
 												<tbody>
 													<tr ng-repeat="item in paymentRequestItems">
 														<td>{{$index + 1}}</td>
+														<td>{{item._item.BillingTypeItemID}}</td>
 														<td>{{item._item.BillingTypeItemName}}</td>
 														<td>{{item.quantity}}</td>
+														<td>{{item.price}}</td>
 														<td><a class="btn btn-link text-danger" href="#" ng-click="removeItem($index)"><i class="icon-bin"></i> Remove</a></td>
 													</tr>
 												</tbody>
@@ -129,91 +142,71 @@
 </div>
 <!-- /second navbar -->
 
-
 <div id="_new_patient" class="modal fade" ng-controller="labNewPatientController">
-	<div class="modal-full">
+	<div class="modal-full modal-lg no-margin no-padding no-border-radius" style="width: 100%; height: 100vh;">
 		<div class="modal-content">
 			<div class="modal-header bg-warning">
 				<button type="button" class="close" data-dismiss="modal">&times; close</button>
 				<div class="modal-title"> New Patient Registration</div>
 			</div>
 			<div class="modal-body">
-				<div class="col-md-12">
-					<div id="new-patient-registration">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="col-md-4">
-									<img class="img img-responsive pull-right img-rounded" width="150" height="150" src="{{loadImage(patient.picture)}}"/>
+				<div class="row">
+					<div class="col-md-5" style="border-left: 1px solid green;">
+						<div id="new-patient-registration">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="col-md-12">
+										<img class="img img-responsive pull-right img-rounded" width="150" height="150" src="{{loadImage(patient.picture)}}"/>
+									</div>
+									<div class="content-group col-md-12">
+										<label class="control-label">Select lab to assign patient</label>
+										<select class="select" ng-model="patientLab">
+											<option ng-repeat="lab in labs" value="{{lab.LabID}}" data-name="{{lab.LabName}}" data-id="ln-{{lab.LabID}}">{{lab.LabName}}</option>
+										</select>
+									</div>
 								</div>
-								<div class="content-group col-md-4 valign-bottom">
-									<label class="control-label">Patient ID</label>
-									<div class="input-group">
-										<input type="text" class="form-control" ng-model="patientNumber" placeholder="enter patient number to load profile"/>
-										<span class="input-group-btn">
-											<button class="btn btn-primary" ng-click="loadPatientProfile()">Go</button>
-										</span>
+							</div>
+							<div class="col-md-12">
+								<div class="content-group col-md-6">
+									<label class="control-label">Investigation Required</label>
+									<select class="select" ng-model="investigation">
+										<option value="{{type.InvestigationTypeID}}" ng-repeat="type in investigationTypes" data-name="{{type.InvestigationTypeName}}" data-id="itid-{{type.InvestigationTypeID}}">{{type.InvestigationTypeName}}</option>
+									</select>
+								</div>
+								<div class="content-group col-md-6">
+									<label class="control-label">Note</label>
+									<input type="text" class="form-control" ng-model="investigationNote"/>
+								</div>
+								<div class="content-group col-md-12">
+									<center><button type="button" class="btn btn-xs btn-success" ng-click="addInvestigationToList()"> Add to list</button></center>
+								</div>
+								<div class="content-group col-md-12">
+									<div class="table-responsive">
+										<table class="table table-hover table-condensed table-bordered">
+											<thead class="bg-success">
+												<th>S/N</th>
+												<th>Lab</th>
+												<th>Investigation</th>
+											</thead>
+											<tbody>
+												<tr ng-repeat="inv in investigations">
+													<td>{{$index + 1}}</td>
+													<td>{{inv.lName}}</td>
+													<td>{{inv.iName}}</td>
+												</tr>
+											</tbody>
+										</table>
 									</div>
 								</div>
 
-								<div class="content-group col-md-4 valign-bottom">
-									<label class="control-label">Select lab to assign patient</label>
-									<select class="select" ng-model="patientLab">
-										<option ng-repeat="lab in labs" value="{{lab.LabID}}">{{lab.LabName}}</option>
-									</select>
+								<div class="content-group col-md-6 pull-right">
+									<button type="button" class="col-md-4 btn btn-warning" ng-click="savePatient()"> Save</button>
 								</div>
 							</div>
 						</div>
-						<div class="col-md-12 mt-15">
-							<div class="content-group col-md-4">
-								<label class="control-label">First Name</label>
-								<input type="text" class="form-control" ng-model="patient.firstName"/>
-							</div>
-							<div class="content-group col-md-4">
-								<label class="control-label">Other Names</label>
-								<input type="text" class="form-control" ng-model="patient.lastName"/>
-							</div>
-							<div class="content-group col-md-4">
-								<label class="control-label">Date Of Birth</label>
-								<input type="date" class="form-control" ng-model="patient.dateOfBirth"/>
-							</div>
-							<div class="content-group col-md-4">
-								<label class="control-label">Gender</label>
-								<select class="select" ng-model="patient.gender">
-									<option value="Male">Male</option>
-									<option value="Female">Female</option>
-								</select>
-							</div>
-							<div class="content-group col-md-4">
-								<label class="control-label">Phone Number</label>
-								<input type="text" class="form-control" ng-model="patient.phoneNumber"/>
-							</div>
-							<div class="content-group col-md-4">
-								<label class="control-label">Address</label>
-								<input type="text" class="form-control" ng-model="patient.address"/>
-							</div>
-							<div class="content-group col-md-12">
-								<label class="control-label">Clinic/Ward</label>
-								<input type="text" class="form-control" ng-model="patient.clinic"/>
-							</div>
-							<div class="content-group col-md-12">
-								<label class="control-label">Clinical Diagnosis</label>
-								<textarea col="3" row="3" class="form-control" ng-model="patient.clinicalDiagnosis"/>
-							</div>
-							<div class="content-group col-md-6">
-								<label class="control-label">Investigation Type</label>
-								<select class="select" ng-model="patient.investigationTypeRequired">
-									<option value="{{type.InvestigationTypeID}}" ng-repeat="type in investigationTypes">{{type.InvestigationTypeName}}</option>
-								</select>
-							</div>
-							<div class="content-group col-md-6">
-								<label class="control-label">Investigation Required</label>
-								<input type="text" class="form-control" ng-model="patient.investigationRequired"/>
-							</div>
-
-							<div class="content-group col-md-6 pull-right">
-								<button type="button" class="col-md-4 btn btn-warning" ng-click="savePatient()"> Save</button>
-							</div>
-						</div>
+					</div>
+					<div class="col-md-7" style="border-left: 1px solid green; max-height: 550px; overflow-y: scroll;">
+						<img class="img img-responsive" ng-src="{{patient.clinicalDiagnosis}}"/>
 					</div>
 				</div>
 			</div>

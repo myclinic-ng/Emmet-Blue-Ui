@@ -12,7 +12,8 @@ var css = [
 	"assets/css/datatables/buttons.dataTables.min.css",
 	"assets/css/datatables/fixedHeader.dataTables.min.css",
 	"assets/js/plugins/sliders/slick/slick.css",
-	"assets/angular/libraries/ng-print/ngPrint.min.css"
+	"assets/angular/libraries/ng-print/ngPrint.min.css",
+	"assets/css/dt-picker.min.css"
 ];
 
 var jquery = {"jquery": "assets/js/core/libraries/jquery.min.js"};
@@ -36,7 +37,9 @@ var libraries = [
 	"assets/js/plugins/trees/fancytree_all.min.js",
 	"assets/js/plugins/media/fancybox.min.js",
 	"assets/js/plugins/trees/fancytree_childcounter.min.js",
-	"assets/js/plugins/ui/prism.min.js"
+	"assets/js/plugins/ui/prism.min.js",
+	"assets/js/dt-picker.js",
+	"assets/js/dom-to-image.min.js"
 ];
 
 var themes = [

@@ -2,7 +2,8 @@ angular.module("EmmetBlue")
 
 .controller('labRequestsController', function($scope, utils){
 	var actions = function (data, type, full, meta){
-		var deleteButtonAction = "manage('process', "+data.RequestID+")";
+		var processButtonAction = "manage('process', "+data.RequestID+")";
+		var ackButtonAction = "manage('ack', "+data.RequestID+")";
 		var hmoButtonAction = "manage('hmoReq', "+data.RequestID+")";
 
 		var dataOpt = "data-option-id='"+data.RequestID+"'"+
@@ -10,13 +11,23 @@ angular.module("EmmetBlue")
 					  "data-option-lab-id='"+data.LabID+"'"+
 					  "data-option-lab-name='"+data.LabName+"'"+
 					  "data-option-investigation-required='"+data.InvestigationRequired+"'"+
+					  "data-option-investigation-type-name='"+data.InvestigationTypeName+"'"+
 					  "data-option-clinical-diagnosis='"+data.ClinicalDiagnosis+"'"+
-					  "data-option-requested-by='"+data.RequestedBy+"'"+
+					  "data-option-requested-by-id='"+data.RequestedBy+"'"+
+					  "data-option-requested-by='"+data.RequestedByFullName+"'"+
 					  "data-option-patient-id='"+data.PatientID+"'"+
 					  "data-option-request-date='"+data.RequestDate+"'";
 
 
-		var deleteButton = "<button class='btn btn-default process-btn btn-danger col-md-12' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> proceed</button>";
+		var processButton = "<button class='btn btn-default process-btn btn-danger col-md-12' ng-click=\""+processButtonAction+"\" "+dataOpt+"> Register Request</button>";
+		var ackButton = "<button class='btn btn-default ack-btn btn-info col-md-12' ng-click=\""+ackButtonAction+"\" "+dataOpt+"> Generate Payment Request</button>";
+
+		if (data.RequestAcknowledged == 0){
+			deleteButton = processButton;
+		}
+		else {
+			deleteButton = ackButton;
+		}
 		var hmoButton = "<button class='btn btn-default process-btn col-md-offset-3 col-md-12' ng-click=\""+hmoButtonAction+"\" "+dataOpt+"> Send to HMO office</button>";
 		
 		var buttons = "<div class='btn-group'>"+deleteButton+hmoButton+"</button>";
@@ -48,20 +59,36 @@ angular.module("EmmetBlue")
         }
     })
 
+    $scope.currentRequestsUris = {};
+
 	$scope.dtColumns = [
 		utils.DT.columnBuilder.newColumn(null).withTitle("Patient").renderWith(function(data, a, b){
 			var string = "<span class='text-bold'>"+data.PatientFullName+"</span><br/>"+data.PatientTypeName+" ("+data.CategoryName+")";
 			return string;
 		}),
-		utils.DT.columnBuilder.newColumn('LabName').withTitle("Required Laboratory"),
-		utils.DT.columnBuilder.newColumn('InvestigationTypeName').withTitle("Investigation Type Name"),
+		utils.DT.columnBuilder.newColumn('InvestigationRequired').withTitle("Required Investigation"),
+		utils.DT.columnBuilder.newColumn('RequestNote').withTitle("Request Note"),
 		utils.DT.columnBuilder.newColumn('RequestedByFullName').withTitle("Requested By"),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Date Requested").renderWith(function(data, b, c){
 			return (new Date(data.RequestDate)).toDateString()+ " "+ (new Date(data.RequestDate)).toLocaleTimeString()
 		}),
-		utils.DT.columnBuilder.newColumn('ClinicalDiagnosis').withTitle("Clinical Diagnosis"),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Request").renderWith(function(data, a , b){
+			var image = data.ClinicalDiagnosis;
+
+			$scope.currentRequestsUris[data.RequestID] = image;
+
+			var btn = "<button class='btn btn-default' ng-click='loadRequestUri("+data.RequestID+")'> Load Request</button>";
+
+			return btn;
+		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Generate Lab Number").renderWith(actions).notSortable()
 	];
+
+	$scope.loadRequestUri = function(id){
+		$scope.currentRequestUri = $scope.currentRequestsUris[id];
+
+		$("#request-uri").modal("show");
+	}
 
 	$scope.$on("ReloadQueue", function(){
 		$scope.dtInstance.reloadData();
@@ -88,7 +115,7 @@ angular.module("EmmetBlue")
 					labId: $(".process-btn[data-option-id='"+id+"']").attr("data-option-lab-id"),
 					clinicalDiagnosis: $(".process-btn[data-option-id='"+id+"']").attr("data-option-clinical-diagnosis"),
 					investigationRequired: $(".process-btn[data-option-id='"+id+"']").attr("data-option-investigation-required"),
-					requestedBy: $(".process-btn[data-option-id='"+id+"']").attr("data-option-requested-by"),
+					requestedBy: $(".process-btn[data-option-id='"+id+"']").attr("data-option-requested-by-id"),
 					dateRequested: $(".process-btn[data-option-id='"+id+"']").attr("data-option-request-date")
 				}
 
@@ -97,25 +124,53 @@ angular.module("EmmetBlue")
 				$("#_new_patient").modal("show");	
 				break;
 			}
+			case "ack":{
+				utils.storage.currentPaymentRequest = id;
+
+				$("#_payment_request").modal("show");	
+				break;
+			}
 			case "hmoReq":{
-				datum = {
-					investigationId: id,
-					patientUuid: $(".process-btn[data-option-id='"+id+"']").attr("data-option-patient-uuid"),
-					labId: $(".process-btn[data-option-id='"+id+"']").attr("data-option-lab-id"),
-					clinicalDiagnosis: $(".process-btn[data-option-id='"+id+"']").attr("data-option-clinical-diagnosis"),
-					investigationRequired: $(".process-btn[data-option-id='"+id+"']").attr("data-option-investigation-required"),
-					requestedBy: $(".process-btn[data-option-id='"+id+"']").attr("data-option-requested-by"),
-					dateRequested: $(".process-btn[data-option-id='"+id+"']").attr("data-option-request-date")
-				}
+				datum = [
+					{investigationId: id},
+					{patientUuid: $(".process-btn[data-option-id='"+id+"']").attr("data-option-patient-uuid")},
+					{labId: $(".process-btn[data-option-id='"+id+"']").attr("data-option-lab-id")},
+					{clinicalDiagnosis: $(".process-btn[data-option-id='"+id+"']").attr("data-option-clinical-diagnosis")},
+					{investigationRequired: $(".process-btn[data-option-id='"+id+"']").attr("data-option-investigation-required")},
+					{requestedBy: $(".process-btn[data-option-id='"+id+"']").attr("data-option-requested-by")},
+					{dateRequested: $(".process-btn[data-option-id='"+id+"']").attr("data-option-request-date")}
+				]
 
-				items = [];
+				// items = [];
 
-				datumText = "Investigation ID: "+datum.investigationId+" <br/> Clinical Diagnosis: "+datum.clinicalDiagnosis+" <br/> Investigation Required: "+datum.investigationRequired+" <br/> Requested By: "+datum.requestedBy+" Date Requested: "+datum.dateRequested;
+				// datumText = "Investigation ID: "+datum.investigationId+" <br/> Clinical Diagnosis: "+datum.clinicalDiagnosis+" <br/> Investigation Required: "+datum.investigationRequired+" <br/> Requested By: "+datum.requestedBy+" Date Requested: "+datum.dateRequested;
 
-				items.push({
-					"item":datumText,
-					"duration": null
-				});
+				items = [
+					{
+						item: "Investigation ID",
+						duration: id
+					},
+					{
+						item: "Laboratory",
+						duration: $(".process-btn[data-option-id='"+id+"']").attr("data-option-lab-name")
+					},
+					{
+						item: "Clinical Diagnosis",
+						duration: $(".process-btn[data-option-id='"+id+"']").attr("data-option-clinical-diagnosis")
+					},
+					{
+						item: "Investigation Required",
+						duration: $(".process-btn[data-option-id='"+id+"']").attr("data-option-investigation-type-name")
+					},
+					{
+						item: "Requested By",
+						duration: $(".process-btn[data-option-id='"+id+"']").attr("data-option-requested-by")
+					},
+					{
+						item: "Date Requested",
+						duration: $(".process-btn[data-option-id='"+id+"']").attr("data-option-request-date")
+					}
+				]
 
 				data = {
 					items: items,

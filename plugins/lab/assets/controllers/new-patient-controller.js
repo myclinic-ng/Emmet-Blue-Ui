@@ -71,35 +71,48 @@ angular.module("EmmetBlue")
 
 	$scope.savePatient = function(){
 		var patient = $scope.patient;
-
-		console.log(patient);
+		patient.request = $scope.currentRequestId;
+		patient.investigations = $scope.investigations;
 		var result = utils.serverRequest("/lab/patient/new", "POST", patient);
 		result.then(function(response){
-			utils.alert("Operation successful", "New patient registered successfully", "success");
+			if (response){
+				utils.alert("Operation successful", "New patient registered successfully", "success");
 
-			utils.serverRequest("/lab/lab-request/close-request", "POST", {"request": $scope.currentRequestId, "staff": utils.userSession.getID()})
-			.then(function(response){
-				$rootScope.$broadcast("ReloadQueue");
-			}, function(error){
-				utils.errorHandler(error);
-			});
-
-			$("#_new_patient").modal("hide");
-			$rootScope.$broadcast("reloadLabPatients", {});
-			if (typeof $scope.patient.patientID !== "undefined"){
-				var eventLog = patientEventLogger.lab.newPatientRegisteredEvent(
-					$scope.patient.patientID,
-					$scope.investigationTypeArray[$scope.patient.investigationTypeRequired].InvestigationTypeName, 
-					response.lastInsertId
-				);
-				eventLog.then(function(response){
-					//patient registered event logged
-				}, function(response){
-					utils.errorHandler(response);
+				utils.serverRequest("/lab/lab-request/close-request", "POST", {"request": $scope.currentRequestId, "staff": utils.userSession.getID()})
+				.then(function(response){
+					$rootScope.$broadcast("ReloadQueue");
+				}, function(error){
+					utils.errorHandler(error);
 				});
+
+				$("#_new_patient").modal("hide");
+				$rootScope.$broadcast("reloadLabPatients", {});
+				if (typeof $scope.patient.patientID !== "undefined"){
+					var eventLog = patientEventLogger.lab.newPatientRegisteredEvent(
+						$scope.patient.patientID,
+						$scope.investigationTypeArray[$scope.patient.investigationTypeRequired].InvestigationTypeName, 
+						response.lastInsertId
+					);
+					eventLog.then(function(response){
+						//patient registered event logged
+					}, function(response){
+						utils.errorHandler(response);
+					});
+				}
 			}
 		}, function(error){
 			utils.errorHandler(error);
+		});
+	}
+
+	$scope.investigations = [];
+	$scope.addInvestigationToList = function(){
+		$scope.investigations.push({
+			"lab":$scope.patientLab,
+			"investigation":$scope.investigation,
+			"note":$scope.investigationNote,
+			"lName":$("option[data-id='ln-"+$scope.patientLab+"']").attr("data-name"),
+			'iName':$("option[data-id='itid-"+$scope.patientLab+"']").attr("data-name")
 		});
 	}
 });

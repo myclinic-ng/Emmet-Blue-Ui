@@ -1,116 +1,261 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
 <script>$('select.select').select2();</script>
-<div ng-controller="accountsBillingSettingPaymentRulesController" style="height: 600px;">
-	<div class="col-md-12">
-		<div class="col-md-6 pt-10 pb-5">
-			<label>Billing Type Item Category</label>
-			<select class="select" ng-model="billingTypeSelector">
-				<option value="{{type.BillingTypeID}}" ng-repeat="type in billingTypes">{{type.BillingTypeName}}</option>
-			</select>
+<div class="col-md-3">
+	<div ng-controller="accountsBillingSettingAppendsPaymentRulesController" style="height: 600px;">
+		<div class="col-md-12">
+			<h5 class="text-center"><u>Appended Billing Type Items</u></h5>
 		</div>
-		<div class="col-md-6 pt-10 pb-5">
-			<label>Patient Category</label>
-			<select class="select" ng-model="patientTypeSelector">
-				<option value="{{category.CategoryID}}" ng-repeat="category in patientCategories">{{category.CategoryName}}</option>
-			</select>
-		</div>
-		<button class="pull-right btn btn-info btn-labeled btn-xs" ng-click="reloadTable()"><b><i class="icon-filter"></i></b> Apply Filter</button>
-	</div>
-	<table datatable="" dt-options="linkDtOptions" dt-columns="linkDtColumns" dt-instance="linkDtInstance" class="table table-condensed table-striped table-hover"></table>
+		<table datatable="" dt-options="linkDtOptions" dt-columns="linkDtColumns" dt-instance="linkDtInstance" class="table table-condensed table-striped table-hover"></table>
 
-	<div id="new_setting_new_rule" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header bg-success">
-					<h6 class="modal-title">Define Payment Variables On Billing Items</h6>
-					<button type="button" class="close" onclick="$('#new_setting_new_rule').modal('hide')">&times;</button>
-				</div>
+		<div id="new_setting_new_rule_append" class="modal fade">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header bg-success">
+						<h6 class="modal-title">Define Payment Variables On Billing Items</h6>
+						<button type="button" class="close" onclick="$('#new_setting_new_rule_append').modal('hide')">&times;</button>
+					</div>
 
-				<div class="modal-body">
-					<div class="row">
-						<div class="content-group">
-							<div class="col-md-8">
-								<label>Rule type</label>
-								<select class="select" ng-model="newRule.ruleType">
-									<option value="-">Subtraction</option>
-									<option value="%">Percentage</option>
-									<option value="+">Addition</option>
-									<option value="*">Multiplication</option>
-								</select>
-							</div>
-							<div class="col-md-4">
-								<label>Rule value</label>
-								<input class="form-control" type="number" ng-model="newRule.ruleValue"/>
-							</div>
-						</div>
-						<div class="content-group col-md-6">
-							<div class="col-md-12 pt-10 pb-5">
-								<label>Billing Type Item Category</label>
-								<select class="select" ng-model="billingTypeSelector">
-									<option value="{{type.BillingTypeID}}" ng-repeat="type in billingTypes">{{type.BillingTypeName}}</option>
-								</select>
-							</div>
-							<div class="col-md-12">
-								<div class="overflow-auto" style="height:300px !important;">
-									<table class="table table-condensed table-striped">
-										<thead>
-											<tr>
-												<th>Billing Type Item</th>
-												<th><input class="" type="checkbox" ng-model="allBillingTypeCheckboxToggler" ng-click="toggleAllBillingTypeCheckbox()"/></th>
-											</tr>
-											<tr>
-												<th colspan="2" class="no-padding no-margin">
-													<input class="no-border-radius form-control" placeholder="Filter" ng-model="billingTypeItemFilter"/>
-												</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr ng-repeat="type in billingTypeItems | filter:billingTypeItemFilter">
-												<td>{{type.BillingTypeItemName}}</td>
-												<td><input class="" type="checkbox" ng-model="billingTypeCheckbox[type.BillingTypeItemID]" ng-click="billingTypeCheckboxNames[type.BillingTypeItemID] = type.BillingTypeItemID"/></td>
-											</tr>
-										</tbody>
-									</table>
+					<div class="modal-body">
+						<div class="row">
+							<div class="content-group col-md-12">
+								<div class="col-md-12 pt-10 pb-5">
+									<label>Billing Type Item Category</label>
+									<select class="select" ng-model="billingTypeSelector">
+										<option value="{{type.BillingTypeID}}" ng-repeat="type in billingTypes">{{type.BillingTypeName}}</option>
+									</select>
 								</div>
-							</div>
-						</div>
-						<div class="content-group col-md-6">
-							<div class="col-md-12 pt-10 pb-5">
-								<label>Patient Category</label>
-								<select class="select" ng-model="patientTypeSelector">
-									<option value="{{category.CategoryID}}" ng-repeat="category in patientCategories">{{category.CategoryName}}</option>
-								</select>
-							</div>
-							<div class="col-md-12">
-								<div class="overflow-auto" style="height:300px !important;">
-									<table class="table table-condensed table-striped">
-										<thead>
-											<tr>
-												<th class="no-border">Patient Type</th>
-												<th class="no-border"><input class="" type="checkbox" ng-model="allPatientTypeCheckboxToggler" ng-click="toggleAllPatientTypeCheckbox()"/></th>
-											</tr>
-											<tr>
-												<th colspan="2" class="no-padding no-margin">
-													<input class="no-border-radius form-control" placeholder="Filter" ng-model="patientTypeFilter"/>
-												</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr ng-repeat="type in patientTypes | filter:patientTypeFilter">
-												<td>{{type.PatientTypeName}}</td>
-												<td><input class="" type="checkbox" ng-model="patientTypeCheckbox[type.PatientTypeID]" ng-click="patientTypeCheckboxNames[type.PatientTypeID] = type.PatientTypeID"/></td>
-											</tr>
-										</tbody>
-									</table>
+								<div class="col-md-12">
+									<div class="overflow-auto" style="height:300px !important;">
+										<table class="table table-condensed table-striped">
+											<thead>
+												<tr>
+													<th>Billing Type Item</th>
+													<!-- <th><input class="" type="checkbox" ng-model="allBillingTypeCheckboxToggler" ng-click="toggleAllBillingTypeCheckbox()"/></th> -->
+												</tr>
+												<tr>
+													<th colspan="2" class="no-padding no-margin">
+														<input class="no-border-radius form-control" placeholder="Filter" ng-model="billingTypeItemFilter"/>
+													</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng-repeat="type in billingTypeItems | filter:billingTypeItemFilter">
+													<td>{{type.BillingTypeItemName}}</td>
+													<td><input class="" type="checkbox" ng-model="billingTypeCheckbox[type.BillingTypeItemID]" ng-click="billingTypeCheckboxNames[type.BillingTypeItemID] = type.BillingTypeItemID"/></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 
-				<div class="modal-footer">
-					<button type="button" class="btn btn-link" onclick="$('#new_setting_new_rule').modal('hide')">cancel</button>
-					<button type="button" class="btn btn-warning" ng-click="submitRules()">Save</button>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-link" onclick="$('#new_setting_new_rule_append').modal('hide')">cancel</button>
+						<button type="button" class="btn btn-warning" ng-click="submitRules()">Save</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="col-md-4" style="border-left: 1px solid green">
+	<div ng-controller="accountsBillingSettingPaymentRulesTotalController" style="height: 600px;">
+		<div class="col-md-12">
+			<h5 class="text-center"><u>Payment Rule(s) For Total Bill</u></h5>
+			<div class="col-md-9 col-md-offset-2 pt-10 pb-5">
+				<label>Patient Category</label>
+				<select class="select" ng-model="patientTypeSelector">
+					<option value="{{category.CategoryID}}" ng-repeat="category in patientCategories">{{category.CategoryName}}</option>
+				</select>
+			</div>
+			<button class="pull-right btn btn-info btn-labeled btn-xs" ng-click="reloadTable()"><b><i class="icon-filter"></i></b> Apply Filter</button>
+		</div>
+		<table datatable="" dt-options="linkDtOptions" dt-columns="linkDtColumns" dt-instance="linkDtInstance" class="table table-condensed table-striped table-hover"></table>
+
+		<div id="new_setting_new_rule_total" class="modal fade">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header bg-success">
+						<h6 class="modal-title">Define Payment Variables On Billing Items</h6>
+						<button type="button" class="close" onclick="$('#new_setting_new_rule').modal('hide')">&times;</button>
+					</div>
+
+					<div class="modal-body">
+						<div class="row">
+							<div class="content-group">
+								<div class="col-md-8">
+									<label>Rule type</label>
+									<select class="select" ng-model="newRule.ruleType">
+										<option value="-">Subtraction</option>
+										<option value="%">Percentage</option>
+										<option value="+">Addition</option>
+										<option value="*">Multiplication</option>
+									</select>
+								</div>
+								<div class="col-md-4">
+									<label>Rule value</label>
+									<input class="form-control" type="number" ng-model="newRule.ruleValue"/>
+								</div>
+							</div>
+							<div class="content-group col-md-12">
+								<div class="col-md-12 pt-10 pb-5">
+									<label>Patient Category</label>
+									<select class="select" ng-model="patientTypeSelector">
+										<option value="{{category.CategoryID}}" ng-repeat="category in patientCategories">{{category.CategoryName}}</option>
+									</select>
+								</div>
+								<div class="col-md-12">
+									<div class="overflow-auto" style="height:300px !important;">
+										<table class="table table-condensed table-striped">
+											<thead>
+												<tr>
+													<th class="no-border">Patient Type</th>
+													<th class="no-border"><input class="" type="checkbox" ng-model="allPatientTypeCheckboxToggler" ng-click="toggleAllPatientTypeCheckbox()"/></th>
+												</tr>
+												<tr>
+													<th colspan="2" class="no-padding no-margin">
+														<input class="no-border-radius form-control" placeholder="Filter" ng-model="patientTypeFilter"/>
+													</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng-repeat="type in patientTypes | filter:patientTypeFilter">
+													<td>{{type.PatientTypeName}}</td>
+													<td><input class="" type="checkbox" ng-model="patientTypeCheckbox[type.PatientTypeID]" ng-click="patientTypeCheckboxNames[type.PatientTypeID] = type.PatientTypeID"/></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-link" onclick="$('#new_setting_new_rule_total').modal('hide')">cancel</button>
+						<button type="button" class="btn btn-warning" ng-click="submitRules()">Save</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="col-md-5" style="border-left: 1px solid green">
+	<div ng-controller="accountsBillingSettingPaymentRulesController" style="height: 600px;">
+		<div class="col-md-12">
+			<h5 class="text-center"><u>Payment Rule(s) For Individual Billing Type Items</u></h5>
+			<div class="col-md-6 pt-10 pb-5">
+				<label>Billing Type Item Category</label>
+				<select class="select" ng-model="billingTypeSelector">
+					<option value="{{type.BillingTypeID}}" ng-repeat="type in billingTypes">{{type.BillingTypeName}}</option>
+				</select>
+			</div>
+			<div class="col-md-6 pt-10 pb-5">
+				<label>Patient Category</label>
+				<select class="select" ng-model="patientTypeSelector">
+					<option value="{{category.CategoryID}}" ng-repeat="category in patientCategories">{{category.CategoryName}}</option>
+				</select>
+			</div>
+			<button class="pull-right btn btn-info btn-labeled btn-xs" ng-click="reloadTable()"><b><i class="icon-filter"></i></b> Apply Filter</button>
+		</div>
+		<table datatable="" dt-options="linkDtOptions" dt-columns="linkDtColumns" dt-instance="linkDtInstance" class="table table-condensed table-striped table-hover"></table>
+
+		<div id="new_setting_new_rule" class="modal fade">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header bg-success">
+						<h6 class="modal-title">Define Payment Variables On Billing Items</h6>
+						<button type="button" class="close" onclick="$('#new_setting_new_rule').modal('hide')">&times;</button>
+					</div>
+
+					<div class="modal-body">
+						<div class="row">
+							<div class="content-group">
+								<div class="col-md-8">
+									<label>Rule type</label>
+									<select class="select" ng-model="newRule.ruleType">
+										<option value="-">Subtraction</option>
+										<option value="%">Percentage</option>
+										<option value="+">Addition</option>
+										<option value="*">Multiplication</option>
+									</select>
+								</div>
+								<div class="col-md-4">
+									<label>Rule value</label>
+									<input class="form-control" type="number" ng-model="newRule.ruleValue"/>
+								</div>
+							</div>
+							<div class="content-group col-md-6">
+								<div class="col-md-12 pt-10 pb-5">
+									<label>Billing Type Item Category</label>
+									<select class="select" ng-model="billingTypeSelector">
+										<option value="{{type.BillingTypeID}}" ng-repeat="type in billingTypes">{{type.BillingTypeName}}</option>
+									</select>
+								</div>
+								<div class="col-md-12">
+									<div class="overflow-auto" style="height:300px !important;">
+										<table class="table table-condensed table-striped">
+											<thead>
+												<tr>
+													<th>Billing Type Item</th>
+													<th><input class="" type="checkbox" ng-model="allBillingTypeCheckboxToggler" ng-click="toggleAllBillingTypeCheckbox()"/></th>
+												</tr>
+												<tr>
+													<th colspan="2" class="no-padding no-margin">
+														<input class="no-border-radius form-control" placeholder="Filter" ng-model="billingTypeItemFilter"/>
+													</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng-repeat="type in billingTypeItems | filter:billingTypeItemFilter">
+													<td>{{type.BillingTypeItemName}}</td>
+													<td><input class="" type="checkbox" ng-model="billingTypeCheckbox[type.BillingTypeItemID]" ng-click="billingTypeCheckboxNames[type.BillingTypeItemID] = type.BillingTypeItemID"/></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+							<div class="content-group col-md-6">
+								<div class="col-md-12 pt-10 pb-5">
+									<label>Patient Category</label>
+									<select class="select" ng-model="patientTypeSelector">
+										<option value="{{category.CategoryID}}" ng-repeat="category in patientCategories">{{category.CategoryName}}</option>
+									</select>
+								</div>
+								<div class="col-md-12">
+									<div class="overflow-auto" style="height:300px !important;">
+										<table class="table table-condensed table-striped">
+											<thead>
+												<tr>
+													<th class="no-border">Patient Type</th>
+													<th class="no-border"><input class="" type="checkbox" ng-model="allPatientTypeCheckboxToggler" ng-click="toggleAllPatientTypeCheckbox()"/></th>
+												</tr>
+												<tr>
+													<th colspan="2" class="no-padding no-margin">
+														<input class="no-border-radius form-control" placeholder="Filter" ng-model="patientTypeFilter"/>
+													</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng-repeat="type in patientTypes | filter:patientTypeFilter">
+													<td>{{type.PatientTypeName}}</td>
+													<td><input class="" type="checkbox" ng-model="patientTypeCheckbox[type.PatientTypeID]" ng-click="patientTypeCheckboxNames[type.PatientTypeID] = type.PatientTypeID"/></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-link" onclick="$('#new_setting_new_rule').modal('hide')">cancel</button>
+						<button type="button" class="btn btn-warning" ng-click="submitRules()">Save</button>
+					</div>
 				</div>
 			</div>
 		</div>

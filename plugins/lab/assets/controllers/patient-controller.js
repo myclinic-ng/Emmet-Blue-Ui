@@ -55,6 +55,8 @@ angular.module("EmmetBlue")
         }
 	]);	
 
+	$scope.currentRequestsUris = {};
+
 	$scope.dtColumns = [
 		utils.DT.columnBuilder.newColumn('PatientLabNumber').withTitle("Lab Number"),
 		utils.DT.columnBuilder.newColumn('LabName').withTitle("Required Lab"),
@@ -64,8 +66,22 @@ angular.module("EmmetBlue")
 			return (new Date(data.RegistrationDate)).toDateString()+ " "+ (new Date(data.RegistrationDate)).toLocaleTimeString()
 		}),
 		utils.DT.columnBuilder.newColumn('RequestedByFullName').withTitle("Requested By"),
-		utils.DT.columnBuilder.newColumn('ClinicalDiagnosis').withTitle("Clinical Diagnosis/Nature Of Specimen")
+		utils.DT.columnBuilder.newColumn(null).withTitle("Associated Request").renderWith(function(data, a , b){
+			var image = data.ClinicalDiagnosis;
+
+			$scope.currentRequestsUris[data.RequestID] = image;
+
+			var btn = "<button class='btn btn-default' ng-click='loadRequestUri("+data.RequestID+")'> Load Request</button>";
+
+			return btn;
+		}),
 	];
+
+	$scope.loadRequestUri = function(id){
+		$scope.currentRequestUri = $scope.currentRequestsUris[id];
+
+		$("#request-uri").modal("show");
+	}
 
 	$scope.reloadPatientsTable = function(){
 		$scope.dtInstance.reloadData();
@@ -78,9 +94,8 @@ angular.module("EmmetBlue")
 	$scope.managePatient = function(type, id){
 		switch(type){
 			case "paymentRequest":{
-				// utils.storage.fieldsLabID = id;
-				utils.storage.currentPaymentRequest = id;
-				$("#_payment_request").modal("show");
+				// utils.storage.currentPaymentRequest = id;
+				// $("#_payment_request").modal("show");
 				break;
 			}
 		}
