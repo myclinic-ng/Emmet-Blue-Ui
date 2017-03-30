@@ -13,7 +13,7 @@ var css = [
 	"assets/css/datatables/fixedHeader.dataTables.min.css",
 	"assets/js/plugins/sliders/slick/slick.css",
 	"assets/angular/libraries/ng-print/ngPrint.min.css",
-	"https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.min.css"
+	"assets/css/dt-picker.min.css"
 ];
 
 var jquery = {"jquery": "assets/js/core/libraries/jquery.min.js"};
@@ -38,7 +38,7 @@ var libraries = [
 	"assets/js/plugins/media/fancybox.min.js",
 	"assets/js/plugins/trees/fancytree_childcounter.min.js",
 	"assets/js/plugins/ui/prism.min.js",
-	"https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"
+	"assets/js/dt-picker.js"
 ];
 
 var themes = [
