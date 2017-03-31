@@ -1,0 +1,702 @@
+<div class="row" id="lab-form">
+	<div class="col-md-12">
+		<div class="form-group col-md-6">
+			<label class="control-label">
+				Patient Name
+			</label>
+			<input type="text" class="form-control input" ng-model="patientInfo.patientfullname"/>
+		</div>
+		<div class="form-group col-md-1">
+			<label class="control-label">
+				AGE
+			</label>
+			<input type="text" class="form-control"/>
+		</div>
+		<div class="form-group col-md-1">
+			<label class="control-label">
+				SEX
+			</label>
+			<input type="text" class="form-control" ng-model="patientInfo.gender"/>
+		</div>
+		<div class="form-group col-md-4">
+			<label class="control-label">
+				Hospital No.
+			</label>
+			<input type="text" class="form-control" ng-model="patientInfo.patientuuid"/>
+		</div>
+		<div class="form-group col-md-8">
+			<label class="control-label">
+				Clinical Diagnoses (Request Note)
+			</label>
+			<input type="text" class="form-control" placeholder="No diagnoses specified" ng-model="diagnoses" />
+		</div>
+		<div class="form-group col-md-4">
+			<label class="control-label">
+				PATIENT TYPE
+			</label>
+			<input type="text" class="form-control" ng-model="patientInfo.categoryname"/>
+		</div>
+		<div class="form-group col-md-12">
+			<label class="control-label">
+				Investigation(s) In This Report
+			</label>
+			<textarea class="form-control" ng-model="investigations" placeholder="This field will be populated automatically once you submit"></textarea>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="table-responsive">
+			<table class="table table-hover table-condensed lab-table">
+				<thead>
+					<th colspan="3" class="text-center text-black">HAEMATOLOGY</th>
+				</thead>
+				<tbody>
+					<tr>
+						<td>HB</td>
+						<td class="text-black text-bold"></td>
+						<td>g/dl (11 - 18)</td>
+					</tr>
+					<tr>
+						<td>PCV</td>
+						<td class="text-black text-bold"></td>
+						<td>%</td>
+					</tr>
+					<tr>
+						<td>WBC</td>
+						<td class="text-black text-bold"></td>
+						<td>10/9 (4 - 11)</td>
+					</tr>
+					<tr>
+						<td>MCHC</td>
+						<td class="text-black text-bold"></td>
+						<td>g/dl (32 - 35)</td>
+					</tr>
+					<tr>
+						<td>PLATELETS</td>
+						<td class="text-black text-bold"></td>
+						<td>10/91 (150 - 400)</td>
+					</tr>
+					<tr>
+						<td>E. S. R.</td>
+						<td class="text-black text-bold"></td>
+						<td>mm/hr (<20)</td>
+					</tr>
+
+					<tr>
+						<th colspan="3" class="text-center text-black">DIFFERENTIALS</th>
+					</tr>
+					<tr>
+						<td>NEUTROPHILS</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>BASOPHILS</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>LYMPHOCYTES</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>MONOCYTES</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>EOSINOPHILS</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+
+					<tr>
+						<th colspan="3" class="text-center text-black">RBC MORPHOLOGY</th>
+					</tr>
+					<tr>
+						<td>ANISOCYTOSIS</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>HYPOCHROMA</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>SICKLE CELLS</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>TARGET CELLS</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>SPHEROCYTOSIS</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>BLEEDING TIME</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>CLOTTING TIME</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>BLOOD GROUP</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>GENOTYPE</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<table class="table table-hover table-condensed lab-table">
+				<thead>
+					<th colspan="3" class="text-center text-black">IMMUNOLOGY</th>
+				</thead>
+				<tbody>
+					<tr>
+						<td>HCG</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>HBS Ag</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>ELISA SCREENING</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>HCV</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>HAV</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>PSA</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>OVULATION</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>CD4+ COUNT</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>MAN TOUX TEST</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>V. D. R. L.</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<table class="table table-hover table-condensed table-bordered lab-table">
+				<thead>
+					<th class="text-center text-black">WIDAL TEST</th>
+					<th class="text-center">O</th>
+					<th class="text-center">H</th>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Salmonella Typhi</td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>Salmonella Paratyphi A</td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>Salmonella Paratyphi B</td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>Salmonella Paratyphi C</td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td colspan="2">Significant for litres > 1.80</td>
+						<td class="text-black text-bold"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+
+	<div class="col-md-4">
+		<div class="table-responsive">
+			<table class="table table-hover table-condensed lab-table">
+				<thead>
+					<th colspan="3" class="text-center text-black">URINALYSIS</th>
+				</thead>
+				<tbody>
+					<tr>
+						<td>PH:</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>PROTEIN</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>GLUCOSE</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>KETONES</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>BILIRUBIN</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>UROBILINOGEN</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>BLOOD</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>NITRATE</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>ASCORBIC ACID</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>S. G.</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+
+					<tr>
+						<th colspan="3" class="text-center text-black">UREA &amp; ELECTROLYTES</th>
+					</tr>
+					<tr>
+						<td class="text-center">UNITS</td>
+						<td class="text-center">SAMPLE</td>
+						<td class="text-center">RANGE</td>
+					</tr>
+					<tr>
+						<td>UREA (mmol/L)</td>
+						<td class="text-black text-bold"></td>
+						<td>25 - 6.5</td>
+					</tr>
+					<tr>
+						<td>SODIUM</td>
+						<td class="text-black text-bold"></td>
+						<td>136 - 146</td>
+					</tr>
+					<tr>
+						<td>POTASSIUM</td>
+						<td class="text-black text-bold"></td>
+						<td>3.5 - 5.0</td>
+					</tr>
+					<tr>
+						<td>CHLORIDE</td>
+						<td class="text-black text-bold"></td>
+						<td>95 - 108</td>
+					</tr>
+					<tr>
+						<td>BICARBONATE</td>
+						<td class="text-black text-bold"></td>
+						<td>24 - 32</td>
+					</tr>
+					<tr>
+						<td>CREANINE (/umi/i)</td>
+						<td class="text-black text-bold"></td>
+						<td> 9 - 126</td>
+					</tr>
+
+					<tr>
+						<th colspan="3" class="text-center text-black">LIVER FUNCTION TESTS</th>
+					</tr>
+					<tr>
+						<td class="text-center">UNITS</td>
+						<td class="text-center">SAMPLE</td>
+						<td class="text-center">RANGE</td>
+					</tr>
+					<tr>
+						<td>SGOT /(AST)IU/L</td>
+						<td class="text-black text-bold"></td>
+						<td>5 - 21</td>
+					</tr>
+					<tr>
+						<td>SGOT (ALT)</td>
+						<td class="text-black text-bold"></td>
+						<td>16 - 40</td>
+					</tr>
+					<tr>
+						<td>ALK, PHOS (KAU)</td>
+						<td class="text-black text-bold"></td>
+						<td>21 - 92</td>
+					</tr>
+					<tr>
+						<td>CONJ BIL. (UMO/L)</td>
+						<td class="text-black text-bold"></td>
+						<td>0 - 4</td>
+					</tr>
+					<tr>
+						<td>TOTAL BILLIRUBIN</td>
+						<td class="text-black text-bold"></td>
+						<td>4 - 17</td>
+					</tr>
+
+					<tr>
+						<th colspan="3" class="text-center text-black">BLOOD GLUCOSE</th>
+					</tr>
+					<tr>
+						<td class="text-center">UNITS</td>
+						<td class="text-center">SAMPLE</td>
+						<td class="text-center">RANGE</td>
+					</tr>
+					<tr>
+						<td>FASTING (MMOL/L)</td>
+						<td class="text-black text-bold"></td>
+						<td>2.5 - 7.0</td>
+					</tr>
+					<tr>
+						<td>2HPP</td>
+						<td class="text-black text-bold"></td>
+						<td>2.5 - 7.0</td>
+					</tr>
+					<tr>
+						<td>RANDOM</td>
+						<td class="text-black text-bold"></td>
+						<td>2.5 - 8.0</td>
+					</tr>
+
+					<tr>
+						<th colspan="3" class="text-center text-black">MISCELLANEOUS TESTS</th>
+					</tr>
+					<tr>
+						<td class="text-center">UNITS</td>
+						<td class="text-center">SAMPLE</td>
+						<td class="text-center">RANGE</td>
+					</tr>
+					<tr>
+						<td>CALCIUM (MMOL/L)</td>
+						<td class="text-black text-bold"></td>
+						<td>2.W5 - 2.75</td>
+					</tr>
+					<tr>
+						<td>INORG PHOS</td>
+						<td class="text-black text-bold"></td>
+						<td>0.8 - 14</td>
+					</tr>
+					<tr>
+						<td>URIC ACID (/UMOL)</td>
+						<td class="text-black text-bold"></td>
+						<td>120 - 420</td>
+					</tr>
+					<tr>
+						<td>AMYLASE (CU)</td>
+						<td class="text-black text-bold"></td>
+						<td>200 - 600</td>
+					</tr>
+					<tr>
+						<td>AMYLASE (CU)</td>
+						<td class="text-black text-bold"></td>
+						<td>200 - 600</td>
+					</tr>
+					<tr>
+						<td>CHOLESTEROL (MMO/L)</td>
+						<td class="text-black text-bold"></td>
+						<td>2.5 - 6.25</td>
+					</tr>
+					<tr>
+						<td>OTHER</td>
+						<td colspan="2" class="text-black text-bold"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div class="col-md-4">
+		<div class="table-responsive">
+			<table class="table table-hover table-condensed lab-table">
+				<thead>
+					<th colspan="2" class="text-center text-black">URINE MICROSCOPY</th>
+				</thead>
+				<tbody>
+					<tr>
+						<td>PUS CELLS</td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>RED BLOOD CELLS</td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>EPITHELIAL CELLS</td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>YEAST CELLS</td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>CRYSTALS</td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>OVA</td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>OTHERS</td>
+						<td class="text-black text-bold"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="table-responsive">
+			<table class="table table-hover table-condensed lab-table">
+				<thead>
+					<th colspan="2" class="text-center text-black">STOOL MICROSCOPY</th>
+				</thead>
+				<tbody>
+					<tr>
+						<td>CONSISTENCY</td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>MUCUS</td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>BLOOD</td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>OVA</td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>CYST</td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>OTHERS</td>
+						<td class="text-black text-bold"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="table-responsive">
+			<table class="table table-hover table-condensed lab-table">
+				<thead>
+					<th colspan="2" class="text-center text-black">HAEMOPARASITES</th>
+				</thead>
+				<tbody>
+					<tr>
+						<td>MALARIA PARASITES</td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>MICROFILARIA</td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>SKIN SNIP</td>
+						<td class="text-black text-bold"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="table-responsive">
+			<table class="table table-hover table-condensed table-bordered lab-table">
+				<thead>
+					<th colspan="4" class="text-center text-black">CULTURE AND SENSITIVITY</th>
+				</thead>
+				<tbody>
+					<tr>
+						<td colspan="4">ORGANISMS ISOLATED</td>
+					</tr>
+					<tr>
+						<td colspan="4" class="text-black text-bold">1.</td>
+					</tr>
+					<tr>
+						<td colspan="4" class="text-black text-bold">2.</td>
+					</tr>
+					<tr>
+						<td colspan="4" class="text-black text-bold">3.</td>
+					</tr>
+					<tr>
+						<td>SENSITIVITY</td>
+						<td class="text-black text-bold">1</td>
+						<td class="text-black text-bold">2</td>
+						<td class="text-black text-bold">3</td>
+					</tr>
+					<tr>
+						<td>1. AMOXYCILLIN</td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>2. AMPICLOX</td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>3. CIPROFLOXACIN</td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>4. ERYTHROMYCIN</td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>5. GENTAMYCIN</td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>6. ZINNACEF</td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>7. SEPTRIN</td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>8. PEFLOXACIN</td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>9. OFLOXACIN</td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>10. ROCEPHIN</td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>11. AUGEMENTIN</td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>12. CHLORAMPHENICOL</td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>13. SEPTROMYCIN</td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>14. TARIVID</td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+					</tr>
+					<tr>
+						<td>15. SPARFLOXACIN</td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+						<td class="text-black text-bold"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div class="col-md-7 pull-right mt-10">
+		<div class="form-group col-md-8">
+			<label class="control-label">
+				Prepared By
+			</label>
+			<input type="text" class="form-control input text-black" ng-model="currentStaff"/>
+		</div>
+		<div class="form-group col-md-4">
+			<label class="control-label">
+				DATE
+			</label>
+			<input type="text" class="form-control text-black" ng-model="today"/>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<button type="button" class="pull-right btn btn-primary" ng-click="submit()">Send to lab</button>
+</div>
+
+<div class="modal fade" id="affects">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-info">
+					<h6 class="title">Select Investigations To Associate This Report With From The Request List Below</h6>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12 table-responsive">
+							<table class="table table-condensed table-hover">
+								<thead>
+									<th>S/N</th>
+									<td>Lab Number</td>
+									<td>Investigation</td>
+									<td>Requested By</td>
+									<td>Select</td>
+								</thead>
+								<tbody>
+									<tr ng-repeat="item in investigationsToAffect">
+										<td>{{$index + 1}}</td>
+										<td>{{item.PatientLabNumber}}</td>
+										<td>{{item.InvestigationTypeName}}</td>
+										<td>{{item.RequestedByFullName}}</td>
+										<td>
+											<div class="checkbox">
+												<label>
+													<input type="checkbox" ng-model="$parent.selected[item.PatientLabNumber].value"/>
+												</label>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="row">
+						<button type="button" class="pull-right btn btn-info" ng-click="persist()">Continue</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

@@ -1,60 +1,60 @@
 angular.module("EmmetBlue")
 
 .controller('labResultsController', function($scope, utils){
+	$scope.requestId = "";
 	$scope.investigationLoaded = false;
 	$scope.investigationResult = {};
 	$scope.loadInvestigation = function(){
-		var labNumber = $scope.patientLabNumber;
+		var patient = $scope.patient;
 
-		utils.serverRequest('/lab/patient/view?resourceId='+labNumber, 'GET')
+		utils.serverRequest('/patients/patient/search?query='+patient, 'GET')
 		.then(function(response){
-			if (typeof response[0] !== "undefined"){
-				$scope.investigation = response[0];
+			if (typeof response.hits.hits[0]["_source"] !== "undefined"){
+				$scope.patientInfo = response.hits.hits[0]["_source"];
 				$scope.investigationLoaded = true;
-				loadFields($scope.investigation.InvestigationTypeID);
 			}
 			else {
 				$scope.investigationLoaded = false;
-				utils.notify("Unrecognized Lab Number", "The lab number you've specified seems to be invalid, please try again or contact an administrator if this error persists", "warning");
+				utils.notify("Unrecognized Patient Number", "The hospital identification number you've specified seems to be invalid, please try again or contact an administrator if this error persists", "warning");
 			}
 		}, function(error){
 			utils.errorHandler(error);
 		})
 	}
 
-	function loadFields(id){
-		utils.serverRequest('/lab/investigation-type-field/view?resourceId='+id, 'GET')
-		.then(function(response){
-			$scope.investigationFields = response;
-			setTimeout(function(){
-				$(".autosuggest").each(function(){
-					var current = $(this);
-					current.typeahead({
-				        hint: true,
-				        highlight: true,
-				        minLength: 1
-				    },
-				    {
-				    	source: function(query, process){
-				    		utils.serverRequest("/lab/investigation-type-field/view-default-values?resourceId="+current.attr("data-id"), "GET").then(function(response){
-				    			var data = [];
-				        		angular.forEach(response, function(value){
-				        			data.push(value.Value);
-				        		})
+	// function loadFields(id){
+	// 	utils.serverRequest('/lab/investigation-type-field/view?resourceId='+id, 'GET')
+	// 	.then(function(response){
+	// 		$scope.investigationFields = response;
+	// 		setTimeout(function(){
+	// 			$(".autosuggest").each(function(){
+	// 				var current = $(this);
+	// 				current.typeahead({
+	// 			        hint: true,
+	// 			        highlight: true,
+	// 			        minLength: 1
+	// 			    },
+	// 			    {
+	// 			    	source: function(query, process){
+	// 			    		utils.serverRequest("/lab/investigation-type-field/view-default-values?resourceId="+current.attr("data-id"), "GET").then(function(response){
+	// 			    			var data = [];
+	// 			        		angular.forEach(response, function(value){
+	// 			        			data.push(value.Value);
+	// 			        		})
 
-				        		data = $.map(data, function (string) { return { value: string }; });
-				        		process(data);
-				    		}, function(error){
-				    			utils.errorHandler(error);
-				    		})
-				    	}
-				    })
-				})
-			}, 2000);
-		}, function(error){
-			utils.errorHandler(error);
-		})
-	}
+	// 			        		data = $.map(data, function (string) { return { value: string }; });
+	// 			        		process(data);
+	// 			    		}, function(error){
+	// 			    			utils.errorHandler(error);
+	// 			    		})
+	// 			    	}
+	// 			    })
+	// 			})
+	// 		}, 2000);
+	// 	}, function(error){
+	// 		utils.errorHandler(error);
+	// 	})
+	// }
 
 	$scope.dateObject = function(date){
 		return new Date(date);

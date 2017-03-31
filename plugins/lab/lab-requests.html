@@ -13,7 +13,7 @@
 		</div>
 
 		<div class="panel-body">
-			<div class="row" ng-show="labView">
+			<div class="row" ng-show="labView" ng-cloak>
 				<label class="control-label col-md-3"><span class="pull-right pt-5">Select Lab:</span></label>
 				<div class="input-group col-md-7">
 					<select class="select" ng-model="currentLab">
@@ -42,12 +42,14 @@
 	</div>
 
 	<div class="modal fade" id="request-uri">
-		<div class="modal-dialog modal-full">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-body">
-					<div class="row"><div class="col-md-12">
-						<img class="img img-responsive" ng-src="{{currentRequestUri}}"/>
-					</div></div>
+					<div class="row">
+						<div class="col-md-12">
+							<center><img class="img img-responsive" ng-src="{{currentRequestUri}}"/></center>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -67,6 +67,19 @@
 								</div>
 							</div>
 						</div>
+						<div class="col-lg-3 col-sm-12" ng-if="item.RepositoryItemCategory == 'file'">
+							<div class="thumbnail" style="height: 100px; width: 100px;">
+								<div class="thumb" style="height: 99%; width: 100%">
+									<img src="assets/images/icon-json-flat.png" alt="JSON" style="height: inherit; width: 100%"/>
+									<div class="caption-overflow">
+										<span>
+											<a href="#" ng-click="enlargeDImage(item.RepositoryItemNumber)" class="btn border-white text-white btn-flat btn-icon btn-rounded"><i class="fa fa-link"></i></a>
+											<a href="#" ng-click="loadInfo(item.RepositoryItemName, item.RepositoryItemDescription)" class="btn border-white text-white btn-flat btn-icon btn-rounded ml-5"><i class="fa fa-info pull-right"></i></a>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
 						<div class="col-lg-3 col-sm-12" ng-if="item.RepositoryItemCategory == 'text'">
 							<div class="thumbnail" style="height: 100px; width: 100px;">
 								<div class="thumb" style="height: 99%; width: 100%">
@@ -113,8 +126,8 @@
 	</div>
 
 
-	<div class="modal fade no-margin no-padding" id="view-image-document" style="width: 100%;  height: 100vh;">
-		<div class="modal-full modal-lg no-margin no-padding" style="width: 100%;  height: 100vh;">
+	<div class="modal fade no-margin no-padding" id="view-image-document" style="min-width: 100%;  min-height: 100vh;">
+		<div class="modal-full modal-lg no-margin no-padding" style="min-width: 100%;  min-height: 100vh;">
 			<div class="modal-content">
 				<div class="modal-header bg-success">
 					<h6 class="modal-title">
@@ -123,7 +136,7 @@
 					</h6>
 					<button class="close" ng-click="closeModal()"><i class='icon-cross'></i> close</button>
 				</div>
-				<div class="modal-body no-margin no-padding" id="currentRepositoryImage" ng-click="rotate('currentRepositoryImage')" style="height: 100vh !important;">
+				<div class="modal-body no-margin no-padding" id="currentRepositoryImage" ng-click="rotate('currentRepositoryImage')" style="min-height: 100vh !important;">
 					<img ng-src="{{currentRepositoryImage}}" class="img img-responsive no-margin" style="width: 100%;"/>
 				</div>
 			</div>

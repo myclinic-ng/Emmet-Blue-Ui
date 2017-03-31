@@ -44,7 +44,7 @@ angular.module("EmmetBlue")
 				for (var i = 0; i < response.length; i++){
 					a.push(response[i].InvestigationTypeName);
 				}
-				$scope.investigation = a.join(", ");
+				$scope.investigations = a.join(", ");
 				response = response[0];
 				$scope.showRequestForm(response);
 				$scope.searched.searchIcon = "icon-search4";

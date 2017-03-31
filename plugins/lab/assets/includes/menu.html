@@ -73,7 +73,7 @@
 								<div ng-show="!requestForm.showSearchResult">
 									<!-- {{requestForm.currentPatientProfile}} -->
 									<div class="row">
-										<h1 class="text-center text-black">{{requestForm.currentPatientProfile.FullName}}<br/><small>{{requestForm.currentPatientProfile.InvestigationTypeName}}</small></h1>
+										<h1 class="text-center text-black">{{requestForm.currentPatientProfile.FullName}}<br/><small>{{investigations}}</small></h1>
 										<div class="form-group col-md-7">
 											<select class="select" ng-model="paymentRequestItem.item">
 												<optgroup label="{{key}}" ng-repeat="(key, item) in requestItems">

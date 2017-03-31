@@ -16,8 +16,10 @@ angular.module("EmmetBlue")
 
 			table.each(function(){
 				var th = $(this).children("th").first();
+				var td = $(this).children("td").first();
 
 				th.html("<div class='checkbox'><label><input type='checkbox' class='control-primary'/> "+th.html()+"</label></div>").addClass("bg-danger")
+				td.html("<div class='checkbox'><label><input type='checkbox' class='control-primary'/> "+td.html()+"</label></div>")
 			});
 
 			$scope.submit = function(){

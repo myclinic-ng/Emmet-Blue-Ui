@@ -81,8 +81,6 @@ var recordsPatientManageRepositoryController = function($scope, utils, $http){
 
 	$scope.loadFile = function(url){
 		url = $scope.repository.RepositoryUrl+url;
-
-		return utils.loadImage(url);
 	}
 
 	$scope.loadInfo = function(name, description){
@@ -94,6 +92,18 @@ var recordsPatientManageRepositoryController = function($scope, utils, $http){
 	
 	$scope.enlargeImage = function(url){
 		$scope.currentRepositoryImage = $scope.loadFile(url);
+
+		$("#view-image-document").modal("show");
+	}
+
+	$scope.enlargeDImage = function(url){
+		url = $scope.repository.RepositoryUrl+url;
+
+		utils.serverRequest("/read-resource?url="+url, "GET").then(function(response){
+			$scope.currentRepositoryImage = response;
+		}, function(error){
+			utils.notify("An error occurred", "Unable to load document", "error");
+		});
 
 		$("#view-image-document").modal("show");
 	}
