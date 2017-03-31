@@ -38,7 +38,8 @@ var libraries = [
 	"assets/js/plugins/media/fancybox.min.js",
 	"assets/js/plugins/trees/fancytree_childcounter.min.js",
 	"assets/js/plugins/ui/prism.min.js",
-	"assets/js/dt-picker.js"
+	"assets/js/dt-picker.js",
+	"assets/js/dom-to-image.min.js"
 ];
 
 var themes = [

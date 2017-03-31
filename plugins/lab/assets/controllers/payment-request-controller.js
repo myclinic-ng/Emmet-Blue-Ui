@@ -1,6 +1,6 @@
 angular.module("EmmetBlue")
 
-.controller("labPaymentRequestController", function($scope, utils, patientEventLogger){
+.controller("labPaymentRequestController", function($scope, utils, patientEventLogger, $rootScope){
 	$scope.loadImage = utils.loadImage;
 	$scope.requestItems = {};
 	$scope.paymentRequestItem = {};
@@ -15,8 +15,10 @@ angular.module("EmmetBlue")
 	$scope.$watch(function(){
 		return utils.storage.currentPaymentRequest;
 	}, function(nv){
-		$scope.search.query = nv;
-		$scope.search();
+		if (typeof nv !== "undefined" && nv !== "" && nv !== null){
+			$scope.search.query = nv;
+			$scope.search();
+		}
 	});
 
 	function loadRequestItems(staff){
@@ -38,6 +40,11 @@ angular.module("EmmetBlue")
 
 		request.then(function(response){
 			if (typeof response[0] !== 'undefined'){
+				var a = [];
+				for (var i = 0; i < response.length; i++){
+					a.push(response[i].InvestigationTypeName);
+				}
+				$scope.investigations = a.join(", ");
 				response = response[0];
 				$scope.showRequestForm(response);
 				$scope.searched.searchIcon = "icon-search4";
@@ -59,6 +66,7 @@ angular.module("EmmetBlue")
 		}
 
 		search("/lab/patient/view?resourceId="+query);
+		$scope.requestId = utils.storage.currentPaymentRequest;
 		utils.storage.currentPaymentRequest = "";
 	}
 
@@ -109,6 +117,14 @@ angular.module("EmmetBlue")
 		request.then(function(response){
 			utils.notify("Operation successful", "Request generated successfully", "success");
 			$scope.requestForm.showSearchResult = true;
+
+			utils.serverRequest("/lab/lab-request/close-request", "POST", {"request": $scope.requestId, "staff": utils.userSession.getID()})
+			.then(function(response){
+				$rootScope.$broadcast("ReloadQueue");
+				$rootScope.$broadcast("reloadLabPatients", {});
+			}, function(error){
+				utils.errorHandler(error);
+			});
 
 			var eventLog = patientEventLogger.accounts.newPaymentRequestEvent(
 				$scope.requestForm.currentPatientProfile.PatientID,
