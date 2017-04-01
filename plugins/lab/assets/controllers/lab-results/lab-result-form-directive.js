@@ -70,7 +70,7 @@ angular.module("EmmetBlue")
 			    .then(function (dataUrl) {
 			        var img = new Image();
 			        img.src = dataUrl;
-			        // $scope.image = img;
+
 			        $scope.submitResult(dataUrl);
 			    })
 			    .catch(function (error) {
@@ -95,11 +95,16 @@ angular.module("EmmetBlue")
 					var data = {
 						patientLabNumber: patient,
 						investigationName: investigationName,
-						report: {
-							"Deduction": report
-						},
-						reportedBy: reportedBy
+						report: report,
+						reportedBy: reportedBy,
+						requests: []
 					};
+
+					angular.forEach($scope.selected, function(v, k){
+						if (v.value){
+							data.requests.push(k);
+						}
+					})
 
 					utils.serverRequest("/lab/lab-result/new", "POST", data).then(function(response){
 						utils.notify("Operation Successfuly", "Result Published Successfuly", "success");

@@ -530,7 +530,7 @@ angular.module("EmmetBlue")
 	    		modules.globals.patient.search(query, function(response){
 	    			var data = [];
 	        		angular.forEach(response.hits.hits, function(value){
-	        			data.push(value["_source"]["first name"]+ " " + value["_source"]["last name"]);
+	        			data.push(value["_source"]["first name"]+ " " + value["_source"]["last name"]+", "+value["_source"]["patientuuid"]);
 	        		})
 
 	        		data = $.map(data, function (string) { return { value: string }; });

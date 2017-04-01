@@ -48,7 +48,6 @@ angular.module("EmmetBlue")
 			    .then(function (dataUrl) {
 			        var img = new Image();
 			        img.src = dataUrl;
-			        // $scope.image = img;
 
 					var data = {
 						patientID: $scope.patientInfo.patientid,

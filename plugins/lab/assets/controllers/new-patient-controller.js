@@ -112,7 +112,7 @@ angular.module("EmmetBlue")
 			"investigation":$scope.investigation,
 			"note":$scope.investigationNote,
 			"lName":$("option[data-id='ln-"+$scope.patientLab+"']").attr("data-name"),
-			'iName':$("option[data-id='itid-"+$scope.patientLab+"']").attr("data-name")
+			'iName':$("option[data-id='itid-"+$scope.investigation+"']").attr("data-name")
 		});
 	}
 });

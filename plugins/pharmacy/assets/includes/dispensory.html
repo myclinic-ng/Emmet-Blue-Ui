@@ -9,7 +9,7 @@
 	</div>
 
 	<div id="ack_view_modal" class="modal fade">
-		<div class="modal-dialog modal-sm">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
 					<h6 class="modal-title">Prescription Request</h6>
@@ -18,9 +18,19 @@
 				<div class="modal-body">
 					<div class="row" style="margin-top: -10px;">
 						<!-- <h1 class="text-center text-info">{{currentRequest.PatientName}}</h1> -->
-						<div class="table-responsive">
+						<div class="col-md-6" style="border-right: 1px solid green">
+							<h4 class="text-center text-info"><u>Original Request</u></h4>
+							<h6>Requested By: <b>{{_currentRequest.RequestedByFullName}}</b></h6>
+							<h6>Acknowledged By: <b>{{_currentRequest.AcknowledgedByFullName}}</b></h6>
+							<div class="content-group" ng-repeat="prescription in _currentRequest.Request">
+								<label class="control-label"><span class='text-bold'>{{$index + 1}}.</span> {{prescription.item}}</label>
+								<p class="text-bold pl-10">{{prescription.duration}}</p>
+							</div>
+						</div>
+						<div class="table-responsive col-md-6" style="border-left: 1px solid green">
+							<h4 class="text-center text-info"><u>Dispensable Items</u></h4>
 							<table class="table table-hover">
-								<thead>
+								<thead class="bg-success">
 									<th>Item Code</th>
 									<th>Item</th>
 									<th>Qty</th>
@@ -37,8 +47,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-link" data-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-info" ng-click="hmoVerifier()">Send to HMO</button>
+					<button type="submit" class="btn btn-danger" ng-click="close()">Mark this request as dispensed</button>
 				</div>
 			</div>
 		</div>

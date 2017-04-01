@@ -73,7 +73,9 @@ angular.module("EmmetBlue")
 	}
 
 	function reloadTable(){
-		$scope.linkDtInstance.reloadData();
+		if (typeof $scope.linkDtInstance === "function"){
+			$scope.linkDtInstance.reloadData();
+		}
 	}
 
 	$scope.$watch('currentDispensory', function(newValue, oldValue){

@@ -81,6 +81,8 @@ var recordsPatientManageRepositoryController = function($scope, utils, $http){
 
 	$scope.loadFile = function(url){
 		url = $scope.repository.RepositoryUrl+url;
+
+		return utils.loadImage(url);
 	}
 
 	$scope.loadInfo = function(name, description){
