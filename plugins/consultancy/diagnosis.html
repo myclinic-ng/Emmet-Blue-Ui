@@ -83,7 +83,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-md-9" style="height: 100vh">
+							<div class="col-md-9" style="min-height: 100vh">
 								<ng-patient-profile patient-info="patient.profile" ng-show="patient.isProfileReady" ng-if="patient.history.displayPage=='profile'"></ng-patient-profile>
 								<div class="row" ng-show="patient.history.displayPage=='repositories'">
 									<div class="col-md-6 mb-15"><input class="form-control" placeholder="search" ng-model="patient.history.repositoryFilter"/></div>
@@ -95,38 +95,38 @@
 									</div>
 									<div class="col-md-12" ng-repeat="repo in patient.history.repositories | toArray:false | filter:patient.history.repositoryFilter track by $index">
 										<div class="panel border-left-lg border-left-danger no-border-radius">
-									<div class="panel-body">
-										<div class="row">
-											<div class="col-md-8">
-												<h6 class="no-margin-top"><a href="#">{{repo.RepositoryName}}</a></h6>
-												<p class="mb-15" ng-if="repo.RepositoryDescription">{{repo.RepositoryDescription}}</p>
-												<p class="mb-15 text-muted" ng-if="!repo.RepositoryDescription">No extra note/description</p>
+											<div class="panel-body">
+												<div class="row">
+													<div class="col-md-8">
+														<h6 class="no-margin-top"><a href="#" ng-click="patient.history.loadRepo(repo.RepositoryID)">{{repo.RepositoryName}}</a></h6>
+														<p class="mb-15" ng-if="repo.RepositoryDescription">{{repo.RepositoryDescription}}</p>
+														<p class="mb-15 text-muted" ng-if="!repo.RepositoryDescription">No extra note/description</p>
+													</div>
+
+													<div class="col-md-4">
+														<ul class="list task-details">
+															<li title="{{repo.RepositoryCreationDate}}">{{toDateString(repo.RepositoryCreationDate)}}</li>
+															<li class="dropdown">
+										                		Created by: &nbsp;
+																<a href="#" class="label label-danger bg-white dropdown-toggle" data-toggle="dropdown">{{staffNames[repo.RepositoryCreator]}}</a>
+															</li>
+														</ul>
+													</div>
+												</div>
 											</div>
 
-											<div class="col-md-4">
-												<ul class="list task-details">
-													<li title="{{repo.RepositoryCreationDate}}">{{toDateString(repo.RepositoryCreationDate)}}</li>
-													<li class="dropdown">
-								                		Created by: &nbsp;
-														<a href="#" class="label label-danger bg-white dropdown-toggle" data-toggle="dropdown">{{staffNames[repo.RepositoryCreator]}}</a>
+											<div class="panel-footer">
+												<ul>
+													<li class="text-muted">Repo Identifier: <span class="text-semibold" style="text-transform: uppercase;">{{repo.RepositoryNumber}}</span></li>
+												</ul>
+
+												<ul class="pull-right">
+													<li>
+														<a href="#" ng-click="patient.history.loadRepo(repo.RepositoryID)"><span class="icon-download4"></span> Load Repository </a>
 													</li>
 												</ul>
 											</div>
 										</div>
-									</div>
-
-									<div class="panel-footer">
-										<ul>
-											<li class="text-muted">Repo UUID: <span class="text-semibold">{{repo.RepositoryNumber}}</span></li>
-										</ul>
-
-										<ul class="pull-right">
-											<li>
-												<a href="#" ng-click="patient.history.loadRepo(repo.RepositoryID)"><span class="icon-download4"></span> Load Repository </a>
-											</li>
-										</ul>
-									</div>
-								</div>
 									</div>
 								</div>
 							</div>
@@ -222,12 +222,12 @@
 								<div class="input-group">
 									<input id="presentingComplaints-symptomSearchQuery" type="text" class="form-control symptom-search" placeholder="enter symptom to search" ng-model="presentingComplaints.symptomSearchQuery" ng-keypress="presentingComplaints.catchSearchPress($event)"/>
 									<span class="input-group-btn">
-										<button class="btn btn-danger" ng-click="presentingComplaints.performSymptomSearch()"> <i class="icon-search4"></i> search</button>
+										<button class="btn btn-danger" ng-click="presentingComplaints.performSymptomSearch()"> <i class="fa fa-plus-circle"></i> Add to list</button>
 									</span>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-md-5" style="border-right: 1px solid #F5F5F5;">
+								<div class="col-md-5" style="border-right: 1px solid #F5F5F5;" ng-hide="true">
 									<div class="row">
 										<div class="col-lg-12">
 											<ul class="media-list search-results-list content-group" ng-repeat="symptom in presentingComplaints.searchedSymptoms">
@@ -259,7 +259,7 @@
 									</div>
 								</div>
 
-								<div class="col-md-7">
+								<div class="col-md-12">
 									<div class="row pl-5 pr-5">
 										<div class="panel-group panel-group-control panel-group-control-left">
 											<div ng-repeat="complaint in presentingComplaints.complaints" class="panel" style="box-shadow: none; border-top-right-radius: 0px; border-top-left-radius: 0px; border-color: #F5F5F5">
@@ -299,7 +299,7 @@
 							</div>
 						</div>
 						<div class="tab-pane fade" id="examination">
-							<div class="tabbable">
+							<!-- <div class="tabbable">
 								<ul class="nav nav-tabs nav-tabs-solid nav-justified">
 									<li href="#exam-{{$index+1}}" data-toggle="tab" ng-repeat="type in examination.examinationTypes"><a>{{type.ExamTypeTitle}}</a></li>
 								</ul>
@@ -317,7 +317,8 @@
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> -->
+							<ng-observation-form patient="patientInfo"></ng-observation-form>
 						</div>
 						<div class="tab-pane fade" id="investigation">
 							<div class="tabbable">
@@ -518,14 +519,14 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-3" style="border: 1px solid #F5F5F5; border-bottom: 0px; height: 2000px;">
+			<div class="col-md-3" style="border: 1px solid #F5F5F5; border-bottom: 0px; min-height: 100vh;">
 				<div class="row">
 					<div class="col-md-5">
 						<h5 class="text-center text-primary"><small>Summary</small></h5>
 					</div>
 					<div class="col-md-7 pt-10">
-						<button class="btn btn-sm btn-link text-info" ng-click="globals.save()"><i class="icon-floppy-disk"></i> Save</button>
-						<button class="btn btn-sm btn-link text-success" ng-click="globals.submit()"><i class="icon-database-add"></i> Submit</button>
+						<button class="btn btn-sm btn-info" ng-click="globals.save()"><i class="icon-floppy-disk"></i> Save</button>
+						<button class="btn btn-sm btn-success" ng-click="globals.submit()"><i class="icon-database-add"></i> Submit</button>
 					</div>
 				</div>
 				<div class="table-responsive">

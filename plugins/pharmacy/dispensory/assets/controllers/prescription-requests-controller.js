@@ -67,7 +67,7 @@ angular.module("EmmetBlue")
 	$scope.dtColumns = [
 		utils.DT.columnBuilder.newColumn(null).withTitle("Patient Number").renderWith(function(data){
 			return "<span class='text-bold'>"+data.patientInfo.patientfullname+"</span> <br/>"+data.patientInfo.patientuuid+"";
-		}),,
+		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Patient Type").renderWith(function(data){
 			return data.patientInfo.patienttypename+" ("+data.patientInfo.categoryname+")";
 		}),
@@ -81,6 +81,10 @@ angular.module("EmmetBlue")
 	$scope.reloadDispensationsTable = function(){
 		$scope.dtInstance.reloadData();
 	}
+
+	$scope.$on("reloadRequests", function(){
+		$scope.reloadDispensationsTable();
+	})
 
 	$scope.currentRequest = {};
 	$scope.manage = function(event, id){
@@ -107,9 +111,11 @@ angular.module("EmmetBlue")
 				var request = $(".pharmacy-ack-btn[data-option-id='"+id+"'").attr("data-option-request");
 				$scope.currentRequest.Request = $.parseJSON(request);
 				$scope.currentRequest.PatientName = patientname;
+				$scope.currentRequest.RequestID = id;
 				$scope.currentRequest.PatientID =  $(".pharmacy-ack-btn[data-option-id='"+id+"'").attr("data-option-patient-id");
 
 				utils.storage.patientNumberForDispensation = $(".pharmacy-ack-btn[data-option-id='"+id+"'").attr("data-option-patient-uuid");
+				utils.storage.currentRequest = $scope.currentRequest;
 				$rootScope.$broadcast("loadPatientNumberForDispensation");
 				$("#new_dispensation").modal({
 					backdrop: "static"

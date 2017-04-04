@@ -1,11 +1,13 @@
 angular.module("EmmetBlue")
 
-.controller('pharmacyDispensationController', function($scope, utils, patientEventLogger){
+.controller('pharmacyDispensationController', function($scope, utils, patientEventLogger, $rootScope){
 	$scope.patient = {};
 
 	$scope.$on("loadPatientNumberForDispensation", function(){
 		$scope.patientNumber = utils.storage.patientNumberForDispensation;
+		$scope.currentRequest = utils.storage.currentRequest;
 		utils.storage.patientNumberForDispensation = null;
+		utils.storage.currentRequest = null;
 		$scope.loadPatientProfile();
 	});
 
@@ -30,7 +32,7 @@ angular.module("EmmetBlue")
 		var viewButtonAction = "manageDispensation('view', "+data.DispensationID+")";
 			
 		var items = JSON.stringify(data.items);
-		var dataOpt = "data-option-id='"+data.DispensationID+"' data-option-name='"+data.DispensationName+"' data-option-description='"+data.DispensationDescription+"' data-option-items='"+items+"'";
+		var dataOpt = "data-option-id='"+data.DispensationID+"' data-request-id='"+data.RequestID+"' data-option-items='"+items+"'";
 
 		var viewButton = "<button class='btn btn-danger billing-type-pharm-btn' ng-click=\""+viewButtonAction+"\" "+dataOpt+"><i class='icon-eye'></i> view</button>";
 		
@@ -89,11 +91,14 @@ angular.module("EmmetBlue")
 	]);	
 
 	$scope.dtColumns = [
-		utils.DT.columnBuilder.newColumn('PatientUUID').withTitle("Patient Number"),
-		utils.DT.columnBuilder.newColumn('StoreName').withTitle("Dispensing Store"),
-		utils.DT.columnBuilder.newColumn('Dispensory').withTitle("Dispensory"),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Dispensation Date &amp; Time").renderWith(function(data, a, b){
-			return (new Date(data.DispensationDate)).toDateString()+" "+(new Date(data.DispensationDate)).toLocaleTimeString();
+		utils.DT.columnBuilder.newColumn(null).withTitle("Patient").renderWith(function(data){
+			return "<span class='text-bold'>"+data.PatientFullName+"</span> <br/>"+data.PatientUUID+"";
+		}),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Dispensory").renderWith(function(data){
+			return "<span class='text-bold'>"+data.Dispensory+"</span> <br/>"+data.StoreName+"";
+		}),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Dispensation Date").renderWith(function(data, a, b){
+			return (new Date(data.DispensationDate)).toDateString()+"<br/>"+(new Date(data.DispensationDate)).toLocaleTimeString();
 		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(actions).notSortable()
 	];
@@ -153,7 +158,7 @@ angular.module("EmmetBlue")
 	$scope.ddtInstance = {};
 	$scope.ddtOptions = utils.DT.optionsBuilder
 	.fromFnPromise(function(){
-		var inventory = utils.serverRequest('/pharmacy/store-inventory/view-by-store?resourceId='+$scope.currentStore, 'GET');
+		var inventory = utils.serverRequest('/pharmacy/store-inventory/view-available-items-by-store?resourceId='+$scope.currentStore, 'GET');
 		return inventory;
 	})
 	.withPaginationType('full_numbers')
@@ -246,10 +251,28 @@ angular.module("EmmetBlue")
 			dispensee: utils.userSession.getUUID()
 		}
 
+		if (typeof $scope.currentRequest !== "undefined" && typeof $scope.currentRequest.RequestID !== "undefined"){
+			data.request = $scope.currentRequest.RequestID;
+		}
+
 		utils.serverRequest('/pharmacy/dispensation/new', 'POST', data).then(function(response){
+			$scope.reloadInventoryTable();
+			$("#new_dispensation").modal("hide");
+			var data = {
+				resourceId: $scope.currentRequest.RequestID,
+				status: -1,
+				staff: utils.userSession.getID()
+			};
+
+			utils.serverRequest('/pharmacy/pharmacy-request/close', 'PUT', data).then(function(response){
+				$rootScope.$broadcast("reloadRequests");
+			}, function(error){
+				utils.errorHandler(error);
+			});
+
 			var eventLog = patientEventLogger.pharmacy.newDispensationEvent(
 				$scope.patient.id,
-				response.lastInsertId
+				0
 			);
 			eventLog.then(function(response){
 				//patient registered event logged
@@ -259,6 +282,21 @@ angular.module("EmmetBlue")
 		}, function(error){
 			utils.errorHandler(error);
 		})
+	}
+
+	$scope.close = function(){
+		var data = {
+			resourceId: $scope.currentRequestID,
+			status: 1,
+			staff: utils.userSession.getID()
+		};
+
+		utils.serverRequest('/pharmacy/pharmacy-request/close', 'PUT', data).then(function(response){
+			$("#ack_view_modal").modal("hide");
+			$scope.reloadDispensationsTable();
+		}, function(error){
+			utils.errorHandler(error);
+		});
 	}
 
 	var createRequest = function(){
@@ -302,9 +340,15 @@ angular.module("EmmetBlue")
 
 				items = JSON.parse(items);
 
-				console.log(items);
-
 				$scope.currrentDispensedItems = items;
+				$scope.currentRequestID = $(".billing-type-pharm-btn[data-option-id='"+id+"'").attr("data-request-id");
+				utils.serverRequest("/pharmacy/pharmacy-request/view?resourceId="+$scope.currentRequestID, "GET")
+				.then(function(response){
+					$scope._currentRequest = response;
+				}, function(error){
+					utils.errorHandler(eror);
+				});
+
 				$("#ack_view_modal").modal("show");
 				break;
 			}

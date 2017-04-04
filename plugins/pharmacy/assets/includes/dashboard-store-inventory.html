@@ -5,79 +5,48 @@
 	<table datatable="" dt-options="ddtOptions" dt-columns="ddtColumns" dt-instance="ddtInstance" class="table table-condensed table-striped table-hover"></table>
 
 	<div id="new_inventory_item" class="modal fade">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
 					<button type="button" class="close" onclick="$('#new_inventory_item').modal('hide')">&times;</button>
-					<h6 class="modal-title">Create a new inventory item</h6>
+					<h6 class="modal-title">Add inventory items into this store</h6>
 				</div>
 
 				<div class="modal-body">
-					<form role="form">
-						<div class="form-group">
-							<div class="row">
-								<div class="content-group col-sm-12">
-									<label class="text-bold">Item name</label>
-									<select class="select" ng-model="newItem.name">
-										<optgroup label="{{key}}" ng-repeat="(key, item) in inventoryItems">
-											<option ng-repeat="value in item" value="{{value.BillingTypeItemID}}">{{value.BillingTypeItemName}}</option>
-										</optgroup>
-									</select>
-								</div>
-								<!-- <div class="content-group col-sm-4">
-									<label class="text-bold">Quantity</label>
-									<input type="number" class="form-control" ng-model="newItem.quantity"/>
-								</div> -->
-								<div class="content-group col-sm-6">
-									<label class="text-bold">Item Brand</label>
-									<input class="form-control" ng-model="newItem.brand"/>
-								</div>
-								<div class="content-group col-sm-6">
-									<label class="text-bold">Item Manufacturer</label>
-									<input class="form-control" ng-model="newItem.manufacturer"/>
-								</div>
-								<fieldset class="col-md-4">
-									<label class="text-bold">Item Tag</label>
-									<div class="content-group col-sm-12">
-										<label>Title</label>
-										<input class="form-control" ng-model="itemTag.title"/>
-									</div>
-									<div class="content-group col-sm-12">
-										<label>Value</label>
-										<input class="form-control" ng-model="itemTag.name"/>
-									</div>
-									<div class="content-group col-sm-12">
-										<button class="btn btn-wwarning" ng-click="addTagToList()">Add to list</button>
-									</div>
-								</fieldset>
-								<div class="col-md-8">
-									<p class="text-bold">Associated Tags</p class="text-bold">
-									<table class="table table-condensed table-responsive">
-										<thead class="bg-success">
-											<tr>
-												<th>S/N</th>
-												<th>Title</th>
-												<th colspan="2" class="text-center"><span class="text-center">Value</span></th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr ng-repeat="tag in newItem.tags">
-												<th>{{$index + 1}}</th>
-												<th>{{tag.title}}</th>
-												<th>{{tag.name}}</th>
-												<th><a class="btn btn-link btn-clear btn-icon btn-xs text-danger" ng-click="removeTagFromList($index)"><i class="fa fa-times"></i></a></th>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-					</form>
+					<div class="form-group col-md-4 pull-right">
+						<input class="form-control" ng-model="inventoryFilter" placeholder="search" />
+					</div>
+					<div class="table-responsive col-md-12">
+						<table class="table table-hover table-condensed">
+							<thead class="bg-success">
+								<th>Item Code</th>
+								<th>Item Name</th>
+								<th>Item Brand</th>
+								<th>Item Manufacturer</th>
+								<th></th>
+							</thead>
+							<tbody>
+								<tr ng-repeat="item in inventoryItems | filter:inventoryFilter">
+									<td>{{item.Item}}</td>
+									<td>{{item.BillingTypeItemName}}</td>
+									<td>{{item.ItemBrand}}</td>
+									<td>{{item.ItemManufacturer}}</td>
+									<td>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" ng-model="selectedItems[item.ItemID].value"/>
+											</label>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
 
 				<div class="modal-footer">
 					<button type="button" class="btn btn-link" onclick="$('#new_inventory_item').modal('hide')" ng-click="newItem = {}"><i class="fa fa-times-circle-o"></i> Close</button>
-					<button type="button" class="btn btn-warning" ng-click="saveNewItem()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"> </i></span>  Save</button>
+					<button type="button" class="btn btn-warning" ng-click="saveNewItem()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"> </i></span>  Add selected items</button>
 				</div>
 			</div>
 		</div>

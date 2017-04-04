@@ -65,7 +65,9 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.reloadFieldTable = function(){
-		$scope.ddtInstance.reloadData();
+		if (typeof $scope.ddtInstance.reloadData === "function"){
+			$scope.ddtInstance.reloadData();
+		}
 	}
 	$scope.$watch(function(){return utils.storage.fieldsInvestigationTypeID}, function(newValue, oldValue){
 		if (typeof newValue !== "undefined"){

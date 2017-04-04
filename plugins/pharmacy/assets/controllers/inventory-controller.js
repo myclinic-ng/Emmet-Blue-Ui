@@ -1,9 +1,9 @@
 angular.module("EmmetBlue")
 
-.controller('pharmacyStoreInventoryController', function($scope, utils){
+.controller('pharmacyInventoryController', function($scope, utils){
 	$scope.ddtOptions = utils.DT.optionsBuilder
 	.fromFnPromise(function(){
-		var storeInventory = utils.serverRequest('/pharmacy/store-inventory/view-by-store?resourceId='+$scope.storeID, 'GET');
+		var storeInventory = utils.serverRequest('/pharmacy/store-inventory/view', 'GET');
 		return storeInventory;
 	})
 	.withPaginationType('full_numbers')
@@ -61,7 +61,6 @@ angular.module("EmmetBlue")
 		utils.DT.columnBuilder.newColumn('BillingTypeItemName').withTitle("Item Name"),
 		utils.DT.columnBuilder.newColumn('ItemBrand').withTitle("Item Brand"),
 		utils.DT.columnBuilder.newColumn('ItemManufacturer').withTitle("Item Manufacturer"),
-		utils.DT.columnBuilder.newColumn('ItemQuantity').withTitle("Item Quantity"),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Tags").renderWith(function(data, type, full){
 			var string = invisible = "";
 			for (var i = 0; i < data.Tags.length; i++) {
@@ -112,8 +111,8 @@ angular.module("EmmetBlue")
 		}
 	});
 
-	function loadInventoryItems(){
-		var request = utils.serverRequest('/pharmacy/store-inventory/view', 'GET');
+	function loadInventoryItems(staff){
+		var request = utils.serverRequest("/accounts-biller/billing-type-items/view-by-staff-uuid?resourceId=0&uuid="+staff, "GET");
 
 		request.then(function(response){
 			$scope.inventoryItems = response;
@@ -122,9 +121,7 @@ angular.module("EmmetBlue")
 		});
 	}
 
-	loadInventoryItems();
-
-	$scope.selectedItems = {};
+	loadInventoryItems(utils.userSession.getUUID());
 
 	$scope.newItem = {
 		tags:[],
@@ -169,33 +166,23 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.saveNewItem = function(){
-		var items = [];
-		angular.forEach($scope.selectedItems, function(v, k){
-			if (v.value){
-				items.push(k);
-			}
-		})
-
-		var data = {
-			store: $scope.storeID,
-			items: items
+		var store = {
+			tags: $scope.newItem.tags,
+			item: $scope.newItem.name,
+			brand: $scope.newItem.brand,
+			manufacturer: $scope.newItem.manufacturer,
+			quantity: $scope.newItem.quantity
 		};
 
-		// var store = {
-		// 	tags: $scope.newItem.tags,
-		// 	store: $scope.storeID,
-		// 	item: $scope.newItem.name,
-		// 	brand: $scope.newItem.brand,
-		// 	manufacturer: $scope.newItem.manufacturer,
-		// 	quantity: $scope.newItem.quantity
-		// };
-
-		var request = utils.serverRequest("/pharmacy/store-inventory/add-store-items", "POST", data);
+		var request = utils.serverRequest("/pharmacy/store-inventory/new", "POST", store);
 		request.then(function(response){
 			utils.notify("Operation Successful", "New inventory item created successfully", "success");
 			$("#new_inventory_item").modal("hide");
 			$scope.reloadInventoryTable();
-			$scope.selectedItems = {};
+			$scope.newItem = {
+				tags: [],
+				quantity: 0
+			};
 		}, function(response){
 			utils.errorHandler(response);
 		})

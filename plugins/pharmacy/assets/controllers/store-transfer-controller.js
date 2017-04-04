@@ -1,6 +1,18 @@
 angular.module("EmmetBlue")
 
-.controller("pharmacyStoreRestockController", function($scope, utils, $rootScope){
+.controller("pharmacyStoreTransferController", function($scope, utils, $rootScope){
+	function viewStores(){
+		var request = utils.serverRequest("/pharmacy/store/view", "GET");
+
+		request.then(function(response){
+			$scope._stores = response;
+		}, function(error){
+			utils.errorHandler(error);
+		});
+	}
+
+	viewStores();
+
 	if (typeof utils.storage.inventoryStoreID != "undefined"){
 		$scope.storeID = utils.storage.inventoryStoreID;
 		loadStores();
@@ -10,7 +22,7 @@ angular.module("EmmetBlue")
 	$scope.inventoryItemsDetails = [];
 
 	function loadStores(){
-		var storeInventory = utils.serverRequest('/pharmacy/store-inventory/view-by-store?resourceId='+$scope.storeID, 'GET');
+		var storeInventory = utils.serverRequest('/pharmacy/store-inventory/view-by-store?resourceId='+$scope.receivingStore, 'GET');
 
 		storeInventory.then(function(response){
 			$scope.inventoryItems = response;
@@ -29,9 +41,14 @@ angular.module("EmmetBlue")
 	$scope.$watch(function(){return utils.storage.inventoryStoreID}, function(newValue, oldValue){
 		if (typeof newValue !== "undefined"){
 			$scope.storeID = newValue;
-			loadStores();
 		}
 	});
+
+	$scope.$watch(function(){
+		return $scope.receivingStore
+	}, function(nv){
+		loadStores();
+	})
 
 	$scope.addStockToList = function(){
 		if (typeof $scope.stock.quantity == "undefined" || $scope.stock.quantity <= 0){
@@ -73,6 +90,25 @@ angular.module("EmmetBlue")
 		req.then(function(response){
 			utils.alert("Inventory Items Updated", "You have just updated the inventory items database successfully", "success");
 			$scope.globalRestockItems = [];
+			$scope.stock = {global: false};
+			$rootScope.$broadcast("reloadStats");
+		}, function(error){
+			utils.errorHandler(error);
+		})
+	}
+
+	$scope.storeTransfer = function(){
+		var data = {};
+
+		data.items = $scope.globalRestockItems;
+		data.staffId = utils.userSession.getID();
+		data.storeId = $scope.storeID;
+		data.receivingStore = $scope.receivingStore;
+
+		var req = utils.serverRequest('/pharmacy/store-transfer/new', 'POST', data);
+
+		req.then(function(response){
+			utils.alert("Inventory Items Transferred", "You have just updated the inventory items database successfully", "success");
 			$scope.stock = {global: false};
 			$rootScope.$broadcast("reloadStats");
 		}, function(error){
