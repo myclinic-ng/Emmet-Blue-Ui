@@ -248,8 +248,11 @@ angular.module("EmmetBlue")
 			eligibleDispensory: $scope.currentDispensory,
 			dispensingStore: $scope.currentStore,
 			patient: $scope.patient.id,
-			dispensee: utils.userSession.getUUID(),
-			request: $scope.currentRequest.RequestID
+			dispensee: utils.userSession.getUUID()
+		}
+
+		if (typeof $scope.currentRequest !== "undefined" && typeof $scope.currentRequest.RequestID !== "undefined"){
+			data.request = $scope.currentRequest.RequestID;
 		}
 
 		utils.serverRequest('/pharmacy/dispensation/new', 'POST', data).then(function(response){

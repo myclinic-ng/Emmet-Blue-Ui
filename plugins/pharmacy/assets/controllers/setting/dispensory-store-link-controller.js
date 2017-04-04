@@ -73,7 +73,7 @@ angular.module("EmmetBlue")
 	}
 
 	function reloadTable(){
-		if (typeof $scope.linkDtInstance === "function"){
+		if (typeof $scope.linkDtInstance === "object"){
 			$scope.linkDtInstance.reloadData();
 		}
 	}

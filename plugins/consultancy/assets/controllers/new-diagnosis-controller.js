@@ -81,12 +81,13 @@ angular.module("EmmetBlue")
 
 			var query = $("#presentingComplaints-symptomSearchQuery").val();
 			$scope.currentGlobalQuery = query;
-			if (query != ""){
-				modules.globals.symptoms.search(query, successCallback, errorCallback);
-			}
-			else {
-				utils.notify("Invalid search request", "Please make sure you have not submitted an empty search field", "warning");
-			}
+			modules.presentingComplaints.addSymptomToComplaintList(query);
+			// if (query != ""){
+			// 	modules.globals.symptoms.search(query, successCallback, errorCallback);
+			// }
+			// else {
+			// 	utils.notify("Invalid search request", "Please make sure you have not submitted an empty search field", "warning");
+			// }
 		},		
 		catchSearchPress: function(e){
 			if(e.which == 13){
@@ -275,6 +276,7 @@ angular.module("EmmetBlue")
 				}
 				else {
 					$scope.patient.profile = result[0]["_source"];
+					$scope.patientInfo = $scope.patient.profile;
 					$scope.patient.isProfileReady = true;
 					modules.allergies.loadPatientAllergies($scope.patient.profile.patientid);
 					utils.notify("Profile loaded successfully", "", "info");

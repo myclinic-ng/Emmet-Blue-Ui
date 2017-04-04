@@ -10,6 +10,7 @@ head.load(controllersLocation+"manage-archives-controller.js");
 head.load(controllersLocation+"payment-request-controller.js");
 head.load(controllersLocation+"patient-card-directive.js");
 head.load(controllersLocation+"patient-grid-directive.js");
+head.load(controllersLocation+"patient-edit-profile-directive.js");
 head.load(controllersLocation+"patient-profile-directive.js");
 head.load(controllersLocation+"patient-timeline-item-directive.js");
 
