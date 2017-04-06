@@ -15,22 +15,146 @@
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h6 class="modal-title"> Settings <span class="pull-right mr-20"></span></h6>
+					<h6 class="modal-title"> Manage Prescription Templates <span class="pull-right mr-20"></span></h6>
 				</div>
 
 				<div class="modal-body">
-					<div class="tabbable">
-						<ul class="nav nav-pills nav-bordered">
-							<li class="active" href="#manage-examination-types"><a data-toggle="tab">Manage Examination Types</a></li>
-							<li href="#manage-examination-type-options"><a data-toggle="tab">Manage Examination Type Options</a></li>
-						</ul>
-
-						<div class="tab-content">
-							<div class="tab-pane active" id="manage-examination-types">
-								<ng-include src="'plugins/consultancy/assets/includes/setting/manage-examination-types.html'"></ng-include>
+					<div class="row">
+						<div class="col-md-6" ng-controller="ConsultancyPrescriptionTemplateController" style="border-right: 1px solid green">
+							<div class="table-responsive">
+								<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover"></table>
 							</div>
-							<div class="tab-pane" id="manage-examination-type-options">
-								<ng-include src="'plugins/consultancy/assets/includes/setting/manage-examination-type-options.html'"></ng-include>
+							<div id="new_setting_new_template" class="modal fade">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header bg-warning">
+											<div class="modal-title">
+												New Prescription Template
+											</div>
+											<button type="button" class="close" data-dismiss="modal">&times;</button>
+										</div>
+										<div class="modal-body">
+											<div class="form-group">
+												<div class="row">
+													<div class="col-sm-12">
+														<label>Template Name</label>
+														<input type="text" class="form-control" ng-model="newTemplate.name">
+													</div>
+													<div class="col-sm-12">
+														<label>Description</label>
+														<textarea cols="3" rows="3" class="form-control" ng-model="newTemplate.description"></textarea>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-link" ng-click="newTemplate = {}" onclick="$('#new_setting_new_template').modal('hide')">cancel</button>
+											<button type="button" class="btn btn-warning" ng-click="saveNewTemplate()"><span class="hide loader pull-left"> <i class="fa fa-spinner fa-spin"></i> </span> Save changes</button>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div id="new_setting_edit_template" class="modal fade">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header bg-warning">
+											<div class="modal-title">
+												Edit Prescription Template
+											</div>
+											<button type="button" class="close" data-dismiss="modal">&times;</button>
+										</div>
+										<div class="modal-body">
+											<div class="form-group">
+												<div class="row">
+													<div class="col-sm-12">
+														<label>Template Name</label>
+														<input type="text" class="form-control" ng-model="tempHolder.TemplateName">
+													</div>
+													<div class="col-sm-12">
+														<label>Description</label>
+														<textarea cols="3" rows="3" class="form-control" ng-model="tempHolder.TemplateDescription"></textarea>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-link" ng-click="newTemplate = {}" onclick="$('#new_setting_edit_template').modal('hide')">cancel</button>
+											<button type="button" class="btn btn-warning" ng-click="saveEditTemplate()"><span class="hide loader pull-left"> <i class="fa fa-spinner fa-spin"></i> </span> Save changes</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6" ng-controller="ConsultancyPrescriptionTemplateItemsController" style="border-left: 1px solid green">
+							<div class="form-group col-md-6 col-md-offset-3">
+								<select class="select" ng-model="currentTemplate">
+									<option ng-repeat="temp in templates" value="{{temp.TemplateID}}">{{temp.TemplateName}}</option>
+								</select>
+							</div>
+							<div class="table-responsive col-md-12">
+								<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover"></table>
+							</div>
+							<div id="new_setting_new_template_item" class="modal fade">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header bg-warning">
+											<div class="modal-title">
+												New Template Item
+											</div>
+											<button type="button" class="close" data-dismiss="modal">&times;</button>
+										</div>
+										<div class="modal-body">
+											<div class="form-group">
+												<div class="row">
+													<div class="col-sm-12">
+														<label>Item Name</label>
+														<input type="text" class="form-control" ng-model="newTemplate.item">
+													</div>
+													<div class="col-sm-12">
+														<label>Note</label>
+														<textarea cols="3" rows="3" class="form-control" ng-model="newTemplate.note"></textarea>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-link" ng-click="newTemplate = {}" onclick="$('#new_setting_new_template_item').modal('hide')">cancel</button>
+											<button type="button" class="btn btn-warning" ng-click="saveNewTemplate()"><span class="hide loader pull-left"> <i class="fa fa-spinner fa-spin"></i> </span> Save changes</button>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div id="new_setting_edit_template_item" class="modal fade">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header bg-warning">
+											<div class="modal-title">
+												Edit Template Item
+											</div>
+											<button type="button" class="close" data-dismiss="modal">&times;</button>
+										</div>
+										<div class="modal-body">
+											<div class="form-group">
+												<div class="row">
+													<div class="col-sm-12">
+														<label>Template Name</label>
+														<input type="text" class="form-control" ng-model="tempHolder.TemplateName">
+													</div>
+													<div class="col-sm-12">
+														<label>Description</label>
+														<textarea cols="3" rows="3" class="form-control" ng-model="tempHolder.TemplateDescription"></textarea>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-link" ng-click="newTemplate = {}" onclick="$('#new_setting_edit_template').modal('hide')">cancel</button>
+											<button type="button" class="btn btn-warning" ng-click="saveEditTemplate()"><span class="hide loader pull-left"> <i class="fa fa-spinner fa-spin"></i> </span> Save changes</button>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>

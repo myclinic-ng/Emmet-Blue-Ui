@@ -63,6 +63,10 @@ angular.module("EmmetBlue")
 		newPayment.staff = utils.userSession.getID();
 		var request = utils.serverRequest("/accounts-biller/transaction/new", "POST", newPayment);
 		request.then(function(response){
+			if (typeof response[0] !== "undefined"){
+				$scope.receiptData.transactionId = response[0].BillingTransactionID;
+			}
+
 			$('.loader').removeClass('show');
 			var method = $scope.invoiceData.paymentMethod;
 			var status = $scope.invoiceData.transactionStatus;
@@ -174,5 +178,29 @@ angular.module("EmmetBlue")
 				utils.errorHandler(error);
 			})
 		}
+	}
+
+	$scope.saveReceipt = function(){
+		var receipt = $("#main_payment_receipt").get(0);
+		
+		$("#payment_receipt").modal("hide");
+		domtoimage.toPng(receipt)
+	    .then(function (dataUrl) {
+			var data = {
+				patient: $scope.receiptData.invoiceData.patient,
+				receipt: dataUrl,
+				transaction: $scope.receiptData.transactionId,
+				staff: utils.userSession.getID()
+			}
+
+	        var req = utils.serverRequest("/accounts-biller/payment-receipt/new", "POST", data);
+	        req.then(function(response){
+	        }, function(error){
+	        	utils.errorHandler(error);
+	        });
+	    })
+	    .catch(function (error) {
+	        console.error('oops, something went wrong!', error);
+	    });
 	}
 })

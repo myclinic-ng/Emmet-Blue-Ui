@@ -124,27 +124,29 @@ function nursingPatientWorkspaceController($rootScope, $scope, utils){
 		$scope.patientProfileLoaded = false;
 		var req = utils.serverRequest("/nursing/ward-admission/view-admitted-patients?resourceId="+$scope.patientNumber, "GET");
 		req.then(function(response){
-			var data = {
-				query: response[0].AdmissionInfo.PatientUUID,
-				size: 1,
-				from: 0
-			}
+			if (typeof response[0] !== "undefined" && typeof response[0].AdmissionInfo !== "undefined"){
+				var data = {
+					query: response[0].AdmissionInfo.PatientUUID,
+					size: 1,
+					from: 0
+				}
 
-			$scope.admissionInfo = response[0];			
-			loadStaffName($scope.admissionInfo.AdmissionInfo.Consultant);
-			loadStaffName($scope.admissionInfo.AdmissionProcessedBy);
-			utils.serverRequest("/patients/patient/search", "POST", data).then(function(response){
-				$scope.patient = response.hits.hits[0]["_source"];
-				$scope.patientProfileLoaded = true;
-				loadMostRecentObservation();
-				loadMostRecentNote();
-				loadMostRecentTreatment();
-				$scope.loadRepositories();
-				loadConsultationNotes();
-				loadConsultantsInNotes($scope.admissionInfo.WardAdmissionID);
-			}, function(error){
-				utils.errorHandler(error);
-			})
+				$scope.admissionInfo = response[0];			
+				loadStaffName($scope.admissionInfo.AdmissionInfo.Consultant);
+				loadStaffName($scope.admissionInfo.AdmissionProcessedBy);
+				utils.serverRequest("/patients/patient/search", "POST", data).then(function(response){
+					$scope.patient = response.hits.hits[0]["_source"];
+					$scope.patientProfileLoaded = true;
+					loadMostRecentObservation();
+					loadMostRecentNote();
+					loadMostRecentTreatment();
+					$scope.loadRepositories();
+					loadConsultationNotes();
+					loadConsultantsInNotes($scope.admissionInfo.WardAdmissionID);
+				}, function(error){
+					utils.errorHandler(error);
+				})
+			}
 		}, function(error){
 			utils.errorHandler(error);
 		})

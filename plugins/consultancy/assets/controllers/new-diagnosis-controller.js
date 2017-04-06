@@ -329,6 +329,24 @@ angular.module("EmmetBlue")
 	}
 
 	modules.conclusion = {
+		loadPrescriptionTemplates: function(){
+			var req = utils.serverRequest("/consultancy/prescription-template/view", "GET");
+			req.then(function(response){
+				$scope.conclusion.prescriptionTemplates = response;
+			}, function(error){
+				utils.errorHandler(error);
+			})
+		},
+		loadTemplateForPrescription: function(template){
+			var req = utils.serverRequest("/consultancy/prescription-template/view-template-items?resourceId="+template, "GET");
+			req.then(function(response){
+				angular.forEach(response, function(value, key){
+					modules.conclusion.addPrescriptionToList(value.Item, value.Note);
+				});
+			}, function(error){
+				utils.errorHandler(error);
+			})
+		},
 		addDrugsToPrescriptionToList: function(){
 			$("#modal-drugs").modal("hide");
 			// utils.notify("Operation in progress", "Drugs are being added to the prescription list, please note that this might take a few seconds to complete", "info");
@@ -343,26 +361,26 @@ angular.module("EmmetBlue")
 			})
 		},
 		addPrescriptionToList: function(item, duration = ""){
-			var prescription = {
-				item: item,
-				duration: duration
-			};
+			if (item !== ""){
+				var prescription = {
+					item: item,
+					duration: duration
+				};
 
-			var duplicationDetected = false;
-			for (var i = 0; i < $scope.conclusion.prescriptionList.length; i++){
-				if ($scope.conclusion.prescriptionList[i].item == prescription.item){
-					duplicationDetected = true;
-					break;
+				var duplicationDetected = false;
+				for (var i = 0; i < $scope.conclusion.prescriptionList.length; i++){
+					if ($scope.conclusion.prescriptionList[i].item == prescription.item){
+						duplicationDetected = true;
+						break;
+					}
+				}
+				if (duplicationDetected){
+					utils.notify("Duplicate items are not allowed", item+" has already been added to the prescription list", "warning");
+				}
+				else {
+					$scope.conclusion.prescriptionList.push(prescription);
 				}
 			}
-			if (duplicationDetected){
-				utils.notify("Duplicate items are not allowed", item+" has already been added to the prescription list", "warning");
-			}
-			else {
-				$scope.conclusion.prescriptionList.push(prescription);
-			}
-
-			console.log($scope.conclusion.prescriptionList);
 		},
 		removePrescriptionFromList: function(index){
 			$scope.conclusion.prescriptionList.splice(index, 1);
@@ -374,14 +392,19 @@ angular.module("EmmetBlue")
 				requestedBy: utils.userSession.getID()
 			}
 
-			var req = utils.serverRequest("/pharmacy/pharmacy-request/new", "POST", data);
+			if (data.request.length < 1){
+				utils.notify("Request Denied", "You are not allowed to send an empty prescription list", "warning");
+			}
+			else {
+				var req = utils.serverRequest("/pharmacy/pharmacy-request/new", "POST", data);
 
-			req.then(function(response){
-				utils.notify("Operation Successful", "The dispensory has been notified", "success");
-				$("#modal-send-to-pharmacy").modal("hide");
-			}, function(error){
-				utils.errorHandler(error);
-			});
+				req.then(function(response){
+					utils.notify("Operation Successful", "The dispensory has been notified", "success");
+					$("#modal-send-to-pharmacy").modal("hide");
+				}, function(error){
+					utils.errorHandler(error);
+				});
+			}
 		},
 		drugSearchAutoSuggestInit: function(){
 			$(".drug-search").typeahead({
@@ -783,16 +806,19 @@ angular.module("EmmetBlue")
 		$scope.patient.allergies = {};
 
 		modules.conclusion.drugSearchAutoSuggestInit();
+		modules.conclusion.loadPrescriptionTemplates();
 
 		$scope.conclusion = {
 			prescriptionList: [],
+			prescriptionTemplates: [],
 			diagnosis: {},
 			addPrescriptionToList: modules.conclusion.addPrescriptionToList,
 			removePrescriptionFromList: modules.conclusion.removePrescriptionFromList,
 			addDrugsToPrescriptionToList: modules.conclusion.addDrugsToPrescriptionToList,
 			searchDrug: modules.conclusion.searchDrug,
 			sendToPharmacy: modules.conclusion.sendToPharmacy,
-			catchSearchDrugEnterPress: modules.conclusion.catchSearchDrugEnterPress
+			catchSearchDrugEnterPress: modules.conclusion.catchSearchDrugEnterPress,
+			loadTemplateForPrescription: modules.conclusion.loadTemplateForPrescription
 		}
 	}();
 
@@ -872,4 +898,21 @@ angular.module("EmmetBlue")
 			utils.errorHandler(error);
 		})
 	}
+
+	$scope.toDateString = function(date){
+		return (new Date(date)).toDateString()+", "+(new Date(date)).toLocaleTimeString();
+	}
+
+	$scope.staffNames = {};
+	function loadStaffName(staffId){
+		if (typeof $scope.staffNames[staffId] == 'undefined'){
+			$scope.staffNames[staffId] = staffId;
+			utils.getStaffFullName(staffId).then(function(response){
+				$scope.staffNames[staffId] = response.StaffFullName;
+			}, function(error){
+				$scope.staffNames[staffId] = staffId;
+			})
+		}
+	}
+	$scope.loadStaffName = loadStaffName;
 });

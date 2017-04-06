@@ -8,4 +8,4 @@ head.load(controllersLocation+"admit-patient-controller.js");
 head.load(controllersLocation+"admitted-patients-workspace-controller.js");
 head.load(controllersLocation+"lab-request-form-directive.js");
 
-head.load(controllersLocation+"settings/exam-type-controller.js");
+head.load(controllersLocation+"settings/settings-controller.js");

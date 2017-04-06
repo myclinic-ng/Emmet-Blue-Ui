@@ -23,7 +23,13 @@
 								<th>Item Name</th>
 								<th>Item Brand</th>
 								<th>Item Manufacturer</th>
-								<th></th>
+								<th>
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" ng-model="select.selectAll"/>
+										</label>
+									</div>
+								</th>
 							</thead>
 							<tbody>
 								<tr ng-repeat="item in inventoryItems | filter:inventoryFilter">
