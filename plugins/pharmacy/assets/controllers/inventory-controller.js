@@ -7,7 +7,8 @@ angular.module("EmmetBlue")
 		return storeInventory;
 	})
 	.withPaginationType('full_numbers')
-	.withDisplayLength(10)
+	.withDisplayLength(100)
+	.withDOM("<'row'<'col-md-3 col-sm-6'f><'col-md-6 col-sm-6'p>r><'table-scrollable't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>")
 	.withFixedHeader()
 	.withOption('createdRow', function(row, data, dataIndex){
 		utils.compile(angular.element(row).contents())($scope);
@@ -29,31 +30,31 @@ angular.module("EmmetBlue")
         		ctrlKey: false,
         		altKey: true
         	}
-		},
-        {
-        	extend: 'print',
-        	text: '<i class="icon-printer"></i> <u>P</u>rint this data page',
-        	key: {
-        		key: 'p',
-        		ctrlKey: false,
-        		altKey: true
-        	},
-        	exportOptions:{
-        		columns: [0, 1, 2, 3, 4, 5]
-        	}
-        },
-        {
-        	extend: 'copy',
-        	text: '<i class="icon-copy"></i> <u>C</u>opy this data',
-        	key: {
-        		key: 'c',
-        		ctrlKey: false,
-        		altKey: true
-        	},
-        	exportOptions:{
-        		columns: [0, 1, 2, 3, 4, 5]
-        	} 
-        }
+		}
+  //       {
+  //       	extend: 'print',
+  //       	text: '<i class="icon-printer"></i> <u>P</u>rint this data page',
+  //       	key: {
+  //       		key: 'p',
+  //       		ctrlKey: false,
+  //       		altKey: true
+  //       	},
+  //       	exportOptions:{
+  //       		columns: [0, 1, 2, 3, 4, 5]
+  //       	}
+  //       },
+  //       {
+  //       	extend: 'copy',
+  //       	text: '<i class="icon-copy"></i> <u>C</u>opy this data',
+  //       	key: {
+  //       		key: 'c',
+  //       		ctrlKey: false,
+  //       		altKey: true
+  //       	},
+  //       	exportOptions:{
+  //       		columns: [0, 1, 2, 3, 4, 5]
+  //       	} 
+  //       }
 	]);	
 
 	$scope.ddtColumns = [

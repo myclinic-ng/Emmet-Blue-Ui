@@ -1,0 +1,317 @@
+<div ng-controller="AuditPatientFlowController">
+	<div class="col-lg-12">
+		<div class="panel panel-flat">
+			<div class="panel-heading">
+				<h6 class="panel-title">Patient Visits</h6>
+				<div class="heading-elements">
+					<span class="pull-left">
+						<input class="form-control" type="date"/>
+					</span>
+					<ul class="icons-list">
+	            		<li class="dropdown">
+	            			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i> <span class="caret"></span></a>
+							<ul class="dropdown-menu dropdown-menu-right">
+								<li><a href="#"><i class="icon-sync"></i> Update data</a></li>
+								<li><a href="#"><i class="icon-list-unordered"></i> Detailed log</a></li>
+								<li><a href="#"><i class="icon-pie5"></i> Statistics</a></li>
+								<li class="divider"></li>
+								<li><a href="#"><i class="icon-cross3"></i> Clear list</a></li>
+							</ul>
+	            		</li>
+	            	</ul>
+	        	</div>
+			</div>
+
+			<div class="table-responsive">
+				<table class="table table-lg table-hover text-nowrap">
+					<tbody>
+						<tr>
+							<td class="col-md-5">
+								<div class="media-left">
+									<div id="campaigns-donut"></div>
+								</div>
+
+								<div class="media-left">
+									<h5 class="text-semibold no-margin">500 <small class="text-success text-size-base"><i class="icon-user"></i> patients</small></h5>
+									<ul class="list-inline list-inline-condensed no-margin">
+										<li>
+											<span class="status-mark border-success"></span>
+										</li>
+										<li>
+											<span class="text-muted">Saturday 13th 2017 to Sunday 14th 2017</span>
+										</li>
+									</ul>
+								</div>
+							</td>
+
+							<td class="col-md-5">
+								<div class="media-left">
+									<div id="campaign-status-pie"></div>
+								</div>
+
+								<div class="media-left">
+									<h5 class="text-semibold no-margin">458 <small class="text-danger text-size-base"><i class="icon-arrow-down12"></i> Diagnoses</small></h5>
+									<ul class="list-inline list-inline-condensed no-margin">
+										<li>
+											<span class="status-mark border-danger"></span>
+										</li>
+										<li>
+											<span class="text-muted">4 Medical Practitioners</span>
+										</li>
+									</ul>
+								</div>
+							</td>
+
+							<td class="text-right col-md-2">
+								<a href="#" class="btn bg-indigo-300"><i class="icon-statistics position-left"></i> View report</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>	
+			</div>
+
+			<div class="table-responsive">
+				<div class="col-md-12">
+					<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-hover table-lg text-nowrap"></table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="flag-note-modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-info">
+					<h6 class="modal-title">Add a flag note</h6>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12">
+							<textarea class="form-control" row="5" ng-model="currentFlagNote"></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="pull-right btn btn-info" ng-click="setStatus(currentLogID, false, currentFlagNote)">Continue</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="medical-log-modal">
+		<div class="modal-dialog modal-full">
+			<div class="modal-content">
+				<div class="modal-header bg-success">
+					<h6 class="modal-title">Patient Medical Log</h6>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-4" style="border-right: 1px solid green">
+							<div class="col-md-12" ng-repeat="item in currentLog.diagnosis">
+								<div class="panel panel-body">
+									<div class="media">
+										<div class="media-left">
+											<a href="#" data-popup="lightbox">
+												<img src="{{loadImage(item.StaffDetails.StaffPicture)}}" style="width: 70px; height: 70px;" class="img-circle" alt="">
+											</a>
+										</div>
+
+										<div class="media-body">
+											<h6 class="media-heading">{{item.StaffDetails.StaffFullName}}</h6>
+											<p class="text-muted">{{item.StaffDetails.StaffRole.Name}}</p>
+
+											<p>
+												<a href="#" title="Load Diagnosis" class="btn btn-warning btn-labeled" ng-click="loadDiagnosisInfo(item.DiagnosisID)"><b><i class="fa fa-chevron-right"></i></b> Load Diagnosis</a>
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-8">
+							<div ng-if="currentLog.diagnosisInfo">
+								<div class="col-md-12">
+									<h5><span class="text-muted">Diagnosis Title: &nbsp;</span> <span class="text-black" ng-if="!currentLog.diagnosisInfo.DiagnosisTitle"><em>N/A</em></span> {{currentLog.diagnosisInfo.DiagnosisTitle}}</h5>
+									<h5 title="{{currentLog.diagnosisInfo.DiagnosisDate}}"><span class="text-muted">Diagnosis Date:&nbsp;</span> {{toDateString(currentLog.diagnosisInfo.DiagnosisDate)}}</h5>
+									<h5><span class="text-muted">Diagnosis By: &nbsp;&nbsp;&nbsp;&nbsp;</span> {{currentLog.diagnosisInfo.StaffFullName}}</h5>
+									<h5 class="text-muted" ng-if="currentLog.diagnosisInfo.Diagnosis.conclusion.currentLog.diagnosisInfo.description">Extra Information</h5>
+									<p>{{currentLog.diagnosisInfo.Diagnosis.conclusion.currentLog.diagnosisInfo.description}}</p>
+								</div>
+								<div class="table-responsive col-md-8">
+									<table class="table table-bordered">
+										<tbody>
+											<tr class="bg-info text-center" ng-if="currentLog.diagnosisInfo.Diagnosis.complaints.length > 0">
+												<th colspan="3">Presenting Complaints</th>
+											</tr>
+											<tr ng-repeat="complaint in currentLog.diagnosisInfo.Diagnosis.complaints" ng-if="currentLog.diagnosisInfo.Diagnosis.complaints.length > 0">
+												<td class="no-border">{{$index + 1}}</td>
+												<td class="no-border">{{complaint.title}}</td>
+												<td class="no-border">{{complaint.description}}</td>
+											</tr>
+											<tr class="bg-info text-center" ng-if="currentLog.diagnosisInfo.Diagnosis.investigations.lab.legnth > 0 || currentLog.diagnosisInfo.Diagnosis.investigations.imaging.legnth > 0">
+												<th colspan="3">Investigation</th>
+											</tr>
+											<tr class="active text-center" ng-if="currentLog.diagnosisInfo.Diagnosis.investigations.lab.legnth > 0">
+												<th colspan="3"><span class="text-center">Laboratory</span></th>
+											</tr>
+											<tr ng-repeat="investigation in currentLog.diagnosisInfo.Diagnosis.investigations.lab" ng-if="currentLog.diagnosisInfo.Diagnosis.investigations.lab.legnth > 0">
+												<td class="no-border">{{$index+1}}</td>
+												<td class="no-border">{{investigation.title}}</td>
+												<td class="no-border">{{investigation.description}}</td>
+											</tr>
+											<tr class="active text-center" ng-if="currentLog.diagnosisInfo.Diagnosis.investigations.imaging.length > 0">
+												<th colspan="3"><span class="text-center">Radiology</span></th>
+											</tr>
+											<tr ng-repeat="investigation in currentLog.diagnosisInfo.Diagnosis.investigations.imaging" ng-if="currentLog.diagnosisInfo.Diagnosis.investigations.imaging.length > 0">
+												<td class="no-border">{{$index+1}}</td>
+												<td class="no-border">{{investigation.title}}</td>
+												<td class="no-border">{{investigation.description}}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="col-md-4">
+									<table class="table table-bordered">
+										<tbody>
+											<tr class="bg-teal text-center" ng-if="currentLog.diagnosisInfo.Diagnosis.conclusion.prescription.length > 0">
+												<th colspan="3">Prescription</th>
+											</tr>
+											<tr ng-repeat="item in currentLog.diagnosisInfo.Diagnosis.conclusion.prescription" ng-if="currentLog.diagnosisInfo.Diagnosis.conclusion.prescription.length > 0">
+												<td class="no-border">{{$index + 1}}</td>
+												<td>{{item.item}}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<!-- <button class="pull-right btn btn-info" ng-click="setStatus(currentLogID, false, currentFlagNote)">Continue</button> -->
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="departmental-log-modal">
+		<div class="modal-dialog modal-full">
+			<div class="modal-content">
+				<div class="modal-header bg-success">
+					<h6 class="modal-title">Patient Departmental Transactions Log</h6>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="tabbable">
+								<ul class="nav nav-tabs nav-tabs-solid nav-justified">
+									<li class="active" href="#pharmacy-requests" data-toggle="tab"><a>Pharmacy Requests</a></li>
+									<li href="#lab-requests" data-toggle="tab"><a>Lab Requests</a></li>
+									<li href="#other-requests" data-toggle="tab"><a>Other Departmental Requests</a></li>
+								</ul>
+
+								<div class="tab-content">
+									<div class="tab-pane active" id="pharmacy-requests">
+										<div class="row">
+											<div class="col-md-4" ng-repeat="item in currentLog.departmental.pharmacy">
+												<div class="panel border-left-lg border-left-primary">
+													<div class="panel-body">
+														<div class="row">
+															<div class="col-md-7">
+																<div class="media">
+																	<div class="media-left">
+																		<a href="#" data-popup="lightbox">
+																			<img src="{{loadImage(item.RequestedByDetails.StaffPicture)}}" style="width: 50px; height: 50px;" class="img-circle" alt="">
+																		</a>
+																	</div>
+
+																	<div class="media-body">
+																		<h6 class="media-heading">{{item.RequestedByDetails.StaffFullName}}</h6>
+																		<p class="text-muted">{{item.RequestedByDetails.StaffRole.Name}}</p>
+																	</div>
+																</div>
+																<h6 class="text-muted"><u>Original Request</u></h6>
+																<div class="content-group" ng-repeat="prescription in item.Request">
+																	<h6 class="control-label"><span class='text-bold'>{{$index + 1}}.</span> {{prescription.item}}</h6>
+																	<p class="text-bold pl-10">{{prescription.duration}}</p>
+																</div>
+															</div>
+
+															<div class="col-md-5">
+																<div ng-if="item.Acknowledged && item.Acknowledged != 0">
+																	<div class="media-left media-middle">
+																		<a href="#"><img src="{{loadImage(item.AcknowledgedByDetails.StaffPicture)}}" class="img-circle img-xs" alt=""></a>
+																	</div>
+
+																	<div class="media-body">
+																		<a href="#" class="display-inline-block text-default">{{item.AcknowledgedByDetails.StaffFullName}}</a>
+																		<div class="text-muted text-size-small"><span class="status-mark border-grey position-left"></span> {{item.AcknowledgedByDetails.StaffRole.Name}}</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<div class="panel-footer">
+														<ul>
+															<li>
+																<span class="text-center label label-danger" ng-if="!item.Acknowledged || item.Acknowledged == 0"><i class="fa fa-exclamation-triangle"></i> Unacknowledged</span>
+															</li>
+
+															<li>
+																<span class="text-center label label-success" ng-if="item.Acknowledged && item.Acknowledged != 0"><i class="fa fa-check"></i> Acknowledged</span>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="tab-pane" id="lab-requests">
+										
+									</div>
+
+									<div class="tab-pane" id="other-requests">
+										
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<!-- <button class="pull-right btn btn-info" ng-click="setStatus(currentLogID, false, currentFlagNote)">Continue</button> -->
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="invoices-log-modal">
+		<div class="modal-dialog modal-full">
+			<div class="modal-content">
+				<div class="modal-header bg-success">
+					<h6 class="modal-title">Patient Financial Transactions Log</h6>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12 no-margin">
+							<div class="content-group col-md-6 col-md-offset-3 text-center">
+								<label class="control-label">Filter Result</label>
+								<input class="form-control" placeholder="filter result" ng-model="filterInvoice"/>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-4" ng-repeat="invoice in currentLog.invoices | filter:filterInvoice">
+								<ng-invoice-grid grid-data="invoice"></ng-invoice-grid>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<!-- <button class="pull-right btn btn-info" ng-click="setStatus(currentLogID, false, currentFlagNote)">Continue</button> -->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

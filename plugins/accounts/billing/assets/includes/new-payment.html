@@ -112,7 +112,6 @@
 						<div class="content-group col-md-6">
 							<label class="control-label">Transaction Status</label>
 							<select class="select" ng-model="newPayment.transactionStatus" ng-options="status.StatusName as status.StatusName for status in statuses">
-								<!-- <option value=""></option> -->
 							</select>
 						</div>
 						<div class="button-group pull-right">
@@ -144,7 +143,7 @@
 				</div>
 
 				<div class="modal-footer">
-					<button class="btn btn-warning pull-right" ng-print print-element-id="main_payment_receipt">Print</button>
+					<button class="btn btn-warning pull-right" ng-print print-element-id="main_payment_receipt" ng-click="saveReceipt()">Print</button>
 				</div>
 			</div>
 		</div>

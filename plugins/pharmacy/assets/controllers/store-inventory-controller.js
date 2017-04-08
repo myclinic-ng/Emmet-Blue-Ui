@@ -126,6 +126,18 @@ angular.module("EmmetBlue")
 
 	$scope.selectedItems = {};
 
+	$scope.select = {
+		selectAll: false
+	}
+
+	$scope.$watch("select.selectAll", function(nv){
+		angular.forEach($scope.inventoryItems, function(item, key){
+			$scope.selectedItems[item.ItemID] = {
+				value: nv
+			}
+		})
+	})
+
 	$scope.newItem = {
 		tags:[],
 		quantity: 0

@@ -31,7 +31,7 @@
 		});
 
 	});
-	$("input[type='date']").datepicker();
+	$(".date").datepicker();
 </script>
 <script src="assets/js/core/app.js"></script>
 
@@ -141,11 +141,15 @@
 											<option ng-repeat="category in patientCategories" value="{{category.CategoryID}}">{{category.CategoryName}}</option>
 										</select>
 									</div>
-									<div class="form-group col-sm-9">
+									<div class="form-group col-sm-4">
 										<label>Patient Type </label>
 										<select class="select" ng-model="newPatient['patientType']">
 											<option ng-repeat="type in patientTypes" value="{{type.PatientTypeID}}">{{type.PatientTypeName}}</option>
 										</select>
+									</div>
+									<div class="form-group col-sm-5">
+										<label>HMO Number</label>
+										<input type="text" class="form-control" ng-model="newPatient['HMO Number']">
 									</div>
 								</div>
 								<div class="row">
@@ -161,7 +165,7 @@
 								<div class="row">
 									<div class="form-group col-sm-6">
 										<label>Date Of Birth</label>
-										<input type="date" class="form-control" ng-model="newPatient['Date Of Birth']">
+										<input type="text" class="form-control date" ng-model="newPatient['Date Of Birth']">
 									</div>
 									<div class="form-group col-sm-3">
 										<label class="control-label">Gender</label>

@@ -17,6 +17,10 @@
 				<label class="col-xs-3">Type: </label>
 				<div class="col-xs-9"><p class="text text-bold">{{patientInfo.patienttypename}}, {{patientInfo.categoryname}}</p class="text text-bold"></div>
 			</div>
+			<div class="form-group col-xs-12" ng-if='patientInfo["hmo number"]'>
+				<label class="col-xs-3">HMO Number: </label>
+				<div class="col-xs-9"><p class="text text-bold">{{patientInfo["hmo number"]}}</p class="text text-bold"></div>
+			</div>
 			<div class="form-group col-xs-12">
 				<label class="col-xs-3">DOB | Gender: </label>
 				<div class="col-xs-9"><p class="text text-bold">{{toLocaleDate(patientInfo["date of birth"])}} | {{patientInfo["gender"]}}</p class="text text-bold"></div>

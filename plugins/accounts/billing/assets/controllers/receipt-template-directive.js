@@ -8,9 +8,8 @@ angular.module("EmmetBlue")
 		},
 		templateUrl: "plugins/accounts/billing/assets/includes/receipt-template.html",
 		controller: function($scope, utils){
-			$scope.$watch("receiptData", function(nv){
-				console.log(nv);
-			})
+			// $scope.$watch("receiptData", function(nv){
+			// })
 
 			$scope.today = function(){
 				return utils.today()+ " " + (new Date()).toLocaleTimeString();
