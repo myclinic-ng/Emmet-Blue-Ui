@@ -39,12 +39,7 @@ var libraries = [
 	"assets/js/plugins/trees/fancytree_childcounter.min.js",
 	"assets/js/plugins/ui/prism.min.js",
 	"assets/js/dt-picker.js",
-	"assets/js/dom-to-image.min.js",
-	"assets/js/modernizr.2.5.3.min.js",
-	"assets/js/hash.js",
-	"assets/js/turn.js",
-	"assets/js/zoom.js"
-
+	"assets/js/dom-to-image.min.js"
 ];
 
 var themes = [
@@ -107,7 +102,8 @@ var cntrllers = [
 	"plugins/pharmacy/assets/controllers.js",
 	"plugins/pharmacy/dispensory/assets/controllers.js",
 	"plugins/consultancy/assets/controllers.js",
-	"plugins/lab/assets/controllers.js"
+	"plugins/lab/assets/controllers.js",
+	"plugins/financial-audit/assets/controllers.js"
 ]
 
 var services = [
