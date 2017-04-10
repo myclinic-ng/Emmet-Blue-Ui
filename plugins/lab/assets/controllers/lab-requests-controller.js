@@ -1,9 +1,45 @@
 angular.module("EmmetBlue")
 
-.controller('labRequestsController', function($scope, utils){
+.controller('labRequestsController', function($scope, utils, $rootScope){
+	var patient = {
+		search: function(query, successCallback, errorCallback){
+			query = {
+				query: query,
+				from: 0,
+				size: 5
+			};
+
+			utils.serverRequest('/patients/patient/search', "POST", query).then(successCallback, errorCallback);	
+        },
+		typeAheadSource: function(query, process){
+    		patient.search(query, function(response){
+    			var data = [];
+        		angular.forEach(response.hits.hits, function(value){
+        			data.push(value["_source"]["first name"]+ " " + value["_source"]["last name"]+", "+value["_source"]["patientuuid"]);
+        		})
+
+        		data = $.map(data, function (string) { return { value: string }; });
+        		process(data);
+    		}, function(error){
+    			utils.errorHandler(error);
+    		})
+    	}
+	}
+
+	$(".patient-search").typeahead({
+        hint: true,
+        highlight: true
+    },
+    {
+    	source: function(query, process){
+    		patient.typeAheadSource(query, process);
+    	}
+    })
+
 	var actions = function (data, type, full, meta){
 		var processButtonAction = "manage('process', "+data.RequestID+")";
 		var ackButtonAction = "manage('ack', "+data.RequestID+")";
+		var forwButtonAction = "manage('forward', "+data.RequestID+")";
 		var hmoButtonAction = "manage('hmoReq', "+data.RequestID+")";
 
 		var dataOpt = "data-option-id='"+data.RequestID+"'"+
@@ -20,7 +56,7 @@ angular.module("EmmetBlue")
 
 
 		var processButton = "<button class='btn btn-default process-btn btn-danger col-md-12' ng-click=\""+processButtonAction+"\" "+dataOpt+"> Register Request</button>";
-		var ackButton = "<button class='btn btn-default ack-btn btn-info col-md-12' ng-click=\""+ackButtonAction+"\" "+dataOpt+"> Generate Payment Request</button>";
+		var ackButton = "<button class='btn btn-default ack-btn btn-info col-md-12' ng-click=\""+ackButtonAction+"\" "+dataOpt+"> Payment Request</button>";
 
 		if (data.RequestAcknowledged == 0){
 			deleteButton = processButton;
@@ -28,7 +64,13 @@ angular.module("EmmetBlue")
 		else {
 			deleteButton = ackButton;
 		}
-		var hmoButton = "<button class='btn btn-default process-btn col-md-offset-3 col-md-12' ng-click=\""+hmoButtonAction+"\" "+dataOpt+"> Send to HMO office</button>";
+
+		if (data.RequestAcknowledged != 0){
+			var hmoButton = "<button class='btn btn-default ack-btn col-md-12' ng-click=\""+forwButtonAction+"\" "+dataOpt+"> Forward to Lab</button>";
+		}
+		else {
+			var hmoButton = "<button class='btn btn-default process-btn col-md-offset-3 col-md-12' ng-click=\""+hmoButtonAction+"\" "+dataOpt+"> Send to HMO office</button>";
+		}
 		
 		var buttons = "<div class='btn-group'>"+deleteButton+hmoButton+"</button>";
 		return buttons;
@@ -95,15 +137,31 @@ angular.module("EmmetBlue")
 	})
 	$scope.reloadInvestigationTypesTable = function(type = ""){
 		if (type == 1){
-			$scope.currentPatient = $scope.patientUuid;
+			query = {
+				query: $("#patientUuid").val(),
+				from: 0,
+				size: 1
+			};
+
+			utils.serverRequest('/patients/patient/search', "POST", query).then(function(response){
+				if (typeof response.hits.hits[0] !== "undefined"){
+					$scope.currentPatient = response.hits.hits[0]._source.patientuuid;
+					$scope.dtInstance.reloadData();
+				}
+				else {
+					utils.notify("Unable to load patient", "Please provide a valid patient profile search query", "error");
+				}
+			}, function(error){
+				utils.errorHandler(error);
+			});
 		}
 		else {
 			if (typeof $scope.currentPatient !== "undefined"){
 				delete $scope.currentPatient;
 			}
-		}
 
-		$scope.dtInstance.reloadData();
+			$scope.dtInstance.reloadData();
+		}
 	}
 
 	$scope.manage = function(type, id){
@@ -128,6 +186,17 @@ angular.module("EmmetBlue")
 				utils.storage.currentPaymentRequest = id;
 
 				$("#_payment_request").modal("show");	
+				break;
+			}
+			case "forward":{
+				utils.serverRequest("/lab/lab-request/close-request", "POST", {"request": id, "staff": utils.userSession.getID()})
+				.then(function(response){
+					utils.notify("Operation Successful", "Request forwarded to the lab successfully", "success");
+					$rootScope.$broadcast("ReloadQueue");
+					$rootScope.$broadcast("reloadLabPatients", {});
+				}, function(error){
+					utils.errorHandler(error);
+				});
 				break;
 			}
 			case "hmoReq":{

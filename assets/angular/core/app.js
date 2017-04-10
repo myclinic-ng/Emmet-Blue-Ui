@@ -68,13 +68,23 @@ angular.module("EmmetBlue")
 	}
 
 	services.notify = function(title, text, type){
-	     new PNotify({
+		PNotify.desktop.permission();
+	    new PNotify({
             title: title,
             text: text,
             addclass: 'alert-styled-left alert-arrow-left text-sky-royal',
             type: type,
             mouse_reset: true,
-            insert_brs: true
+            insert_brs: true,
+            nonblock: {
+            	nonblock: true
+            },
+            desktop: {
+            	desktop: false
+            },
+            history: {
+            	menu: false
+            }
         });
 	};
 

@@ -203,11 +203,6 @@ angular.module("EmmetBlue")
 		$scope.dtInstance.reloadData();
 	}
 
-	$scope.requestFilter = {
-		type: "date",
-		value: "01/01/2017 - 01/01/2018"
-	}
-
 	$scope.setStatus = function(id, close, text=""){
 		$("#flag-note-modal").modal("hide");
 		var data = {
@@ -287,4 +282,19 @@ angular.module("EmmetBlue")
 			utils.errorHandler(error);
 		})
 	}
+
+	var date = (new Date()).toLocaleDateString();
+	$scope.dateRange = date+" - "+date;
+
+	$scope.requestFilter = {
+		type: "date",
+		value: $scope.dateRange
+	}
+
+	$scope.$watch("dateRange", function(nv){
+		if (typeof nv !== "undefined"){
+			$scope.requestFilter.value = nv;
+			$scope.reloadTable();
+		}
+	})
 })

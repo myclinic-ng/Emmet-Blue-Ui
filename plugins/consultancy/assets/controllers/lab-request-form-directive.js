@@ -7,7 +7,8 @@ angular.module("EmmetBlue")
 			patientInfo: '=patientInfo'
 		},
 		templateUrl: "plugins/consultancy/assets/includes/lab-request-form-template.html",
-		controller: function($scope, utils){
+		controller: function($scope, utils, $rootScope){
+			$scope.showSubmitLoader = false;
 			$scope.today = utils.today()+ " " + (new Date()).toLocaleTimeString();
 
 			var table = $(".lab-table tr");
@@ -23,12 +24,23 @@ angular.module("EmmetBlue")
 			});
 
 			$scope.submit = function(){
+				$scope.showSubmitLoader = true;
 				var reqs = [];
 				$(".lab-table tr").each(function(){
 
 					var th = $(this).children("th").first();
+					var td = $(this).children("td").first();
 
 					$(th).find("input").each(function(){
+						var checked = $(this).prop("checked");
+
+						if (checked){
+							reqs.push($.trim($(this).parent().text()));
+							$(this).attr("checked", "checked");
+						}
+					});
+
+					$(td).find("input").each(function(){
 						var checked = $(this).prop("checked");
 
 						if (checked){
@@ -42,6 +54,7 @@ angular.module("EmmetBlue")
 					reqs.push($scope.investigations);
 				}
 
+				$rootScope.$broadcast("addSentLabInvestigationsToList", reqs);
 				$scope.investigations = reqs.join(", ");
 				var form = $("#lab-form").get(0);
 				domtoimage.toPng(form)
@@ -58,13 +71,18 @@ angular.module("EmmetBlue")
 					}
 
 					utils.serverRequest('/lab/lab-request/new', 'POST', data).then(function(response){
+						$scope.showSubmitLoader = false;
+						window.scrollTo(0, 0);
 						utils.notify("Operation Successful", "Request sent successfully", "success");
+						$scope.investigations = "";
+						reqs = [];
 					}, function(error){
 						utils.errorHandler(error);
 					})
 			    })
 			    .catch(function (error) {
-			        console.error('oops, something went wrong!', error);
+					$scope.showSubmitLoader = false;
+			        utils.notify('oops, something went wrong!', 'Unable to process request', "error");
 			    });
 			}
 		}

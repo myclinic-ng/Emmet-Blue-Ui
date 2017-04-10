@@ -54,6 +54,24 @@ angular.module("EmmetBlue")
 	}
 
 	modules.presentingComplaints = {
+		loadComplaintTemplates: function(){
+			var req = utils.serverRequest("/consultancy/complaint-template/view", "GET");
+			req.then(function(response){
+				$scope.presentingComplaints.complaintTemplates = response;
+			}, function(error){
+				utils.errorHandler(error);
+			})
+		},
+		loadTemplateForComplaint: function(template){
+			var req = utils.serverRequest("/consultancy/complaint-template/view-template-items?resourceId="+template, "GET");
+			req.then(function(response){
+				angular.forEach(response, function(value, key){
+					modules.presentingComplaints.addSymptomToComplaintList(value.Item, value.Note);
+				});
+			}, function(error){
+				utils.errorHandler(error);
+			})
+		},
 		symptomSearchAutoSuggestInit: function(){
 			$(".symptom-search").typeahead({
 	            hint: true,
@@ -113,6 +131,7 @@ angular.module("EmmetBlue")
 				utils.notify("Duplicate symptoms are not allowed", "The selected symptom has already been added to the complaints list, please select a new symptom", "warning");
 			}
 			else {
+				$("#presentingComplaints-symptomSearchQuery").val("");
 				$scope.presentingComplaints.complaints.push(symptom);
 			}
 		},
@@ -642,6 +661,8 @@ angular.module("EmmetBlue")
 				}
 			}
 
+			// console.log(data);
+
 			var successCallback = function(response){
 				utils.notify("Operation Successful", "Diagnosis has been submitted", "success");
 
@@ -749,12 +770,14 @@ angular.module("EmmetBlue")
 
 		$scope.presentingComplaints = {
 			symptomSearchQuery: "",
+			complaintTemplates: [],
 			performSymptomSearch: modules.presentingComplaints.performSymptomSearch,
 			loadSymptom: modules.presentingComplaints.loadSymptom,
 			complaints: [],
 			addToList: modules.presentingComplaints.addSymptomToComplaintList,
 			removeFromList: modules.presentingComplaints.removeSymptomFromComplaintList,
-			catchSearchPress: modules.presentingComplaints.catchSearchPress
+			catchSearchPress: modules.presentingComplaints.catchSearchPress,
+			loadTemplateForComplaint: modules.presentingComplaints.loadTemplateForComplaint
 		};
 
 		modules.presentingComplaints.symptomSearchAutoSuggestInit();
@@ -808,6 +831,7 @@ angular.module("EmmetBlue")
 
 		modules.conclusion.drugSearchAutoSuggestInit();
 		modules.conclusion.loadPrescriptionTemplates();
+		modules.presentingComplaints.loadComplaintTemplates();
 
 		$scope.conclusion = {
 			prescriptionList: [],
@@ -916,4 +940,10 @@ angular.module("EmmetBlue")
 		}
 	}
 	$scope.loadStaffName = loadStaffName;
+
+	$scope.$on("addSentLabInvestigationsToList", function(e, data){
+		angular.forEach(data, function(value){
+			$scope.labTests.addToLabList(value);
+		});
+	})
 });
