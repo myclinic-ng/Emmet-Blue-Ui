@@ -1,4 +1,6 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script src="assets/js/plugins/forms/tags/bootstrap-tagsinput.js"></script>
+<script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
 <script>$('select.select').select2();</script>
 
 <div ng-controller="labRequestsController">
@@ -27,7 +29,7 @@
 	    	<div class="row" ng-show="!labView">
 				<label class="control-label col-md-3"><span class="pull-right pt-5">Enter Patient Number:</span></label>
 				<div class="input-group col-md-7">
-					<input type="text" class="form-control" ng-model="patientUuid"/> 
+					<input type="text" class="form-control patient-search" ng-model="patientUuid" id="patientUuid"/> 
 					<span class="input-group-btn">
 						<button class="btn btn-danger" ng-click="reloadInvestigationTypesTable(1)">Load Requests</button>
 					</span>

@@ -7,6 +7,7 @@
 	<div class="col-md-9">
 		<h1 class="text-bold text-uppercase" style="margin-top: -8px; ">{{patientInfo.patientfullname}}</h1>
 		<p class="text-thin text-uppercase">{{patientInfo.patientuuid}}</p>
+		<p class="text-uppercase" ng-if='patientInfo["hmo number"]'>HMO NUMBER: {{patientInfo["hmo number"]}}</p>
 		<h1 class="text-size-large text-light text-muted">{{patientInfo.patienttypename}}, {{patientInfo.categoryname}}</h1>
 		<h2 class="text-size-mini text-thin mb-20">
 			<span class="label label-info no-border-radius" ng-if="patientInfo['date of birth'] != null">{{toLocaleDate(patientInfo["date of birth"])}}</span>
@@ -166,7 +167,7 @@
 								<td class="no-border">{{toLocaleDate(item.DiagnosisDate)}}</td>
 								<td class="no-border" ng-if="item.DiagnosisTitle">{{item.DiagnosisTitle}}</td>
 								<td class="no-border" ng-if="!item.DiagnosisTitle">N/A</td>
-								<td class="no-border"><em><a data-toggle="modal" data-target="#modal-diagnosis" ng-click="setCurrentDiagnosis($index)"><i class="icon-info22"></i> Load diagnosis information</a></em></td>
+								<td class="no-border"><a data-toggle="modal" data-target="#modal-diagnosis" ng-click="setCurrentDiagnosis($index)" class="btn"><i class="icon-info22"></i> Load diagnosis information</a></td>
 							</tr>
 							<tr ng-if="diagnoses.length < 1">
 								<td colspan="5" class="text-muted text-center">No Diagnosis Has Been Completed For This Patient</td>
@@ -182,18 +183,18 @@
 			<div class="modal-content">
 				<div class="modal-header bg-success">
 					<button type="button" class="close" data-dismiss="modal"><i class="icon-cross"></i></button>
-					<h5 class="modal-title">Diagnosis Information</h5>
+					<h4 class="modal-title">Diagnosis Information</h4>
 				</div>
 
 				<div class="modal-body">
 					<div class="col-md-12">
-						<h6><span class="text-muted">Diagnosis Title:</span> {{diagnosis.DiagnosisTitle}}</h6>
-						<h6 title="{{diagnosis.DiagnosisDate}}"><span class="text-muted">Diagnosis Date:</span> {{toDateString(diagnosis.DiagnosisDate)}}</h6>
-						<h6><span class="text-muted">Diagnosis By:</span> {{diagnosis.DiagnosisBy}}</h6>
-						<h6 class="text-muted" ng-if="diagnosis.Diagnosis.conclusion.diagnosis.description">Extra Information</h6>
+						<h5><span class="text-muted">Diagnosis Title: &nbsp;</span> <span class="text-black" ng-if="!diagnosis.DiagnosisTitle">N/A</span> {{diagnosis.DiagnosisTitle}}</h5>
+						<h5 title="{{diagnosis.DiagnosisDate}}"><span class="text-muted">Diagnosis Date:&nbsp;</span> {{toDateString(diagnosis.DiagnosisDate)}}</h5>
+						<h5><span class="text-muted">Diagnosis By: &nbsp;&nbsp;&nbsp;&nbsp;</span> {{diagnosis.StaffFullName}}</h5>
+						<h5 class="text-muted" ng-if="diagnosis.Diagnosis.conclusion.diagnosis.description">Extra Information</h5>
 						<p>{{diagnosis.Diagnosis.conclusion.diagnosis.description}}</p>
 					</div>
-					<div class="table-responsive col-md-9">
+					<div class="table-responsive col-md-8">
 						<table class="table table-bordered">
 							<tbody>
 								<tr class="bg-info text-center" ng-if="diagnosis.Diagnosis.complaints.length > 0">
@@ -202,16 +203,15 @@
 								<tr ng-repeat="complaint in diagnosis.Diagnosis.complaints" ng-if="diagnosis.Diagnosis.complaints.length > 0">
 									<td class="no-border">{{$index + 1}}</td>
 									<td class="no-border">{{complaint.title}}</td>
-									<td class="no-border">{{complaint.title}}</td>
-									<td class="no-border">{{complaint.description}}</td>
+									<td class="no-border text-muted">{{complaint.description}}</td>
 								</tr>
-								<tr class="bg-info text-center" ng-if="diagnosis.Diagnosis.investigations.lab.legnth > 0 || diagnosis.Diagnosis.investigations.imaging.legnth > 0">
+								<tr class="bg-danger-400 text-center" ng-if="diagnosis.Diagnosis.investigations.lab.length > 0 || diagnosis.Diagnosis.investigations.imaging.length > 0">
 									<th colspan="3">Investigation</th>
 								</tr>
-								<tr class="active text-center" ng-if="diagnosis.Diagnosis.investigations.lab.legnth > 0">
+								<tr class="active text-center" ng-if="diagnosis.Diagnosis.investigations.lab.length > 0">
 									<th colspan="3"><span class="text-center">Laboratory</span></th>
 								</tr>
-								<tr ng-repeat="investigation in diagnosis.Diagnosis.investigations.lab" ng-if="diagnosis.Diagnosis.investigations.lab.legnth > 0">
+								<tr ng-repeat="investigation in diagnosis.Diagnosis.investigations.lab" ng-if="diagnosis.Diagnosis.investigations.lab.length > 0">
 									<td class="no-border">{{$index+1}}</td>
 									<td class="no-border">{{investigation.title}}</td>
 									<td class="no-border">{{investigation.description}}</td>
@@ -227,7 +227,7 @@
 							</tbody>
 						</table>
 					</div>
-					<div class="col-md-3">
+					<div class="col-md-4">
 						<table class="table table-bordered">
 							<tbody>
 								<tr class="bg-teal text-center" ng-if="diagnosis.Diagnosis.conclusion.prescription.length > 0">
@@ -235,7 +235,10 @@
 								</tr>
 								<tr ng-repeat="item in diagnosis.Diagnosis.conclusion.prescription" ng-if="diagnosis.Diagnosis.conclusion.prescription.length > 0">
 									<td class="no-border">{{$index + 1}}</td>
-									<td>{{item.item}}</td>
+									<td>
+										{{item.item}}<br/>
+										<span class="text-bold">{{item.duration}}</span>
+									</td>
 								</tr>
 							</tbody>
 						</table>

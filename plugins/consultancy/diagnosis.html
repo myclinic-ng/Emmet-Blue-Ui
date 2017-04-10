@@ -221,6 +221,17 @@
 						</div>
 						<div class="tab-pane fade" id="presenting-complaints">
 							<div class="col-md-7 col-md-offset-3 mb-15">
+								<li class="dropdown" style="list-style: none;">
+									<a class="dropdown-toggle btn btn-xs btn-default" data-toggle="dropdown">
+										Load Template
+										<span class="caret"></span>
+									</a>
+									<ul class="dropdown-menu">
+										<li ng-repeat="temp in presentingComplaints.complaintTemplates">
+											<a class="" href="#" ng-click="presentingComplaints.loadTemplateForComplaint(temp.TemplateID)">{{temp.TemplateName}}</a>
+										</li>
+									</ul>
+								</li>
 								<div class="input-group">
 									<input id="presentingComplaints-symptomSearchQuery" type="text" class="form-control symptom-search" placeholder="enter symptom to search" ng-model="presentingComplaints.symptomSearchQuery" ng-keypress="presentingComplaints.catchSearchPress($event)"/>
 									<span class="input-group-btn">
@@ -268,7 +279,7 @@
 												<div class="panel-heading" class="collapsed cursor-pointer" data-toggle="collapse" href="#complaint-{{$index+1}}">
 													<h6 class="panel-title">
 														<span class="cursor-pointer">
-															{{complaint.title}}
+															{{complaint.title}} <button class="btn btn-link pull-right text-danger" ng-click="presentingComplaints.removeFromList($index)"><i class="icon-bin"></i> Remove</button>
 														</span>
 													</h6>
 												</div>
@@ -276,17 +287,7 @@
 												<div id="complaint-{{$index+1}}" class="panel-collapse collapse">
 													<div class="panel-body">
 														<div class="content-group col-md-12">
-															<textarea class="form-control" ng-model="complaint.description"></textarea>
-														</div>
-														<div class="content-group">
-															<h6 class="text-muted col-md-3">Characteristics:</h6>
-															<span class="col-md-9">
-																<select class="select" ng-model="complaint.characteristics">
-																	<option value="severe">severe</option>
-																	<option value="acute">acute</option>
-																	<option value="numb">numb</option>
-																</select>
-															</span>
+															<textarea class="form-control" ng-model="complaint.description" placeholder="Add extra comment/note here"></textarea>
 														</div>
 													</div>
 
@@ -326,8 +327,8 @@
 							<div class="tabbable">
 								<ul class="nav nav-tabs nav-tabs-solid nav-justified">
 									<li href="#labForm-new" data-toggle="tab" class="active"><a>Lab Request Form <span class="label label-success">NEW</span></a></li>
-									<li href="#labForm" data-toggle="tab"><a>Lab Request Selector</a></li>
-									<li href="#lab" data-toggle="tab"><a>Investigation Finder</a></li>
+									<li href="#labForm" data-toggle="tab"><a>Lab Request Selector <span class="label label-danger"><i class='fa fa-exclamation-triangle'></i> DEPRECATED</span></a></li>
+									<li href="#lab" data-toggle="tab"><a>Investigation Finder <span class="label label-danger"><i class='fa fa-exclamation-triangle'></i> DEPRECATED</span></a></li>
 								</ul>
 
 								<div class="tab-content">
