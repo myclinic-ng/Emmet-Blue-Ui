@@ -188,7 +188,6 @@ angular.module("EmmetBlue")
 	$scope.dtOptions = utils.DT.optionsBuilder
 	.newOptions()
 	.withFnServerData(function(source, data, callback, settings){
-		console.log(data);
 		var url = '/accounts-biller/payment-request/load-all-requests?';
 		var filter = $scope.requestFilter;
 		var _filter = "";

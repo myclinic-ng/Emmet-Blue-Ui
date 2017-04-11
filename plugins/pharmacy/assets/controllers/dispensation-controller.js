@@ -42,10 +42,36 @@ angular.module("EmmetBlue")
 	
 	$scope.dtInstance = {};
 	$scope.dtOptions = utils.DT.optionsBuilder
-	.fromFnPromise(function(){
-		var dispensations = utils.serverRequest('/pharmacy/dispensation/view', 'GET');
-		return dispensations;
+	.newOptions()
+	.withFnServerData(function(source, data, callback, settings){
+		var draw = data[0].value;
+        var order = data[2].value;
+        var start = data[3].value;
+        var length = data[4].value;
+
+        var url = '/pharmacy/dispensation/view?resourceId=0&paginate&from='+start+'&size='+length;
+		if (typeof data[5] !== "undefined" && data[5].value.value != ""){
+			url += "&keywordsearch="+data[5].value.value;
+		}
+
+		var dispensations = utils.serverRequest(url, 'GET');
+		dispensations.then(function(response){
+			var records = {
+				data: response.data,
+				draw: draw,
+				recordsTotal: response.total,
+				recordsFiltered: response.filtered
+			};
+
+			callback(records);
+		}, function(error){
+			utils.errorHandler(error);
+		});
 	})
+	.withDataProp('data')
+	.withOption('processing', true)
+	.withOption('serverSide', true)
+	.withOption('paging', true)
 	.withPaginationType('full_numbers')
 	.withDisplayLength(10)
 	.withFixedHeader()
@@ -127,12 +153,14 @@ angular.module("EmmetBlue")
 
 	$scope.currentDispensory;
 	loadDispensories();
-	loadStores();
+	// loadStores();
 
 	$scope.$watch(function(){
 		return $scope.currentDispensory;
 	}, function(newValue){
-		loadStores(newValue);
+		if (typeof newValue !== "undefined"){
+			loadStores(newValue);
+		}
 	})
 
 	$scope.$watch(function(){
@@ -157,13 +185,38 @@ angular.module("EmmetBlue")
 
 	$scope.ddtInstance = {};
 	$scope.ddtOptions = utils.DT.optionsBuilder
-	.fromFnPromise(function(){
-		var inventory = utils.serverRequest('/pharmacy/store-inventory/view-available-items-by-store?resourceId='+$scope.currentStore, 'GET');
-		return inventory;
+	.newOptions()
+	.withFnServerData(function(source, data, callback, settings){
+		var draw = data[0].value;
+        var order = data[2].value;
+        var start = data[3].value;
+        var length = data[4].value;
+
+        var url = '/pharmacy/store-inventory/view-available-items-by-store?resourceId='+$scope.currentStore+'&paginate&from='+start+'&size='+length;
+		if (typeof data[5] !== "undefined" && data[5].value.value != ""){
+			url += "&keywordsearch="+data[5].value.value;
+		}
+
+		var inventory = utils.serverRequest(url, 'GET');
+		inventory.then(function(response){
+			var records = {
+				data: response.data,
+				draw: draw,
+				recordsTotal: response.total,
+				recordsFiltered: response.filtered
+			};
+
+			callback(records);
+		}, function(error){
+			utils.errorHandler(error);
+		});
 	})
+	.withDataProp('data')
+	.withOption('processing', true)
+	.withOption('serverSide', true)
+	.withOption('paging', true)
 	.withPaginationType('full_numbers')
 	.withDisplayLength(10)
-	.withFixedHeader()
 	.withOption('createdRow', function(row, data, dataIndex){
 		utils.compile(angular.element(row).contents())($scope);
 	})
@@ -193,7 +246,7 @@ angular.module("EmmetBlue")
 	];
 
 	$scope.reloadInventoryTable = function(){
-		$scope.ddtInstance.reloadData();
+		$scope.ddtInstance.rerender();
 	}
 
 	$scope.currentItem = {
