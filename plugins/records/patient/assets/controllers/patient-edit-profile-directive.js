@@ -9,12 +9,14 @@ angular.module("EmmetBlue")
 		templateUrl: "plugins/records/patient/assets/includes/edit-profile-template.html",
 		controller: function($scope, utils){
 			$scope.loadPatientTypes = function(categoryId){
-				var requestData = utils.serverRequest("/patients/patient-type/view-by-category?resourceId="+categoryId, "GET");
-				requestData.then(function(response){
-					$scope.patientTypes = response;
-				}, function(responseObject){
-					utils.errorHandler(responseObject);
-				});
+				if (typeof categoryId !== "undefined"){
+					var requestData = utils.serverRequest("/patients/patient-type/view-by-category?resourceId="+categoryId, "GET");
+					requestData.then(function(response){
+						$scope.patientTypes = response;
+					}, function(responseObject){
+						utils.errorHandler(responseObject);
+					});
+				}
 			}
 
 

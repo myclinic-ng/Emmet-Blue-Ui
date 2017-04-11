@@ -5,6 +5,7 @@ angular.module('EmmetBlue', [
 	'ngSanitize',
 	'datatables',
 	'datatables.buttons',
+	// 'datatables.bootstrap',
 	'datatables.fixedheader',
 	'ngCookies',
 	'ngStorage',

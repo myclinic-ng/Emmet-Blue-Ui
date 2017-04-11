@@ -11,6 +11,7 @@ var css = [
 	"assets/css/datatables/angular-datatables.min.css",
 	"assets/css/datatables/buttons.dataTables.min.css",
 	"assets/css/datatables/fixedHeader.dataTables.min.css",
+	// "assets/css/datatables/dataTables.bootstrap.min.css",
 	"assets/js/plugins/sliders/slick/slick.css",
 	"assets/angular/libraries/ng-print/ngPrint.min.css",
 	"assets/css/dt-picker.min.css"
@@ -29,6 +30,7 @@ var libraries = [
 	"assets/js/plugins/notifications/sweet_alert.min.js",
 	"assets/js/plugins/tables/datatables/datatables.min.js",
 	"assets/js/plugins/tables/datatables/extensions/dataTables.fixedHeader.min.js",
+	// "assets/js/plugins/tables/datatables/extensions/dataTables.bootstrap.min.js",
 	"assets/js/core/libraries/jasny_bootstrap.min.js",
 	"assets/js/plugins/webcam/webcam.min.js",
 	"assets/js/core/libraries/jquery_ui/core.min.js",
@@ -57,6 +59,7 @@ var angularLibraries = [
 	"assets/angular/libraries/angular-cookies.min.js",
 	"assets/angular/libraries/angular-sanitize.min.js",
 	"assets/angular/libraries/angular-datatables.min.js",
+	// "assets/angular/libraries/angular-datatables.bootstrap.min.js",
 	"assets/angular/libraries/ng-print/ngPrint.min.js",
 	"assets/angular/libraries/ng-pagination/ng-pagination.min.js",
 	"assets/angular/libraries/angular-datatables.buttons.min.js",

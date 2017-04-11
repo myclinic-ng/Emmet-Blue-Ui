@@ -1,15 +1,34 @@
 angular.module("EmmetBlue")
 
 .controller('pharmacyInventoryController', function($scope, utils){
-	$scope.ddtOptions = utils.DT.optionsBuilder
-	.fromFnPromise(function(){
-		var storeInventory = utils.serverRequest('/pharmacy/store-inventory/view', 'GET');
-		return storeInventory;
+	$scope.ddtInstance = {};
+	$scope.ddtOptions = utils.DT.optionsBuilder.newOptions()
+	.withFnServerData(function(source, data, callback, settings){
+		var draw = data[0].value;
+        var order = data[2].value;
+        var start = data[3].value;
+        var length = data[4].value;
+
+		utils.serverRequest('/pharmacy/store-inventory/view?resourceId&paginate&from='+start+'&size='+length, 'GET')
+		.then(function(response){
+			var records = {
+				data: response.data,
+				draw: draw,
+				recordsTotal: response.total,
+				recordsFiltered: response.filtered
+			};
+
+			callback(records);
+		}, function(error){
+			utils.errorHandler(error);
+		});
 	})
+	.withDataProp('data')
+	.withOption('processing', true)
+	.withOption('serverSide', true)
+	.withOption('paging', true)
 	.withPaginationType('full_numbers')
-	.withDisplayLength(100)
-	.withDOM("<'row'<'col-md-3 col-sm-6'f><'col-md-6 col-sm-6'p>r><'table-scrollable't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>")
-	.withFixedHeader()
+	.withDisplayLength(10)
 	.withOption('createdRow', function(row, data, dataIndex){
 		utils.compile(angular.element(row).contents())($scope);
 	})
@@ -31,30 +50,6 @@ angular.module("EmmetBlue")
         		altKey: true
         	}
 		}
-  //       {
-  //       	extend: 'print',
-  //       	text: '<i class="icon-printer"></i> <u>P</u>rint this data page',
-  //       	key: {
-  //       		key: 'p',
-  //       		ctrlKey: false,
-  //       		altKey: true
-  //       	},
-  //       	exportOptions:{
-  //       		columns: [0, 1, 2, 3, 4, 5]
-  //       	}
-  //       },
-  //       {
-  //       	extend: 'copy',
-  //       	text: '<i class="icon-copy"></i> <u>C</u>opy this data',
-  //       	key: {
-  //       		key: 'c',
-  //       		ctrlKey: false,
-  //       		altKey: true
-  //       	},
-  //       	exportOptions:{
-  //       		columns: [0, 1, 2, 3, 4, 5]
-  //       	} 
-  //       }
 	]);	
 
 	$scope.ddtColumns = [
@@ -94,8 +89,6 @@ angular.module("EmmetBlue")
 			return buttons;
 		}).notSortable()
 	];
-
-	$scope.ddtInstance = {};
 
 	$scope.reloadInventoryTable = function(){
 		$scope.ddtInstance.reloadData(null, true);

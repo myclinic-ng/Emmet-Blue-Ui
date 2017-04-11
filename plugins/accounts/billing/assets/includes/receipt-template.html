@@ -2,53 +2,53 @@
 	<div class="watermark"></div>
 	<div class="col-xs-12">
 		<div class="row">
-			<div class="col-xs-6 col-xs-offset-3">
-				<center><img src="assets/images/logo-black-full.png" class="img img-responsive"/></center>
+			<div class="col-xs-12">
+				<center><img src="assets/images/logo-orange-full.png" class="img img-responsive"/></center>
 			</div>
-			<div class="col-xs-12"><h1 class="text-center text-black" style="font-variant: small-caps; font-size: 1.5em !important;">St. Gerard's Catholic Hospital</h1></div>
+			<!-- <div class="col-xs-12"><h1 class="text-center text-black text-bold" style="font-variant: small-caps; font-size: 1.5em !important;">Harmony Hospital &amp; Specialists Clinic</h1></div> -->
 		</div>
 		<div class="row">
 			<div class="col-xs-7 content-group">
 				<h6 class="col-xs-12 text-primary">PAYEE</h6>
 				<span>
-					<div class="col-xs-12"><h6>Name: <span class="text-black">{{receiptData.customerName}}</span></h6></div>
-					<div class="col-xs-12"><h6>Method Of Payment: <span class="text-black">{{receiptData.paymentMethod}}</span></h6></div>
-					<div class="col-xs-12"><h6>Unit: <span class="text-black">{{receiptData.invoiceData.department}}</span></h6></div>
+					<div class="col-xs-12"><h6>Name: <span class="text-black text-bold">{{receiptData.customerName}}</span></h6></div>
+					<div class="col-xs-12"><h6>Method Of Payment: <span class="text-black text-bold">{{receiptData.paymentMethod}}</span></h6></div>
+					<div class="col-xs-12"><h6>Unit: <span class="text-black text-bold">{{receiptData.invoiceData.department}}</span></h6></div>
 				</span>
 			</div>
 			<div class="col-xs-5 content-group">
 				<span class="pull-right">
 					<h6 class="col-xs-12 text-primary">RECEIPT</h6>
 					<span>
-						<div class="col-xs-12"><h6>Number: <span class="text-black">{{receiptData.invoiceData.number}}</span></h6></div>
-						<div class="col-xs-12"><h6>Transaction Status: <span class="text-black">{{receiptData.transactionStatus}}</span></h6></div>
+						<div class="col-xs-12"><h6>Number: <span class="text-black text-bold">{{receiptData.invoiceData.number}}</span></h6></div>
+						<div class="col-xs-12"><h6>Transaction Status: <span class="text-black text-bold">{{receiptData.transactionStatus}}</span></h6></div>
 					</span>
 				</span>
 			</div>
 		</div>
 		<div class="row border-top-lg border-bottom-xlg">
 			<div class="col-xs-12">
-				<h3 class="text-black col-xs-6">Amount Paid</h3>
+				<h3 class="text-black text-bold col-xs-6">Amount Paid</h3>
 				<h3 class="col-xs-6"><span class="pull-right"><span ng-currency ng-currency-symbol></span> {{receiptData.amountPaid}}</span></h3>
 			</div>
 		</div>
 		<div class="col-xs-12">
 			<table class="table table-lg">
 				<thead>
-					<th class="text-black">QTY</th>
-					<th class="text-black">ITEM CODE</th>
-					<th class="text-black">AMOUNT</th>
+					<th class="text-black text-bold">QTY</th>
+					<th class="text-black text-bold">ITEM CODE</th>
+					<th class="text-black text-bold">AMOUNT</th>
 				</thead>
 				<tbody>
 					<tr ng-repeat="item in receiptData.invoiceData.items">
 						<td>{{item.itemQuantity}}</td>
-						<td class="text-black">{{item.BillingTransactionItem}}</td>
+						<td class="text-black text-bold">{{item.BillingTransactionItem}}</td>
 						<td>{{item.itemPrice}}</td>
 					</tr>
 					<tr>
 						<td colspan="1"></td>
-						<td class="text-black">Total</td>
-						<td class="text-black">{{receiptData.invoiceData.totalAmount}}</td>
+						<td class="text-black text-bold">Total</td>
+						<td class="text-black text-bold">{{receiptData.invoiceData.totalAmount}}</td>
 					</tr>
 				</tbody>
 			</table>
