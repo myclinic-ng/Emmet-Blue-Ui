@@ -29,12 +29,14 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.loadPatientTypes = function(categoryId){
-		var requestData = utils.serverRequest("/patients/patient-type/view-by-category?resourceId="+categoryId, "GET");
-		requestData.then(function(response){
-			$scope.patientTypes = response;
-		}, function(responseObject){
-			utils.errorHandler(responseObject);
-		});
+		if (typeof categoryId !== "undefined"){
+			var requestData = utils.serverRequest("/patients/patient-type/view-by-category?resourceId="+categoryId, "GET");
+			requestData.then(function(response){
+				$scope.patientTypes = response;
+			}, function(responseObject){
+				utils.errorHandler(responseObject);
+			});
+		}
 	}
 
 
@@ -48,7 +50,9 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.$watch("patientCategory", function(newValue, oldValue){
-		$scope.loadPatientTypes(newValue);
+		if (typeof newValue !== "undefined"){
+			$scope.loadPatientTypes(newValue);	
+		}
 	})
 
 	$scope.loadPatientCategories();
@@ -194,7 +198,7 @@ angular.module("EmmetBlue")
 			$("#patientTable").removeClass("col-md-12").addClass("col-md-3");
 			$scope.profileSelected = true;
 		}
-		if (typeof(id) === "undefined"){
+		if (typeof(id) !== "undefined"){
 			var loadProfile = utils.serverRequest("/patients/patient/view?resourceId="+id, "GET");
 
 			loadProfile.then(function(response){

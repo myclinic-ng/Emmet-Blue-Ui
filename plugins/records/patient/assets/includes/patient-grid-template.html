@@ -91,9 +91,9 @@
 				</div>
 				<div class="col-md-9" id="view-patient-{{patientInfo.patientid}}-content-area">
 					<div class="watermark"></div>
-					<ng-patient-card patient-info="patientInfo" ng-show="viewItems.card"></ng-patient-card>
-					<ng-patient-profile patient-info="patientInfo" ng-show="viewItems.profile"></ng-patient-profile>
-					<ng-edit-profile patient-info="patientInfo" ng-show="viewItems.editProfile"></ng-edit-profile>
+					<ng-patient-card patient-info="patientInfo" ng-if="viewItems.card"></ng-patient-card>
+					<ng-patient-profile patient-info="patientInfo" ng-if="viewItems.profile"></ng-patient-profile>
+					<ng-edit-profile patient-info="patientInfo" ng-if="viewItems.editProfile"></ng-edit-profile>
 				</div>
 			</div>
 			<div class="modal-footer">

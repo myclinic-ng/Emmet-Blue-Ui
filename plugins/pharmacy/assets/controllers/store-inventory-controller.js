@@ -122,7 +122,7 @@ angular.module("EmmetBlue")
 		});
 	}
 
-	loadInventoryItems();
+	// loadInventoryItems();
 
 	$scope.selectedItems = {};
 

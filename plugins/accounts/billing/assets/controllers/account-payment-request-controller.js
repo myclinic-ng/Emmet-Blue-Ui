@@ -98,11 +98,11 @@ angular.module("EmmetBlue")
 			},
 			paymentAccepted:function(){
 				utils.alert("Operation Successful", "The selected Payment Request has been Accepted successfully", "success", "notify");
-				$scope.dtInstance.reloadData();
+				$scope.dtInstance.rerender();
 			},
 			paymentRequestDeleted:function(){
 				utils.alert("Operation Successful", "The selected Payment Request has been deleted successfully", "success", "notify");
-				$scope.dtInstance.reloadData();
+				$scope.dtInstance.rerender();
 			},
 			verifyPaymentRequestForm:function(){
 				$('#verify_payment').modal('show');
@@ -178,15 +178,16 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.reloadTable = function(){
-		$scope.dtInstance.reloadData();
+		$scope.dtInstance.rerender();
 	}
 
 	$scope.loadRequests = function(){
-		$scope.dtInstance.reloadData();
+		$scope.dtInstance.rerender();
 	}
 	$scope.dtInstance = {};
 	$scope.dtOptions = utils.DT.optionsBuilder
-	.fromFnPromise(function(){
+	.newOptions()
+	.withFnServerData(function(source, data, callback, settings){
 		var url = '/accounts-biller/payment-request/load-all-requests?';
 		var filter = $scope.requestFilter;
 		var _filter = "";
@@ -209,13 +210,36 @@ angular.module("EmmetBlue")
 
 		}
 
+		var draw = data[0].value;
+        var order = data[2].value;
+        var start = data[3].value;
+        var length = data[4].value;
+
 		$scope.currentRequestsFilter = _filter;
-		var requests = utils.serverRequest(url+_filter, 'GET');
-		return requests;
+		url = url+_filter+'&paginate&from='+start+'&size='+length;
+		if (typeof data[5] !== "undefined" && data[5].value.value != ""){
+			url += "&keywordsearch="+data[5].value.value;
+		}
+		var requests = utils.serverRequest(url, 'GET');
+		
+		requests.then(function(response){
+			var records = {
+				data: response.data,
+				draw: draw,
+				recordsTotal: response.total,
+				recordsFiltered: response.filtered
+			};
+
+			callback(records);
+		}, function(error){
+			utils.errorHandler(error);
+		});
 	})
+	.withDataProp('data')
+	.withOption('processing', true)
+	.withOption('serverSide', true)
+	.withOption('paging', true)
 	.withPaginationType('full_numbers')
-	.withDisplayLength(50)
-	.withFixedHeader()
 	.withOption('createdRow', function(row, data, dataIndex){
 		utils.compile(angular.element(row).contents())($scope);
 	})

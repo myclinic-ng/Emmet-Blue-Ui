@@ -136,7 +136,7 @@ angular.module("EmmetBlue")
 										"<a href='#'><img src='"+image+"' class='img-circle img-xs' alt=''></a>"+
 									"</div>"+
 									"<div class='media-left'>"+
-										"<div class=''><span class='label bg-success-400'>Verified</span></div>"+
+										"<div class=''><span class='label bg-success-400'>Closed</span></div>"+
 										"<div class='text-muted text-size-small'>"+
 											"<span class='status-mark border-success position-left'></span>"+
 											data.StatusStaffFullName+

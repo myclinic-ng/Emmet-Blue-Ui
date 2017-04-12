@@ -16,10 +16,36 @@ angular.module("EmmetBlue")
 	
 	$scope.dtInstance = {};
 	$scope.dtOptions = utils.DT.optionsBuilder
-	.fromFnPromise(function(){
-		var dispensations = utils.serverRequest('/pharmacy/pharmacy-request/view', 'GET');
-		return dispensations;
+	.newOptions()
+	.withFnServerData(function(source, data, callback, settings){
+		var draw = data[0].value;
+        var order = data[2].value;
+        var start = data[3].value;
+        var length = data[4].value;
+
+        var url = '/pharmacy/pharmacy-request/view?resourceId=0&paginate&from='+start+'&size='+length;
+		if (typeof data[5] !== "undefined" && data[5].value.value != ""){
+			url += "&keywordsearch="+data[5].value.value;
+		}
+
+		var dispensations = utils.serverRequest(url, 'GET');
+		dispensations.then(function(response){
+			var records = {
+				data: response.data,
+				draw: draw,
+				recordsTotal: response.total,
+				recordsFiltered: response.filtered
+			};
+
+			callback(records);
+		}, function(error){
+			utils.errorHandler(error);
+		});
 	})
+	.withDataProp('data')
+	.withOption('processing', true)
+	.withOption('serverSide', true)
+	.withOption('paging', true)
 	.withPaginationType('full_numbers')
 	.withDisplayLength(10)
 	.withFixedHeader()
