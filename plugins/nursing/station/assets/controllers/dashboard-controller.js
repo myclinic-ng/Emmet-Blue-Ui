@@ -28,6 +28,10 @@ angular.module("EmmetBlue")
 				$("#_payment_request").modal("show");
 				break;
 			}
+			case "prescription-request":{
+				$("#_pharmacy_request").modal("show");
+				break;
+			}
 			case "view-statistics":{
 				$scope.pageSegment = urlPart+"manage-invoices/view-statistics.html";
 				break;

@@ -7,6 +7,7 @@
 	<ul class="nav navbar-nav">
 		<li><a href="nursing/station/dashboard"><i class="icon-display4 position-left"></i> Dashboard</a></li>
 		<li><a href="nursing/station/pharmacy-requests"><i class="fa fa-group"></i> Pharmacy Requests / Treatment Chart Register</a></li>
+		<li><a href="#" data-toggle="modal" data-target="#_pharmacy_request"><i class="fa fa-plus"></i> Create Pharmacy Request</a></li>
 		<li><a href="nursing/station/patient-info"><i class="fa fa-archive"></i> Load Patient Library</a></li>
 	</ul>
 
@@ -143,6 +144,43 @@
 										<button class="btn btn-warning btn-lg" type="button" ng-click="verifyPayment(paymentRequestNumber)"> <i class="icon-file"></i> verify</button>
 									</span>
 								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="_pharmacy_request" class="modal fade" ng-controller="nursingStationPharmacyRequestController">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header bg-warning">
+				<button type="button" class="close" data-dismiss="modal">&times; close</button>
+				<h6 class="modal-title">Prescription Requests</h6>
+			</div>
+			<div class="modal-body">
+				<div class="tabbable">
+					<ul class="nav nav-tabs nav-tabs-highlight nav-justified">
+						<li class="active"><a href="#presc-request-new" data-toggle="tab">create new request</a></li>
+					</ul>
+
+					<div class="tab-content">
+						<div class="tab-pane active" id="presc-request-new">
+							<div class="form-group">
+								<div class="input-group">
+									<input class="form-control input-lg" placeholder="Enter patients hospital number" type="search" data-popup="tooltip" data-trigger="focus" ng-model="search.query"/>
+									<span class="input-group-btn">
+										<button class="btn btn-warning btn-lg" type="button" ng-click="search(true)"> <i class="{{searched.searchIcon}}"></i></button>
+									</span>
+								</div>
+							</div>
+
+							<div ng-if="!requestForm.showSearchResult" class="row">
+								<h1 class="text-center text-black">{{requestForm.currentPatientProfile.patientfullname}}</h1>
+								<p class="text-center text-muted">{{requestForm.currentPatientProfile.patienttypename}},{{requestForm.currentPatientProfile.categoryname}}</p>
+								<ng-pharmacy-request-form patient-id="requestForm.currentPatientProfile.patientid" class="col-md-12"></ng-pharmacy-request-form>
 							</div>
 						</div>
 					</div>

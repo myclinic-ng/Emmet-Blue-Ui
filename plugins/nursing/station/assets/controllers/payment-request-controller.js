@@ -129,3 +129,53 @@ angular.module("EmmetBlue")
 		})
 	}
 })
+
+.controller("nursingStationPharmacyRequestController", function($scope, utils, patientEventLogger){
+	$scope.loadImage = utils.loadImage;
+	$scope.requestForm = {
+		showSearchResult: true
+	}
+	$scope.searched = {
+		searchIcon: "fa fa-search"
+	}
+
+	function search(url, query){
+		$scope.requestForm.showSearchResult = true;
+		$scope.searched.searchIcon = "fa fa-spinner fa-spin";
+		var request = utils.serverRequest(url+"?query="+query+"&size=1&from=0", "GET");
+
+		request.then(function(response){
+			if (typeof response.hits.hits[0] !== "undefined" && typeof response.hits.hits[0]["_source"] !== 'undefined'){
+				response = response.hits.hits[0];
+				response = response["_source"];
+				$scope.showRequestForm(response);
+				$scope.searched.searchIcon = "icon-search4";
+			}
+			else {
+				$scope.searched.searchIcon = "icon-search4";
+				utils.notify("Patient not found", "The specified patient hospital number does not exist, please check for errors and try again", "warning");
+			}
+		}, function(response){
+			utils.errorHandler(response);
+			$scope.searched.searchIcon = "icon-search4";
+		})
+	}
+
+	$scope.search = function(newSearch = false){
+		var query = $scope.search.query;
+
+		if (newSearch){
+			$scope.searched.fromCounter = 0;
+		}
+
+		search("/patients/patient/search", query);
+		utils.storage.currentPaymentRequest = "";
+	}
+
+	$scope.showRequestForm = function(patient){
+		$scope.requestForm.showSearchResult = false;
+		$scope.requestForm.currentPatientProfile = patient;
+		$scope.paymentRequestItems = [];
+		$scope.search.query = "";
+	}
+})
