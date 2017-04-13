@@ -1,6 +1,7 @@
 angular.module("EmmetBlue")
 
 .controller('labPatientManagementController', function($scope, utils, $rootScope){
+	$scope.loadImage = utils.loadImage;
 	var actions = function (data, type, full, meta){
 		var editButtonAction = "managePatient('edit', "+data.PatientLabNumber+")";
 		var deleteButtonAction = "managePatient('delete', "+data.PatientLabNumber+")";
@@ -60,7 +61,24 @@ angular.module("EmmetBlue")
 	$scope.dtColumns = [
 		utils.DT.columnBuilder.newColumn('PatientLabNumber').withTitle("Lab Number"),
 		utils.DT.columnBuilder.newColumn('LabName').withTitle("Required Lab"),
-		utils.DT.columnBuilder.newColumn('FullName').withTitle("Patient"),
+		
+		utils.DT.columnBuilder.newColumn(null).withTitle("Patient").renderWith(function(data, a, b){
+			var image = $scope.loadImage(data.PatientPicture);
+			var html = "<td>"+
+							"<div class='media-left media-middle'>"+
+								"<a href='#'><img src='"+image+"' class='img-circle img-xs' alt=''></a>"+
+							"</div>"+
+							"<div class='media-left'>"+
+								"<div class=''><a href='#' class='text-black'>"+data.FullName+"</a></div>"+
+								"<div class='text-semibold text-danger'>"+
+									data.PatientUUID+
+									"<br/><span class='text-muted'>"+data.PatientTypeName+"("+data.CategoryName+")</span>"+
+								"</div>"+
+							"</div>"+
+						"</td>";
+
+			return html;
+		}),
 		utils.DT.columnBuilder.newColumn('InvestigationTypeName').withTitle("Investigation Required"),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Registration Date").renderWith(function(data, b, c){
 			return (new Date(data.RegistrationDate)).toDateString()+ " "+ (new Date(data.RegistrationDate)).toLocaleTimeString()

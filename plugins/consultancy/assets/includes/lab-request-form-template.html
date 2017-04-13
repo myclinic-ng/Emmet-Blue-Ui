@@ -49,592 +49,715 @@
 			<input type="text" class="form-control" ng-model="today"/>
 		</div>
 	</div>
-	<div class="col-md-4">
-		<div class="table-responsive">
-			<table class="table table-hover table-condensed lab-table">
-				<thead>
-					<th colspan="2" class="text-center text-black">HAEMATOLOGY</th>
-				</thead>
-				<tbody>
-					<tr>
-						<td>HB</td>
-						<td>g/dl (11 - 18)</td>
-					</tr>
-					<tr>
-						<td>PCV</td>
-						<td>%</td>
-					</tr>
-					<tr>
-						<td>WBC</td>
-						<td>10/9 (4 - 11)</td>
-					</tr>
-					<tr>
-						<td>MCHC</td>
-						<td>g/dl (32 - 35)</td>
-					</tr>
-					<tr>
-						<td>PLATELETS</td>
-						<td>10/91 (150 - 400)</td>
-					</tr>
-					<tr>
-						<td>E. S. R.</td>
-						<td>mm/hr (<20)</td>
-					</tr>
+	<div class="tabbable">
+		<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
+			<li class="active"><a href="#gen-lab-form" data-toggle="tab">General Lab Form</a></li>
+			<li><a href="#seminal-form" data-toggle="tab">Seminal Investigation</a></li>
+		</ul>
 
-					<tr>
-						<th colspan="2" class="text-center text-black">DIFFERENTIALS</th>
-					</tr>
-					<tr>
-						<td>NEUTROPHILS</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>BASOPHILS</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>LYMPHOCYTES</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>MONOCYTES</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>EOSINOPHILS</td>
-						<td></td>
-					</tr>
+		<div class="tab-content">
+			<div class="tab-pane active" id="gen-lab-form">
+				<div>
+					<div class="col-md-4">
+						<div class="table-responsive">
+							<table class="table table-hover table-condensed lab-table">
+								<thead>
+									<th colspan="2" class="text-center text-black">HAEMATOLOGY</th>
+								</thead>
+								<tbody>
+									<tr>
+										<td>HB</td>
+										<td>g/dl (11 - 18)</td>
+									</tr>
+									<tr>
+										<td>PCV</td>
+										<td>%</td>
+									</tr>
+									<tr>
+										<td>WBC</td>
+										<td>10/9 (4 - 11)</td>
+									</tr>
+									<tr>
+										<td>MCHC</td>
+										<td>g/dl (32 - 35)</td>
+									</tr>
+									<tr>
+										<td>PLATELETS</td>
+										<td>10/91 (150 - 400)</td>
+									</tr>
+									<tr>
+										<td>E. S. R.</td>
+										<td>mm/hr (&lt; 20)</td>
+									</tr>
 
-					<tr>
-						<th colspan="2" class="text-center text-black">RBC MORPHOLOGY</th>
-					</tr>
-					<tr>
-						<td>ANISOCYTOSIS</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>HYPOCHROMA</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>SICKLE CELLS</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>TARGET CELLS</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>SPHEROCYTOSIS</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>BLEEDING TIME</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>CLOTTING TIME</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>BLOOD GROUP</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>GENOTYPE</td>
-						<td></td>
-					</tr>
-				</tbody>
-			</table>
+									<tr>
+										<th colspan="2" class="text-center text-black">DIFFERENTIALS</th>
+									</tr>
+									<tr>
+										<td>NEUTROPHILS</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>BASOPHILS</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>LYMPHOCYTES</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>MONOCYTES</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>EOSINOPHILS</td>
+										<td></td>
+									</tr>
 
-			<table class="table table-hover table-condensed lab-table">
-				<thead>
-					<th colspan="2" class="text-center text-black">IMMUNOLOGY</th>
-				</thead>
-				<tbody>
-					<tr>
-						<td>HCG</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>HBS Ag</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>ELISA SCREENING</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>HCV</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>HAV</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>PSA</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>OVULATION</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>CD4+ COUNT</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>MAN TOUX TEST</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>V. D. R. L.</td>
-						<td></td>
-					</tr>
-				</tbody>
-			</table>
+									<tr>
+										<th colspan="2" class="text-center text-black">RBC MORPHOLOGY</th>
+									</tr>
+									<tr>
+										<td>ANISOCYTOSIS</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>HYPOCHROMA</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>SICKLE CELLS</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>TARGET CELLS</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>SPHEROCYTOSIS</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>BLEEDING TIME</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>CLOTTING TIME</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>BLOOD GROUP</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>GENOTYPE</td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
 
-			<table class="table table-hover table-condensed table-bordered lab-table">
-				<thead>
-					<th class="text-center text-black">WIDAL TEST</th>
-					<th class="text-center">O</th>
-					<th class="text-center">H</th>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Salmonella Typhi</td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>Salmonella Paratyphi A</td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>Salmonella Paratyphi B</td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>Salmonella Paratyphi C</td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td colspan="2">Significant for litres > 1.80</td>
-						<td></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
+							<table class="table table-hover table-condensed lab-table">
+								<thead>
+									<th colspan="2" class="text-center text-black">IMMUNOLOGY</th>
+								</thead>
+								<tbody>
+									<tr>
+										<td>HCG</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>HBS Ag</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>ELISA SCREENING</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>HCV</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>HAV</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>PSA</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>OVULATION</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>CD4+ COUNT</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>MAN TOUX TEST</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>V. D. R. L.</td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
 
+							<table class="table table-hover table-condensed table-bordered lab-table">
+								<thead>
+									<th class="text-center text-black">WIDAL TEST</th>
+									<th class="text-center">O</th>
+									<th class="text-center">H</th>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Salmonella Typhi</td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>Salmonella Paratyphi A</td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>Salmonella Paratyphi B</td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>Salmonella Paratyphi C</td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td colspan="2">Significant for litres > 1.80</td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="table-responsive">
+							<table class="table table-hover table-condensed lab-table">
+								<thead>
+									<th colspan="3" class="text-center text-black">URINALYSIS</th>
+								</thead>
+								<tbody>
+									<tr>
+										<td>PH:</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>PROTEIN</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>GLUCOSE</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>KETONES</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>BILIRUBIN</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>UROBILINOGEN</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>BLOOD</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>NITRATE</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>ASCORBIC ACID</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>S. G.</td>
+										<td></td>
+									</tr>
 
-	<div class="col-md-4">
-		<div class="table-responsive">
-			<table class="table table-hover table-condensed lab-table">
-				<thead>
-					<th colspan="3" class="text-center text-black">URINALYSIS</th>
-				</thead>
-				<tbody>
-					<tr>
-						<td>PH:</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>PROTEIN</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>GLUCOSE</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>KETONES</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>BILIRUBIN</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>UROBILINOGEN</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>BLOOD</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>NITRATE</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>ASCORBIC ACID</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>S. G.</td>
-						<td></td>
-					</tr>
+									<tr>
+										<th colspan="3" class="text-center text-black">UREA &amp; ELECTROLYTES</th>
+									</tr>
+									<tr>
+										<td class="text-center">UNITS</td>
+										<td class="text-center">SAMPLE</td>
+										<td class="text-center">RANGE</td>
+									</tr>
+									<tr>
+										<td>UREA (mmol/L)</td>
+										<td></td>
+										<td>25 - 6.5</td>
+									</tr>
+									<tr>
+										<td>SODIUM</td>
+										<td></td>
+										<td>136 - 146</td>
+									</tr>
+									<tr>
+										<td>POTASSIUM</td>
+										<td></td>
+										<td>3.5 - 5.0</td>
+									</tr>
+									<tr>
+										<td>CHLORIDE</td>
+										<td></td>
+										<td>95 - 108</td>
+									</tr>
+									<tr>
+										<td>BICARBONATE</td>
+										<td></td>
+										<td>24 - 32</td>
+									</tr>
+									<tr>
+										<td>CREANINE (/umi/i)</td>
+										<td></td>
+										<td> 9 - 126</td>
+									</tr>
 
-					<tr>
-						<th colspan="3" class="text-center text-black">UREA &amp; ELECTROLYTES</th>
-					</tr>
-					<tr>
-						<td class="text-center">UNITS</td>
-						<td class="text-center">SAMPLE</td>
-						<td class="text-center">RANGE</td>
-					</tr>
-					<tr>
-						<td>UREA (mmol/L)</td>
-						<td></td>
-						<td>25 - 6.5</td>
-					</tr>
-					<tr>
-						<td>SODIUM</td>
-						<td></td>
-						<td>136 - 146</td>
-					</tr>
-					<tr>
-						<td>POTASSIUM</td>
-						<td></td>
-						<td>3.5 - 5.0</td>
-					</tr>
-					<tr>
-						<td>CHLORIDE</td>
-						<td></td>
-						<td>95 - 108</td>
-					</tr>
-					<tr>
-						<td>BICARBONATE</td>
-						<td></td>
-						<td>24 - 32</td>
-					</tr>
-					<tr>
-						<td>CREANINE (/umi/i)</td>
-						<td></td>
-						<td> 9 - 126</td>
-					</tr>
+									<tr>
+										<th colspan="3" class="text-center text-black">LIVER FUNCTION TESTS</th>
+									</tr>
+									<tr>
+										<td class="text-center">UNITS</td>
+										<td class="text-center">SAMPLE</td>
+										<td class="text-center">RANGE</td>
+									</tr>
+									<tr>
+										<td>SGOT /(AST)IU/L</td>
+										<td></td>
+										<td>5 - 21</td>
+									</tr>
+									<tr>
+										<td>SGOT (ALT)</td>
+										<td></td>
+										<td>16 - 40</td>
+									</tr>
+									<tr>
+										<td>ALK, PHOS (KAU)</td>
+										<td></td>
+										<td>21 - 92</td>
+									</tr>
+									<tr>
+										<td>CONJ BIL. (UMO/L)</td>
+										<td></td>
+										<td>0 - 4</td>
+									</tr>
+									<tr>
+										<td>TOTAL BILLIRUBIN</td>
+										<td></td>
+										<td>4 - 17</td>
+									</tr>
 
-					<tr>
-						<th colspan="3" class="text-center text-black">LIVER FUNCTION TESTS</th>
-					</tr>
-					<tr>
-						<td class="text-center">UNITS</td>
-						<td class="text-center">SAMPLE</td>
-						<td class="text-center">RANGE</td>
-					</tr>
-					<tr>
-						<td>SGOT /(AST)IU/L</td>
-						<td></td>
-						<td>5 - 21</td>
-					</tr>
-					<tr>
-						<td>SGOT (ALT)</td>
-						<td></td>
-						<td>16 - 40</td>
-					</tr>
-					<tr>
-						<td>ALK, PHOS (KAU)</td>
-						<td></td>
-						<td>21 - 92</td>
-					</tr>
-					<tr>
-						<td>CONJ BIL. (UMO/L)</td>
-						<td></td>
-						<td>0 - 4</td>
-					</tr>
-					<tr>
-						<td>TOTAL BILLIRUBIN</td>
-						<td></td>
-						<td>4 - 17</td>
-					</tr>
+									<tr>
+										<th colspan="3" class="text-center text-black">BLOOD GLUCOSE</th>
+									</tr>
+									<tr>
+										<td class="text-center">UNITS</td>
+										<td class="text-center">SAMPLE</td>
+										<td class="text-center">RANGE</td>
+									</tr>
+									<tr>
+										<td>FASTING (MMOL/L)</td>
+										<td></td>
+										<td>2.5 - 7.0</td>
+									</tr>
+									<tr>
+										<td>2HPP</td>
+										<td></td>
+										<td>2.5 - 7.0</td>
+									</tr>
+									<tr>
+										<td>RANDOM</td>
+										<td></td>
+										<td>2.5 - 8.0</td>
+									</tr>
 
-					<tr>
-						<th colspan="3" class="text-center text-black">BLOOD GLUCOSE</th>
-					</tr>
-					<tr>
-						<td class="text-center">UNITS</td>
-						<td class="text-center">SAMPLE</td>
-						<td class="text-center">RANGE</td>
-					</tr>
-					<tr>
-						<td>FASTING (MMOL/L)</td>
-						<td></td>
-						<td>2.5 - 7.0</td>
-					</tr>
-					<tr>
-						<td>2HPP</td>
-						<td></td>
-						<td>2.5 - 7.0</td>
-					</tr>
-					<tr>
-						<td>RANDOM</td>
-						<td></td>
-						<td>2.5 - 8.0</td>
-					</tr>
+									<tr>
+										<th colspan="3" class="text-center text-black">MISCELLANEOUS TESTS</th>
+									</tr>
+									<tr>
+										<td class="text-center">UNITS</td>
+										<td class="text-center">SAMPLE</td>
+										<td class="text-center">RANGE</td>
+									</tr>
+									<tr>
+										<td>CALCIUM (MMOL/L)</td>
+										<td></td>
+										<td>2.W5 - 2.75</td>
+									</tr>
+									<tr>
+										<td>INORG PHOS</td>
+										<td></td>
+										<td>0.8 - 14</td>
+									</tr>
+									<tr>
+										<td>URIC ACID (/UMOL)</td>
+										<td></td>
+										<td>120 - 420</td>
+									</tr>
+									<tr>
+										<td>AMYLASE (CU)</td>
+										<td></td>
+										<td>200 - 600</td>
+									</tr>
+									<tr>
+										<td>CHOLESTEROL (MMO/L)</td>
+										<td></td>
+										<td>2.5 - 6.25</td>
+									</tr>
+									<tr>
+										<td>OTHER</td>
+										<td colspan="2"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="table-responsive">
+							<table class="table table-hover table-condensed lab-table">
+								<thead>
+									<th colspan="2" class="text-center text-black">URINE MICROSCOPY</th>
+								</thead>
+								<tbody>
+									<tr>
+										<td>PUS CELLS</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>RED BLOOD CELLS</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>EPITHELIAL CELLS</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>YEAST CELLS</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>CRYSTALS</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>OVA</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>OTHERS</td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 
-					<tr>
-						<th colspan="3" class="text-center text-black">MISCELLANEOUS TESTS</th>
-					</tr>
-					<tr>
-						<td class="text-center">UNITS</td>
-						<td class="text-center">SAMPLE</td>
-						<td class="text-center">RANGE</td>
-					</tr>
-					<tr>
-						<td>CALCIUM (MMOL/L)</td>
-						<td></td>
-						<td>2.W5 - 2.75</td>
-					</tr>
-					<tr>
-						<td>INORG PHOS</td>
-						<td></td>
-						<td>0.8 - 14</td>
-					</tr>
-					<tr>
-						<td>URIC ACID (/UMOL)</td>
-						<td></td>
-						<td>120 - 420</td>
-					</tr>
-					<tr>
-						<td>AMYLASE (CU)</td>
-						<td></td>
-						<td>200 - 600</td>
-					</tr>
-					<tr>
-						<td>AMYLASE (CU)</td>
-						<td></td>
-						<td>200 - 600</td>
-					</tr>
-					<tr>
-						<td>CHOLESTEROL (MMO/L)</td>
-						<td></td>
-						<td>2.5 - 6.25</td>
-					</tr>
-					<tr>
-						<td>OTHER</td>
-						<td colspan="2"></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
+						<div class="table-responsive">
+							<table class="table table-hover table-condensed lab-table">
+								<thead>
+									<th colspan="2" class="text-center text-black">STOOL MICROSCOPY</th>
+								</thead>
+								<tbody>
+									<tr>
+										<td>CONSISTENCY</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>MUCUS</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>BLOOD</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>OVA</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>CYST</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>OTHERS</td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 
-	<div class="col-md-4">
-		<div class="table-responsive">
-			<table class="table table-hover table-condensed lab-table">
-				<thead>
-					<th colspan="2" class="text-center text-black">URINE MICROSCOPY</th>
-				</thead>
-				<tbody>
-					<tr>
-						<td>PUS CELLS</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>RED BLOOD CELLS</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>EPITHELIAL CELLS</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>YEAST CELLS</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>CRYSTALS</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>OVA</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>OTHERS</td>
-						<td></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+						<div class="table-responsive">
+							<table class="table table-hover table-condensed lab-table">
+								<thead>
+									<th colspan="2" class="text-center text-black">HAEMOPARASITES</th>
+								</thead>
+								<tbody>
+									<tr>
+										<td>MALARIA PARASITES</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>MICROFILARIA</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>SKIN SNIP</td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 
-		<div class="table-responsive">
-			<table class="table table-hover table-condensed lab-table">
-				<thead>
-					<th colspan="2" class="text-center text-black">STOOL MICROSCOPY</th>
-				</thead>
-				<tbody>
-					<tr>
-						<td>CONSISTENCY</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>MUCUS</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>BLOOD</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>OVA</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>CYST</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>OTHERS</td>
-						<td></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+						<div class="table-responsive">
+							<table class="table table-hover table-condensed table-bordered lab-table">
+								<thead>
+									<th colspan="4" class="text-center text-black">CULTURE AND SENSITIVITY</th>
+								</thead>
+								<tbody>
+									<tr>
+										<td colspan="4">ORGANISMS ISOLATED</td>
+									</tr>
+									<tr>
+										<td colspan="4">1.</td>
+									</tr>
+									<tr>
+										<td colspan="4">2.</td>
+									</tr>
+									<tr>
+										<td colspan="4">3.</td>
+									</tr>
+									<tr>
+										<td>SENSITIVITY</td>
+										<td>1</td>
+										<td>2</td>
+										<td>3</td>
+									</tr>
+									<tr>
+										<td>1. AMOXYCILLIN</td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>2. AMPICLOX</td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>3. CIPROFLOXACIN</td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>4. ERYTHROMYCIN</td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>5. GENTAMYCIN</td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>6. ZINNACEF</td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>7. SEPTRIN</td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>8. PEFLOXACIN</td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>9. OFLOXACIN</td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>10. ROCEPHIN</td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>11. AUGEMENTIN</td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>12. CHLORAMPHENICOL</td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>13. SEPTROMYCIN</td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>14. TARIVID</td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>15. SPARFLOXACIN</td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
 
-		<div class="table-responsive">
-			<table class="table table-hover table-condensed lab-table">
-				<thead>
-					<th colspan="2" class="text-center text-black">HAEMOPARASITES</th>
-				</thead>
-				<tbody>
-					<tr>
-						<td>MALARIA PARASITES</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>MICROFILARIA</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>SKIN SNIP</td>
-						<td></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-
-		<div class="table-responsive">
-			<table class="table table-hover table-condensed table-bordered lab-table">
-				<thead>
-					<th colspan="4" class="text-center text-black">CULTURE AND SENSITIVITY</th>
-				</thead>
-				<tbody>
-					<tr>
-						<td colspan="4">ORGANISMS ISOLATED</td>
-					</tr>
-					<tr>
-						<td colspan="4">1.</td>
-					</tr>
-					<tr>
-						<td colspan="4">2.</td>
-					</tr>
-					<tr>
-						<td colspan="4">3.</td>
-					</tr>
-					<tr>
-						<td>SENSITIVITY</td>
-						<td>1</td>
-						<td>2</td>
-						<td>3</td>
-					</tr>
-					<tr>
-						<td>1. AMOXYCILLIN</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>2. AMPICLOX</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>3. CIPROFLOXACIN</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>4. ERYTHROMYCIN</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>5. GENTAMYCIN</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>6. ZINNACEF</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>7. SEPTRIN</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>8. PEFLOXACIN</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>9. OFLOXACIN</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>10. ROCEPHIN</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>11. AUGEMENTIN</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>12. CHLORAMPHENICOL</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>13. SEPTROMYCIN</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>14. TARIVID</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>15. SPARFLOXACIN</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-				</tbody>
-			</table>
+			<div class="tab-pane" id="seminal-form">
+				<div>
+					<div class="col-md-6 table-responsive">
+						<table class="table table-hover table-condensed lab-table">
+							<thead>
+								<th colspan="3" class="text-center text-black">Seminal Investigation</th>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Time Produced</td>
+									<td colspan="2"></td>
+								</tr>
+								<tr>
+									<td>Volume</td>
+									<td colspan="2"></td>
+								</tr>
+								<tr>
+									<td>PH</td>
+									<td colspan="2"></td>
+								</tr>
+								<tr>
+									<td>Viscosity</td>
+									<td colspan="2"></td>
+								</tr>
+								<tr>
+									<td>Motility Within</td>
+									<td>
+									<td> Hours of production</td>
+								</tr>
+								<tr>
+									<td>Actively Motile</td>
+									<td>
+									<td> %</td>
+								</tr>
+								<tr>
+									<td>Weakly Motile</td>
+									<td>
+									<td> %</td>
+								</tr>
+								<tr>
+									<td>Non Motile</td>
+									<td>
+									<td> %</td>
+								</tr>
+								<tr>
+									<td>Viability after</td>
+									<td>
+									<td> hours (%)</td>
+								</tr>
+								<tr>
+									<td>Count</td>
+									<td>
+									<td> x10^6 Cells/ml (N/R = > 20 x 10^6 Spermatozoa/ml)</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-md-6">
+						<div class="col-md-12 table-responsive">
+							<table class="table table-hover table-condensed lab-table">
+								<thead>
+									<th colspan="3" class="text-center text-black">Morphology</th>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Normal</td>
+										<td></td>
+										<td> %</td>
+									</tr>
+									<tr>
+										<td>Abnormal</td>
+										<td></td>
+										<td> %</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="col-md-12 table-responsive">
+							<table class="table table-hover table-condensed lab-table">
+								<thead>
+									<th colspan="2" class="text-center text-black">URINE MICROSCOPY</th>
+								</thead>
+								<tbody>
+									<tr>
+										<td>PUS CELLS</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>EPITHELIAL CELLS</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>YEAST CELLS</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>Sperm Cells</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>RBC</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>OTHERS</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>Abnormality</td>
+										<td colspan="2"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
