@@ -1,6 +1,6 @@
 angular.module("EmmetBlue")
 
-.controller('coreController', function($scope, $location, $routeParams, CONSTANTS, utils){
+.controller('coreController', function($scope, $location, $routeParams, CONSTANTS, utils, $cookies){
 	$scope.loadImage = utils.loadImage;
 	$scope.$on('$routeChangeSuccess', function(event, current, previous){
 		var path = ($location.path()).split('/');
@@ -78,9 +78,46 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.showEmmetBlueInfo = function(){
-		utils.alert("Emmetblue "+$scope.currentYear, "This software has been designed for and deployed to St. Gerards Catholic Hospital. Unless stated otherwise, every part of the system is considered a property of Emmetblue and are presently in the closed-source domain with appropriate licenses. Contact an appropriate department for help or samueladeshina73@gmail.com for technical support.", "info");
+		utils.alert("Emmetblue "+$scope.currentYear, "This software has been designed for and deployed to St. Gerard's Catholic Hospital. Unless stated otherwise, every part of the system is considered a property of Emmetblue and are presently in the closed-source domain with appropriate licenses. Contact an appropriate department for help or samueladeshina73@gmail.com for technical support.", "info");
 	}
 
 	checkLogin();
-	loadUserProfile();	
+	loadUserProfile();
+
+	utils.serverRequest("/human-resources/staff-department/view-secondary-departments?resourceId="+utils.userSession.getID(), "GET")
+	.then(function(response){
+		$scope.switchableDepartments = response;
+	}, function(error){
+		utils.errorHandler(error);
+	})
+
+	function updateCookieDashboardUrl(url){
+		var cookie = $cookies.getObject(utils.globalConstants.USER_COOKIE_IDENTIFIER);
+		cookie.dashboard = url;
+		$cookies.putObject(utils.globalConstants.USER_COOKIE_IDENTIFIER, cookie);
+		
+		$location.path(url);
+	}
+
+	$scope.switch = function(id){
+		var data = {
+			"staff": utils.userSession.getID(),
+			"department":id
+		};
+
+		utils.serverRequest("/user/account/get-switch-data", "POST", data)
+		.then(function(response){
+			updateCookieDashboardUrl(response.Url);
+		}, function(error){
+			utils.errorHandler(error);
+		})
+	}
+
+	$scope.returnToPrimaryDept = function(){
+		utils.serverRequest("/human-resources/staff/view-root-url?resourceId="+utils.userSession.getID(), "GET").then(function(response){
+			updateCookieDashboardUrl(response.Url);
+		}, function(error){
+			utils.errorHandler(error);
+		})
+	}
 });

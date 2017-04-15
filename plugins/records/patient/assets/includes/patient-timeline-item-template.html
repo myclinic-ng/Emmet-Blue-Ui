@@ -3,8 +3,7 @@
 		<h1 class="{{eventData.eventicon}}" style="font-size: 2em"></h1>
 	</span>
 	<span class="col-md-11">
-		<p class="text-muted"><i class="fa fa-clock-o"></i> {{dateObject(eventData.eventdate).toDateString()}}, {{dateObject(eventData.eventtime).toLocaleTimeString()}}</p>
+		<p class="text-muted"><i class="fa fa-clock-o"></i> {{dateObject(eventData.eventdate).toDateString()}}, {{dateObject(eventData.eventdate+" "+eventData.eventtime).toLocaleTimeString()}}</p>
 		<h6 class="text-bold"><span class="text-info">{{eventData.eventactor}}</span> {{eventData.eventtext}}: <a class="text-info">#{{eventData.eventlinkid}}</a></h6>
-		<!-- <h3 style="line-height: 0px;"><span ng-currency ng-currency-symbol="naira"></span>4560.00</h3> -->
 	</span>
 </div>

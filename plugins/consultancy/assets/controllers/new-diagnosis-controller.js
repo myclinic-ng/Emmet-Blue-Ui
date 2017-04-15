@@ -734,11 +734,11 @@ angular.module("EmmetBlue")
 			currentSavedDiagnosisID: 0
 		};
 
-		modules.globals.loadRegisteredLabs();
+		// modules.globals.loadRegisteredLabs();
 
-		$scope.$watch(function(){ if (typeof $scope.labTests !== "undefined"){ return $scope.labTests.sendVariables.lab;} }, function(nv){
-			modules.globals.loadRegisteredInvestigationTypes(nv);
-		})
+		// $scope.$watch(function(){ if (typeof $scope.labTests !== "undefined"){ return $scope.labTests.sendVariables.lab;} }, function(nv){
+		// 	modules.globals.loadRegisteredInvestigationTypes(nv);
+		// })
 
 		utils.storage.consultancy = {
 		};
@@ -787,7 +787,7 @@ angular.module("EmmetBlue")
 			examinationTypes: []
 		};
 
-		modules.examination.loadExaminationTypes();
+		// modules.examination.loadExaminationTypes();
 
 		$scope.labTests = {
 			performLabTestSearch: modules.labTests.performLabTestSearch,
@@ -806,8 +806,8 @@ angular.module("EmmetBlue")
 			sendForImagingInvestigation: modules.labTests.sendForImagingInvestigation
 		}
 
-		modules.labTests.testSearchAutoSuggestInit();
-		modules.labTests.loadImagingInvestigations();
+		// modules.labTests.testSearchAutoSuggestInit();
+		// modules.labTests.loadImagingInvestigations();
 		$scope.labTests.searchedTests = {};
 		$scope.labTests.imagingTests = {};
 

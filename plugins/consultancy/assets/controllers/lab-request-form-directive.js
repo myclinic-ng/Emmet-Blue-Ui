@@ -23,6 +23,28 @@ angular.module("EmmetBlue")
 				td.html("<div class='checkbox'><label><input type='checkbox' class='control-primary'/> "+td.html()+"</label></div>")
 			});
 
+			$scope.module = {
+				loadRegisteredLabs: function(){
+					utils.serverRequest('/lab/lab/view', 'GET').then(function(response){
+						$scope.module.registeredLabs = response;
+					}, function(error){
+						utils.errorHandler(error);
+					})
+				},
+				loadRegisteredInvestigationTypes: function(lab){
+					utils.serverRequest('/lab/investigation-type/view-by-lab?resourceId='+lab, 'GET').then(function(response){
+						$scope.module.registeredInvestigationTypes = response;
+					}, function(error){
+						utils.errorHandler(error);
+					})
+				}
+			}
+
+			$scope.module.loadRegisteredLabs();
+			$scope.$watch(function(){ if (typeof $scope.module.lab !== "undefined"){ return $scope.module.lab;} }, function(nv){
+				$scope.module.loadRegisteredInvestigationTypes(nv);
+			})
+
 			$scope.submit = function(){
 				$scope.showSubmitLoader = true;
 				var reqs = [];
@@ -49,6 +71,15 @@ angular.module("EmmetBlue")
 						}
 					});
 				});
+
+				$(".invCheck").each(function(){
+					var checked = $(this).prop("checked");
+
+					if (checked){
+						reqs.push($.trim($(this).parent().text()));
+						$(this).attr("checked", "checked");
+					}
+				})
 
 				if (typeof $scope.investigations !== "undefined"){
 					reqs.push($scope.investigations);
@@ -82,6 +113,7 @@ angular.module("EmmetBlue")
 			    })
 			    .catch(function (error) {
 					$scope.showSubmitLoader = false;
+					console.log(error);
 			        utils.notify('oops, something went wrong!', 'Unable to process request', "error");
 			    });
 			}
