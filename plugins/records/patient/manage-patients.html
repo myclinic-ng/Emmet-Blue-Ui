@@ -33,7 +33,6 @@
 	});
 	$(".date").datepicker();
 </script>
-<script src="assets/js/core/app.js"></script>
 
 <div ng-controller="recordsPatientManagePatientsController as ctrller">
 	<div class="col-md-3">
@@ -52,7 +51,9 @@
 						<div class="category-content">
 							<div class="row row-condensed">
 								<div class="col-xs-6">
-									<button type="button" class="btn bg-teal-400 btn-block btn-float btn-float-lg" data-toggle="modal" data-target="#new_patient" data-backdrop="static"><i class="icon-file-plus"></i> <span>Patient Registration</span></button>
+									<button type="button" class="btn bg-teal-400 btn-block btn-float btn-float-lg" data-toggle="modal" data-target="#new_patient" data-backdrop="static" ng-click="loadDeps = true">
+										<i class="icon-file-plus"></i> <span>Patient Registration</span>
+									</button>
 								</div>
 								
 								<div class="col-xs-6">
@@ -125,15 +126,6 @@
 					<form role="form">
 						<div class="col-md-8">
 							<fieldset>
-								<!-- <legend>
-									<div class="btn-group">
-										<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#patient_hospital_history" data-backdrop="static" data-keyboard="false"><i class="fa fa-building-o"></i> Hospital History</button>
-										<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#patient_diagnosis" data-backdrop="static" data-keyboard="false"><i class="fa fa-bed"></i> Diagnosis</button>
-										<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#patient_operation" data-backdrop="static" data-keyboard="false"><i class="fa fa-bed"></i> Operation</button>
-										<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#patient_process_check" data-backdrop="static" data-keyboard="false""><i class="fa fa-bed"></i> Process Check</button>
-									</div>
-								</legend> -->
-
 								<div class="row">
 									<div class="form-group col-sm-3">
 										<label>Patient Category </label>
@@ -307,313 +299,6 @@
 		</div>
 	</div>
 
-	<!-- <div id="patient_hospital_history" class="modal fade">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header bg-warning">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h6 class="modal-title">Hospital History Information</h6>
-				</div>
-
-				<div class="modal-body">
-					<div class="row table-responsive">
-						<fieldset>
-							<div class="form-group col-md-4">
-								<label class="control-label">Discharged To</label>
-								<input type="text" class="form-control" ng-model="hospitalHistory.dischargedTo"/>
-							</div>
-							<div class="form-group col-md-4">
-								<label class="control-label">Referred By</label>
-								<input type="text" class="form-control" ng-model="hospitalHistory.referredBy"/>
-							</div>
-							<div class="form-group col-md-4">
-								<label class="control-label">Physician or Surgeon</label>
-								<input type="text" class="form-control" ng-model="hospitalHistory.physician"/>
-							</div>
-							<div class="form-group col-md-3">
-								<label class="control-label">Ward or Clinic</label>
-								<input type="text" class="form-control" ng-model="hospitalHistory.ward"/>
-							</div>
-							<div class="form-group col-md-3">
-								<label class="control-label">Date attended or admitted</label>
-								<input type="date" class="form-control" ng-model="hospitalHistory.dateAttended"/>
-							</div>
-							<div class="form-group col-md-3">
-								<label class="control-label">Date Discharged</label>
-								<input type="date" class="form-control" ng-model="hospitalHistory.dateDischarged"/>
-							</div>
-							<div class="form-group col-md-3">
-								<label class="control-label">Health Condition</label>
-								<select class="select" ng-model="hospitalHistory.healthCondition">
-									<option value="Cured" selected="selected">Cured</option>
-									<option value="Improved">Improved</option>
-									<option value="Not Improved">Not Improved</option>
-									<option value="Transferred">Transferred</option>
-									<option value="Absconded">Absconded</option>
-									<option value="Died">Died</option>
-								</select>
-							</div>
-							<div class="form-group pull-right">
-								<button class="btn btn-warning" ng-click="submitHospitalHistory()"><i class="icon-plus"></i> Add to list</button>
-							</div>
-						</fieldset>
-						<table class="col-md-12 table table-bordered table-condensed">
-							<thead>
-								<tr class="warning">
-									<th>S/N</th>
-									<th>Date attended/admitted</th>
-									<th>Referred By</th>
-									<th>Physician/Surgeon</th>
-									<th>Ward/Clinic</th>
-									<th>Date Discharged</th>
-									<th>Discharged To</th>
-									<th>Condition</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr ng-repeat="history in newPatient.hospitalHistory">
-									<td>{{$index+1}}</td>
-									<td contenteditable="">{{history.dateAttended}}</td>
-									<td contenteditable="">{{history.referredBy}}</td>
-									<td contenteditable="">{{history.physician}}</td>
-									<td contenteditable="">{{history.ward}}</td>
-									<td contenteditable="">{{history.dateDischarged}}</td>
-									<td contenteditable="">{{history.dischargedTo}}</td>
-									<td contenteditable="">{{history.healthCondition}}</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="">Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div id="patient_diagnosis" class="modal fade">
-		<div class="modal-dialog modal-mini">
-			<div class="modal-content">
-				<div class="modal-header bg-warning">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h6 class="modal-title">Diagnosis Information</h6>
-				</div>
-
-				<div class="modal-body">
-					<div class="row table-responsive">
-						<fieldset>
-							<div class="form-group col-md-6">
-								<label class="control-label">Diagnosis Date</label>
-								<input type="text" class="form-control" ng-model="diagnosis.date"/>
-							</div>
-							<div class="form-group col-md-6">
-								<label class="control-label">Code Number</label>
-								<input type="text" class="form-control" ng-model="diagnosis.codeNumber"/>
-							</div>
-							<div class="form-group col-md-12">
-								<label class="control-label">Diagnosis</label>
-								<textarea class="form-control" ng-model="diagnosis.diagnosis"></textarea>
-							</div>
-							<div class="form-group pull-right">
-								<button class="btn btn-warning" ng-click="submitDiagnosis()"><i class="icon-list"></i> Add to list</button>
-							</div>
-						</fieldset>
-						<table class="col-md-12 table table-bordered table-condensed">
-							<thead>
-								<tr class="warning">
-									<th>S/N</th>
-									<th>Diagnosis Date</th>
-									<th>Code Number</th>
-									<th>Diagnosis</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr ng-repeat="diagnosis in newPatient.diagnosis">
-									<td contenteditable="">{{$index+1}}</td>
-									<td contenteditable="">{{diagnosis.date}}</td>
-									<td contenteditable="">{{diagnosis.codeNumber}}</td>
-									<td contenteditable="">{{diagnosis.diagnosis}}</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click=""> <i class="fa fa-times-circle-o"></i> Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div id="patient_operation" class="modal fade">
-		<div class="modal-dialog modal-mini">
-			<div class="modal-content">
-				<div class="modal-header bg-warning">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h6 class="modal-title">Operation Information</h6>
-				</div>
-
-				<div class="modal-body">
-					<div class="row table-responsive">
-						<fieldset>
-							<div class="form-group col-md-6">
-								<label class="control-label">Operation Date</label>
-								<input type="date" class="form-control" ng-model="operation.date"/>
-							</div>
-							<div class="form-group col-md-6">
-								<label class="control-label">Code Number</label>
-								<input type="text" class="form-control" ng-model="operation.codeNumber"/>
-							</div>
-							<div class="form-group col-md-12">
-								<label class="control-label">Operation</label>
-								<textarea class="form-control" ng-model="operation.operation"></textarea>
-							</div>
-							<div class="form-group pull-right">
-								<button class="btn btn-warning" ng-click="submitOperation()"><i class="icon-list"></i> Add to list</button>
-							</div>
-						</fieldset>
-						<table class="col-md-12 table table-bordered table-condensed">
-							<thead>
-								<tr class="warning">
-									<th>S/N</th>
-									<th>Operation Date</th>
-									<th>Code Number</th>
-									<th>Operation</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr ng-repeat="operation in newPatient.operation">
-									<td contenteditable="">{{$index+1}}</td>
-									<td contenteditable="">{{operation.date}}</td>
-									<td contenteditable="">{{operation.codeNumber}}</td>
-									<td contenteditable="">{{operation.operation}}</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click=""><i class="fa fa-times-circle-o"></i> Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div id="patient_process_check" class="modal fade">
-		<div class="modal-dialog modal-full">
-			<div class="modal-content">
-				<div class="modal-header bg-warning">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h6 class="modal-title">Process Check Information</h6>
-				</div>
-
-				<div class="modal-body">
-					<div class="row table-responsive">
-						<table class="col-md-12 table table-bordered table-condensed">
-							<thead>
-								<tr class="warning">
-									<th>Process Check</th>
-									<th>1<sup>st</sup> Admission Initials/Date</th>
-									<th>2<sup>nd</sup> Admission Initials/Date</th>
-									<th>3<sup>rd</sup> Admission Initials/Date</th>
-									<th>4<sup>th</sup> Admission Initials/Date</th>
-									<th>5<sup>th</sup> Admission Initials/Date</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<th>Arrangement</th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-								</tr>
-								<tr>
-									<th>Diagnosis Entry</th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-								</tr>
-								<tr>
-									<th>Death Register</th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-								</tr>
-								<tr>
-									<th>Coding</th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-								</tr>
-								<tr>
-									<th>Indexing</th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-								</tr>
-								<tr>
-									<th>Arrangement</th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-								</tr>
-								<tr>
-									<th>I.D.C.A</th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-								</tr>
-								<tr>
-									<th>F.H.S.2</th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-								</tr>
-								<tr>
-									<th>P Tracer Card</th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-								</tr>
-								<tr>
-									<th>Filing</th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click=""><i class="fa fa-times-circle-o"></i> Close</button>
-					<button type="button" class="btn btn-warning"><i class="icon-list"></i> Add to process check list</button>
-				</div>
-			</div>
-		</div>
-	</div> -->
-
 	<div id="patient_card" class="modal fade">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -646,14 +331,13 @@
 						<ul class="nav nav-tabs nav-tabs-highlight nav-justified">
 							<li class="active"><a href="#payment-request-new" data-toggle="tab">create new request</a></li>
 							<li><a href="#payment-request-verify" data-toggle="tab">verify payment</a></li>
-							<!-- <li><a href="#payment-request-view" class="dropdown-toggle" data-toggle="tab" ng-click="loadRequests()">view requests</a></li> -->
 						</ul>
 
 						<div class="tab-content">
 							<div class="tab-pane active" id="payment-request-new">
 								<div class="form-group">
 									<div class="input-group">
-										<input class="form-control input-lg" placeholder="Enter a patients number or name here to search" type="search" data-popup="tooltip" data-trigger="focus" title="Click the Advanced link below for more search options" ng-model="search.query"/>
+										<input class="form-control input-lg" placeholder="Enter a patients number or name here to search" type="search" data-popup="tooltip" data-trigger="focus" title="" ng-model="search.query"/>
 										<span class="input-group-btn">
 											<button class="btn btn-warning btn-lg" type="button" ng-click="search(true)"> <i class="{{searched.searchIcon}}"></i></button>
 										</span>
@@ -749,6 +433,5 @@
 		</div>
 	</div>
 </div>
-
 
 <script src="plugins/records/patient/assets/js/webcam-controller.js"></script>

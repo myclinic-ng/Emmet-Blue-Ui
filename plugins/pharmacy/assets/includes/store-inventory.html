@@ -18,7 +18,7 @@
 							<div class="row">
 								<div class="content-group col-sm-12">
 									<label class="text-bold">Item name</label>
-									<select class="select" ng-model="newItem.name">
+									<select class="select" ng-model="newItem.name" ng-click="loadInventoryItems()">
 										<optgroup label="{{key}}" ng-repeat="(key, item) in inventoryItems">
 											<option ng-repeat="value in item" value="{{value.BillingTypeItemID}}">{{value.BillingTypeItemName}}</option>
 										</optgroup>

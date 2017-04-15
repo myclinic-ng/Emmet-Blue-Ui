@@ -12,13 +12,13 @@
 			</label>
 			<input type="text" class="form-control"/>
 		</div>
-		<div class="form-group col-md-1">
+		<div class="form-group col-md-2">
 			<label class="control-label">
 				SEX
 			</label>
 			<input type="text" class="form-control" ng-model="patientInfo.gender"/>
 		</div>
-		<div class="form-group col-md-4">
+		<div class="form-group col-md-3">
 			<label class="control-label">
 				Hospital No.
 			</label>
@@ -36,13 +36,13 @@
 			</label>
 			<input type="text" class="form-control" ng-model="patientInfo.categoryname"/>
 		</div>
-		<div class="form-group col-md-10">
+		<div class="form-group col-md-9">
 			<label class="control-label">
 				Investigation(s) Required
 			</label>
 			<textarea class="form-control" ng-model="investigations" placeholder="This field will be populated automatically once you submit"></textarea>
 		</div>
-		<div class="form-group col-md-2">
+		<div class="form-group col-md-3">
 			<label class="control-label">
 				DATE
 			</label>
@@ -51,8 +51,9 @@
 	</div>
 	<div class="tabbable">
 		<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
-			<li class="active"><a href="#gen-lab-form" data-toggle="tab">General Lab Form</a></li>
-			<li><a href="#seminal-form" data-toggle="tab">Seminal Investigation</a></li>
+			<li class="active" href="#gen-lab-form" data-toggle="tab"><a>General Lab Form</a></li>
+			<li href="#seminal-form" data-toggle="tab"><a>Seminal Investigation</a></li>
+			<li href="#lab-selector" data-toggle="tab"><a>Lab Investigation Selector</a></li>
 		</ul>
 
 		<div class="tab-content">
@@ -754,6 +755,25 @@
 									</tr>
 								</tbody>
 							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="tab-pane" id="lab-selector">
+				<div>
+					<div class="content-group col-md-4 col-md-offset-4">
+						<label class="control-label">Laboratory</label>
+						<select class="select" ng-model="module.lab">
+							<option value="{{lab.LabID}}" ng-repeat="lab in module.registeredLabs">{{lab.LabName}}</option>
+						</select>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group col-md-4" ng-repeat="type in module.registeredInvestigationTypes">
+							<label class="checkbox-inline text-semibold">
+								<input type="checkbox" style="width: 20px; height: 20px" class="invCheck">
+								{{type.InvestigationTypeName}}
+							</label>
 						</div>
 					</div>
 				</div>

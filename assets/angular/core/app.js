@@ -170,7 +170,7 @@ angular.module("EmmetBlue")
 				break;
 			}
 			case 503:{
-				services.notify('Duplicate Data Detected', 'Request denied. This resource does not allow you to create data of the same exact type, please contact an administrator if this error persists. Error Code: AB0'+errorObject.status, 'warning');
+				services.notify('The Server Refused To Process Your Request', 'This is usally due to the creation of duplicate data. This resource does not allow you to create data of the same exact type, please contact an administrator if this error persists. Error Code: AB0'+errorObject.status, 'warning');
 				break;
 			}
 			default:

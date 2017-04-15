@@ -129,7 +129,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="modal-footer" ng-if="!_currentRequest.Acknowledged">
+				<div class="modal-footer" ng-if="_currentRequest.Acknowledged != 1">
 					<button type="submit" class="btn btn-danger" ng-click="close()">Mark this request as dispensed</button>
 				</div>
 			</div>
