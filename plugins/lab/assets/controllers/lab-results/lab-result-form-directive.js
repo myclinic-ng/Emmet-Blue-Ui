@@ -30,6 +30,59 @@ angular.module("EmmetBlue")
 				td.attr("contenteditable", "true");
 			});
 
+			function loadInvestigationTypes(){
+				utils.serverRequest('/lab/investigation-type/view-by-lab?resourceId=0', 'GET').then(function(response){
+					$scope.investigationTypes = response;
+				}, function(error){
+					utils.errorHandler(error);
+				})
+			}
+			loadInvestigationTypes();
+
+			$scope.loadFields = function(id){
+				utils.serverRequest('/lab/investigation-type-field/view?resourceId='+id, 'GET')
+				.then(function(response){
+					$scope.investigationFields = response;
+					setTimeout(function(){
+						$(".autosuggest").each(function(){
+							var current = $(this);
+							current.typeahead({
+						        hint: true,
+						        highlight: true,
+						        minLength: 1
+						    },
+						    {
+						    	source: function(query, process){
+						    		utils.serverRequest("/lab/investigation-type-field/view-default-values?resourceId="+current.attr("data-id"), "GET").then(function(response){
+						    			var data = [];
+						        		angular.forEach(response, function(value){
+						        			data.push(value.Value);
+						        		})
+
+						        		data = $.map(data, function (string) { return { value: string }; });
+						        		process(data);
+						    		}, function(error){
+						    			utils.errorHandler(error);
+						    		})
+						    	}
+						    })
+						})
+					}, 2000);
+				}, function(error){
+					utils.errorHandler(error);
+				})
+			}
+
+			$scope.$watch("investigationType", function(nv){
+				$scope.loadFields(nv);
+				utils.serverRequest("/lab/investigation-type/view?resourceId="+nv, "GET")
+				.then(function(response){
+					if (typeof response[0] !== "undefined"){
+						$scope.currentInvestigationName = response[0].InvestigationTypeName;	
+					}
+				})
+			})
+
 			$scope.selected = {};
 
 			$scope.submit = function(){
@@ -50,6 +103,10 @@ angular.module("EmmetBlue")
 
 				if (typeof $scope.investigations !== "undefined"){
 					reqs.push($scope.investigations);
+				}
+
+				if (typeof $scope.currentInvestigationName !== "undefined"){
+					$scope.investigations = reqs.push($scope.currentInvestigationName);
 				}
 
 				$scope.investigations = reqs.join(", ");
@@ -118,8 +175,6 @@ angular.module("EmmetBlue")
 					})
 				}
 			}
-
-
 		}
 	}
 })

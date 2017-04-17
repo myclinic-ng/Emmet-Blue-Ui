@@ -36,6 +36,7 @@ var libraries = [
 	// "assets/js/core/libraries/jquery_ui/interactions.min.js",
 	// "assets/js/plugins/trees/fancytree_all.min.js",
 	// "assets/js/plugins/trees/fancytree_childcounter.min.js",
+	"assets/js/plugins/extensions/session_timeout.min.js",
 	"assets/js/plugins/media/fancybox.min.js",
 	"assets/js/plugins/ui/prism.min.js",
 	"assets/js/dt-picker.js",

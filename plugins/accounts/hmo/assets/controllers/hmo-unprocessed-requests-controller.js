@@ -29,7 +29,7 @@ angular.module("EmmetBlue")
 
 		var dataOpt = "data-option-id='"+data.patientid+"' data-option-uuid='"+data.patientuuid+"'";
 
-		var verifyButton = "<button class='btn btn-danger btn-labeled bg-white no-border-radius btn-hmo-profile' ng-click=\""+verifyButtonAction+"\" "+dataOpt+"> <b><i class='icon-user-block'></i></b> Load Request</button>";
+		var verifyButton = "<button class='btn btn-danger bg-white btn-hmo-profile' ng-click=\""+verifyButtonAction+"\" "+dataOpt+"> Load Request</button>";
 		// var deleteButton = "<button class='btn btn-default btn-hmo-profile' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> <i class='fa fa-trash'></i> Delete</button>";
 		// var viewButton = "<button class='btn btn-default btn-hmo-profile'> View</button>";
 
@@ -58,10 +58,45 @@ angular.module("EmmetBlue")
 
 	$scope.settingsDtColumns = [
 		utils.DT.columnBuilder.newColumn("SalesID").withTitle("Request Number"),
-		utils.DT.columnBuilder.newColumn("DepartmentName").withTitle("Requesting Department"),
-		utils.DT.columnBuilder.newColumn("StaffFullName").withTitle("Requesting Staff"),
-		utils.DT.columnBuilder.newColumn("PatientFullName").withTitle("Patient"),
-		utils.DT.columnBuilder.newColumn('PatientUUID').withTitle("Patients Hospital Number"),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Patient").renderWith(function(data, full, meta){
+			var image = $scope.loadImage(data.PatientInfo.patientpicture);
+			var html = "<td>"+
+							"<div class='media-left media-middle'>"+
+								"<a href='#'><img src='"+image+"' class='img-circle img-xs' alt=''></a>"+
+							"</div>"+
+							"<div class='media-left'>"+
+								"<div class=''><a href='#' class='text-default text-bold'>"+data.PatientInfo.patientfullname+"</a></div>"+
+								"<div class='text-muted text-size-small'>"+
+									data.PatientInfo.patientuuid+
+								"</div>"+
+							"</div>"+
+						"</td>";
+
+			return html;
+		}),
+		utils.DT.columnBuilder.newColumn(null).withTitle("HMO No.").renderWith(function(data){
+			var id = "N/A";
+			if (typeof data.PatientInfo["hmo number"] !== "undefined"){
+				id = data.PatientInfo["hmo number"]
+			}
+
+			return id;
+		}),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Requesting Staff").renderWith(function(data){
+			var image = $scope.loadImage(data.StaffDetails.StaffPicture);
+			var html = "<td>"+
+							"<div class='media-left media-middle'>"+
+								"<a href='#'><img src='"+image+"' class='img-circle img-xs' alt=''></a>"+
+							"</div>"+
+							"<div class='media-left'>"+
+								data.StaffDetails.StaffFullName+
+								"<div class='text-muted text-size-small'>"+
+									data.DepartmentName+
+								"</div>"+
+							"</div>"+
+						"</td>";
+			return html;
+		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Request Date").renderWith(function(data, full, meta){
 			var date = new Date(data.RequestDate);
 

@@ -35,6 +35,33 @@ angular.module("EmmetBlue")
 	var checkLogin = function(){
 		if ($location.path() != '/user/login'){
 			utils.userSession.cookie();
+
+			$.sessionTimeout({
+				heading: 'h5',
+				title: 'Session expiration',
+				message: 'Your session is about to expire. Do you want to stay connected and extend your session?',
+				keepAlive: false,
+				warnAfter: 300000, //5 mins
+				redirAfter: 420000, //7 mins
+				ignoreUserActivity: false,
+				onWarn: function(){
+				    var title = "IDLE TIMEOUT";
+					var text = "Your session is about to expire. Click on the cancel button to stay connected and extend your session or click on Logout to close the current session"
+					var close = true;
+					var type = "info";
+					var btnText = "Logout";
+
+					var process = function(){
+						$scope.logout();
+					}
+
+					utils.confirm(title, text, close, process, type, btnText);
+				},
+				onRedir: function(){
+				    utils.notify('Your session has expired!', 'You are being redirected to the login page, please enter your username and password to access your account', 'info');
+				    $scope.logout();
+				}
+			});
 		}
 	}
 
@@ -81,16 +108,6 @@ angular.module("EmmetBlue")
 		utils.alert("Emmetblue "+$scope.currentYear, "This software has been designed for and deployed to St. Gerard's Catholic Hospital. Unless stated otherwise, every part of the system is considered a property of Emmetblue and are presently in the closed-source domain with appropriate licenses. Contact an appropriate department for help or samueladeshina73@gmail.com for technical support.", "info");
 	}
 
-	checkLogin();
-	loadUserProfile();
-
-	utils.serverRequest("/human-resources/staff-department/view-secondary-departments?resourceId="+utils.userSession.getID(), "GET")
-	.then(function(response){
-		$scope.switchableDepartments = response;
-	}, function(error){
-		utils.errorHandler(error);
-	})
-
 	function updateCookieDashboardUrl(url){
 		var cookie = $cookies.getObject(utils.globalConstants.USER_COOKIE_IDENTIFIER);
 		cookie.dashboard = url;
@@ -120,4 +137,14 @@ angular.module("EmmetBlue")
 			utils.errorHandler(error);
 		})
 	}
+
+	checkLogin();
+	loadUserProfile();
+
+	utils.serverRequest("/human-resources/staff-department/view-secondary-departments?resourceId="+utils.userSession.getID(), "GET")
+	.then(function(response){
+		$scope.switchableDepartments = response;
+	}, function(error){
+		utils.errorHandler(error);
+	})
 });

@@ -68,6 +68,7 @@ angular.module("EmmetBlue")
 						if (checked){
 							reqs.push($.trim($(this).parent().text()));
 							$(this).attr("checked", "checked");
+							$(this).attr("style", "outline: 1px solid #f00;");
 						}
 					});
 				});
@@ -78,6 +79,7 @@ angular.module("EmmetBlue")
 					if (checked){
 						reqs.push($.trim($(this).parent().text()));
 						$(this).attr("checked", "checked");
+						$(this).attr("style", "outline: 1px solid #f00;");
 					}
 				})
 

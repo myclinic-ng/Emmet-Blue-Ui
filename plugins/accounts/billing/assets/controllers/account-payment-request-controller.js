@@ -1,18 +1,18 @@
 angular.module("EmmetBlue")
 .controller("accountPaymentRequestController", function($scope, utils, patientEventLogger){
+	$scope.loadImage = utils.loadImage;
 	$scope.copyToClipboard = function(text) {
 	    if (window.clipboardData && window.clipboardData.setData) {
-	        // IE specific code path to prevent textarea being shown while dialog is visible.
 	        return clipboardData.setData("Text", text); 
 
 	    } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
 	        var textarea = document.createElement("textarea");
 	        textarea.textContent = text;
-	        textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in MS Edge.
+	        textarea.style.position = "fixed";
 	        document.body.appendChild(textarea);
 	        textarea.select();
 	        try {
-	            document.execCommand("copy");  // Security exception may be thrown by some browsers.
+	            document.execCommand("copy");
 	            utils.notify("Selected item copied successfully.", "", "info");
 	        } catch (ex) {
 	            utils.notify("Copy to clipboard failed.", ex, "error");
@@ -294,26 +294,66 @@ angular.module("EmmetBlue")
 	]);	
 
 	$scope.dtColumns = [
-		utils.DT.columnBuilder.newColumn(null).withTitle("Request Number").renderWith(function(data, full, meta){
-			return "<p class='text-muted'>"+
-					data.PaymentRequestUUID+
-					"</p>"
-		}),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Attached Invoice").renderWith(function(data, full, meta){
+		utils.DT.columnBuilder.newColumn(null).withTitle("Request Details").renderWith(function(data, full, meta){
 			if (typeof data.AttachedInvoiceNumber !== "undefined"){
 				var copyBtn = "<span class='copyButton'><a class='btn btn-icon btn-link btn-default no-bg no-border-radius btn-xs' ng-click='copyToClipboard("+data.AttachedInvoiceNumber+")'><i class='icon-copy2 text-primary'></i></a></span>";
-				var string = "<p class='requestNum'>"+
+				var string = "<span class='requestNum'>"+
 								data.AttachedInvoiceNumber+
 								copyBtn+
-								"</p>";
+								"</span>";
+				var icon = "<i class='fa fa-print text-success'></i>";
 			}
 			else {
-				var string ="<p class='text-muted'>&lt;no attached invoice&gt;</p>";
+				var string ="<span class='text-muted text-small'><small>&lt;no attached invoice&gt;</small></span>";
+				var icon = "<i class='fa fa-exclamation-circle text-warning'></i>";
 			}
-			return string;
+
+			var html = "<td>"+
+							"<div class='media-left media-middle'>"+
+								icon+
+							"</div>"+
+							"<div class='media-left'>"+
+								"<div class='text-muted text-size-small'>"+
+									"<span class='text-small position-left'>ID:</span>"+
+									data.PaymentRequestUUID+
+								"</div>"+
+								"<div class=''>"+string+"</div>"+
+							"</div>"+
+						"</td>";
+
+			return html;
 		}),
-		utils.DT.columnBuilder.newColumn('PatientFullName').withTitle("Patient Name"),
-		utils.DT.columnBuilder.newColumn('GroupName').withTitle("Department"),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Patient").renderWith(function(data, full, meta){
+			var image = $scope.loadImage(data.PatientPicture);
+			var html = "<td>"+
+							"<div class='media-left media-middle'>"+
+								"<a href='#'><img src='"+image+"' class='img-circle img-xs' alt=''></a>"+
+							"</div>"+
+							"<div class='media-left'>"+
+								"<div class=''><a href='#' class='text-default text-bold'>"+data.PatientFullName+"</a></div>"+
+								"<div class='text-muted text-size-small'>"+
+									"<span class='fa fa-user border-blue position-left'></span>"+
+									data.PatientCategoryName+
+								"</div>"+
+							"</div>"+
+						"</td>";
+			return html;
+		}),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Department").renderWith(function(data, full, meta){
+			var val ='<span class="display-block">'+data.Name+'</span>';
+			var html = "<td>"+
+							"<div class='media-left media-middle'>"+
+								"<i class='fa fa-caret-right text-info'></i>"+
+							"</div>"+
+							"<div class='media-left'>"+
+								"<div class='text-muted'>"+
+								data.RequestByFullName+
+								"</div>"+
+							"</div>"+
+						"</td>";
+
+			return val+html;
+		}),
 		utils.DT.columnBuilder.newColumn('RequestDate').withTitle("Request Date").notVisible(),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Request Date").renderWith(function(data, full, meta){
 			var date = new Date(data.RequestDate);
@@ -325,6 +365,13 @@ angular.module("EmmetBlue")
 		utils.DT.columnBuilder.newColumn(null).withTitle("Status").renderWith(function(data, full, meta){
 			if (data.RequestFulfillmentStatus == 1){
 				var string = "<p class='no-border-radius label label-success label-lg'>Fulfilled</p>";
+				string += "<td>"+
+							"<div class='media-left media-middle'>"+
+								"<span class='text-info text-size-small'>Amount Paid:</span><br/>"+
+								"<span ng-currency ng-currency-symbol='naira'></span>"+data.BillingAmountPaid+
+							"</div>"+
+						"</td>";
+
 			}
 			else if(data.RequestFulfillmentStatus == -1) {
 				var string = "<p class='label label-info label-lg'>Invoice Generated</p>";
@@ -425,6 +472,41 @@ angular.module("EmmetBlue")
 		// });
 		$scope.paymentRequestBillingItems($scope.temp.requestId);
 	}
+
+	$scope.receiptData = {};
+	$scope.printReceipt = function(){
+		var req = utils.serverRequest("/accounts-biller/transaction/view-by-invoice?resourceId="+$scope.temp.requestId, "GET");
+
+		req.then(function(response){
+			$scope.receiptData = {
+				amountPaid:response.BillingAmountPaid,
+				customerName:response.BillingTransactionCustomerName,
+				invoiceData:{
+					type:response.invoiceData.BillingType,
+					number: response.invoiceData.BillingTransactionNumber,
+					createdBy: response.invoiceData.CreatedByUUID,
+					status: response.invoiceData.BillingTransactionStatus,
+					amount: response.invoiceData.BilledAmountTotal,
+					patient: response.invoiceData.PatientID,
+					totalAmount: response.invoiceData.BilledAmountTotal,
+					items: response.invoiceData.BillingTransactionItems,
+					paid: response.invoiceData._meta.status,
+					amountPaid: response.invoiceData.BillingAmountPaid,
+					department: response.invoiceData.RequestDepartmentName
+				},
+				metaId: response.BillingTransactionMetaID,
+				paymentMethod:response.BillingPaymentMethod,
+				transactionId: response.BillingTransactionID,
+				transactionStatus:"Reprint"
+			};
+
+			$("#request_payment_bill").modal("hide");
+			$("#_payment_receipt").modal("show");
+		}, function(error){
+			utils.errorHandler(error);
+		});
+	}
+
 	$scope.verifyPayment = function(requestNumber){
 		var request = utils.serverRequest('/accounts-biller/payment-request/get-status?resourceId&requestNumber='+requestNumber, 'GET');
 		request.then(function(response){
