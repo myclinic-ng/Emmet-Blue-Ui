@@ -14,10 +14,10 @@
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div class="col-md-12 bigSpace">
-							<div class="content-group">
+						<div class="col-sm-12 bigSpace">
+							<div class="content-group col-sm-12">
 								<label class="control-label">Patient Number</label>
-								<div class="input-group col-md-12">
+								<div class="input-group">
 									<input class="form-control patientSearch" id="patientNumber" ng-model="patientNumber"/>
 									<span class="input-group-btn" ng-show="showInfo">
 										<button class="btn btn-danger" ng-click="loadInfo()"><i class="icon-reload-alt"></i></button>
@@ -55,7 +55,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-4" ng-show="showInfo">
+						<div class="col-sm-4 hidden-xs" ng-show="showInfo">
 							<div class="col-md-12 pl-15">
 								<center><img class="img img-responsive" height="150" width="150" src="{{loadImage(patientInfo.patientpicture)}}"/></center>
 								<h6 class="text-center text-success">{{patientInfo.patientfullname}}</h6>
