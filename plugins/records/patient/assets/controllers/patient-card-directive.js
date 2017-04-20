@@ -9,6 +9,7 @@ angular.module("EmmetBlue")
 		templateUrl: "plugins/records/patient/assets/includes/patient-card-template.html",
 		controller: function($scope, utils){
 			$scope.loadImage = utils.loadImage;
+			$scope.userClient = utils.globalConstants.USER_CLIENT;
 
 			$scope.toLocaleDate = function(date){
 				return new Date(date).toLocaleDateString();

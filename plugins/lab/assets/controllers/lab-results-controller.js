@@ -1,13 +1,52 @@
 angular.module("EmmetBlue")
 
 .controller('labResultsController', function($scope, utils){
+	var patient = {
+		search: function(query, successCallback, errorCallback){
+			query = {
+				query: query,
+				from: 0,
+				size: 5
+			};
+
+			utils.serverRequest('/patients/patient/search', "POST", query).then(successCallback, errorCallback);	
+        },
+		typeAheadSource: function(query, process){
+    		patient.search(query, function(response){
+    			var data = [];
+        		angular.forEach(response.hits.hits, function(value){
+        			data.push(value["_source"]["first name"]+ " " + value["_source"]["last name"]+", "+value["_source"]["patientuuid"]);
+        		})
+
+        		data = $.map(data, function (string) { return { value: string }; });
+        		process(data);
+    		}, function(error){
+    			utils.errorHandler(error);
+    		})
+    	}
+	}
+
+	$(".patient-search").typeahead({
+        hint: true,
+        highlight: true
+    },
+    {
+    	source: function(query, process){
+    		patient.typeAheadSource(query, process);
+    	}
+    })
+
 	$scope.requestId = "";
 	$scope.investigationLoaded = false;
 	$scope.investigationResult = {};
 	$scope.loadInvestigation = function(){
-		var patient = $scope.patient;
+		query = {
+			query: $("#patientuuid").val(),
+			from: 0,
+			size: 1
+		};
 
-		utils.serverRequest('/patients/patient/search?query='+patient, 'GET')
+		utils.serverRequest('/patients/patient/search', "POST", query)
 		.then(function(response){
 			if (typeof response.hits.hits[0]["_source"] !== "undefined"){
 				$scope.patientInfo = response.hits.hits[0]["_source"];
@@ -21,40 +60,6 @@ angular.module("EmmetBlue")
 			utils.errorHandler(error);
 		})
 	}
-
-	// function loadFields(id){
-	// 	utils.serverRequest('/lab/investigation-type-field/view?resourceId='+id, 'GET')
-	// 	.then(function(response){
-	// 		$scope.investigationFields = response;
-	// 		setTimeout(function(){
-	// 			$(".autosuggest").each(function(){
-	// 				var current = $(this);
-	// 				current.typeahead({
-	// 			        hint: true,
-	// 			        highlight: true,
-	// 			        minLength: 1
-	// 			    },
-	// 			    {
-	// 			    	source: function(query, process){
-	// 			    		utils.serverRequest("/lab/investigation-type-field/view-default-values?resourceId="+current.attr("data-id"), "GET").then(function(response){
-	// 			    			var data = [];
-	// 			        		angular.forEach(response, function(value){
-	// 			        			data.push(value.Value);
-	// 			        		})
-
-	// 			        		data = $.map(data, function (string) { return { value: string }; });
-	// 			        		process(data);
-	// 			    		}, function(error){
-	// 			    			utils.errorHandler(error);
-	// 			    		})
-	// 			    	}
-	// 			    })
-	// 			})
-	// 		}, 2000);
-	// 	}, function(error){
-	// 		utils.errorHandler(error);
-	// 	})
-	// }
 
 	$scope.dateObject = function(date){
 		return new Date(date);

@@ -58,16 +58,16 @@
 			</div>
 
 			<div class="modal-body">
-				<div class="col-md-3">
+				<div class="col-sm-3">
 					<div class="sidebar sidebar-secondary sidebar-default">
 							<div class="sidebar-content">
 
 								<!-- Actions -->
 								<div class="sidebar-category">
-									<div class="category-title">
+									<div class="category-title bg-success">
 										<span>Actions</span>
 										<ul class="icons-list">
-											<li><a href="#" data-action="collapse"></a></li>
+											<li><a href="#" data-action="fa fa-user"></a></li>
 										</ul>
 									</div>
 
@@ -89,7 +89,7 @@
 							</div>
 						</div>
 				</div>
-				<div class="col-md-9" id="view-patient-{{patientInfo.patientid}}-content-area">
+				<div class="col-sm-9" id="view-patient-{{patientInfo.patientid}}-content-area">
 					<div class="watermark"></div>
 					<ng-patient-card patient-info="patientInfo" ng-if="viewItems.card"></ng-patient-card>
 					<ng-patient-profile patient-info="patientInfo" ng-if="viewItems.profile"></ng-patient-profile>

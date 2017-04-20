@@ -22,7 +22,7 @@
 </script>
 <div ng-controller="consultancyNewDiagnosisController">
 	<div class="row mb-15">
-		<div class="col-md-7 col-md-offset-3 valign-middle">
+		<div class="col-sm-7 col-sm-offset-3 valign-middle">
 			<div class="form-group pb-10">
 				<div class="col-lg-12">
 					<p class="control-label text-center"><i class="icon-info22 text-info"></i> Start a new diagnosis by typing a patients hospital number in the text field below</p>
@@ -36,7 +36,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-md-12 mt-20" ng-show="patient.profileLoading && !patient.isProfileReady" ng-cloak>
+	<div class="col-sm-12 mt-20" ng-show="patient.profileLoading && !patient.isProfileReady" ng-cloak>
 		<h5 class="text-center mt-15"><i class="icon-spinner2 fa-spin text-danger"></i> Loading...</h5>
 	</div>
 	<div class="panel panel-success" ng-show="patient.isProfileReady" ng-cloak>
@@ -48,7 +48,7 @@
 	    	</div>
 		</div>
 		<div class="panel-body table-responsive" ng-show="patient.isProfileReady">
-			<div class="col-md-9">
+			<div class="col-sm-9">
 				<div class="tabbable">
 					<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
 						<li href="#history" data-toggle="tab" class="active"><a><i class="icon-history"></i> History</a></li>
@@ -61,7 +61,7 @@
 
 					<div class="tab-content">
 						<div class="tab-pane active" id="history">
-							<div class="col-md-3">
+							<div class="col-sm-3">
 								<div class="sidebar sidebar-main sidebar-default" style="box-shadow: none; border-color: #F5F5F5; border-radius: 0px;">
 									<div class="sidebar-content">
 										<!-- Main navigation -->
@@ -83,29 +83,29 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-md-9" style="min-height: 100vh">
+							<div class="col-sm-9" style="min-height: 100vh">
 								<ng-patient-profile patient-info="patient.profile" ng-show="patient.isProfileReady" ng-if="patient.history.displayPage=='profile'"></ng-patient-profile>
 								<div class="row" ng-show="patient.history.displayPage=='repositories'">
-									<div class="col-md-6 mb-15"><input class="form-control" placeholder="search" ng-model="patient.history.repositoryFilter"/></div>
-									<div class="col-md-6 mb-15">
+									<div class="col-sm-6 mb-15"><input class="form-control" placeholder="search" ng-model="patient.history.repositoryFilter"/></div>
+									<div class="col-sm-6 mb-15">
 										<select class="select" ng-model="patient.history.repositoryFilter	">
 											<option value="lab_result">Lab Result</option>
 											<option value="observation">Examinations &amp; Other Observations</option>
 											<option value="payment_receipt">Financial History</option>
 										</select>
 									</div>
-									<div class="col-md-12" ng-repeat="repo in patient.history.repositories | toArray:false | filter:patient.history.repositoryFilter track by $index">
+									<div class="col-sm-12" ng-repeat="repo in patient.history.repositories | toArray:false | filter:patient.history.repositoryFilter track by $index">
 										<div class="panel border-left-lg border-left-danger no-border-radius">
 											<div class="panel-body">
 												<div class="row">
 													{{loadStaffName(repo.RepositoryCreator)}}
-													<div class="col-md-8">
+													<div class="col-sm-8">
 														<h6 class="no-margin-top"><a href="#" ng-click="patient.history.loadRepo(repo.RepositoryID)" class="">{{repo.RepositoryName}}</a></h6>
 														<p class="mb-15" ng-if="repo.RepositoryDescription"><em>{{repo.RepositoryDescription}}</em></p>
 														<p class="mb-15 text-muted" ng-if="!repo.RepositoryDescription">No extra note/description</p>
 													</div>
 
-													<div class="col-md-4">
+													<div class="col-sm-4">
 														<ul class="list task-details">
 															<li title="{{repo.RepositoryCreationDate}}" class="text-black">{{toDateString(repo.RepositoryCreationDate)}}</li>
 															<li class="dropdown">
@@ -143,7 +143,7 @@
 								<div class="tab-content">
 									<div class="tab-pane has-padding active" id="allergy-list">
 										<div class="row">
-											<div class="col-md-12" ng-repeat="allergy in patient.allergies">
+											<div class="col-sm-12" ng-repeat="allergy in patient.allergies">
 												<div class="panel panel-body" style="box-shadow: none;">
 													<div class="media">
 														<div class="media-left">
@@ -154,13 +154,13 @@
 															<h6 class="media-heading text-semibold"><strong><a href="#" class="text-default">{{allergy.AllergyTitle}}</a></strong></h6>
 															<p>{{allergy.AllergyDescription}}</p>
 															<div class="row">	
-																<div class="col-md-6">
+																<div class="col-sm-6">
 																	<h5 class="text-info"><small>Symptoms</small></h5>
 																	<ol>
 																		<li ng-repeat="symptom in allergy.symptoms">{{symptom.Symptom}}</li>
 																	</ol>
 																</div>
-																<div class="col-md-6">
+																<div class="col-sm-6">
 																	<h5 class="text-info"><small>Triggers</small></h5>
 																	<ol>
 																		<li ng-repeat="trigger in allergy.triggers">{{trigger.TriggerTitle}}</li>
@@ -176,17 +176,17 @@
 
 									<div class="tab-pane fade has-padding" id="new-allergy">
 										<div class="row">
-											<div class="content-group col-md-6">
+											<div class="content-group col-sm-6">
 												<label class="control-label">Allergy Title</label>
 												<input class="form-control" ng-model="allergies.newAllergy.title"/>
 											</div>
-											<div class="content-group col-md-6">
+											<div class="content-group col-sm-6">
 												<label class="control-label">Allergy Severity</label>
 												<select class="select" ng-model="allergies.newAllergy.severity">
 													<option value=""></option>
 												</select>
 											</div>
-											<div class="content-group col-md-12">
+											<div class="content-group col-sm-12">
 												<label class="control-label">Allergy Type</label>
 												<select class="select" ng-model="allergies.newAllergy.type">
 													<option value="{{type.AllergyID}}" ng-repeat="type in allergies.allergyTypes">
@@ -194,7 +194,7 @@
 													</option>
 												</select>
 											</div>
-											<div class="content-group col-md-12">
+											<div class="content-group col-sm-12">
 												<label class="control-label">Allergy Trigger(s)</label>
 												<select class="select" multiple="" ng-model="allergies.newAllergy.triggers">
 													<option value="{{trigger.TriggerName}}" ng-repeat="trigger in allergies.allergyTypeTriggers">
@@ -202,17 +202,17 @@
 													</option>
 												</select>
 											</div>
-											<div class="content-group col-md-12">
+											<div class="content-group col-sm-12">
 												<label class="control-label">Allergy Symptom(s)</label>
 												<select class="tagsinput-typeahead" multiple="" data-role="tagsinput" ng-model="allergies.newAllergy.symptoms">
 												</select>
 											</div>
-											<div class="content-group col-md-12">
+											<div class="content-group col-sm-12">
 												<label class="control-label">Note</label>
 												<textarea class="form-control" ng-model="allergies.newAllergy.description" placeholder="description"></textarea>
 											</div>
-											<div class="content-group col-md-12">
-												<button class="btn btn-info pull-right col-md-3" ng-click="allergies.saveNewAllergy()">Save</button>
+											<div class="content-group col-sm-12">
+												<button class="btn btn-info pull-right col-sm-3" ng-click="allergies.saveNewAllergy()">Save</button>
 											</div>
 										</div>
 									</div>
@@ -220,7 +220,7 @@
 							</div>
 						</div>
 						<div class="tab-pane fade" id="presenting-complaints">
-							<div class="col-md-7 col-md-offset-3 mb-15">
+							<div class="col-sm-7 col-sm-offset-3 mb-15">
 								<li class="dropdown" style="list-style: none;">
 									<a class="dropdown-toggle btn btn-xs btn-default" data-toggle="dropdown">
 										Load Template
@@ -240,7 +240,7 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-md-5" style="border-right: 1px solid #F5F5F5;" ng-hide="true">
+								<div class="col-sm-5" style="border-right: 1px solid #F5F5F5;" ng-hide="true">
 									<div class="row">
 										<div class="col-lg-12">
 											<ul class="media-list search-results-list content-group" ng-repeat="symptom in presentingComplaints.searchedSymptoms">
@@ -254,7 +254,7 @@
 							                    		<div class="website-search-results mt-10">
 								                    		<div class="row">
 								                    			<div class="content-group">
-								                    				<div class="content-group col-md-6" ng-repeat="child in symptom['_source'].children">
+								                    				<div class="content-group col-sm-6" ng-repeat="child in symptom['_source'].children">
 								                    					<div class="media-body">
 																			<h6 class="media-heading"><a href="#" ng-click="presentingComplaints.addToList(presentingComplaints.loadSymptom(child.id).name)">{{presentingComplaints.loadSymptom(child.id).name}}</a></h6>
 																			<ul class="list-inline list-inline-separate text-muted">
@@ -272,7 +272,7 @@
 									</div>
 								</div>
 
-								<div class="col-md-12">
+								<div class="col-sm-12">
 									<div class="row pl-5 pr-5">
 										<div class="panel-group panel-group-control panel-group-control-left">
 											<div ng-repeat="complaint in presentingComplaints.complaints" class="panel" style="box-shadow: none; border-top-right-radius: 0px; border-top-left-radius: 0px; border-color: #F5F5F5">
@@ -286,7 +286,7 @@
 
 												<div id="complaint-{{$index+1}}" class="panel-collapse collapse">
 													<div class="panel-body">
-														<div class="content-group col-md-12">
+														<div class="content-group col-sm-12">
 															<textarea class="form-control" ng-model="complaint.description" placeholder="Add extra comment/note here"></textarea>
 														</div>
 													</div>
@@ -310,7 +310,7 @@
 								<div class="tab-content">
 									<div class="tab-pane" id="exam-{{$index+1}}" ng-repeat="type in examination.examinationTypes">
 										<div class="row">
-											<div class="form-group col-md-12" ng-repeat="option in type.options">
+											<div class="form-group col-sm-12" ng-repeat="option in type.options">
 												<label class="control-label">
 													<input type="checkbox" ng-model="option.selected"/>
 													{{option.OptionTitle}}
@@ -326,7 +326,7 @@
 						<div class="tab-pane fade" id="investigation">
 							<div class="tabbable">
 								<ul class="nav nav-tabs nav-tabs-solid nav-justified">
-									<li href="#labForm-new" data-toggle="tab" class="active"><a>Lab Request Form</a></li>
+									<li href="#labForm-new" data-toggle="tab" class="active"><a>Laboratory/Imaging Investigation Request Form</a></li>
 								</ul>
 
 								<div class="tab-content">
@@ -338,7 +338,7 @@
 						</div>
 						<div class="tab-pane fade" id="diagnosis">
 							<div class="row">
-								<div class="col-md-7" style="border-right: 1px solid #F5F5F5;">
+								<div class="col-sm-7" style="border-right: 1px solid #F5F5F5;">
 									<div class="row">
 										<div class="col-lg-12">
 											<h6 class="text-center text-bold"> <i class="icon-bubble-lines4 text-info"></i> Deductions/Report</h6>
@@ -352,7 +352,7 @@
 									</div>
 								</div>
 
-								<div class="col-md-5">
+								<div class="col-sm-5">
 									<div class="row">
 										<div class="col-lg-12">
 											<h6 class="text-center text-bold"> <i class="icon-basket text-info"></i> Prescription</h6>
@@ -409,12 +409,9 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-3" style="border: 1px solid #F5F5F5; border-bottom: 0px; min-height: 100vh;">
+			<div class="col-sm-3 hidden-xs" style="border: 1px solid #F5F5F5; border-bottom: 0px; min-height: 100vh;">
 				<div class="row">
-					<div class="col-md-5">
-						<h5 class="text-center text-primary"><small>Summary</small></h5>
-					</div>
-					<div class="col-md-7 pt-10">
+					<div class="col-sm-12 pt-10 ml-15">
 						<button class="btn btn-sm btn-info" ng-click="globals.save()"><i class="icon-floppy-disk"></i> Save</button>
 						<button class="btn btn-sm btn-success" ng-click="globals.submit()"><i class="icon-database-add"></i> Submit</button>
 					</div>
@@ -619,7 +616,7 @@
 					<button type="button" class="close" data-dismiss="modal">&times; close</button>
 				</div>
 				<div class="modal-body no-padding no-margin">
-					<div class="col-md-12">
+					<div class="col-sm-12">
 						<ng-repository repository-id="patient.history.repositories.currentRepository"></ng-repository>
 					</div>
 				</div>
@@ -637,12 +634,12 @@
 					</div>
 					<div class="modal-body">
 						<div class="row">
-							<div class="col-md-8" style="border-right: 1px solid #4CAF50; height: 500px"s>
+							<div class="col-sm-8" style="border-right: 1px solid #4CAF50;">
 								<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-hover">
 			
 								</table>
 							</div>
-							<div class="col-md-4">
+							<div class="col-sm-4">
 								<div class="form-group">
 									<label class="control-label">Medical Specialist</label>
 									<input class="form-control" disabled="disabled" ng-model="referral.specialist.name"/>

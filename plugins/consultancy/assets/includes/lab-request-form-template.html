@@ -50,15 +50,21 @@
 		</div>
 	</div>
 	<div class="tabbable">
-		<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
+		<ul class="nav nav-tabs nav-tabs-highlight nav-justified">
 			<li class="active" href="#gen-lab-form" data-toggle="tab"><a>General Lab Form</a></li>
-			<li href="#seminal-form" data-toggle="tab"><a>Seminal Investigation</a></li>
-			<li href="#lab-selector" data-toggle="tab"><a>Lab Investigation Selector</a></li>
+			<li href="#lab-selector" data-toggle="tab"><a>Investigation Selector</a></li>
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Other Forms <span class="caret"></span></a>
+				<ul class="dropdown-menu dropdown-menu-right">
+					<li href="#seminal-form" data-toggle="tab"><a>Seminal Fluid Investigation</a></li>
+				</ul>
+			</li>
 		</ul>
 
 		<div class="tab-content">
 			<div class="tab-pane active" id="gen-lab-form">
 				<div>
+					<h4 class="text-center"><u>GENERAL LABORATORY INVESTIGATION REQUEST</u></h4>
 					<div class="col-md-4">
 						<div class="table-responsive">
 							<table class="table table-hover table-condensed lab-table">
@@ -644,6 +650,7 @@
 
 			<div class="tab-pane" id="seminal-form">
 				<div>
+					<h4 class="text-center"><u>SEMINAL FLUID INVESTIGATION REQUEST</u></h4>
 					<div class="col-md-6 table-responsive">
 						<table class="table table-hover table-condensed lab-table">
 							<thead>
@@ -762,6 +769,7 @@
 
 			<div class="tab-pane" id="lab-selector">
 				<div>
+					<h4 class="text-center"><u>LABORATORY/IMAGING INVESTIGATION REQUEST</u></h4>
 					<div class="content-group col-md-4 col-md-offset-4">
 						<label class="control-label">Laboratory</label>
 						<select class="select" ng-model="module.lab">

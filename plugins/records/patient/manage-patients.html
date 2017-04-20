@@ -35,7 +35,7 @@
 </script>
 
 <div ng-controller="recordsPatientManagePatientsController as ctrller">
-	<div class="col-md-3">
+	<div class="col-sm-3">
 		<div class="sidebar sidebar-secondary sidebar-default">
 				<div class="sidebar-content">
 
@@ -66,52 +66,52 @@
 				</div>
 			</div>
 	</div>
-	<div class="col-md-9">
-	<div class="panel panel-success">
-		<div class="pt-5 pb-5 bg-success">
-			<div class="form-group col-md-6 bg-success" style="margin-left: 0px;">
-				<label class="control-label">Patient Search</label>
-				<div class="input-group mb-5">
-					<input class="form-control input-lg no-border-radius" placeholder="Enter a patients number or name here to search" type="search" data-popup="tooltip" data-trigger="focus" title="Click the Advanced link below for more search options" ng-model="search.query"/>
-					<span class="input-group-btn">
-						<button class="btn btn-warning btn-lg" type="button" ng-click="search(true)"> <i class="{{searched.searchIcon}}"></i></button>
-					</span>
+	<div class="col-sm-9">
+		<div class="panel panel-success">
+			<div class="pt-5 pb-5 bg-success">
+				<div class="form-group col-sm-6 bg-success" style="margin-left: 0px;">
+					<label class="control-label">Patient Search</label>
+					<div class="input-group mb-5">
+						<input class="form-control input-lg no-border-radius" placeholder="Enter a patients number or name here to search" type="search" data-popup="tooltip" data-trigger="focus" title="Click the Advanced link below for more search options" ng-model="search.query" ng-keypress="catchEnterSearch($event)"/>
+						<span class="input-group-btn">
+							<button class="btn btn-warning btn-lg" type="button" ng-click="search(true)"> <i class="{{searched.searchIcon}}"></i></button>
+						</span>
+					</div>
+				</div>
+				<div class="col-sm-6 navbar navbar-default navbar-xs navbar-component no-border hidden-xs">
+					<ul class="nav navbar-nav no-border visible-xs-block">
+						<li><a class="text-center collapsed" data-toggle="collapse" data-target="#navbar-filter"><i class="icon-menu7"></i></a></li>
+					</ul>
+
+					<div class="navbar-collapse collapse bg-success" id="navbar-filter">
+						<div class="navbar-right bg-success">
+							<ul class="nav navbar-nav bg-success">
+								<li><a href="#">Items per page: </a></li>
+								<div class="input-group mr-5">
+									<input type="number" class="form-control no-border-radius" min="1" max="100" ng-model="searched.pageSizeInc"/>
+									<span class="input-group-btn">
+										<button class="btn btn-text btn-warning" ng-click="searched.pageSize = searched.pageSizeInc">Go</button>
+									</span>
+								</div>
+							</ul>
+			            </div>
+					</div>
 				</div>
 			</div>
-			<div class="col-md-6 navbar navbar-default navbar-xs navbar-component no-border">
-				<ul class="nav navbar-nav no-border visible-xs-block">
-					<li><a class="text-center collapsed" data-toggle="collapse" data-target="#navbar-filter"><i class="icon-menu7"></i></a></li>
-				</ul>
 
-				<div class="navbar-collapse collapse bg-success" id="navbar-filter">
-					<div class="navbar-right bg-success">
-						<ul class="nav navbar-nav bg-success">
-							<li><a href="#">Items per page: </a></li>
-							<div class="input-group mr-5">
-								<input type="number" class="form-control no-border-radius" min="1" max="100" ng-model="searched.pageSizeInc"/>
-								<span class="input-group-btn">
-									<button class="btn btn-text btn-warning" ng-click="searched.pageSize = searched.pageSizeInc">Go</button>
-								</span>
-							</div>
-						</ul>
-		            </div>
-				</div>
-			</div>
-		</div>
-
-		<div class="panel-body">
-				<div class="col-md-12 text-center" ng-if="searched.totalPageCount > 0" ng-cloak>
+			<div class="panel-body">
+				<div class="col-sm-12 text-center" ng-if="searched.totalPageCount > 0" ng-cloak>
 					<h6 class="text-muted">Found <strong><span class="text-bold text-black">{{searched.totalPageCount}}</span></strong> Profile<span ng-if="searched.totalPageCount > 1">s</span> Matching Search Query</h6>
 					<dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="assets/angular/libraries/ng-pagination/ng-pagination.tpl.html"></dir-pagination-controls>
 				</div>
 
 				<div class="row">
-					<div class="col-lg-6 col-md-6" dir-paginate="patient in searched.patients | itemsPerPage: searched.pageSize" total-items="searched.totalPageCount" current-page="searched.currentPage">
+					<div class="col-lg-6 col-sm-6" dir-paginate="patient in searched.patients | itemsPerPage: searched.pageSize" total-items="searched.totalPageCount" current-page="searched.currentPage">
 						<ng-patient-grid patient-info="patient['_source']"></ng-patient-grid>
 					</div>
 				</div>
+			</div>
 		</div>
-	</div>
 	</div>
 
 	<div id="new_patient" class="modal fade">
@@ -124,7 +124,7 @@
 
 				<div class="modal-body">
 					<form role="form">
-						<div class="col-md-8">
+						<div class="col-sm-8">
 							<fieldset>
 								<div class="row">
 									<div class="form-group col-sm-3">
@@ -264,13 +264,13 @@
 								</div>
 							</fieldset>
 						</div>
-						<div class="col-md-4">
-							<div class="panel panel-default col-md-11 col-md-offset-1">
+						<div class="col-sm-4">
+							<div class="panel panel-default col-sm-11 col-sm-offset-1">
 				                <div class="panel-heading">
 				                  <h6 class="panel-title">Upload Patient Picture</h6>
 				                </div>
 				                <div class="panel-body" id="camera">
-				                  <img src="plugins/records/patient/assets/images/passport-placeholder.png" class="col-md-12 img img-responsive" style="width:100% !important; height: 100% !important;"/>
+				                  <img src="plugins/records/patient/assets/images/passport-placeholder.png" class="col-sm-12 img img-responsive" style="width:100% !important; height: 100% !important;"/>
 				                </div><!-- /.panel-body -->
 				                 <input type="hidden" id="patient-passport"/>
 				                <div class="panel-footer">
@@ -281,7 +281,7 @@
 									</div>
 				                </div>
 				              </div><!-- /.panel -->
-				              <div class="form-group col-md-11 col-md-offset-1">
+				              <div class="form-group col-sm-11 col-sm-offset-1">
 								<label class="control-label">Upload Identification Document</label>
 				              	<input type="file" class="file-styled-primary" ng-model="uploadedDocument" name="file" id="document"/>
 				              	<img src="{{newPatient.documents}}" class="img img-responsive"/>
@@ -290,7 +290,7 @@
 					</form>
 				</div>
 				<div class="modal-footer">
-					<div class="col-md-12 pull-right">
+					<div class="col-sm-12 pull-right">
 						<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="newPatient = {}">Close</button>
 						<button class="btn btn-warning btn-lg" ng-click="submit()"><span class="hide loader pull-left"> <i class="fa fa-spinner fa-spin">  </i> </span> Submit</button>
 					</div>
@@ -347,7 +347,7 @@
 									<ul class="media-list overflow-auto" style="max-height: 400px;">
 										<li class="media-header">Found {{searched.totalPageCount}} profiles matching search query</li>
 
-										<li class="media btn col-md-4" ng-repeat="patient in searched.patients" ng-click="showRequestForm(patient['_source'])">
+										<li class="media btn col-sm-4" ng-repeat="patient in searched.patients" ng-click="showRequestForm(patient['_source'])">
 											<div class="media-left media-middle">
 												<a href="#">
 													<img ng-src="{{loadImage(patient['_source'].patientpicture)}}" class="img-circle" alt="">
@@ -366,20 +366,20 @@
 									<!-- {{requestForm.currentPatientProfile}} -->
 									<div class="row">
 										<h1 class="text-center text-black">{{requestForm.currentPatientProfile.patientfullname}}</h1>
-										<div class="form-group col-md-6">
+										<div class="form-group col-sm-6">
 											<select class="select" ng-model="paymentRequestItem.item">
 												<optgroup label="{{key}}" ng-repeat="(key, item) in requestItems">
 													<option ng-repeat="value in item" value="{{value}}">{{value.BillingTypeItemName}}</option>
 												</optgroup>
 											</select>
 										</div>
-										<div class="input-group col-md-6">
-											<input type="number" placeholder="Item Quantity. Defaults to 1" class="form-control col-md-7" ng-model="paymentRequestItem.quantity"/>
+										<div class="input-group col-sm-6">
+											<input type="number" placeholder="Item Quantity. Defaults to 1" class="form-control col-sm-7" ng-model="paymentRequestItem.quantity"/>
 											<span class="input-group-btn">
 												<button class="btn btn-default btn-success" ng-click="addPaymentRequestItemToList()">add</button>
 											</span>
 										</div>
-										<div class="col-md-12 table-responsive">
+										<div class="col-sm-12 table-responsive">
 											<table class="table table-condensed hover">
 												<thead>
 													<tr class="warning">

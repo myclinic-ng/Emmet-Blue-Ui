@@ -18,7 +18,6 @@ angular.module("EmmetBlue")
 	})
 	.withPaginationType('full_numbers')
 	.withDisplayLength(50)
-	.withFixedHeader()
 	.withOption('createdRow', function(row, data, dataIndex){
 		utils.compile(angular.element(row).contents())($scope);
 	})
@@ -74,15 +73,33 @@ angular.module("EmmetBlue")
 								"<a href='#'><img src='"+image+"' class='img-circle img-xs' alt=''></a>"+
 							"</div>"+
 							"<div class='media-left'>"+
-								"<div class=''><a href='#' class='text-default text-semibold'>"+data.PatientInfo.patientfullname+"</a></div>"+
+								"<div class=''><a href='#' class='text-default text-bold'>"+data.PatientInfo.patientfullname+"</a></div>"+
 								"<div class='text-muted text-size-small'>"+
 									"<span class='status-mark border-blue position-left'></span>"+
 									data.PatientInfo.patientuuid+
 								"</div>"+
 							"</div>"+
 						"</td>";
+			var _html = "";
+			if (typeof data.PatientInfo["phone number"] !== "undefined" && data.PatientInfo["phone number"] !== null){
+				_html = "<div><span class='position-left text-info'><i class='icon-mobile'></i>:</span> <span class='text-semibold'>"+data.PatientInfo["phone number"]+"</span></div>";
+			}
+			// var html = "<div class=''><a href='#' class='text-default text-semibold'>"+data.PatientInfo["phone number"]+"</a></div>";
+			if (typeof data.PatientInfo["email address"] !== "undefined" && data.PatientInfo["email address"] !== null){
+				_html += "<div class='text-muted text-size-small'>"+
+							"<span class='position-left'>"+data.PatientInfo["email address"]+"</span>"+
+						"</div>";
+			}
 
-			return html;
+			if (typeof data.PatientInfo["home address"] !== "undefined" && data.PatientInfo["home address"] !== null){
+				_html += "<div><span class='position-left text-info'>Addr:</span> <span class='text-semibold'>"+data.PatientInfo["home address"]+"</span></div>";
+			}
+			
+			if (_html == ""){
+				_html += "<span class='text-muted'>N/A</span>";
+			}
+
+			return html+"<br/>"+_html;
 		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Patient Type").renderWith(function(data, full, meta){
 			var html = "<div class=''><a href='#' class='text-default text-bold'>"+data.PatientInfo.patienttypename+"</a></div>";
@@ -94,28 +111,7 @@ angular.module("EmmetBlue")
 			if (typeof data.PatientInfo["hmo number"] !== "undefined"){
 				html += "<div><span class='position-left text-info'>HMO #:</span> <span class='text-semibold'>"+data.PatientInfo["hmo number"]+"</span></div>";
 			}
-			
-			return html;
-		}),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Patient Contact Information").renderWith(function(data, full, meta){
-			var html = "";
-			if (typeof data.PatientInfo["phone number"] !== "undefined" && data.PatientInfo["phone number"] !== null){
-				html = "<div><span class='position-left text-info'><i class='icon-mobile'></i>:</span> <span class='text-semibold'>"+data.PatientInfo["phone number"]+"</span></div>";
-			}
-			// var html = "<div class=''><a href='#' class='text-default text-semibold'>"+data.PatientInfo["phone number"]+"</a></div>";
-			if (typeof data.PatientInfo["email address"] !== "undefined" && data.PatientInfo["email address"] !== null){
-				html += "<div class='text-muted text-size-small'>"+
-							"<span class='position-left'>"+data.PatientInfo["email address"]+"</span>"+
-						"</div>";
-			}
 
-			if (typeof data.PatientInfo["home address"] !== "undefined" && data.PatientInfo["home address"] !== null){
-				html += "<div><span class='position-left text-info'>Addr:</span> <span class='text-semibold'>"+data.PatientInfo["home address"]+"</span></div>";
-			}
-			
-			if (html == ""){
-				html += "<span class='text-muted'>N/A</span>";
-			}
 			return html;
 		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Date Logged").renderWith(function(data, full, meta){

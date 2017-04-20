@@ -1,3 +1,8 @@
+<style>
+	.input-space {
+		outline: 1px dotted #f00;
+	}
+</style>
 <div class="row" id="lab-form">
 	<div class="col-md-12">
 		<div class="form-group col-md-6">
@@ -45,9 +50,15 @@
 	</div>
 
 	<div class="tabbable">
-		<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
-			<li class="active"><a href="#gen-lab-form" data-toggle="tab">General Lab Form</a></li>
-			<li><a href="#seminal-form" data-toggle="tab">Seminal Investigation</a></li>
+		<ul class="nav nav-tabs nav-tabs-highlight nav-justified">
+			<li class="active" href="#gen-lab-form" data-toggle="tab"><a>General Lab Form</a></li>
+			<li href="#lab-selector" data-toggle="tab"><a>Investigation Selector</a></li>
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Other Forms <span class="caret"></span></a>
+				<ul class="dropdown-menu dropdown-menu-right">
+					<li href="#seminal-form" data-toggle="tab"><a>Seminal Fluid Investigation</a></li>
+				</ul>
+			</li>
 		</ul>
 
 		<div class="tab-content">
@@ -62,32 +73,32 @@
 								<tbody>
 									<tr>
 										<td>HB</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 										<td>g/dl (11 - 18)</td>
 									</tr>
 									<tr>
 										<td>PCV</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 										<td>%</td>
 									</tr>
 									<tr>
 										<td>WBC</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 										<td>10/9 (4 - 11)</td>
 									</tr>
 									<tr>
 										<td>MCHC</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 										<td>g/dl (32 - 35)</td>
 									</tr>
 									<tr>
 										<td>PLATELETS</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 										<td>10/91 (150 - 400)</td>
 									</tr>
 									<tr>
 										<td>E. S. R.</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 										<td>mm/hr (&lt; 20)</td>
 									</tr>
 
@@ -96,23 +107,23 @@
 									</tr>
 									<tr>
 										<td>NEUTROPHILS</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>BASOPHILS</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>LYMPHOCYTES</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>MONOCYTES</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>EOSINOPHILS</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 
 									<tr>
@@ -120,39 +131,39 @@
 									</tr>
 									<tr>
 										<td>ANISOCYTOSIS</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>HYPOCHROMA</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>SICKLE CELLS</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>TARGET CELLS</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>SPHEROCYTOSIS</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>BLEEDING TIME</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>CLOTTING TIME</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>BLOOD GROUP</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>GENOTYPE</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 								</tbody>
 							</table>
@@ -164,43 +175,43 @@
 								<tbody>
 									<tr>
 										<td>HCG</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>HBS Ag</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>ELISA SCREENING</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>HCV</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>HAV</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>PSA</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>OVULATION</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>CD4+ COUNT</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>MAN TOUX TEST</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>V. D. R. L.</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 								</tbody>
 							</table>
@@ -214,27 +225,27 @@
 								<tbody>
 									<tr>
 										<td>Salmonella Typhi</td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>Salmonella Paratyphi A</td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>Salmonella Paratyphi B</td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>Salmonella Paratyphi C</td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td colspan="2">Significant for litres > 1.80</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 								</tbody>
 							</table>
@@ -249,43 +260,43 @@
 								<tbody>
 									<tr>
 										<td>PH:</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>PROTEIN</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>GLUCOSE</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>KETONES</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>BILIRUBIN</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>UROBILINOGEN</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>BLOOD</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>NITRATE</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>ASCORBIC ACID</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>S. G.</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 
 									<tr>
@@ -298,32 +309,32 @@
 									</tr>
 									<tr>
 										<td>UREA (mmol/L)</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 										<td>25 - 6.5</td>
 									</tr>
 									<tr>
 										<td>SODIUM</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 										<td>136 - 146</td>
 									</tr>
 									<tr>
 										<td>POTASSIUM</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 										<td>3.5 - 5.0</td>
 									</tr>
 									<tr>
 										<td>CHLORIDE</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 										<td>95 - 108</td>
 									</tr>
 									<tr>
 										<td>BICARBONATE</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 										<td>24 - 32</td>
 									</tr>
 									<tr>
 										<td>CREANINE (/umi/i)</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 										<td> 9 - 126</td>
 									</tr>
 
@@ -337,27 +348,27 @@
 									</tr>
 									<tr>
 										<td>SGOT /(AST)IU/L</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 										<td>5 - 21</td>
 									</tr>
 									<tr>
 										<td>SGOT (ALT)</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 										<td>16 - 40</td>
 									</tr>
 									<tr>
 										<td>ALK, PHOS (KAU)</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 										<td>21 - 92</td>
 									</tr>
 									<tr>
 										<td>CONJ BIL. (UMO/L)</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 										<td>0 - 4</td>
 									</tr>
 									<tr>
 										<td>TOTAL BILLIRUBIN</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 										<td>4 - 17</td>
 									</tr>
 
@@ -371,17 +382,17 @@
 									</tr>
 									<tr>
 										<td>FASTING (MMOL/L)</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 										<td>2.5 - 7.0</td>
 									</tr>
 									<tr>
 										<td>2HPP</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 										<td>2.5 - 7.0</td>
 									</tr>
 									<tr>
 										<td>RANDOM</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 										<td>2.5 - 8.0</td>
 									</tr>
 
@@ -395,37 +406,37 @@
 									</tr>
 									<tr>
 										<td>CALCIUM (MMOL/L)</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 										<td>2.W5 - 2.75</td>
 									</tr>
 									<tr>
 										<td>INORG PHOS</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 										<td>0.8 - 14</td>
 									</tr>
 									<tr>
 										<td>URIC ACID (/UMOL)</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 										<td>120 - 420</td>
 									</tr>
 									<tr>
 										<td>AMYLASE (CU)</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 										<td>200 - 600</td>
 									</tr>
 									<tr>
 										<td>AMYLASE (CU)</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 										<td>200 - 600</td>
 									</tr>
 									<tr>
 										<td>CHOLESTEROL (MMO/L)</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 										<td>2.5 - 6.25</td>
 									</tr>
 									<tr>
 										<td>OTHER</td>
-										<td colspan="2" class="text-black text-bold"></td>
+										<td colspan="2" class="text-black text-bold input-space"></td>
 									</tr>
 								</tbody>
 							</table>
@@ -440,31 +451,31 @@
 								<tbody>
 									<tr>
 										<td>PUS CELLS</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>RED BLOOD CELLS</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>EPITHELIAL CELLS</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>YEAST CELLS</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>CRYSTALS</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>OVA</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>OTHERS</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 								</tbody>
 							</table>
@@ -478,27 +489,27 @@
 								<tbody>
 									<tr>
 										<td>CONSISTENCY</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>MUCUS</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>BLOOD</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>OVA</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>CYST</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>OTHERS</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 								</tbody>
 							</table>
@@ -512,15 +523,15 @@
 								<tbody>
 									<tr>
 										<td>MALARIA PARASITES</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>MICROFILARIA</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>SKIN SNIP</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 								</tbody>
 							</table>
@@ -536,109 +547,109 @@
 										<td colspan="4">ORGANISMS ISOLATED</td>
 									</tr>
 									<tr>
-										<td colspan="4" class="text-black text-bold">1.</td>
+										<td colspan="4" class="text-black text-bold input-space">1. </td>
 									</tr>
 									<tr>
-										<td colspan="4" class="text-black text-bold">2.</td>
+										<td colspan="4" class="text-black text-bold input-space">2. </td>
 									</tr>
 									<tr>
-										<td colspan="4" class="text-black text-bold">3.</td>
+										<td colspan="4" class="text-black text-bold input-space">3. </td>
 									</tr>
 									<tr>
 										<td>SENSITIVITY</td>
-										<td class="text-black text-bold">1</td>
-										<td class="text-black text-bold">2</td>
-										<td class="text-black text-bold">3</td>
+										<td class="text-black text-bold input-space">1</td>
+										<td class="text-black text-bold input-space">2</td>
+										<td class="text-black text-bold input-space">3</td>
 									</tr>
 									<tr>
 										<td>1. AMOXYCILLIN</td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>2. AMPICLOX</td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>3. CIPROFLOXACIN</td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>4. ERYTHROMYCIN</td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>5. GENTAMYCIN</td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>6. ZINNACEF</td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>7. SEPTRIN</td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>8. PEFLOXACIN</td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>9. OFLOXACIN</td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>10. ROCEPHIN</td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>11. AUGEMENTIN</td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>12. CHLORAMPHENICOL</td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>13. SEPTROMYCIN</td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>14. TARIVID</td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>15. SPARFLOXACIN</td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 								</tbody>
 							</table>
@@ -661,44 +672,44 @@
 								</tr>
 								<tr>
 									<td>Volume</td>
-									<td class="text-black text-bold" colspan="2"></td>
+									<td class="text-black text-bold input-space" colspan="2"></td>
 								</tr>
 								<tr>
 									<td>PH</td>
-									<td class="text-black text-bold" colspan="2"></td>
+									<td class="text-black text-bold input-space" colspan="2"></td>
 								</tr>
 								<tr>
 									<td>Viscosity</td>
-									<td class="text-black text-bold" colspan="2"></td>
+									<td class="text-black text-bold input-space" colspan="2"></td>
 								</tr>
 								<tr>
 									<td>Motility Within</td>
-									<td class="text-black text-bold">
+									<td class="text-black text-bold input-space">
 									<td> Hours of production</td>
 								</tr>
 								<tr>
 									<td>Actively Motile</td>
-									<td class="text-black text-bold">
+									<td class="text-black text-bold input-space">
 									<td> %</td>
 								</tr>
 								<tr>
 									<td>Weakly Motile</td>
-									<td class="text-black text-bold">
+									<td class="text-black text-bold input-space">
 									<td> %</td>
 								</tr>
 								<tr>
 									<td>Non Motile</td>
-									<td class="text-black text-bold">
+									<td class="text-black text-bold input-space">
 									<td> %</td>
 								</tr>
 								<tr>
 									<td>Viability after</td>
-									<td class="text-black text-bold">
+									<td class="text-black text-bold input-space">
 									<td> hours (%)</td>
 								</tr>
 								<tr>
 									<td>Count</td>
-									<td class="text-black text-bold">
+									<td class="text-black text-bold input-space">
 									<td> x10^6 Cells/ml (N/R = > 20 x 10^6 Spermatozoa/ml)</td>
 								</tr>
 							</tbody>
@@ -713,12 +724,12 @@
 								<tbody>
 									<tr>
 										<td>Normal</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 										<td> %</td>
 									</tr>
 									<tr>
 										<td>Abnormal</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 										<td> %</td>
 									</tr>
 								</tbody>
@@ -732,34 +743,54 @@
 								<tbody>
 									<tr>
 										<td>PUS CELLS</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>EPITHELIAL CELLS</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>YEAST CELLS</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>Sperm Cells</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>RBC</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>OTHERS</td>
-										<td class="text-black text-bold"></td>
+										<td class="text-black text-bold input-space"></td>
 									</tr>
 									<tr>
 										<td>Abnormality</td>
-										<td class="text-black text-bold" colspan="2"></td>
+										<td class="text-black text-bold input-space" colspan="2"></td>
 									</tr>
 								</tbody>
 							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="tab-pane" id="lab-selector">
+				<div>
+					<!-- <h4 class="text-center"><u></u></h4> -->
+					<div class="content-group col-md-4 col-md-offset-4">
+						<label class="control-label">Investigation Type</label>
+						<select class="select" ng-model="investigationType">
+							<option value="{{inv.InvestigationTypeID}}" ng-repeat="inv in investigationTypes">{{inv.InvestigationTypeName + "(" + inv.LabName + ")"}}</option>
+						</select>
+					</div>
+					<div class="col-md-12">
+						<div class="col-md-6 content-group" ng-repeat="field in investigationFields">
+							<label class="control-label">{{field.FieldName}}</label>
+							<textarea class="text-black text-bold form-control autosuggest" ng-if="field.TypeName == 'longtext'" data-id="{{field.FieldID}}" ng-model="investigationResult[field.FieldName]"></textarea>
+							<input class="text-black text-bold form-control autosuggest" ng-if="field.TypeName == 'text'" type="text" data-id="{{field.FieldID}}" ng-model="investigationResult[field.FieldName]"/>
+							<input class="text-black text-bold form-control autosuggest" ng-if="field.TypeName == 'number'" type="number" data-id="{{field.FieldID}}" ng-model="investigationResult[field.FieldName]"/>
 						</div>
 					</div>
 				</div>
@@ -817,6 +848,9 @@
 												</label>
 											</div>
 										</td>
+									</tr>
+									<tr ng-if="investigationsToAffect.length < 1">
+										<td colspan="5" class="text-muted text-center"><span class="text-center">No Request Has Been Opened For This Patient, You can still click on the submit button</span></td>
 									</tr>
 								</tbody>
 							</table>
