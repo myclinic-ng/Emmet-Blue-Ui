@@ -8,6 +8,7 @@ angular.module("EmmetBlue")
 		},
 		templateUrl: "plugins/accounts/billing/assets/includes/receipt-template.html",
 		controller: function($scope, utils){
+			$scope.userClient = utils.globalConstants.USER_CLIENT;
 			$scope.$watch("receiptData", function(nv){
 				$scope.receiptData = nv;
 			})

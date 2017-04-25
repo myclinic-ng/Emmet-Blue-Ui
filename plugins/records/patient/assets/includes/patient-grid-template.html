@@ -11,16 +11,16 @@
 			<h5 data-popup="tooltip" title="{{patientInfo.patientfullname}}">{{patientInfo.patientfullname}}</h5>
 			<h5><span class="text-muted"><small>{{patientInfo.patientuuid}} | {{patientInfo.patienttypename}}</small></span></h5>
 			<p class="text-muted">
-				<span class="badge badge-success" ng-if="patientInfo.patientprofilelockstatus"><i class="icon-lock2"></i> profile locked</span>
-				<span class="badge badge-danger" ng-if="!patientInfo.patientprofilelockstatus"><i class="icon-unlocked2"></i> profile unlocked</span>
+				<span class="badge badge-success" ng-show="patientInfo.patientprofilelockstatus == 1"><i class="icon-lock2"></i> profile locked</span>
+				<span class="badge badge-danger" ng-show="patientInfo.patientprofilelockstatus == 0"><i class="icon-unlocked2"></i> profile unlocked</span>
 				<!-- <span class="badge badge-info"><i class="icon-calendar"></i> last visit: <u>12/10/2016</u></info> -->
 			</p>
 
 			<div class="btn-group">
-            	<button class="btn btn-xs" ng-if="!patientInfo.patientprofilelockstatus" data-popup="tooltip" title="Lock profile" data-container="body" data-toggle="modal" data-target="" ng-click="toggleProfileLockState(true, patientInfo.patientid)">
+            	<button class="btn btn-xs" ng-if="patientInfo.patientprofilelockstatus == 0" data-popup="tooltip" title="Lock profile" data-container="body" data-toggle="modal" data-target="" ng-click="toggleProfileLockState(true, patientInfo.patientid)">
             		<i class="icon-shield-check"></i> Lock profile
             	</button>
-            	<button class="btn btn-xs" ng-if="patientInfo.patientprofilelockstatus" data-popup="tooltip" title="Unlock Profile" data-container="body" data-toggle="modal" data-target="#paymentRequestLocker" ng-click="toggleProfileLockState(false, patientInfo.patientid)">
+            	<button class="btn btn-xs" ng-if="patientInfo.patientprofilelockstatus == 1" data-popup="tooltip" title="Unlock Profile" data-container="body" data-toggle="modal" data-target="#paymentRequestLocker" ng-click="toggleProfileLockState(false, patientInfo.patientid)">
             		<i class="icon-shield-notice"></i> Unlock profile
             	</button>
             	<button class="btn btn-xs" data-popup="tooltip" title="View Profile" data-container="body" data-toggle="modal" data-target="#view-patient-{{patientInfo.patientid}}">
@@ -66,9 +66,9 @@
 								<div class="sidebar-category">
 									<div class="category-title bg-success">
 										<span>Actions</span>
-										<ul class="icons-list">
-											<li><a href="#" data-action="fa fa-user"></a></li>
-										</ul>
+										<!-- <ul class="icons-list">
+											<li><a href="#" data-action="collapse"></a></li>
+										</ul> -->
 									</div>
 
 									<div class="category-content">

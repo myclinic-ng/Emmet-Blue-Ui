@@ -273,14 +273,34 @@ angular.module("EmmetBlue")
 	}
 
 	modules.patient = {
+		catchLoadProfileEnterPress: function(e){
+			if (e.which == 13){
+				modules.patient.loadPatientProfile();
+			}
+		},
 		searchAutoSuggestInit: function(){
 			$(".patient-search").typeahead({
 	            hint: true,
 	            highlight: true
 	        },
 	        {
+	        	displayKey: 'patientuuid',
 	        	source: function(query, process){
 	        		modules.globals.patient.typeAheadSource(query, process);
+	        	},
+	        	templates: {
+	        		suggestion: function(string){
+        				return	"<div class='row'>"+
+	        						"<div class='col-sm-2'>"+
+	        							"<img class='img img-responsive' src='"+utils.loadImage(string.patientpicture)+"'/>"+
+	        						"</div>"+
+	        						"<div class='col-sm-10'>"+
+	        						"<h5 class='text-bold'>"+string["first name"]+ " " + string["last name"]+"</h5>"+
+	        						"<p>"+string["patientuuid"]+"</p>"+
+	        						"<p class='text-muted'>"+string["patienttypename"]+", "+string["categoryname"]+"</p>"+
+	        						"</div>"+
+	        					"</div>"
+	        		}
 	        	}
 	        })
 		},
@@ -574,10 +594,12 @@ angular.module("EmmetBlue")
 	    		modules.globals.patient.search(query, function(response){
 	    			var data = [];
 	        		angular.forEach(response.hits.hits, function(value){
-	        			data.push(value["_source"]["first name"]+ " " + value["_source"]["last name"]+", "+value["_source"]["patientuuid"]);
+	        			data.push(value["_source"]);
 	        		})
 
-	        		data = $.map(data, function (string) { return { value: string }; });
+	        		data = $.map(data, function (string) {
+	        			return string; 
+	        		});
 	        		process(data);
 	    		}, function(error){
 	    			utils.errorHandler(error);
@@ -812,6 +834,7 @@ angular.module("EmmetBlue")
 		$scope.labTests.imagingTests = {};
 
 		$scope.patient = {
+			catchLoadProfileEnterPress: modules.patient.catchLoadProfileEnterPress,
 			loadPatientProfile: modules.patient.loadPatientProfile,
 			isProfileReady: false,
 			history: {
@@ -855,7 +878,7 @@ angular.module("EmmetBlue")
 					   "data-option-name = '"+data.StaffFullName+"' "+
 					   "data-option-role = '"+data.StaffRole+"'";
 
-		select = "<button class='btn btn-success bg-white no-border-radius selectBtn' ng-click=\""+selectButtonAction+"\""+dataOpts+" ><i class='fa fa-user-md'></i> Select</button>";
+		select = "<button class='btn btn-success bg-white no-border-radius selectBtn' ng-click=\""+selectButtonAction+"\""+dataOpts+" ><i class='fa fa-user-sm'></i> Select</button>";
 		return "<div class='btn-group'>"+select+"</div>";
 	}
 

@@ -2,7 +2,6 @@ angular.module("EmmetBlue")
 
 .controller("recordsPatientPaymentRequestController", function($scope, utils, patientEventLogger){
 	$scope.loadImage = utils.loadImage;
-	$scope.requestItems = {};
 	$scope.paymentRequestItem = {};
 	$scope.paymentRequestItems = [];
 	$scope.requestForm = {
@@ -10,16 +9,16 @@ angular.module("EmmetBlue")
 	}
 
 	function loadRequestItems(staff){
-		var request = utils.serverRequest("/accounts-biller/billing-type-items/view-by-staff-uuid?resourceId=0&uuid="+staff, "GET");
+		if (typeof $scope.requestItems == "undefined"){
+			var request = utils.serverRequest("/accounts-biller/billing-type-items/view-by-staff-uuid?resourceId=0&uuid="+staff, "GET");
 
-		request.then(function(response){
-			$scope.requestItems = response;
-		}, function(error){
-			utils.errorHandler(error);
-		});
-	}
-
-	loadRequestItems(utils.userSession.getUUID());	
+			request.then(function(response){
+				$scope.requestItems = response;
+			}, function(error){
+				utils.errorHandler(error);
+			});
+		}
+	}	
 
 	function search(url){
 		$scope.requestForm.showSearchResult = true;
@@ -54,6 +53,7 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.showRequestForm = function(patient){
+		loadRequestItems(utils.userSession.getUUID());
 		$scope.requestForm.showSearchResult = false;
 		$scope.requestForm.currentPatientProfile = patient;
 		$scope.paymentRequestItems = [];

@@ -22,7 +22,7 @@
 			<ul class="nav nav-tabs nav-tabs-highlight nav-justified">
 				<li class="active" href="#{{patientInfo['patientid']}}-profile-info" data-toggle="tab"><a>Basic Profile Information</a></li>
 				<li href="#{{patientInfo['patientid']}}-hospital-history" data-toggle="tab"><a>Hospital History</a></li>
-				<li href="#{{patientInfo['patientid']}}-diagnosis" data-toggle="tab"><a>Diagnoses</a></li>
+				<li href="#{{patientInfo['patientid']}}-diagnosis" data-toggle="tab" ng-click="loadDiagnosis(patientInfo['patientid'])"><a>Diagnoses</a></li>
 			</ul>
 
 			<div class="tab-content">
@@ -121,10 +121,10 @@
 				</div>
 
 				<div class="tab-pane" id="{{patientInfo['patientid']}}-hospital-history">
-					<div class="table-responsive">
-						<table class="col-md-12 table table-bordered table-condensed table-hover">
+					<div class="table-responsive col-md-12">
+						<table class="table table-condensed table-hover">
 							<thead>
-								<tr class="warning text-bold">
+								<tr class="bg-success">
 									<th>S/N</th>
 									<th>Date attended/admitted</th>
 									<th>Referred By</th>
@@ -136,16 +136,9 @@
 								</tr>
 							</thead>
 							<tbody>
-								<!-- <tr>
-									<td class="no-border">5</td>
-									<td class="no-border">09/10/2015</td>
-									<td class="no-border">Adelaja Amos</td>
-									<td class="no-border">Dr. Abubakar</td>
-									<td class="no-border">Male Orthopedic</td>
-									<td class="no-border">09/14/2015</td>
-									<td class="no-border">Adelaja Amos</td>
-									<td class="no-border" class="danger">Worsened</td>
-								</tr> -->
+								<tr>
+									<td colspan="8" class="text-muted text-center">No Data Available For This Patient</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>
