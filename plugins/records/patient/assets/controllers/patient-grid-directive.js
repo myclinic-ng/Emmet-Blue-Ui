@@ -26,6 +26,13 @@ angular.module("EmmetBlue")
 				$scope.viewItems[view] = true;
 			}
 
+			$scope.retrieveLockStatus = function(){
+				var req = utils.serverRequest("/patients/patient/retrieve-lock-status?resourceId="+$scope.patientInfo.patientid, "GET");
+				req.then(function(response){
+					$scope.patientInfo.patientprofilelockstatus = response.status;
+				});
+			};
+
 			$scope.toggleProfileLockState = function(status, patient){
 				if (status){
 					var request = utils.serverRequest("/patients/patient/lock-profile", "POST", {"patient":patient});

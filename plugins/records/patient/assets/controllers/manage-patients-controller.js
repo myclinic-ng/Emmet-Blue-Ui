@@ -279,7 +279,7 @@ angular.module("EmmetBlue")
 
 	  		submitData.then(function(response){
 	  			$('.loader').removeClass('show');
-	  			utils.alert("Info", "Record Uploaded successfully", "success");
+	  			utils.alert("Operation Completed Successfully", "Submitted profile has been saved and activated", "success");
 
 				var eventLog = patientEventLogger.records.newPatientRegisteredEvent(response.lastInsertId, response.lastInsertId);
 				eventLog.then(function(response){
@@ -384,5 +384,11 @@ angular.module("EmmetBlue")
 		}
 
 		search("/patients/patient/search?query="+query);
+	}
+
+	$scope.catchEnterSearch = function(event){
+		if (event.which == 13){
+			$scope.search(true);
+		}
 	}
 })

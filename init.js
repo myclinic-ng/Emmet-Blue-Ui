@@ -48,7 +48,7 @@ var themes = [
 ];
 
 var angular = {"angular": "assets/angular/libraries/angular.min.js"};
-var appDefaults = {"appDefaults": "assets/angular/core/defaults.js"}
+var appDefaults = ["./consts.js", {"appDefaults": "assets/angular/core/defaults.js"}];
 var app = {"app": "assets/angular/core/app.js"};
 var angularLibraries = [
 	"assets/angular/libraries/angular-route.min.js",
@@ -95,6 +95,7 @@ var cntrllers = [
 	"plugins/mortuary/assets/controllers.js",
 	"plugins/user/assets/controllers.js",
 	"plugins/human-resources/assets/controllers.js",
+	"plugins/human-resources/it/assets/controllers.js",
 	"plugins/accounts/billing/assets/controllers.js",
 	"plugins/accounts/main/assets/controllers.js",
 	"plugins/accounts/hmo/assets/controllers.js",

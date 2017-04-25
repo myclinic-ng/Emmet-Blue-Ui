@@ -1,0 +1,57 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>
+	$('select.select').select2();
+	$(".styled, .multiselect-container input").uniform({
+        radioClass: 'choice'
+    });
+</script>
+<div ng-controller="itControlPanelController">
+	<div class="col-md-3">
+		<div class="sidebar sidebar-main sidebar-default">
+			<div class="sidebar-content">
+				<!-- Main navigation -->
+				<div class="sidebar-category sidebar-category-visible">
+					<div class="category-title h6 bg-success">
+						<span>General Settings</span>
+						<ul class="icons-list">
+							<li><i class="fa fa-wrench"></i></li>
+						</ul>
+					</div>
+
+					<div class="category-content no-padding">
+						<ul class="navigation navigation-main navigation-accordion navigation-bordered">
+
+							<!-- Main -->
+							<li class="navigation-header">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-search"></i></span>
+									<input type="text" class="form-control" placeholder="filter" ng-model="filterDepartments"/>
+								</div>
+							</li>
+							<li ng-repeat="department in departments | filter: filterDepartments"><a href="#" ng-click="load(department)"><i class="{{department.icon}}"></i> {{department.name}}</a></li>
+							<!-- /main -->
+						</ul>
+					</div>
+				</div>
+				<!-- /main navigation -->
+			</div>
+		</div>
+	</div>
+	<div class="col-md-9">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h5 class="panel-title">{{current.segmentName}}</h5>
+				<div class="heading-elements">
+					<ul class="icons-list">
+	            		<li><a data-action="reload"></a></li>
+	            	</ul>
+	        	</div>
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<ng-include src=" current.segmentUrl "></ng-include>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

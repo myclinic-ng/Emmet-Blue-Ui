@@ -207,7 +207,9 @@ angular.module("EmmetBlue")
 		else if (filter.type == 'staff'){
 			_filter += 'filtertype=staff&query='+filter.staff;
 			_filter += "&_date="+filter.date;
-
+		}
+		else if (filter.type == 'patienttype'){
+			_filter += 'filtertype=patienttype&query='+filter.value;
 		}
 
 		var draw = data[0].value;
@@ -354,7 +356,6 @@ angular.module("EmmetBlue")
 
 			return val+html;
 		}),
-		utils.DT.columnBuilder.newColumn('RequestDate').withTitle("Request Date").notVisible(),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Request Date").renderWith(function(data, full, meta){
 			var date = new Date(data.RequestDate);
 
@@ -382,9 +383,24 @@ angular.module("EmmetBlue")
 
 			return "<h6>"+string+"</h6>";
 		}),
-		utils.DT.columnBuilder.newColumn(null).withTitle('').notVisible().renderWith(function(meta, full, data){ return data.PatientCategoryName+data.PatientTypeName; }),
 		utils.DT.columnBuilder.newColumn(null).withTitle('').notSortable().renderWith(functions.actionsMarkUp)
 	];
+
+
+	$scope.patientTypes = {};
+
+	$scope.loadPatientTypes = function(){
+		if (typeof (utils.userSession.getID()) !== "undefined"){
+			var requestData = utils.serverRequest("/patients/patient-type-category/view", "GET");
+			requestData.then(function(response){
+				$scope.patientTypes = response;
+			}, function(responseObject){
+				utils.errorHandler(responseObject);
+			});
+		}
+	}
+
+	$scope.loadPatientTypes();
 
 	$scope.paymentRequestBillingItems = function(paymentRequestId, acceptPayment){
 		if (typeof(acceptPayment) === 'undefined') {
@@ -628,6 +644,14 @@ angular.module("EmmetBlue")
 				var value = selector.value.split("<seprator>");
 				$scope.requestFilter.value = value[1];
 				$scope.requestFilter.description = "Department: '"+value[0]+"'";
+				$scope.reloadTable();
+				break;
+			}
+			case "patienttype":{
+				$scope.requestFilter.type = "patienttype";
+				var value = selector.value.split("<seprator>");
+				$scope.requestFilter.value = value[1];
+				$scope.requestFilter.description = "Patient Type: '"+value[0]+"'";
 				$scope.reloadTable();
 				break;
 			}

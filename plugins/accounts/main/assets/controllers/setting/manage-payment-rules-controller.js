@@ -342,8 +342,11 @@ angular.module("EmmetBlue")
 	$scope.billingTypeCheckbox = {};
 	$scope.billingTypeCheckboxNames = {};
 
+	$scope.patientCategory = 0;
+	$scope.patientCategories = [];
+
 	$scope.linkDtOptions = utils.DT.optionsBuilder.fromFnPromise(function(){
-		var request = utils.serverRequest('/accounts-biller/bill-payment-rule/view-append-items', 'GET');
+		var request = utils.serverRequest('/accounts-biller/bill-payment-rule/view-append-items?resourceId='+$scope.patientCategory, 'GET');
 
 		return request;
 	})
@@ -407,12 +410,27 @@ angular.module("EmmetBlue")
 		})
 	}
 
+	$scope.loadPatientCategories = function(){
+		var requestData = utils.serverRequest("/patients/patient-type-category/view", "GET");
+		requestData.then(function(response){
+			$scope.patientCategories = response;
+		}, function(responseObject){
+			utils.errorHandler(responseObject);
+		});
+	}
 
+	$scope.loadPatientCategories();
 	loadBillingTypes();
 
 	$scope.$watch("billingTypeSelector", function(newValue, oldValue){
 		if (typeof newValue !== "undefined"){
 			loadBillingTypeItems(newValue);
+		}
+	});
+
+	$scope.$watch("patientCategory", function(nv){
+		if (typeof nv !== "undefined"){
+			$scope.reloadTable();
 		}
 	});
 
@@ -426,7 +444,8 @@ angular.module("EmmetBlue")
 
 	$scope.submitRules = function(){
 		var data = {
-			items: $scope.billingTypeCheckboxNames
+			items: $scope.billingTypeCheckboxNames,
+			patientCategory: $scope.patientCategory
 		};
 
 		utils.serverRequest("/accounts-biller/bill-payment-rule/new-append-item", "POST", data)

@@ -1,55 +1,116 @@
 <div ng-controller="patientQueueController">
 	<div class="modal fade" id="_patient-queue">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
 					<h6 class="modal-title">Queued Patients <span class="pull-right">(There are {{queuedPatients.length}} unprocessed patients on queue)</span></h6>
 				</div>
 				<div class="modal-body">
-					<div class="row" ng-if="queuedPatients.length < 1">
-						<div class="col-md-12">
-							<h1 class="text-center text-success">
-								<i class="icon-thumbs-up3 display-block" style="font-size: 5em"></i>
-							</h1>
-							<h5 class="text-center display-block text-primary"><i class="icon-info22"></i> All clear, there are currently no patients on queue</h5 >
-						</div>
-					</div>
-					<div class="row" ng-if="queuedPatients.length > 0">
-						<div class="col-md-6">
-							<h6 class="pull-right">Enter a patients name to search:</h6>
-						</div>
-						<div class="col-md-6">
-							<input class="form-control pull-right" placeholder="filter patients" ng-model="filterQueuedPatients"/>
-						</div>
-						<table class="table table-condensed table-hover">
-							<thead class="bg-success">
-								<th></th>
-								<th colspan="1">Patients Full Name</th>
-								<th colspan="2">Queue Time</th>
-							</thead>
-							<tbody>
-								<tr ng-repeat="patient in queuedPatients | filter:filterQueuedPatients">
-									<td class="text-bold" style="border-right: 1px solid #4CAF50">{{$index + 1}}</td>
-									<td class="media">
-										<div class="media-left media-middle">
-											<a href="#">
-												<img src="{{loadImage(patient.patientInfo.patientpicture)}}" class="img-circle" alt="">
-											</a>
-										</div>
+					<div class="row">
+						<div class="tabbable">
+							<ul class="nav nav-tabs nav-tabs-highlight nav-justified">
+								<li class="active" href="#c-queue" data-toggle="tab"><a>My Queue <span class="badge badge-danger pull-right">{{queuedPatients.length}}</span></a></li>
+								<li href="#g-queue" data-toggle="tab"><a>All active patients <span class="badge badge-info pull-right">{{gQueueCount}}</span></a></li>
+							</ul>
 
-										<div class="media-body">
-											<div class="media-heading text-semibold">{{patient.patientInfo.patientfullname}}</div>
-											<span ng-hide="true">{{patient.patientInfo.patientuuid}}</span>
-											<span class="text-muted">{{patient.patientInfo.patienttypename}}, {{patient.patientInfo.categoryname}}</span>
+							<div class="tab-content ">
+								<div class="tab-pane active" id="c-queue">
+									<div class="row" ng-if="queuedPatients.length < 1">
+										<div class="col-md-12">
+											<h1 class="text-center text-success">
+												<i class="icon-thumbs-up3 display-block" style="font-size: 5em"></i>
+											</h1>
+											<h5 class="text-center display-block text-primary"><i class="icon-info22"></i> All clear, there are currently no patients on queue</h5 >
 										</div>
-									</td>
-									<td>{{patient.QueueDate}}</td>
-									<td>
-										<a class="btn btn-link" ng-click="removeFromQueue(patient.QueueID, patient.patientInfo.patientuuid)"><i class="fa fa-check"></i> Begin Diagnosis</a>
-									</td>
-								</tr>
-							</tbody>
-						</table>
+									</div>
+									<div class="row" ng-if="queuedPatients.length > 0">
+										<div class="col-md-6">
+											<h6 class="pull-right">Enter a patients name to search:</h6>
+										</div>
+										<div class="col-md-6">
+											<input class="form-control pull-right" placeholder="filter patients" ng-model="filterQueuedPatients"/>
+										</div>
+										<table class="table table-condensed table-hover">
+											<thead class="bg-success">
+												<th></th>
+												<th colspan="1">Patients Full Name</th>
+												<th colspan="2">Queue Time</th>
+											</thead>
+											<tbody>
+												<tr ng-repeat="patient in queuedPatients | filter:filterQueuedPatients">
+													<td class="text-bold" style="border-right: 1px solid #4CAF50">{{$index + 1}}</td>
+													<td class="media">
+														<div class="media-left media-middle">
+															<a href="#">
+																<img src="{{loadImage(patient.patientInfo.patientpicture)}}" class="img-circle" alt="">
+															</a>
+														</div>
+
+														<div class="media-body">
+															<div class="media-heading text-semibold">{{patient.patientInfo.patientfullname}}</div>
+															<span ng-hide="true">{{patient.patientInfo.patientuuid}}</span>
+															<span class="text-muted">{{patient.patientInfo.patienttypename}}, {{patient.patientInfo.categoryname}}</span>
+														</div>
+													</td>
+													<td>{{patient.QueueDate}}</td>
+													<td>
+														<a class="btn btn-link" ng-click="removeFromQueue(patient.QueueID, patient.patientInfo.patientuuid)"><i class="fa fa-check"></i> Begin Diagnosis</a>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="tab-pane" id="g-queue">
+									<div class="row" ng-if="gQueue.length < 1">
+										<div class="col-md-12">
+											<h1 class="text-center text-success">
+												<i class="icon-thumbs-up3 display-block" style="font-size: 5em"></i>
+											</h1>
+											<h5 class="text-center display-block text-primary"><i class="icon-info22"></i> All clear, there are currently no patients on the global queue</h5 >
+										</div>
+									</div>
+									<div class="row" ng-if="gQueue.length > 0">
+										<div class="col-md-6">
+											<h6 class="pull-right">Enter a patients name to search:</h6>
+										</div>
+										<div class="col-md-6">
+											<input class="form-control pull-right" placeholder="filter patients" ng-model="filterQueuedPatients"/>
+										</div>
+										<div class="table-responsive col-md-12">
+											<table class="table table-condensed table-hover">
+												<thead class="bg-success">
+													<th></th>
+													<th colspan="2"><center>Patients Full Name</center></th>
+												</thead>
+												<tbody>
+													<tr ng-repeat="patient in gQueue | filter:filterQueuedPatients">
+														<td class="text-bold" style="border-right: 1px solid #4CAF50">{{$index + 1}}</td>
+														<td class="media">
+															<div class="media-left media-middle">
+																<a href="#">
+																	<img src="{{loadImage(patient.PatientPicture)}}" class="img-circle" alt="">
+																</a>
+															</div>
+
+															<div class="media-body">
+																<div class="media-heading text-bold">{{patient.PatientFullName}}</div>
+																<span>{{patient.PatientUUID}}</span>
+																<br/>
+																<span class="text-muted">{{patient.PatientTypeName}}, {{patient.CategoryName}}</span>
+															</div>
+														</td>
+														<td>
+															<a class="btn btn-link" ng-click="copy(patient.PatientUUID)" ng-hide="true"><i class="fa fa-copy"></i> Copy ID</a>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

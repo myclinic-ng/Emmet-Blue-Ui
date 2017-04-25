@@ -7,23 +7,27 @@
 		<div class="col-xs-7">
 			<div class="form-group col-xs-12">
 				<label class="col-xs-3">Patient: </label>
-				<div class="col-xs-9"><p class="text text-bold">{{patientInfo.patientfullname}}</p class="text text-bold"></div>
+				<div class="col-xs-9"><p class="text text-bold">{{patientInfo.patientfullname}}</p></div>
 			</div>
 			<div class="form-group col-xs-12">
 				<label class="col-xs-3">Patient ID: </label>
-				<div class="col-xs-9"><p class="text text-bold">{{patientInfo.patientuuid}}</p class="text text-bold"></div>
+				<div class="col-xs-9"><p class="text text-bold">{{patientInfo.patientuuid}}</p></div>
 			</div>
 			<div class="form-group col-xs-12">
 				<label class="col-xs-3">Type: </label>
-				<div class="col-xs-9"><p class="text text-bold">{{patientInfo.patienttypename}}, {{patientInfo.categoryname}}</p class="text text-bold"></div>
+				<div class="col-xs-9"><p class="text text-bold">{{patientInfo.patienttypename}}, {{patientInfo.categoryname}}</p></div>
+			</div>
+			<div class="form-group col-xs-12" ng-if='patientInfo["hmo number"]'>
+				<label class="col-xs-3">HMO Number: </label>
+				<div class="col-xs-9"><p class="text text-bold">{{patientInfo["hmo number"]}}</p></div>
 			</div>
 			<div class="form-group col-xs-12">
 				<label class="col-xs-3">DOB | Gender: </label>
-				<div class="col-xs-9"><p class="text text-bold">{{toLocaleDate(patientInfo["date of birth"])}} | {{patientInfo["gender"]}}</p class="text text-bold"></div>
+				<div class="col-xs-9"><p class="text text-bold">{{toLocaleDate(patientInfo["date of birth"])}} | {{patientInfo["gender"]}}</p></div>
 			</div>
 			<div class="form-group col-xs-12">
 				<label class="col-xs-3">Emergency Contact: </label>
-				<div class="col-xs-9"><p class="text text-bold">{{patientInfo["reference contact, emergency"]}}</p class="text text-bold"></div>
+				<div class="col-xs-9"><p class="text text-bold">{{patientInfo["reference contact, emergency"]}}</p></div>
 			</div>
 		</div>
 		<div class="col-xs-5">
@@ -32,11 +36,11 @@
 			</div>
 			 <div class="form-group col-xs-12">
 				<label class="col-xs-4">Issued On: </label>
-				<div class="col-xs-8"><p class="text text-bold">{{toDateString(patientInfo["lastmodified"])}}</p class="text text-bold"></div>
+				<div class="col-xs-8"><p class="text text-bold">{{toDateString(patientInfo["lastmodified"])}}</p></div>
 			</div>
 		</div>
 	</div>
 	<div class="col-xs-12 text-center">
-		<p class="text-thin text-info">This is a property of Saint Gerards Catholic Hospital. Always bring this along to the hospital. If found, Please return to the Hospital Records Office</p>
+		<p class="text-thin text-info">This is a property of {{userClient.name}}. Always bring this along to the hospital. If found, Please return to the Hospital Records Office</p>
 	</div>
 </div>

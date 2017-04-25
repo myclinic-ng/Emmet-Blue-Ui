@@ -2,7 +2,8 @@ angular.module("EmmetBlue")
 
 .controller('userLoginController', function($scope, utils, $cookies, $location, $timeout){
 	$scope.login = {};
-
+	$scope.userClient = utils.globalConstants.USER_CLIENT;
+	
 	if (typeof $.cookie("last-stored-login-username") != "undefined"){
 		$scope.login.username = $.parseJSON($.cookie("last-stored-login-username")).value;
 	}

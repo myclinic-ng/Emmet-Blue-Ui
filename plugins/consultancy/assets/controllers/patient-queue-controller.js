@@ -16,7 +16,22 @@ angular.module("EmmetBlue")
 	$scope.$on('reloadQueue', function(){
 		var consultant = utils.userSession.getID();
 		loadQueue(consultant);
+		countQueue();
 	});
+
+	function countQueue(){
+		var req = utils.serverRequest('/patients/patient/view-unlocked-profiles', 'GET');
+		req.then(function(response){
+			$scope.gQueueCount = response.length;
+			$scope.gQueue = response;
+		})
+	};
+
+	$scope.$on("recountQueue", function(){
+		countQueue();
+	})
+
+	countQueue();
 
 	$scope.removeFromQueue = function(id, uuid){
 		var req = utils.serverRequest("/consultancy/patient-queue/delete?resourceId="+id, "DELETE");

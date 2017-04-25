@@ -8,6 +8,27 @@ angular.module("EmmetBlue")
 		},
 		templateUrl: "plugins/records/patient/assets/includes/edit-profile-template.html",
 		controller: function($scope, utils){
+			$scope.enableCamera = function(id){
+				Webcam.attach("#_camera-"+id);
+			}
+
+			$scope.takeSnapshot = function(id) {
+				// freeze camera so user can preview current frame
+				// Webcam.freeze();
+				
+				Webcam.snap( function(data_uri) {
+					// display results in page
+					var img = '<img src="'+data_uri+'" class="col-md-12 img img-responsive" id="_passport-'+id+'" style="width:100% !important; height: 100% !important;"/>';
+
+					$("#_camera-"+id).html(img);
+					$("#_patient-passport-"+id).val(data_uri);
+				} );
+			}
+
+			$scope.retakeSnapshot = function(id) {
+				Webcam.reset();
+				$scope.enableCamera(id);
+			}
 			$scope.loadPatientTypes = function(categoryId){
 				if (typeof categoryId !== "undefined"){
 					var requestData = utils.serverRequest("/patients/patient-type/view-by-category?resourceId="+categoryId, "GET");
@@ -18,7 +39,6 @@ angular.module("EmmetBlue")
 					});
 				}
 			}
-
 
 			$scope.loadPatientCategories = function(){
 				var requestData = utils.serverRequest("/patients/patient-type-category/view", "GET");
@@ -80,6 +100,11 @@ angular.module("EmmetBlue")
 
 			loadFields();
 
+			$scope.indics = {
+				showSpinner: -1,
+				showSuccess: -1
+			};
+
 			$scope.saveEditedFields = function(){
 				var data = [];
 
@@ -87,7 +112,8 @@ angular.module("EmmetBlue")
 					if (typeof $scope.fields[i].edited !== "undefined" && $scope.fields[i].edited == true){
 						data.push({
 							resourceId: $scope.fields[i].FieldValueID,
-							FieldValue: $scope.fields[i].FieldValue
+							FieldValue: $scope.fields[i].FieldValue,
+							FieldTitle: $scope.fields[i].FieldTitle
 						});
 					}
 				}
@@ -100,6 +126,34 @@ angular.module("EmmetBlue")
 				}, function(error){
 					utils.errorHandler(error);
 				})
+			}
+
+			$scope.saveEditedField = function(field, index){
+				if (typeof field.edited !== "undefined" && field.edited == true && field.FieldValue !== ""){
+					$scope.indics.showSpinner = index;
+					var data = [];
+					data.push({
+						resourceId: field.FieldValueID,
+						FieldValue: field.FieldValue,
+						FieldTitle: field.FieldTitle
+					});
+
+					var req = utils.serverRequest("/patients/patient/edit-patient-records-field-value", "PUT", {"patient": $scope.patientInfo.patientid, "data": data});
+
+					req.then(function(response){
+						$scope.indics.showSpinner = -1;
+						$("#field-"+$scope.patientInfo.patientid+"-"+index).addClass("has-success");
+						$scope.indics.showSuccess = index;
+						$scope.fields[index].edited = false;
+						setTimeout(function(){
+							$scope.indics.showSuccess = -1;
+							$("#field-"+$scope.patientInfo.patientid+"-"+index).removeClass("has-success");
+						}, 2000);
+						// utils.notify("Operation Successful", "Selected profile has been updated successfully. You need to reload your browser for changes to take effect", "success");
+					}, function(error){
+						utils.errorHandler(error);
+					})
+				} 
 			}
 
 			$scope.saveChangeType = function(){
@@ -118,8 +172,8 @@ angular.module("EmmetBlue")
 				})
 			}
 
-			$scope.saveNewPassport = function(){
-	        	$scope.patientPassport = $("#passport").attr("src");
+			$scope.saveNewPassport = function(id){
+	        	$scope.patientPassport = $("#_passport-"+id).attr("src");
 
 	        	var data = {
 	        		photo: $scope.patientPassport,

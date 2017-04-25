@@ -4,14 +4,18 @@ angular.module("EmmetBlue")
 	$scope.loadImage = utils.loadImage;
 
 	function tableAction(data, type, full, meta){
-		var verifyButtonAction = "manageField('load', "+data.SalesID+")";
+		if (data.DischargeStatus == -1){
+			var verifyButtonAction = "manageField('load', "+data.PatientAdmissionID+")";
 
-		var dataOpt = "data-option-id='"+data.patientid+"' data-option-uuid='"+data.patientuuid+"'";
+			var dataOpt = "data-option-id='"+data.PatientAdmissionID;
 
-		var verifyButton = "<button class='btn btn-danger btn-labeled bg-white no-border-radius btn-hmo-profile' ng-click=\""+verifyButtonAction+"\" "+dataOpt+"> <b><i class='icon-user-block'></i></b> Load Workspace</button>";
-		
-		var buttons = "<div class='btn-group'>"+verifyButton+"</button>";
-		return ""; //buttons;
+			var verifyButton = "<button class='btn btn-danger btn-labeled bg-white no-border-radius btn-hmo-profile' ng-click=\""+verifyButtonAction+"\" "+dataOpt+"> <b><i class='icon-user-block'></i></b> Clear For Discharge</button>";
+			
+			var buttons = "<div class='btn-group'>"+verifyButton+"</button>";
+			return buttons; //buttons;
+		}
+
+		return "";
 	}
 
 	$scope.dtInstance = {};
@@ -78,17 +82,11 @@ angular.module("EmmetBlue")
 	$scope.manageField = function(manageGroup, id){
 		switch(manageGroup.toLowerCase()){
 			case "load":{
-				var req = utils.serverRequest("/accounts-biller/hmo-sales-verification/view?resourceId="+id, "GET");
+				var req = utils.serverRequest("/consultancy/patient-admission/clear-for-discharge?resourceId="+id, "GET");
 
 				req.then(function(response){
-					if (typeof response[0] == 'undefined'){
-						utils.notify("Unable to load Request", "", "error");
-					}
-					else {
-						$scope.currentRequest = response[0];
-				
-						$("#verificationRequestInfo").modal("show");
-					}
+					utils.notify("Discharge Complete", "This patient has been cleared successfully", "success");
+					$scope.reloadTable();
 				}, function(error){
 					utils.errorHandler(error);
 				})

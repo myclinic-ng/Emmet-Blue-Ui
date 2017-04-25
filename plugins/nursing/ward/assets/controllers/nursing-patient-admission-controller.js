@@ -22,6 +22,7 @@ angular.module("EmmetBlue")
 					   "data-option-consultant = '"+data.Consultant+"'"+
 					   "data-option-patient = '"+data.Patient+"'"+
 					   "data-option-ward = '"+data.WardName+"'"+
+					   "data-option-ward-id = '"+data.Ward+"'"+
 					   "data-option-section = '"+data.WardSectionName+"'"+
 					   "data-option-section-id = '"+data.Section+"'"+
 					   "data-option-admission-date = '"+data.AdmissionDate+"'"+
@@ -99,13 +100,7 @@ angular.module("EmmetBlue")
 				return data.WardDetails.WardAdmissionID;
 			}
 		}),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Admitted By").renderWith(function(data, f, m){
-			$scope.loadStaffName(data.Consultant)
-
-			return "<p>{{consultantsName["+data.Consultant+"]}}</p>";
-			
-		}),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Patient Name").renderWith(function(data){
+		utils.DT.columnBuilder.newColumn(null).withTitle("Patient").renderWith(function(data){
 			var image = $scope.loadImage(data.PatientPicture);
 			var val = "<div class='media'>"+
 						"<div class='media-left'>"+
@@ -115,15 +110,34 @@ angular.module("EmmetBlue")
 						"</div>"+
 
 						"<div class='media-body' style='width: auto !important;'>"+
-							"<h6 class='media-heading'>"+data.PatientFullName+"</h6>"+
+							"<h6 class='media-heading text-black'>"+data.PatientFullName+"</h6>"+
 							"<span class='text-muted'> "+data.PatientUUID+"</span>"+
 						"</div>"+
 					"</div>";
 
 			return "<div class='content-group'>"+val+"</div>";
 		}),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Admitted By").renderWith(function(data, f, m){
+			var image = $scope.loadImage(data.ConsultantDetail.StaffPicture);
+			var val = "<div class='media'>"+
+						"<div class='media-left'>"+
+							"<a href='#'>"+
+								"<img src='"+image+"' class='img-circle img-lg' alt=''>"+
+							"</a>"+
+						"</div>"+
+
+						"<div class='media-body' style='width: auto !important;'>"+
+							"<h6 class='media-heading'>"+data.ConsultantDetail.StaffFullName+"</h6>"+
+							"<span class='text-muted'> "+data.ConsultantDetail.Role+"</span>"+
+						"</div>"+
+					"</div>";
+
+			return "<div class='content-group'>"+val+"</div>";
+			
+		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Admission Date").renderWith(function(data, x, y){
-			return "<p title='"+data.AdmissionDate+"'>"+new Date(data.AdmissionDate).toDateString()+"</p>";
+			return "<p title='"+data.AdmissionDate+"'>"+new Date(data.AdmissionDate).toDateString()+"</p>"+
+					"<p class='text-muted'>"+new Date(data.AdmissionDate).toLocaleTimeString()+"</p>";
 		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Ward").renderWith(function(data){
 			var val = data.WardName+"<span>";
@@ -141,6 +155,27 @@ angular.module("EmmetBlue")
 		utils.DT.columnBuilder.newColumn(null).withTitle("").renderWith(dtAction).notSortable()
 	];
 
+	$scope.completeWardTransfer = function(){
+		$scope.newTransfer.admissionId = $scope.admissionInfo._PatientAdmissionID;
+		$scope.newTransfer.wardFrom = $scope.admissionInfo._ward;
+		$scope.newTransfer.transferBy = utils.userSession.getID();
+
+		var req = utils.serverRequest("/nursing/ward-transfer/new", "POST", $scope.newTransfer);
+		req.then(function(response){
+			$("#transfer-ward").modal("hide");
+			$scope.newTransfer = {};
+			utils.notify("Transfer success", "This patient has been transferred to the selected ward", "success");
+		}, function(error){
+			utils.errorHandler(error);
+		})
+	}
+
+	$scope.newTransfer = {
+		wardTo: null,
+		sectionTo: null,
+		bedTo: null
+	}
+
 	function loadWards(){
 		var req = utils.serverRequest('/nursing/ward/view', 'GET');
 
@@ -150,7 +185,41 @@ angular.module("EmmetBlue")
 			utils.errorHandler(error);
 		});
 	}
+
+	function loadSections(ward){
+		var req = utils.serverRequest('/nursing/ward-section/view?resourceId='+ward, 'GET');
+
+		req.then(function(response){
+			$scope.sections = response;
+		}, function(error){
+			utils.errorHandler(error);
+		});
+	}
+
+	function loadBeds(section){
+		var req = utils.serverRequest('/nursing/section-bed/view?resourceId='+section, 'GET');
+
+		req.then(function(response){
+			$scope.beds = response;
+		}, function(error){
+			utils.errorHandler(error);
+		});
+	}
+
+	$scope.$watch(function(){ return $scope.newTransfer.wardTo; }, function(nv){
+		if (typeof nv != "undefined"){
+			loadSections(nv);
+		}
+	});
+
+	$scope.$watch(function(){ return $scope.newTransfer.sectionTo; }, function(nv){
+		if (typeof nv != "undefined"){
+			loadBeds(nv);
+		}
+	});
+
 	loadWards();
+	loadSections();	
 
 	function reloadTable(){
 		$scope.dtInstance.reloadData();
@@ -169,7 +238,9 @@ angular.module("EmmetBlue")
 						consultant: $elem.attr('data-option-consultant'),
 						ward: $elem.attr('data-option-ward'),
 						section: $elem.attr('data-option-section'),
-						admissionDate: $elem.attr('data-option-admission-date')
+						admissionDate: $elem.attr('data-option-admission-date'),
+						_PatientAdmissionID: $elem.attr('data-option-id'),
+						_ward: $elem.attr('data-option-ward-id')
 					};
 					
 					$scope.currentAdmission = id;

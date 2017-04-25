@@ -2,6 +2,7 @@ angular.module("EmmetBlue")
 
 .controller('coreController', function($scope, $location, $routeParams, CONSTANTS, utils, $cookies){
 	$scope.loadImage = utils.loadImage;
+	$scope.userClient = utils.globalConstants.USER_CLIENT;
 	$scope.$on('$routeChangeSuccess', function(event, current, previous){
 		var path = ($location.path()).split('/');
 		var userDashboard = ("/"+utils.userSession.getDashboard()).split("/");
@@ -41,8 +42,8 @@ angular.module("EmmetBlue")
 				title: 'Session expiration',
 				message: 'Your session is about to expire. Do you want to stay connected and extend your session?',
 				keepAlive: false,
-				warnAfter: 300000, //5 mins
-				redirAfter: 420000, //7 mins
+				warnAfter: 600000, //10 mins
+				redirAfter: 720000, //15 mins
 				ignoreUserActivity: false,
 				onWarn: function(){
 				    var title = "IDLE TIMEOUT";
@@ -105,7 +106,7 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.showEmmetBlueInfo = function(){
-		utils.alert("Emmetblue "+$scope.currentYear, "This software has been designed for and deployed to St. Gerard's Catholic Hospital. Unless stated otherwise, every part of the system is considered a property of Emmetblue and are presently in the closed-source domain with appropriate licenses. Contact an appropriate department for help or samueladeshina73@gmail.com for technical support.", "info");
+		utils.alert("Emmetblue "+$scope.currentYear, "This software has been customized for and deployed to "+$scope.userClient.short_name+". Unless stated otherwise, every part of the system is considered a property of Emmetblue and are presently in the closed-source domain with appropriate licenses. Contact an appropriate department for help or samueladeshina73@gmail.com for technical support.", "info");
 	}
 
 	function updateCookieDashboardUrl(url){
@@ -141,10 +142,14 @@ angular.module("EmmetBlue")
 	checkLogin();
 	loadUserProfile();
 
-	utils.serverRequest("/human-resources/staff-department/view-secondary-departments?resourceId="+utils.userSession.getID(), "GET")
-	.then(function(response){
-		$scope.switchableDepartments = response;
-	}, function(error){
-		utils.errorHandler(error);
-	})
+	$scope.loadSwitchableDepts = function(){
+		if (typeof $scope.switchableDepartments == "undefined"){
+			utils.serverRequest("/human-resources/staff-department/view-secondary-departments?resourceId="+utils.userSession.getID(), "GET")
+			.then(function(response){
+				$scope.switchableDepartments = response;
+			}, function(error){
+				utils.errorHandler(error);
+			})
+		}
+	}
 });
