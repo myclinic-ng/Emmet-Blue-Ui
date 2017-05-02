@@ -14,6 +14,12 @@ angular.module("EmmetBlue")
 	}
 	$scope.initAdmissionForm();
 
+	$scope.loadInfoOnEnterPress = function(e){
+		if (e.which == 13){
+			$scope.loadInfo();
+		}
+	}
+
 	var showBigSpace = function(){
 		$(".bigSpace").addClass("col-md-8").removeClass("col-md-12");
 		$scope.showInfo = true;

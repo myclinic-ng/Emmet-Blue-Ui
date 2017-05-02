@@ -73,6 +73,10 @@ function nursingPatientWorkspaceController($rootScope, $scope, utils){
 		return new Date(date).toDateString();
 	}
 
+	$scope.toTimeString = function(date){
+		return new Date(date).toLocaleTimeString();
+	}
+
 	function reloadFields(id){
 		utils.serverRequest('/nursing/observation-type/view?resourceId='+id, 'GET').then(function(response){
 			$scope.currentObservationTypeName = response[0].ObservationTypeName;

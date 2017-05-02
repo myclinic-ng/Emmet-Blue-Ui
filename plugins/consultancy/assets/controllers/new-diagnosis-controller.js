@@ -1,6 +1,6 @@
 angular.module("EmmetBlue")
 
-.controller("consultancyNewDiagnosisController", function($scope, utils, $http){
+.controller("consultancyNewDiagnosisController", function($scope, utils, $http, $rootScope){
 	var modules = {};
 
 	modules.allergies = {
@@ -367,125 +367,6 @@ angular.module("EmmetBlue")
 		}
 	}
 
-	modules.conclusion = {
-		loadPrescriptionTemplates: function(){
-			var req = utils.serverRequest("/consultancy/prescription-template/view", "GET");
-			req.then(function(response){
-				$scope.conclusion.prescriptionTemplates = response;
-			}, function(error){
-				utils.errorHandler(error);
-			})
-		},
-		loadTemplateForPrescription: function(template){
-			var req = utils.serverRequest("/consultancy/prescription-template/view-template-items?resourceId="+template, "GET");
-			req.then(function(response){
-				angular.forEach(response, function(value, key){
-					modules.conclusion.addPrescriptionToList(value.Item, value.Note);
-				});
-			}, function(error){
-				utils.errorHandler(error);
-			})
-		},
-		addDrugsToPrescriptionToList: function(){
-			$("#modal-drugs").modal("hide");
-			// utils.notify("Operation in progress", "Drugs are being added to the prescription list, please note that this might take a few seconds to complete", "info");
-			angular.forEach($scope.conclusion.searchDrugGroups.conceptGroup, function(value){
-				if (typeof value.conceptProperties != "undefined"){
-					for(var i = 0; i < value.conceptProperties.length; i++){
-						if (typeof value.conceptProperties[i].selected != "undefined" && value.conceptProperties[i].selected == true){
-							modules.conclusion.addPrescriptionToList(value.conceptProperties[i].name);
-						}
-					}
-				}
-			})
-		},
-		addPrescriptionToList: function(item, duration = ""){
-			if (item !== ""){
-				var prescription = {
-					item: item,
-					duration: duration
-				};
-
-				var duplicationDetected = false;
-				for (var i = 0; i < $scope.conclusion.prescriptionList.length; i++){
-					if ($scope.conclusion.prescriptionList[i].item == prescription.item){
-						duplicationDetected = true;
-						break;
-					}
-				}
-				if (duplicationDetected){
-					utils.notify("Duplicate items are not allowed", item+" has already been added to the prescription list", "warning");
-				}
-				else {
-					$scope.conclusion.prescriptionList.push(prescription);
-				}
-			}
-		},
-		removePrescriptionFromList: function(index){
-			$scope.conclusion.prescriptionList.splice(index, 1);
-		},
-		sendToPharmacy: function(){
-			var data = {
-				request: $scope.conclusion.prescriptionList,
-				patientId: $scope.patient.profile.patientid,
-				requestedBy: utils.userSession.getID()
-			}
-
-			if (data.request.length < 1){
-				utils.notify("Request Denied", "You are not allowed to send an empty prescription list", "warning");
-			}
-			else {
-				var req = utils.serverRequest("/pharmacy/pharmacy-request/new", "POST", data);
-
-				req.then(function(response){
-					utils.notify("Operation Successful", "The dispensory has been notified", "success");
-					$("#modal-send-to-pharmacy").modal("hide");
-				}, function(error){
-					utils.errorHandler(error);
-				});
-			}
-		},
-		drugSearchAutoSuggestInit: function(){
-			$(".drug-search").typeahead({
-	            hint: true,
-	            highlight: true
-	        },
-	        {
-	        	source: function(query, process){
-	        		modules.globals.conclusion.drugTypeAheadSource(query, process);
-	        	}
-	        })
-		},
-		catchSearchDrugEnterPress: function(e){
-			if (e.which == 13){
-				modules.conclusion.searchDrug();
-			}
-		},
-		searchDrug: function(){
-			var drug = $("#conclusion-drug").val();
-
-			$scope.conclusion.addPrescriptionToList(drug);
-
-			$("#conclusion-drug").val("");
-
-
-			// $scope.conclusion.searchDrugGroups = {
-			// 	name: drug
-			// }
-
-			// var successCallback = function(response){
-			// 	$scope.conclusion.searchDrugGroups = response.data.drugGroup;
-			// }
-
-			// var errorCallback = function(error){
-			// 	utils.notify("Unable to reach drugs server", "This is probably due to unavailability of internet access or some general error. Please contact an administrator if this error persists", "warning");
-			// 	$("#modal-drugs").modal("hide");
-			// }
-
-			// $http.get(modules.globals.rxNormEndpoint+"/drugs?name="+drug).then(successCallback, errorCallback);
-		}
-	}
-
 	modules.globals = {
 		rxNormEndpoint: "https://rxnav.nlm.nih.gov/REST",
 		loadRegisteredLabs: function(){
@@ -603,21 +484,6 @@ angular.module("EmmetBlue")
 	        		process(data);
 	    		}, function(error){
 	    			utils.errorHandler(error);
-	    		})
-	    	}
-		},
-		conclusion:{
-			drugTypeAheadSource: function(query, process){
-	    		utils.serverRequest("/consultancy/drug-names/search?phrase="+query+"&staff="+utils.userSession.getUUID(), "GET").then(function(response){
-	    			var data = [];
-	        		angular.forEach(response, function(value){
-	        			data.push(value);
-	        		})
-
-	        		data = $.map(data, function (string) { return { value: string }; });
-	        		process(data);
-	    		}, function(error){
-	    			// utils.errorHandler(error);
 	    		})
 	    	}
 		},
@@ -852,21 +718,9 @@ angular.module("EmmetBlue")
 		$scope.patient.profile = {};
 		$scope.patient.allergies = {};
 
-		modules.conclusion.drugSearchAutoSuggestInit();
-		modules.conclusion.loadPrescriptionTemplates();
-		modules.presentingComplaints.loadComplaintTemplates();
-
 		$scope.conclusion = {
 			prescriptionList: [],
-			prescriptionTemplates: [],
-			diagnosis: {},
-			addPrescriptionToList: modules.conclusion.addPrescriptionToList,
-			removePrescriptionFromList: modules.conclusion.removePrescriptionFromList,
-			addDrugsToPrescriptionToList: modules.conclusion.addDrugsToPrescriptionToList,
-			searchDrug: modules.conclusion.searchDrug,
-			sendToPharmacy: modules.conclusion.sendToPharmacy,
-			catchSearchDrugEnterPress: modules.conclusion.catchSearchDrugEnterPress,
-			loadTemplateForPrescription: modules.conclusion.loadTemplateForPrescription
+			diagnosis: {}
 		}
 	}();
 
@@ -968,5 +822,13 @@ angular.module("EmmetBlue")
 		angular.forEach(data, function(value){
 			$scope.labTests.addToLabList(value);
 		});
+	})
+
+	$scope.$on("addPrescriptionToList", function(e, data){
+		$scope.conclusion.prescriptionList = data;
+	});
+
+	$scope.$watch(function(){ return $scope.conclusion.diagnosis.title; }, function(nv, ov){
+		$rootScope.$broadcast("currentDiagnosis", nv);
 	})
 });
