@@ -10,43 +10,47 @@
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
 					<button type="button" class="close" onclick="$('#_patient-admission-form').modal('hide')">&times;</button>
-					<h6 class="modal-title">Admit a new patient</h6>
+					<h6 class="modal-title">Patient Admission</h6>
 				</div>
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-sm-12 bigSpace">
-							<div class="content-group col-sm-12">
-								<label class="control-label">Patient Number</label>
-								<div class="input-group">
-									<input class="form-control patientSearch" id="patientNumber" ng-model="patientNumber"/>
-									<span class="input-group-btn" ng-show="showInfo">
-										<button class="btn btn-danger" ng-click="loadInfo()"><i class="icon-reload-alt"></i></button>
-									</span>
+							<div class="col-sm-7 col-sm-offset-3 valign-middle">
+								<div class="form-group pb-10">
+									<div class="col-lg-12">
+										<div class="content-group no-margin">
+											<label class="control-label">Patient</label>
+											<input type="text" id="patientNumber" class="form-control patientSearch" placeholder="Enter patient hospital number here" ng-model="patientNumber" ng-keypress="loadInfoOnEnterPress($event)"/>
+										</div>					
+										<span class="content-group text-center">
+											<center><button class="btn btn-sm btn-danger bg-danger-400 no-border-radius btn-labeled mt-5" ng-click="loadInfo()" ng-hide="showInfo"><b><i class='icon-profile'></i></b> Continue</button></center>
+										</span>
+									</div>
 								</div>
-								<center><button class="btn btn-danger mt-15" ng-click="loadInfo()" ng-hide="showInfo">Load Info</button></center>
 							</div>
+							<div class="clearfix"></div>
 							<div ng-show="showInfo">
-								<div class="content-group">
+								<div class="content-group col-xs-6">
 									<label class="control-label">Ward</label>
 									<select class="select" ng-model="newAdmission.ward">
 										<option ng-repeat="ward in wards" value="{{ward.WardID}}">{{ward.WardName}}</option>
 									</select>
 								</div>
-								<div class="content-group">
+								<div class="content-group col-xs-6">
 									<label class="control-label">Section</label>
 									<select class="select" ng-model="newAdmission.section">
 										<option ng-repeat="section in sections" value="{{section.WardSectionID}}">{{section.WardSectionName}}</option>
 									</select>
 								</div>
-								<div class="content-group">
+								<div class="content-group col-xs-12">
 									<label class="control-label">Reason of Admission</label>
 									<select class="select" ng-model="causeOfAdmission">
 										<option value="diagnosis"> Conclusion of a medical diagnosis</option>
 										<option value="Accident/Emergency"> Accident/Emergency</option>
 									</select>
 								</div>
-								<div class="content-group" ng-show="causeOfAdmission == 'diagnosis'">
-									<label class="control-label">Attach Diagnosis</label>
+								<div class="content-group col-xs-12" ng-show="causeOfAdmission == 'diagnosis'">
+									<label class="control-label">Select Diagnosis To Attach</label>
 									<select class="select" ng-model="newAdmission.diagnosis">
 										<option ng-repeat="diagnosis in diagnoses" value="{{diagnosis.DiagnosisID}}">
 											{{diagnosis.Diagnosis.conclusion.diagnosis.title}} 
@@ -56,9 +60,13 @@
 							</div>
 						</div>
 						<div class="col-sm-4 hidden-xs" ng-show="showInfo">
-							<div class="col-md-12 pl-15">
+							<div class="col-xs-12 pl-15">
 								<center><img class="img img-responsive" height="150" width="150" src="{{loadImage(patientInfo.patientpicture)}}"/></center>
-								<h6 class="text-center text-success">{{patientInfo.patientfullname}}</h6>
+								<div class="col-xs-12 text-center">
+									<h3 class="text-bold text-uppercase">{{patientInfo.patientfullname}}</h3>
+									<p class="text-uppercase" ng-if='patientInfo["hmo number"]'>HMO NUMBER: {{patientInfo["hmo number"]}}</p>
+									<h4 class="text-size-large text-light text-muted">{{patientInfo.patienttypename}}, {{patientInfo.categoryname}}</h4>
+								</div>
 								<span ng-show="showDiagInfo && causeOfAdmission == 'diagnosis'">
 									<h6 class="text-center text-primary">Diagnosis</h6>
 									<p class="display-block"><span class="text-bold">Title: </span> {{diagnosisInfo.Diagnosis.conclusion.diagnosis.title}}</p>
@@ -71,7 +79,7 @@
 				</div>
 				<div class="modal-footer" ng-if="showInfo">
 					<button type="button" class="btn btn-link" ng-click="initAdmissionForm()" onclick="$('#_patient-admission-form').modal('hide')">Cancel</button>
-					<button class="btn btn-warning" ng-click="save()">Save</button>
+					<button class="btn btn-warning" ng-click="save()">Complete Admission</button>
 				</div>
 			</div>
 		</div>

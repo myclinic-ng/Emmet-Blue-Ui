@@ -122,14 +122,34 @@
 							<div class="col-sm-12">
 								<div class="panel panel-danger" ng-repeat="note in consultationNotes | filter:noteFilter">
 									<div class="panel-heading" style="background-color: #fff; color: inherit;">
-										<h6 class="panel-title text-center"><i class="icon-bubbles10"></i> {{note.ConsultantFullName}}</h6>
+										<center>
+											<div class="media-left media-middle">
+												<a href="#"><img ng-src="{{note.ConsultantPicture}}" class="img-circle img-md" alt=""></a>
+											</div>
+											<div class="media-left">
+												<div class=""><a href="#" class="text-default text-bold">{{note.ConsultantFullName}}</a></div>
+												<div class="text-muted text-size-small">
+													<!-- <span class="status-mark border-blue position-left"></span> -->
+													{{note.ConsultantRole}}
+												</div>
+											</div>
+										</center>
 										<div class="heading-elements">
 											<ul class="icons-list">
-												<li class=""><i class="icon-alarm"></i> {{toDateString(note.DateTaken)}}</li>
+												<li class="">
+													<div class="media-left media-middle">
+														<a href="#" class="btn text-warning-400 btn-flat no-border btn-icon btn-xs valign-text-bottom"><i class="icon-watch2"></i></a>
+													</div>
+													<div class="media-left">
+														<div class="">{{toDateString(note.DateTaken)}}</div>
+														<div class="mt-5 text-size-small">
+															{{toTimeString(note.DateTaken)}}
+														</div>
+													</div>
+												</li>
 											</ul>
 										</div>
 									</div>
-
 									<div class="panel-body">
 										<div class="media">
 											<div class="media-left">
@@ -145,30 +165,6 @@
 							</div>
 						</div>
 						<div class="tab-pane" id="shift-log-stupid">
-							<div class="col-sm-12">
-								<div class="panel panel-danger" ng-repeat="note in consultationNotes | filter:noteFilter">
-									<div class="panel-heading" style="background-color: #fff; color: inherit;">
-										<h6 class="panel-title text-center"><i class="icon-bubbles10"></i> {{note.ConsultantFullName}}</h6>
-										<div class="heading-elements">
-											<ul class="icons-list">
-												<li class=""><i class="icon-alarm"></i> {{toDateString(note.DateTaken)}}</li>
-											</ul>
-										</div>
-									</div>
-
-									<div class="panel-body">
-										<div class="media">
-											<div class="media-left">
-												<i class="icon-quotes-left text-danger"></i>
-											</div>
-
-											<div class="media-body">
-												<div class="media-content" ng-bind-html="note.Note"></div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>

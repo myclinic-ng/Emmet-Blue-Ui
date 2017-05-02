@@ -1,11 +1,35 @@
 angular.module("EmmetBlue")
 
 .controller('pharmacyStoreInventoryController', function($scope, utils){
-	$scope.ddtOptions = utils.DT.optionsBuilder
-	.fromFnPromise(function(){
-		var storeInventory = utils.serverRequest('/pharmacy/store-inventory/view-by-store?resourceId='+$scope.storeID, 'GET');
-		return storeInventory;
+	$scope.ddtOptions = utils.DT.optionsBuilder.newOptions()
+	.withFnServerData(function(source, data, callback, settings){
+		var draw = data[0].value;
+        var order = data[2].value;
+        var start = data[3].value;
+        var length = data[4].value;
+
+        var url = '/pharmacy/store-inventory/view-by-store?paginate&resourceId='+$scope.storeID+'&from='+start+'&size='+length;
+        if (typeof data[5] !== "undefined" && data[5].value.value != ""){
+			url += "&keywordsearch="+data[5].value.value;
+		}
+		utils.serverRequest(url, 'GET')
+		.then(function(response){
+			var records = {
+				data: response.data,
+				draw: draw,
+				recordsTotal: response.total,
+				recordsFiltered: response.filtered
+			};
+
+			callback(records);
+		}, function(error){
+			utils.errorHandler(error);
+		});
 	})
+	.withDataProp('data')
+	.withOption('processing', true)
+	.withOption('serverSide', true)
+	.withOption('paging', true)
 	.withPaginationType('full_numbers')
 	.withDisplayLength(10)
 	.withOption('createdRow', function(row, data, dataIndex){
@@ -21,6 +45,7 @@ angular.module("EmmetBlue")
 		{
 			text: '<i class="icon-file-plus"></i> <u>N</u>ew Item',
 			action: function(){
+				$scope.loadInventoryItems();
 				$("#new_inventory_item").modal("show");
 			},
 			key: {
@@ -63,6 +88,7 @@ angular.module("EmmetBlue")
 		utils.DT.columnBuilder.newColumn('ItemQuantity').withTitle("Item Quantity"),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Tags").renderWith(function(data, type, full){
 			var string = invisible = "";
+			
 			for (var i = 0; i < data.Tags.length; i++) {
 				invisible += data.Tags[i].TagTitle+": "+data.Tags[i].TagName+" ";
 				string += "<h6 class='display-block'><span class='label label-info text-muted pull-left' style='border-right:0px !important;'>"+data.Tags[i].TagTitle+"</span><span class='label label-warning pull-left' style='border-left:0px !important;'> "+data.Tags[i].TagName+"</span></h6><br/><br/>";
@@ -97,7 +123,7 @@ angular.module("EmmetBlue")
 	$scope.ddtInstance = {};
 
 	$scope.reloadInventoryTable = function(){
-		$scope.ddtInstance.reloadData(null, true);
+		$scope.ddtInstance.rerender();
 	}
 
 	if (typeof utils.storage.inventoryStoreID != "undefined"){
@@ -112,7 +138,7 @@ angular.module("EmmetBlue")
 	});
 
 	function loadInventoryItems(){
-		var request = utils.serverRequest('/pharmacy/store-inventory/view', 'GET');
+		var request = utils.serverRequest('/pharmacy/store-inventory/view-absent-items?resourceId='+$scope.storeID, 'GET');
 
 		request.then(function(response){
 			$scope.inventoryItems = response;
@@ -120,8 +146,8 @@ angular.module("EmmetBlue")
 			utils.errorHandler(error);
 		});
 	}
-
-	// loadInventoryItems();
+	
+	$scope.loadInventoryItems = loadInventoryItems;
 
 	$scope.selectedItems = {};
 

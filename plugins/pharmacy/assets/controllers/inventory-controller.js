@@ -9,7 +9,11 @@ angular.module("EmmetBlue")
         var start = data[3].value;
         var length = data[4].value;
 
-		utils.serverRequest('/pharmacy/store-inventory/view?resourceId&paginate&from='+start+'&size='+length, 'GET')
+        var url = '/pharmacy/store-inventory/view?resourceId&paginate&from='+start+'&size='+length;
+        if (typeof data[5] !== "undefined" && data[5].value.value != ""){
+			url += "&keywordsearch="+data[5].value.value;
+		}
+		utils.serverRequest(url, 'GET')
 		.then(function(response){
 			var records = {
 				data: response.data,
@@ -53,11 +57,27 @@ angular.module("EmmetBlue")
 	]);	
 
 	$scope.ddtColumns = [
-		utils.DT.columnBuilder.newColumn('Item').withTitle("Item Code").withOption('width', '0.5%'),
-		utils.DT.columnBuilder.newColumn('BillingTypeItemName').withTitle("Item Name"),
-		utils.DT.columnBuilder.newColumn('ItemBrand').withTitle("Item Brand"),
-		utils.DT.columnBuilder.newColumn('ItemManufacturer').withTitle("Item Manufacturer"),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Tags").renderWith(function(data, type, full){
+		utils.DT.columnBuilder.newColumn('Item').withTitle("Item Code"),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Item Name").renderWith(function(data){
+			var html = "<p><span class='text-black display-block'>"+data.BillingTypeItemName+
+						"</span>";
+			if (data.ItemBrand != null){
+				html += "<span>"+data.ItemBrand;
+				if (data.ItemManufacturer != null && data.ItemManufacturer != ""){
+					html += ", <em>"+data.ItemManufacturer+"</em>";
+				}
+				
+				html += "</span>";
+			}
+			else {
+				html += "<span class='text-muted text-small'>No Brand information Available</span>";
+			}
+
+			html += "</p>";
+						
+			return html;
+		}),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Item Tags").renderWith(function(data, type, full){
 			var string = invisible = "";
 			for (var i = 0; i < data.Tags.length; i++) {
 				invisible += data.Tags[i].TagTitle+": "+data.Tags[i].TagName+" ";
@@ -66,6 +86,7 @@ angular.module("EmmetBlue")
 			
 			return string;
 		}),
+		utils.DT.columnBuilder.newColumn('_meta.totalQuantity').withTitle("Total Quantity Available"),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Manage").renderWith(function(data, type, full){
 			var editButtonAction = "manageStore('edit', "+data.ItemID+")";
 			var deleteButtonAction = "manageStore('delete', "+data.ItemID+")";
@@ -91,7 +112,7 @@ angular.module("EmmetBlue")
 	];
 
 	$scope.reloadInventoryTable = function(){
-		$scope.ddtInstance.reloadData(null, true);
+		$scope.ddtInstance.rerender();
 	}
 
 	if (typeof utils.storage.inventoryStoreID != "undefined"){
