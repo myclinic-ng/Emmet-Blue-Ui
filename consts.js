@@ -1,5 +1,5 @@
 function getConstants(){
-	var server = "https://sglt:700/";
+	var server = "https://emmetblue.org.ng:700/";
 	var client = {
 		short_name: "Harmony Hospital",
 		name: "Harmony Hospital & Specialists Clinic",
