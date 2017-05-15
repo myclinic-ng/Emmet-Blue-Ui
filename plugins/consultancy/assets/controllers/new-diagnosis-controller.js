@@ -364,6 +364,17 @@ angular.module("EmmetBlue")
 			}, function(error){
 				utils.errorHandler(error);
 			});
+		},
+		loadAdmissionHistory: function(){
+			$scope.patient.history.displayPage = "admissionHistory";
+
+			// var request = utils.serverRequest("/patients/patient-repository/view-by-patient?resourceId="+$scope.patient.profile.patientid, "GET");
+
+			// request.then(function(response){
+			// 	$scope.patient.history.repositories = response;				
+			// }, function(error){
+			// 	utils.errorHandler(error);
+			// });
 		}
 	}
 
@@ -706,6 +717,7 @@ angular.module("EmmetBlue")
 			history: {
 				displayPage: 'profile',
 				loadRepositories: modules.patient.loadRepositories,
+				loadAdmissionHistory: modules.patient.loadAdmissionHistory,
 				repositories: {},
 				loadRepo: function(repo){
 					$scope.patient.history.repositories.currentRepository = repo;

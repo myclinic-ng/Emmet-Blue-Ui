@@ -75,6 +75,9 @@
 													<li ng-click="patient.history.loadRepositories()">
 														<a href="#"><i class="icon-library2 text-teal"></i> <span> Load Archives</span></a>
 													</li>
+													<li ng-click="patient.history.displayPage='admissionHistory'">
+														<a href="#"><i class="icon-bed2 text-success"></i> <span> Admission History</span></a>
+													</li>
 													<!-- /main -->
 												</ul>
 											</div>
@@ -131,6 +134,7 @@
 										</div>
 									</div>
 								</div>
+								<ng-patient-admission-history patient-id="patient.profile.patientid" ng-show="patient.isProfileReady" ng-if="patient.history.displayPage=='admissionHistory'"></ng-patient-admission-history>
 							</div>
 						</div>
 						<div class="tab-pane" id="allergies">

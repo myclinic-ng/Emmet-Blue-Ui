@@ -314,8 +314,12 @@ function consultancyPatientWorkspaceController($rootScope, $scope, utils, $http)
 		}
 	})	
 
-	if (typeof utils.storage.currentWorkspacePatientToLoad != "undefined" && utils.storage.currentWorkspacePatientToLoad != null){
-		$scope.patientNumber = utils.storage.currentWorkspacePatientToLoad;
-		$scope.loadPatient();
-	}
+	$scope.$watch(function(){
+		return utils.storage.currentWorkspacePatientToLoad;
+	}, function(nv){
+		if (typeof nv != "undefined" && nv != null){
+			$scope.patientNumber = nv;
+			$scope.loadPatient();
+		}
+	})
 }
