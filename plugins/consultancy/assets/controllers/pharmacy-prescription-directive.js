@@ -64,6 +64,9 @@ angular.module("EmmetBlue")
 							$scope.conclusion.prescriptionList.push(prescription);
 						}
 					}
+					else {
+						utils.notify("You are not allowed to add a blank entry to the list", "Please enter a value to continue", "warning");
+					}
 				},
 				removePrescriptionFromList: function(index){
 					$scope.conclusion.prescriptionList.splice(index, 1);
@@ -85,7 +88,18 @@ angular.module("EmmetBlue")
 							req.then(function(response){
 								utils.notify("Operation Successful", "The dispensory has been notified", "success");
 								$rootScope.$broadcast("addPrescriptionToList", $scope.conclusion.prescriptionList);
-								$scope.conclusion = {};
+								$scope.conclusion = {
+									prescriptionList: [],
+									prescriptionTemplates: [],
+									diagnosis: {},
+									addPrescriptionToList: modules.conclusion.addPrescriptionToList,
+									removePrescriptionFromList: modules.conclusion.removePrescriptionFromList,
+									addDrugsToPrescriptionToList: modules.conclusion.addDrugsToPrescriptionToList,
+									searchDrug: modules.conclusion.searchDrug,
+									sendToPharmacy: modules.conclusion.sendToPharmacy,
+									catchSearchDrugEnterPress: modules.conclusion.catchSearchDrugEnterPress,
+									loadTemplateForPrescription: modules.conclusion.loadTemplateForPrescription
+								}
 								$("#modal-send-to-pharmacy").modal("hide");
 							}, function(error){
 								utils.errorHandler(error);
