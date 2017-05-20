@@ -68,18 +68,16 @@ angular.module("EmmetBlue")
 		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Patient").renderWith(function(data, full, meta){
 			var image = $scope.loadImage(data.PatientInfo.patientpicture);
-			var html = "<td>"+
-							"<div class='media-left media-middle'>"+
-								"<a href='#'><img src='"+image+"' class='img-circle img-xs' alt=''></a>"+
+			var html = "<div class='media-left media-middle'>"+
+							"<a href='#'><img src='"+image+"' class='img-circle img-xs' alt=''></a>"+
+						"</div>"+
+						"<div class='media-left'>"+
+							"<div class=''><a href='#' class='text-default text-bold'>"+data.PatientInfo.patientfullname+"</a></div>"+
+							"<div class='text-muted text-size-small'>"+
+								"<span class='status-mark border-blue position-left'></span>"+
+								data.PatientInfo.patientuuid+
 							"</div>"+
-							"<div class='media-left'>"+
-								"<div class=''><a href='#' class='text-default text-bold'>"+data.PatientInfo.patientfullname+"</a></div>"+
-								"<div class='text-muted text-size-small'>"+
-									"<span class='status-mark border-blue position-left'></span>"+
-									data.PatientInfo.patientuuid+
-								"</div>"+
-							"</div>"+
-						"</td>";
+						"</div>";
 			var _html = "";
 			if (typeof data.PatientInfo["phone number"] !== "undefined" && data.PatientInfo["phone number"] !== null){
 				_html = "<div><span class='position-left text-info'><i class='icon-mobile'></i>:</span> <span class='text-semibold'>"+data.PatientInfo["phone number"]+"</span></div>";
@@ -134,7 +132,7 @@ angular.module("EmmetBlue")
 									"<div class='media-left'>"+
 										"<div class=''><span class='label bg-success-400'>Closed</span></div>"+
 										"<div class='text-muted text-size-small'>"+
-											"<span class='status-mark border-success position-left'></span>"+
+											"<span class='fa fa-user border-success position-left'></span>"+
 											data.StatusStaffFullName+
 										"</div>"+
 									"</div>"+
@@ -143,6 +141,13 @@ angular.module("EmmetBlue")
 				}
 				case "-1":{
 					var image = $scope.loadImage(data.StatusStaffPicture);
+					var note = "";
+					if(typeof data.StatusNote !== "undefined" && data.StatusNote != "" && data.StatusNote != null){
+						note = "<p class='text-danger'><i class='fa fa-quote-left position-left'></i>"+data.StatusNote+"</p>"
+					}
+					else {
+						note = "<p class='text-muted text-center text-danger'><br/><small>No Flag Note</small></p>"
+					}
 					var html = "<td>"+
 									"<div class='media-left media-middle'>"+
 										"<a href='#'><img src='"+image+"' class='img-circle img-xs' alt=''></a>"+
@@ -150,10 +155,11 @@ angular.module("EmmetBlue")
 									"<div class='media-left'>"+
 										"<div class=''><span class='label bg-danger-400'>Flagged</span></div>"+
 										"<div class='text-muted text-size-small'>"+
-											"<span class='status-mark border-danger position-left'></span>"+
+											"<span class='fa fa-user border-danger position-left'></span>"+
 											data.StatusStaffFullName+
 										"</div>"+
 									"</div>"+
+									note+
 								"</td>";
 					break;
 				}

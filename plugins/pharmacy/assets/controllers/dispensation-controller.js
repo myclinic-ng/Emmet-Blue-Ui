@@ -3,6 +3,34 @@ angular.module("EmmetBlue")
 .controller('pharmacyDispensationController', function($scope, utils, patientEventLogger, $rootScope){
 	$scope.loadImage = utils.loadImage;
 	$scope.patient = {};
+	
+	$scope.getDateRange = function(selector){
+		var today = new Date();
+		switch(selector){
+			case "today":{
+				return today.toLocaleDateString() + " - " + today.toLocaleDateString();
+			}
+			case "yesterday":{
+				var yesterday = new Date(new Date(new Date()).setDate(new Date().getDate() - 1)).toLocaleDateString();
+				return yesterday + " - " + yesterday;
+				break;
+			}
+			case "week":{
+				var d = new Date(today);
+			  	var day = d.getDay(), diff = d.getDate() - day + (day == 0 ? -6 : 1);
+
+			  	return new Date(d.setDate(diff)).toLocaleDateString() + " - " + today.toLocaleDateString();
+			  	break;
+			}
+			case "month":{
+				var year = today.getFullYear();
+				var month = today.getMonth() + 1;
+
+				return month+'/1/'+year + ' - ' + today.toLocaleDateString();
+				break;
+			}
+		}
+	}
 
 	$scope.$on("loadPatientNumberForDispensation", function(){
 		$scope.patientNumber = utils.storage.patientNumberForDispensation;
@@ -42,9 +70,9 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.requestFilter = {
-		type: 'status',
-		description: 'Open Acknowledged Requests',
-		value: -1
+		type: 'date',
+		description: 'Today\'s Request',
+		value: $scope.getDateRange("today")
 	}
 
 	$("option[status='disabled']").attr("disabled", "disabled");
@@ -159,6 +187,10 @@ angular.module("EmmetBlue")
 				}
 				case "-1":{
 					var html = "<i class='fa fa-pause text-danger-400'></i>";
+					break;
+				}
+				case "2":{
+					var html = "<i class='fa fa-trash text-warning-400'></i>";
 					break;
 				}
 				default:{
@@ -417,19 +449,49 @@ angular.module("EmmetBlue")
 		})
 	}
 
-	$scope.close = function(){
-		var data = {
-			resourceId: $scope.currentRequestID,
-			status: 1,
-			staff: utils.userSession.getID()
-		};
+	$scope.close = function(action = ""){
+		switch (action){
+			case "":{
+				var data = {
+					resourceId: $scope.currentRequestID,
+					status: 1,
+					staff: utils.userSession.getID()
+				};
 
-		utils.serverRequest('/pharmacy/pharmacy-request/close', 'PUT', data).then(function(response){
-			$("#ack_view_modal").modal("hide");
-			$scope.reloadDispensationsTable();
-		}, function(error){
-			utils.errorHandler(error);
-		});
+				utils.serverRequest('/pharmacy/pharmacy-request/close', 'PUT', data).then(function(response){
+					$("#ack_view_modal").modal("hide");
+					$scope.reloadDispensationsTable();
+				}, function(error){
+					utils.errorHandler(error);
+				});
+				break;
+			}
+			case "retract":{
+				var title = "Do you really want to retract this transaction?";
+				var text = "Please note that this operation cannot be reversed."
+				var close = true;
+				var type = "warning";
+				var btnText = "Yes, please continue";
+
+				var process = function(){
+					var data = {
+						resourceId: $scope.currentRequestID,
+						staff: utils.userSession.getID()
+					};
+
+					utils.serverRequest('/pharmacy/dispensation/retract', 'PUT', data).then(function(response){
+						$("#ack_view_modal").modal("hide");
+						$scope.reloadDispensationsTable();
+						utils.notify("Operation Successful", "The specified transaction has been retracted successfully", "success");
+					}, function(error){
+						utils.errorHandler(error);
+					});
+				}
+
+				utils.confirm(title, text, close, process, type, btnText);
+				break;
+			}
+		}
 	}
 
 	var createRequest = function(){
@@ -488,33 +550,6 @@ angular.module("EmmetBlue")
 		}
 	}
 
-	$scope.getDateRange = function(selector){
-		var today = new Date();
-		switch(selector){
-			case "today":{
-				return today.toLocaleDateString() + " - " + today.toLocaleDateString();
-			}
-			case "yesterday":{
-				var yesterday = new Date(new Date(new Date()).setDate(new Date().getDate() - 1)).toLocaleDateString();
-				return yesterday + " - " + yesterday;
-				break;
-			}
-			case "week":{
-				var d = new Date(today);
-			  	var day = d.getDay(), diff = d.getDate() - day + (day == 0 ? -6 : 1);
-
-			  	return new Date(d.setDate(diff)).toLocaleDateString() + " - " + today.toLocaleDateString();
-			  	break;
-			}
-			case "month":{
-				var year = today.getFullYear();
-				var month = today.getMonth() + 1;
-
-				return month+'/1/'+year + ' - ' + today.toLocaleDateString();
-				break;
-			}
-		}
-	}
 
 	$scope.activateFilter = function(){
 		var selector = $scope.filterSelector;

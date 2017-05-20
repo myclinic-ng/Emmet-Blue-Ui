@@ -1,0 +1,71 @@
+<div ng-controller="recordsReportsPatientRegistrationTabRegController">
+	<div class="col-md-7">
+		<div class="table-responsive">
+			<table class="table table-hover text-nowrap">
+				<thead class="bg-success-400">
+					<tr>
+						<th>S/N</th>
+						<th>Patient Type Category</th>
+						<th>Type Count</th>
+						<th>Registrations</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="data in categoriesReport">
+						<td>{{$index+1}}</td>
+						<td>
+							<div class="media-body" ng-click="loadCategory(data.CategoryName)">
+								<div class="media-heading">
+									<a href="#" class="letter-icon-title">{{data.CategoryName}}</a>
+								</div>
+							</div>
+						</td>
+						<td>
+							<span class="text-muted text-size-small">{{data.TotalPatientTypes}}</span>
+						</td>
+						<td>
+							<h6 class="text-bold no-margin">{{data.TotalPatientCount}}</h6>
+						</td>
+					</tr>
+					<tr ng-if="categoriesReport.length < 1">
+						<td colspan="4"><center>No Data Available For The Specified Date Range</center></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="col-md-5" style="border-left: 1px solid green">
+		<h6 class="text-center text-semibold">{{currentCategory.id}}</h6>
+		<div class="col-md-8 col-md-offset-2 mb-5"><input class="form-control" placeholder="filter patient types" ng-model="filterPatientTypes"/></div>
+		<div class="clearfix"></div>
+		<div class="table-responsive">
+			<table class="table table-hover text-nowrap">
+				<thead class="bg-success-400">
+					<tr>
+						<th>S/N</th>
+						<th>Patient Type</th>
+						<th>Registrations</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="type in currentCategory.types | filter:filterPatientTypes">
+						<td>{{$index+1}}</td>
+						<td>
+							<div class="media-body">
+								<div class="media-heading">
+									<a href="#" class="letter-icon-title">{{type.PatientTypeName}}</a>
+								</div>
+							</div>
+						</td>
+						<td>
+							<span class="text-bold text-size-small">{{type.TotalPatientCount}}</span>
+						</td>
+					</tr>
+					<tr ng-if="currentCategory.types.length < 1">
+						<td colspan="3"><center>No Data Available For The Specified Date Range</center></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

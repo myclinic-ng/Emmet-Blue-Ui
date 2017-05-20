@@ -16,7 +16,6 @@
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 					<i class="icon-alarm"></i>
-					<span class="position-right">Patient Queue</span>
 					<span class="badge bg-warning-400">{{queueCount}}</span>
 				</a>
 
@@ -29,28 +28,34 @@
 				</div>
 			</li>
 			<li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					<i class="icon-statistics"></i>
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" ng-click="loadDailyLog()">
+					<i class="fa fa-bar-chart"></i>
 					<span class="visible-xs-inline-block position-right">Daily Log</span>
+					<span class="badge bg-success-400">{{dailyLog.total}}</span>
 				</a>
 				
 				<div class="dropdown-menu dropdown-content">
 					<div class="dropdown-content-heading">
 						Daily Log
 						<ul class="icons-list">
-							<li><a href="#"><i class="icon-sync"></i></a></li>
+							<li><a href="#" ng-click="loadDailyLog()"><i class="icon-sync"></i></a></li>
 						</ul>
 					</div>
 
 					<ul class="media-list dropdown-content-body width-350">
-						<li class="media">
+						<li class="media" ng-repeat="log in dailyLog.data">
 							<div class="media-left">
-								<a href="#" class="btn text-primary btn-flat btn-icon btn-sm"><i class="icon-exclamation"></i></a>
+								<img src="{{loadImage(log.PatientInfo.patientpicture)}}" class="img-circle img-sm" alt="">
+								<span class="badge bg-danger-400 media-badge" ng-if="log.PatientInfo.patientprofilelockstatus.status != 1">x</span>
 							</div>
 
 							<div class="media-body">
-								Nothing new to see here, come back some other time
-								<div class="media-annotation">since the beginning of time</div>
+								<a href="#" class="media-heading">
+									<span class="text-semibold">{{log.PatientFullName}}</span>
+									<span class="media-annotation pull-right">{{getTime(log.DateLogged)}}</span>
+								</a>
+
+								<span class="text-muted">{{log.PatientInfo.patienttypename}} {{log.PatientInfo.categoryname}}</span>
 							</div>
 						</li>
 					</ul>
@@ -60,6 +65,7 @@
 					</div>
 				</div>
 			</li>
+			<li><a href="nursing/station/reports"><i class="fa fa-pie-chart"></i> View Logs/Reports</a></li>
 		</ul>
 	</div>
 </div>

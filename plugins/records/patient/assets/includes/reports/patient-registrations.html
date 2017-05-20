@@ -1,0 +1,68 @@
+<div ng-controller="recordsReportsPatientRegistrationController">
+	<div class="row">
+		<div class="col-lg-5">
+
+			<!-- Members online -->
+			<div class="panel bg-teal-400">
+				<div class="panel-body">
+					<div class="heading-elements">
+						<ul class="icons-list">
+	                		<li><a data-action="reload"></a></li>
+	                	</ul>
+					</div>
+
+					<h3 class="no-margin">{{report.TotalPatientCount}}</h3>
+					Patients Registered<br/>
+					<span class="text-muted text-size-small" ng-if="report.max.CategoryName">with {{report.max.CategoryName}} as the majority</span>
+					<span ng-if="!report.max.CategoryName"><br/></span>
+				</div>
+			</div>
+			<!-- /members online -->
+
+		</div>
+
+		<div class="col-lg-4">
+
+			<!-- Current server load -->
+			<div class="panel bg-pink-400">
+				<div class="panel-body">
+					<div class="heading-elements">
+						<ul class="icons-list">
+	                		<li><a data-action="reload"></a></li>
+	                	</ul>
+					</div>
+
+					<h3 class="no-margin">0</h3>
+					New Patients Admitted
+					<div class="text-muted text-size-small">in 0 different wards</div>
+				</div>
+			</div>
+			<!-- /current server load -->
+
+		</div>
+	</div>
+
+	<ul class="nav nav-lg nav-tabs nav-justified no-margin no-border-radius">
+		<li class="active">
+			<a href="#messages-tue" class="text-size-small text-uppercase" data-toggle="tab">
+				New Patient Registration Report
+			</a>
+		</li>
+
+		<li>
+			<a href="#messages-mon" class="text-size-small text-uppercase" data-toggle="tab">
+				Ward Admission Report
+			</a>
+		</li>
+
+		<li>
+			<a href="#messages-fri" class="text-size-small text-uppercase" data-toggle="tab">
+				Compare With Different Date Ranges
+			</a>
+		</li>
+	</ul>
+
+	<div class="row pt-5">
+		<ng-include src="pageSegment"></ng-include>
+	</div>
+</div>

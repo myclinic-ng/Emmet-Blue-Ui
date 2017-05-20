@@ -109,12 +109,15 @@ angular.module("EmmetBlue")
 		utils.alert("Emmetblue "+$scope.currentYear, "This software has been customized for and deployed to "+$scope.userClient.short_name+". Unless stated otherwise, every part of the system is considered a property of Emmetblue and are presently in the closed-source domain with appropriate licenses. Contact an appropriate department for help or samueladeshina73@gmail.com for technical support.", "info");
 	}
 
-	function updateCookieDashboardUrl(url){
+	function updateCookieDashboardUrl(url, department = ""){
 		var cookie = $cookies.getObject(utils.globalConstants.USER_COOKIE_IDENTIFIER);
 		cookie.dashboard = url;
 		$cookies.putObject(utils.globalConstants.USER_COOKIE_IDENTIFIER, cookie);
 		
 		$location.path(url);
+		if (department !== ""){
+			utils.storage.currentStaffDepartmentID = department
+		}
 	}
 
 	$scope.switch = function(id){
@@ -125,7 +128,7 @@ angular.module("EmmetBlue")
 
 		utils.serverRequest("/user/account/get-switch-data", "POST", data)
 		.then(function(response){
-			updateCookieDashboardUrl(response.Url);
+			updateCookieDashboardUrl(response.Url, response.DepartmentID);
 		}, function(error){
 			utils.errorHandler(error);
 		})
@@ -133,7 +136,7 @@ angular.module("EmmetBlue")
 
 	$scope.returnToPrimaryDept = function(){
 		utils.serverRequest("/human-resources/staff/view-root-url?resourceId="+utils.userSession.getID(), "GET").then(function(response){
-			updateCookieDashboardUrl(response.Url);
+			updateCookieDashboardUrl(response.Url, response.DepartmentID);
 		}, function(error){
 			utils.errorHandler(error);
 		})

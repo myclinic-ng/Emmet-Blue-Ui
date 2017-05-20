@@ -47,6 +47,7 @@
 			<label class="control-label">Select Status</label>
 			<select class="select" ng-model="filterSelector.value">
 				<option status="disabled" value="Unacknowledged Requests<seprator>0">Unacknowledged Requests</option>
+				<option value="Retracted Transactions<seprator>2">Retracted Transactions</option>
 				<option value="Acknowledged Requests<seprator>-1">Acknowledged Requests</option>
 				<option value="Completed Dispensations<seprator>1">Completed Dispensations</option>
 			</select>
@@ -129,8 +130,9 @@
 						</div>
 					</div>
 				</div>
-				<div class="modal-footer" ng-if="_currentRequest.Acknowledged != 1">
-					<button type="submit" class="btn btn-danger" ng-click="close()">Mark this request as dispensed</button>
+				<div class="modal-footer" ng-if="_currentRequest.Acknowledged == -1">
+					<button type="submit" class="btn btn-danger" ng-click="close('retract')">Retract this transaction</button>
+					<button type="submit" class="btn btn-success" ng-click="close()">Mark this request as dispensed</button>
 				</div>
 			</div>
 		</div>

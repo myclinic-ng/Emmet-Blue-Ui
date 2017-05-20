@@ -1,6 +1,7 @@
 angular.module("EmmetBlue")
 
 .controller("nursingStationMenuController", function($scope, utils){
+	$scope.loadImage = utils.loadImage;
 	function countQueue(){
 		var req = utils.serverRequest('/patients/patient/view-unlocked-profiles', 'GET');
 		req.then(function(response){
@@ -13,6 +14,29 @@ angular.module("EmmetBlue")
 	})
 
 	countQueue();
+
+	$scope.loadDailyLog = function(){
+		var data = {
+			startdate: (new Date()).toLocaleDateString(),
+			enddate: (new Date()).toLocaleDateString(),
+			filtertype: 'staff',
+			query: utils.userSession.getID(),
+			paginate: '',
+			size: 20,
+			from: 1
+		}
+
+		var req = utils.serverRequest("/nursing/reports/view-patient-process-log", "POST", data);
+		req.then(function(response){
+			$scope.dailyLog = response;
+		}, function(error){
+			utils.errorHandler(error);
+		});
+	}
+
+	$scope.getTime = function(date){
+		return (new Date(date)).toLocaleTimeString();
+	}
 })
 
 .controller("nursingStationDashboardController", function($scope, utils, $rootScope){

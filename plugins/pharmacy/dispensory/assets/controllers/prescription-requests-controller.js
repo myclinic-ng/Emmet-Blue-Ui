@@ -94,11 +94,11 @@ angular.module("EmmetBlue")
 			return "<span class='text-bold'>"+data.patientInfo.patientfullname+"</span> <br/>"+data.patientInfo.patientuuid+"";
 		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Patient Type").renderWith(function(data){
-			return data.patientInfo.patienttypename+" ("+data.patientInfo.categoryname+")";
+			return data.patientInfo.patienttypename+" <br/><span class='text-muted'>"+data.patientInfo.categoryname+"</span>";
 		}),
 		utils.DT.columnBuilder.newColumn('RequestedByFullName').withTitle("Dispensation Request Sent By"),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Requested Date &amp; Time").renderWith(function(data, a, b){
-			return (new Date(data.RequestDate)).toDateString()+" "+(new Date(data.RequestDate)).toLocaleTimeString();
+			return (new Date(data.RequestDate)).toDateString()+" <br/>"+(new Date(data.RequestDate)).toLocaleTimeString();
 		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(actions).notSortable()
 	];

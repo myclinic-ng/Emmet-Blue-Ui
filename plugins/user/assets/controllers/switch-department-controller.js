@@ -17,12 +17,15 @@ angular.module("EmmetBlue")
 		utils.errorHandler(error);
 	})
 
-	function updateCookieDashboardUrl(url){
+	function updateCookieDashboardUrl(url, department = ""){
 		var cookie = $cookies.getObject(utils.globalConstants.USER_COOKIE_IDENTIFIER);
 		cookie.dashboard = url;
 		$cookies.putObject(utils.globalConstants.USER_COOKIE_IDENTIFIER, cookie);
 		
 		$location.path(url);
+		if (department !== ""){
+			utils.storage.currentStaffDepartmentID = department
+		}
 	}
 
 	$scope.switch = function(){
@@ -33,7 +36,7 @@ angular.module("EmmetBlue")
 
 		utils.serverRequest("/user/account/get-switch-data", "POST", data)
 		.then(function(response){
-			updateCookieDashboardUrl(response.Url);
+			updateCookieDashboardUrl(response.Url, response.DepartmentID);
 		}, function(error){
 			utils.errorHandler(error);
 		})
@@ -41,7 +44,7 @@ angular.module("EmmetBlue")
 
 	$scope.returnToPrimaryDept = function(){
 		utils.serverRequest("/human-resources/staff/view-root-url?resourceId="+utils.userSession.getID(), "GET").then(function(response){
-			updateCookieDashboardUrl(response.Url);
+			updateCookieDashboardUrl(response.Url, response.DepartmentID);
 		}, function(error){
 			utils.errorHandler(error);
 		})

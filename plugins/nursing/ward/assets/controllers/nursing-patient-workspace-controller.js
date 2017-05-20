@@ -230,7 +230,7 @@ function nursingPatientWorkspaceController($rootScope, $scope, utils){
 
 		$scope.process = function(){
 			function success(){
-				var data = {
+				$scope.data = {
 					patientId: patient,
 					observationType: $scope.currentObservationType,
 					observationTypeName: $scope.currentObservationTypeName,
@@ -245,11 +245,20 @@ function nursingPatientWorkspaceController($rootScope, $scope, utils){
 					staffId: staffID
 				};
 
-				utils.serverRequest("/nursing/observation/new", "POST", data).then(function(response){
+				utils.serverRequest("/nursing/observation/new", "POST", $scope.data).then(function(response){
 					utils.notify("Operation Completed Successfully", "Observation Published Successfuly", "success");
 					$scope.observationResult = {};
 					$scope.currentRepository = response.repoId;
 					$rootScope.$broadcast("observationComplete");
+					utils.serverRequest("/nursing/nursing-station-departments/log-patient-processing", "POST", {
+						patient: $scope.data.patientId,
+						nurse: $scope.data.staffId,
+						observation: $scope.currentObservationTypeName,
+						department: utils.storage.currentStaffDepartmentID
+					}, function(response){
+						console.log(response);
+					});
+
 				}, function(error){
 					utils.errorHandler(error);
 				})
@@ -378,6 +387,12 @@ function nursingPatientWorkspaceController($rootScope, $scope, utils){
 
 	$scope.$on("newPharmacyRequestSent", function(){
 		$("#pharmacy-request-form").modal("hide");
-	})
+	});
+
+	$scope.htmlDecode = function(value){
+		var html = $("<div/>").html(value).text();
+
+		return html;
+	}
 }
 

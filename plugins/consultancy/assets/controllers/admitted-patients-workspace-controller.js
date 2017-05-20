@@ -1,5 +1,9 @@
 angular.module("EmmetBlue")
 
+.filter("unsafe", function($sce){
+	return $sce.trustAsHtml;
+})
+
 .controller("consultancyPatientWorkspaceController", function($rootScope, $scope, utils, $http){
 	consultancyPatientWorkspaceController($rootScope, $scope, utils, $http);
 });
@@ -58,6 +62,10 @@ function consultancyPatientWorkspaceController($rootScope, $scope, utils, $http)
 
 	$scope.toDateString = function(date){
 		return new Date(date).toDateString();
+	}
+
+	$scope.toTimeString = function(date){
+		return new Date(date).toLocaleTimeString();
 	}
 
 	$scope.repositories = [];
@@ -251,7 +259,8 @@ function consultancyPatientWorkspaceController($rootScope, $scope, utils, $http)
 		var note = {};
 		note.consultant = utils.userSession.getID();
 		note.admissionId = $scope.admissionInfo.WardAdmissionID;
-		note.note = $scope.currentNote;
+		// note.note = $scope.currentNote;
+		note.note = $scope.htmlEncode($("#currentNote").code());
 
 		var req = utils.serverRequest("/consultancy/consultation-sheet/new", "POST", note);
 		req.then(function(response){
@@ -322,4 +331,14 @@ function consultancyPatientWorkspaceController($rootScope, $scope, utils, $http)
 			$scope.loadPatient();
 		}
 	})
+
+	$scope.htmlEncode = function(value){
+		return $("<div/>").text(value).html();
+	}
+
+	$scope.htmlDecode = function(value){
+		var html = $("<div/>").html(value).text();
+
+		return html;
+	}
 }

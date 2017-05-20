@@ -157,7 +157,7 @@
 											</div>
 
 											<div class="media-body">
-												<div class="media-content" ng-bind-html="note.Note"></div>
+												<div class="media-content" ng-bind-html="htmlDecode(htmlDecode(note.Note)) | unsafe"></div>
 											</div>
 										</div>
 									</div>
