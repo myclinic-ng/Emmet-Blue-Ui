@@ -1,11 +1,23 @@
 angular.module("EmmetBlue")
 
-.controller("nursingPatientDischargeController", function($scope, utils){
+.controller("nursingPatientDischargeController", function($scope, utils, $location){
 	$scope.loadImage = utils.loadImage;
+
+	var getCurrentDepartmentUrl = function(){
+		var userDashboard = ("/"+utils.userSession.getDashboard()).split("/");
+
+		var len = userDashboard.length;
+		delete userDashboard[len - 1];
+		delete userDashboard[0];
+
+		return userDashboard.join("/");
+	};
+
 	function dtAction(data, full, meta, type){
 		console.log(data);
 		observationButtonAction = "manage('process',"+data.PatientAdmissionID+")";
 		viewButtonAction = "manage('view',"+data.PatientAdmissionID+")";
+		redirectButtonAction = "manage('gotoWorkspace',"+data.PatientAdmissionID+")";
 
 		var dataOpts = "data-option-id = '"+data.PatientAdmissionID+"' "+
 					   "data-option-consultant = '"+data.Consultant+"'"+
@@ -15,12 +27,15 @@ angular.module("EmmetBlue")
 					   "data-option-section-id = '"+data.Section+"'"+
 					   "data-option-admission-date = '"+data.AdmissionDate+"'"+
 					   "data-option-discharged-by = '"+data.DichargedBy+"'"+
-					   "data-option-date-discharged = '"+data.DischargeDate+"'";
+					   "data-option-date-discharged = '"+data.DischargeDate+"'"+
+					   "data-option-ward-admission-id = '"+data.WardAdmissionID+"'";
 
 
-		observation = "<button class='btn btn-warning bg-white btn-admission-process  btn-xs btn-labeled' ng-if='!"+data.ReceivedInWard+"' ng-click=\""+observationButtonAction+"\""+dataOpts+"><b><i class='icon-database-check'></i></b> Process</button>";
-		view = "<button class='btn btn-info bg-white btn-admission-process btn-xs btn-labeled' ng-if='"+data.ReceivedInWard+"' ng-click=\""+viewButtonAction+"\""+dataOpts+"><b><i class='icon-database-time2'></i></b>View</button>";
-		return "<div class='btn-group'>"+observation+view+"</div>";
+		view = "<button class='btn btn-info bg-white btn-admission-process btn-xs btn-labeled' ng-click=\""+viewButtonAction+"\""+dataOpts+"><b><i class='icon-database-time2'></i></b>View Admission</button>";
+		view = "<div class='display-block' ng-if='"+data.ReceivedInWard+"'>"+view+
+				"<button class='btn btn-success bg-white btn-xs mt-5 btn-labeled' ng-click=\""+redirectButtonAction+"\""+dataOpts+"><b><i class='icon-folder-download3'></i></b> Load Workspace</button>"+
+				"</div>";
+		return "<div class='btn-group'>"+view+"</div>";
 	}
 
 	$scope.dtInstance = {};
@@ -185,6 +200,15 @@ angular.module("EmmetBlue")
 					utils.errorHandler(error);
 				});
 				break;
+			}
+			case "gotoWorkspace":{
+				$elem = $(".btn-admission-process[data-option-id='"+id+"']");
+
+				var wardid = $elem.attr('data-option-ward-admission-id');
+
+				utils.storage.currentWorkspacePatientToLoad = wardid;
+				var url = getCurrentDepartmentUrl();
+				$location.path(url+"patient-workspace");
 			}
 		}
 	}

@@ -72,4 +72,9 @@ angular.module("EmmetBlue")
 			utils.errorHandler(error);
 		})
 	}
+
+	$scope.openDiagnosis = function(uuid){
+		utils.storage.currentPatientNumberDiagnosis = uuid;
+		window.location.href = "consultancy/diagnosis";
+	}
 })

@@ -51,7 +51,7 @@
 								</div>
 
 								<div class="media-body">
-									<div class="media-heading text-semibold">{{patient.PatientFullName}}</div>
+									<div class="media-heading text-semibold cursor-pointer" ng-click="openDiagnosis(patient.PatientUUID)">{{patient.PatientFullName}}</div>
 									<span class="pull-right"><a ng-click="deleteDiagnosis(patient.SavedDiagnosisID)"><i class="icon-cross text-danger"></i>Delete</a></span>
 									<span class="text-muted">{{patient.PatientUUID}}</span>
 								</div>
