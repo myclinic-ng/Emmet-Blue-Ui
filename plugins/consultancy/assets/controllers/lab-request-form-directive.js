@@ -115,7 +115,6 @@ angular.module("EmmetBlue")
 			    })
 			    .catch(function (error) {
 					$scope.showSubmitLoader = false;
-					console.log(error);
 			        utils.notify('oops, something went wrong!', 'Unable to process request', "error");
 			    });
 			}

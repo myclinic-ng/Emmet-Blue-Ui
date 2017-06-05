@@ -69,11 +69,11 @@
 										<tbody>
 											<tr ng-repeat="bed in beds | filter:bedFilter">
 												<td style="border-right: 1px solid #4CAF50">
-													<input type="radio" name="selectedBed" ng-model="hold.selectedBed" ng-disabled="bed.BedStatus == 1" ng-value="{{bed.SectionBedID}}"/>
+													<input type="radio" name="selectedBed" ng-model="hold.selectedBed" ng-value="{{bed.SectionBedID}}"/>
 												</td>
 												<td>{{bed.BedName}}</td>
-												<td class="text-bold" ng-if="bed.BedStatus == 1"><span class="label label-danger">Occupied</span></td>
-												<td class="text-bold" ng-if="bed.BedStatus == 0"><span class="label label-success">Unoccupied</span></td>
+												<!-- <td class="text-bold" ng-if="bed.BedStatus == 1"><span class="label label-danger">Occupied</span></td> -->
+												<td class="text-bold"><span class="label label-success">Unoccupied</span></td>
 											</tr>
 										</tbody>
 									</table>
@@ -85,6 +85,7 @@
 				                    	<button type="button" class="btn bg-warning-400 dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
 				                    	<ul class="dropdown-menu dropdown-menu-right">
 											<li><a href="#" data-toggle="modal" data-target="#transfer-ward"><i class="fa fa-exchange"></i> Change Ward/Section</a></li>
+											<li><a href="#" ng-click="cancelAdmission()"><i class="fa fa-times text-danger"></i> Cancel Admission</a></li>
 										</ul>
 									</div>
 									</center>

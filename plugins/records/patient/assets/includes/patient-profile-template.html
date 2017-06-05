@@ -178,11 +178,11 @@
 					<button type="button" class="close" data-dismiss="modal"><i class="icon-cross"></i></button>
 					<h4 class="modal-title">Diagnosis Information</h4>
 				</div>
-
+				
 				<div class="modal-body">
 					<div class="col-md-12">
 						<h5><span class="text-muted">Diagnosis Title: &nbsp;</span> <span class="text-black" ng-if="!diagnosis.DiagnosisTitle">N/A</span> {{diagnosis.DiagnosisTitle}}</h5>
-						<h5 title="{{diagnosis.DiagnosisDate}}"><span class="text-muted">Diagnosis Date:&nbsp;</span> {{toDateString(diagnosis.DiagnosisDate)}}</h5>
+						<h5 title="{{diagnosis.DiagnosisDate}}"><span class="text-muted">Diagnosis Date:&nbsp;</span> {{toDateString(diagnosis.DiagnosisDate)}} <span class="text-muted">at</span> {{getTime(diagnosis.DiagnosisDate)}}</h5>
 						<h5><span class="text-muted">Diagnosis By: &nbsp;&nbsp;&nbsp;&nbsp;</span> {{diagnosis.StaffFullName}}</h5>
 						<h5 class="text-muted" ng-if="diagnosis.Diagnosis.conclusion.diagnosis.description">Extra Information</h5>
 						<p>{{diagnosis.Diagnosis.conclusion.diagnosis.description}}</p>

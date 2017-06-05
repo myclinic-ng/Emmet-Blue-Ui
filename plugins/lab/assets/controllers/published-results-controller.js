@@ -1,8 +1,7 @@
 angular.module("EmmetBlue")
 
-.controller('pharmacyDispensationController', function($scope, utils, patientEventLogger, $rootScope){
+.controller('labPublishedResultsController', function($scope, utils, patientEventLogger, $rootScope){
 	$scope.loadImage = utils.loadImage;
-	$scope.patient = {};
 	
 	$scope.getDateRange = function(selector){
 		var today = new Date();
@@ -32,33 +31,8 @@ angular.module("EmmetBlue")
 		}
 	}
 
-	$scope.$on("loadPatientNumberForDispensation", function(){
-		$scope.patientNumber = utils.storage.patientNumberForDispensation;
-		$scope.currentRequest = utils.storage.currentRequest;
-		utils.storage.patientNumberForDispensation = null;
-		utils.storage.currentRequest = null;
-		$scope.loadPatientProfile();
-	});
-
-	$scope.loadPatientProfile = function(){
-		var patient = utils.serverRequest("/patients/patient/search", "POST", {
-			"query":$scope.patientNumber,
-			"from":0,
-			"size":1
-		});
-
-		patient.then(function(response){
-			var profile = response.hits.hits[0]["_source"];
-			$scope.patient.fullName = profile["first name"]+" "+profile["last name"];
-			$scope.patient.id = profile["patientid"];
-			$scope.patientNumber = "";
-		}, function(error){
-			utils.errorHandler(error);
-		})
-	}
-
 	var actions = function (data, type, full, meta){
-		var viewButtonAction = "manageDispensation('view', "+data.DispensationID+")";
+		var viewButtonAction = "loadRepo("+data.RepositoryID+")";
 			
 		var items = JSON.stringify(data.items);
 		var dataOpt = "data-option-id='"+data.DispensationID+"' data-request-id='"+data.RequestID+"' data-option-items='"+items+"'";
@@ -66,12 +40,18 @@ angular.module("EmmetBlue")
 		var viewButton = "<button class='btn btn-danger billing-type-pharm-btn' ng-click=\""+viewButtonAction+"\" "+dataOpt+"><i class='icon-eye'></i> view</button>";
 		
 		var buttons = "<div class='btn-group'>"+viewButton+"</button>";
+
 		return buttons;
+	}
+
+	$scope.loadRepo = function(repo){
+		$scope.currentRepository = repo;
+		$("#repository-items").modal("show");
 	}
 
 	$scope.requestFilter = {
 		type: 'date',
-		description: 'Today\'s Request',
+		description: 'Today\'s Published Results',
 		value: $scope.getDateRange("today")
 	}
 
@@ -85,24 +65,13 @@ angular.module("EmmetBlue")
 		var _filter = "";
 		if (filter.type == 'date'){
 			var dates = filter.value.split(" - ");
-			_filter += 'filtertype=date&startdate='+dates[0]+'&enddate='+dates[1];
-		}
-		else if (filter.type == 'status'){
-			_filter += 'filtertype=status&query='+filter.value;
+			_filter += 'startdate='+dates[0]+'&enddate='+dates[1];
 		}
 		else if (filter.type == 'patient'){
-			_filter += 'filtertype=patient&query='+filter.value;
-		}
-		else if (filter.type == 'department'){
-			_filter += 'filtertype=department&query='+filter.value;
+			_filter += 'patient='+filter.value;
 		}
 		else if (filter.type == 'staff'){
-			_filter += 'filtertype=staff&query='+filter.staff;
-			_filter += "&_date="+filter.date;
-
-		}
-		else if (filter.type == 'patienttype'){
-			_filter += 'filtertype=patienttype&query='+filter.value;
+			_filter += 'staff='+filter.staff;
 		}
 
 		$scope.currentRequestsFilter = _filter;
@@ -111,7 +80,7 @@ angular.module("EmmetBlue")
         var start = data[3].value;
         var length = data[4].value;
 
-        var url = '/pharmacy/dispensation/view?'+_filter+'&resourceId=0&paginate&from='+start+'&size='+length;
+        var url = '/lab/lab-result/get-results?'+_filter+'&paginate&from='+start+'&size='+length;
 
 		if (typeof data[5] !== "undefined" && data[5].value.value != ""){
 			url += "&keywordsearch="+data[5].value.value;
@@ -147,17 +116,6 @@ angular.module("EmmetBlue")
         }
     })
 	.withButtons([
-		{
-			text: '<i class="icon-file-plus"></i> <u>N</u>ew Dispensation',
-			action: function(){
-				$("#new_dispensation").modal("show");
-			},
-			key: {
-        		key: 'n',
-        		ctrlKey: false,
-        		altKey: true
-        	}
-		},
         {
         	extend: 'print',
         	text: '<i class="icon-printer"></i> <u>P</u>rint this data page',
@@ -179,53 +137,49 @@ angular.module("EmmetBlue")
 	]);	
 
 	$scope.dtColumns = [
-		utils.DT.columnBuilder.newColumn(null).withTitle("").notSortable().renderWith(function(data, full, meta){
-			switch(data.Acknowledged){
-				case "1":{
-					var html = "<i class='icon-checkmark3 text-success'></i>";
-					break;
-				}
-				case "-1":{
-					var html = "<i class='fa fa-pause text-danger-400'></i>";
-					break;
-				}
-				case "2":{
-					var html = "<i class='fa fa-trash text-warning-400'></i>";
-					break;
-				}
-				case "-2":{
-					var html = "<i class='fa fa-flag text-danger-400'></i>";
-					break;
-				}
-				default:{
-					var html = "<span class='text-grey-400 fa fa-dot-circle-o'></span>";
-				}
-			}
+		utils.DT.columnBuilder.newColumn(null).withTitle("Lab ID").notSortable().renderWith(function(data, full, meta){
+			var html=data.PatientLabNumber;
 			
 			return html;
 		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Patient").renderWith(function(data, full, meta){
-			var image = $scope.loadImage(data.PatientPicture);
+			var image = $scope.loadImage(data.PatientInfo.patientpicture);
 			var html = "<td>"+
 							"<div class='media-left media-middle'>"+
 								"<a href='#'><img src='"+image+"' class='img-circle img-xs' alt=''></a>"+
 							"</div>"+
 							"<div class='media-left'>"+
-								"<div class=''><a href='#' class='text-default text-bold'>"+data.PatientFullName+"</a></div>"+
+								"<div class=''><a href='#' class='text-default text-bold'>"+data.PatientInfo.patientfullname+"</a></div>"+
 								"<div class='text-muted text-size-small'>"+
 									"<span class='status-mark border-blue position-left'></span>"+
-									data.PatientUUID+
+									data.PatientInfo.patientuuid+
 								"</div>"+
 							"</div>"+
 						"</td>";
 
 			return html;
 		}),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Dispensory").renderWith(function(data){
-			return "<span class='text-bold'>"+data.Dispensory+"</span> <br/>"+data.StoreName+"";
+		utils.DT.columnBuilder.newColumn(null).withTitle("Investigation").renderWith(function(data){
+			return "<span class='text-bold'>"+data.InvestigationTypeName+"</span> <br/>"+data.LabName+"";
 		}),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Dispensation Date").renderWith(function(data, a, b){
-			return (new Date(data.DispensationDate)).toDateString()+"<br/>"+(new Date(data.DispensationDate)).toLocaleTimeString();
+		utils.DT.columnBuilder.newColumn(null).withTitle("Published By").renderWith(function(data, full, meta){
+			var image = $scope.loadImage(data.ReportedByDetails.StaffPicture);
+			var html = "<td>"+
+							"<div class='media-left media-middle'>"+
+								"<a href='#'><img src='"+image+"' class='img-circle img-xs' alt=''></a>"+
+							"</div>"+
+							"<div class='media-left'>"+
+								"<div class=''><a href='#' class='text-default text-bold'>"+data.ReportedByDetails.StaffFullName+"</a></div>"+
+							"</div>"+
+						"</td>";
+
+			return html;
+		}),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Dates").renderWith(function(data, a, b){
+			var time = '<span class="text-info">Published:</span> <b>'+(new Date(data.DateReported)).toDateString()+", "+(new Date(data.DateReported)).toLocaleTimeString();
+			time += '</b><br/><span class="text-info">Registered:</span> <b>'+(new Date(data.RegistrationDate)).toDateString()+", "+(new Date(data.RegistrationDate)).toLocaleTimeString();
+			
+			return time+"</b>";
 		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(actions).notSortable()
 	];

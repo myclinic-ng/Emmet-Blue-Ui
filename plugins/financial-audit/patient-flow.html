@@ -145,7 +145,7 @@
 							<div ng-if="currentLog.diagnosisInfo">
 								<div class="col-md-12">
 									<h5><span class="text-muted">Diagnosis Title: &nbsp;</span> <span class="text-black" ng-if="!currentLog.diagnosisInfo.DiagnosisTitle">N/A </span> {{currentLog.diagnosisInfo.DiagnosisTitle}}</h5>
-									<h5 title="{{currentLog.diagnosisInfo.DiagnosisDate}}"><span class="text-muted">Diagnosis Date:&nbsp;</span> {{toDateString(currentLog.diagnosisInfo.DiagnosisDate)}}</h5>
+									<h5 title="{{currentLog.diagnosisInfo.DiagnosisDate}}"><span class="text-muted">Diagnosis Date:&nbsp;</span> {{toDateString(currentLog.diagnosisInfo.DiagnosisDate)}} <span class="text-muted">at</span> {{getTime(currentLog.diagnosisInfo.DiagnosisDate)}}</h5>
 									<h5><span class="text-muted">Diagnosis By: &nbsp;&nbsp;&nbsp;&nbsp;</span> {{currentLog.diagnosisInfo.StaffFullName}}</h5>
 									<h5 class="text-muted" ng-if="currentLog.diagnosisInfo.Diagnosis.conclusion.currentLog.diagnosisInfo.description">Extra Information</h5>
 									<p>{{currentLog.diagnosisInfo.Diagnosis.conclusion.currentLog.diagnosisInfo.description}}</p>

@@ -238,7 +238,7 @@ function nursingPatientWorkspaceController($rootScope, $scope, utils){
 						"Meta Information":{
 							"Observation Type": $scope.currentObservationTypeName,
 							"Carried Out By": $scope.staffFullName,
-							"Date Of Observation": (new Date()).toDateString()
+							"Date Of Observation": (new Date()).toDateString()+", "+(new Date()).toLocaleTimeString()
 						},
 						"Deduction/Conclusions": observation
 					},

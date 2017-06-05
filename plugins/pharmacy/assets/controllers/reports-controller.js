@@ -34,11 +34,38 @@ angular.module("EmmetBlue")
 
 	$scope.requestFilter = {
 		type: 'nil',
-		description: '',
+		description: 'Today\'s Dispensations',
 		value: $scope.getDateRange("today")
 	}
 
+	$scope.createdFilters = [];
+	$scope.createdFilters.push({
+		type: 'nil',
+		description: 'Today\'s Dispensations',
+		value: $scope.getDateRange("today")
+	});
+
 	$scope.dateRange = $scope.getDateRange("today");
+
+	$scope.$watch("dateRange", function(nv){
+		var dates = nv.split(" - ");
+		if (dates[0] == dates[1]){
+			$scope.requestFilter = {
+				type: "nil",
+				description: "All dispensations on "+(new Date(dates[0])).toDateString(),
+				value: nv
+			};
+		}
+		else {
+			$scope.requestFilter = {
+				type: "nil",
+				description: "Date Range Between "+(new Date(dates[0])).toDateString()+" and "+(new Date(dates[1])).toDateString(),
+				value: nv
+			};	
+		}
+
+		$scope.reloadDispensationsTable(true);
+	})
 
 	$("option[status='disabled']").attr("disabled", "disabled");
 	
@@ -46,41 +73,45 @@ angular.module("EmmetBlue")
 	$scope.dtOptions = utils.DT.optionsBuilder
 	.newOptions()
 	.withFnServerData(function(source, data, callback, settings){
-		var filter = $scope.requestFilter;
-		var _filter = "";
-		var dates = $scope.dateRange.split(" - ");
-		_filter += 'startdate='+dates[0]+'&enddate='+dates[1];
-
-		if (filter.type == 'nil'){
-			_filter += '&filtertype=nil' 
-		}
-		else if (filter.type == 'patient'){
-			_filter += '&filtertype=patient&query='+filter.value;
-		}
-		else if (filter.type == 'billingtype'){
-			_filter += '&filtertype=billingtype&query='+filter.value;
-		}
-		else if (filter.type == 'staff'){
-			_filter += '&filtertype=staff&query='+filter.staff;
-			_filter += "&_date="+filter.date;
-		}
-		else if (filter.type == 'patienttype'){
-			_filter += '&filtertype=patienttype&query='+filter.value;
-		}
-
-		$scope.currentRequestsFilter = _filter;
+		var filter = $scope.createdFilters;
+		
 		var draw = data[0].value;
         var order = data[2].value;
         var start = data[3].value;
         var length = data[4].value;
 
-        var url = '/pharmacy/dispensation/retrieve-dispensed-items-report?'+_filter+'&resourceId=0&paginate&from='+start+'&size='+length;
+        var dates = filter[0].value.split(" - ");
+
+        // filter.splice(0, 1);
+
+        var data = {
+        	"startdate": dates[0],
+        	"enddate": dates[1],
+        	"resourceId":0,
+        	"paginate":true,
+        	"from":start,
+        	"size":length,
+        	"filtertype":"filtercombo",
+        	"query":[]
+        }
 
 		if (typeof data[5] !== "undefined" && data[5].value.value != ""){
-			url += "&keywordsearch="+data[5].value.value;
+			data.keywordsearch = data[5].value.value;
 		}
 
-		var dispensations = utils.serverRequest(url, 'GET');
+		for (var i = filter.length - 1; i >= 1; i--) {
+			var _filter = filter[i];
+			if (_filter.use){
+				data.query.push({
+					type:_filter.type,
+					value:_filter.value
+				});	
+			}
+		}
+
+        var url = '/pharmacy/dispensation/retrieve-dispensed-items-report';
+
+		var dispensations = utils.serverRequest(url, 'POST', data);
 		dispensations.then(function(response){
 			var records = {
 				data: response.data,
@@ -88,11 +119,10 @@ angular.module("EmmetBlue")
 				recordsTotal: response.total,
 				recordsFiltered: response.filtered
 			};
-
 			callback(records);
 		}, function(error){
 			utils.errorHandler(error);
-		});
+		});	
 	})
 	.withDataProp('data')
 	.withOption('processing', true)
@@ -142,28 +172,12 @@ angular.module("EmmetBlue")
 	]);	
 
 	$scope.dtColumns = [
-		// utils.DT.columnBuilder.newColumn(null).withTitle("").notSortable().renderWith(function(data, full, meta){
-		// 	switch(data.Acknowledged){
-		// 		case "1":{
-		// 			var html = "<i class='icon-checkmark3 text-success'></i>";
-		// 			break;
-		// 		}
-		// 		case "-1":{
-		// 			var html = "<i class='fa fa-pause text-danger-400'></i>";
-		// 			break;
-		// 		}
-		// 		default:{
-		// 			var html = "<span class='text-grey-400 fa fa-dot-circle-o'></span>";
-		// 		}
-		// 	}
-			
-		// 	return html;
-		// }),
-		utils.DT.columnBuilder.newColumn('ItemID').withTitle("Item ID"),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Item").renderWith(function(data){
-			return "<span class='text-bold'>"+data.BillingTypeItemName+"</span> <br/> <span class='text-size-small'>"+data.BillingTypeName+"</span>";
+			return "<span class='text-bold'>"+data.BillingTypeItemName+"</span> <br/> <span class='text-size-small'>"+data.BillingTypeName+"</span> <br/> <span class='text-size-small text-info'>Item Code: "+data.ItemID+"</span>";
 		}),
-		utils.DT.columnBuilder.newColumn("DispensedQuantity").withTitle("Dispensed Quantity"),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Dispensed Quantity").renderWith(function(data){
+			return "<span class='text-bold'>"+data.DispensedQuantity+"</span>";
+		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Dispensing Store").renderWith(function(data){
 			return "<span class='text-bold'>"+data.StoreName+"</span> <br/>"+data.DispensoryName+"";
 		}),
@@ -205,27 +219,53 @@ angular.module("EmmetBlue")
 		})
 	];
 
-	$scope.reloadDispensationsTable = function(){
-		$scope.dtInstance.rerender();
+	$scope.reloadDispensationsTable = function(applyToFirstIndex=false){
+		if (typeof $scope.requestFilter.type !== "undefined"){	
+			var data = {
+				description: $scope.requestFilter.description,
+				value: $scope.requestFilter.value,
+				type: $scope.requestFilter.type,
+				use: true
+			};
+
+			if (applyToFirstIndex){
+				$scope.createdFilters[0] = data;
+			}
+			else{
+				$scope.createdFilters.push(data);
+			}
+			$scope.requestFilter = {};	
+		}
+		
+		rerenderTable();
 	}
 
-	function loadDispensories(){
-		var request = utils.serverRequest("/pharmacy/eligible-dispensory/view", "GET");
-		request.then(function(result){
-			$scope.dispensories = result;
-		}, function(error){
-			utils.errorHandler(error);
-		})
+	function rerenderTable(){
+		if (angular.isFunction($scope.dtInstance.rerender)){
+			$scope.dtInstance.rerender();	
+		}
 	}
 
-	function loadStores(dispensory){
-		var request = utils.serverRequest("/pharmacy/eligible-dispensory/view-by-store?resourceId="+dispensory, "GET");
+	$scope.stores = {};
+	var loadStores = function(){
+		var request = utils.serverRequest("/pharmacy/store/view", "GET");
 		request.then(function(result){
 			$scope.stores = result;
 		}, function(error){
 			utils.errorHandler(error);
 		})
-	}
+	}();
+
+	$scope.billingTypes = {};
+
+	var loadBillingTypes = function(){
+		var request = utils.serverRequest("/accounts-biller/billing-type/view", "GET");
+		request.then(function(result){
+			$scope.billingTypes = result;
+		}, function(error){
+			utils.errorHandler(error);
+		})
+	}();
 
 	$scope.patientTypes = {};
 
@@ -262,34 +302,44 @@ angular.module("EmmetBlue")
 				var value = selector.value.split(" - ");
 				$scope.requestFilter.value= selector.value;
 				$scope.requestFilter.description = "Date Ranges Between: "+ new Date(value[0]).toDateString()+" And "+ new Date(value[1]).toDateString();
-				$scope.reloadDispensationsTable();
+				$scope.reloadDispensationsTable(true);
 				break;
 			}
 			case "patient":{
 				$scope.requestFilter.type = "patient";
 				$scope.requestFilter.value= selector.value;
 				$scope.requestFilter.description = "Patient Search: '"+selector.value+"'";
-				$scope.reloadDispensationsTable();
+
+				var req = utils.serverRequest("/patients/patient/search", "POST", {"query": selector.value, "from": 0, "size": 1});
+				req.then(function(result){
+					if (typeof result.hits.hits[0]["_source"]["patientid"] !== "undefined"){
+						$scope.requestFilter.value = result.hits.hits[0]["_source"]["patientid"];
+						$scope.reloadDispensationsTable();
+					}
+					else {
+						utils.notify("Invalid Search Query", "Please enter a valid patient profile identifier to continue", "warning");
+					}
+				}, function(error){
+					utils.errorHandler(error);
+				})
 				break;
 			}
 			case "staff":{
 				$scope.requestFilter.type = "staff";
 				$scope.requestFilter.value= selector.value;
-				if (typeof selector.date !== "undefined" && selector.date !== ""){
-					$scope.requestFilter.date= selector.date;	
-				}
-				else {
-					$scope.requestFilter.date = (new Date()).toLocaleDateString();
-				}
-
 				$scope.requestFilter.description = "Staff Search: '"+selector.value+"'";
 
 				var req = utils.serverRequest("/human-resources/staff/get-staff-id?name="+selector.value, "GET");
 				req.then(function(result){
 					if (typeof result["StaffID"] !== "undefined"){
-						$scope.requestFilter.staff = result["StaffID"];
+						$scope.requestFilter.value = result["StaffID"];
 						$scope.reloadDispensationsTable();
 					}
+					else {
+						utils.notify("Invalid Staff Username", "Please enter a valid username to continue", "warning");
+					}
+				}, function(error){
+					utils.errorHandler(error);
 				})
 				break;
 			}
@@ -298,6 +348,29 @@ angular.module("EmmetBlue")
 				var value = selector.value.split("<seprator>");
 				$scope.requestFilter.value = value[1];
 				$scope.requestFilter.description = "Patient Type: '"+value[0]+"'";
+				$scope.reloadDispensationsTable();
+				break;
+			}
+			case "billingtype":{
+				$scope.requestFilter.type = "billingtype";
+				var value = selector.value.split("<seprator>");
+				$scope.requestFilter.value = value[0];
+				$scope.requestFilter.description = "Billing Type Item: '"+value[1]+"'";
+				$scope.reloadDispensationsTable();
+				break;
+			}
+			case "store":{
+				$scope.requestFilter.type = "store";
+				var value = selector.value.split("<seprator>");
+				$scope.requestFilter.value = value[0];
+				$scope.requestFilter.description = "Dispensing Store: '"+value[1]+"'";
+				$scope.reloadDispensationsTable();
+				break;
+			}
+			case "itemcode":{
+				$scope.requestFilter.type = "itemcode";
+				$scope.requestFilter.value= selector.value;
+				$scope.requestFilter.description = "Item Code: '"+selector.value+"'";
 				$scope.reloadDispensationsTable();
 				break;
 			}

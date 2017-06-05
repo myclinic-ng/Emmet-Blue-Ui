@@ -8,11 +8,11 @@
 			<h3 class="">{{periodInfo.PeriodAlias}}</h3>
 		</div>
 	</div>
-	<div ng-repeat="(categoryId, category) in balancesByType" class="mt-10">
+	<div ng-repeat="(categoryId, category) in balancesByType" class="panel panel-body mt-10">
 		<h6 class="text-center" style="text-transform: uppercase;"><u>{{balancesByType[categoryId]["_meta"].CategoryName}}</u></h6>
-		<div ng-repeat="(typeId, type) in category">
-			<label class="control-label text-bold" style="font-variant: small-caps;"><i class="icon-plus"></i> {{category[typeId]["_meta"].TypeName}}</label>
-			<table class="table" ng-if="typeId != '_meta'">
+		<div ng-repeat="(typeId, type) in category" ng-if="typeId != '_meta'">
+			<label class="control-label text-bold cursor-pointer" style="font-variant: small-caps;" ng-click="category[typeId].hide = !category[typeId].hide"><i class="fa fa-plus"></i> {{category[typeId]["_meta"].TypeName}}</label>
+			<table class="table table-bordered table-hover" ng-if="typeId != '_meta'" ng-hide="category[typeId].hide">
 				<tr class="text-bold text-center">
 					<th>Account ID</th>
 					<th>Account Name</th>
@@ -31,7 +31,7 @@
 			</table>
 		</div>
 		<table class="table">
-			<tr>
+			<tr class="border-primary-300">
 				<td class="text-bold" style="text-transform: uppercase;">{{category["_meta"].CategoryName}} Total Balance</td>
 				<td class="text-bold"><span ng-currency ng-currency-symbol="naira"></span> {{category["_meta"].Total}}</td>
 			</tr>

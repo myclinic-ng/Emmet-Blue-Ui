@@ -48,7 +48,7 @@
 			<h6 class="panel-title">Admission Workspace for patient number <span class="text-primary">{{admissionInfo.PatientAdmissionID}}</span></h6>
 			<div class="heading-elements">
 				<button class="btn btn-warning bg-white btn-labeled" ng-click="discharge()"><b><i class="icon-bell-check"></i></b> Process this patient for discharge</button>
-				<button class="btn btn-primary bg-white btn-labeled"><b><i class="icon-database-arrow"></i></b> Transfer to another ward</button>
+				<button class="btn btn-labeled btn-info bg-white no-border-radius btn-xs" data-toggle="modal" data-target="#lab-request-form"><b><i class="icon-lab"></i></b> Investigation Request</button>
 			</div>
 		</div>
 
@@ -84,7 +84,7 @@
 
 											<div class="col-md-4">
 												<ul class="list task-details">
-													<li title="{{repo.RepositoryCreationDate}}">{{toDateString(repo.RepositoryCreationDate)}}</li>
+													<li title="{{repo.RepositoryCreationDate}}" class="text-black">{{toDateString(repo.RepositoryCreationDate)}}</li>
 													<li class="dropdown">
 								                		Created by: &nbsp;
 														<a href="#" class="label label-danger bg-white dropdown-toggle" data-toggle="dropdown">{{staffNames[repo.RepositoryCreator]}}</a>
@@ -161,9 +161,6 @@
 													</div>
 													<div class="media-left">
 														<div class="">{{toDateString(note.DateTaken)}}</div>
-														<div class="mt-5 text-size-small">
-															{{toTimeString(note.DateTaken)}}
-														</div>
 													</div>
 												</li>
 											</ul>
@@ -307,6 +304,23 @@
 					</div>
 				</div>
 			</div>
+	</div>
+	<div id="lab-request-form" class="modal fade">
+		<div class="modal-dialog modal-full">
+			<div class="modal-content">
+				<div class="modal-header bg-info">
+					<h6 class="modal-title">Create a new investigation request</h6>
+					<button type="button" class="close" data-dismiss="modal"><i class="icon-cross text-danger"></i> close</button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-sm-12" id="labForm-new">
+							<ng-lab-request-form-design patient-info="patient"></ng-lab-request-form-design>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 

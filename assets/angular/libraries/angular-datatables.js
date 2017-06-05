@@ -815,6 +815,8 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
                 var result = DTRendererService.hideLoadingAndRenderDataTable($elem, renderer.options);
                 _oTable = result.DataTable;
                 DTInstanceFactory.copyDTProperties(result, dtInstance);
+                
+                DTRendererService.preRender(options);
                 return $q.when(dtInstance);
             }
 

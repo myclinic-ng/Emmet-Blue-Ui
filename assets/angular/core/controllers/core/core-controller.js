@@ -42,8 +42,8 @@ angular.module("EmmetBlue")
 				title: 'Session expiration',
 				message: 'Your session is about to expire. Do you want to stay connected and extend your session?',
 				keepAlive: false,
-				warnAfter: 600000, //10 mins
-				redirAfter: 720000, //15 mins
+				warnAfter: 900000, //10 mins
+				redirAfter: 1020000, //15 mins
 				ignoreUserActivity: false,
 				onWarn: function(){
 				    var title = "IDLE TIMEOUT";
@@ -119,6 +119,15 @@ angular.module("EmmetBlue")
 			utils.storage.currentStaffDepartmentID = department
 		}
 	}
+
+	$scope.$watch(function(){
+		return utils.storage.currentStaffDepartmentID;
+	}, function(nv){
+		var req = utils.serverRequest("/human-resources/department/view?resourceId="+nv, "GET");
+		req.then(function(response){
+			$scope.currentDepartmentName = response[0].Name;
+		});
+	})
 
 	$scope.switch = function(id){
 		var data = {

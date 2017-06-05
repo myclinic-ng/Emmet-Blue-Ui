@@ -57,7 +57,7 @@ var angularLibraries = [
 	"assets/angular/libraries/angular-messages.min.js",
 	"assets/angular/libraries/angular-cookies.min.js",
 	"assets/angular/libraries/angular-sanitize.min.js",
-	"assets/angular/libraries/angular-datatables.min.js",
+	"assets/angular/libraries/angular-datatables.js",
 	// "assets/angular/libraries/angular-datatables.bootstrap.min.js",
 	"assets/angular/libraries/ng-print/ngPrint.min.js",
 	"assets/angular/libraries/ng-pagination/ng-pagination.min.js",

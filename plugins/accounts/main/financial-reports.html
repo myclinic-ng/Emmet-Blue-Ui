@@ -12,7 +12,7 @@
         cancelClass: 'btn-default'
 	});
 </script>
-<div class="row" ng-controller="accountsMainViewGeneralJournalController">
+<div class="row" ng-controller="accountsAccountReportsController">
 	<div class="col-md-3">
 		<div class="sidebar sidebar-secondary sidebar-default">
 			<div class="sidebar-content">
@@ -28,9 +28,9 @@
 					<div class="category-content no-padding">
 						<ul class="navigation navigation-alt navigation-accordion">
 							<li class="navigation-header">GL Account Summary</li>
-							<li><a href="#" data-toggle="modal" data-target="#viewAccountRunningBalances" ng-click="loadRunningBalances()"><i class="icon-files-empty"></i> Balance Sheet</a></li>
-							<li><a href="#"><i class="icon-file-plus"></i> Account Summary</a></li>
-							<li><a href="#"><i class="icon-file-plus"></i> Account Registers</a></li>
+							<li><a href="#" data-toggle="modal" data-target="#viewAccountRunningBalances" ng-click="loadRunningBalances()"><i class="icon-files-empty"></i> Running Balances</a></li>
+							<li><a href="#" ng-click="currentReport = 'balancesheet'"><i class="icon-files-empty"></i> Balance Sheet</a></li>
+							<li><a href="#" ng-click="currentReport = 'accountanalysis'"><i class="icon-file-plus"></i> Account Analysis/Summary</a></li>
 							<li class="navigation-header">General Ledger</li>
 							<li><a href="#"><i class="icon-files-empty"></i> Chart Of Accounts</a></li>
 							<li><a href="#"><i class="icon-files-empty"></i> General Ledger</a></li>
@@ -103,9 +103,12 @@
 					</div>
 				</div>
 				<div class="row" id="printDiv">
-					<div class="col-xs-12">
+					<div class="col-xs-12" ng-if="currentReport == 'balancesheet'">
 						<div class="watermark"></div>
 						<ng-balance-sheet-report></ng-balance-sheet-report>
+					</div>
+					<div class="col-xs-12" ng-if="currentReport == 'accountanalysis'">
+						<ng-account-analysis-report></ng-account-analysis-report>						
 					</div>
 				</div>
 			</div>

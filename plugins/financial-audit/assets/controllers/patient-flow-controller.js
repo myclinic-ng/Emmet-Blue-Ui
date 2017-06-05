@@ -299,4 +299,12 @@ angular.module("EmmetBlue")
 			$scope.reloadTable();
 		}
 	})
+
+	$scope.toDateString = function(date){
+		return new Date(date).toDateString();
+	}
+
+	$scope.getTime = function(date){
+		return new Date(date).toLocaleTimeString();
+	}
 })

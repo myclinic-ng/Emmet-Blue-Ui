@@ -198,9 +198,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td colspan="3">
-							{{mostRecent.note.Note}}
-						</td>
+						<td colspan="3" ng-bind-html="htmlDecode(htmlDecode(mostRecent.note.Note)) | unsafe"></td>
 					</tr>
 					<tr class="bg-teal">
 						<th colspan="3">Most recent Treatment</th>

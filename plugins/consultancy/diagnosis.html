@@ -347,7 +347,7 @@
 										<div class="col-lg-12">
 											<h6 class="text-center text-bold"> <i class="icon-bubble-lines4 text-info"></i> Deductions/Report</h6>
 											<div class="content-group">
-												<input class="form-control" placeholder="diagnosis" ng-model="conclusion.diagnosis.title"/>
+												<input class="form-control diagnosis-suggest" placeholder="diagnosis" id="conclusionTitle"/>
 											</div>
 											<div class="content-group">
 												<textarea placeholder="Add extra diagnosis note here (optional)" class="form-control" style="height: 400px; border: 0px; border-left: 2px solid #F5F5F5" ng-model="conclusion.diagnosis.description"></textarea>
@@ -369,6 +369,7 @@
 			<div class="col-sm-3 hidden-xs" style="border: 1px solid #F5F5F5; border-bottom: 0px; min-height: 100vh;">
 				<div class="row">
 					<div class="col-sm-12 pt-10 ml-15">
+						<button class="btn btn-sm btn-danger" ng-click="globals.flag()"><i class="icon-flag3"></i> Flag</button>
 						<button class="btn btn-sm btn-info" ng-click="globals.save()"><i class="icon-floppy-disk"></i> Save</button>
 						<button class="btn btn-sm btn-success" ng-click="globals.submit()"><i class="icon-database-add"></i> Submit</button>
 					</div>
@@ -615,6 +616,26 @@
 							</div>
 						</div>
 					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="flag-note-modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-info">
+					<h6 class="modal-title">Add a flag note</h6>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12">
+							<textarea class="form-control" row="5" ng-model="currentFlagNote"></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="pull-right btn btn-info" ng-click="globals.completeFlagging(currentFlagNote)">Continue</button>
 				</div>
 			</div>
 		</div>

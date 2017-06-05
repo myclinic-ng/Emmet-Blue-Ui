@@ -23,10 +23,38 @@ angular.module("EmmetBlue")
 	    }
 	}
 
+	$scope.getDateRange = function(selector){
+		var today = new Date();
+		switch(selector){
+			case "today":{
+				return today.toLocaleDateString() + " - " + today.toLocaleDateString();
+			}
+			case "yesterday":{
+				var yesterday = new Date(new Date(new Date()).setDate(new Date().getDate() - 1)).toLocaleDateString();
+				return yesterday + " - " + yesterday;
+				break;
+			}
+			case "week":{
+				var d = new Date(today);
+			  	var day = d.getDay(), diff = d.getDate() - day + (day == 0 ? -6 : 1);
+
+			  	return new Date(d.setDate(diff)).toLocaleDateString() + " - " + today.toLocaleDateString();
+			  	break;
+			}
+			case "month":{
+				var year = today.getFullYear();
+				var month = today.getMonth() + 1;
+
+				return month+'/1/'+year + ' - ' + today.toLocaleDateString();
+				break;
+			}
+		}
+	}
+
 	$scope.requestFilter = {
-		type: 'status',
-		description: 'Open Unfulfilled Requests',
-		value: 0
+		type: 'date',
+		description: 'Today\'s Requests',
+		value: $scope.getDateRange('today')
 	}
 
 	$("option[status='disabled']").attr("disabled", "disabled");
@@ -561,34 +589,6 @@ angular.module("EmmetBlue")
 	}
 
 	loadDepartments();
-
-	$scope.getDateRange = function(selector){
-		var today = new Date();
-		switch(selector){
-			case "today":{
-				return today.toLocaleDateString() + " - " + today.toLocaleDateString();
-			}
-			case "yesterday":{
-				var yesterday = new Date(new Date(new Date()).setDate(new Date().getDate() - 1)).toLocaleDateString();
-				return yesterday + " - " + yesterday;
-				break;
-			}
-			case "week":{
-				var d = new Date(today);
-			  	var day = d.getDay(), diff = d.getDate() - day + (day == 0 ? -6 : 1);
-
-			  	return new Date(d.setDate(diff)).toLocaleDateString() + " - " + today.toLocaleDateString();
-			  	break;
-			}
-			case "month":{
-				var year = today.getFullYear();
-				var month = today.getMonth() + 1;
-
-				return month+'/1/'+year + ' - ' + today.toLocaleDateString();
-				break;
-			}
-		}
-	}
 
 	$scope.activateFilter = function(){
 		var selector = $scope.filterSelector;

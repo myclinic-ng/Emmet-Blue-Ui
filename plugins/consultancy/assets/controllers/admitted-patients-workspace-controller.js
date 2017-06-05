@@ -61,7 +61,7 @@ function consultancyPatientWorkspaceController($rootScope, $scope, utils, $http)
 	}
 
 	$scope.toDateString = function(date){
-		return new Date(date).toDateString();
+		return (new Date(date)).toDateString()+", "+(new Date(date)).toLocaleTimeString();
 	}
 
 	$scope.toTimeString = function(date){
@@ -184,8 +184,6 @@ function consultancyPatientWorkspaceController($rootScope, $scope, utils, $http)
 				},
 				staffId: staffID
 			};
-
-			console.log(data);
 
 			utils.serverRequest("/nursing/observation/new", "POST", data).then(function(response){
 				utils.notify("Operation Completed Successfully", "Observation Published Successfuly", "success");
@@ -314,7 +312,7 @@ function consultancyPatientWorkspaceController($rootScope, $scope, utils, $http)
 				var req = utils.serverRequest("/consultancy/patient-admission/discharge", "POST", data);
 
 				req.then(function(response){
-					utils.alert("Discharge Process Commenced", "The nursing stations has been notified about this patient's discharge successfully", "success");
+					utils.alert("Discharge Process Commenced", "The nursing stations has been notified about this patient's discharge.", "success");
 				}, function(error){
 					utils.errorHandler(error);
 				})
@@ -341,4 +339,8 @@ function consultancyPatientWorkspaceController($rootScope, $scope, utils, $http)
 
 		return html;
 	}
+
+	$scope.$on("addSentLabInvestigationsToList", function(e, data){
+		$("#lab-request-form").modal("hide");
+	})
 }

@@ -337,4 +337,23 @@ angular.module("EmmetBlue")
 			})
 		}
 	}
+
+	$scope.cancelAdmission = function(){
+		var title = "Do you really want to cancel this admission?";
+		var text = "Please note that this action cannot be undone";
+		var close = true;
+		var callback = function(){
+			utils.serverRequest("/nursing/ward-admission/cancel-admission?resourceId="+$scope.currentAdmission, "DELETE").then(function(response){
+				utils.notify("Operation Successful", "The selected admission intent has been canceled successfully", "success");
+				reloadTable();	
+				$("#observation").modal("hide");
+			}, function(error){
+				utils.errorHandler(error);
+			});
+		}
+		var type = "info";
+		var btnText = "Yes, Please continue";
+
+		utils.confirm(title, text, close, callback, type, btnText);		
+	}
 })

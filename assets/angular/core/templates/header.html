@@ -6,14 +6,17 @@
 		<ul class="nav navbar-nav pull-right visible-xs-block">
 			<li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-menu5"></i></a></li>
 		</ul>
+
+		<p class="navbar-text"><i class="icon-location4"></i> {{currentDepartmentName}}</p>
+		<p class="navbar-text"><span class="label bg-success-400">Online</span></p>
 	</div>
 
 	<div class="navbar-collapse collapse" id="navbar-mobile">
 		<ul class="no-login nav navbar-nav navbar-right">
+			<li><a ng-click="returnToPrimaryDept()"><i class="fa fa-home"></i></a></li>
 			<li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown" ng-click="loadSwitchableDepts()">
-					<i class="icon-vcard"></i> Primary Department: 
-					<span class="position-right">{{currentStaffDepartmentInfo.Name}}</span>
+					Switch Department <i class="caret"></i>
 				</a>
 				<ul class="dropdown-menu dropdown-menu-right">
 					<li ng-repeat="department in switchableDepartments" ng-click="switch(department.DepartmentID)"><a href="#">{{department.Name}}</a></li>

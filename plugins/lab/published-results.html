@@ -1,0 +1,98 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/ui/moment/moment.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/pickers/daterangepicker.js"></script>
+<script>
+	$('select.select').select2();
+	$('.daterange').daterangepicker({
+		showWeekNumbers: true,
+		showDropdowns: true,
+        opens: "right",
+        applyClass: 'bg-success',
+        cancelClass: 'btn-default'
+	});
+</script>
+
+<div ng-controller="labPublishedResultsController">
+	<div class="panel panel-success" >
+		<div class="panel-heading">
+			<h6 class="panel-title">Patient Management: Published Results Database</h6>
+			<div class="heading-elements">
+				<ul class="icons-list pull-right">
+					<li>Current Filter: <label class="label label-info">{{requestFilter.description}}</label></li>
+					<li><a data-action="reload" ng-click="reloadDispensationsTable()" class="btn btn-icon btn-clear"> Reload Requests</a></li>
+					<li><a href="#" title="Toggle Filter Selector" class="btn btn-icon btn-clear text-danger" ng-click="showRequestFilters = !showRequestFilters"><i class="icon-filter3"></i> Toggle Filter Selector</a></li>
+				</ul>
+	    	</div>
+		</div>
+
+		<div class="panel-body">
+			<div class="col-md-12" ng-show="showRequestFilters">
+				<div class="form-group col-md-4">
+					<label class="control-label">Filter By</label>
+					<select class="select" ng-model="filterSelector.type" ng-change="filterSelector.value = null">
+						<optgroup label="Date Ranges">
+							<option value="Today's Published Results<seprator>{{getDateRange('today')}}">Today</option>
+							<option value="Yesterday's Results<seprator>{{getDateRange('yesterday')}}">Yesterday</option>
+							<option value="This Week's Results<seprator>{{getDateRange('week')}}">This Week</option>
+							<option value="This Month's Results<seprator>{{getDateRange('month')}}">This Month</option>
+						</optgroup>
+
+						<option value="dateRange">Specify Date Range</option>
+
+						<optgroup label="Sub Groups">
+							<option value="patient">Patient</option>
+							<option status="disabled" value="staff">Staff</option>
+						</optgroup>
+					</select>
+				</div>
+				<div class="form-group col-md-8" ng-show="filterSelector.type == 'patient'">
+					<label class="control-label">Enter Patient's Hospital Number</label>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-user-lock"></i></span>
+						<input type="text" class="form-control" ng-model="filterSelector.value" placeholder="Patient ID" /> 
+					</div>
+				</div>
+				<div class="form-group col-md-8" ng-show="filterSelector.type == 'staff'">
+					<label class="control-label">Enter Staff's Username Here</label>
+					<div class="input-group col-md-6">
+						<span class="input-group-addon"><i class="icon-user-lock"></i></span>
+						<input type="text" class="form-control col-md-6" ng-model="filterSelector.value" placeholder="Staff Username" /> 
+					</div>
+					<input type="text" data-role="tagsinput" class="tagsinput-typeahead col-md-6" ng-model="filterSelector.date" placeholder="Add dates to show (mm/dd/yyyy)" /> 
+				</div>
+				<div class="form-group col-md-8" ng-show="filterSelector.type == 'dateRange'">
+					<label class="control-label">Pick Date Ranges</label>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-calendar22"></i></span>
+						<input type="text" class="form-control daterange" ng-model="filterSelector.value"> 
+					</div>
+				</div>
+				<div class="content-group col-md-12">
+					<button class="btn btn-info col-md-3 bg-primary pull-right btn-labeled" ng-click="activateFilter()">
+						<b><i class="icon-filter4"></i></b> Set Filter
+					</button>
+				</div>
+			</div>
+			<div class="table-responsive col-md-12">
+				<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
+
+				</table>
+			</div>
+		</div>
+	</div>
+	<div id="repository-items" class="modal fade no-margin no-padding" style="width: 100%;  height: 100vh;">
+		<div class="modal-full modal-lg no-margin no-padding no-border-radius" style="width: 100%; height: 100vh;">
+			<div class="modal-content no-margin no-padding no-border-radius" style="background-color: transparent;">
+				<div class="modal-header bg-warning">
+					<h6 class="modal-title">Repository View</h6>
+					<button type="button" class="close" data-dismiss="modal">&times; close</button>
+				</div>
+				<div class="modal-body no-padding no-margin">
+					<div class="col-md-12">
+						<ng-repository repository-id="currentRepository"></ng-repository>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

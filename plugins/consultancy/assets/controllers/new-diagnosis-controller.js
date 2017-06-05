@@ -322,6 +322,17 @@ angular.module("EmmetBlue")
 					modules.globals.loadSavedDiagnosis();
 					$scope.patient.history.displayPage='profile';
 
+					if (typeof $scope.patient.profile.auditflags !== "undefined" && $scope.patient.profile.auditflags.length > 0){
+						var message = "";
+						for (var i = 0; i < $scope.patient.profile.auditflags.length; i++) {
+							var count = i+1;
+							if (typeof $scope.patient.profile.auditflags[i].StatusNote != "undefined"){
+								message += "\r\n"+count+". "+$scope.patient.profile.auditflags[i].StatusNote;
+							}
+						}
+						utils.alert("This Profile Has Been Flagged", message, "warning");
+					}
+
 					var req = utils.serverRequest("/patients/patient-repository/view-most-recent-json-by-patient?resourceId="+$scope.patient.profile.patientid, 'GET');
 					req.then(function(response){
 						$scope.mostRecentObservation = response
@@ -409,6 +420,27 @@ angular.module("EmmetBlue")
         	}, function(error){
         		// errorCallback(error);
         	})
+        },
+        diagnosisSuggestInit: function(){
+        	$(".diagnosis-suggest").typeahead({
+	            hint: true,
+	            highlight: true
+	        },
+	        {
+	        	source: function(query, process){
+	        		utils.serverRequest('/consultancy/diagnosis-search/search?query='+query, "GET").then(function(response){
+		    			var data = [];
+		        		angular.forEach(response, function(value){
+		        			data.push(value.DiagnosisTitle);
+		        		})
+
+		        		data = $.map(data, function (string) { return { value: string }; });
+		        		process(data);
+		    		}, function(error){
+		    			utils.errorHandler(error);
+		    		})
+	        	}
+	        })
         },
 		symptoms: {
 			search: function(query, successCallback, errorCallback){
@@ -610,6 +642,25 @@ angular.module("EmmetBlue")
 				utils.errorHandler(error);
 			}
 			utils.serverRequest("/consultancy/saved-diagnosis/view?resourceId="+consultant+"&patient="+patient, "GET").then(successCallback, errorCallback);
+		},
+		showFlagNote: function(){
+			$("#flag-note-modal").modal("show");
+		},
+		flagPatient: function(note){
+			var patient = $scope.patient.profile.patientid;
+			var req = utils.serverRequest("/audit/flags/flag-patient?resourceId="+patient+"&note="+note+"&staff="+utils.userSession.getID(), "GET");
+			req.then(function(response){
+				if (response){
+					utils.notify("Operation Successful", "This patients profile has been flagged", "success");
+					$("#flag-note-modal").modal("hide");
+				}
+				else {
+					$("#flag-note-modal").modal("hide");
+					utils.notify("An error occurred", "Unable to flag this profile possibly because patient has not been logged", "error");
+				}
+			}, function(error){
+				utils.errorHandler(error);
+			});
 		}
 	}
 
@@ -630,7 +681,9 @@ angular.module("EmmetBlue")
 			submit: modules.globals.submitDiagnosis,
 			registeredLabs: [],
 			registeredInvestigationTypes: [],
-			currentSavedDiagnosisID: 0
+			currentSavedDiagnosisID: 0,
+			flag: modules.globals.showFlagNote,
+			completeFlagging: modules.globals.flagPatient
 		};
 
 		// modules.globals.loadRegisteredLabs();
@@ -680,6 +733,7 @@ angular.module("EmmetBlue")
 		};
 
 		modules.presentingComplaints.symptomSearchAutoSuggestInit();
+		modules.globals.diagnosisSuggestInit();
 		$scope.presentingComplaints.searchedSymptoms = {};
 
 		$scope.examination = {
@@ -725,6 +779,10 @@ angular.module("EmmetBlue")
 				}
 			}
 		}
+
+		$("#conclusionTitle").on("change", function(e){
+			$scope.conclusion.diagnosis.title = $(this).val();
+		});
 
 		modules.patient.searchAutoSuggestInit();
 		$scope.patient.profile = {};
