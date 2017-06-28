@@ -1,0 +1,70 @@
+<!-- Main content -->
+<div class="col-md-12">
+	<!-- Sidebars overview -->
+	<div class="panel panel-success">
+		<div class="panel-heading heading-divided bg-success">
+			<h6 class="panel-title">{{currentPatient.nameTitle}} Repositories</h6>
+		</div>
+
+		<div class="panel-body">
+			<div class="row">
+				<div class="table-responsive col-md-12">
+					<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
+
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /sidebars overview -->
+</div>
+<!-- /main content -->
+
+<div id="new_repository" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header bg-warning">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h6 class="modal-title">Create a new repository</h6>
+			</div>
+
+			<div class="modal-body">
+				<form role="form">
+					<div class="form-group">
+						<div class="row">
+							<div class="content-group col-sm-12">
+								<label>Name</label>
+								<input type="text" class="form-control" ng-model="newRepository.name">
+							</div>
+							<div class="content-group col-sm-12">
+								<label>Description</label>
+								<textarea class="form-control" cols="3" rows="3" ng-model="newRepository.description"></textarea>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="newRepository = {}"><i class="fa fa-times-circle-o"></i> Close</button>
+				<button type="button" class="btn btn-warning" ng-click="submitNewRepository()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"> </i></span>  Save</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="repository_items" class="modal fade no-margin no-padding" style="width: 100%;  height: 100vh;">
+	<div class="modal-full modal-lg no-margin no-padding no-border-radius" style="width: 100%; height: 100vh;">
+		<div class="modal-content no-margin no-padding no-border-radius" style="background-color: transparent;">
+			<div class="modal-header bg-warning">
+				<h6 class="modal-title">Repository View</h6>
+				<button type="button" class="close" data-dismiss="modal">&times; close</button>
+			</div>
+			<div class="modal-body no-padding no-margin">
+				<div class="col-md-12">
+					<ng-repository repository-id="currentRepository"></ng-repository>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

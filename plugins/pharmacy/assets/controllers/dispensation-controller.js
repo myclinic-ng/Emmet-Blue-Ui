@@ -40,6 +40,53 @@ angular.module("EmmetBlue")
 		$scope.loadPatientProfile();
 	});
 
+	$scope.$on("processSmartRequests", function(event, data){
+		if (typeof utils.storage.currentSmartRequests !== "undefined"){
+			data = utils.storage.currentSmartRequests;
+			if (typeof $scope.currentStore !== "undefined"){
+				processSmartRequest(data);
+				$scope.dispensationItems = [];
+			}
+		}
+	})
+
+	$scope.$on("storeLoaded", function(){
+		if (typeof utils.storage.currentSmartRequests !== "undefined"){
+			data = utils.storage.currentSmartRequests;
+			processSmartRequest(data);
+			$scope.dispensationItems = [];
+		}
+	})	
+
+	function processSmartRequest(data){
+		$scope.dispensationItems = [];
+		angular.forEach(data, function(value){
+			var item = value.item;
+			var qty = value.quantity;
+
+			var req=utils.serverRequest("/pharmacy/store-inventory/get-item-id?item="+item.name+"&category="+item.category+"&store="+$scope.currentStore, "GET");
+			req.then(function(response){
+				if (response){
+					var id = response.Item;
+					var _qty = response.ItemQuantity;
+					if (qty <= _qty){
+						$scope.currentItem = {
+							ItemCode: id,
+							Item: item.name,
+							item: id,
+							itemID: response.ItemID
+						};
+						$scope.itemQuantityBoxValue = qty;
+						$scope.addItemToList();
+					}
+					else {
+						// utils.notify(item.name +" has not been added to the list", "This is probably because the quantity requested is greater than the available quantity", "info");
+					}
+				}
+			})
+		})
+	}
+
 	$scope.loadPatientProfile = function(){
 		var patient = utils.serverRequest("/patients/patient/search", "POST", {
 			"query":$scope.patientNumber,
@@ -284,6 +331,7 @@ angular.module("EmmetBlue")
 	}, function(newValue){
 		if (typeof newValue !== "undefined"){
 			$scope.reloadInventoryTable();
+			$scope.$broadcast("storeLoaded");
 		}
 	})
 
@@ -366,7 +414,6 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.currentItem = {
-
 	};
 
 	$scope.dispensationItems = [];
@@ -395,12 +442,20 @@ angular.module("EmmetBlue")
 		var _i = $scope.currentItem.ItemCode;
 		var _p = $scope.patient.id;
 		var _q = $scope.currentItem.quantity;
+		var _id = $scope.currentItem.itemID;
+		var _it = $scope.currentItem.Item;
 
 		utils.serverRequest("/accounts-biller/get-item-price/calculate?resourceId="+_p+"&item="+_i+"&quantity="+_q, "GET")
 		.then(function(response){
-			$scope.currentItem.price = response.totalPrice;
-
-			$scope.dispensationItems.push($scope.currentItem);
+			// $scope.currentItem.price = response.totalPrice;
+			$scope.dispensationItems.push({
+				Item: _it,
+				ItemCode: _i,
+				item: _i,
+				itemID: _id,
+				price: response.totalPrice,
+				quantity: _q
+			});
 			$scope.currentItem = {};
 		}, function(error){
 			utils.errorHandler(error);
@@ -439,15 +494,15 @@ angular.module("EmmetBlue")
 				utils.errorHandler(error);
 			});
 
-			var eventLog = patientEventLogger.pharmacy.newDispensationEvent(
-				$scope.patient.id,
-				0
-			);
-			eventLog.then(function(response){
-				//patient registered event logged
-			}, function(response){
-				utils.errorHandler(response);
-			});
+			// var eventLog = patientEventLogger.pharmacy.newDispensationEvent(
+			// 	$scope.patient.id,
+			// 	0
+			// );
+			// eventLog.then(function(response){
+			// 	//patient registered event logged
+			// }, function(response){
+			// 	utils.errorHandler(response);
+			// });
 		}, function(error){
 			utils.errorHandler(error);
 		})
@@ -637,5 +692,9 @@ angular.module("EmmetBlue")
 				$scope.reloadDispensationsTable();
 			}
 		}
+	}
+
+	$scope.exists = function(p, ind){
+		return typeof p[ind] != "undefined"
 	}
 });

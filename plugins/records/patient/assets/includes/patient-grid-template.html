@@ -31,6 +31,9 @@
             	<button class="btn btn-xs" ng-if="patientInfo.patientprofilelockstatus == 1" data-popup="tooltip" title="Unlock Profile" data-container="body" data-toggle="modal" data-target="#paymentRequestLocker" ng-click="toggleProfileLockState(false, patientInfo.patientid)">
             		<i class="icon-shield-notice"></i> Unlock profile
             	</button>
+            	<button class="btn btn-xs" data-popup="tooltip" title="Appointments" data-container="body" data-toggle="modal" data-target="#view-appointments-{{patientInfo.patientid}}">
+            		<i class="icon-calendar2"></i><span class="badge badge-danger" ng-if="appointmentsCount > 0">{{appointmentsCount}}</span>
+            	</button>
             	<button class="btn btn-xs" data-popup="tooltip" title="View Profile" data-container="body" data-toggle="modal" data-target="#view-patient-{{patientInfo.patientid}}">
             		<i class="icon-new-tab"></i> 
             	</button>
@@ -69,7 +72,7 @@
 											</div>
 											
 											<div class="col-xs-6">
-												<button type="button" class="btn bg-warning-400 btn-block btn-float btn-float-lg"><i class="icon-stats-bars"></i> <span>Repositories</span></button>
+												<button type="button" class="btn bg-warning-400 btn-block btn-float btn-float-lg" ng-click="toggleView('repos'); broadcastRepoPatient(patientInfo.patientid);"><i class="icon-stats-bars"></i> <span>Repositories</span></button>
 												<button type="button" class="btn bg-danger btn-block btn-float btn-float-lg" ng-click="toggleView('editProfile')"><i class="icon-cog3"></i> <span>Edit Profile</span></button>
 											</div>
 										</div>
@@ -84,6 +87,60 @@
 					<ng-patient-card patient-info="patientInfo" ng-if="viewItems.card"></ng-patient-card>
 					<ng-patient-profile patient-info="patientInfo" ng-if="viewItems.profile"></ng-patient-profile>
 					<ng-edit-profile patient-info="patientInfo" ng-if="viewItems.editProfile"></ng-edit-profile>
+					<ng-manage-patient-repo current-patient="currentPatient" ng-if="viewItems.repos"></ng-manage-patient-repo>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-link" data-dismiss="modal" ng-click=""><i class="fa fa-times-circle-o"></i> Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="view-appointments-{{patientInfo.patientid}}" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header bg-warning">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h6 class="modal-title">Patient Appointments</h6>
+			</div>
+
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-6 pull-right mb-10">
+						<label class="control-label text-center">Filter</label>
+						<input class="form-control" placeholder="Filter Appointments" ng-model="appointmentFilter"/>
+					</div>
+
+					<table class="table table-striped">
+						<thead class="bg-info">
+							<th>S/N</th>
+							<th>Staff</th>
+							<th>Appointment Reason</th>
+							<th>Appointment Date</th>
+						</thead>
+						<tbody>
+							<tr ng-repeat="appointment in appointments | filter: appointmentFilter">
+								<td>{{$index + 1}}</td>
+								<td>
+									<div class='media-left media-middle'>
+										<a href='#'><img ng-src="{{loadImage(appointment.staffInfo.StaffPicture)}}" class='img-circle img-xs' alt=''></a>
+									</div>
+									<div class='media-left'>
+										<div class='text-bold'>{{appointment.staffInfo.StaffFullName}}</div>
+										<div class=''>
+											{{appointment.staffInfo.Role.Name}}
+										</div>
+									</div>
+								</td>
+								<td>{{appointment.AppointmentReason}}</td>
+								<td>{{toDateString(appointment.AppointmentDate)}}</td>
+							</tr>
+							<tr ng-if="appointments.length < 1">
+								<td colspan="4"><center><span class="text-muted text-center">No Appointments Has Been Created For This Patient</span></center></td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 			</div>
 			<div class="modal-footer">

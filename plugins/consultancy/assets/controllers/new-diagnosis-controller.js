@@ -2,6 +2,10 @@ angular.module("EmmetBlue")
 
 .controller("consultancyNewDiagnosisController", function($scope, utils, $http, $rootScope){
 	var modules = {};
+	
+	$scope.exists = function(p, ind){
+		return typeof p[ind] != "undefined"
+	}
 
 	modules.allergies = {
 		loadAllergyTypes: function(){
@@ -677,6 +681,10 @@ angular.module("EmmetBlue")
 				var date = new Date();
 				return date.toDateString();
 			},
+			todayInIso: function(){
+				var date = new Date();
+				return date.toISOString().split('T')[0];
+			},
 			save: modules.globals.saveDiagnosis,
 			submit: modules.globals.submitDiagnosis,
 			registeredLabs: [],
@@ -865,7 +873,7 @@ angular.module("EmmetBlue")
 			$("#refer-patient").modal("hide");
 			$scope.newReferral = {};
 			$scope.referral = {};
-			utils.notify("Patient Referred Successful", $scope.referral.specialist.name+" has been notified about this referral", "success");
+			utils.notify("Patient Referred Successfully", $scope.referral.specialist.name+" has been notified about this referral", "success");
 		}, function(error){
 			utils.errorHandler(error);
 		})
@@ -873,6 +881,22 @@ angular.module("EmmetBlue")
 
 	$scope.toDateString = function(date){
 		return (new Date(date)).toDateString()+", "+(new Date(date)).toLocaleTimeString();
+	}
+
+	$scope.newAppointment = {};
+	$scope.saveAppointment = function(){
+		$scope.newAppointment.patient = $scope.patient.profile.patientid;
+		$scope.newAppointment.staff = utils.userSession.getID();
+
+		var req = utils.serverRequest("/patients/patient-appointment/new", "POST", $scope.newAppointment);
+
+		req.then(function(success){
+			$("#new-appointment").modal("hide");
+			$scope.newAppointment = {};
+			utils.notify("Appointment Created Successfully", "Reminder broadcasting is in progress", "success");
+		}, function(error){
+			utils.errorHandler(error);
+		})
 	}
 
 	$scope.staffNames = {};

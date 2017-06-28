@@ -110,10 +110,19 @@
 							<h4 class="text-center text-info"><u>Original Request</u></h4>
 							<h6>Requested By: <b>{{_currentRequest.RequestedByFullName}}</b></h6>
 							<h6>Acknowledged By: <b>{{_currentRequest.AcknowledgedByFullName}}</b></h6>
-							<div class="content-group" ng-repeat="prescription in _currentRequest.Request">
-								<label class="control-label"><span class='text-bold'>{{$index + 1}}.</span> {{prescription.item}}</label>
-								<p class="text-bold pl-10">{{prescription.duration}}</p>
-							</div>
+							<div class="content-group" ng-repeat="prescription in _currentRequest.Request" ng-if="!exists(prescription, 'smart')">
+									<label class="control-label"><span class='text-bold'>{{$index + 1}}.</span> {{prescription.item}}</label>
+									<p class="text-bold pl-10">{{prescription.duration}}</p>
+								</div>
+								<div class="content-group" ng-repeat="prescription in _currentRequest.Request" ng-if="exists(prescription, 'smart')">
+									<span ng-if="prescription.smart">
+										<label class="control-label"><span class='text-bold'>{{$index + 1}}.</span> <b>{{prescription.item.item.name}}</b></label>
+										<p class="pl-10">{{prescription.item.item.category}}, {{prescription.item.times}} daily for {{prescription.item.duration}} days <span class="label label-success">SMART</span></p>
+									</span>
+									<span ng-if="!prescription.smart">
+										<label class="control-label"><span class='text-bold'>{{$index + 1}}.</span> {{prescription.item.name}} <br/><span class="label label-warning">NOT SMART</span></label>
+									</span>
+								</div>
 						</div>
 						<div class="table-responsive col-md-7" style="border-left: 1px solid green">
 							<h4 class="text-center text-info"><u>Dispensable Items</u></h4>

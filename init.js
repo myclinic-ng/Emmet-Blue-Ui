@@ -106,7 +106,8 @@ var cntrllers = [
 	"plugins/pharmacy/dispensory/assets/controllers.js",
 	"plugins/consultancy/assets/controllers.js",
 	"plugins/lab/assets/controllers.js",
-	"plugins/financial-audit/assets/controllers.js"
+	"plugins/financial-audit/assets/controllers.js",
+	"plugins/records/cloud/assets/controllers.js"
 ]
 
 var services = [

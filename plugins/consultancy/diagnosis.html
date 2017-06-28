@@ -4,8 +4,8 @@
 <script src="assets/js/core/app.js"></script>
 <script>
 	$('select.select').select2();
+	$('.datepicker').datepicker();
 	$(function() {
-
 	    // Initialize lightbox
 	    $('[data-popup=lightbox]').fancybox({
 	        padding: 3
@@ -43,6 +43,7 @@
 		<div class="panel-heading">
 			<h6 class="panel-title" ng-show="patient.isProfileReady"><span class="text-bold">Current Patient: </span> {{patient.profile["first name"]}} {{patient.profile["last name"]}} </h6>
 			<div class="heading-elements" ng-show="patient.isProfileReady">
+				<button class="btn btn-labeled btn-primary bg-white no-border-radius" data-toggle="modal" data-target="#new-appointment"><b><i class="icon-calendar3"></i></b>Create Appointment</button>
 				<button class="btn btn-labeled btn-info bg-white no-border-radius" data-toggle="modal" data-target="#refer-patient"><b><i class="icon-forward"></i></b>Refer This Patient</button>
 				<h6><span class="text-bold">Date:</span> {{globals.today()}} </h6>
 	    	</div>
@@ -404,9 +405,13 @@
 							<tr class="bg-info" ng-show="conclusion.prescriptionList.length > 0">
 								<th colspan="3">Prescription</th>
 							</tr>
-							<tr ng-repeat="prescription in conclusion.prescriptionList">
+							<tr ng-repeat="prescription in conclusion.prescriptionList" ng-if="!exists(prescription, 'smart')">
 								<td>{{$index + 1}}</td>
 								<td colspan="2">{{prescription.item}}</td>
+							</tr>
+							<tr ng-repeat="prescription in conclusion.prescriptionList" ng-if="exists(prescription, 'smart')">
+								<td>{{$index + 1}}</td>
+								<td colspan="2">[{{prescription.item.item.category}}] {{prescription.item.item.name}}, {{prescription.item.times}} daily for {{prescription.item.duration}} days</td>
 							</tr>
 							<tr class="bg-success">
 								<th colspan="3">Most recent Observation</th>
@@ -613,6 +618,62 @@
 								<div class="form-group">
 									<button class="btn btn-info btn-labeled pull-right" ng-click="completeReferral()"><b><i class="icon-check"></i></b> Complete Referral</button>
 								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div>
+		<div class="modal fade" id="new-appointment">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header bg-info">
+						<h6 class="modal-title">Book an appointment for this patient</h6>
+						<button class="close"><i class="icon-cross"></i></button>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<!-- <div class="col-md-4">
+								<label class="control-label">Range Identifier</label>
+								<select class="select" ng-model="conclusion.appointment.range">
+									<option value="weeks">Weeks</option>
+									<option value="days">Days</option>
+									<option value="months">Months</option>
+									<option value="date" selected="">Specify Date</option>
+								</select>
+							</div>
+							<div class="col-md-8">
+								<div class="form-group" ng-if="conclusion.appointment.range == 'weeks'">
+									<label class="control-label">How Many Weeks?</label>
+									<input class="form-control" type="number"/>
+								</div>
+								<div class="form-group" ng-if="conclusion.appointment.range == 'days'">
+									<label class="control-label">How Many Days?</label>
+									<input class="form-control" type="number"/>
+								</div>
+								<div class="form-group" ng-if="conclusion.appointment.range == 'months'">
+									<label class="control-label">How Many Months?</label>
+									<input class="form-control" type="number"/>
+								</div>
+								<div class="form-group" ng-if="conclusion.appointment.range == 'date'">
+									<label class="control-label">Select Date</label>
+									<input class="form-control" type="date"/>
+								</div>
+							</div> -->
+
+							<div class="col-md-12">
+								<label class="control-label">Select Appointment Date</label>
+								<input class="form-control datepicker" type="text" ng-model="newAppointment.date" data-start-date="{{globals.todayInIso()}}" placeholder="Pick a date for this patients next visit" />
+							</div>
+							<div class="col-md-12 mt-10">
+								<label class="control-label">Appointment Reason</label>
+								<textarea class="form-control" ng-model="newAppointment.reason" style="height: 200px;" placeholder="Specify detailed information about this appointment in a way the patient can understand"></textarea>
+							</div>
+							<div class="col-md-12 mt-10">
+								<button class="btn btn-primary pull-right" ng-click="saveAppointment()">Save Appointment</button>
 							</div>
 						</div>
 					</div>

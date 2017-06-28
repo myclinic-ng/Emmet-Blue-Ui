@@ -10,6 +10,7 @@ angular.module("EmmetBlue")
 		controller: function($scope, utils, $rootScope){
 			var modules = {};
 			$scope.currentDiagnosis = "";
+			$scope.isSmart = true;
 
 			modules.conclusion = {
 				loadPrescriptionTemplates: function(){
@@ -45,24 +46,40 @@ angular.module("EmmetBlue")
 				},
 				addPrescriptionToList: function(item, duration = ""){
 					if (item !== ""){
-						var prescription = {
-							item: item,
-							duration: duration
-						};
-
-						var duplicationDetected = false;
-						for (var i = 0; i < $scope.conclusion.prescriptionList.length; i++){
-							if ($scope.conclusion.prescriptionList[i].item == prescription.item){
-								duplicationDetected = true;
-								break;
+						utils.serverRequest("/pharmacy/pharmacy-request/smartify?prescription="+item, "GET").then(function(response){
+							if (!response.valid){
+								utils.notify("Last entered prescription is not smart", "Reason: "+response.reason, "info");
+								$scope.isSmart = false;
 							}
-						}
-						if (duplicationDetected){
-							utils.notify("Duplicate items are not allowed", item+" has already been added to the prescription list", "warning");
-						}
-						else {
-							$scope.conclusion.prescriptionList.push(prescription);
-						}
+
+							var prescription = {
+								smart: response.valid,
+								item: {
+									name: item
+								},
+								duration: duration
+							};
+
+							if (response.valid){
+								prescription.item = response.parts;
+							}
+
+							var duplicationDetected = false;
+							for (var i = 0; i < $scope.conclusion.prescriptionList.length; i++){
+								if ($scope.conclusion.prescriptionList[i].item == prescription.item){
+									duplicationDetected = true;
+									break;
+								}
+							}
+							if (duplicationDetected){
+								utils.notify("Duplicate items are not allowed", item+" has already been added to the prescription list", "warning");
+							}
+							else {
+								$scope.conclusion.prescriptionList.push(prescription);
+							}
+						}, function(error){
+							utils.errorHandler(error);
+						})
 					}
 					else {
 						utils.notify("You are not allowed to add a blank entry to the list", "Please enter a value to continue", "warning");
@@ -116,11 +133,12 @@ angular.module("EmmetBlue")
 			            highlight: true
 			        },
 			        {
-			        	displayKey: 'BillingTypeItemName',
+			        	displayKey: 'ItemNameToDisplay',
 			        	source: function(query, process){
 			        		utils.serverRequest("/consultancy/drug-names/search?phrase="+query+"&staff="+utils.userSession.getUUID(), "GET").then(function(response){
 				    			var data = [];
 				        		angular.forEach(response, function(value){
+				        			value["ItemNameToDisplay"] = value.BillingTypeName+":: "+value.BillingTypeItemName
 				        			data.push(value);
 				        		})
 
@@ -174,9 +192,9 @@ angular.module("EmmetBlue")
 				searchDrug: function(){
 					var drug = $("#conclusion-drug").val();
 
-					$scope.conclusion.addPrescriptionToList(drug);
-
 					$("#conclusion-drug").val("")
+
+					$scope.conclusion.addPrescriptionToList(drug);
 				}
 			}
 

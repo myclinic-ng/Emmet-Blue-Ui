@@ -760,6 +760,7 @@ angular.module("EmmetBlue")
 
 var recordsPatientManageRepositoryController = function($scope, utils, $http){
 	// $scope.currentRepository = 7;
+	$scope.loadImage = utils.loadImage;
 	$scope.$watch(function(){
 		return $scope.currentRepository
 	}, function(nv){
@@ -810,6 +811,8 @@ var recordsPatientManageRepositoryController = function($scope, utils, $http){
 
 	$scope.loadFile = function(url){
 		url = $scope.repository.RepositoryUrl+url;
+
+		return $scope.loadImage(url);
 	}
 
 	$scope.loadInfo = function(name, description){

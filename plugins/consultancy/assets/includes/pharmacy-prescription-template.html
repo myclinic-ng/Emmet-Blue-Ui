@@ -31,14 +31,19 @@
 						</span>
 					</th>
 					<tr ng-show="conclusion.prescriptionList.length > 0">
-						<td>S/N</td>
-						<td colspan="2" class="bg-info-800">Prescription</td>
+						<td></td>
+						<td colspan="2" class="bg-info-800">Prescription <span class='label label-success pull-right' ng-if="isSmart">SMART</span><span class='label label-danger pull-right' ng-if="!isSmart"> NOT SMART </span></td>
 					</tr>	
 				</thead>
 				<tbody>
 					<tr ng-repeat="prescription in conclusion.prescriptionList">
-						<td style="width: 10%">{{$index + 1}}</td>
-						<td style="width: 80%">{{prescription.item}}<br/><b>{{prescription.duration}}</b></td>
+						<td style="width: 10%"><i class='icon-checkmark4 text-success' ng-if="prescription.smart"></i><span class='icon-warning text-warning' ng-if="!prescription.smart"></i></td>
+						<td style="width: 10%" ng-if="!prescription.smart">{{prescription.item.name}}</td>
+						<td style="width: 80%" ng-if="prescription.smart"><b>{{prescription.item.item.name}}</b>
+							<br/>{{prescription.item.item.category}} <span class="pull-right text-bold text-primary">QTY: {{prescription.item.quantity}}</span>
+							<br/>{{prescription.item.times}} daily for {{prescription.item.duration}} days
+							<!-- <span class="pull-right label label-warning">Item May Not Be Available</span> -->
+						</td>
 						<td style="width: 10%"><a class="btn btn-xs btn-link bg-white btn-danger" ng-click="conclusion.removePrescriptionFromList($index)"><i class="icon-bin"></i> </a></td>
 					</tr>
 				</tbody>

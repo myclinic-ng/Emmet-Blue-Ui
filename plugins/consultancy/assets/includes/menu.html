@@ -16,6 +16,13 @@
 					<span class="badge badge-danger" ng-if="queueCount != iconSpinner && queueCount != '0'" ng-bind-html="queueCount"></span>
 				</a>
 			</li>
+			<li>
+				<a href="#" data-toggle="modal" data-target="#_patient-appointments" ng-click="reloadAppointments()"><i class="icon-calendar2 position-left"></i> 
+					Appointments
+					<span ng-if="appointmentCount == iconSpinner" ng-bind-html="appointmentCount"></span>
+					<span class="badge badge-danger" ng-if="appointmentCount != iconSpinner && appointmentCount != '0'" ng-bind-html="appointmentCount"></span>
+				</a>
+			</li>
 			<li><a href="#" data-toggle="modal" data-target="#_patient-admission-form"><i class="fa fa-hotel position-left"></i> Admit A Patient</a></li>
 		</ul>
 
@@ -27,5 +34,6 @@
 <!-- /second navbar -->
 
 <ng-include src="'plugins/consultancy/assets/includes/patient-queue.html'"></ng-include>
+<ng-include src="'plugins/consultancy/assets/includes/patient-appointments.html'"></ng-include>
 <ng-include src="'plugins/consultancy/assets/includes/admit-patient.html'"></ng-include>
 <ng-include src="'plugins/consultancy/assets/includes/setting/index.html'"></ng-include>

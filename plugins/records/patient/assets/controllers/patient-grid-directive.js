@@ -7,7 +7,7 @@ angular.module("EmmetBlue")
 			patientInfo: '=patientInfo'
 		},
 		templateUrl: "plugins/records/patient/assets/includes/patient-grid-template.html",
-		controller: function($scope, utils){
+		controller: function($scope, utils, $rootScope){
 			$scope.loadImage = utils.loadImage;
 			$scope.unlockData = {};
 			$scope.patients = {};
@@ -16,7 +16,8 @@ angular.module("EmmetBlue")
 			$scope.viewItems = {
 				card: true,
 				profile:false,
-				editProfile: false
+				editProfile: false,
+				repos: false
 			}
 
 			$scope.toggleView = function(view){
@@ -24,6 +25,19 @@ angular.module("EmmetBlue")
 					$scope.viewItems[key] = false;
 				});
 				$scope.viewItems[view] = true;
+
+				if (view == "repos"){
+					$scope.currentPatient = {
+						nameTitle: "Patient",
+						id: 0
+					};
+
+					$scope.currentPatient.nameTitle = $scope.patientInfo.patientfullname+"'s";
+					$scope.currentPatient.picture = $scope.loadImage($scope.patientInfo.patientpicture);
+					$scope.currentPatient.id = $scope.patientInfo.patientid;
+
+					$rootScope.$broadcast("reloadCurrentPatient");
+				}
 			}
 
 			$scope.retrieveLockStatus = function(){
@@ -49,6 +63,14 @@ angular.module("EmmetBlue")
 				}
 			}
 
+			$scope.broadcastRepoPatient = function(id){
+				$rootScope.$broadcast("loadPatientHideSearch", id);
+			}
+
+			$scope.toDateString = function(date){
+				return (new Date(date)).toDateString()+", "+(new Date(date)).toLocaleTimeString();
+			}
+
 			$scope.unlockProfile = function(patient){
 				var unlockData = {
 					patient: $scope.patientInfo.patientid,
@@ -70,6 +92,19 @@ angular.module("EmmetBlue")
 					utils.errorHandler(error);
 				})
 			}
+
+			$scope.loadAppointments = function(patient){
+				var request = utils.serverRequest("/patients/patient-appointment/view/"+patient, "GET");
+
+				request.then(function(response){
+					$scope.appointments = response;
+					$scope.appointmentsCount = response.length;
+				}, function(error){
+					utils.errorHandler(error);
+				})
+			}
+
+			$scope.loadAppointments($scope.patientInfo.patientid);
 		}
 	}
 })

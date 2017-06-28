@@ -1,0 +1,124 @@
+<div ng-controller="patientAppointmentsController">
+	<div class="modal fade" id="_patient-appointments">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<h6 class="modal-title">Patient Appointments</h6>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="tabbable">
+							<ul class="nav nav-tabs nav-tabs-highlight nav-justified">
+								<li class="active" href="#t-apps" data-toggle="tab" ng-click="loadTodayAppointments()"><a>Today <span class="badge badge-danger pull-right">{{todayAppointments.length}}</span></a></li>
+								<li href="#a-apps" data-toggle="tab" ng-click="loadAppointments()"><a>All appointments</a></li>
+							</ul>
+
+							<div class="tab-content ">
+								<div class="tab-pane active" id="t-apps">
+									<div class="row" ng-if="todayAppointments.length < 1">
+										<div class="col-md-12">
+											<h1 class="text-center text-success">
+												<i class="icon-thumbs-up3 display-block" style="font-size: 5em"></i>
+											</h1>
+											<h5 class="text-center display-block text-primary"><i class="icon-info22"></i> All clear, there are no appointments for now</h5 >
+										</div>
+									</div>
+									<div class="row" ng-if="todayAppointments.length > 0">
+										<div class="col-md-6">
+											<h6 class="pull-right">Enter a patients name to search:</h6>
+										</div>
+										<div class="col-md-6">
+											<input class="form-control pull-right" placeholder="filter patients" ng-model="filterQueuedPatients"/>
+										</div>
+										<table class="table table-condensed table-hover">
+											<thead class="bg-success">
+												<th></th>
+												<th>Patients Full Name</th>
+												<th>Appointment Reason</th>
+											</thead>
+											<tbody>
+												<tr ng-repeat="patient in todayAppointments | filter:filterQueuedPatients">
+													<td class="text-bold" style="border-right: 1px solid #4CAF50">{{$index + 1}}</td>
+													<td class="media" style="width: 40%">
+														<div class="media-left media-middle">
+															<a href="#">
+																<img src="{{loadImage(patient.patientInfo.patientpicture)}}" class="img-circle" alt="">
+															</a>
+														</div>
+
+														<div class="media-body">
+															<div class="media-heading text-semibold">{{patient.patientInfo.patientfullname}}</div>
+															<span ng-hide="true">{{patient.patientInfo.patientuuid}}</span>
+															<span class="text-muted">{{patient.patientInfo.patienttypename}}, {{patient.patientInfo.categoryname}}</span>
+														</div>
+													</td>
+													<td>{{patient.AppointmentReason}}</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="tab-pane" id="a-apps">
+									<div class="row" ng-if="appointments.length < 1">
+										<div class="col-md-12">
+											<h1 class="text-center text-success">
+												<i class="icon-thumbs-up3 display-block" style="font-size: 5em"></i>
+											</h1>
+											<h5 class="text-center display-block text-primary"><i class="icon-info22"></i> All clear, there are currently no patients on the global queue</h5 >
+										</div>
+									</div>
+									<div class="row" ng-if="appointments.length > 0">
+										<div class="col-md-6">
+											<h6 class="pull-right">Enter a patients name to search:</h6>
+										</div>
+										<div class="col-md-6">
+											<input class="form-control pull-right" placeholder="filter patients" ng-model="filterQueuedPatients"/>
+										</div>
+										<div class="table-responsive col-md-12">
+											<table class="table table-condensed table-hover">
+												<thead class="bg-success">
+													<th></th>
+													<th><center>Patients Full Name</center></th>
+													<th>Reason</th>
+													<th>Date</th>
+													<th>Action</th>
+												</thead>
+												<tbody>
+													<tr ng-repeat="patient in appointments | filter:filterQueuedPatients">
+														<td class="text-bold" style="border-right: 1px solid #4CAF50">{{$index + 1}}</td>
+														<td class="media" style="width: 30%">
+															<div class="media-left media-middle">
+																<a href="#">
+																	<img src="{{loadImage(patient.patientInfo.patientpicture)}}" class="img-circle" alt="">
+																</a>
+															</div>
+
+															<div class="media-body">
+																<div class="media-heading text-semibold">{{patient.patientInfo.patientfullname}}</div>
+																<span ng-hide="true">{{patient.patientInfo.patientuuid}}</span>
+																<span class="text-muted">{{patient.patientInfo.patienttypename}}, {{patient.patientInfo.categoryname}}</span>
+															</div>
+														</td>
+														<td>
+															{{patient.AppointmentReason}}
+														</td>
+														<td>
+															{{toDateString(patient.AppointmentDate)}}
+														</td>
+														<td>
+															<a class="btn btn-link btn-danger bg-white" ng-click="deleteAppointment(patient.AppointmentID)"><i class="fa fa-times"></i> Delete Appointment</a>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -121,14 +121,6 @@ angular.module("EmmetBlue")
 				$scope.currentRequest.Request = $.parseJSON(request);
 				$scope.currentRequest.PatientName = patientname;
 				$scope.currentRequest.PatientID =  $(".pharmacy-ack-btn[data-option-id='"+id+"'").attr("data-option-patient-id");
-
-				// utils.serverRequest("/read-resource", "POST", {data: request}).then(function(response){
-				// 	$("#ack_modal").modal("show");
-				// 	$scope.currentRequest.Request = response;
-				// 	$scope.currentRequest.PatientName = patientname;
-				// }, function(error){
-				// 	utils.errorHandler(error);
-				// });
 				break;
 			}
 			case "dispense":{
@@ -142,6 +134,16 @@ angular.module("EmmetBlue")
 				utils.storage.patientNumberForDispensation = $(".pharmacy-ack-btn[data-option-id='"+id+"'").attr("data-option-patient-uuid");
 				utils.storage.currentRequest = $scope.currentRequest;
 				$rootScope.$broadcast("loadPatientNumberForDispensation");
+
+				var smartRequests = [];
+				angular.forEach($scope.currentRequest.Request, function(value){
+					if (value.smart){
+						smartRequests.push(value.item);
+					}
+				});
+
+				utils.storage.currentSmartRequests = smartRequests;
+				$rootScope.$broadcast("processSmartRequests", smartRequests);
 				$("#new_dispensation").modal({
 					backdrop: "static"
 				});
@@ -190,5 +192,9 @@ angular.module("EmmetBlue")
 		}, function(error){
 			utils.errorHandler(error);
 		})
+	}
+
+	$scope.exists = function(p, ind){
+		return typeof p[ind] != "undefined"
 	}
 });
