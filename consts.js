@@ -2,7 +2,7 @@ function getConstants(){
 	var server = "https://emmetblue.org.ng:700/";
 	var client = {
 		short_name: "Harmony Hospital",
-		name: "Harmony Hospital & Specialists Clinic",
+		name: "Harmony Hospital and Specialists Clinic",
 		_style:{
 			accounts:{
 				billing:{

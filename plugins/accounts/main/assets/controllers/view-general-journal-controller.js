@@ -98,6 +98,7 @@ angular.module("EmmetBlue")
 		utils.DT.columnBuilder.newColumn('GeneralJournalTotalAmount').withTitle("Amount (<ng-currency currency-symbol='naira'></ng-currency>)"),
 		utils.DT.columnBuilder.newColumn(null).withTitle('').renderWith(function(data, full, meta){
 			var viewButtonAction = "manageJournal('view', "+data.GeneralJournalID+")";
+			var delButtonAction = "manageJournal('delete', "+data.GeneralJournalID+")";
 			var begBalButtonAction = "manageJournal('beginningBalances', "+data.GeneralJournalID+")";
 			var viewMetadataButtonAction = "manageJournal('viewmetadata', "+data.GeneralJournalID+")";
 
@@ -109,6 +110,7 @@ angular.module("EmmetBlue")
 									"	<li><a href='#' class='account-btn' ng-click=\""+viewButtonAction+"\" "+dataOpt+"><i class='icon-file-eye'></i> View</a></li>"+
 									"	<li><a href='#' class='account-btn text-danger' ng-click=\""+begBalButtonAction+"\" "+dataOpt+"><i class='icon-pencil7'></i> <strike>Adjust Entry</strike></a></li>"+
 									"	<li class='divider'></li>"+
+									"	<li><a href='#' class='account-btn text-danger' ng-click=\""+delButtonAction+"\" "+dataOpt+"><i class='fa fa-times'></i> Delete</a></li>"+
 									"	<li><a href='#' class='account-btn' ng-click=\""+viewMetadataButtonAction+"\" "+dataOpt+"><i class='icon-database-diff'></i> View Metadata</a></li>"+
 									"</ul>"+
 								"</div>";
@@ -206,6 +208,27 @@ angular.module("EmmetBlue")
 				$scope.currentJournalEntry.DateCreated = (new Date($scope.currentJournalEntry.DateCreated)).toDateString()+" at "+(new Date($scope.currentJournalEntry.DateCreated)).toLocaleTimeString()
 				$scope.currentJournalEntry.DateModified = (new Date($scope.currentJournalEntry.DateModified)).toDateString()+" at "+(new Date($scope.currentJournalEntry.DateModified)).toLocaleTimeString()
 				$("#view-current-journal-metadata").modal("show");
+				break;
+			}
+			case "delete":{
+				var title = "Please Confirm";
+				var text = "Do you really want to delete this transaction. Please note that you have to manually balance any affected account(s)"
+				var close = true;
+				var type = "warning";
+				var btnText = "Yes, please continue";
+
+				var process = function(){
+					var req = utils.serverRequest("/financial-accounts/general-journal/delete?resourceId="+id, "DELETE");
+
+					req.then(function(response){
+						utils.notify("Operation successful", "The selected transaction has been deleted successfully", "success");
+						$scope.reloadTable();
+					}, function(error){
+						utils.errorHandler(error);
+					})
+				}
+
+				utils.confirm(title, text, close, process, type, btnText);
 				break;
 			}
 		}

@@ -4,8 +4,15 @@ angular.module("EmmetBlue")
 	$scope.loadImage = utils.loadImage;
 	$scope.dtInstance = {};
 	$scope.dtOptions = utils.DT.optionsBuilder
-	.fromFnPromise(function(){
-		var url = '/audit/unlock-log/view-unlocked?';
+	.newOptions()
+	.withFnServerData(function(source, data, callback, settings){
+		var draw = data[0].value;
+        var order = data[2].value;
+        var start = data[3].value;
+        var length = data[4].value;
+        var search= data[5].value.value;
+
+		var url = '/audit/unlock-log/view-unlocked?paginate&from='+start+'&size='+length+'&keywordsearch='+search+'&';
 		var filter = $scope.requestFilter;
 		var _filter = "";
 		if (filter.type == 'date'){
@@ -14,10 +21,25 @@ angular.module("EmmetBlue")
 		}
 
 		var requests = utils.serverRequest(url+_filter, 'GET');
-		return requests;
+		requests.then(function(response){
+			var records = {
+				data: response.data,
+				draw: draw,
+				recordsTotal: response.total,
+				recordsFiltered: response.filtered
+			};
+
+			callback(records);
+		}, function(error){
+			utils.errorHandler(error);
+		});
 	})
+	.withDataProp('data')
+	.withOption('processing', true)
+	.withOption('serverSide', true)
+	.withOption('paging', true)
 	.withPaginationType('full_numbers')
-	.withDisplayLength(50)
+	.withDisplayLength(100)
 	.withOption('createdRow', function(row, data, dataIndex){
 		utils.compile(angular.element(row).contents())($scope);
 	})
@@ -81,6 +103,14 @@ angular.module("EmmetBlue")
 			var _html = "";
 			if (typeof data.PatientInfo["phone number"] !== "undefined" && data.PatientInfo["phone number"] !== null){
 				_html = "<div><span class='position-left text-info'><i class='icon-mobile'></i>:</span> <span class='text-semibold'>"+data.PatientInfo["phone number"]+"</span></div>";
+			}
+
+			if (typeof data.PatientInfo["gender"] !== "undefined"){
+				_html += "<span class='label bg-teal-800'>"+data.PatientInfo["gender"]+"</span>";
+			}
+			if (typeof data.PatientInfo["date of birth"] !== "undefined"){
+				var age = utils.getAge(data.PatientInfo["date of birth"]);
+				_html += "<span class='ml-10 label bg-teal-800'>"+age+" years old</span>";
 			}
 			// var html = "<div class=''><a href='#' class='text-default text-semibold'>"+data.PatientInfo["phone number"]+"</a></div>";
 			if (typeof data.PatientInfo["email address"] !== "undefined" && data.PatientInfo["email address"] !== null){
@@ -202,7 +232,7 @@ angular.module("EmmetBlue")
 	$scope.currentLog = {};
 
 	$scope.reloadTable = function(){
-		$scope.dtInstance.reloadData();
+		$scope.dtInstance.rerender();
 	}
 
 	$scope.setStatus = function(id, close, text=""){

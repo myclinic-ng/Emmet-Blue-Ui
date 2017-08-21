@@ -46,7 +46,7 @@ angular.module("EmmetBlue")
 				},
 				addPrescriptionToList: function(item, duration = ""){
 					if (item !== ""){
-						utils.serverRequest("/pharmacy/pharmacy-request/smartify?prescription="+item, "GET").then(function(response){
+						utils.serverRequest("/pharmacy/pharmacy-request/smartify", "POST", {prescription: item}).then(function(response){
 							if (!response.valid){
 								utils.notify("Last entered prescription is not smart", "Reason: "+response.reason, "info");
 								$scope.isSmart = false;
@@ -186,6 +186,7 @@ angular.module("EmmetBlue")
 				},
 				catchSearchDrugEnterPress: function(e){
 					if (e.which == 13){
+						e.preventDefault();
 						modules.conclusion.searchDrug();
 					}
 				},

@@ -35,7 +35,7 @@ angular.module("EmmetBlue")
 				var process = function(){
 					var data = {
 						patient: $scope.patientInfo.patientid,
-						accountId: $scope.foundAccount.account_id,
+						accountId: $scope.foundAccount.user_id,
 						staff: utils.userSession.getID()
 					};
 

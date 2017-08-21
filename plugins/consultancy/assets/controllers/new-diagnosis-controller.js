@@ -323,7 +323,7 @@ angular.module("EmmetBlue")
 					$scope.patient.isProfileReady = true;
 					modules.allergies.loadPatientAllergies($scope.patient.profile.patientid);
 					utils.notify("Profile loaded successfully", "", "info");
-					modules.globals.loadSavedDiagnosis();
+					modules.globals.loadAllSavedDiagnosis();
 					$scope.patient.history.displayPage='profile';
 
 					if (typeof $scope.patient.profile.auditflags !== "undefined" && $scope.patient.profile.auditflags.length > 0){
@@ -612,9 +612,27 @@ angular.module("EmmetBlue")
 
 			utils.serverRequest("/patients/patient-diagnosis/new", "POST", data).then(successCallback, errorCallback);
 		},
-		loadSavedDiagnosis: function(){
+		loadAllSavedDiagnosis: function(){
 			var patient = $scope.patient.profile.patientid;
-			var consultant = utils.userSession.getID();
+			var errorCallback = function(error){
+				utils.errorHandler(error);
+			}
+			utils.serverRequest("/consultancy/saved-diagnosis/view-all-saved-diagnosis?resourceId="+patient, "GET").then(function(response){
+				if (response.length == 0){
+					//continue;
+				}
+				else if (response.length == 1 && response[0].Consultant  == utils.userSession.getID()){
+					modules.globals.loadSavedDiagnosis();
+				}
+				else {
+					$scope.allSavedDiagnoses = response;
+					$("#show-saved-diag-selector").modal("show");
+				}
+			}, errorCallback);
+		},
+		loadSavedDiagnosis: function(patient=0, consultant=0){
+			var patient = (patient == 0) ? $scope.patient.profile.patientid : patient; 
+			var consultant = (consultant == 0) ? utils.userSession.getID() : consultant;
 
 			var successCallback = function(response){
 				if (response.length > 0){
@@ -925,4 +943,15 @@ angular.module("EmmetBlue")
 	$scope.$watch(function(){ return $scope.conclusion.diagnosis.title; }, function(nv, ov){
 		$rootScope.$broadcast("currentDiagnosis", nv);
 	})
+
+	$scope.loadSavedDiagnosis = function(patient, consultant){
+		$("#show-saved-diag-selector").modal("hide");
+		modules.globals.loadSavedDiagnosis(patient, consultant);
+	}
+
+	$scope.admit = function(){
+		var patient = $scope.patient.profile.patientuuid;
+		$rootScope.$broadcast("prepareNewAdmission", patient);
+		$("#_patient-admission-form").modal("show");	
+	}
 });

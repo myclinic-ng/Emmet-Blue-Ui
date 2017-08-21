@@ -114,6 +114,28 @@ angular.module("EmmetBlue")
 
 		$("#accept_new_payment").modal("hide");
 		$("#payment_receipt").modal("show");
+
+		var form = $("#main_payment_receipt").get(0);
+		domtoimage.toPng(form)
+	    .then(function (dataUrl) {
+	        var img = new Image();
+
+	        var req = utils.serverRequest("/emmetblue-cloud/receipt/upload", "POST", {
+	        	patient: $scope.receiptData.invoiceData.patient,
+	        	description: "Invoice No.: #"+$scope.receiptData.transactionId,
+				staff: utils.userSession.getID(),
+				receipt: dataUrl
+	        });
+
+	        req.then(function(response){
+
+	        }, function(error){
+
+	        });
+	    })
+	    .catch(function (error) {
+	        console.error('oops, something went wrong!', error);
+	    });
 	}
 
 	$scope.loadInvoice = function(){

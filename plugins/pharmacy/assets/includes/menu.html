@@ -9,7 +9,17 @@
 			<ul class="nav navbar-nav">
 				<li><a href="pharmacy/dashboard"><i class="icon-display4 position-left"></i> Dashboard</a></li>
 				<li><a href="pharmacy/inventory-items"><i class="fa fa-archive"></i> Manage Inventory Items</a></li>
-				<li><a href="pharmacy/reports"><i class="fa fa-bar-chart"></i> View Logs/Reports</a></li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="fa fa-bar-chart"></i> View Logs/Reports
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="pharmacy/reports"><i class="position-left"></i> Dispensation Logs/Reports</a></li>
+						<li><a href="pharmacy/transfer-reports"><i class="position-left"></i> Store Transfer Logs/Reports</a></li>
+					</ul>
+				</li>
+				<li><a href="pharmacy/billing-types"><i class="icon-cart position-left"></i> Manage Billing Type Items</a></li>
 			</ul>
 
 			<!-- <ul class="nav navbar-nav navbar-right">

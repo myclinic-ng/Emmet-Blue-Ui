@@ -20,6 +20,12 @@ angular.module("EmmetBlue")
 		}
 	}
 
+	$scope.$on("prepareNewAdmission", function(e, data){
+		var uuid = data;
+		$("#patientNumber").val(uuid);
+		$scope.loadInfo();
+	});
+
 	var showBigSpace = function(){
 		$(".bigSpace").addClass("col-md-8").removeClass("col-md-12");
 		$scope.showInfo = true;

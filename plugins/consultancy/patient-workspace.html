@@ -47,7 +47,8 @@
 			<h6 class="panel-title">Admission Workspace for patient number <span class="text-primary">{{admissionInfo.PatientAdmissionID}}</span></h6>
 			<div class="heading-elements">
 				<button class="btn btn-warning bg-white btn-labeled" ng-click="discharge()"><b><i class="icon-bell-check"></i></b> Process this patient for discharge</button>
-				<button class="btn btn-labeled btn-info bg-white no-border-radius btn-xs" data-toggle="modal" data-target="#lab-request-form"><b><i class="icon-lab"></i></b> Investigation Request</button>
+				<button class="btn btn-info bg-white btn-labeled" data-toggle="modal" data-target="#patient-card"><b><i class="icon-eye"></i></b> View History</button>
+				<!-- <button class="btn btn-labeled btn-info bg-white no-border-radius btn-xs" data-toggle="modal" data-target="#lab-request-form"><b><i class="icon-lab"></i></b> Investigation Request</button> -->
 			</div>
 		</div>
 
@@ -59,6 +60,7 @@
 						<li href="#diagnosis-note" data-toggle="tab"><a><i class='icon-file-plus2'></i> Diagnosis Note</a></li>
 						<li href="#services-rendered" data-toggle="tab"><a><i class='icon-clipboard2'></i> Services Rendered</a></li>
 						<li href="#treatment-chart" data-toggle="tab"><a><i class='icon-stats-growth'></i> Treatment Chart</a></li>
+						<li href="#lab-form-tab" data-toggle="tab"><a><i class="icon-lab"></i></b> Investigation Request</a></li>
 						<!-- <li href="#archives" data-toggle="tab"><a>Investigation Requests</a></li> -->
 					</ul>
 
@@ -112,6 +114,9 @@
 						</div>
 						<div class="tab-pane" id="services-rendered">
 							<ng-services-rendered admission-id="admissionInfo.PatientAdmissionID" ng-if="patientProfileLoaded" allow-new="false"></ng-services-rendered>
+						</div>
+						<div class="tab-pane" id="lab-form-tab">
+							<ng-lab-request-form-design patient-info="patient"></ng-lab-request-form-design>
 						</div>
 						<div class="tab-pane" id="diagnosis-note">
 							<div class="col-sm-3">
@@ -292,7 +297,7 @@
 				</div>
 			</div>
 	</div>
-	<div id="lab-request-form" class="modal fade">
+	<!-- <div id="lab-request-form" class="modal fade">
 		<div class="modal-dialog modal-full">
 			<div class="modal-content">
 				<div class="modal-header bg-info">
@@ -304,6 +309,22 @@
 						<div class="col-sm-12" id="labForm-new">
 							<ng-lab-request-form-design patient-info="patient"></ng-lab-request-form-design>
 						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> -->
+
+	<div class="modal fade" id="patient-card">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times; close</button>
+					<h6 class="modal-title">Patient History/Out - Patient Records</h6>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12" style="min-height: 500px"><ng-patient-profile patient-info="patient"></ng-patient-profile></div>
 					</div>
 				</div>
 			</div>

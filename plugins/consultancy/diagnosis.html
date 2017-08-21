@@ -43,6 +43,7 @@
 		<div class="panel-heading">
 			<h6 class="panel-title" ng-show="patient.isProfileReady"><span class="text-bold">Current Patient: </span> {{patient.profile["first name"]}} {{patient.profile["last name"]}} </h6>
 			<div class="heading-elements" ng-show="patient.isProfileReady">
+				<button class="btn btn-labeled btn-warning bg-white no-border-radius" ng-click="admit()"><b><i class="fa fa-hotel"></i></b>Admit this patient</button>
 				<button class="btn btn-labeled btn-primary bg-white no-border-radius" data-toggle="modal" data-target="#new-appointment"><b><i class="icon-calendar3"></i></b>Create Appointment</button>
 				<button class="btn btn-labeled btn-info bg-white no-border-radius" data-toggle="modal" data-target="#refer-patient"><b><i class="icon-forward"></i></b>Refer This Patient</button>
 				<h6><span class="text-bold">Date:</span> {{globals.today()}} </h6>
@@ -697,6 +698,40 @@
 				</div>
 				<div class="modal-footer">
 					<button class="pull-right btn btn-info" ng-click="globals.completeFlagging(currentFlagNote)">Continue</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<div class="modal fade" id="show-saved-diag-selector">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-info">
+					<h6 class="modal-title">Previously Saved Diagnoses For This Patient</h6>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-4" ng-repeat="item in allSavedDiagnoses">
+							<div class="panel-body">
+								<div class="media">
+									<div class="media-body">
+										<a href="#" data-popup="lightbox" class="col-md-12">
+											<img src="{{loadImage(item.ConsultantDetail.StaffPicture)}}" class="img img-responsive img-square" alt="">
+										</a>
+										<h6 class="media-heading">{{item.ConsultantDetail.StaffFullName}}</h6>
+										<p class="text-muted text-center">{{item.ConsultantDetail.Role}}</p>
+										<p class="text-center">{{toDateString(item.DateModified)}}</p>
+
+										<p>
+											<a href="#" title="Load Diagnosis" class="btn" ng-click="loadSavedDiagnosis(item.Patient, item.Consultant)">Load Diagnosis</a>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
