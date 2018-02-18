@@ -1,6 +1,7 @@
 angular.module("EmmetBlue")
 
 .controller("recordsPatientManagePatientsController", function($scope, utils, patientEventLogger){
+	$scope.loadDeps = false;
 	$scope.utils = utils;
 	$scope.disablers = {
 		enable_camera: true,
@@ -29,12 +30,14 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.loadPatientTypes = function(categoryId){
-		var requestData = utils.serverRequest("/patients/patient-type/view-by-category?resourceId="+categoryId, "GET");
-		requestData.then(function(response){
-			$scope.patientTypes = response;
-		}, function(responseObject){
-			utils.errorHandler(responseObject);
-		});
+		if (typeof categoryId !== "undefined"){
+			var requestData = utils.serverRequest("/patients/patient-type/view-by-category?resourceId="+categoryId, "GET");
+			requestData.then(function(response){
+				$scope.patientTypes = response;
+			}, function(responseObject){
+				utils.errorHandler(responseObject);
+			});
+		}
 	}
 
 
@@ -48,11 +51,17 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.$watch("patientCategory", function(newValue, oldValue){
-		$scope.loadPatientTypes(newValue);
+		if (typeof newValue !== "undefined"){
+			$scope.loadPatientTypes(newValue);	
+		}
 	})
 
-	$scope.loadPatientCategories();
-	$scope.loadPatientTypes();
+	$scope.$watch("loadDeps", function(nv){
+		if (nv == true){	
+			$scope.loadPatientCategories();
+		}
+	})
+
 	$scope.eDisablers = function(option){
 		switch(option){
 			case "enable":{
@@ -78,11 +87,11 @@ angular.module("EmmetBlue")
 
 	var self = this;
 
-	  $scope.recordSubmitURL = "http://192.168.173.1/EmmetBlueApi/v1/patients/patient/new";
+	$scope.recordSubmitURL = "http://192.168.173.1/EmmetBlueApi/v1/patients/patient/new";
 
 
-	  self.dropzoneConfig = {
-	  	url: $scope.recordSubmitURL,
+	self.dropzoneConfig = {
+	 	url: $scope.recordSubmitURL,
 	  	autoDiscover: false,
 	  	paramName: "file",
 	    parallelUploads: 100,
@@ -94,86 +103,49 @@ angular.module("EmmetBlue")
 	    uploadMultiple: true,
 	    MaxFiles: 20,
 	    init: function() {
-		        dzClosure = this;
+	        dzClosure = this;
 
-		        $("#save-all").on("click", function(e) {
-		            e.preventDefault();
-		            e.stopPropagation();
-		            dzClosure.processQueue();
-		        });
+	        $("#save-all").on("click", function(e) {
+	            e.preventDefault();
+	            e.stopPropagation();
+	            dzClosure.processQueue();
+	        });
 
-		        this.on("sendingmultiple", function(data, xhr, formData) {
-		        	$scope.newPatient.patientPassport = $("#passport").attr("src");
-		        	angular.forEach($scope.newPatient, function(value, key){
-		        		if (typeof value !== "string"){
-		        			angular.forEach(value, function(val, k){
-		        				angular.forEach(val, function(v, _k){
-		        					formData.append(key+"_"+k+"_"+_k, v);
-		        				})
-		        			});
-		        		}
-		        		else
-		        		{
-		        			formData.append(key, value);
-		        		}
-		        	});
-		        });
+	        this.on("sendingmultiple", function(data, xhr, formData) {
+	        	$scope.newPatient.patientPassport = $("#passport").attr("src");
+	        	angular.forEach($scope.newPatient, function(value, key){
+	        		if (typeof value !== "string"){
+	        			angular.forEach(value, function(val, k){
+	        				angular.forEach(val, function(v, _k){
+	        					formData.append(key+"_"+k+"_"+_k, v);
+	        				})
+	        			});
+	        		}
+	        		else
+	        		{
+	        			formData.append(key, value);
+	        		}
+	        	});
+	        });
 
-		        this.on("errormultiple", function(file, errorMessage, xhr){
-	  				utils.alert("Error", "Unable to save record", "error")
-		        })
+	        this.on("errormultiple", function(file, errorMessage, xhr){
+  				utils.alert("Error", "Unable to save record", "error")
+	        })
 
-		        this.on("successmultiple", function(file, errorMessage, xhr){
-	  				
-		        });
+	        this.on("successmultiple", function(file, errorMessage, xhr){
+  				
+	        });
 
-		        this.on("queuecomplete", function() {
-				  dzClosure.removeAllFiles();
-				});
-		    }
-	  };
-
-	$scope.dtOptions = utils.DT.optionsBuilder.fromFnPromise(function(){
-		var request = utils.serverRequest("/patients/patient/view", "GET");
-
-		return request;
-	})
-	.withPaginationType('full_numbers')
-	.withDisplayLength(10)
-	.withFixedHeader()
-	.withOption('createdRow', function(row, data, dataIndex){
-		utils.compile(angular.element(row).contents())($scope);
-	});
-
-	$scope.dtColumns = [
-		utils.DT.columnBuilder.newColumn("PatientUUID").withTitle("Patient Number").notVisible(),
-		utils.DT.columnBuilder.newColumn("PatientFullName").withTitle("Name"),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(actionMarkup).notSortable()
-	]
-
-	function actionMarkup(data, type, full, meta){
-		var list = "<ul class='icons-list text-nowrap'>"+
-						"<li class='dropdown'>"+
-							"<a href='#' class='dropdown-toggle' data-toggle='dropdown'><i class='icon-menu9'></i></a>"+
-
-							"<ul class='dropdown-menu dropdown-menu-right'>"+
-					        	"<li><a href='#' ng-click='loadPatientProfile("+data.PatientID+")'><i class='icon-user'></i> View Profile</a></li>"+
-					        	"<li><a href='#'><i class='icon-cog'></i> Modify Profile</a></li>"+
-							"</ul>"+
-						"</li>"+
-					"</ul>";
-
-		return list;
-	}
-
-	$scope.dtInstance = {};
-	$scope.reloadTable = function(){
-		$scope.dtInstance.reloadData();
-	}
+	        this.on("queuecomplete", function() {
+			  dzClosure.removeAllFiles();
+			});
+	    }
+	};
 
 	$scope.saveNewPatient = function(){
 
 		var patient = $scope.newPatient;
+		patient.createdBy = utils.userSession.getID();
 
 		var request = utils.serverRequest("/patients/patient/new", "POST", patient);
 
@@ -194,7 +166,7 @@ angular.module("EmmetBlue")
 			$("#patientTable").removeClass("col-md-12").addClass("col-md-3");
 			$scope.profileSelected = true;
 		}
-		if (typeof(id) === "undefined"){
+		if (typeof(id) !== "undefined"){
 			var loadProfile = utils.serverRequest("/patients/patient/view?resourceId="+id, "GET");
 
 			loadProfile.then(function(response){
@@ -264,13 +236,15 @@ angular.module("EmmetBlue")
   		var data = $scope.newPatient;
   		if (typeof $scope.newPatient['First Name'] !== "undefined" || typeof $scope.newPatient['Last Name'] !== "undefined") {
   			data.patientName = $scope.newPatient['First Name'] + " " + $scope.newPatient['Last Name'];
+  			data.createdBy = utils.userSession.getID();
+
 	  		
 			$('.loader').addClass('show');
 	  		var submitData = utils.serverRequest("/patients/patient/new", "POST", data);
 
 	  		submitData.then(function(response){
 	  			$('.loader').removeClass('show');
-	  			utils.alert("Info", "Record Uploaded successfully", "success");
+	  			utils.alert("Operation Completed Successfully", "Submitted profile has been saved and activated", "success");
 
 				var eventLog = patientEventLogger.records.newPatientRegisteredEvent(response.lastInsertId, response.lastInsertId);
 				eventLog.then(function(response){
@@ -314,14 +288,14 @@ angular.module("EmmetBlue")
 	$scope.searched = {};
 	$scope.searched.searchIcon = "icon-search4";
 
-	$scope.searched.pageSize = $scope.searched.pageSizeInc = 30;
+	$scope.searched.pageSize = $scope.searched.pageSizeInc = 10;
 	$scope.searched.currentPage = 0;
 	$scope.searched.fromCounter = 0;
 
 	function search(url){
 		$scope.searched.searchIcon = "fa fa-spinner fa-spin";
 		if ($scope.searched.pageSize < 1){
-			$scope.searched.pageSize = $scope.searched.pageSizeInc = 30;
+			$scope.searched.pageSize = $scope.searched.pageSizeInc = 10;
 		}
 		var size = $scope.searched.pageSize;
 		var from = $scope.searched.fromCounter;
@@ -343,7 +317,7 @@ angular.module("EmmetBlue")
 		$scope.searched.currentPage = newPageNumber;
 		if (newPageNumber != 1)
 		{
-			$scope.searched.fromCounter = newPageNumber - 1 + ($scope.searched.pageSize * newPageNumber);
+			$scope.searched.fromCounter = $scope.searched.pageSize * (newPageNumber - 1);
 		}
 		else
 		{
@@ -364,6 +338,7 @@ angular.module("EmmetBlue")
 			utils.errorHandler(response);
 		})
 	}
+	
 	loadPatients();
 
 	$scope.search = function(newSearch = false){
@@ -374,5 +349,11 @@ angular.module("EmmetBlue")
 		}
 
 		search("/patients/patient/search?query="+query);
+	}
+
+	$scope.catchEnterSearch = function(event){
+		if (event.which == 13){
+			$scope.search(true);
+		}
 	}
 })

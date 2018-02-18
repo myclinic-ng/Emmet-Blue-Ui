@@ -3,7 +3,7 @@
 
 <div ng-controller="nursingPatientWorkspaceController">
 	<div class="row">
-		<div class="input-group col-md-5 col-md-offset-4 mb-15">
+		<div class="input-group col-sm-5 col-sm-offset-4 mb-15">
 			<input class="form-control" ng-model="patientNumber" placeholder="Enter Patient Ward Admission Number" />
 			<span class="input-group-btn">
 				<button class="btn btn-danger" ng-click="loadPatient()"><i class="icon-play4"></i> continue</button>
@@ -11,7 +11,7 @@
 		</div>
 	</div>
 
-	<div class="col-md-12 mt-20" ng-show="!patientProfileLoaded">
+	<div class="col-sm-12 mt-20" ng-show="!patientProfileLoaded">
 		<h5 class="text-center mt-15"><i class="icon-spinner2 fa-spin text-danger"></i> Loading...</h5>
 	</div>
 
@@ -25,12 +25,12 @@
 						<span class="label label-info bg-white"> {{daysSpent(admissionInfo.AdmissionDate)}} </span>
 					</li>
 					<li class="pr-15">
-						<span><i class='fa fa-user-md'></i> Admitted by</span>
+						<span><i class='fa fa-user-sm'></i> Admitted by</span>
 						<span class="label label-info bg-white"> {{staffNames[admissionInfo.AdmissionInfo.Consultant]}} </span>
 					</li>
-					<li><button class="btn btn-labeled btn-primary bg-white no-border-radius btn-xs" data-toggle="modal" data-target="#view-admission-info"><b><i class="icon-info22"></i></b> View Admission Info</button></li>
+					<li class="hidden-xs"><button class="btn btn-labeled btn-primary bg-white no-border-radius btn-xs" data-toggle="modal" data-target="#view-admission-info"><b><i class="icon-info22"></i></b> View Admission Info</button></li>
 					<li><button class="btn btn-labeled btn-danger bg-white no-border-radius btn-xs" data-toggle="modal" data-target="#transfer-ward"><b><i class="icon-forward"></i></b> Transfer patient</button></li>
-					<li><button class="btn btn-labeled btn-info bg-white no-border-radius btn-xs" data-toggle="modal" data-target="#ward-transfer-log"><b><i class="icon-database-arrow"></i></b> View Transfer Log</button></li>
+					<li class="hidden-xs"><button class="btn btn-labeled btn-info bg-white no-border-radius btn-xs" data-toggle="modal" data-target="#ward-transfer-log"><b><i class="icon-database-arrow"></i></b> View Transfer Log</button></li>
 					<li><button class="btn btn-labeled btn-primary bg-white no-border-radius btn-xs" data-toggle="modal" data-target="#pharmacy-request-form"><b><i class="icon-atom"></i></b> Pharmacy Request</button></li>
 					<li><button class="btn btn-labeled btn-info bg-white no-border-radius btn-xs" data-toggle="modal" data-target="#lab-request-form"><b><i class="icon-lab"></i></b> Investigation Request</button></li>
 				</ul>
@@ -38,13 +38,13 @@
 		</div>
 
 		<div class="panel-body">
-			<div class="col-md-9">
+			<div class="col-sm-9">
 				<div class="tabbable">
 					<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
-						<li href="#archives" data-toggle="tab"><a><i class='icon-books'></i> Archives &amp; Results</a></li>
+						<li href="#archives" data-toggle="tab"><a><i class='icon-books'></i> Archives</a></li>
 						<li class="active" href="#observation" data-toggle="tab"><a><i class='icon-repo-forked'></i> New Observation</a></li>
 						<li href="#diagnosis-note" data-toggle="tab"><a><i class='icon-file-text3'></i> Doctor's Diagnosis/Prescription</a></li>
-						<li href="#shift-log-stupid" data-toggle="tab"><a><i class='icon-file-text3'></i> Shift Summary Log</a></li>
+						<!-- <li href="#shift-log-stupid" data-toggle="tab"><a><i class='icon-file-text3'></i> Shift Summary Log</a></li> -->
 						<li href="#treatment-chart" data-toggle="tab"><a><i class='icon-stats-growth'></i> Treatment Chart</a></li>
 						<li href="#services-rendered" data-toggle="tab"><a><i class='icon-clipboard2'></i> Services Rendered</a></li>
 					</ul>
@@ -52,24 +52,24 @@
 					<div class="tab-content mr-20">
 						<div class="tab-pane" id="archives">
 							<div class="row">
-								<div class="col-md-6 mb-15"><input class="form-control" placeholder="search" ng-model="patient.repositoryFilter"/></div>
-								<div class="col-md-6 mb-15">
+								<div class="col-sm-6 mb-15"><input class="form-control" placeholder="search" ng-model="patient.repositoryFilter"/></div>
+								<div class="col-sm-6 mb-15">
 									<select class="select" ng-model="patient.repositoryFilter	">
 										<option value="lab_result">Lab Result</option>
 										<option value="observation">Vital Signs &amp; Other Observations</option>
 									</select>
 								</div>
-								<div class="col-md-12" ng-repeat="repo in patient.repositories | toArray:false | filter:patient.repositoryFilter track by $index">
+								<div class="col-sm-12" ng-repeat="repo in patient.repositories | toArray:false | filter:patient.repositoryFilter track by $index">
 									<div class="panel border-left-lg border-left-danger no-border-radius">
 										<div class="panel-body">
 											<div class="row">
-												<div class="col-md-8">
+												<div class="col-sm-8">
 													<h6 class="no-margin-top"><a href="#">{{repo.RepositoryName}}</a></h6>
 													<p class="mb-15" ng-if="repo.RepositoryDescription">{{repo.RepositoryDescription}}</p>
 													<p class="mb-15 text-muted" ng-if="!repo.RepositoryDescription">No extra note/description</p>
 												</div>
 
-												<div class="col-md-4">
+												<div class="col-sm-4">
 													<ul class="list task-details">
 														<li title="{{repo.RepositoryCreationDate}}">{{toDateString(repo.RepositoryCreationDate)}}</li>
 														<li class="dropdown">
@@ -106,30 +106,50 @@
 							<ng-services-rendered admission-id="admissionInfo.PatientAdmissionID" ng-if="patientProfileLoaded" allow-new="true"></ng-services-rendered>
 						</div>
 						<div class="tab-pane" id="diagnosis-note">
-							<div class="col-md-6">
+							<div class="col-sm-6">
 								<input class="form-control pull-left" placeholder="filter notes" ng-model="noteFilter"/>
 							</div>
-							<div class="col-md-6">
-								<div class="col-md-3">
-									<label class="control-label pull-right">Consultant/Doctor Mentions: </label>
+							<div class="col-sm-6">
+								<div class="col-sm-3">
+									<label class="control-label pull-right">Mentions: </label>
 								</div>
-								<div class="col-md-9">
+								<div class="col-sm-9">
 									<select class="select" ng-model="noteFilter">
 										<option ng-repeat="val in consultantInNotes" value="{{val.ConsultantFullName}}">{{val.ConsultantFullName}}</option>
 									</select>
 								</div>
 							</div>
-							<div class="col-md-12">
+							<div class="col-sm-12">
 								<div class="panel panel-danger" ng-repeat="note in consultationNotes | filter:noteFilter">
 									<div class="panel-heading" style="background-color: #fff; color: inherit;">
-										<h6 class="panel-title text-center"><i class="icon-bubbles10"></i> {{note.ConsultantFullName}}</h6>
+										<center>
+											<div class="media-left media-middle">
+												<a href="#"><img ng-src="{{note.ConsultantPicture}}" class="img-circle img-md" alt=""></a>
+											</div>
+											<div class="media-left">
+												<div class=""><a href="#" class="text-default text-bold">{{note.ConsultantFullName}}</a></div>
+												<div class="text-muted text-size-small">
+													<!-- <span class="status-mark border-blue position-left"></span> -->
+													{{note.ConsultantRole}}
+												</div>
+											</div>
+										</center>
 										<div class="heading-elements">
 											<ul class="icons-list">
-												<li class=""><i class="icon-alarm"></i> {{toDateString(note.DateTaken)}}</li>
+												<li class="">
+													<div class="media-left media-middle">
+														<a href="#" class="btn text-warning-400 btn-flat no-border btn-icon btn-xs valign-text-bottom"><i class="icon-watch2"></i></a>
+													</div>
+													<div class="media-left">
+														<div class="">{{toDateString(note.DateTaken)}}</div>
+														<div class="mt-5 text-size-small">
+															{{toTimeString(note.DateTaken)}}
+														</div>
+													</div>
+												</li>
 											</ul>
 										</div>
 									</div>
-
 									<div class="panel-body">
 										<div class="media">
 											<div class="media-left">
@@ -137,7 +157,7 @@
 											</div>
 
 											<div class="media-body">
-												<div class="media-content" ng-bind-html="note.Note"></div>
+												<div class="media-content" ng-bind-html="htmlDecode(htmlDecode(note.Note)) | unsafe"></div>
 											</div>
 										</div>
 									</div>
@@ -145,35 +165,11 @@
 							</div>
 						</div>
 						<div class="tab-pane" id="shift-log-stupid">
-							<div class="col-md-12">
-								<div class="panel panel-danger" ng-repeat="note in consultationNotes | filter:noteFilter">
-									<div class="panel-heading" style="background-color: #fff; color: inherit;">
-										<h6 class="panel-title text-center"><i class="icon-bubbles10"></i> {{note.ConsultantFullName}}</h6>
-										<div class="heading-elements">
-											<ul class="icons-list">
-												<li class=""><i class="icon-alarm"></i> {{toDateString(note.DateTaken)}}</li>
-											</ul>
-										</div>
-									</div>
-
-									<div class="panel-body">
-										<div class="media">
-											<div class="media-left">
-												<i class="icon-quotes-left text-danger"></i>
-											</div>
-
-											<div class="media-body">
-												<div class="media-content" ng-bind-html="note.Note"></div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col-md-3" ng-if="patientProfileLoaded" style="border-left: 1px solid #4CAF50">
+			<div class="col-sm-3" ng-if="patientProfileLoaded" style="border-left: 1px solid #4CAF50">
 				<center><img class="img img-responsive img-rounded" width="150" height="150" ng-src="{{loadImage(patient.patientpicture)}}"/></center>
 				<h6 class="text-center text-primary">{{patient.patientfullname}} ({{patient.patienttypename}}, {{patient.categoryname}})</h6>
 
@@ -202,9 +198,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td colspan="3">
-							{{mostRecent.note.Note}}
-						</td>
+						<td colspan="3" ng-bind-html="htmlDecode(htmlDecode(mostRecent.note.Note)) | unsafe"></td>
 					</tr>
 					<tr class="bg-teal">
 						<th colspan="3">Most recent Treatment</th>
@@ -247,7 +241,7 @@
 					<button type="button" class="close" data-dismiss="modal">&times; close</button>
 				</div>
 				<div class="modal-body no-padding no-margin">
-					<div class="col-md-12">
+					<div class="col-sm-12">
 						<ng-repository repository-id="currentRepository"></ng-repository>
 					</div>
 				</div>
@@ -315,25 +309,25 @@
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div class="content-group col-md-12">
+						<div class="content-group col-sm-12">
 							<label class="control-label">ward</label>
 							<select class="select" ng-model="newTransfer.wardTo">
 								<option value="{{ward.WardID}}" ng-repeat="ward in wards" >{{ward.WardName}}</option>
 							</select>
 						</div>
-						<div class="content-group col-md-6">
+						<div class="content-group col-sm-6">
 							<label class="control-label">Section</label>
 							<select class="select" ng-model="newTransfer.sectionTo">
 								<option value="{{section.WardSectionID}}" ng-repeat="section in sections" >{{section.WardSectionName}}</option>
 							</select>
 						</div>
-						<div class="content-group col-md-6">
+						<div class="content-group col-sm-6">
 							<label class="control-label">Bed</label>
 							<select class="select" ng-model="newTransfer.bedTo">
 								<option value="{{section.SectionBedID}}" ng-repeat="section in beds" >{{section.BedName}}</option>
 							</select>
 						</div>
-						<div class="content-group col-md-12">
+						<div class="content-group col-sm-12">
 							<label class="control-label">Transfer Note</label>
 							<textarea class="form-control" ng-model="newTransfer.transferNote" style="height: 300px" placeholder="Add any information about this transfer here"></textarea>
 						</div>
@@ -355,7 +349,7 @@
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div class="col-md-12"><ng-ward-transfer admission-id="admissionInfo.PatientAdmissionID"></ng-ward-transfer></div>
+						<div class="col-sm-12"><ng-ward-transfer admission-id="admissionInfo.PatientAdmissionID"></ng-ward-transfer></div>
 					</div>
 				</div>
 			</div>
@@ -371,7 +365,7 @@
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div class="col-md-12"><ng-lab-request-form patient-id="admissionInfo.AdmissionInfo.PatientID"></ng-lab-request-form></div>
+						<div class="col-sm-12"><ng-lab-request-form patient-id="admissionInfo.AdmissionInfo.PatientID"></ng-lab-request-form></div>
 					</div>
 				</div>
 			</div>
@@ -387,7 +381,7 @@
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div class="col-md-12"><ng-pharmacy-request-form patient-id="admissionInfo.AdmissionInfo.PatientID"></ng-pharmacy-request-form></div>
+						<div class="col-sm-12"><ng-pharmacy-request-form patient-id="admissionInfo.AdmissionInfo.PatientID"></ng-pharmacy-request-form></div>
 					</div>
 				</div>
 			</div>

@@ -4,8 +4,8 @@
 <script src="assets/js/core/app.js"></script>
 <script>
 	$('select.select').select2();
+	$('.datepicker').datepicker();
 	$(function() {
-
 	    // Initialize lightbox
 	    $('[data-popup=lightbox]').fancybox({
 	        padding: 3
@@ -22,12 +22,12 @@
 </script>
 <div ng-controller="consultancyNewDiagnosisController">
 	<div class="row mb-15">
-		<div class="col-md-7 col-md-offset-3 valign-middle">
+		<div class="col-sm-7 col-sm-offset-3 valign-middle">
 			<div class="form-group pb-10">
 				<div class="col-lg-12">
 					<p class="control-label text-center"><i class="icon-info22 text-info"></i> Start a new diagnosis by typing a patients hospital number in the text field below</p>
 					<div class="content-group no-margin">
-						<input type="text" id="patient-patientSearchQuery" class="form-control patient-search" placeholder="Enter patient hospital number here" ng-model="patientSearchQuery"/>
+						<input type="text" id="patient-patientSearchQuery" class="form-control patient-search" placeholder="Enter patient hospital number here" ng-model="patientSearchQuery" ng-keypress="patient.catchLoadProfileEnterPress($event)"/>
 					</div>					
 					<span class="content-group text-center">
 						<center><button class="btn btn-sm btn-danger bg-danger-400 no-border-radius btn-labeled mt-5" ng-click="patient.loadPatientProfile()"><b><i class='icon-profile'></i></b> Load Profile</button></center>
@@ -36,19 +36,21 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-md-12 mt-20" ng-show="!patient.isProfileReady">
+	<div class="col-sm-12 mt-20" ng-show="patient.profileLoading && !patient.isProfileReady" ng-cloak>
 		<h5 class="text-center mt-15"><i class="icon-spinner2 fa-spin text-danger"></i> Loading...</h5>
 	</div>
-	<div class="panel panel-success" ng-show="patient.isProfileReady">
+	<div class="panel panel-success" ng-show="patient.isProfileReady" ng-cloak>
 		<div class="panel-heading">
 			<h6 class="panel-title" ng-show="patient.isProfileReady"><span class="text-bold">Current Patient: </span> {{patient.profile["first name"]}} {{patient.profile["last name"]}} </h6>
 			<div class="heading-elements" ng-show="patient.isProfileReady">
+				<button class="btn btn-labeled btn-warning bg-white no-border-radius" ng-click="admit()"><b><i class="fa fa-hotel"></i></b>Admit this patient</button>
+				<button class="btn btn-labeled btn-primary bg-white no-border-radius" data-toggle="modal" data-target="#new-appointment"><b><i class="icon-calendar3"></i></b>Create Appointment</button>
 				<button class="btn btn-labeled btn-info bg-white no-border-radius" data-toggle="modal" data-target="#refer-patient"><b><i class="icon-forward"></i></b>Refer This Patient</button>
 				<h6><span class="text-bold">Date:</span> {{globals.today()}} </h6>
 	    	</div>
 		</div>
 		<div class="panel-body table-responsive" ng-show="patient.isProfileReady">
-			<div class="col-md-9">
+			<div class="col-sm-9">
 				<div class="tabbable">
 					<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
 						<li href="#history" data-toggle="tab" class="active"><a><i class="icon-history"></i> History</a></li>
@@ -61,7 +63,7 @@
 
 					<div class="tab-content">
 						<div class="tab-pane active" id="history">
-							<div class="col-md-3">
+							<div class="col-sm-3">
 								<div class="sidebar sidebar-main sidebar-default" style="box-shadow: none; border-color: #F5F5F5; border-radius: 0px;">
 									<div class="sidebar-content">
 										<!-- Main navigation -->
@@ -72,8 +74,14 @@
 													<li ng-click="patient.history.displayPage='profile'">
 														<a href="#"><i class="icon-file-eye text-info"></i> <span> View Profile</span></a>
 													</li>
-													<li ng-click="patient.history.loadRepositories()">
+													<li ng-click="patient.history.loadRepositories();patient.history.loadPendingInvestigations()">
 														<a href="#"><i class="icon-library2 text-teal"></i> <span> Load Archives</span></a>
+													</li>
+													<li ng-click="patient.history.displayPage='admissionHistory'">
+														<a href="#"><i class="icon-bed2 text-success"></i> <span> Admission History</span></a>
+													</li>
+													<li ng-click="patient.history.displayPage='medicalSummary'">
+														<a href="#"><i class="icon-certificate text-danger"></i> <span> Medical Summary</span></a>
 													</li>
 													<!-- /main -->
 												</ul>
@@ -83,52 +91,85 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-md-9" style="height: 100vh">
+							<div class="col-sm-9" style="min-height: 100vh; padding-left: 0px !important;">
 								<ng-patient-profile patient-info="patient.profile" ng-show="patient.isProfileReady" ng-if="patient.history.displayPage=='profile'"></ng-patient-profile>
 								<div class="row" ng-show="patient.history.displayPage=='repositories'">
-									<div class="col-md-6 mb-15"><input class="form-control" placeholder="search" ng-model="patient.history.repositoryFilter"/></div>
-									<div class="col-md-6 mb-15">
+									<div class="col-sm-6 mb-15"><input class="form-control" placeholder="search" ng-model="patient.history.repositoryFilter"/></div>
+									<div class="col-sm-6 mb-15">
 										<select class="select" ng-model="patient.history.repositoryFilter	">
 											<option value="lab_result">Lab Result</option>
-											<option value="observation">Vital Signs &amp; Other Observations</option>
+											<option value="observation">Examinations &amp; Other Observations</option>
+											<option value="payment_receipt">Financial History</option>
 										</select>
 									</div>
-									<div class="col-md-12" ng-repeat="repo in patient.history.repositories | toArray:false | filter:patient.history.repositoryFilter track by $index">
-										<div class="panel border-left-lg border-left-danger no-border-radius">
-									<div class="panel-body">
-										<div class="row">
-											<div class="col-md-8">
-												<h6 class="no-margin-top"><a href="#">{{repo.RepositoryName}}</a></h6>
-												<p class="mb-15" ng-if="repo.RepositoryDescription">{{repo.RepositoryDescription}}</p>
-												<p class="mb-15 text-muted" ng-if="!repo.RepositoryDescription">No extra note/description</p>
-											</div>
+									<div class="col-xs-4">
+										<table class="table table-responsive table-bordered table-condensed table-hover col-md-12">
+											<thead class="bg-success">
+												<th><span class="text-center">PENDING REQUESTS</span></th>
+											</thead>
+											<thody>
+												<tr ng-repeat="item in patient.history.pendingInvestigations">
+													<td>
+														<span class="text-bold">{{item.InvestigationTypeName}}</span><br/>
+														<div class="text-size-small">
+															{{item.RequestedByDetails.StaffFullName}}<br/>
+															<span class="text-muted">
+																{{utils.dateObject(item.DateRequested).toLocaleDateString()}} {{utils.dateObject(item.DateRequested).toLocaleTimeString()}}
+															</span>
+														</div>
+													</td>
+												</tr>
+												<tr ng-if="patient.history.pendingInvestigations.length < 1">
+													<td colspan="5" class="text-muted text-center"><span class="text-center">NO PENDING LAB INVESTIGATION REQUESTS</span></td>
+												</tr>
+											</thody>						
+										</table>
+									</div>
+									<div class="col-xs-8" style="border-left: 1px solid #F5F5F5; min-height: 100vh;">
+										<div class="col-sm-12" ng-repeat="repo in patient.history.repositories | toArray:false | filter:patient.history.repositoryFilter track by $index">
+											<div class="panel border-left-lg border-left-danger no-border-radius">
+												<div class="panel-body">
+													<div class="row">
+														{{loadStaffName(repo.RepositoryCreator)}}
+														<div class="col-sm-8">
+															<h6 class="no-margin-top"><a href="#" ng-click="patient.history.loadRepo(repo.RepositoryID)" class="">{{repo.RepositoryName}}</a></h6>
+															<p class="mb-15" ng-if="repo.RepositoryDescription"><em>{{repo.RepositoryDescription}}</em></p>
+															<p class="mb-15 text-muted" ng-if="!repo.RepositoryDescription">No extra note/description</p>
+														</div>
 
-											<div class="col-md-4">
-												<ul class="list task-details">
-													<li title="{{repo.RepositoryCreationDate}}">{{toDateString(repo.RepositoryCreationDate)}}</li>
-													<li class="dropdown">
-								                		Created by: &nbsp;
-														<a href="#" class="label label-danger bg-white dropdown-toggle" data-toggle="dropdown">{{staffNames[repo.RepositoryCreator]}}</a>
-													</li>
-												</ul>
+														<div class="col-sm-4">
+															<ul class="list task-details">
+																<li title="{{repo.RepositoryCreationDate}}" class="text-bold">
+																	{{utils.dateObject(repo.RepositoryCreationDate).toDateString()}}
+																</li>
+																<li title="{{repo.RepositoryCreationDate}}">
+																	{{utils.dateObject(repo.RepositoryCreationDate).toLocaleTimeString()}}
+																</li>
+																<li title="{{staffNames[repo.RepositoryCreator]}}">
+																	{{staffNames[repo.RepositoryCreator]}}
+																</li>
+															</ul>
+														</div>
+													</div>
+												</div>
+
+												<div class="panel-footer" style="padding-right: 0px;">
+													<ul>
+														<li class="text-muted"><span class="text-semibold" style="text-transform: uppercase;">{{repo.RepositoryNumber}}</span></li>
+													</ul>
+
+													<ul class="pull-right">
+														<li class="btn btn-info text-white">
+															<a href="#" ng-click="patient.history.loadRepo(repo.RepositoryID)"><span class="icon-download4"></span> Load Repository </a>
+														</li>
+													</ul>
+												</div>
 											</div>
 										</div>
 									</div>
-
-									<div class="panel-footer">
-										<ul>
-											<li class="text-muted">Repo UUID: <span class="text-semibold">{{repo.RepositoryNumber}}</span></li>
-										</ul>
-
-										<ul class="pull-right">
-											<li>
-												<a href="#" ng-click="patient.history.loadRepo(repo.RepositoryID)"><span class="icon-download4"></span> Load Repository </a>
-											</li>
-										</ul>
-									</div>
 								</div>
-									</div>
-								</div>
+								<ng-patient-admission-history patient-id="patient.profile.patientid" ng-show="patient.isProfileReady" ng-if="patient.history.displayPage=='admissionHistory'"></ng-patient-admission-history>
+								<ng-patient-medical-summary patient-id="patient.profile.patientid" ng-show="patient.isProfileReady" ng-if="patient.history.displayPage=='medicalSummary'"></ng-patient-medical-summary>
 							</div>
 						</div>
 						<div class="tab-pane" id="allergies">
@@ -141,7 +182,7 @@
 								<div class="tab-content">
 									<div class="tab-pane has-padding active" id="allergy-list">
 										<div class="row">
-											<div class="col-md-12" ng-repeat="allergy in patient.allergies">
+											<div class="col-sm-12" ng-repeat="allergy in patient.allergies">
 												<div class="panel panel-body" style="box-shadow: none;">
 													<div class="media">
 														<div class="media-left">
@@ -152,13 +193,13 @@
 															<h6 class="media-heading text-semibold"><strong><a href="#" class="text-default">{{allergy.AllergyTitle}}</a></strong></h6>
 															<p>{{allergy.AllergyDescription}}</p>
 															<div class="row">	
-																<div class="col-md-6">
+																<div class="col-sm-6">
 																	<h5 class="text-info"><small>Symptoms</small></h5>
 																	<ol>
 																		<li ng-repeat="symptom in allergy.symptoms">{{symptom.Symptom}}</li>
 																	</ol>
 																</div>
-																<div class="col-md-6">
+																<div class="col-sm-6">
 																	<h5 class="text-info"><small>Triggers</small></h5>
 																	<ol>
 																		<li ng-repeat="trigger in allergy.triggers">{{trigger.TriggerTitle}}</li>
@@ -174,17 +215,17 @@
 
 									<div class="tab-pane fade has-padding" id="new-allergy">
 										<div class="row">
-											<div class="content-group col-md-6">
+											<div class="content-group col-sm-6">
 												<label class="control-label">Allergy Title</label>
 												<input class="form-control" ng-model="allergies.newAllergy.title"/>
 											</div>
-											<div class="content-group col-md-6">
+											<div class="content-group col-sm-6">
 												<label class="control-label">Allergy Severity</label>
 												<select class="select" ng-model="allergies.newAllergy.severity">
 													<option value=""></option>
 												</select>
 											</div>
-											<div class="content-group col-md-12">
+											<div class="content-group col-sm-12">
 												<label class="control-label">Allergy Type</label>
 												<select class="select" ng-model="allergies.newAllergy.type">
 													<option value="{{type.AllergyID}}" ng-repeat="type in allergies.allergyTypes">
@@ -192,7 +233,7 @@
 													</option>
 												</select>
 											</div>
-											<div class="content-group col-md-12">
+											<div class="content-group col-sm-12">
 												<label class="control-label">Allergy Trigger(s)</label>
 												<select class="select" multiple="" ng-model="allergies.newAllergy.triggers">
 													<option value="{{trigger.TriggerName}}" ng-repeat="trigger in allergies.allergyTypeTriggers">
@@ -200,17 +241,17 @@
 													</option>
 												</select>
 											</div>
-											<div class="content-group col-md-12">
+											<div class="content-group col-sm-12">
 												<label class="control-label">Allergy Symptom(s)</label>
 												<select class="tagsinput-typeahead" multiple="" data-role="tagsinput" ng-model="allergies.newAllergy.symptoms">
 												</select>
 											</div>
-											<div class="content-group col-md-12">
+											<div class="content-group col-sm-12">
 												<label class="control-label">Note</label>
 												<textarea class="form-control" ng-model="allergies.newAllergy.description" placeholder="description"></textarea>
 											</div>
-											<div class="content-group col-md-12">
-												<button class="btn btn-info pull-right col-md-3" ng-click="allergies.saveNewAllergy()">Save</button>
+											<div class="content-group col-sm-12">
+												<button class="btn btn-info pull-right col-sm-3" ng-click="allergies.saveNewAllergy()">Save</button>
 											</div>
 										</div>
 									</div>
@@ -218,16 +259,27 @@
 							</div>
 						</div>
 						<div class="tab-pane fade" id="presenting-complaints">
-							<div class="col-md-7 col-md-offset-3 mb-15">
+							<div class="col-sm-7 col-sm-offset-3 mb-15">
+								<li class="dropdown" style="list-style: none;">
+									<a class="dropdown-toggle btn btn-xs btn-default" data-toggle="dropdown">
+										Load Template
+										<span class="caret"></span>
+									</a>
+									<ul class="dropdown-menu">
+										<li ng-repeat="temp in presentingComplaints.complaintTemplates">
+											<a class="" href="#" ng-click="presentingComplaints.loadTemplateForComplaint(temp.TemplateID)">{{temp.TemplateName}}</a>
+										</li>
+									</ul>
+								</li>
 								<div class="input-group">
-									<input id="presentingComplaints-symptomSearchQuery" type="text" class="form-control symptom-search" placeholder="enter symptom to search" ng-model="presentingComplaints.symptomSearchQuery"/>
+									<input id="presentingComplaints-symptomSearchQuery" type="text" class="form-control symptom-search" placeholder="enter symptom to search" ng-model="presentingComplaints.symptomSearchQuery" ng-keypress="presentingComplaints.catchSearchPress($event)"/>
 									<span class="input-group-btn">
-										<button class="btn btn-danger" ng-click="presentingComplaints.performSymptomSearch()"> <i class="icon-search4"></i> search</button>
+										<button class="btn btn-danger" ng-click="presentingComplaints.performSymptomSearch()"> <i class="fa fa-plus-circle"></i> Add to list</button>
 									</span>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-md-5" style="border-right: 1px solid #F5F5F5;">
+								<div class="col-sm-5" style="border-right: 1px solid #F5F5F5;" ng-hide="true">
 									<div class="row">
 										<div class="col-lg-12">
 											<ul class="media-list search-results-list content-group" ng-repeat="symptom in presentingComplaints.searchedSymptoms">
@@ -241,7 +293,7 @@
 							                    		<div class="website-search-results mt-10">
 								                    		<div class="row">
 								                    			<div class="content-group">
-								                    				<div class="content-group col-md-6" ng-repeat="child in symptom['_source'].children">
+								                    				<div class="content-group col-sm-6" ng-repeat="child in symptom['_source'].children">
 								                    					<div class="media-body">
 																			<h6 class="media-heading"><a href="#" ng-click="presentingComplaints.addToList(presentingComplaints.loadSymptom(child.id).name)">{{presentingComplaints.loadSymptom(child.id).name}}</a></h6>
 																			<ul class="list-inline list-inline-separate text-muted">
@@ -259,32 +311,22 @@
 									</div>
 								</div>
 
-								<div class="col-md-7">
+								<div class="col-sm-12">
 									<div class="row pl-5 pr-5">
 										<div class="panel-group panel-group-control panel-group-control-left">
 											<div ng-repeat="complaint in presentingComplaints.complaints" class="panel" style="box-shadow: none; border-top-right-radius: 0px; border-top-left-radius: 0px; border-color: #F5F5F5">
 												<div class="panel-heading" class="collapsed cursor-pointer" data-toggle="collapse" href="#complaint-{{$index+1}}">
 													<h6 class="panel-title">
 														<span class="cursor-pointer">
-															{{complaint.title}}
+															{{complaint.title}} <button class="btn btn-link pull-right text-danger" ng-click="presentingComplaints.removeFromList($index)"><i class="icon-bin"></i> Remove</button>
 														</span>
 													</h6>
 												</div>
 
 												<div id="complaint-{{$index+1}}" class="panel-collapse collapse">
 													<div class="panel-body">
-														<div class="content-group col-md-12">
-															<textarea class="form-control" ng-model="complaint.description"></textarea>
-														</div>
-														<div class="content-group">
-															<h6 class="text-muted col-md-3">Characteristics:</h6>
-															<span class="col-md-9">
-																<select class="select" ng-model="complaint.characteristics">
-																	<option value="severe">severe</option>
-																	<option value="acute">acute</option>
-																	<option value="numb">numb</option>
-																</select>
-															</span>
+														<div class="content-group col-sm-12">
+															<textarea class="form-control" ng-model="complaint.description" placeholder="Add extra comment/note here"></textarea>
 														</div>
 													</div>
 
@@ -299,7 +341,7 @@
 							</div>
 						</div>
 						<div class="tab-pane fade" id="examination">
-							<div class="tabbable">
+							<!-- <div class="tabbable">
 								<ul class="nav nav-tabs nav-tabs-solid nav-justified">
 									<li href="#exam-{{$index+1}}" data-toggle="tab" ng-repeat="type in examination.examinationTypes"><a>{{type.ExamTypeTitle}}</a></li>
 								</ul>
@@ -307,7 +349,7 @@
 								<div class="tab-content">
 									<div class="tab-pane" id="exam-{{$index+1}}" ng-repeat="type in examination.examinationTypes">
 										<div class="row">
-											<div class="form-group col-md-12" ng-repeat="option in type.options">
+											<div class="form-group col-sm-12" ng-repeat="option in type.options">
 												<label class="control-label">
 													<input type="checkbox" ng-model="option.selected"/>
 													{{option.OptionTitle}}
@@ -317,190 +359,41 @@
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> -->
+							<ng-observation-form patient="patientInfo"></ng-observation-form>
 						</div>
 						<div class="tab-pane fade" id="investigation">
 							<div class="tabbable">
 								<ul class="nav nav-tabs nav-tabs-solid nav-justified">
-									<li href="#labForm" data-toggle="tab"><a>Lab Request Form</a></li>
-									<li href="#lab" data-toggle="tab" class="active"><a>Advanced Laboratory / Radiology Investigations Search</a></li>
+									<li href="#labForm-new" data-toggle="tab" class="active"><a>Laboratory/Imaging Investigation Request Form</a></li>
 								</ul>
 
 								<div class="tab-content">
-									<div class="tab-pane active" id="lab">
-										<div class="col-md-5">
-											<input class="form-control" placeholder="basic search" ng-change="labTests.searchPerformed = false" ng-model="labTests.basicInvestigationsFiler"/>
-										</div>
-										<div class="col-md-7 mb-15">
-											<div class="input-group">
-												<input id="labTests-testSearchQuery" type="text" class="form-control lab-tests-search" placeholder="enter lab test to perform an advanced search" ng-model="labTests.testSearchQuery"/>
-												<span class="input-group-btn">
-													<button class="btn btn-danger" ng-click="labTests.performLabTestSearch()"> <i class="icon-search4"></i> search</button>
-												</span>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-md-5" style="border-right: 1px solid #F5F5F5;" ng-hide="labTests.searchPerformed">
-												<div class="row">
-													<div class="col-lg-12">
-														<ul class="media-list search-results-list content-group" ng-repeat="test in labTests.imagingTests | toArray:false | filter:labTests.basicInvestigationsFiler track by $index">
-									                    	<li class="media">
-									                    		<div class="media-body">
-										                    		<h6 class="media-heading"><strong><a href="#" ng-click="labTests.addToLabList(test.MedicalImagingName)">{{test.MedicalImagingName}}</a></strong></h6>
-									                    		</div>
-									                    		<ul class="list-inline list-inline-separate text-muted">
-									                    			<li>{{test.MedicalImagingDescription}}</li>
-									                    		</ul>
-									                    	</li>
-									                    </ul>
-								                    </div>
-												</div>
-											</div>
-											<div class="col-md-5" style="border-right: 1px solid #F5F5F5;" ng-show="labTests.searchPerformed">
-												<div class="row">
-													<div class="col-lg-12">
-														<ul class="media-list search-results-list content-group" ng-repeat="test in labTests.searchedTests">
-									                    	<li class="media">
-									                    		<div class="media-body">
-										                    		<h6 class="media-heading"><strong><a href="#" ng-click="labTests.addToLabList(test['_source'].name)">{{test["_source"].name}}</a></strong></h6>
-										                    		<ul class="list-inline list-inline-separate text-muted">
-										                    			<li>Category: <a href="#" class="text-success">{{test["_source"].category}}</a></li>
-										                    		</ul>
-										                    		<div class="website-search-results mt-10">
-											                    		<div class="row">
-											                    			<div class="content-group">
-											                    				<div class="content-group col-md-6" ng-repeat="result in test['_source'].results">
-											                    					<div class="media-body">
-																						<ul class="list-inline list-inline-separate text-muted">
-															                    			<li>value: <a href="#" class="text-success">{{result.type}}</a></li>
-															                    		</ul>
-																					</div>
-																				</div>
-											                    			</div>
-											                    		</div>
-										                    		</div>
-									                    		</div>
-									                    	</li>
-									                    </ul>
-								                    </div>
-												</div>
-											</div>
-
-											<div class="col-md-7">
-												<div class="row pl-5 pr-5">
-													<div class="panel-group panel-group-control panel-group-control-left">
-														<div ng-repeat="investigation in labTests.investigations.lab" class="panel" style="box-shadow: none; border-top-right-radius: 0px; border-top-left-radius: 0px; border-color: #F5F5F5">
-															<div class="panel-heading cursor-pointer" class="collapsed" data-toggle="collapse" href="#investigation-lab-{{$index+1}}">
-																<h6 class="panel-title">
-																	<a>
-																		{{investigation.title}}
-																	</a>
-																	<span class="pull-right">
-																		<a class="btn btn-link" data-target="#modal-send-to-lab" data-toggle="modal" ng-show="investigation.status == 0" ng-click="labTests.investigations.lab.currentInvestigation = $index"><i class="fa fa-send"></i> Send to lab</a>
-																		<a class="btn btn-link" ng-show="investigation.status == -1"><i class="fa fa-spinner fa-pulse fa-spin"></i> Awaiting result</a>
-																		<a class="btn btn-link" ng-show="investigation.status == 1"><i class="fa fa-file-archive-o"></i> investigation concluded</a>
-																	</span>
-																</h6>
-															</div>
-
-															<div id="investigation-lab-{{$index+1}}" class="panel-collapse collapse">
-																<div class="panel-body">
-																	<div class="content-group col-md-12">
-																		<textarea class="form-control" ng-model="investigation.description"></textarea>
-																	</div>
-																</div>
-
-																<div class="panel-footer panel-footer-transparent">
-																	<button class="btn btn-link pull-right text-danger" ng-click="labTests.removeFromLabList($index)"><i class="icon-bin"></i> Remove</button>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>	
-									</div>
-									<div class="tab-pane fade" id="labForm">
-										<div class="row">
-											<div class="panel panel-default">
-												<div class="panel-content">
-													<div class="panel-heading">
-														<h6 class="panel-title"><i class="icon-info22 text-info"></i> Fill in this form to send a new investigation request</h6>
-													</div>
-													<div class="panel-body">
-														<div class="content-group">
-															<label class="control-label">Select Lab</label>
-															<select class="select" ng-model="labTests.sendVariables.lab">
-																<option value="{{lab.LabID}}" ng-repeat="lab in globals.registeredLabs">{{lab.LabName}}</option>
-															</select>
-														</div>
-														<div class="content-group">
-															<label class="control-label">Select Investigation Type</label>
-															<select class="select" ng-model="labTests.sendVariables.investigationType">
-																<option value="{{type.InvestigationTypeID}}" ng-repeat="type in globals.registeredInvestigationTypes">{{type.InvestigationTypeName}}</option>
-															</select>
-														</div>
-														<div class="content-group">
-															<label class="control-label">Nature of Specimen / Clinical Diagnosis</label>
-															<textarea class="form-control" ng-model="labTests.investigations.lab[labTests.investigations.lab.currentInvestigation].description"> </textarea>
-														</div>
-													</div>
-
-													<div class="panel-footer">
-														<button type="button" class="btn btn-primary pull-right no-border-radius" ng-click="labTests.sendForInvestigation()"><i class="fa fa-send"></i> Send</button>
-													</div>
-												</div>
-											</div>
-										</div>
+									<div class="tab-pane active" id="labForm-new">
+										<ng-lab-request-form-design patient-info="patient.profile"></ng-lab-request-form-design>
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="tab-pane fade" id="diagnosis">
 							<div class="row">
-								<div class="col-md-7" style="border-right: 1px solid #F5F5F5;">
+								<div class="col-sm-7" style="border-right: 1px solid #F5F5F5;">
 									<div class="row">
 										<div class="col-lg-12">
 											<h6 class="text-center text-bold"> <i class="icon-bubble-lines4 text-info"></i> Deductions/Report</h6>
 											<div class="content-group">
-												<input class="form-control" placeholder="diagnosis" ng-model="conclusion.diagnosis.title"/>
+												<input class="form-control diagnosis-suggest" placeholder="diagnosis" id="conclusionTitle"/>
 											</div>
 											<div class="content-group">
-												<textarea placeholder="Add extra diagnosis note here (optional)" class="form-control" style="height: 400px; border: 0px; border-left: 1px solid #F5F5F5" ng-model="conclusion.diagnosis.description"></textarea>
+												<textarea placeholder="Add extra diagnosis note here (optional)" class="form-control" style="height: 400px; border: 0px; border-left: 2px solid #F5F5F5" ng-model="conclusion.diagnosis.description"></textarea>
 											</div>
 					                    </div>
 									</div>
 								</div>
 
-								<div class="col-md-5">
+								<div class="col-sm-5">
 									<div class="row">
-										<div class="col-lg-12">
-											<h6 class="text-center text-bold"> <i class="icon-basket text-info"></i> Prescription</h6>
-											<div class="content-group">
-												<div class="input-group">
-													<input class="form-control drug-search" placeholder="enter prescription item here" id="conclusion-drug"/>
-													<span class="input-group-btn">
-														<button class="btn" ng-click="conclusion.searchDrug()" data-toggle="modal" data-target="#modal-drugs">add</button>
-													</span>
-												</div>
-											</div>
-											<div class="content-group">
-												<div class="table-responsive">
-													<table class="table table-bordered">
-														<tbody>
-															<tr class="active">
-																<th colspan="3">Prescribed Items <span class="pull-right"><a class="btn btn-link" data-target="#modal-send-to-pharmacy" data-toggle="modal"><i class="fa fa-send"></i> Send to pharmacy</a></span></th>
-															</tr>
-															<tr ng-repeat="prescription in conclusion.prescriptionList">
-																<td>{{$index + 1}}</td>
-																<td>{{prescription.item}}</td>
-																<td><a class="btn btn-link text-danger" ng-click="conclusion.removePrescriptionFromList($index)"><i class="icon-cross"></i> remove</a></td>
-															</tr>
-														</tbody>
-													</table>
-												</div>
-											</div>
-					                    </div>
+										<ng-pharmacy-prescription-request patient="patient"></ng-pharmacy-prescription-request>
 									</div>
 								</div>
 							</div>
@@ -508,14 +401,12 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-3" style="border: 1px solid #F5F5F5; border-bottom: 0px; height: 2000px;">
+			<div class="col-sm-3 hidden-xs" style="border: 1px solid #F5F5F5; border-bottom: 0px; min-height: 100vh;">
 				<div class="row">
-					<div class="col-md-5">
-						<h5 class="text-center text-primary"><small>Summary</small></h5>
-					</div>
-					<div class="col-md-7 pt-10">
-						<button class="btn btn-sm btn-link text-info" ng-click="globals.save()"><i class="icon-floppy-disk"></i> Save</button>
-						<button class="btn btn-sm btn-link text-success" ng-click="globals.submit()"><i class="icon-database-add"></i> Submit</button>
+					<div class="col-sm-12 pt-10 ml-15">
+						<button class="btn btn-sm btn-danger" ng-click="globals.flag()"><i class="icon-flag3"></i> Flag</button>
+						<button class="btn btn-sm btn-info" ng-click="globals.save()"><i class="icon-floppy-disk"></i> Save</button>
+						<button class="btn btn-sm btn-success" ng-click="globals.submit()"><i class="icon-database-add"></i> Submit</button>
 					</div>
 				</div>
 				<div class="table-responsive">
@@ -548,14 +439,18 @@
 							<tr class="bg-info" ng-show="conclusion.prescriptionList.length > 0">
 								<th colspan="3">Prescription</th>
 							</tr>
-							<tr ng-repeat="prescription in conclusion.prescriptionList">
+							<tr ng-repeat="prescription in conclusion.prescriptionList" ng-if="!exists(prescription, 'smart')">
 								<td>{{$index + 1}}</td>
 								<td colspan="2">{{prescription.item}}</td>
+							</tr>
+							<tr ng-repeat="prescription in conclusion.prescriptionList" ng-if="exists(prescription, 'smart')">
+								<td>{{$index + 1}}</td>
+								<td colspan="2">[{{prescription.item.item.category}}] {{prescription.item.item.name}}, {{prescription.item.times}} daily for {{prescription.item.duration}} days</td>
 							</tr>
 							<tr class="bg-success">
 								<th colspan="3">Most recent Observation</th>
 							</tr>
-							<tr ng-repeat="(repoItem, id) in mostRecentObservation.RepositoryItemContent">
+							<tr ng-repeat="(repoItem, id) in mostRecentObservation.RepositoryItemContent" ng-if="mostRecentObservation.RepositoryDetails.RepositoryType=='observation'">
 								<td colspan="3">
 									<ul class="media-list">
 										<li class="media-header text-muted">{{repoItem}}</li>
@@ -563,6 +458,24 @@
 											<span>{{val}}</span>
 											<span class="pull-right text-bold">{{key}}</span>
 										</tr>
+									</ul>
+								</td>
+							</tr>
+							<tr ng-if="mostRecentObservation.RepositoryDetails.RepositoryType=='lab_result'">
+								<td colspan="3">
+									<ul class="media-list">
+										<li class="media-header text-muted">{{mostRecentObservation.RepositoryItemName}}</li>
+										<li class="media">
+											<span>{{mostRecentObservation.RepositoryDetails.RepositoryName}}</span>
+											<span class="pull-right text-bold">
+												{{utils.dateObject(
+													mostRecentObservation.RepositoryDetails.RepositoryCreationDate
+												).toLocaleDateString()}}
+												{{utils.dateObject(
+													mostRecentObservation.RepositoryDetails.RepositoryCreationDate
+												).toLocaleTimeString()}}
+											</span>
+										</li>
 									</ul>
 								</td>
 							</tr>
@@ -718,7 +631,7 @@
 					<button type="button" class="close" data-dismiss="modal">&times; close</button>
 				</div>
 				<div class="modal-body no-padding no-margin">
-					<div class="col-md-12">
+					<div class="col-sm-12">
 						<ng-repository repository-id="patient.history.repositories.currentRepository"></ng-repository>
 					</div>
 				</div>
@@ -736,12 +649,12 @@
 					</div>
 					<div class="modal-body">
 						<div class="row">
-							<div class="col-md-8" style="border-right: 1px solid #4CAF50; height: 500px"s>
+							<div class="col-sm-8" style="border-right: 1px solid #4CAF50;">
 								<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-hover">
 			
 								</table>
 							</div>
-							<div class="col-md-4">
+							<div class="col-sm-4">
 								<div class="form-group">
 									<label class="control-label">Medical Specialist</label>
 									<input class="form-control" disabled="disabled" ng-model="referral.specialist.name"/>
@@ -756,6 +669,116 @@
 								</div>
 								<div class="form-group">
 									<button class="btn btn-info btn-labeled pull-right" ng-click="completeReferral()"><b><i class="icon-check"></i></b> Complete Referral</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div>
+		<div class="modal fade" id="new-appointment">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header bg-info">
+						<h6 class="modal-title">Book an appointment for this patient</h6>
+						<button class="close"><i class="icon-cross"></i></button>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<!-- <div class="col-md-4">
+								<label class="control-label">Range Identifier</label>
+								<select class="select" ng-model="conclusion.appointment.range">
+									<option value="weeks">Weeks</option>
+									<option value="days">Days</option>
+									<option value="months">Months</option>
+									<option value="date" selected="">Specify Date</option>
+								</select>
+							</div>
+							<div class="col-md-8">
+								<div class="form-group" ng-if="conclusion.appointment.range == 'weeks'">
+									<label class="control-label">How Many Weeks?</label>
+									<input class="form-control" type="number"/>
+								</div>
+								<div class="form-group" ng-if="conclusion.appointment.range == 'days'">
+									<label class="control-label">How Many Days?</label>
+									<input class="form-control" type="number"/>
+								</div>
+								<div class="form-group" ng-if="conclusion.appointment.range == 'months'">
+									<label class="control-label">How Many Months?</label>
+									<input class="form-control" type="number"/>
+								</div>
+								<div class="form-group" ng-if="conclusion.appointment.range == 'date'">
+									<label class="control-label">Select Date</label>
+									<input class="form-control" type="date"/>
+								</div>
+							</div> -->
+
+							<div class="col-md-12">
+								<label class="control-label">Select Appointment Date</label>
+								<input class="form-control datepicker" type="text" ng-model="newAppointment.date" data-start-date="{{globals.todayInIso()}}" placeholder="Pick a date for this patients next visit" />
+							</div>
+							<div class="col-md-12 mt-10">
+								<label class="control-label">Appointment Reason</label>
+								<textarea class="form-control" ng-model="newAppointment.reason" style="height: 200px;" placeholder="Specify detailed information about this appointment in a way the patient can understand"></textarea>
+							</div>
+							<div class="col-md-12 mt-10">
+								<button class="btn btn-primary pull-right" ng-click="saveAppointment()">Save Appointment</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="flag-note-modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-info">
+					<h6 class="modal-title">Add a flag note</h6>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12">
+							<textarea class="form-control" row="5" ng-model="currentFlagNote"></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="pull-right btn btn-info" ng-click="globals.completeFlagging(currentFlagNote)">Continue</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<div class="modal fade" id="show-saved-diag-selector">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-info">
+					<h6 class="modal-title">Previously Saved Diagnoses For This Patient</h6>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-4" ng-repeat="item in allSavedDiagnoses">
+							<div class="panel-body">
+								<div class="media">
+									<div class="media-body">
+										<a href="#" data-popup="lightbox" class="col-md-12">
+											<img src="{{loadImage(item.ConsultantDetail.StaffPicture)}}" class="img img-responsive img-square" alt="">
+										</a>
+										<h6 class="media-heading">{{item.ConsultantDetail.StaffFullName}}</h6>
+										<p class="text-muted text-center">{{item.ConsultantDetail.Role}}</p>
+										<p class="text-center">{{toDateString(item.DateModified)}}</p>
+
+										<p>
+											<a href="#" title="Load Diagnosis" class="btn" ng-click="loadSavedDiagnosis(item.Patient, item.Consultant)">Load Diagnosis</a>
+										</p>
+									</div>
 								</div>
 							</div>
 						</div>

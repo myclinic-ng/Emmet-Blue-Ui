@@ -31,11 +31,11 @@
 		});
 
 	});
+	$(".date").datepicker();
 </script>
-<script src="assets/js/core/app.js"></script>
 
 <div ng-controller="recordsPatientManagePatientsController as ctrller">
-	<div class="col-md-3">
+	<div class="col-sm-3">
 		<div class="sidebar sidebar-secondary sidebar-default">
 				<div class="sidebar-content">
 
@@ -51,7 +51,10 @@
 						<div class="category-content">
 							<div class="row row-condensed">
 								<div class="col-xs-6">
-									<button type="button" class="btn bg-teal-400 btn-block btn-float btn-float-lg" data-toggle="modal" data-target="#new_patient" data-backdrop="static"><i class="icon-file-plus"></i> <span>Patient Registration</span></button>
+									<button type="button" class="btn bg-teal-400 btn-block btn-float btn-float-lg" data-toggle="modal" data-target="#new_patient" data-backdrop="static" ng-click="loadDeps = true">
+										<i class="icon-file-plus"></i> <span>Patient Registration</span>
+									</button>
+									<a href="records/patient/reports" type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg"><i class="fa fa-bar-chart"></i> <span>Summaries &amp; Statistics</span></a>
 								</div>
 								
 								<div class="col-xs-6">
@@ -64,58 +67,52 @@
 				</div>
 			</div>
 	</div>
-	<div class="col-md-9">
-	<div class="panel panel-success">
-		<div class="pt-5 pb-10 bg-success">
-			<div class="form-group col-md-6 bg-success" style="margin-left: 0px;">
-				<label class="control-label">Patient Search</label>
-				<div class="input-group mb-5">
-					<input class="form-control input-lg no-border-radius" placeholder="Enter a patients number or name here to search" type="search" data-popup="tooltip" data-trigger="focus" title="Click the Advanced link below for more search options" ng-model="search.query"/>
-					<span class="input-group-btn">
-						<button class="btn btn-warning btn-lg" type="button" ng-click="search(true)"> <i class="{{searched.searchIcon}}"></i></button>
-					</span>
+	<div class="col-sm-9">
+		<div class="panel panel-success">
+			<div class="pt-5 pb-5 bg-success">
+				<div class="form-group col-sm-6 bg-success" style="margin-left: 0px;">
+					<label class="control-label">Patient Search</label>
+					<div class="input-group mb-5">
+						<input class="form-control input-lg no-border-radius" placeholder="Enter a patients number or name here to search" type="search" data-popup="tooltip" data-trigger="focus" title="Click the Advanced link below for more search options" ng-model="search.query" ng-keypress="catchEnterSearch($event)"/>
+						<span class="input-group-btn">
+							<button class="btn btn-warning btn-lg" type="button" ng-click="search(true)"> <i class="{{searched.searchIcon}}"></i></button>
+						</span>
+					</div>
+				</div>
+				<div class="col-sm-6 navbar navbar-default navbar-xs navbar-component no-border hidden-xs">
+					<ul class="nav navbar-nav no-border visible-xs-block">
+						<li><a class="text-center collapsed" data-toggle="collapse" data-target="#navbar-filter"><i class="icon-menu7"></i></a></li>
+					</ul>
+
+					<div class="navbar-collapse collapse bg-success" id="navbar-filter">
+						<div class="navbar-right bg-success">
+							<ul class="nav navbar-nav bg-success">
+								<li><a href="#">Items per page: </a></li>
+								<div class="input-group mr-5">
+									<input type="number" class="form-control no-border-radius" min="1" max="100" ng-model="searched.pageSizeInc"/>
+									<span class="input-group-btn">
+										<button class="btn btn-text btn-warning" ng-click="searched.pageSize = searched.pageSizeInc">Go</button>
+									</span>
+								</div>
+							</ul>
+			            </div>
+					</div>
 				</div>
 			</div>
-			<div class="col-md-6 navbar navbar-default navbar-xs navbar-component no-border">
-				<ul class="nav navbar-nav no-border visible-xs-block">
-					<li><a class="text-center collapsed" data-toggle="collapse" data-target="#navbar-filter"><i class="icon-menu7"></i></a></li>
-				</ul>
 
-				<div class="navbar-collapse collapse bg-success" id="navbar-filter">
-					<div class="navbar-right bg-success">
-						<ul class="nav navbar-nav bg-success">
-							<li><a href="#">Items per page: </a></li>
-							<div class="input-group mr-5">
-								<input type="number" class="form-control no-border-radius" min="1" max="100" ng-model="searched.pageSizeInc"/>
-								<span class="input-group-btn">
-									<button class="btn btn-text btn-warning" ng-click="searched.pageSize = searched.pageSizeInc">Go</button>
-								</span>
-							</div>
-						</ul>
-		            </div>
-				</div>
-			</div>
-		</div>
-
-		<div class="panel-body">
-			<!-- Invoice grid options -->
-				<div class="col-md-12 pull-left">
+			<div class="panel-body">
+				<div class="col-sm-12 text-center" ng-if="searched.totalPageCount > 0" ng-cloak>
+					<h6 class="text-muted">Found <strong><span class="text-bold text-black">{{searched.totalPageCount}}</span></strong> Profile<span ng-if="searched.totalPageCount > 1">s</span> Matching Search Query</h6>
 					<dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="assets/angular/libraries/ng-pagination/ng-pagination.tpl.html"></dir-pagination-controls>
 				</div>
-				<!-- /invoice grid options -->
 
-
-				<!-- Invoice grid -->
-				<!-- <div class="text-center content-group text-muted content-divider">
-					<span class="pt-10 pb-10">Today</span>
-				</div> -->
 				<div class="row">
-					<div class="col-lg-6 col-md-6" dir-paginate="patient in searched.patients | itemsPerPage: searched.pageSize" total-items="searched.totalPageCount" current-page="searched.currentPage">
+					<div class="col-lg-6 col-sm-6" dir-paginate="patient in searched.patients | itemsPerPage: searched.pageSize" total-items="searched.totalPageCount" current-page="searched.currentPage">
 						<ng-patient-grid patient-info="patient['_source']"></ng-patient-grid>
 					</div>
 				</div>
+			</div>
 		</div>
-	</div>
 	</div>
 
 	<div id="new_patient" class="modal fade">
@@ -123,22 +120,13 @@
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h6 class="modal-title">Service User Registration</h6>
+					<h6 class="modal-title">New Patient Registration</h6>
 				</div>
 
 				<div class="modal-body">
 					<form role="form">
-						<div class="col-md-8">
+						<div class="col-sm-8">
 							<fieldset>
-								<legend>
-									<div class="btn-group">
-										<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#patient_hospital_history" data-backdrop="static" data-keyboard="false"><i class="fa fa-building-o"></i> Hospital History</button>
-										<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#patient_diagnosis" data-backdrop="static" data-keyboard="false"><i class="fa fa-bed"></i> Diagnosis</button>
-										<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#patient_operation" data-backdrop="static" data-keyboard="false"><i class="fa fa-bed"></i> Operation</button>
-										<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#patient_process_check" data-backdrop="static" data-keyboard="false""><i class="fa fa-bed"></i> Process Check</button>
-									</div>
-								</legend>
-
 								<div class="row">
 									<div class="form-group col-sm-3">
 										<label>Patient Category </label>
@@ -146,11 +134,15 @@
 											<option ng-repeat="category in patientCategories" value="{{category.CategoryID}}">{{category.CategoryName}}</option>
 										</select>
 									</div>
-									<div class="form-group col-sm-9">
+									<div class="form-group col-sm-4">
 										<label>Patient Type </label>
 										<select class="select" ng-model="newPatient['patientType']">
 											<option ng-repeat="type in patientTypes" value="{{type.PatientTypeID}}">{{type.PatientTypeName}}</option>
 										</select>
+									</div>
+									<div class="form-group col-sm-5">
+										<label>HMO Number</label>
+										<input type="text" class="form-control" ng-model="newPatient['HMO Number']">
 									</div>
 								</div>
 								<div class="row">
@@ -166,7 +158,7 @@
 								<div class="row">
 									<div class="form-group col-sm-6">
 										<label>Date Of Birth</label>
-										<input type="date" class="form-control" ng-model="newPatient['Date Of Birth']">
+										<input type="text" class="form-control date" ng-model="newPatient['Date Of Birth']">
 									</div>
 									<div class="form-group col-sm-3">
 										<label class="control-label">Gender</label>
@@ -273,13 +265,13 @@
 								</div>
 							</fieldset>
 						</div>
-						<div class="col-md-4">
-							<div class="panel panel-default col-md-11 col-md-offset-1">
+						<div class="col-sm-4">
+							<div class="panel panel-default col-sm-11 col-sm-offset-1">
 				                <div class="panel-heading">
 				                  <h6 class="panel-title">Upload Patient Picture</h6>
 				                </div>
 				                <div class="panel-body" id="camera">
-				                  <img src="plugins/records/patient/assets/images/passport-placeholder.png" class="col-md-12 img img-responsive" style="width:100% !important; height: 100% !important;"/>
+				                  <img src="plugins/records/patient/assets/images/passport-placeholder.png" class="col-sm-12 img img-responsive" style="width:100% !important; height: 100% !important;"/>
 				                </div><!-- /.panel-body -->
 				                 <input type="hidden" id="patient-passport"/>
 				                <div class="panel-footer">
@@ -290,7 +282,7 @@
 									</div>
 				                </div>
 				              </div><!-- /.panel -->
-				              <div class="form-group col-md-11 col-md-offset-1">
+				              <div class="form-group col-sm-11 col-sm-offset-1">
 								<label class="control-label">Upload Identification Document</label>
 				              	<input type="file" class="file-styled-primary" ng-model="uploadedDocument" name="file" id="document"/>
 				              	<img src="{{newPatient.documents}}" class="img img-responsive"/>
@@ -299,317 +291,10 @@
 					</form>
 				</div>
 				<div class="modal-footer">
-					<div class="col-md-12 pull-right">
+					<div class="col-sm-12 pull-right">
 						<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="newPatient = {}">Close</button>
 						<button class="btn btn-warning btn-lg" ng-click="submit()"><span class="hide loader pull-left"> <i class="fa fa-spinner fa-spin">  </i> </span> Submit</button>
 					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div id="patient_hospital_history" class="modal fade">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header bg-warning">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h6 class="modal-title">Hospital History Information</h6>
-				</div>
-
-				<div class="modal-body">
-					<div class="row table-responsive">
-						<fieldset>
-							<div class="form-group col-md-4">
-								<label class="control-label">Discharged To</label>
-								<input type="text" class="form-control" ng-model="hospitalHistory.dischargedTo"/>
-							</div>
-							<div class="form-group col-md-4">
-								<label class="control-label">Referred By</label>
-								<input type="text" class="form-control" ng-model="hospitalHistory.referredBy"/>
-							</div>
-							<div class="form-group col-md-4">
-								<label class="control-label">Physician or Surgeon</label>
-								<input type="text" class="form-control" ng-model="hospitalHistory.physician"/>
-							</div>
-							<div class="form-group col-md-3">
-								<label class="control-label">Ward or Clinic</label>
-								<input type="text" class="form-control" ng-model="hospitalHistory.ward"/>
-							</div>
-							<div class="form-group col-md-3">
-								<label class="control-label">Date attended or admitted</label>
-								<input type="date" class="form-control" ng-model="hospitalHistory.dateAttended"/>
-							</div>
-							<div class="form-group col-md-3">
-								<label class="control-label">Date Discharged</label>
-								<input type="date" class="form-control" ng-model="hospitalHistory.dateDischarged"/>
-							</div>
-							<div class="form-group col-md-3">
-								<label class="control-label">Health Condition</label>
-								<select class="select" ng-model="hospitalHistory.healthCondition">
-									<option value="Cured" selected="selected">Cured</option>
-									<option value="Improved">Improved</option>
-									<option value="Not Improved">Not Improved</option>
-									<option value="Transferred">Transferred</option>
-									<option value="Absconded">Absconded</option>
-									<option value="Died">Died</option>
-								</select>
-							</div>
-							<div class="form-group pull-right">
-								<button class="btn btn-warning" ng-click="submitHospitalHistory()"><i class="icon-plus"></i> Add to list</button>
-							</div>
-						</fieldset>
-						<table class="col-md-12 table table-bordered table-condensed">
-							<thead>
-								<tr class="warning">
-									<th>S/N</th>
-									<th>Date attended/admitted</th>
-									<th>Referred By</th>
-									<th>Physician/Surgeon</th>
-									<th>Ward/Clinic</th>
-									<th>Date Discharged</th>
-									<th>Discharged To</th>
-									<th>Condition</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr ng-repeat="history in newPatient.hospitalHistory">
-									<td>{{$index+1}}</td>
-									<td contenteditable="">{{history.dateAttended}}</td>
-									<td contenteditable="">{{history.referredBy}}</td>
-									<td contenteditable="">{{history.physician}}</td>
-									<td contenteditable="">{{history.ward}}</td>
-									<td contenteditable="">{{history.dateDischarged}}</td>
-									<td contenteditable="">{{history.dischargedTo}}</td>
-									<td contenteditable="">{{history.healthCondition}}</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="">Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div id="patient_diagnosis" class="modal fade">
-		<div class="modal-dialog modal-mini">
-			<div class="modal-content">
-				<div class="modal-header bg-warning">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h6 class="modal-title">Diagnosis Information</h6>
-				</div>
-
-				<div class="modal-body">
-					<div class="row table-responsive">
-						<fieldset>
-							<div class="form-group col-md-6">
-								<label class="control-label">Diagnosis Date</label>
-								<input type="text" class="form-control" ng-model="diagnosis.date"/>
-							</div>
-							<div class="form-group col-md-6">
-								<label class="control-label">Code Number</label>
-								<input type="text" class="form-control" ng-model="diagnosis.codeNumber"/>
-							</div>
-							<div class="form-group col-md-12">
-								<label class="control-label">Diagnosis</label>
-								<textarea class="form-control" ng-model="diagnosis.diagnosis"></textarea>
-							</div>
-							<div class="form-group pull-right">
-								<button class="btn btn-warning" ng-click="submitDiagnosis()"><i class="icon-list"></i> Add to list</button>
-							</div>
-						</fieldset>
-						<table class="col-md-12 table table-bordered table-condensed">
-							<thead>
-								<tr class="warning">
-									<th>S/N</th>
-									<th>Diagnosis Date</th>
-									<th>Code Number</th>
-									<th>Diagnosis</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr ng-repeat="diagnosis in newPatient.diagnosis">
-									<td contenteditable="">{{$index+1}}</td>
-									<td contenteditable="">{{diagnosis.date}}</td>
-									<td contenteditable="">{{diagnosis.codeNumber}}</td>
-									<td contenteditable="">{{diagnosis.diagnosis}}</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click=""> <i class="fa fa-times-circle-o"></i> Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div id="patient_operation" class="modal fade">
-		<div class="modal-dialog modal-mini">
-			<div class="modal-content">
-				<div class="modal-header bg-warning">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h6 class="modal-title">Operation Information</h6>
-				</div>
-
-				<div class="modal-body">
-					<div class="row table-responsive">
-						<fieldset>
-							<div class="form-group col-md-6">
-								<label class="control-label">Operation Date</label>
-								<input type="date" class="form-control" ng-model="operation.date"/>
-							</div>
-							<div class="form-group col-md-6">
-								<label class="control-label">Code Number</label>
-								<input type="text" class="form-control" ng-model="operation.codeNumber"/>
-							</div>
-							<div class="form-group col-md-12">
-								<label class="control-label">Operation</label>
-								<textarea class="form-control" ng-model="operation.operation"></textarea>
-							</div>
-							<div class="form-group pull-right">
-								<button class="btn btn-warning" ng-click="submitOperation()"><i class="icon-list"></i> Add to list</button>
-							</div>
-						</fieldset>
-						<table class="col-md-12 table table-bordered table-condensed">
-							<thead>
-								<tr class="warning">
-									<th>S/N</th>
-									<th>Operation Date</th>
-									<th>Code Number</th>
-									<th>Operation</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr ng-repeat="operation in newPatient.operation">
-									<td contenteditable="">{{$index+1}}</td>
-									<td contenteditable="">{{operation.date}}</td>
-									<td contenteditable="">{{operation.codeNumber}}</td>
-									<td contenteditable="">{{operation.operation}}</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click=""><i class="fa fa-times-circle-o"></i> Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div id="patient_process_check" class="modal fade">
-		<div class="modal-dialog modal-full">
-			<div class="modal-content">
-				<div class="modal-header bg-warning">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h6 class="modal-title">Process Check Information</h6>
-				</div>
-
-				<div class="modal-body">
-					<div class="row table-responsive">
-						<table class="col-md-12 table table-bordered table-condensed">
-							<thead>
-								<tr class="warning">
-									<th>Process Check</th>
-									<th>1<sup>st</sup> Admission Initials/Date</th>
-									<th>2<sup>nd</sup> Admission Initials/Date</th>
-									<th>3<sup>rd</sup> Admission Initials/Date</th>
-									<th>4<sup>th</sup> Admission Initials/Date</th>
-									<th>5<sup>th</sup> Admission Initials/Date</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<th>Arrangement</th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-								</tr>
-								<tr>
-									<th>Diagnosis Entry</th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-								</tr>
-								<tr>
-									<th>Death Register</th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-								</tr>
-								<tr>
-									<th>Coding</th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-								</tr>
-								<tr>
-									<th>Indexing</th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-								</tr>
-								<tr>
-									<th>Arrangement</th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-								</tr>
-								<tr>
-									<th>I.D.C.A</th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-								</tr>
-								<tr>
-									<th>F.H.S.2</th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-								</tr>
-								<tr>
-									<th>P Tracer Card</th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-								</tr>
-								<tr>
-									<th>Filing</th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-									<th contenteditable="" type="date"></th>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-link" data-dismiss="modal" ng-click=""><i class="fa fa-times-circle-o"></i> Close</button>
-					<button type="button" class="btn btn-warning"><i class="icon-list"></i> Add to process check list</button>
 				</div>
 			</div>
 		</div>
@@ -647,14 +332,13 @@
 						<ul class="nav nav-tabs nav-tabs-highlight nav-justified">
 							<li class="active"><a href="#payment-request-new" data-toggle="tab">create new request</a></li>
 							<li><a href="#payment-request-verify" data-toggle="tab">verify payment</a></li>
-							<!-- <li><a href="#payment-request-view" class="dropdown-toggle" data-toggle="tab" ng-click="loadRequests()">view requests</a></li> -->
 						</ul>
 
 						<div class="tab-content">
 							<div class="tab-pane active" id="payment-request-new">
 								<div class="form-group">
 									<div class="input-group">
-										<input class="form-control input-lg" placeholder="Enter a patients number or name here to search" type="search" data-popup="tooltip" data-trigger="focus" title="Click the Advanced link below for more search options" ng-model="search.query"/>
+										<input class="form-control input-lg" placeholder="Enter a patients number or name here to search" type="search" data-popup="tooltip" data-trigger="focus" title="" ng-model="search.query"/>
 										<span class="input-group-btn">
 											<button class="btn btn-warning btn-lg" type="button" ng-click="search(true)"> <i class="{{searched.searchIcon}}"></i></button>
 										</span>
@@ -664,7 +348,7 @@
 									<ul class="media-list overflow-auto" style="max-height: 400px;">
 										<li class="media-header">Found {{searched.totalPageCount}} profiles matching search query</li>
 
-										<li class="media btn col-md-4" ng-repeat="patient in searched.patients" ng-click="showRequestForm(patient['_source'])">
+										<li class="media btn col-sm-4" ng-repeat="patient in searched.patients" ng-click="showRequestForm(patient['_source'])">
 											<div class="media-left media-middle">
 												<a href="#">
 													<img ng-src="{{loadImage(patient['_source'].patientpicture)}}" class="img-circle" alt="">
@@ -683,34 +367,38 @@
 									<!-- {{requestForm.currentPatientProfile}} -->
 									<div class="row">
 										<h1 class="text-center text-black">{{requestForm.currentPatientProfile.patientfullname}}</h1>
-										<div class="form-group col-md-6">
+										<div class="form-group col-sm-6">
 											<select class="select" ng-model="paymentRequestItem.item">
 												<optgroup label="{{key}}" ng-repeat="(key, item) in requestItems">
 													<option ng-repeat="value in item" value="{{value}}">{{value.BillingTypeItemName}}</option>
 												</optgroup>
 											</select>
 										</div>
-										<div class="input-group col-md-6">
-											<input type="number" placeholder="Item Quantity. Defaults to 1" class="form-control col-md-7" ng-model="paymentRequestItem.quantity"/>
+										<div class="input-group col-sm-6">
+											<input type="number" placeholder="Item Quantity. Defaults to 1" class="form-control col-sm-7" ng-model="paymentRequestItem.quantity"/>
 											<span class="input-group-btn">
 												<button class="btn btn-default btn-success" ng-click="addPaymentRequestItemToList()">add</button>
 											</span>
 										</div>
-										<div class="col-md-12 table-responsive">
+										<div class="col-sm-12 table-responsive">
 											<table class="table table-condensed hover">
 												<thead>
 													<tr class="warning">
 														<th>S/N</th>
+														<th>Item Code</th>
 														<th>Item</th>
 														<th>Quantity</th>
+														<th>Amount (<span ng-currency symbol="naira"></span>)</th>
 														<th>Action</th>
 													</tr>
 												</thead>
 												<tbody>
 													<tr ng-repeat="item in paymentRequestItems">
 														<td>{{$index + 1}}</td>
+														<td>{{item._item.BillingTypeItemID}}</td>
 														<td>{{item._item.BillingTypeItemName}}</td>
 														<td>{{item.quantity}}</td>
+														<td>{{item.price}}</td>
 														<td><a class="btn btn-link text-danger" href="#" ng-click="removeItem($index)"><i class="icon-bin"></i> Remove</a></td>
 													</tr>
 												</tbody>
@@ -746,6 +434,5 @@
 		</div>
 	</div>
 </div>
-
 
 <script src="plugins/records/patient/assets/js/webcam-controller.js"></script>

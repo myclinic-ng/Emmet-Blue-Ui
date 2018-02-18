@@ -1,0 +1,81 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/ui/moment/moment.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/pickers/daterangepicker.js"></script>
+<script src="assets/js/plugins/forms/tags/tagsinput.min.js"></script>
+<script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
+<script>
+	$('select.select').select2();
+	$('.daterange').daterangepicker({
+		showWeekNumbers: true,
+		showDropdowns: true,
+        opens: "right",
+        applyClass: 'bg-success',
+        cancelClass: 'btn-default'
+	});
+</script>
+
+
+<div ng-controller="pharmacyReportsController">
+<div class="panel panel-success">
+	<div class="panel-heading">
+		<h6 class="panel-title">Pharmacy Store &amp; Inventory Management Dashboard</h6>
+		<div class="heading-elements">
+			<span class="pull-left">
+				<input type="text" class="form-control daterange" ng-model="dateRange" ng-change="reloadDispensationsTable()" placeholder="select date range">
+			</span>
+			<ul class="icons-list">
+	    		<li>
+	    			<a href="#" ng-click="showRequestFilters = !showRequestFilters"><i class="icon-filter3"></i></a>
+	    		</li>
+	    	</ul>
+		</div>
+	</div>
+	<div class="panel-body">
+		<div class="col-md-12" ng-show="showRequestFilters">
+			<div class="form-group col-md-4">
+				<label class="control-label">Filter By</label>
+				<select class="select" ng-model="filterSelector.type" ng-change="filterSelector.value = null">
+					<optgroup label="Sub Groups">
+						<option value="patienttype">Patient Type</option>
+						<option value="patient">Patient</option>
+						<option value="staff">Staff</option>
+						<option value="billingtype">Billing Type Item</option>
+						<option value="store">Dispensing Store</option>
+					</optgroup>
+				</select>
+			</div>
+			<div class="form-group col-md-8" ng-show="filterSelector.type == 'patienttype'">
+				<label class="control-label">Select Patient Type</label>
+				<select class="select" ng-model="filterSelector.value">
+					<option ng-repeat="type in patientTypes" value="{{type.CategoryName}}<seprator>{{type.CategoryName}}">{{type.CategoryName}}</option>
+				</select>
+			</div>
+			<div class="form-group col-md-8" ng-show="filterSelector.type == 'patient'">
+				<label class="control-label">Enter Patient's Hospital Number</label>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="icon-user-lock"></i></span>
+					<input type="text" class="form-control" ng-model="filterSelector.value" placeholder="Patient ID" /> 
+				</div>
+			</div>
+			<div class="form-group col-md-8" ng-show="filterSelector.type == 'staff'">
+				<label class="control-label">Enter Staff's Username Here</label>
+				<div class="input-group col-md-6">
+					<span class="input-group-addon"><i class="icon-user-lock"></i></span>
+					<input type="text" class="form-control col-md-6" ng-model="filterSelector.value" placeholder="Staff Username" /> 
+				</div>
+				<input type="text" data-role="tagsinput" class="tagsinput-typeahead col-md-6" ng-model="filterSelector.date" placeholder="Add dates to show (mm/dd/yyyy)" /> 
+			</div>
+			<div class="content-group col-md-12">
+				<button class="btn btn-info col-md-3 bg-primary pull-right btn-labeled" ng-click="activateFilter()">
+					<b><i class="icon-filter4"></i></b> Set Filter
+				</button>
+			</div>
+		</div>
+		<div class="table-responsive col-md-12">
+			<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
+
+			</table>
+		</div>
+	</div>
+</div>
+</div>

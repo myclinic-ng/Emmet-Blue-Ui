@@ -18,8 +18,12 @@ angular.module("EmmetBlue")
 				$scope.pageLink = "consultancy/patient-workspace";
 				break;
 			}
+			case "diagnoses-log":{
+				$("#_diagnosis-log").modal("show");
+				break;
+			}
 			case "show-info":{
-				utils.alert("We haven't gathered enough information", "To be able to utilize this feature, we need to gather more information about your use of the software. Usually this takes a week.", "info");
+				utils.alert("We haven't gathered enough information", "To be able to utilize this feature, we need to gather more information about your use of the software.", "info");
 				break;
 			}
 		}
@@ -71,5 +75,10 @@ angular.module("EmmetBlue")
 		}, function(error){
 			utils.errorHandler(error);
 		})
+	}
+
+	$scope.openDiagnosis = function(uuid){
+		utils.storage.currentPatientNumberDiagnosis = uuid;
+		window.location.href = "consultancy/diagnosis";
 	}
 })

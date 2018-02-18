@@ -73,6 +73,10 @@ function nursingPatientWorkspaceController($rootScope, $scope, utils){
 		return new Date(date).toDateString();
 	}
 
+	$scope.toTimeString = function(date){
+		return new Date(date).toLocaleTimeString();
+	}
+
 	function reloadFields(id){
 		utils.serverRequest('/nursing/observation-type/view?resourceId='+id, 'GET').then(function(response){
 			$scope.currentObservationTypeName = response[0].ObservationTypeName;
@@ -124,27 +128,29 @@ function nursingPatientWorkspaceController($rootScope, $scope, utils){
 		$scope.patientProfileLoaded = false;
 		var req = utils.serverRequest("/nursing/ward-admission/view-admitted-patients?resourceId="+$scope.patientNumber, "GET");
 		req.then(function(response){
-			var data = {
-				query: response[0].AdmissionInfo.PatientUUID,
-				size: 1,
-				from: 0
-			}
+			if (typeof response[0] !== "undefined" && typeof response[0].AdmissionInfo !== "undefined"){
+				var data = {
+					query: response[0].AdmissionInfo.PatientUUID,
+					size: 1,
+					from: 0
+				}
 
-			$scope.admissionInfo = response[0];			
-			loadStaffName($scope.admissionInfo.AdmissionInfo.Consultant);
-			loadStaffName($scope.admissionInfo.AdmissionProcessedBy);
-			utils.serverRequest("/patients/patient/search", "POST", data).then(function(response){
-				$scope.patient = response.hits.hits[0]["_source"];
-				$scope.patientProfileLoaded = true;
-				loadMostRecentObservation();
-				loadMostRecentNote();
-				loadMostRecentTreatment();
-				$scope.loadRepositories();
-				loadConsultationNotes();
-				loadConsultantsInNotes($scope.admissionInfo.WardAdmissionID);
-			}, function(error){
-				utils.errorHandler(error);
-			})
+				$scope.admissionInfo = response[0];			
+				loadStaffName($scope.admissionInfo.AdmissionInfo.Consultant);
+				loadStaffName($scope.admissionInfo.AdmissionProcessedBy);
+				utils.serverRequest("/patients/patient/search", "POST", data).then(function(response){
+					$scope.patient = response.hits.hits[0]["_source"];
+					$scope.patientProfileLoaded = true;
+					loadMostRecentObservation();
+					loadMostRecentNote();
+					loadMostRecentTreatment();
+					$scope.loadRepositories();
+					loadConsultationNotes();
+					loadConsultantsInNotes($scope.admissionInfo.WardAdmissionID);
+				}, function(error){
+					utils.errorHandler(error);
+				})
+			}
 		}, function(error){
 			utils.errorHandler(error);
 		})
@@ -224,7 +230,7 @@ function nursingPatientWorkspaceController($rootScope, $scope, utils){
 
 		$scope.process = function(){
 			function success(){
-				var data = {
+				$scope.data = {
 					patientId: patient,
 					observationType: $scope.currentObservationType,
 					observationTypeName: $scope.currentObservationTypeName,
@@ -232,18 +238,32 @@ function nursingPatientWorkspaceController($rootScope, $scope, utils){
 						"Meta Information":{
 							"Observation Type": $scope.currentObservationTypeName,
 							"Carried Out By": $scope.staffFullName,
-							"Date Of Observation": (new Date()).toDateString()
+							"Date Of Observation": (new Date()).toDateString()+", "+(new Date()).toLocaleTimeString()
 						},
 						"Deduction/Conclusions": observation
 					},
 					staffId: staffID
 				};
 
-				utils.serverRequest("/nursing/observation/new", "POST", data).then(function(response){
+				$rootScope.$broadcast("examinationObservationConducted", {
+					result: $scope.data.observation,
+					name: $scope.data.observationTypeName
+				});
+
+				utils.serverRequest("/nursing/observation/new", "POST", $scope.data).then(function(response){
 					utils.notify("Operation Completed Successfully", "Observation Published Successfuly", "success");
 					$scope.observationResult = {};
 					$scope.currentRepository = response.repoId;
 					$rootScope.$broadcast("observationComplete");
+					utils.serverRequest("/nursing/nursing-station-departments/log-patient-processing", "POST", {
+						patient: $scope.data.patientId,
+						nurse: $scope.data.staffId,
+						observation: $scope.currentObservationTypeName,
+						department: utils.storage.currentStaffDepartmentID
+					}, function(response){
+						console.log(response);
+					});
+
 				}, function(error){
 					utils.errorHandler(error);
 				})
@@ -372,6 +392,12 @@ function nursingPatientWorkspaceController($rootScope, $scope, utils){
 
 	$scope.$on("newPharmacyRequestSent", function(){
 		$("#pharmacy-request-form").modal("hide");
-	})
+	});
+
+	$scope.htmlDecode = function(value){
+		var html = $("<div/>").html(value).text();
+
+		return html;
+	}
 }
 

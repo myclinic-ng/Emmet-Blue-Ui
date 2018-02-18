@@ -1,11 +1,22 @@
 angular.module("EmmetBlue")
 
-.controller("nursingPatientDischargeController", function($scope, utils){
+.controller("nursingPatientDischargeController", function($scope, utils, $location){
 	$scope.loadImage = utils.loadImage;
+
+	var getCurrentDepartmentUrl = function(){
+		var userDashboard = ("/"+utils.userSession.getDashboard()).split("/");
+
+		var len = userDashboard.length;
+		delete userDashboard[len - 1];
+		delete userDashboard[0];
+
+		return userDashboard.join("/");
+	};
+
 	function dtAction(data, full, meta, type){
-		console.log(data);
 		observationButtonAction = "manage('process',"+data.PatientAdmissionID+")";
 		viewButtonAction = "manage('view',"+data.PatientAdmissionID+")";
+		redirectButtonAction = "manage('gotoWorkspace',"+data.PatientAdmissionID+")";
 
 		var dataOpts = "data-option-id = '"+data.PatientAdmissionID+"' "+
 					   "data-option-consultant = '"+data.Consultant+"'"+
@@ -15,23 +26,52 @@ angular.module("EmmetBlue")
 					   "data-option-section-id = '"+data.Section+"'"+
 					   "data-option-admission-date = '"+data.AdmissionDate+"'"+
 					   "data-option-discharged-by = '"+data.DichargedBy+"'"+
-					   "data-option-date-discharged = '"+data.DischargeDate+"'";
+					   "data-option-date-discharged = '"+data.DischargeDate+"'"+
+					   "data-option-ward-admission-id = '"+data.WardAdmissionID+"'";
 
 
-		observation = "<button class='btn btn-warning bg-white btn-admission-process  btn-xs btn-labeled' ng-if='!"+data.ReceivedInWard+"' ng-click=\""+observationButtonAction+"\""+dataOpts+"><b><i class='icon-database-check'></i></b> Process</button>";
-		view = "<button class='btn btn-info bg-white btn-admission-process btn-xs btn-labeled' ng-if='"+data.ReceivedInWard+"' ng-click=\""+viewButtonAction+"\""+dataOpts+"><b><i class='icon-database-time2'></i></b>View</button>";
-		return "<div class='btn-group'>"+observation+view+"</div>";
+		view = "<button class='btn btn-info bg-white btn-admission-process btn-xs btn-labeled' ng-click=\""+viewButtonAction+"\""+dataOpts+"><b><i class='icon-database-time2'></i></b>View Admission</button>";
+		view = "<div class='display-block' ng-if='"+data.ReceivedInWard+"'>"+view+
+				"<button class='btn btn-success bg-white btn-xs mt-5 btn-labeled' ng-click=\""+redirectButtonAction+"\""+dataOpts+"><b><i class='icon-folder-download3'></i></b> Load Workspace</button>"+
+				"</div>";
+		return "<div class='btn-group'>"+view+"</div>";
 	}
 
 	$scope.dtInstance = {};
 
 	$scope.dtOptions = utils.DT.optionsBuilder
-	.fromFnPromise(function(){
-		return utils.serverRequest('/consultancy/patient-admission/view-discharged-patients?resourceId='+$scope.currentWard, 'GET');
+	.newOptions()
+	.withFnServerData(function(source, data, callback, settings){
+		var draw = data[0].value;
+        var order = data[2].value;
+        var start = data[3].value;
+        var length = data[4].value;
+
+        var url = '/consultancy/patient-admission/view-discharged-patients?resourceId='+$scope.currentWard+'&paginate&from='+start+'&size='+length;
+		if (typeof data[5] !== "undefined" && data[5].value.value != ""){
+			url += "&keywordsearch="+data[5].value.value;
+		}
+
+		var discharges = utils.serverRequest(url, 'GET');
+		discharges.then(function(response){
+			var records = {
+				data: response.data,
+				draw: draw,
+				recordsTotal: response.total,
+				recordsFiltered: response.filtered
+			};
+
+			callback(records);
+		}, function(error){
+			utils.errorHandler(error);
+		});
 	})
+	.withDataProp('data')
+	.withOption('processing', true)
+	.withOption('serverSide', true)
+	.withOption('paging', true)
 	.withPaginationType('full_numbers')
-	.withDisplayLength(50)
-	.withFixedHeader()
+	.withDisplayLength(10)
 	.withOption('createdRow', function(row, data, dataIndex){
 		utils.compile(angular.element(row).contents())($scope);
 	})
@@ -139,6 +179,7 @@ angular.module("EmmetBlue")
 		$scope.dtInstance.reloadData();
 	}
 
+
 	$scope.manage = function(value, id){
 		switch(value)
 		{
@@ -187,6 +228,15 @@ angular.module("EmmetBlue")
 				});
 				break;
 			}
+			case "gotoWorkspace":{
+				$elem = $(".btn-admission-process[data-option-id='"+id+"']");
+
+				var wardid = $elem.attr('data-option-ward-admission-id');
+
+				utils.storage.currentWorkspacePatientToLoad = wardid;
+				var url = getCurrentDepartmentUrl();
+				$location.path(url+"patient-workspace");
+			}
 		}
 	}
 
@@ -224,7 +274,7 @@ angular.module("EmmetBlue")
 		$scope.forwardEnabled = true; 
 	})
 
-	$scope.$watch(function(){ return $scope.currentWard; }, function(nv){
+	$scope.$watch(function(){ return $scope.currentWard; }, function(ov, nv){
 		if (typeof nv != "undefined"){
 			reloadTable();
 		}

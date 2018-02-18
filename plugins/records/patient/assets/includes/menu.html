@@ -1,4 +1,4 @@
-<script src="assets/js/navbar_fixed_secondary.js"></script>
+<!-- <script src="assets/js/navbar_fixed_secondary.js"></script> -->
 <!-- Second navbar -->
 <div class="navbar navbar-default" id="navbar-second">
 	<ul class="nav navbar-nav no-border visible-xs-block">
@@ -8,29 +8,52 @@
 		<div class="navbar-collapse collapse" id="navbar-second-toggle">
 			<ul class="nav navbar-nav">
 				<li><a href="records/patient/dashboard"><i class="icon-file-presentation"></i> Patient Management Dashboard </a></li>
-				<li><a href="records/patient/archives"><i class="icon-history"></i> Patient Records/Histories </a></li>
-				<li><a href="records/patient/manage-archives"><i class="icon-database-arrow"></i> Patient Repositories </a></li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon-database-menu position-left"></i>
+						Archives &amp; Information Retrieval
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="records/patient/patient-database"><i class="icon-database"></i> Patient Database </a></li>
+						<li><a href="records/patient/archives"><i class="icon-books"></i> Patient Records/Histories </a></li>
+						<li><a href="records/patient/manage-archives"><i class="icon-database-arrow"></i> Patient Repositories </a></li>
+						<li><a href="records/patient/hmo-dashboard"><i class="icon-briefcase"></i> HMO Dashboard </a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon-history position-left"></i>
+						Manage In Patients
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="records/patient/in-patients" data-toggle="dropdown"><i class="icon-file-eye position-left"></i> View Admitted Patients</a></li>
+					</ul>
+				</li>
+				<li><a href="#" data-toggle="dropdown"><i class="icon-file-plus position-left"></i> Indexing &amp; Coding Workspace</a></li>
 			</ul>
 
-			<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-							<i class="icon-cog3"></i>
-							<span class="visible-xs-inline-block position-right">Settings<span>
-							<span class="caret"></span>
-						</a>
+			<!-- <ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon-cog3"></i>
+						<span class="visible-xs-inline-block position-right">Settings<span>
+						<span class="caret"></span>
+					</a>
 
-						<ul class="dropdown-menu dropdown-menu-right">
-							<li class="divider"></li>
-							<li><a href="#" data-toggle="modal" data-target="#setting_records_patient"><i class="icon-gear"></i> All settings</a></li>
-						</ul>
-					</li>
-				</ul>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li><a href="#" data-toggle="modal" data-target="#setting_records_patient"><i class="icon-gear"></i> All settings</a></li>
+					</ul>
+				</li>
+			</ul> -->
 		</div>
 </div>
 <!-- /second navbar -->
 <!-- <ng-include src="'plugins/records/patient/assets/includes/new-repository.html'"></ng-include> -->
 
 <!-- Settings Modal-->
-<ng-include src="'plugins/records/patient/assets/includes/setting/index.html'"></ng-include>
+<!-- <div>
+	<ng-include src="'plugins/records/patient/assets/includes/setting/index.html'"></ng-include>
+</div> -->
 <!--/Settings Modal-->

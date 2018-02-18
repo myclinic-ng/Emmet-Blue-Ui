@@ -1,7 +1,12 @@
 angular.module("EmmetBlue")
 
-.controller("consultancyNewDiagnosisController", function($scope, utils, $http){
+.controller("consultancyNewDiagnosisController", function($scope, utils, $http, $rootScope){
+	$scope.utils = utils;
 	var modules = {};
+	
+	$scope.exists = function(p, ind){
+		return typeof p[ind] != "undefined"
+	}
 
 	modules.allergies = {
 		loadAllergyTypes: function(){
@@ -19,16 +24,18 @@ angular.module("EmmetBlue")
 			});
 		},
 		populateSymptomsTagsInput: function(){
-		    $('.tagsinput-typeahead').tagsinput('input').typeahead({
-	            hint: true,
-	            highlight: true,
-	            minLength: 1
-	        },
-	        {
-	        	source: function(query, process){
-	        		modules.globals.symptoms.typeAheadSource(query, process);
-	        	}
-	        })
+			if (typeof $('.tagsinput-typeahead').tagsinput('input') !== "undefined"){
+			    $('.tagsinput-typeahead').tagsinput('input').typeahead({
+		            hint: true,
+		            highlight: true,
+		            minLength: 1
+		        },
+		        {
+		        	source: function(query, process){
+		        		modules.globals.symptoms.typeAheadSource(query, process);
+		        	}
+		        })
+			}
 		},
 		loadPatientAllergies: function(patient){
 			utils.serverRequest("/patients/patient-allergy/view?resourceId="+patient, "GET")
@@ -52,6 +59,24 @@ angular.module("EmmetBlue")
 	}
 
 	modules.presentingComplaints = {
+		loadComplaintTemplates: function(){
+			var req = utils.serverRequest("/consultancy/complaint-template/view", "GET");
+			req.then(function(response){
+				$scope.presentingComplaints.complaintTemplates = response;
+			}, function(error){
+				utils.errorHandler(error);
+			})
+		},
+		loadTemplateForComplaint: function(template){
+			var req = utils.serverRequest("/consultancy/complaint-template/view-template-items?resourceId="+template, "GET");
+			req.then(function(response){
+				angular.forEach(response, function(value, key){
+					modules.presentingComplaints.addSymptomToComplaintList(value.Item, value.Note);
+				});
+			}, function(error){
+				utils.errorHandler(error);
+			})
+		},
 		symptomSearchAutoSuggestInit: function(){
 			$(".symptom-search").typeahead({
 	            hint: true,
@@ -65,7 +90,12 @@ angular.module("EmmetBlue")
 		},
 		performSymptomSearch: function(){
 			var successCallback = function(response){
-				$scope.presentingComplaints.searchedSymptoms = response.hits.hits;
+				if (response.hits.hits.length > 0){
+					$scope.presentingComplaints.searchedSymptoms = response.hits.hits;
+				}
+				else {
+					modules.presentingComplaints.addSymptomToComplaintList($scope.currentGlobalQuery);
+				}
 			}
 
 			var errorCallback = function(error){
@@ -73,11 +103,18 @@ angular.module("EmmetBlue")
 			}
 
 			var query = $("#presentingComplaints-symptomSearchQuery").val();
-			if (query != ""){
-				modules.globals.symptoms.search(query, successCallback, errorCallback);
-			}
-			else {
-				utils.notify("Invalid search request", "Please make sure you have not submitted an empty search field", "warning");
+			$scope.currentGlobalQuery = query;
+			modules.presentingComplaints.addSymptomToComplaintList(query);
+			// if (query != ""){
+			// 	modules.globals.symptoms.search(query, successCallback, errorCallback);
+			// }
+			// else {
+			// 	utils.notify("Invalid search request", "Please make sure you have not submitted an empty search field", "warning");
+			// }
+		},		
+		catchSearchPress: function(e){
+			if(e.which == 13){
+				modules.presentingComplaints.performSymptomSearch();
 			}
 		},
 		loadSymptom: function(id){
@@ -99,6 +136,7 @@ angular.module("EmmetBlue")
 				utils.notify("Duplicate symptoms are not allowed", "The selected symptom has already been added to the complaints list, please select a new symptom", "warning");
 			}
 			else {
+				$("#presentingComplaints-symptomSearchQuery").val("");
 				$scope.presentingComplaints.complaints.push(symptom);
 			}
 		},
@@ -240,14 +278,34 @@ angular.module("EmmetBlue")
 	}
 
 	modules.patient = {
+		catchLoadProfileEnterPress: function(e){
+			if (e.which == 13){
+				modules.patient.loadPatientProfile();
+			}
+		},
 		searchAutoSuggestInit: function(){
 			$(".patient-search").typeahead({
 	            hint: true,
 	            highlight: true
 	        },
 	        {
+	        	displayKey: 'patientuuid',
 	        	source: function(query, process){
 	        		modules.globals.patient.typeAheadSource(query, process);
+	        	},
+	        	templates: {
+	        		suggestion: function(string){
+        				return	"<div class='row'>"+
+	        						"<div class='col-sm-2'>"+
+	        							"<img class='img img-responsive' src='"+utils.loadImage(string.patientpicture)+"'/>"+
+	        						"</div>"+
+	        						"<div class='col-sm-10'>"+
+	        						"<h5 class='text-bold'>"+string["first name"]+ " " + string["last name"]+"</h5>"+
+	        						"<p>"+string["patientuuid"]+"</p>"+
+	        						"<p class='text-muted'>"+string["patienttypename"]+", "+string["categoryname"]+"</p>"+
+	        						"</div>"+
+	        					"</div>"
+	        		}
 	        	}
 	        })
 		},
@@ -255,22 +313,35 @@ angular.module("EmmetBlue")
 			var successCallback = function(response){
 				var result = response.hits.hits;
 				if (result.length != 1){
-					if (typeof $scope.patient != "undefined" && $scope.patient.isProfileReady == false){
-						$scope.patient.isProfileReady = true;
-					}
+					// if (typeof $scope.patient != "undefined" && $scope.patient.isProfileReady == false){
+					// 	$scope.patient.isProfileReady = true;
+					// }
 					utils.alert("Unable to load profile", "You have sent an ambiguous request to the server. Please refine your search query and try again. It is recommended to use an actual patient number for search.", "info");
 				}
 				else {
 					$scope.patient.profile = result[0]["_source"];
+					$scope.patientInfo = $scope.patient.profile;
 					$scope.patient.isProfileReady = true;
 					modules.allergies.loadPatientAllergies($scope.patient.profile.patientid);
 					utils.notify("Profile loaded successfully", "", "info");
-					modules.globals.loadSavedDiagnosis();
+					modules.globals.loadAllSavedDiagnosis();
 					$scope.patient.history.displayPage='profile';
+
+					if (typeof $scope.patient.profile.auditflags !== "undefined" && $scope.patient.profile.auditflags.length > 0){
+						var message = "";
+						for (var i = 0; i < $scope.patient.profile.auditflags.length; i++) {
+							var count = i+1;
+							if (typeof $scope.patient.profile.auditflags[i].StatusNote != "undefined"){
+								message += "\r\n"+count+". "+$scope.patient.profile.auditflags[i].StatusNote;
+							}
+						}
+						utils.alert("This Profile Has Been Flagged", message, "warning");
+					}
 
 					var req = utils.serverRequest("/patients/patient-repository/view-most-recent-json-by-patient?resourceId="+$scope.patient.profile.patientid, 'GET');
 					req.then(function(response){
 						$scope.mostRecentObservation = response
+						console.log($scope.mostRecentObservation);
 					}, function(error){
 						utils.errorHandler(error);
 						utils.notify("Unable to load most recent observation", "", "warning");
@@ -289,6 +360,7 @@ angular.module("EmmetBlue")
 			if (query != ""){
 				if (typeof $scope.patient != "undefined" && $scope.patient.isProfileReady == true){
 					$scope.patient.isProfileReady = false;
+					$scope.patient.profileLoading = true;
 				}
 				modules.globals.patient.search(query, successCallback, errorCallback);
 			}
@@ -309,91 +381,26 @@ angular.module("EmmetBlue")
 			}, function(error){
 				utils.errorHandler(error);
 			});
-		}
-	}
-
-	modules.conclusion = {
-		addDrugsToPrescriptionToList: function(){
-			$("#modal-drugs").modal("hide");
-			// utils.notify("Operation in progress", "Drugs are being added to the prescription list, please note that this might take a few seconds to complete", "info");
-			angular.forEach($scope.conclusion.searchDrugGroups.conceptGroup, function(value){
-				if (typeof value.conceptProperties != "undefined"){
-					for(var i = 0; i < value.conceptProperties.length; i++){
-						if (typeof value.conceptProperties[i].selected != "undefined" && value.conceptProperties[i].selected == true){
-							modules.conclusion.addPrescriptionToList(value.conceptProperties[i].name);
-						}
-					}
-				}
-			})
 		},
-		addPrescriptionToList: function(item, duration = ""){
-			var prescription = {
-				item: item,
-				duration: duration
-			};
+		loadAdmissionHistory: function(){
+			$scope.patient.history.displayPage = "admissionHistory";
 
-			var duplicationDetected = false;
-			for (var i = 0; i < $scope.conclusion.prescriptionList.length; i++){
-				if ($scope.conclusion.prescriptionList[i].item == prescription.item){
-					duplicationDetected = true;
-					break;
-				}
-			}
-			if (duplicationDetected){
-				utils.notify("Duplicate items are not allowed", item+" has already been added to the prescription list", "warning");
-			}
-			else {
-				$scope.conclusion.prescriptionList.push(prescription);
-			}
-		},
-		removePrescriptionFromList: function(index){
-			$scope.conclusion.prescriptionList.splice(index, 1);
-		},
-		sendToPharmacy: function(){
-			var data = {
-				request: $scope.conclusion.prescriptionList,
-				patientId: $scope.patient.profile.patientid,
-				requestedBy: utils.userSession.getID()
-			}
+			// var request = utils.serverRequest("/patients/patient-repository/view-by-patient?resourceId="+$scope.patient.profile.patientid, "GET");
 
-			var req = utils.serverRequest("/pharmacy/pharmacy-request/new", "POST", data);
+			// request.then(function(response){
+			// 	$scope.patient.history.repositories = response;				
+			// }, function(error){
+			// 	utils.errorHandler(error);
+			// });
+		},
+		loadPendingInvestigations: function(){
+			var req = utils.serverRequest("/lab/patient/view?resourceId=0&patient="+$scope.patient.profile.patientid, "GET");
 
 			req.then(function(response){
-				utils.notify("Operation Successful", "The dispensory has been notified", "success");
-				$("#modal-send-to-pharmacy").modal("hide");
+				$scope.patient.history.pendingInvestigations = response;
 			}, function(error){
 				utils.errorHandler(error);
-			});
-		},
-		drugSearchAutoSuggestInit: function(){
-			$(".drug-search").typeahead({
-	            hint: true,
-	            highlight: true
-	        },
-	        {
-	        	source: function(query, process){
-	        		modules.globals.conclusion.drugTypeAheadSource(query, process);
-	        	}
-	        })
-		},
-		searchDrug: function(){
-			var drug = $("#conclusion-drug").val()
-
-			$scope.conclusion.searchDrugGroups = {
-				name: drug
-			}
-
-			var successCallback = function(response){
-				$scope.conclusion.searchDrugGroups = response.data.drugGroup;
-			}
-
-			var errorCallback = function(error){
-				utils.notify("Unable to reach drugs server", "This is probably due to unavailability of internet access or some general error. Please contact an administrator if this error persists", "warning");
-				$scope.conclusion.addPrescriptionToList(drug);
-				$("#modal-drugs").modal("hide");
-			}
-
-			$http.get(modules.globals.rxNormEndpoint+"/drugs?name="+drug).then(successCallback, errorCallback);
+			})
 		}
 	}
 
@@ -428,6 +435,27 @@ angular.module("EmmetBlue")
         	}, function(error){
         		// errorCallback(error);
         	})
+        },
+        diagnosisSuggestInit: function(){
+        	$(".diagnosis-suggest").typeahead({
+	            hint: true,
+	            highlight: true
+	        },
+	        {
+	        	source: function(query, process){
+	        		utils.serverRequest('/consultancy/diagnosis-search/search?query='+query, "GET").then(function(response){
+		    			var data = [];
+		        		angular.forEach(response, function(value){
+		        			data.push(value.DiagnosisTitle);
+		        		})
+
+		        		data = $.map(data, function (string) { return { value: string }; });
+		        		process(data);
+		    		}, function(error){
+		    			utils.errorHandler(error);
+		    		})
+	        	}
+	        })
         },
 		symptoms: {
 			search: function(query, successCallback, errorCallback){
@@ -505,28 +533,15 @@ angular.module("EmmetBlue")
 	    		modules.globals.patient.search(query, function(response){
 	    			var data = [];
 	        		angular.forEach(response.hits.hits, function(value){
-	        			data.push(value["_source"]["first name"]+ " " + value["_source"]["last name"]);
+	        			data.push(value["_source"]);
 	        		})
 
-	        		data = $.map(data, function (string) { return { value: string }; });
+	        		data = $.map(data, function (string) {
+	        			return string; 
+	        		});
 	        		process(data);
 	    		}, function(error){
 	    			utils.errorHandler(error);
-	    		})
-	    	}
-		},
-		conclusion:{
-			drugTypeAheadSource: function(query, process){
-	    		utils.serverRequest("/consultancy/drug-names/search?phrase="+query, "GET").then(function(response){
-	    			var data = [];
-	        		angular.forEach(response.hits.hits, function(value){
-	        			data.push(value["_source"].displayTermsList.term);
-	        		})
-
-	        		data = $.map(data, function (string) { return { value: string }; });
-	        		process(data);
-	    		}, function(error){
-	    			// utils.errorHandler(error);
 	    		})
 	    	}
 		},
@@ -575,6 +590,7 @@ angular.module("EmmetBlue")
 
 			var data = {
 				patient: $scope.patient.profile.patientid,
+				staff: utils.userSession.getID(),
 				diagnosisBy: utils.userSession.getUUID(),
 				diagnosisTitle: diagnosis.title,
 				diagnosis:{
@@ -605,9 +621,28 @@ angular.module("EmmetBlue")
 
 			utils.serverRequest("/patients/patient-diagnosis/new", "POST", data).then(successCallback, errorCallback);
 		},
-		loadSavedDiagnosis: function(){
+		loadAllSavedDiagnosis: function(){
 			var patient = $scope.patient.profile.patientid;
-			var consultant = utils.userSession.getID();
+			var errorCallback = function(error){
+				utils.errorHandler(error);
+			}
+			utils.serverRequest("/consultancy/saved-diagnosis/view-all-saved-diagnosis?resourceId="+patient, "GET").then(function(response){
+				if (response.length == 0){
+					//continue;
+				}
+				else if (response.length == 1 && response[0].Consultant  == utils.userSession.getID()){
+				}
+				else {
+					$scope.allSavedDiagnoses = response;
+					$("#show-saved-diag-selector").modal("show");
+				}
+				
+				modules.globals.loadSavedDiagnosis();
+			}, errorCallback);
+		},
+		loadSavedDiagnosis: function(patient=0, consultant=0){
+			var patient = (patient == 0) ? $scope.patient.profile.patientid : patient; 
+			var consultant = (consultant == 0) ? utils.userSession.getID() : consultant;
 
 			var successCallback = function(response){
 				if (response.length > 0){
@@ -631,7 +666,7 @@ angular.module("EmmetBlue")
 					$scope.conclusion.diagnosis = {};
 					$scope.conclusion.prescriptionList = [];
 
-					modules.examination.loadExaminationTypes();
+					// modules.examination.loadExaminationTypes();
 				}
 			}
 
@@ -639,6 +674,25 @@ angular.module("EmmetBlue")
 				utils.errorHandler(error);
 			}
 			utils.serverRequest("/consultancy/saved-diagnosis/view?resourceId="+consultant+"&patient="+patient, "GET").then(successCallback, errorCallback);
+		},
+		showFlagNote: function(){
+			$("#flag-note-modal").modal("show");
+		},
+		flagPatient: function(note){
+			var patient = $scope.patient.profile.patientid;
+			var req = utils.serverRequest("/audit/flags/flag-patient?resourceId="+patient+"&note="+note+"&staff="+utils.userSession.getID(), "GET");
+			req.then(function(response){
+				if (response){
+					utils.notify("Operation Successful", "This patients profile has been flagged", "success");
+					$("#flag-note-modal").modal("hide");
+				}
+				else {
+					$("#flag-note-modal").modal("hide");
+					utils.notify("An error occurred", "Unable to flag this profile possibly because patient has not been logged", "error");
+				}
+			}, function(error){
+				utils.errorHandler(error);
+			});
 		}
 	}
 
@@ -655,18 +709,24 @@ angular.module("EmmetBlue")
 				var date = new Date();
 				return date.toDateString();
 			},
+			todayInIso: function(){
+				var date = new Date();
+				return date.toISOString().split('T')[0];
+			},
 			save: modules.globals.saveDiagnosis,
 			submit: modules.globals.submitDiagnosis,
 			registeredLabs: [],
 			registeredInvestigationTypes: [],
-			currentSavedDiagnosisID: 0
+			currentSavedDiagnosisID: 0,
+			flag: modules.globals.showFlagNote,
+			completeFlagging: modules.globals.flagPatient
 		};
 
-		modules.globals.loadRegisteredLabs();
+		// modules.globals.loadRegisteredLabs();
 
-		$scope.$watch(function(){ return $scope.labTests.sendVariables.lab; }, function(nv){
-			modules.globals.loadRegisteredInvestigationTypes(nv);
-		})
+		// $scope.$watch(function(){ if (typeof $scope.labTests !== "undefined"){ return $scope.labTests.sendVariables.lab;} }, function(nv){
+		// 	modules.globals.loadRegisteredInvestigationTypes(nv);
+		// })
 
 		utils.storage.consultancy = {
 		};
@@ -698,21 +758,25 @@ angular.module("EmmetBlue")
 
 		$scope.presentingComplaints = {
 			symptomSearchQuery: "",
+			complaintTemplates: [],
 			performSymptomSearch: modules.presentingComplaints.performSymptomSearch,
 			loadSymptom: modules.presentingComplaints.loadSymptom,
 			complaints: [],
 			addToList: modules.presentingComplaints.addSymptomToComplaintList,
-			removeFromList: modules.presentingComplaints.removeSymptomFromComplaintList
+			removeFromList: modules.presentingComplaints.removeSymptomFromComplaintList,
+			catchSearchPress: modules.presentingComplaints.catchSearchPress,
+			loadTemplateForComplaint: modules.presentingComplaints.loadTemplateForComplaint
 		};
 
 		modules.presentingComplaints.symptomSearchAutoSuggestInit();
+		modules.globals.diagnosisSuggestInit();
 		$scope.presentingComplaints.searchedSymptoms = {};
 
 		$scope.examination = {
 			examinationTypes: []
 		};
 
-		modules.examination.loadExaminationTypes();
+		// modules.examination.loadExaminationTypes();
 
 		$scope.labTests = {
 			performLabTestSearch: modules.labTests.performLabTestSearch,
@@ -731,18 +795,22 @@ angular.module("EmmetBlue")
 			sendForImagingInvestigation: modules.labTests.sendForImagingInvestigation
 		}
 
-		modules.labTests.testSearchAutoSuggestInit();
-		modules.labTests.loadImagingInvestigations();
+		// modules.labTests.testSearchAutoSuggestInit();
+		// modules.labTests.loadImagingInvestigations();
 		$scope.labTests.searchedTests = {};
 		$scope.labTests.imagingTests = {};
 
 		$scope.patient = {
+			catchLoadProfileEnterPress: modules.patient.catchLoadProfileEnterPress,
 			loadPatientProfile: modules.patient.loadPatientProfile,
 			isProfileReady: false,
 			history: {
 				displayPage: 'profile',
 				loadRepositories: modules.patient.loadRepositories,
+				loadPendingInvestigations: modules.patient.loadPendingInvestigations,
+				loadAdmissionHistory: modules.patient.loadAdmissionHistory,
 				repositories: {},
+				pendingInvestigations: {},
 				loadRepo: function(repo){
 					$scope.patient.history.repositories.currentRepository = repo;
 					$("#repository-items").modal("show");
@@ -750,20 +818,17 @@ angular.module("EmmetBlue")
 			}
 		}
 
+		$("#conclusionTitle").on("change", function(e){
+			$scope.conclusion.diagnosis.title = $(this).val();
+		});
+
 		modules.patient.searchAutoSuggestInit();
 		$scope.patient.profile = {};
 		$scope.patient.allergies = {};
 
-		modules.conclusion.drugSearchAutoSuggestInit();
-
 		$scope.conclusion = {
 			prescriptionList: [],
-			diagnosis: {},
-			addPrescriptionToList: modules.conclusion.addPrescriptionToList,
-			removePrescriptionFromList: modules.conclusion.removePrescriptionFromList,
-			addDrugsToPrescriptionToList: modules.conclusion.addDrugsToPrescriptionToList,
-			searchDrug: modules.conclusion.searchDrug,
-			sendToPharmacy: modules.conclusion.sendToPharmacy
+			diagnosis: {}
 		}
 	}();
 
@@ -775,7 +840,7 @@ angular.module("EmmetBlue")
 					   "data-option-name = '"+data.StaffFullName+"' "+
 					   "data-option-role = '"+data.StaffRole+"'";
 
-		select = "<button class='btn btn-success bg-white no-border-radius selectBtn' ng-click=\""+selectButtonAction+"\""+dataOpts+" ><i class='fa fa-user-md'></i> Select</button>";
+		select = "<button class='btn btn-success bg-white no-border-radius selectBtn' ng-click=\""+selectButtonAction+"\""+dataOpts+" ><i class='fa fa-user-sm'></i> Select</button>";
 		return "<div class='btn-group'>"+select+"</div>";
 	}
 
@@ -838,9 +903,73 @@ angular.module("EmmetBlue")
 			$("#refer-patient").modal("hide");
 			$scope.newReferral = {};
 			$scope.referral = {};
-			utils.notify("Patient Referred Successful", $scope.referral.specialist.name+" has been notified about this referral", "success");
+			utils.notify("Patient Referred Successfully", $scope.referral.specialist.name+" has been notified about this referral", "success");
 		}, function(error){
 			utils.errorHandler(error);
 		})
 	}
+
+	$scope.toDateString = function(date){
+		return (new Date(date)).toDateString()+", "+(new Date(date)).toLocaleTimeString();
+	}
+
+	$scope.newAppointment = {};
+	$scope.saveAppointment = function(){
+		$scope.newAppointment.patient = $scope.patient.profile.patientid;
+		$scope.newAppointment.staff = utils.userSession.getID();
+
+		var req = utils.serverRequest("/patients/patient-appointment/new", "POST", $scope.newAppointment);
+
+		req.then(function(success){
+			$("#new-appointment").modal("hide");
+			$scope.newAppointment = {};
+			utils.notify("Appointment Created Successfully", "Reminder broadcasting is in progress", "success");
+		}, function(error){
+			utils.errorHandler(error);
+		})
+	}
+
+	$scope.staffNames = {};
+	function loadStaffName(staffId){
+		if (typeof $scope.staffNames[staffId] == 'undefined'){
+			$scope.staffNames[staffId] = staffId;
+			utils.getStaffFullName(staffId).then(function(response){
+				$scope.staffNames[staffId] = response.StaffFullName;
+			}, function(error){
+				$scope.staffNames[staffId] = staffId;
+			})
+		}
+	}
+	$scope.loadStaffName = loadStaffName;
+
+	$scope.$on("addSentLabInvestigationsToList", function(e, data){
+		angular.forEach(data, function(value){
+			$scope.labTests.addToLabList(value);
+		});
+	})
+
+	$scope.$on("addPrescriptionToList", function(e, data){
+		$scope.conclusion.prescriptionList = data;
+	});
+
+	$scope.$on("examinationObservationConducted", function(e, data){
+		$scope.examination.examinationTypes.push(data);
+	})
+
+	$scope.$watch(function(){ return $scope.conclusion.diagnosis.title; }, function(nv, ov){
+		$rootScope.$broadcast("currentDiagnosis", nv);
+	})
+
+	$scope.loadSavedDiagnosis = function(patient, consultant){
+		$("#show-saved-diag-selector").modal("hide");
+		modules.globals.loadSavedDiagnosis(patient, consultant);
+	}
+
+	$scope.admit = function(){
+		var patient = $scope.patient.profile.patientuuid;
+		$rootScope.$broadcast("prepareNewAdmission", patient);
+		$("#_patient-admission-form").modal("show");	
+	}
+
+
 });

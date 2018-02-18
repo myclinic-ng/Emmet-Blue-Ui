@@ -27,7 +27,7 @@
 	<ul class="nav nav-lg nav-tabs nav-justified no-margin">
 		<li href="#store_new_global_restock" data-toggle="tab" class="active">
 			<a class="text-size-small text-uppercase">
-				New Global Restock
+				<i class="fa fa-plus-circle"></i> New Global Restock
 			</a>
 		</li>
 
@@ -39,7 +39,7 @@
 
 		<li data-toggle="tab" href="#store_settings">
 			<a class="text-size-small text-uppercase">
-				Store Settings
+				<i class="fa fa-cog"></i> Store Settings
 			</a>
 		</li>
 	</ul>
@@ -53,6 +53,7 @@
 		</div>
 
 		<div class="tab-pane fade has-padding" id="store_transfer_to_store">
+			<ng-include src="'plugins/pharmacy/assets/includes/store-transfer.html'"></ng-include>
 		</div>
 
 		<div class="tab-pane fade has-padding" id="store_settings">

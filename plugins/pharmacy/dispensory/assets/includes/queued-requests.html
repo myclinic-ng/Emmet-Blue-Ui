@@ -18,15 +18,24 @@
 				<div class="modal-body">
 					<div class="row" style="margin-top: -10px;">
 						<h1 class="text-center text-info">{{currentRequest.PatientName}}</h1>
-						<div class="content-group" ng-repeat="prescription in currentRequest.Request">
+						<div class="content-group" ng-repeat="prescription in currentRequest.Request" ng-if="!exists(prescription, 'smart')">
 							<label class="control-label"><span class='text-bold'>{{$index + 1}}.</span> {{prescription.item}}</label>
 							<p class="text-bold pl-10">{{prescription.duration}}</p>
+						</div>
+						<div class="content-group" ng-repeat="prescription in currentRequest.Request" ng-if="exists(prescription, 'smart')">
+							<span ng-if="prescription.smart">
+								<label class="control-label"><span class='text-bold'>{{$index + 1}}.</span> <b>{{prescription.item.item.name}}</b></label>
+								<p class="pl-10">{{prescription.item.item.category}}, {{prescription.item.times}} daily for {{prescription.item.duration}} days <span class="label label-success">SMART</span></p>
+							</span>
+							<span ng-if="!prescription.smart">
+								<label class="control-label"><span class='text-bold'>{{$index + 1}}.</span> {{prescription.item.name}} <br/><span class="label label-warning">NOT SMART</span></label>
+							</span>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="submit" class="btn btn-link" data-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-info" ng-click="hmoVerifier()">Ask HMO if this items should be dispensed</button>
+					<button type="submit" class="btn btn-info" ng-click="hmoVerifier()">Send to HMO</button>
 				</div>
 			</div>
 		</div>
@@ -43,10 +52,21 @@
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-md-2">
-							<h1 class="text-center text-info">{{currentRequest.PatientName}}</h1>
-							<div class="content-group" ng-repeat="prescription in currentRequest.Request">
-								<label class="control-label"><span class='text-bold'>{{$index + 1}}.</span> {{prescription.item}}</label>
-								<p class="text-bold pl-10">{{prescription.duration}}</p>
+							<div class="row" style="margin-top: -10px;">
+								<h1 class="text-center text-info">{{currentRequest.PatientName}}</h1>
+								<div class="content-group" ng-repeat="prescription in currentRequest.Request" ng-if="!exists(prescription, 'smart')">
+									<label class="control-label"><span class='text-bold'>{{$index + 1}}.</span> {{prescription.item}}</label>
+									<p class="text-bold pl-10">{{prescription.duration}}</p>
+								</div>
+								<div class="content-group" ng-repeat="prescription in currentRequest.Request" ng-if="exists(prescription, 'smart')">
+									<span ng-if="prescription.smart">
+										<label class="control-label"><span class='text-bold'>{{$index + 1}}.</span> <b>{{prescription.item.item.name}}</b></label>
+										<p class="pl-10">{{prescription.item.item.category}}, {{prescription.item.times}} daily for {{prescription.item.duration}} days <span class="label label-success">SMART</span></p>
+									</span>
+									<span ng-if="!prescription.smart">
+										<label class="control-label"><span class='text-bold'>{{$index + 1}}.</span> {{prescription.item.name}} <br/><span class="label label-warning">NOT SMART</span></label>
+									</span>
+								</div>
 							</div>
 						</div>
 						<div class="col-md-10" style="border-left: 2px solid #5aca2a">

@@ -52,14 +52,16 @@ angular.module("EmmetBlue")
 				var editButtonAction = "manageBillingTypeItems('edit', "+data.BillingTypeItemID+")";
 				var deleteButtonAction = "manageBillingTypeItems('delete', "+data.BillingTypeItemID+")";
 				var viewButtonAction = "manageBillingTypeItems('view', "+data.BillingTypeItemID+")";
+				var controlButtonAction = "manageBillingTypeItems('control', "+data.BillingTypeItemID+")";
 
 				var dataOpt = "data-option-id='"+data.BillingTypeItemID+"' data-option-name='"+data.BillingTypeItemName+"' data-option-price='"+data.BillingTypeItemPrice+"' data-option-rate='"+data.RateIdentifier+"'";
 				
 				var editButton = "<button class='btn btn-default billing-type-items-btn' ng-click=\""+editButtonAction+"\" "+dataOpt+"> <i class='fa fa-pencil'></i></button>";
 				var deleteButton = "<button class='btn btn-default billing-type-items-btn' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"> <i class='fa fa-trash-o'></i></button>";
-				var viewButton = "<button class='btn btn-default billing-type-items-btn' ng-click=\""+viewButtonAction+"\" "+dataOpt+"> <i class='fa fa-eye'></i></button>";
+				var controlButton = "<button class='btn btn-warning bg-white billing-type-items-btn mr-5' ng-click=\""+controlButtonAction+"\" "+dataOpt+"><i class='fa fa-cog'></i> Price Control</button>";
+				var viewButton = "<button class='btn btn-default billing-type-items-btn' ng-click=\""+viewButtonAction+"\" "+dataOpt+"><i class='fa fa-eye'></i> View Price By Patient Type</button>";
 
-				var buttons = "<div class='btn-group'>"+viewButton+editButton+deleteButton+"</button>";
+				var buttons = controlButton+"<div class='btn-group'>"+viewButton+editButton+deleteButton+"</button>";
 				return buttons;
 			}
 		},
@@ -193,7 +195,6 @@ angular.module("EmmetBlue")
 	})
 	.withPaginationType('full_numbers')
 	.withDisplayLength(10)
-	.withFixedHeader()
 	.withOption('createdRow', function(row, data, dataIndex){
 		utils.compile(angular.element(row).contents())($scope);
 	})
@@ -241,7 +242,6 @@ angular.module("EmmetBlue")
 	})
 	.withPaginationType('full_numbers')
 	.withDisplayLength(10)
-	.withFixedHeader()
 	.withOption('createdRow', function(row, data, dataIndex){
 		utils.compile(angular.element(row).contents())($scope);
 	})
@@ -251,6 +251,14 @@ angular.module("EmmetBlue")
             utils.compile(angular.element(header).contents())($scope);
         }
     })
+	// .withButtons([
+	// 	{
+	// 		text: '<i class="fa fa-file"></i> View Default Prices For This Item',
+	// 		action: function(){
+	// 			$scope.toggleCurrentFieldDefaultValueViewFunc();
+	// 		}
+	// 	}
+	// ]);
 
 	$scope.ddttColumns = [
 		utils.DT.columnBuilder.newColumn('PatientTypeName').withTitle("Patient Type"),
@@ -302,7 +310,6 @@ angular.module("EmmetBlue")
 		newBillingTypeItems.billingType = $scope.billingTypeItems;
 		$('.loader').addClass('show');
 
-		console.log(newBillingTypeItems);
 		var saveNewBillingTypeItems = utils.serverRequest('/accounts-biller/billing-type-items/new-price-structure', 'POST', newBillingTypeItems);
 
 		saveNewBillingTypeItems.then(function(response){
@@ -331,6 +338,59 @@ angular.module("EmmetBlue")
 
 	}
 
+	$scope.saveCurrentItemGeneralPrices = function(){
+		var datum = [];
+		for (var i = 0; i < $scope.currentItemGeneralPrices.length; i++){
+			var data = {};
+			data.categoryId = $scope.currentItemGeneralPrices[i].CategoryID;
+			data.price = $scope.currentItemGeneralPrices[i].BillingTypeItemPrice;
+			data.billingTypeItem = $scope.billingTypeItemCurrentPrice;
+
+			datum.push(data);
+		}
+
+		var req = utils.serverRequest("/accounts-biller/billing-type-items/new-price-structure-by-patient-category", "PUT", {"prices":datum});
+
+		req.then(function(response){
+			if (response){
+				utils.notify("Operation Successful", "General Price Updated For The Specified Patient Type Categories", "success");
+				var req = utils.serverRequest("v1/accounts-biller/billing-type-items/view-item-price-by-category?resourceId="+id, "GET");
+				req.then(function(response){
+					$scope.currentItemGeneralPrices = response; 
+				}, function(error){
+					utils.errorHandler(error);
+				});
+			}
+			else {
+				utils.notify("An Error Occurred", "We are unable to determine the cause of this error at the moment, please try again some other time or contact an administrator if this error persists", "error");
+			}
+
+		}, function(error){
+			utils.errorHandler(error);
+		});
+	}
+
+	$scope.saveCurrentItemGeneralPrice = function(){
+		var data = {
+			billingTypeItem: $scope.billingTypeItemCurrentPrice,
+			price: $scope.currentItemGeneralPrice.BillingTypeItemPrice
+		};
+
+		var req = utils.serverRequest("/accounts-biller/billing-type-items/new-general-price-structure", "PUT", data);
+
+		req.then(function(response){
+			if (response){
+				utils.notify("Operation Successful", "General Price Updated For The Specified Patient Type Categories", "success");
+			}
+			else {
+				utils.notify("An Error Occurred", "We are unable to determine the cause of this error at the moment, please try again some other time or contact an administrator if this error persists", "error");
+			}
+
+		}, function(error){
+			utils.errorHandler(error);
+		});
+	}
+
 	$scope.manageBillingTypeItems = function(manageGroup, id){
 		switch(manageGroup.toLowerCase()){
 			case "edit":{
@@ -347,12 +407,35 @@ angular.module("EmmetBlue")
 			}
 			case "view":{
 				$scope.billingTypeItemCurrentPrice = id;
+				$scope.billingTypeItemCurrentName = $(".billing-type-items-btn[data-option-id='"+id+"']").attr('data-option-name');
 				$scope.reloadBillingTypeItemsPricesTable();
+
 				$("#view_billing_type_item_prices").modal("show");
 				break;
 			}
 			case "deletePrice":{
+				break;
 				alert(id);
+			}
+			case "control":{				
+				$scope.billingTypeItemCurrentPrice = id;
+				$scope.billingTypeItemCurrentName = $(".billing-type-items-btn[data-option-id='"+id+"']").attr('data-option-name');
+				var req = utils.serverRequest("/accounts-biller/billing-type-items/view-item-price-by-category?resourceId="+id, "GET");
+				req.then(function(response){
+					$scope.currentItemGeneralPrices = response; 
+				}, function(error){
+					utils.errorHandler(error);
+				});
+
+				var reqGeneral = utils.serverRequest("/accounts-biller/billing-type-items/view-general-item-price?resourceId="+id, "GET");
+				reqGeneral.then(function(response){
+					$scope.currentItemGeneralPrice = response;
+				}, function(error){
+					utils.errorHandler(error);
+				})
+
+				$("#control_billing_type_item_prices").modal("show");
+				break;
 			}
 		}
 	}

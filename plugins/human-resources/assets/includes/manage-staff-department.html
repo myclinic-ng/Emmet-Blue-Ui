@@ -1,0 +1,80 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>
+	$('select.select').select2();
+	$('body').on('hidden.bs.modal', function () {
+	    if($('.modal.in').length > 0)
+	    {
+	        $('body').addClass('modal-open');
+	    }
+	});
+</script>
+
+
+<div id="manage_staff_department" class="modal">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header bg-warning">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h6 class="modal-title"> Staff Department Management <span class="pull-right mr-20"></span></h6>
+			</div>
+
+			<div class="modal-body">
+				<div class="row">
+					<div class="content-group col-md-4">
+						<h6 class="text-center"><u>Change Primary Department</u></h6>
+						<div class="form-group">
+							<center><label class="control-label">Select department to change to</label></center>
+							<select class="select" ng-model="switchDept.secondaryDept">
+								<optgroup ng-repeat="(key, depts) in departments" label="{{key}}">
+									<!-- <label>{{name}}</label> -->
+									<option ng-repeat="dept in depts" value="{{dept.DepartmentID}}">
+										{{dept.Name}}
+									</option>
+								</optgroup>
+							</select>
+							<center><button class="btn btn-info mt-5" ng-click="changePrimaryDepartment()">Set As Primary Department</button></center>
+						</div>
+					</div>
+					<div class="content-group col-md-8" style="border-left: 1px solid #4CAF50;">
+						<h6 class="text-center"><u>Manage Secondary Departments</u></h6>
+						<div class="form-group">
+							<center><label class="control-label">Grant access to a new department</label></center>
+							<select class="select" ng-model="switchDept.secondaryDept">
+								<optgroup ng-repeat="(key, depts) in departments" label="{{key}}">
+									<!-- <label>{{name}}</label> -->
+									<option ng-repeat="dept in depts" value="{{dept.DepartmentID}}">
+										{{dept.Name}}
+									</option>
+								</optgroup>
+							</select>
+							<center><button class="btn btn-danger mt-5" ng-click="addSecondaryDepartment()">Grant Access</button></center>
+						</div>
+						<table class="table table-hover">
+							<thead class="bg-success">
+								<th>S/N</th>
+								<th>Department ID</th>
+								<th>Department</th>
+								<th>Revoke Access</th>
+							</thead>
+							<tbody>
+								<tr ng-repeat="department in currentSecondaryDepartments">
+									<td style="border-right: 1px solid green">{{$index + 1}}</td>
+									<td>{{department.DepartmentID}}</td>
+									<td>{{department.Name}}</td>
+									<td>
+										<a class="btn btn-danger bg-white btn-icon"><i class="fa fa-times"></i></a>
+									</td>
+								</tr>
+								<tr ng-if="currentSecondaryDepartments.length < 1">
+									<td colspan="4" class="text-muted"><center>
+										No secondary department has been associated with this profile
+									</center></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

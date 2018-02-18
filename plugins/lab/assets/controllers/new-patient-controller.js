@@ -1,6 +1,6 @@
 angular.module("EmmetBlue")
 
-.controller('labNewPatientController', function($scope, utils, patientEventLogger){
+.controller('labNewPatientController', function($scope, utils, patientEventLogger, $rootScope){
 	$scope.loadImage = utils.loadImage;
 	$scope.patient = {};
 
@@ -10,8 +10,11 @@ angular.module("EmmetBlue")
 		if (typeof nv != "undefined"){
 			$scope.patientNumber = nv.patientUuid;
 			$scope.patientLab = nv.labId;
+			$scope.currentRequestId = nv.investigationId;
 			$scope.patient.clinicalDiagnosis = nv.clinicalDiagnosis;
 			$scope.patient.investigationRequired = nv.investigationRequired;
+			$scope.patient.requestedBy = nv.requestedBy;
+			$scope.patient.dateRequested = nv.dateRequested;
 			$scope.loadPatientProfile();
 		}
 	})
@@ -24,14 +27,17 @@ angular.module("EmmetBlue")
 		});
 
 		patient.then(function(response){
-			var profile = response.hits.hits[0]["_source"];
-			$scope.patient.firstName = profile["first name"];
-			$scope.patient.lastName = profile["last name"];
-			$scope.patient.gender = profile["gender"];
-			$scope.patient.phoneNumber = profile["phone number"];
-			$scope.patient.address = profile["home address"];
-			$scope.patient.patientID = profile["patientid"];
-			$scope.patient.picture = profile["patientpicture"];
+			if (typeof response.hits.hits[0] !== "undefined"){
+				var profile = response.hits.hits[0]["_source"];
+				$scope.patient.firstName = profile["first name"];
+				$scope.patient.lastName = profile["last name"];
+				$scope.patient.gender = profile["gender"];
+				$scope.patient.phoneNumber = profile["phone number"];
+				$scope.patient.dateOfBirth = profile["date of birth"];
+				$scope.patient.address = profile["home address"];
+				$scope.patient.patientID = profile["patientid"];
+				$scope.patient.picture = profile["patientpicture"];	
+			}
 		}, function(error){
 			utils.errorHandler(error);
 		})
@@ -65,26 +71,48 @@ angular.module("EmmetBlue")
 
 	$scope.savePatient = function(){
 		var patient = $scope.patient;
-
+		patient.request = $scope.currentRequestId;
+		patient.investigations = $scope.investigations;
 		var result = utils.serverRequest("/lab/patient/new", "POST", patient);
 		result.then(function(response){
-			utils.alert("Operation successful", "New patient registered successfully", "success");
-			$("#_new_patient").modal("hide");
-			$rootScope.$broadcast("reloadLabPatients", {});
-			if (typeof $scope.patient.patientID !== "undefined"){
-				var eventLog = patientEventLogger.lab.newPatientRegisteredEvent(
-					$scope.patient.patientID,
-					$scope.investigationTypeArray[$scope.patient.investigationTypeRequired].InvestigationTypeName, 
-					response.lastInsertId
-				);
-				eventLog.then(function(response){
-					//patient registered event logged
-				}, function(response){
-					utils.errorHandler(response);
+			if (response){
+				utils.alert("Operation successful", "New patient registered successfully", "success");
+
+				utils.serverRequest("/lab/lab-request/close-request", "POST", {"request": $scope.currentRequestId, "staff": utils.userSession.getID()})
+				.then(function(response){
+					$rootScope.$broadcast("ReloadQueue");
+				}, function(error){
+					utils.errorHandler(error);
 				});
+
+				$("#_new_patient").modal("hide");
+				$rootScope.$broadcast("reloadLabPatients", {});
+				if (typeof $scope.patient.patientID !== "undefined"){
+					var eventLog = patientEventLogger.lab.newPatientRegisteredEvent(
+						$scope.patient.patientID,
+						$scope.investigationTypeArray[$scope.patient.investigationTypeRequired].InvestigationTypeName, 
+						response.lastInsertId
+					);
+					eventLog.then(function(response){
+						//patient registered event logged
+					}, function(response){
+						utils.errorHandler(response);
+					});
+				}
 			}
 		}, function(error){
 			utils.errorHandler(error);
+		});
+	}
+
+	$scope.investigations = [];
+	$scope.addInvestigationToList = function(){
+		$scope.investigations.push({
+			"lab":$scope.patientLab,
+			"investigation":$scope.investigation,
+			"note":$scope.investigationNote,
+			"lName":$("option[data-id='ln-"+$scope.patientLab+"']").attr("data-name"),
+			'iName':$("option[data-id='itid-"+$scope.investigation+"']").attr("data-name")
 		});
 	}
 });

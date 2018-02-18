@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="author" content="Samuel Adeshina, samueladeshina73@gmail.com">
-	<!-- For Saint Gerard's Catholic Hospital by  --><title>Emmetblue™</title>
+	<title>Emmetblue™</title>
 
 	<link rel="apple-touch-icon" sizes="57x57" href="assets/images/favicons/apple-icon-57x57.png">
 	<link rel="apple-touch-icon" sizes="60x60" href="assets/images/favicons/apple-icon-60x60.png">
@@ -27,13 +27,24 @@
 	<meta name="theme-color" content="#ffffff">
 	<!-- Core JS files -->
 	<!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">  -->
+	<script>
+		if ('serviceWorker' in navigator) {
+		  window.addEventListener('load', function() {
+		    navigator.serviceWorker.register('/sw.js').then(function(registration) {
+		    	
+		    }, function(err) {
+		      console.log('ServiceWorker registration failed: ', err);
+		    });
+		  });
+		}
+	</script>
 	<script
 		type="text/javascript"
 		src="assets/js/core/libraries/headjs/head.min.js"
 		data-headjs-load="init.js"
 	>
 	</script>
-	<!-- /core js files -->	
+	
 	<style>
 		@font-face {
 		  font-family: 'Open Sans';
@@ -64,6 +75,7 @@
 			z-index: 1151 !important;
 		}
 	</style>
+	<!-- livezilla.net code --><!-- <script type="text/javascript" id="6b241f2fd1f3e9b34b6b558de1b42142" src="https://support.emmetblue.org.ng/livezilla/script.php?id=6b241f2fd1f3e9b34b6b558de1b42142"></script> --><!-- http://www.livezilla.net -->
 </head>
 
 <body ng-cloak>
@@ -85,7 +97,7 @@
 				</div>
 				<!-- /page content -->
 				<div class="footer text-muted" ng-cloak>
-					&copy; 2016 - {{currentYear}}. <a href="#">For St. Gerard's Catholic Hospital</a> By <a href="#" class="text-muted" ng-click="showEmmetBlueInfo()"> EmmetBlue&reg;</a>
+					&copy; 2016 - {{currentYear}}. <a href="#">For {{userClient.short_name}}</a> By <a href="#" class="text-muted" ng-click="showEmmetBlueInfo()"> EmmetBlue&reg;</a>
 				</div>
 			</div>
 			<!-- /page container -->

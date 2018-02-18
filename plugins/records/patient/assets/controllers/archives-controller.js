@@ -11,7 +11,7 @@ angular.module("EmmetBlue")
 	function loadTimeline(patientId){
 		var timelineReq = recordsPatientWidgetFactory.loadTimeline(patientId);
 		timelineReq.then(function(response){
-			$scope.timelineData = response.hits.hits;
+			$scope.timelineData = response;
 		}, function(response){
 			utils.errorHandler(response);
 		})

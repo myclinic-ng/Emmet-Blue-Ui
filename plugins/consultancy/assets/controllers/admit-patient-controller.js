@@ -14,6 +14,18 @@ angular.module("EmmetBlue")
 	}
 	$scope.initAdmissionForm();
 
+	$scope.loadInfoOnEnterPress = function(e){
+		if (e.which == 13){
+			$scope.loadInfo();
+		}
+	}
+
+	$scope.$on("prepareNewAdmission", function(e, data){
+		var uuid = data;
+		$("#patientNumber").val(uuid);
+		$scope.loadInfo();
+	});
+
 	var showBigSpace = function(){
 		$(".bigSpace").addClass("col-md-8").removeClass("col-md-12");
 		$scope.showInfo = true;
@@ -141,6 +153,7 @@ angular.module("EmmetBlue")
 			$("#_patient-admission-form").modal("hide");
 			$scope.initAdmissionForm();
 		}, function(error){
+			utils.notify("Unable to admit patient", "Please make sure this patient is not already admitted or being processed for discharge", "info");
 			utils.errorHandler(error);
 		});
 	}

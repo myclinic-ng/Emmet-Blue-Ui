@@ -8,7 +8,7 @@
 				<h6 class="text-muted text-primary">BILL TO</h6>
 				<span class="pull-left display-block">
 					<div class="display-block"><h6>Number: <span class="">{{patient.patientuuid}}</span></h6></div>
-					<div class="display-block"><h6>Patient: <span class="">{{patient.patientfullname}}</span></h6></div>
+					<div class="display-block"><h6>Patient: <span class="">{{patient.patientfullname}} <a class="btn btn-xs" href='#' ng-click='copyToClipboard(patient.patientfullname)'><i class='icon-copy2 text-primary'></i></a></span></h6></div>
 				</span>
 			</div>
 			<div class="col-xs-6 content-group">

@@ -1,5 +1,9 @@
 angular.module("EmmetBlue")
 
+.filter("unsafe", function($sce){
+	return $sce.trustAsHtml;
+})
+
 .controller("consultancyPatientWorkspaceController", function($rootScope, $scope, utils, $http){
 	consultancyPatientWorkspaceController($rootScope, $scope, utils, $http);
 });
@@ -57,7 +61,11 @@ function consultancyPatientWorkspaceController($rootScope, $scope, utils, $http)
 	}
 
 	$scope.toDateString = function(date){
-		return new Date(date).toDateString();
+		return (new Date(date)).toDateString()+", "+(new Date(date)).toLocaleTimeString();
+	}
+
+	$scope.toTimeString = function(date){
+		return new Date(date).toLocaleTimeString();
 	}
 
 	$scope.repositories = [];
@@ -136,6 +144,9 @@ function consultancyPatientWorkspaceController($rootScope, $scope, utils, $http)
 			utils.serverRequest("/patients/patient/search", "POST", data).then(function(response){
 				$scope.patient = response.hits.hits[0]["_source"];
 				$scope.patientProfileLoaded = true;
+				$scope.archives = {
+					displayPage: 'repositories'
+				};				
 				$scope.loadRepositories();
 				loadConsultationNotes();
 				loadConsultantsInNotes($scope.admissionInfo.WardAdmissionID);
@@ -176,8 +187,6 @@ function consultancyPatientWorkspaceController($rootScope, $scope, utils, $http)
 				},
 				staffId: staffID
 			};
-
-			console.log(data);
 
 			utils.serverRequest("/nursing/observation/new", "POST", data).then(function(response){
 				utils.notify("Operation Completed Successfully", "Observation Published Successfuly", "success");
@@ -251,7 +260,8 @@ function consultancyPatientWorkspaceController($rootScope, $scope, utils, $http)
 		var note = {};
 		note.consultant = utils.userSession.getID();
 		note.admissionId = $scope.admissionInfo.WardAdmissionID;
-		note.note = $scope.currentNote;
+		// note.note = $scope.currentNote;
+		note.note = $scope.htmlEncode($("#currentNote").code());
 
 		var req = utils.serverRequest("/consultancy/consultation-sheet/new", "POST", note);
 		req.then(function(response){
@@ -305,7 +315,7 @@ function consultancyPatientWorkspaceController($rootScope, $scope, utils, $http)
 				var req = utils.serverRequest("/consultancy/patient-admission/discharge", "POST", data);
 
 				req.then(function(response){
-					utils.alert("Discharge Process Commenced", "The nursing stations has been notified about this patient's discharge successfully", "success");
+					utils.alert("Discharge Process Commenced", "The nursing stations has been notified about this patient's discharge.", "success");
 				}, function(error){
 					utils.errorHandler(error);
 				})
@@ -314,8 +324,26 @@ function consultancyPatientWorkspaceController($rootScope, $scope, utils, $http)
 		}
 	})	
 
-	if (typeof utils.storage.currentWorkspacePatientToLoad != "undefined" && utils.storage.currentWorkspacePatientToLoad != null){
-		$scope.patientNumber = utils.storage.currentWorkspacePatientToLoad;
-		$scope.loadPatient();
+	$scope.$watch(function(){
+		return utils.storage.currentWorkspacePatientToLoad;
+	}, function(nv){
+		if (typeof nv != "undefined" && nv != null){
+			$scope.patientNumber = nv;
+			$scope.loadPatient();
+		}
+	})
+
+	$scope.htmlEncode = function(value){
+		return $("<div/>").text(value).html();
 	}
+
+	$scope.htmlDecode = function(value){
+		var html = $("<div/>").html(value).text();
+
+		return html;
+	}
+
+	$scope.$on("addSentLabInvestigationsToList", function(e, data){
+		$("#lab-request-form").modal("hide");
+	})
 }

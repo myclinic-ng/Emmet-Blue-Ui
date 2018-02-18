@@ -1,0 +1,71 @@
+<div ng-controller="workSchedulesController">
+	<h2 class="text-center">{{ calendarTitle }}</h2>
+	<div class="row">
+		<div class="col-md-6 text-center">
+		  <div class="btn-group">
+		    <button
+		      class="btn btn-primary"
+		      mwl-date-modifier
+		      date="viewDate"
+		      decrement="calendarView"
+		      ng-click="cellIsOpen = false">
+		      Previous
+		    </button>
+		    <button
+		      class="btn btn-default"
+		      mwl-date-modifier
+		      date="viewDate"
+		      set-to-today
+		      ng-click="cellIsOpen = false">
+		      Today
+		    </button>
+		    <button
+		      class="btn btn-primary"
+		      mwl-date-modifier
+		      date="viewDate"
+		      increment="calendarView"
+		      ng-click="cellIsOpen = false">
+		      Next
+		    </button>
+		  </div>
+		</div>
+
+		<div class="col-md-6 text-center">
+		  <div class="btn-group">
+		    <button
+		      class="btn btn-primary"
+		      ng-click="calendarView = 'year'">
+		      Year
+		    </button>
+		    <button
+		      class="btn btn-default"
+		      ng-click="calendarView = 'month'">
+		      Month
+		    </button>
+		    <button
+		      class="btn btn-default"
+		      ng-click="calendarView = 'week'">
+		      Week
+		    </button>
+		    <button
+		      class="btn btn-primary"
+		      ng-click="calendarView = 'day'">
+		      Day
+		    </button>
+		  </div>
+		</div>
+	</div>
+
+	<br>
+
+	<mwl-calendar
+		events="events"
+		view="calendarView"
+		view-title="calendarTitle"
+		view-date="viewDate"
+		day-view-start="06:00"
+		day-view-end="22:59"
+		day-view-split="30"
+		cell-is-open="true">
+	</mwl-calendar>
+</div>

@@ -1,49 +1,43 @@
+<!-- <script src="plugins/records/patient/assets/js/webcam-controller.js"></script> -->
 <div class="panel panel-body">
 	<div class="media">
 		<div class="media-left">
 			<a href="{{loadImage(patientInfo.patientpicture)}}" data-popup="lightbox">
 				<img ng-src="{{loadImage(patientInfo.patientpicture)}}" style="width: 100px; height: 100px;" class="img-circle" alt="">
+				<span class="badge bg-danger-400 media-badge" style="font-size: 1.3em; margin-left: 10px" ng-if="patientInfo.auditflags.length > 0"><i class="fa fa-exclamation"></i></span>
 			</a>
+
+			<div class="col-xs-12" style="border-left: 1px solid red">
+				<p class="text-bold" ng-repeat="note in patientInfo.auditflags">{{$index+1}}. {{note.StatusNote}}</p>
+			</div>
 		</div>
 
 		<div class="media-body">
-			<h5 data-popup="tooltip" title="{{patientInfo.patientfullname}}">{{patientInfo.patientfullname}}</h5>
-			<h5><span class="text-muted"><small>{{patientInfo.patientuuid}} | {{patientInfo.patienttypename}}</small></span></h5>
-			<p class="text-muted">
-				<span class="badge badge-success" ng-if="patientInfo.patientprofilelockstatus"><i class="icon-lock2"></i> profile locked</span>
-				<span class="badge badge-danger" ng-if="!patientInfo.patientprofilelockstatus"><i class="icon-unlocked2"></i> profile unlocked</span>
-				<span class="badge badge-info"><i class="icon-calendar"></i> last visit: <u>12/10/2016</u></info>
-			</p>
+			<div class="col-xs-12">
+				<h5 data-popup="tooltip" title="{{patientInfo.patientfullname}}">{{patientInfo.patientfullname}}</h5>
+				<h5><span class="text-info"><small>{{patientInfo.patientuuid}} | {{patientInfo.patienttypename}}</small></span></h5>
+				<p class="text-muted">
+					<span class="badge badge-success" ng-show="patientInfo.patientprofilelockstatus == 1"><i class="icon-lock2"></i> profile locked</span>
+					<span class="badge badge-danger" ng-show="patientInfo.patientprofilelockstatus == 0"><i class="icon-unlocked2"></i> profile unlocked</span>
+					<!-- <span class="badge badge-info"><i class="icon-calendar"></i> last visit: <u>12/10/2016</u></info> -->
+				</p>
+			</div>
+
 
 			<div class="btn-group">
-            	<button class="btn btn-xs" ng-if="!patientInfo.patientprofilelockstatus" data-popup="tooltip" title="Lock profile" data-container="body" data-toggle="modal" data-target="" ng-click="toggleProfileLockState(true, patientInfo.patientid)">
+            	<button class="btn btn-xs" ng-if="patientInfo.patientprofilelockstatus == 0" data-popup="tooltip" title="Lock profile" data-container="body" data-toggle="modal" data-target="" ng-click="toggleProfileLockState(true, patientInfo.patientid)">
             		<i class="icon-shield-check"></i> Lock profile
             	</button>
-            	<button class="btn btn-xs" ng-if="patientInfo.patientprofilelockstatus" data-popup="tooltip" title="Unlock Profile" data-container="body" data-toggle="modal" data-target="#paymentRequestLocker" ng-click="toggleProfileLockState(false, patientInfo.patientid)">
+            	<button class="btn btn-xs" ng-if="patientInfo.patientprofilelockstatus == 1" data-popup="tooltip" title="Unlock Profile" data-container="body" data-toggle="modal" data-target="#paymentRequestLocker" ng-click="toggleProfileLockState(false, patientInfo.patientid)">
             		<i class="icon-shield-notice"></i> Unlock profile
+            	</button>
+            	<button class="btn btn-xs" data-popup="tooltip" title="Appointments" data-container="body" data-toggle="modal" data-target="#view-appointments-{{patientInfo.patientid}}">
+            		<i class="icon-calendar2"></i><span class="badge badge-danger" ng-if="appointmentsCount > 0">{{appointmentsCount}}</span>
             	</button>
             	<button class="btn btn-xs" data-popup="tooltip" title="View Profile" data-container="body" data-toggle="modal" data-target="#view-patient-{{patientInfo.patientid}}">
             		<i class="icon-new-tab"></i> 
             	</button>
-            	<button class="btn btn-xs" data-popup="tooltip" title="Print Card" data-container="body" data-toggle="modal" data-target="#">
-            		<i class="icon-history"></i> 
-            	</button>
 			</div>
-
-			<!-- <ul class="icons-list">
-            	<li ng-if="!patientInfo.patientprofilelockstatus">
-            		<a href="#" data-popup="tooltip" title="Lock profile" data-container="body" data-toggle="modal" data-target="" ng-click="toggleProfileLockState(true, patientInfo.patientid)"><i class="icon-shield-check"></i> Lock profile</a>
-            	</li>
-            	<li ng-if="patientInfo.patientprofilelockstatus">
-            		<a href="#" data-popup="tooltip" title="Unlock Profile" data-container="body" data-toggle="modal" data-target="#paymentRequestLocker" ng-click="toggleProfileLockState(false, patientInfo.patientid)"><i class="icon-shield-notice"></i> Unlock profile</a>
-            	</li>
-            	<li>
-            		<a href="#" data-popup="tooltip" title="View Profile" data-container="body" data-toggle="modal" data-target="#view-patient-{{patientInfo.patientid}}"><i class="icon-new-tab"></i> Load profile</a>
-            	</li>
-            	<li>
-            		<a href="#" data-popup="tooltip" title="Print Card" data-container="body" data-toggle="modal" data-target="#"><i class="icon-history"></i> History</a>
-            	</li>
-        	</ul> -->
 		</div>
 	</div>
 </div>
@@ -57,17 +51,17 @@
 			</div>
 
 			<div class="modal-body">
-				<div class="col-md-3">
+				<div class="col-sm-3">
 					<div class="sidebar sidebar-secondary sidebar-default">
 							<div class="sidebar-content">
 
 								<!-- Actions -->
 								<div class="sidebar-category">
-									<div class="category-title">
+									<div class="category-title bg-success">
 										<span>Actions</span>
-										<ul class="icons-list">
+										<!-- <ul class="icons-list">
 											<li><a href="#" data-action="collapse"></a></li>
-										</ul>
+										</ul> -->
 									</div>
 
 									<div class="category-content">
@@ -78,8 +72,8 @@
 											</div>
 											
 											<div class="col-xs-6">
-												<button type="button" class="btn bg-warning-400 btn-block btn-float btn-float-lg"><i class="icon-stats-bars"></i> <span>Repositories</span></button>
-												<button type="button" class="btn bg-blue btn-block btn-float btn-float-lg"><i class="icon-cog3"></i> <span>History</span></button>
+												<button type="button" class="btn bg-warning-400 btn-block btn-float btn-float-lg" ng-click="toggleView('repos'); broadcastRepoPatient(patientInfo.patientid);"><i class="icon-stats-bars"></i> <span>Repositories</span></button>
+												<button type="button" class="btn bg-danger btn-block btn-float btn-float-lg" ng-click="toggleView('editProfile')"><i class="icon-cog3"></i> <span>Edit Profile</span></button>
 											</div>
 										</div>
 									</div>
@@ -88,10 +82,65 @@
 							</div>
 						</div>
 				</div>
-				<div class="col-md-9" id="view-patient-{{patientInfo.patientid}}-content-area">
+				<div class="col-sm-9" id="view-patient-{{patientInfo.patientid}}-content-area">
 					<div class="watermark"></div>
-					<ng-patient-card patient-info="patientInfo" ng-show="viewItems.card"></ng-patient-card>
-					<ng-patient-profile patient-info="patientInfo" ng-show="viewItems.profile"></ng-patient-profile>
+					<ng-patient-card patient-info="patientInfo" ng-if="viewItems.card"></ng-patient-card>
+					<ng-patient-profile patient-info="patientInfo" ng-if="viewItems.profile"></ng-patient-profile>
+					<ng-edit-profile patient-info="patientInfo" ng-if="viewItems.editProfile"></ng-edit-profile>
+					<ng-manage-patient-repo current-patient="currentPatient" ng-if="viewItems.repos"></ng-manage-patient-repo>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-link" data-dismiss="modal" ng-click=""><i class="fa fa-times-circle-o"></i> Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="view-appointments-{{patientInfo.patientid}}" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header bg-warning">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h6 class="modal-title">Patient Appointments</h6>
+			</div>
+
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-6 pull-right mb-10">
+						<label class="control-label text-center">Filter</label>
+						<input class="form-control" placeholder="Filter Appointments" ng-model="appointmentFilter"/>
+					</div>
+
+					<table class="table table-striped">
+						<thead class="bg-info">
+							<th>S/N</th>
+							<th>Staff</th>
+							<th>Appointment Reason</th>
+							<th>Appointment Date</th>
+						</thead>
+						<tbody>
+							<tr ng-repeat="appointment in appointments | filter: appointmentFilter">
+								<td>{{$index + 1}}</td>
+								<td>
+									<div class='media-left media-middle'>
+										<a href='#'><img ng-src="{{loadImage(appointment.staffInfo.StaffPicture)}}" class='img-circle img-xs' alt=''></a>
+									</div>
+									<div class='media-left'>
+										<div class='text-bold'>{{appointment.staffInfo.StaffFullName}}</div>
+										<div class=''>
+											{{appointment.staffInfo.Role.Name}}
+										</div>
+									</div>
+								</td>
+								<td>{{appointment.AppointmentReason}}</td>
+								<td>{{toDateString(appointment.AppointmentDate)}}</td>
+							</tr>
+							<tr ng-if="appointments.length < 1">
+								<td colspan="4"><center><span class="text-muted text-center">No Appointments Has Been Created For This Patient</span></center></td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 			</div>
 			<div class="modal-footer">
@@ -102,23 +151,58 @@
 </div>
 
 <div id="paymentRequestLocker-{{patientInfo.patientid}}" class="modal fade">
-	<div class="modal-dialog modal-sm">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content" style="margin-top: 30%">
 			<div class="modal-header bg-success">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h6 class="modal-title">Verify Action</h6>
+				<h6 class="modal-title">Enter Payment Request Code If Available</h6>
 			</div>
 
 			<div class="modal-body">
 				<div class="row">
-					<div class="content-group">
-						<label class="control-label text-center"><small><i class="icon-info22 text-info"></i> Leave this field blank if theres no payment request</small></label>
+					<div class="content-group col-md-5">
+						<label class="control-label"><small> This can only be found on the receipt issued at the point of payment. Leave this field blank if theres no payment available</small></label>
 						<input class="form-control" placeholder="enter a verified payment request number here" ng-model="requestNumberForLocker"/>
+						<div class="clear"><br/></div>
+
+						<div class="col-md-12"><img src="{{loadImage(patientInfo.patientpicture)}}" class="img img-responsive pull-left" width="150" height="150"/></div>
+						<div class="col-xs-12">
+							<h5 data-popup="tooltip" title="{{patientInfo.patientfullname}}">{{patientInfo.patientfullname}}</h5>
+							<h5><span class="text-info"><small>{{patientInfo.patientuuid}} | {{patientInfo.patienttypename}}</small></span></h5>
+						</div>
+					</div>
+					<div class="col-md-7">
+						<div class="row">
+							<h6 class="text-primary text-center">Select a doctor from the list below</h6>
+							<div class="text-center col-md-12">
+								<input class="form-control" placeholder="Filter doctors" ng-model="doctorFilter"/>
+							</div>
+							<div class="col-md-12 overflow-auto mt-15" style="height: 350px">
+								<table class="table table-condensed table-hover">
+									<thead class="bg-success">
+										<th colspan="2" class="text-center">Doctor</th>
+										<th>Queue</th>
+									</thead>
+									<tbody>
+										<tr ng-repeat="doctor in doctors | filter:doctorFilter">
+											<td style="border-right: 1px solid #4CAF50">
+												<input type="radio" name="selectedDoctor" ng-model="$parent.selectedDoctor" value="{{doctor.StaffID}}"/>
+											</td>
+											<td>
+												<span class="display-block">{{doctor.StaffFullName}}</span>
+												<span class="text-muted text-thin">{{doctor.StaffRole}}</span>
+											</td>
+											<td class="text-bold">{{doctor.queueCount}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-labeled btn-success" ng-click="unlockProfile()">
+				<button type="button" class="btn btn-labeled btn-success" ng-click="queuePatient()">
 					<b><i class="icon-arrow-right5"></i></b> Continue
 				</button>
 			</div>

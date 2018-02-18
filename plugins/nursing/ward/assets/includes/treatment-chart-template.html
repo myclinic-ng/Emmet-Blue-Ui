@@ -11,7 +11,7 @@
 	</div>
 
 	<div id="new_item" class="modal fade">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header bg-info">
 					<button type="button" class="close" onclick="$('#new_item').modal('hide')">&times;</button>
@@ -19,23 +19,57 @@
 				</div>
 
 				<div class="modal-body">
-					<div class="form-group">
-						<div class="row">
-							<div class="col-sm-12 mt-10">
-								<label>Drug / Injection</label>
-								<input type="text" class="form-control" ng-model="treatmentChart.drug">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="row">
+								<div class="col-sm-12 mt-10">
+									<label>Drug / Injection</label>
+									<input type="text" class="form-control" ng-model="treatmentChart.drug">
+								</div>
+								<div class="col-sm-6 mt-10">
+									<label>Dosage</label>
+									<input type="text" class="form-control" ng-model="treatmentChart.dose">
+								</div>
+								<div class="col-sm-6 mt-10">
+									<label>Route</label>
+									<input type="text" class="form-control" ng-model="treatmentChart.route">
+								</div>
+								<div class="col-sm-12 mt-10">
+									<label>Comment / Extra Note</label>
+									<textarea cols="3" rows="3" class="form-control" ng-model="treatmentChart.note"></textarea>
+								</div>
+								<div class="clearfix"></div>
+								<div class="col-md-12 mt-20">
+									<button type="button" class="btn btn-success pull-right" ng-click="addToChart()"> Add To List</button>
+								</div>
 							</div>
-							<div class="col-sm-6 mt-10">
-								<label>Dosage</label>
-								<input type="text" class="form-control" ng-model="treatmentChart.dose">
-							</div>
-							<div class="col-sm-6 mt-10">
-								<label>Route</label>
-								<input type="text" class="form-control" ng-model="treatmentChart.route">
-							</div>
-							<div class="col-sm-12 mt-10">
-								<label>Comment / Extra Note</label>
-								<textarea cols="3" rows="3" class="form-control" ng-model="treatmentChart.note"></textarea>
+						</div>
+						<div class="col-md-6">
+							<table class="table table-hover">
+								<thead class="bg-success">
+									<th>Drug/Injection</th>
+									<th>Dosage</th>
+									<th>Route</th>
+								</thead>
+								<tbody>
+									<tr ng-repeat="item in treatmentItems">
+										<td>
+											<span class="text-bold">{{item.drug}}</span>
+											<br/>
+											<span>{{item.note}}</span>
+										</td>
+										<td>{{item.dose}}</td>
+										<td>{{item.route}}</td>
+									</tr>
+									<tr ng-if="treatmentItems.length < 1">
+										<td colspan="3" class="text-center"><span class="text-muted">No Item Has Been Added</span>
+									</tr>
+								</tbody>
+							</table>
+							<div class="clearfix"></div>
+							<div class="form-group mt-20">
+								<label class="control-label">Associated Time</label>
+								<input type="datetime-local" class="form-control" ng-model="generalTreatment.time"/>
 							</div>
 						</div>
 					</div>
@@ -43,7 +77,7 @@
 
 				<div class="modal-footer">
 					<button type="button" class="btn btn-link" ng-click="treatmentChart = {}" onclick="$('#new_item').modal('hide')">cancel</button>
-					<button type="button" class="btn btn-warning" ng-click="saveChart()">Save</button>
+					<button type="button" class="btn btn-warning" ng-click="saveChart()" ng-show="treatmentItems.length > 0">Save</button>
 				</div>
 			</div>
 		</div>

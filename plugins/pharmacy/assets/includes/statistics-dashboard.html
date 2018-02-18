@@ -1,4 +1,4 @@
-<div>
+<div ng-controller="statisticsDashboardController">
 	<div class="row">
 		<div class="col-lg-4">
 
@@ -6,13 +6,13 @@
 			<div class="panel bg-teal-400">
 				<div class="panel-body">
 					<div class="heading-elements">
-						<span class="heading-text badge bg-teal-800">+53,6%</span>
+						<span class="heading-text badge bg-teal-800">+0%</span>
 					</div>
 
-					<h3 class="no-margin">3,450</h3>
+					<h3 class="no-margin">0</h3>
 					Items above min threshold<br/>
-					<span class="text-muted text-size-small">10 reached -</span>
-					<span class="text-muted text-size-small">489 close</span>
+					<span class="text-muted text-size-small">0 reached -</span>
+					<span class="text-muted text-size-small">0 close</span>
 				</div>
 
 				<div class="container-fluid">
@@ -39,9 +39,9 @@
 	                	</ul>
 					</div>
 
-					<h3 class="no-margin">49.4%</h3>
+					<h3 class="no-margin">0.0%</h3>
 					Items dispensed since last global restock
-					<div class="text-muted text-size-small">1, 056 total items</div>
+					<div class="text-muted text-size-small">0 total items</div>
 				</div>
 
 				<div id="server-load"></div>
@@ -61,7 +61,7 @@
 	                	</ul>
 	            	</div>
 
-					<h3 class="no-margin">390</h3>
+					<h3 class="no-margin">0</h3>
 					Items dispensed today
 					<div class="text-muted text-size-small">0 dispensed to another store</div>
 				</div>
@@ -70,6 +70,12 @@
 			</div>
 			<!-- /today's revenue -->
 
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<h4 class="text-center text-black">OUT OF STOCK ITEMS</h4>
+			<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover"></table>
 		</div>
 	</div>
 </div>

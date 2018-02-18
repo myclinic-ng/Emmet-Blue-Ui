@@ -30,6 +30,29 @@ angular.module("EmmetBlue")
 					return response;
 				})
 			}
+
+			$scope.copyToClipboard = function(text) {
+			    if (window.clipboardData && window.clipboardData.setData) {
+			        // IE specific code path to prevent textarea being shown while dialog is visible.
+			        return clipboardData.setData("Text", text); 
+
+			    } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+			        var textarea = document.createElement("textarea");
+			        textarea.textContent = text;
+			        textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in MS Edge.
+			        document.body.appendChild(textarea);
+			        textarea.select();
+			        try {
+			            document.execCommand("copy");  // Security exception may be thrown by some browsers.
+			            utils.notify("Selected item copied successfully.", "", "info");
+			        } catch (ex) {
+			            utils.notify("Copy to clipboard failed.", ex, "error");
+			            return false;
+			        } finally {
+			            document.body.removeChild(textarea);
+			        }
+			    }
+			}
 		}
 	}
 })

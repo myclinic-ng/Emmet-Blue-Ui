@@ -1,0 +1,19 @@
+<div class="tabbable">
+	<ul class="nav nav-tabs nav-tabs-highlight">
+		<li class="active" href="#stores" data-toggle="tab"><a>Stores</a></li>
+		<li href="#dispensories" data-toggle="tab"><a>Dispensories</a></li>
+		<li href="#dispensory-store-link" data-toggle="tab"><a>Link Stores</a></li>
+	</ul>
+
+	<div class="tab-content ">
+		<div class="tab-pane active" id="stores">
+			<ng-include src="'plugins/pharmacy/assets/includes/setting/stores.html'"></ng-include>
+		</div>
+		<div class="tab-pane" id="dispensories">
+			<ng-include src="'plugins/pharmacy/assets/includes/setting/dispensories.html'"></ng-include>
+		</div>
+		<div class="tab-pane" id="dispensory-store-link">
+			<ng-include src="'plugins/pharmacy/assets/includes/setting/dispensory-store-link.html'"></ng-include>
+		</div>
+	</div>
+</div>

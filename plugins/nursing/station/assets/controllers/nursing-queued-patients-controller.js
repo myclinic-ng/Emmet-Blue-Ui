@@ -12,9 +12,9 @@ angular.module("EmmetBlue")
 		var dataOpts = "data-option-id = '"+data.PatientID+"' "+
 					   "data-patient-uuid = '"+data.PatientUUID+"'";
 
-		viewCard = "<button class='btn btn-default' ng-click=\""+viewCardButtonAction+"\">View Profile</button>";
-		closeProfile = "<button class='btn btn-default' ng-click=\""+closeButtonAction+"\">Close</button>";
-		observation = "<button class='btn btn-default btn-queue' ng-click=\""+observationButtonAction+"\""+dataOpts+">Process Patient</button>";
+		viewCard = "<button class='btn btn-default text-info' ng-click=\""+viewCardButtonAction+"\"><i class='fa fa-eye'></i></button>";
+		closeProfile = "<button class='btn btn-default text-danger' ng-click=\""+closeButtonAction+"\"><i class='fa fa-times'></i></button>";
+		observation = "<button class='btn btn-default btn-queue' ng-click=\""+observationButtonAction+"\""+dataOpts+"> Process</button>";
 		return "<div class='btn-group'>"+viewCard+observation+closeProfile+"</div>";
 	}
 
@@ -26,7 +26,6 @@ angular.module("EmmetBlue")
 	})
 	.withPaginationType('full_numbers')
 	.withDisplayLength(10)
-	.withFixedHeader()
 	.withOption('createdRow', function(row, data, dataIndex){
 		utils.compile(angular.element(row).contents())($scope);
 	})
@@ -38,13 +37,47 @@ angular.module("EmmetBlue")
     })
 
 	$scope.dtColumns = [
-		utils.DT.columnBuilder.newColumn(null).withTitle("S/N").renderWith(function(data, type, full, meta){
-			return meta.row + 1;
+		utils.DT.columnBuilder.newColumn(null).withTitle("Patient").renderWith(function(data, full, meta){
+			var image = $scope.loadImage(data.PatientPicture);
+			var html = "<td>"+
+							"<div class='media-left media-middle'>"+
+								"<a href='#'><img src='"+image+"' class='img-circle img-xs' alt=''></a>"+
+							"</div>"+
+							"<div class='media-left'>"+
+								"<div class=''><a href='#' class='text-default text-bold'>"+data.PatientFullName+"</a></div>"+
+								"<div class='text-muted text-size-small'>"+
+									"<span class='status-mark border-blue position-left'></span>"+
+									data.PatientUUID+
+									"<br/><span class='label label-success'>Unlocked</span>"+
+								"</div>"+
+							"</div>"+
+						"</td>";
+
+			return html;
 		}),
-		utils.DT.columnBuilder.newColumn('PatientUUID').withTitle("Patient Number"),
-		utils.DT.columnBuilder.newColumn('PatientFullName').withTitle("Patient Name"),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Profile Status").renderWith(function(data){
-			return "<span class='label label-success'>Unlocked</span>&nbsp;<span class='label label-info'>Unadmitted</span>";
+		utils.DT.columnBuilder.newColumn(null).withTitle("Patient Type").renderWith(function(data){
+			return "<span class='text-bold'>"+data.PatientTypeName+"</span> <br/>"+data.CategoryName+"";
+		}),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Last Visit Details").renderWith(function(data, full, meta){
+			if (typeof data.LastVisitDetails == "undefined" || data.LastVisitDetails.length < 1){
+				var html = "<span class='text-center text-muted'>N/A</span>";
+			}
+			else {
+				var image = $scope.loadImage(data.LastVisitDetails.StaffPicture);
+				var html = "<td>"+
+								"<div class='media-left media-middle'>"+
+									"<a href='#'><img src='"+image+"' class='img-circle img-xs' alt=''></a>"+
+								"</div>"+
+								"<div class='media-left'>"+
+									"<div class=''><a href='#' class='text-default text-bold'>"+data.LastVisitDetails.StaffFullName+"</a></div>"+
+									"<div class='text-muted text-size-small'>"+
+										(new Date(data.LastVisitDetails.LastModified)).toDateString()+
+									"</div>"+
+								"</div>"+
+							"</td>";	
+			}
+
+			return html;
 		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(dtAction).notSortable()
 	];
@@ -52,11 +85,19 @@ angular.module("EmmetBlue")
 	function reloadTable(){
 		$rootScope.$broadcast("recountQueue");
 		$scope.dtInstance.reloadData();
+		utils.notify("Operation Succesful", "The queue has been reloaded", "info");
 	}
 
-	setInterval(function(){
+	$scope.reloadTable = function(){
 		reloadTable();
-	}, 5000);
+	}
+
+	$scope.$on("reloadQueue", function(){
+		reloadTable();
+	})
+	// setInterval(function(){
+	// 	reloadTable();
+	// }, 5000);
 
 	$scope.manage = function(value, id){
 		switch(value)

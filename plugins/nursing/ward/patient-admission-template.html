@@ -2,15 +2,15 @@
 <script>$('select.select').select2();</script>
 <div ng-controller="nursingPatientAdmissionController">
 	<div class="row">
-		<label class="control-label col-md-3"><span class="pull-right pt-5">Filter List By Ward:</span></label>
-		<div class="input-group col-md-7">
+		<label class="control-label col-xs-3"><span class="pull-right pt-5">Filter List By Ward:</span></label>
+		<div class="input-group col-xs-7">
 			<select class="select" ng-model="currentWard">
 				<option value="{{ward.WardID}}" ng-repeat="ward in wards">{{ward.WardName}}</option>
 			</select> 
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-md-12 table-responsive">
+	<div class="row pt-5">
+		<div class="table-responsive">
 			<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-hover">
 				
 			</table>
@@ -30,11 +30,11 @@
 	</div>
 
 	<div class="modal fade" id="observation">
-		<div class="modal-dialog modal-lg">
+		<div class="modal-dialog modal-full">
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
 					<button type="button" class="close" data-dismiss="modal">&times; close</button>
-					<h6 class="modal-title">Admitting: {{patientInfo.patientfullname}}</h6>
+					<h6 class="modal-title">{{patientInfo.patientfullname}}</h6>
 				</div>
 				<div class="modal-body">
 					<div class="row">
@@ -69,21 +69,70 @@
 										<tbody>
 											<tr ng-repeat="bed in beds | filter:bedFilter">
 												<td style="border-right: 1px solid #4CAF50">
-													<input type="radio" name="selectedBed" ng-model="hold.selectedBed" ng-disabled="bed.BedStatus == 1" ng-value="{{bed.SectionBedID}}"/>
+													<input type="radio" name="selectedBed" ng-model="hold.selectedBed" ng-value="{{bed.SectionBedID}}"/>
 												</td>
 												<td>{{bed.BedName}}</td>
-												<td class="text-bold" ng-if="bed.BedStatus == 1"><span class="label label-danger">Occupied</span></td>
-												<td class="text-bold" ng-if="bed.BedStatus == 0"><span class="label label-success">Unoccupied</span></td>
+												<!-- <td class="text-bold" ng-if="bed.BedStatus == 1"><span class="label label-danger">Occupied</span></td> -->
+												<td class="text-bold"><span class="label label-success">Unoccupied</span></td>
 											</tr>
 										</tbody>
 									</table>
 								</div>
 								<div class="col-md-12 mt-10">
-									<center><button class="btn btn-warning" ng-click="admitPatient()">Admit and assign selected bed to patient</button></center>
+									<center>
+									<div class="btn-group dropup">
+										<button type="button" class="btn bg-warning btn-labeled" ng-click="admitPatient()"><b><i class="icon-check"></i></b> Admit and assign selected bed to patient</button>
+				                    	<button type="button" class="btn bg-warning-400 dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+				                    	<ul class="dropdown-menu dropdown-menu-right">
+											<li><a href="#" data-toggle="modal" data-target="#transfer-ward"><i class="fa fa-exchange"></i> Change Ward/Section</a></li>
+											<li><a href="#" ng-click="cancelAdmission()"><i class="fa fa-times text-danger"></i> Cancel Admission</a></li>
+										</ul>
+									</div>
+									</center>
 								</div>
 							</div>
 						</div>
 					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="transfer-ward" class="modal fade">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header bg-info">
+					<h6 class="modal-title">Transfer patient to another ward or bed</h6>
+					<button type="button" class="close" data-dismiss="modal"><i class="icon-cross text-danger"></i> </button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="content-group col-sm-12">
+							<label class="control-label">ward</label>
+							<select class="select" ng-model="newTransfer.wardTo">
+								<option value="{{ward.WardID}}" ng-repeat="ward in wards" >{{ward.WardName}}</option>
+							</select>
+						</div>
+						<div class="content-group col-sm-6">
+							<label class="control-label">Section</label>
+							<select class="select" ng-model="newTransfer.sectionTo">
+								<option value="{{section.WardSectionID}}" ng-repeat="section in sections" >{{section.WardSectionName}}</option>
+							</select>
+						</div>
+						<div class="content-group col-sm-6">
+							<label class="control-label">Bed</label>
+							<select class="select" ng-model="newTransfer.bedTo">
+								<option value="{{section.SectionBedID}}" ng-repeat="section in beds" >{{section.BedName}}</option>
+							</select>
+						</div>
+						<div class="content-group col-sm-12">
+							<label class="control-label">Transfer Note</label>
+							<textarea class="form-control" ng-model="newTransfer.transferNote" style="height: 300px" placeholder="Add any information about this transfer here"></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-info btn-sm pull-right btn-labeled" ng-click="completeWardTransfer()"><b><i class="icon-warning"></i></b> Complete Transfer</button>
 				</div>
 			</div>
 		</div>

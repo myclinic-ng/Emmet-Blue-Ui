@@ -33,16 +33,18 @@ angular.module("EmmetBlue")
 	]);	
 
 	$scope.ddtColumns = [
-		utils.DT.columnBuilder.newColumn('FieldID').withTitle("ID").withOption('width', '0.5%'),
-		utils.DT.columnBuilder.newColumn('TypeName').withTitle("Type"),
-		utils.DT.columnBuilder.newColumn('FieldName').withTitle("Name"),
-		utils.DT.columnBuilder.newColumn(null).withTitle("").renderWith(function(data, type, full){
-			var string = "";
-			for (var i = 0; i < data.length; i++) {
-				string += data[i].TagTitle+":"+data[i].TagName;
-			}
+		utils.DT.columnBuilder.newColumn(null).withTitle("Name").renderWith(function(data, type, full){
+			var string = "<span class='text-bold'>"+data.FieldName+"</span><br/>"+data.TypeName;
 			return string;
-		}).notVisible(),
+		}),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Reference Range").renderWith(function(data, type, full){
+			var string = (data.FieldDescription).split("|");
+			return string[0];
+		}),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Units").renderWith(function(data, type, full){
+			var string = (data.FieldDescription).split("|");
+			return string[1];
+		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(actions).notSortable()
 	];
 
@@ -65,7 +67,9 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.reloadFieldTable = function(){
-		$scope.ddtInstance.reloadData();
+		if (typeof $scope.ddtInstance.reloadData === "function"){
+			$scope.ddtInstance.reloadData();
+		}
 	}
 	$scope.$watch(function(){return utils.storage.fieldsInvestigationTypeID}, function(newValue, oldValue){
 		if (typeof newValue !== "undefined"){
@@ -91,7 +95,7 @@ angular.module("EmmetBlue")
 			"investigationType":$scope.investigationType,
 			"fieldType":$scope.newField.type,
 			"name":$scope.newField.name,
-			"description":$scope.newField.description
+			"description":$scope.newField.refrange + "|" + $scope.newField.units
 		}
 
 		var request = utils.serverRequest("/lab/investigation-type-field/new", "POST", field);

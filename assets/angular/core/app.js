@@ -68,13 +68,27 @@ angular.module("EmmetBlue")
 	}
 
 	services.notify = function(title, text, type){
-	     new PNotify({
+		PNotify.desktop.permission();
+	    new PNotify({
             title: title,
             text: text,
             addclass: 'alert-styled-left alert-arrow-left text-sky-royal',
             type: type,
             mouse_reset: true,
-            insert_brs: true
+            insert_brs: true,
+            nonblock: {
+            	nonblock: true
+            },
+            desktop: {
+            	desktop: false
+            },
+            history: {
+            	menu: false
+            },
+            mobile: {
+            	swipe_dismiss: true,
+            	styling: true
+            }
         });
 	};
 
@@ -115,11 +129,19 @@ angular.module("EmmetBlue")
 	services.serverRequest = function(url, requestType, data={}){
 		var deferred = $q.defer();
 
-		return $http({
+		var _req = {
 			"url":services.restServer+url,
 			"method":requestType,
 			"data":data
-		}).then(function(result){
+		}
+
+		if (typeof $cookies.getObject(CONSTANTS.USER_COOKIE_IDENTIFIER) !== "undefined"){
+			_req.headers = {
+				"Authorization":$cookies.getObject(CONSTANTS.USER_COOKIE_IDENTIFIER).token
+			}
+		}
+
+		return $http(_req).then(function(result){
 			deferred.resolve(result.data.contentData);
 			return deferred.promise;
 		}, function(result){
@@ -131,13 +153,19 @@ angular.module("EmmetBlue")
 	services.serverUpload = function(url, requestType, data={}){
 		var deferred = $q.defer();
 
-		return $http({
+		var _req = {
 			url: url,
 			method: requestType,
 			data: data,
 			transformRequest: angular.identity,
        		headers: {'Content-Type': undefined}
-		}).then(function(result){
+		}
+
+		if (typeof $cookies.getObject(CONSTANTS.USER_COOKIE_IDENTIFIER) !== "undefined"){
+			_req.headers.Authorization = $cookies.getObject(CONSTANTS.USER_COOKIE_IDENTIFIER).token;
+		}
+
+		return $http(_req).then(function(result){
 			deferred.resolve(result.data.contentData);
 			return deferred.promise;
 		}, function(result){
@@ -153,8 +181,18 @@ angular.module("EmmetBlue")
 				services.notify('Invalid Resource Requested', 'The requested resource was not found on this server, please contact an administrator if this error persists', 'warning');
 				break;
 			}
-			case 500:{
-				services.notify('Unable To Process Request', 'This is usually due to making request for a missing resource or sending improperly formatted data to the server. Please contact an administrator if this error persists');
+			case 500:
+			case 501:
+			case 400:{
+				services.notify('Unable To Process Request', 'This is usually due to making request for a missing resource or sending improperly formatted data to the server. Please contact an administrator if this error persists. Error Code: AB0'+errorObject.status+' Server Message: '+errorObject.data.errorMessage, "error");
+				break;
+			}
+			case 503:{
+				services.notify('The Server Refused To Process Your Request', 'This is usally due to the creation of duplicate data. This resource does not allow you to create data of the same exact type, please contact an administrator if this error persists. Error Code: AB0'+errorObject.status, 'warning');
+				break;
+			}
+			case 401:{
+				console.log("Request Denied");
 				break;
 			}
 			default:
@@ -164,7 +202,7 @@ angular.module("EmmetBlue")
 				}
 				else{
 					if (errorObject.status == -1){
-						services.notify('Unable to reach server', "Please check your network connectivity to confirm the server is still accessible from this computer. Contact an administrator if this error persists", "warning");
+						services.notify('Unable to reach server', "Please check your network connectivity to confirm the server is still accessible from this computer. Contact an administrator if this error persists. Error Code: AB0"+errorObject.status, "warning");
 					}
 					else {
 						services.notify("Unknown error", "A general error has occurred, please contact an administrator", 'error');
@@ -244,9 +282,17 @@ angular.module("EmmetBlue")
 			return services.userSession.cookie().username;
 		},
 		clear: function(){
-			$cookies.remove(CONSTANTS.USER_COOKIE_IDENTIFIER);
-			$location.path('user/login');
+			services.serverRequest("/user/session/deactivate?resourceId="+services.userSession.getID(), "GET").then(function(response){
+				$cookies.remove(CONSTANTS.USER_COOKIE_IDENTIFIER);
+				$location.path('user/login');
+			}, function(error){
+				services.errorHandler(error);
+			})
 		}
+	}
+
+	services.newWebSocket = function(){
+		return new WebSocket(CONSTANTS.WEB_SOCKET_SERVER);
 	}
 
 	services.substringMatcher = function(strs) {
@@ -272,6 +318,11 @@ angular.module("EmmetBlue")
             cb(matches);
         };
     };
+
+    services.generateQrCode = function(content, type="label"){
+    	var data  = {type: type, content: content};
+    	return generateQrCode(JSON.stringify(data));
+    }
 
 	services.globalConstants = CONSTANTS;
 

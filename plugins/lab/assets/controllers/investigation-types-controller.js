@@ -8,8 +8,8 @@ angular.module("EmmetBlue")
 
 		var dataOpt = "data-option-id='"+data.InvestigationTypeID+"' data-option-name='"+data.InvestigationTypeName+"' data-option-description='"+data.InvestigationTypeDescription+"'";
 
-		var editButton = "<button class='btn btn-default billing-type-btn' ng-click=\""+editButtonAction+"\" "+dataOpt+"><i class='icon-pencil5'></i> </button>";
-		var deleteButton = "<button class='btn btn-default billing-type-btn' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"><i class='icon-bin'></i> </button>";
+		var editButton = "<button class='btn btn-default investigation-type-btn' ng-click=\""+editButtonAction+"\" "+dataOpt+"><i class='icon-pencil5'></i> </button>";
+		var deleteButton = "<button class='btn btn-default investigation-type-btn' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"><i class='icon-bin'></i> </button>";
 		var fieldsButton = "<button class='btn btn-default' ng-click=\""+fieldsButtonAction+"\" "+dataOpt+"><i class='icon-eye'> </i> Fields</button>";
 		
 		var buttons = "<div class='btn-group'>"+editButton+deleteButton+fieldsButton+"</button>";
@@ -68,9 +68,11 @@ angular.module("EmmetBlue")
 
 	$scope.dtColumns = [
 		utils.DT.columnBuilder.newColumn('InvestigationTypeID').withTitle("ID"),
-		utils.DT.columnBuilder.newColumn('InvestigationTypeName').withTitle("Name"),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Name").renderWith(function(data, a, b){
+			var string = "<span class='text-bold'>"+data.InvestigationTypeName+"</span><br/>"+data.InvestigationTypeDescription;
+			return string;
+		}),
 		utils.DT.columnBuilder.newColumn('LabName').withTitle("Lab"),
-		utils.DT.columnBuilder.newColumn('InvestigationTypeDescription').withTitle("Description"),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(actions).notSortable()
 	];
 
@@ -83,8 +85,8 @@ angular.module("EmmetBlue")
 			case "edit":{
 				$scope.tempInvestigationType = {
 					resourceId: id,
-					InvestigationTypeName: $("button[data-option-id='"+id+"'").attr("data-option-name"),
-					InvestigationTypeDescription: $("button[data-option-id='"+id+"'").attr("data-option-description")
+					InvestigationTypeName: $(".investigation-type-btn[data-option-id='"+id+"'").attr("data-option-name"),
+					InvestigationTypeDescription: $(".investigation-type-btn[data-option-id='"+id+"'").attr("data-option-description")
 				}
 				$("#edit_investigation_type").modal("show");
 				break;

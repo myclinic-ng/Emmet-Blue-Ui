@@ -18,13 +18,33 @@ angular.module("EmmetBlue")
 		});
 	}
 
+	var loadTodayAppointment = function(dates){
+		var req = utils.serverRequest("/patients/patient-appointment/view-by-staff?staff="+utils.userSession.getID()+"&daterange&sdate="+dates[0]+"&edate="+dates[1], "GET");
+		req.then(function(response){
+			$scope.appointmentCount = response.length;
+		}, function(error){
+			utils.errorHandler(error);
+		})
+	}
+
 	$scope.reloadQueue = function(){
 		$rootScope.$broadcast('reloadQueue');
+	}
+
+	$scope.reloadAppointments = function(){
+		$rootScope.$broadcast('reloadAppointments');		
 	}
 
 	$scope.$on("reloadQueue", function(){
 		loadQueue();
 	});
 
+	$scope.$on("reloadAppointments", function(){
+		loadTodayAppointment([
+			(new Date()).toLocaleDateString(),
+			(new Date()).toLocaleDateString()
+		]);
+	})
 	$scope.reloadQueue();
+	$scope.reloadAppointments();
 })

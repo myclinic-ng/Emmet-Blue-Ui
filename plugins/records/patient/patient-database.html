@@ -1,0 +1,80 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/ui/moment/moment.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/pickers/daterangepicker.js"></script>
+<script>
+	$('select.select').select2();
+	$('.daterange').daterangepicker({
+		showWeekNumbers: true,
+		showDropdowns: true,
+        opens: "right",
+        applyClass: 'bg-success',
+        cancelClass: 'btn-default'
+	});
+</script>
+
+
+<div ng-controller="recordsPatientDatabaseController">
+	<div class="row">
+		<div class="panel panel-success" >
+			<div class="panel-heading">
+				<h6 class="panel-title">Patient Registration Database</h6>
+				<div class="heading-elements">
+					<ul class="icons-list pull-right">
+						<li>Current Filter: <label class="label label-info">{{requestFilter.description}}</label></li>
+						<li><a data-action="reload" ng-click="reloadDispensationsTable()" class="btn btn-icon btn-clear"> Reload Requests</a></li>
+						<li><a href="#" title="Toggle Filter Selector" class="btn btn-icon btn-clear text-danger" ng-click="showRequestFilters = !showRequestFilters"><i class="icon-filter3"></i> Toggle Filter Selector</a></li>
+					</ul>
+		    	</div>
+			</div>
+
+			<div class="panel-body">
+				<div class="col-md-12" ng-show="showRequestFilters">
+					<div class="form-group col-md-4">
+						<label class="control-label">Filter By</label>
+						<select class="select" ng-model="filterSelector.type" ng-change="filterSelector.value = null">
+							<optgroup label="Date Ranges">
+								<option value="Today<seprator>{{getDateRange('today')}}">Today</option>
+								<option value="Yesterday<seprator>{{getDateRange('yesterday')}}">Yesterday</option>
+								<option value="This Week<seprator>{{getDateRange('week')}}">This Week</option>
+								<option value="This Month<seprator>{{getDateRange('month')}}">This Month</option>
+							</optgroup>
+
+							<option value="dateRange">Specify Date Range</option>
+						</select>
+					</div>
+					<div class="form-group col-md-8" ng-show="filterSelector.type == 'dateRange'">
+						<label class="control-label">Pick Date Ranges</label>
+						<div class="input-group">
+							<span class="input-group-addon"><i class="icon-calendar22"></i></span>
+							<input type="text" class="form-control daterange" ng-model="filterSelector.value"> 
+						</div>
+					</div>
+					<div class="content-group col-md-12">
+						<button class="btn btn-info col-md-3 bg-primary pull-right btn-labeled" ng-click="activateFilter()">
+							<b><i class="icon-filter4"></i></b> Set Filter
+						</button>
+					</div>
+				</div>
+				<div class="table-responsive col-md-12">
+					<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
+
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="request-uri">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-12">
+								<center><img class="img img-responsive" ng-src="{{currentRequestUri}}"/></center>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

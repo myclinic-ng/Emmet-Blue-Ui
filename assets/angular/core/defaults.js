@@ -5,12 +5,14 @@ angular.module('EmmetBlue', [
 	'ngSanitize',
 	'datatables',
 	'datatables.buttons',
+	// 'datatables.bootstrap',
 	'datatables.fixedheader',
 	'ngCookies',
 	'ngStorage',
 	'ngPrint',
 	'angularUtils.directives.dirPagination',
-	'angular-toArrayFilter' //<--- LIFE SAVER! Thanks https://github.com/petebacondarwin! (in case, paradventure, probably, you ever read this code)
+	'angular-toArrayFilter', //<--- LIFE SAVER! Thanks https://github.com/petebacondarwin! (in case, paradventure, probably, you ever read this code)
+	'mwl.calendar'
 ])
 
 .constant("CONSTANTS", getConstants())
@@ -74,18 +76,4 @@ function determineRouteAvailability(url){
  	var _url = 'plugins/'+urlParts.join('/')+'.html';
 
  	return _url;
-}
-
-
-function getConstants(){
-	var server = "https://sglt:700/";
-
-	return {
-		"TEMPLATE_DIR":"plugins/",
-		"MODULE_MENU_LOCATION":"assets/includes/menu.html",
-		"MODULE_HEADER_LOCATION":"assets/includes/header.html",
-		"EMMETBLUE_SERVER":server,
-		"EMMETBLUE_SERVER_VERSION":"v1",
-		"USER_COOKIE_IDENTIFIER":"_______"
-	};
 }

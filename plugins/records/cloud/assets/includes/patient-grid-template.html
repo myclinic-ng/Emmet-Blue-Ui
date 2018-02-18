@@ -1,0 +1,110 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>
+	$('select.select').select2();
+</script>
+<div class="panel panel-body">
+	<div class="media">
+		<div class="media-left">
+			<a href="{{loadImage(patientInfo.patientpicture)}}" data-popup="lightbox">
+				<img ng-src="{{loadImage(patientInfo.patientpicture)}}" style="width: 100px; height: 100px;" class="img-circle" alt="">
+				<span class="badge media-badge bg-white text-success" style="font-size: 1.2em; margin-left: 15px; border-color: transparent;" ng-if="patientInfo.isLinkedToCloud"><i class="fa fa-check"></i></span>
+			</a>
+		</div>
+
+		<div class="media-body">
+			<div class="col-xs-12">
+				<h5 data-popup="tooltip" title="{{patientInfo.patientfullname}}">{{patientInfo.patientfullname}}</h5>
+				<h5><span class="text-info"><small>{{patientInfo.patientuuid}} | {{patientInfo.patienttypename}}</small></span></h5>
+				<p class="text-muted">
+					<span class="badge badge-success" ng-show="patientInfo.isLinkedToCloud"> Profile Linked</span>
+				</p>
+				<p class="text-muted">
+					<span class="badge badge-danger" ng-show="!patientInfo.isLinkedToCloud"> Profile Unlinked</span>
+				</p>
+			</div>
+
+
+			<div class="btn-group">
+            	<button class="btn btn-xs" ng-if="!patientInfo.isLinkedToCloud" data-popup="tooltip" title="Link profile" data-container="body" data-toggle="modal" data-target="#link-patient-{{patientInfo.patientid}}">
+            		<i class="icon-shield-check"></i> Link Profile
+            	</button>
+            	<button class="btn btn-xs" data-popup="tooltip" title="View Profile" data-container="body" data-toggle="modal" data-target="#view-patient-{{patientInfo.patientid}}">
+            		<i class="icon-new-tab"></i> View Profile
+            	</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="link-patient-{{patientInfo.patientid}}" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header bg-warning">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h6 class="modal-title">Linking {{patientInfo.patientfullname}}</h6>
+			</div>
+
+			<div class="modal-body">
+				<div class="col-sm-12">
+					<div class="form-group">
+						<label class="control-label">Select Account Selection Method</label>
+						<select class="form-control" ng-model="accountSearch.method">
+							<option value="username">Username</option>
+							<option value="email">Email Address</option>
+							<option value="phone">Phone Number</option>
+							<option value="account">Account ID</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label class="control-label">Enter Search Parameter</label>
+						<input class="form-control" type="text" ng-model="accountSearch.value"/>
+					</div>
+					<center><button class="btn btn-primary" ng-click="findAccount()">Verify Profile</button></center>
+				</div>
+				<div class="col-sm-12 panel panel-default mb-10 mt-10 pb-10" ng-if="foundAccount.user_id">
+					<h6 class="col-md-12">
+						<span class="col-md-4">Account User ID:</span>
+						<span class="col-md-8 text-bold">{{foundAccount.user_id}}</span>
+					</h6>
+					<h6 class="col-md-12">
+						<span class="col-md-4">Account User Alias:</span>
+						<span class="col-md-8 text-bold">{{foundAccount.user_alias}}</span>
+					</h6>
+					<h6 class="col-md-12">
+						<span class="col-md-4">Account User Email:</span>
+						<span class="col-md-8 text-bold">{{foundAccount.email_address}}</span>
+					</h6>
+					<h6 class="col-md-12">
+						<span class="col-md-4">Account User Phone:</span>
+						<span class="col-md-8 text-bold">{{foundAccount.user_phone}}</span>
+					</h6>
+					<center><button class="btn btn-success" ng-click="completeLinking()">Link This Account</button></center>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-link" data-dismiss="modal" ng-click=""><i class="fa fa-times-circle-o"></i> Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="view-patient-{{patientInfo.patientid}}" class="modal fade">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header bg-warning">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h6 class="modal-title">Patient Dashboard</h6>
+			</div>
+
+			<div class="modal-body">
+				<div class="col-sm-12" id="view-patient-{{patientInfo.patientid}}-content-area">
+					<div class="watermark"></div>
+					<ng-patient-profile patient-info="patientInfo"></ng-patient-profile>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-link" data-dismiss="modal" ng-click=""><i class="fa fa-times-circle-o"></i> Close</button>
+			</div>
+		</div>
+	</div>
+</div>

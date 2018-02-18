@@ -77,22 +77,22 @@
 		<div class="col-md-9">
 			<!-- Sidebars overview -->
 			<div class="panel panel-flat">
-				<span class="col-md-12">
+				<div class="col-md-12">
 					<div class="panel-heading heading-divided col-md-4 border-right center-block text-center bg-success no-border-radius" style="border-color: #DDDDDD !important; margin-left: -10px;"><center>
-						<span class="col-xs-12"><img ng-src="{{currentPatient.picture}}" class="img-responsive img-circle" alt="" style="width: 88px; height: 88px;"/></span>
-						<h5 class="panel-title text-center"><span class="col-xs-12"><i class="icon-instagram"></i> {{currentPatient.name}}</span></h5>
+						<span class="col-xs-12"><img ng-src="{{currentPatient.picture}}" class="img-responsive img-circle" alt="" style="width: 100px; height: 100px;"/></span>
+						<h5 class="panel-title text-center"><span class="col-xs-12">{{currentPatient.name}}</span></h5>
 					</center>
 					</div>
 
 					<div class="content-group col-md-8 mt-15">
-						<div class="col-md-12">
+						<!-- <div class="col-md-12">
 							<div class="input-group">
 								<span class="input-group-addon"><i class="icon-search4"></i></span>
 								<input type="search" class="form-control" placeholder="Perform a general search on patient records" />
 							</div>
-						</div>
+						</div> -->
 					</div>
-					<div class="content-group col-md-8" style="border-bottom: 1px solid green !important;">
+					<!-- <div class="content-group col-md-8">
 						<div class="navbar navbar-default navbar-xs navbar-component">
 							<ul class="nav navbar-nav no-border visible-xs-block">
 								<li><a class="text-center collapsed" data-toggle="collapse" data-target="#navbar-filter"><i class="icon-menu7"></i></a></li>
@@ -117,58 +117,30 @@
 								</div>
 							</div>
 						</div>
-					</div>
-				</span>
+					</div> -->
+				</div>
 
 				<div class="panel-body">
-					<div class="row">
-						<div class="mb-20 content-group">
-							<div class="col-md-8">
+					<div class="mt-20">
+						<div class="col-md-4">
+							<!-- <div class="col-md-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="icon-search4"></i></span>
+									<input type="search" class="form-control" placeholder="search repositories" ng-model="repositoryFilter"/>
+								</div>
+							</div> -->
+						</div>
+
+						<div class="col-md-8 overflow-auto" style="border-left: 1px solid green">
+							<div class="col-md-12 mb-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="icon-search4"></i></span>
 									<input type="search" class="form-control" placeholder="filter timeline events" ng-model="timelineFilter"/>
 								</div>
 							</div>
-							<div class="col-md-4">
-								<div class="input-group">
-									<span class="input-group-addon"><i class="icon-search4"></i></span>
-									<input type="search" class="form-control" placeholder="search repositories" ng-model="repositoryFilter"/>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-md-8 mt-20 overflow-auto" style="height: 1024px; border-right: 1px solid green">
 							<div class="row heading-divided" style="border-color: #DDDDDD !important;" ng-repeat="timeline in timelineData | filter:timelineFilter">
-								<ng-timeline-item event-data="timeline['_source']"></ng-timeline-item>
+								<ng-timeline-item event-data="timeline"></ng-timeline-item>
 							</div>
-						</div>
-						<div class="col-md-4 mt-20">
-							<ul class="media-list media-list-linked">
-								<li class="media-header heading-divided">Repositories</li>
-
-								<li class="media" ng-repeat="repo in repositoryData | filter:repositoryFilter">
-									<div class="media-link cursor-pointer" data-toggle="collapse" data-target="#repository-{{repo.RepositoryID}}">
-										<div class="media-left"><i class="fa fa-file-archive-o"></i> </div>
-										<div class="media-body">
-											<div class="media-heading text-semibold">{{repo.RepositoryName}}</div>
-											<span class="text-muted">#{{repo.RepositoryNumber}}</span>
-										</div>
-										<div class="media-right media-middle text-nowrap">
-											<i class="icon-menu7 display-block"></i>
-										</div>
-									</div>
-
-									<div class="collapse" id="repository-{{repo.RepositoryID}}">
-										<div class="contact-details content-group ml-20">
-											<ul class="list-extended list-unstyled list-icons">
-												<li><i class="icon-pin position-left"></i> {{repo.RepositoryCreator}}</li>
-												<li><i class="icon-user-tie position-left"></i> {{repo.RepositoryCreationDate}}</li>
-												<li><i class="icon-mail5 position-left"></i> {{repo.RepositoryDescription}}</li>
-											</ul>
-										</div>
-									</div>
-								</li>
-							</ul>
 						</div>
 					</div>
 				</div>

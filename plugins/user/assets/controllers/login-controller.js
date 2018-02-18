@@ -2,9 +2,10 @@ angular.module("EmmetBlue")
 
 .controller('userLoginController', function($scope, utils, $cookies, $location, $timeout){
 	$scope.login = {};
-
+	$scope.userClient = utils.globalConstants.USER_CLIENT;
+	
 	if (typeof $.cookie("last-stored-login-username") != "undefined"){
-		$scope.login.username = $.	parseJSON($.cookie("last-stored-login-username")).value;
+		$scope.login.username = $.parseJSON($.cookie("last-stored-login-username")).value;
 	}
 
 	$scope.processLogin = function(){
@@ -85,8 +86,11 @@ angular.module("EmmetBlue")
 						uuid: response.uuid,
 						accountActivated: response.accountActivated,
 						staffid: response.id,
-						username: $scope.login.username
+						username: $scope.login.username,
+						token: response.token
 					};
+
+					$cookies.putObject(utils.globalConstants.USER_COOKIE_IDENTIFIER, responseObject);
 
 					$timeout(function(){
 						utils.serverRequest("/human-resources/staff/view-root-url?resourceId="+responseObject.staffid, "GET").then(function(response){

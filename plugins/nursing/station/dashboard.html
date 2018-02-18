@@ -21,6 +21,11 @@
 								<a href="#" type="button" class="btn bg-warning-300 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('payment-request')"><i class="icon-archive"></i> <span>Payment Request</span></a>
 							</div>
 						</div>
+						<!-- <div class="row row-condensed">
+							<div class="col-xs-6">
+								<a href="#" type="button" class="btn bg-info btn-block btn-float btn-float-lg" ng-click="loadPageSegment('prescription-request')"><i class="icon-archive"></i> <span>Payment Request</span></a>
+							</div>
+						</div> -->
 					</div>
 				</div>
 				<!-- /actions -->
@@ -31,8 +36,13 @@
 		<div class="panel panel-success">
 			<div class="panel-heading">
 				<h6 class="panel-title">Nursing Station Dashboard</h6>
+				<div class="heading-elements">
+					<ul class="icons-list">
+	            		<li><a href="#" ng-click="reloadQueue()" title="refresh" class="btn btn-info" style="margin-top:-10px;"><i class="icon-refresh text-warning"></i> Refresh Queue</a></li>
+	            	</ul>
+				</div>
 			</div>
-			<div class="panel-body" style="height: 100vh">
+			<div class="panel-body" style="min-height: 120vh">
 				<ng-include src="pageSegment"></ng-include>
 			</div>
 		</div>

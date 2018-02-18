@@ -24,7 +24,7 @@ angular.module("EmmetBlue")
 
 	$scope.itemBrandIsNull = function(brand){
 		return brand == "" || brand == null;
-	}
+	}	
 
 	$scope.$watch(function(){return utils.storage.inventoryStoreID}, function(newValue, oldValue){
 		if (typeof newValue !== "undefined"){
@@ -52,6 +52,10 @@ angular.module("EmmetBlue")
 			$scope.stock = {};
 			$("#selectedItems").select2("val", "");
 		}
+	}
+
+	$scope.removeFromList = function(index){
+		$scope.globalRestockItems.splice(index, 1);
 	}
 
 	$scope.stock = {global: false};

@@ -1,18 +1,18 @@
 angular.module("EmmetBlue")
 .controller("accountPaymentRequestController", function($scope, utils, patientEventLogger){
+	$scope.loadImage = utils.loadImage;
 	$scope.copyToClipboard = function(text) {
 	    if (window.clipboardData && window.clipboardData.setData) {
-	        // IE specific code path to prevent textarea being shown while dialog is visible.
 	        return clipboardData.setData("Text", text); 
 
 	    } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
 	        var textarea = document.createElement("textarea");
 	        textarea.textContent = text;
-	        textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in MS Edge.
+	        textarea.style.position = "fixed";
 	        document.body.appendChild(textarea);
 	        textarea.select();
 	        try {
-	            document.execCommand("copy");  // Security exception may be thrown by some browsers.
+	            document.execCommand("copy");
 	            utils.notify("Selected item copied successfully.", "", "info");
 	        } catch (ex) {
 	            utils.notify("Copy to clipboard failed.", ex, "error");
@@ -23,10 +23,38 @@ angular.module("EmmetBlue")
 	    }
 	}
 
+	$scope.getDateRange = function(selector){
+		var today = new Date();
+		switch(selector){
+			case "today":{
+				return today.toLocaleDateString() + " - " + today.toLocaleDateString();
+			}
+			case "yesterday":{
+				var yesterday = new Date(new Date(new Date()).setDate(new Date().getDate() - 1)).toLocaleDateString();
+				return yesterday + " - " + yesterday;
+				break;
+			}
+			case "week":{
+				var d = new Date(today);
+			  	var day = d.getDay(), diff = d.getDate() - day + (day == 0 ? -6 : 1);
+
+			  	return new Date(d.setDate(diff)).toLocaleDateString() + " - " + today.toLocaleDateString();
+			  	break;
+			}
+			case "month":{
+				var year = today.getFullYear();
+				var month = today.getMonth() + 1;
+
+				return month+'/1/'+year + ' - ' + today.toLocaleDateString();
+				break;
+			}
+		}
+	}
+
 	$scope.requestFilter = {
-		type: 'status',
-		description: 'Open Unfulfilled Requests',
-		value: 0
+		type: 'date',
+		description: 'Today\'s Requests',
+		value: $scope.getDateRange('today')
 	}
 
 	$("option[status='disabled']").attr("disabled", "disabled");
@@ -45,6 +73,7 @@ angular.module("EmmetBlue")
 				"' data-option-patient-fullname='"+data.PatientFullName+
 				"' data-option-patient-type='"+data.PatientType+
 				"' data-option-staff-id='"+data.RequestBy+
+				"' data-option-staff-uuid-fullname='"+data.RequestByFullName+
 				"' data-option-request-date='"+data.RequestDate+
 				"' data-option-fulfillment-status='"+data.RequestFulfillmentStatus+
 				"' data-option-fulfilled-date='"+data.RequestFulFilledDate+
@@ -97,11 +126,11 @@ angular.module("EmmetBlue")
 			},
 			paymentAccepted:function(){
 				utils.alert("Operation Successful", "The selected Payment Request has been Accepted successfully", "success", "notify");
-				$scope.dtInstance.reloadData();
+				$scope.dtInstance.rerender();
 			},
 			paymentRequestDeleted:function(){
 				utils.alert("Operation Successful", "The selected Payment Request has been deleted successfully", "success", "notify");
-				$scope.dtInstance.reloadData();
+				$scope.dtInstance.rerender();
 			},
 			verifyPaymentRequestForm:function(){
 				$('#verify_payment').modal('show');
@@ -116,6 +145,7 @@ angular.module("EmmetBlue")
 					requestId:id,
 					requestNumber:$(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-payment-request-uuid"),
 					staffUUID: $(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-staff-id"),
+					staffUUIDFullName: $(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-staff-uuid-fullname"),
 					patientUUID: $(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-patient-uuid"),
 					patientID:$(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-patient-id"),
 					patientFullName: $(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-patient-fullname"),
@@ -176,15 +206,16 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.reloadTable = function(){
-		$scope.dtInstance.reloadData();
+		$scope.dtInstance.rerender();
 	}
 
 	$scope.loadRequests = function(){
-		$scope.dtInstance.reloadData();
+		$scope.dtInstance.rerender();
 	}
 	$scope.dtInstance = {};
 	$scope.dtOptions = utils.DT.optionsBuilder
-	.fromFnPromise(function(){
+	.newOptions()
+	.withFnServerData(function(source, data, callback, settings){
 		var url = '/accounts-biller/payment-request/load-all-requests?';
 		var filter = $scope.requestFilter;
 		var _filter = "";
@@ -204,16 +235,41 @@ angular.module("EmmetBlue")
 		else if (filter.type == 'staff'){
 			_filter += 'filtertype=staff&query='+filter.staff;
 			_filter += "&_date="+filter.date;
-
+		}
+		else if (filter.type == 'patienttype'){
+			_filter += 'filtertype=patienttype&query='+filter.value;
 		}
 
+		var draw = data[0].value;
+        var order = data[2].value;
+        var start = data[3].value;
+        var length = data[4].value;
+
 		$scope.currentRequestsFilter = _filter;
-		var requests = utils.serverRequest(url+_filter, 'GET');
-		return requests;
+		url = url+_filter+'&paginate&from='+start+'&size='+length;
+		if (typeof data[5] !== "undefined" && data[5].value.value != ""){
+			url += "&keywordsearch="+data[5].value.value;
+		}
+		var requests = utils.serverRequest(url, 'GET');
+		
+		requests.then(function(response){
+			var records = {
+				data: response.data,
+				draw: draw,
+				recordsTotal: response.total,
+				recordsFiltered: response.filtered
+			};
+
+			callback(records);
+		}, function(error){
+			utils.errorHandler(error);
+		});
 	})
+	.withDataProp('data')
+	.withOption('processing', true)
+	.withOption('serverSide', true)
+	.withOption('paging', true)
 	.withPaginationType('full_numbers')
-	.withDisplayLength(50)
-	.withFixedHeader()
 	.withOption('createdRow', function(row, data, dataIndex){
 		utils.compile(angular.element(row).contents())($scope);
 	})
@@ -268,27 +324,66 @@ angular.module("EmmetBlue")
 	]);	
 
 	$scope.dtColumns = [
-		utils.DT.columnBuilder.newColumn(null).withTitle("Request Number").renderWith(function(data, full, meta){
-			return "<p class='text-muted'>"+
-					data.PaymentRequestUUID+
-					"</p>"
-		}),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Attached Invoice").renderWith(function(data, full, meta){
+		utils.DT.columnBuilder.newColumn(null).withTitle("Request Details").renderWith(function(data, full, meta){
 			if (typeof data.AttachedInvoiceNumber !== "undefined"){
 				var copyBtn = "<span class='copyButton'><a class='btn btn-icon btn-link btn-default no-bg no-border-radius btn-xs' ng-click='copyToClipboard("+data.AttachedInvoiceNumber+")'><i class='icon-copy2 text-primary'></i></a></span>";
-				var string = "<p class='requestNum'>"+
+				var string = "<span class='requestNum'>"+
 								data.AttachedInvoiceNumber+
 								copyBtn+
-								"</p>";
+								"</span>";
+				var icon = "<i class='fa fa-print text-success'></i>";
 			}
 			else {
-				var string ="<p class='text-muted'>&lt;no attached invoice&gt;</p>";
+				var string ="<span class='text-muted text-small'><small>&lt;no attached invoice&gt;</small></span>";
+				var icon = "<i class='fa fa-exclamation-circle text-warning'></i>";
 			}
-			return string;
+
+			var html = "<td>"+
+							"<div class='media-left media-middle'>"+
+								icon+
+							"</div>"+
+							"<div class='media-left'>"+
+								"<div class='text-muted text-size-small'>"+
+									"<span class='text-small position-left'>ID:</span>"+
+									data.PaymentRequestUUID+
+								"</div>"+
+								"<div class=''>"+string+"</div>"+
+							"</div>"+
+						"</td>";
+
+			return html;
 		}),
-		utils.DT.columnBuilder.newColumn('PatientFullName').withTitle("Patient Name"),
-		utils.DT.columnBuilder.newColumn('GroupName').withTitle("Department"),
-		utils.DT.columnBuilder.newColumn('RequestDate').withTitle("Request Date").notVisible(),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Patient").renderWith(function(data, full, meta){
+			var image = $scope.loadImage(data.PatientPicture);
+			var html = "<td>"+
+							"<div class='media-left media-middle'>"+
+								"<a href='#'><img src='"+image+"' class='img-circle img-xs' alt=''></a>"+
+							"</div>"+
+							"<div class='media-left'>"+
+								"<div class=''><a href='#' class='text-default text-bold'>"+data.PatientFullName+"</a></div>"+
+								"<div class='text-muted text-size-small'>"+
+									"<span class='fa fa-user border-blue position-left'></span>"+
+									data.PatientCategoryName+
+								"</div>"+
+							"</div>"+
+						"</td>";
+			return html;
+		}),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Department").renderWith(function(data, full, meta){
+			var val ='<span class="display-block">'+data.Name+'</span>';
+			var html = "<td>"+
+							"<div class='media-left media-middle'>"+
+								"<i class='fa fa-caret-right text-info'></i>"+
+							"</div>"+
+							"<div class='media-left'>"+
+								"<div class='text-muted'>"+
+								data.RequestByFullName+
+								"</div>"+
+							"</div>"+
+						"</td>";
+
+			return val+html;
+		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Request Date").renderWith(function(data, full, meta){
 			var date = new Date(data.RequestDate);
 
@@ -299,6 +394,13 @@ angular.module("EmmetBlue")
 		utils.DT.columnBuilder.newColumn(null).withTitle("Status").renderWith(function(data, full, meta){
 			if (data.RequestFulfillmentStatus == 1){
 				var string = "<p class='no-border-radius label label-success label-lg'>Fulfilled</p>";
+				string += "<td>"+
+							"<div class='media-left media-middle'>"+
+								"<span class='text-info text-size-small'>Amount Paid:</span><br/>"+
+								"<span ng-currency ng-currency-symbol='naira'></span>"+data.BillingAmountPaid+
+							"</div>"+
+						"</td>";
+
 			}
 			else if(data.RequestFulfillmentStatus == -1) {
 				var string = "<p class='label label-info label-lg'>Invoice Generated</p>";
@@ -309,9 +411,24 @@ angular.module("EmmetBlue")
 
 			return "<h6>"+string+"</h6>";
 		}),
-		utils.DT.columnBuilder.newColumn(null).withTitle('').notVisible().renderWith(function(meta, full, data){ return data.PatientCategoryName+data.PatientTypeName; }),
 		utils.DT.columnBuilder.newColumn(null).withTitle('').notSortable().renderWith(functions.actionsMarkUp)
 	];
+
+
+	$scope.patientTypes = {};
+
+	$scope.loadPatientTypes = function(){
+		if (typeof (utils.userSession.getID()) !== "undefined"){
+			var requestData = utils.serverRequest("/patients/patient-type-category/view", "GET");
+			requestData.then(function(response){
+				$scope.patientTypes = response;
+			}, function(responseObject){
+				utils.errorHandler(responseObject);
+			});
+		}
+	}
+
+	$scope.loadPatientTypes();
 
 	$scope.paymentRequestBillingItems = function(paymentRequestId, acceptPayment){
 		if (typeof(acceptPayment) === 'undefined') {
@@ -355,7 +472,7 @@ angular.module("EmmetBlue")
 							resourceId: $scope.temp.requestId
 						};
 
-						utils.storage.currentInvoiceNumber = response.transactionNumber;
+						$scope.cTxNum = response.transactionNumber;
 
 						if (acceptPayment){
 							$("#request_payment_bill").modal("hide");
@@ -364,6 +481,7 @@ angular.module("EmmetBlue")
 							utils.serverRequest("/accounts-biller/payment-request/edit?resourceId="+$scope.temp.requestId, "PUT", edits)
 							.then(function(response){
 								utils.notify("Info", "An invoice has been generated successfully for this payment request and request status has been updated", "success");
+								utils.storage.currentInvoiceNumber = $scope.cTxNum;
 								$scope.reloadTable();
 							}, function(error){
 								utils.errorHandler(error);
@@ -398,6 +516,41 @@ angular.module("EmmetBlue")
 		// });
 		$scope.paymentRequestBillingItems($scope.temp.requestId);
 	}
+
+	$scope.receiptData = {};
+	$scope.printReceipt = function(){
+		var req = utils.serverRequest("/accounts-biller/transaction/view-by-invoice?resourceId="+$scope.temp.requestId, "GET");
+
+		req.then(function(response){
+			$scope.receiptData = {
+				amountPaid:response.BillingAmountPaid,
+				customerName:response.BillingTransactionCustomerName,
+				invoiceData:{
+					type:response.invoiceData.BillingType,
+					number: response.invoiceData.BillingTransactionNumber,
+					createdBy: response.invoiceData.CreatedByUUID,
+					status: response.invoiceData.BillingTransactionStatus,
+					amount: response.invoiceData.BilledAmountTotal,
+					patient: response.invoiceData.PatientID,
+					totalAmount: response.invoiceData.BilledAmountTotal,
+					items: response.invoiceData.BillingTransactionItems,
+					paid: response.invoiceData._meta.status,
+					amountPaid: response.invoiceData.BillingAmountPaid,
+					department: response.invoiceData.RequestDepartmentName
+				},
+				metaId: response.BillingTransactionMetaID,
+				paymentMethod:response.BillingPaymentMethod,
+				transactionId: response.BillingTransactionID,
+				transactionStatus:"Reprint"
+			};
+
+			$("#request_payment_bill").modal("hide");
+			$("#_payment_receipt").modal("show");
+		}, function(error){
+			utils.errorHandler(error);
+		});
+	}
+
 	$scope.verifyPayment = function(requestNumber){
 		var request = utils.serverRequest('/accounts-biller/payment-request/get-status?resourceId&requestNumber='+requestNumber, 'GET');
 		request.then(function(response){
@@ -416,9 +569,6 @@ angular.module("EmmetBlue")
 		}, function(error){
 			utils.errorHandler(error);
 		})
-	}
-	$scope.removeFromItemList = function(index, item){
-		utils.alert("Operation not allowed", "You are not allowed to perform that action", "info");
 	}
 
 	$scope.functions = functions;
@@ -439,34 +589,6 @@ angular.module("EmmetBlue")
 	}
 
 	loadDepartments();
-
-	$scope.getDateRange = function(selector){
-		var today = new Date();
-		switch(selector){
-			case "today":{
-				return today.toLocaleDateString() + " - " + today.toLocaleDateString();
-			}
-			case "yesterday":{
-				var yesterday = new Date(new Date(new Date()).setDate(new Date().getDate() - 1)).toLocaleDateString();
-				return yesterday + " - " + yesterday;
-				break;
-			}
-			case "week":{
-				var d = new Date(today);
-			  	var day = d.getDay(), diff = d.getDate() - day + (day == 0 ? -6 : 1);
-
-			  	return new Date(d.setDate(diff)).toLocaleDateString() + " - " + today.toLocaleDateString();
-			  	break;
-			}
-			case "month":{
-				var year = today.getFullYear();
-				var month = today.getMonth() + 1;
-
-				return month+'/1/'+year + ' - ' + today.toLocaleDateString();
-				break;
-			}
-		}
-	}
 
 	$scope.activateFilter = function(){
 		var selector = $scope.filterSelector;
@@ -522,6 +644,14 @@ angular.module("EmmetBlue")
 				var value = selector.value.split("<seprator>");
 				$scope.requestFilter.value = value[1];
 				$scope.requestFilter.description = "Department: '"+value[0]+"'";
+				$scope.reloadTable();
+				break;
+			}
+			case "patienttype":{
+				$scope.requestFilter.type = "patienttype";
+				var value = selector.value.split("<seprator>");
+				$scope.requestFilter.value = value[1];
+				$scope.requestFilter.description = "Patient Type: '"+value[0]+"'";
 				$scope.reloadTable();
 				break;
 			}

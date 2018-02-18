@@ -1,11 +1,203 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-<script>$('select.select').select2();</script>
+<script type="text/javascript" src="assets/js/plugins/ui/moment/moment.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/pickers/daterangepicker.js"></script>
+<script src="assets/js/plugins/forms/tags/tagsinput.min.js"></script>
+<script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
+<script>
+	$('select.select').select2();
+	$('.daterange').daterangepicker({
+		showWeekNumbers: true,
+		showDropdowns: true,
+        opens: "right",
+        applyClass: 'bg-success',
+        cancelClass: 'btn-default'
+	});
+</script>
 
 <div ng-controller="pharmacyDispensationController">
+	<ul class="icons-list pull-right">
+		<li>Current Filter: <label class="label label-info">{{requestFilter.description}}</label></li>
+		<li><a data-action="reload" ng-click="reloadDispensationsTable()" class="btn btn-icon btn-clear"> Reload Requests</a></li>
+		<li><a href="#" title="Toggle Filter Selector" class="btn btn-icon btn-clear text-danger" ng-click="showRequestFilters = !showRequestFilters"><i class="icon-filter3"></i> Toggle Filter Selector</a></li>
+	</ul>
+	<div class="col-md-12" ng-show="showRequestFilters">
+		<div class="form-group col-md-4">
+			<label class="control-label">Filter By</label>
+			<select class="select" ng-model="filterSelector.type" ng-change="filterSelector.value = null">
+				<optgroup label="Sub Groups">					
+					<option value="status">Status</option>
+					<option value="patienttype">Patient Type</option>
+					<option value="patient">Patient</option>
+					<option status="disabled" value="staff">Staff</option>
+				</optgroup>
+
+				<optgroup label="Date Ranges">
+					<option value="Today's Requests<seprator>{{getDateRange('today')}}">Today</option>
+					<option value="Yesterday's Requests<seprator>{{getDateRange('yesterday')}}">Yesterday</option>
+					<option value="This Week's Requests<seprator>{{getDateRange('week')}}">This Week</option>
+					<option value="This Month's Requests<seprator>{{getDateRange('month')}}">This Month</option>
+					<option status="disabled" value="This Quarter's Requests<seprator>{{getDateRange('quarter')}}">This Quarter</option>
+					<option status="disabled" value="This Year's Requests<seprator>{{getDateRange('year')}}">This Year</option>
+				</optgroup>
+
+				<option value="dateRange">Specify Date Range</option>
+			</select>
+		</div>
+		<div class="form-group col-md-8" ng-show="filterSelector.type == 'status'">
+			<label class="control-label">Select Status</label>
+			<select class="select" ng-model="filterSelector.value">
+				<option status="disabled" value="Unacknowledged Requests<seprator>0">Unacknowledged Requests</option>
+				<option value="Retracted Transactions<seprator>2">Retracted Transactions</option>
+				<option value="Acknowledged Requests<seprator>-1">Acknowledged Requests</option>
+				<option value="Completed Dispensations<seprator>1">Completed Dispensations</option>
+				<option value="Incomplete Dispensations<seprator>-2">Incomplete Dispensations</option>
+			</select>
+		</div>
+		<div class="form-group col-md-8" ng-show="filterSelector.type == 'patienttype'">
+			<label class="control-label">Select Patient Type</label>
+			<select class="select" ng-model="filterSelector.value">
+				<option ng-repeat="type in patientTypes" value="{{type.CategoryName}}<seprator>{{type.CategoryName}}">{{type.CategoryName}}</option>
+			</select>
+		</div>
+		<div class="form-group col-md-8" ng-show="filterSelector.type == 'patient'">
+			<label class="control-label">Enter Patient's Hospital Number</label>
+			<div class="input-group">
+				<span class="input-group-addon"><i class="icon-user-lock"></i></span>
+				<input type="text" class="form-control" ng-model="filterSelector.value" placeholder="Patient ID" /> 
+			</div>
+		</div>
+		<div class="form-group col-md-8" ng-show="filterSelector.type == 'staff'">
+			<label class="control-label">Enter Staff's Username Here</label>
+			<div class="input-group col-md-6">
+				<span class="input-group-addon"><i class="icon-user-lock"></i></span>
+				<input type="text" class="form-control col-md-6" ng-model="filterSelector.value" placeholder="Staff Username" /> 
+			</div>
+			<input type="text" data-role="tagsinput" class="tagsinput-typeahead col-md-6" ng-model="filterSelector.date" placeholder="Add dates to show (mm/dd/yyyy)" /> 
+		</div>
+		<div class="form-group col-md-8" ng-show="filterSelector.type == 'dateRange'">
+			<label class="control-label">Pick Date Ranges</label>
+			<div class="input-group">
+				<span class="input-group-addon"><i class="icon-calendar22"></i></span>
+				<input type="text" class="form-control daterange" ng-model="filterSelector.value"> 
+			</div>
+		</div>
+		<div class="content-group col-md-12">
+			<button class="btn btn-info col-md-3 bg-primary pull-right btn-labeled" ng-click="activateFilter()">
+				<b><i class="icon-filter4"></i></b> Set Filter
+			</button>
+		</div>
+	</div>
 	<div class="table-responsive col-md-12">
 		<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
 
 		</table>
 	</div>
-</div>
 
+	<div id="ack_view_modal" class="modal fade">
+		<div class="modal-dialog modal-full">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<h6 class="modal-title">Prescription Request for {{_currentRequest.patientInfo.patientfullname}}<br/><span class="label label-primary bg-white">{{_currentRequest.patientInfo.patienttypename}}, {{_currentRequest.patientInfo.categoryname}}</span>
+					<span ng-if="_currentRequest.isAdmitted" class="label label-info bg-white">IN-PATIENT</span>
+					</h6>
+					<h6 class="pull-right"></h6>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<div class="row" style="margin-top: -10px;">
+						<h3 class="text-center text-bold text-danger" ng-if="_currentRequest.Acknowledged == 2"><i class="fa fa-exclamation-triangle" style="font-size: 2em"></i> <br/>PLEASE NOTE THAT YOU ARE CURRENTLY VIEWING A RETRACTED REQUEST</h3>
+						<div class="col-md-3" style="border-right: 1px solid green">
+							<h4 class="text-center text-info"><u>Original Request</u></h4>
+							<h6>Requested By: <b>{{_currentRequest.RequestedByFullName}}</b></h6>
+							<h6>Acknowledged By: <b>{{_currentRequest.AcknowledgedByFullName}}</b></h6>
+							<div class="content-group" ng-repeat="prescription in _currentRequest.Request" ng-if="!exists(prescription, 'smart')">
+								<label class="control-label"><span class='text-bold'>{{$index + 1}}.</span> {{prescription.item}}</label>
+								<p class="text-bold pl-10">{{prescription.duration}}</p>
+							</div>
+							<div class="content-group" ng-repeat="prescription in _currentRequest.Request" ng-if="exists(prescription, 'smart')">
+								<span ng-if="prescription.smart">
+									<label class="control-label"><span class='text-bold'>{{$index + 1}}.</span> <b>{{prescription.item.item.name}}</b></label>
+									<p class="pl-10">{{prescription.item.item.category}}, {{prescription.item.times}} daily for {{prescription.item.duration}} days <span class="label label-success">SMART</span></p>
+								</span>
+								<span ng-if="!prescription.smart">
+									<label class="control-label"><span class='text-bold'>{{$index + 1}}.</span> {{prescription.item.name}} <br/><span class="label label-warning">NOT SMART</span></label>
+								</span>
+							</div>
+						</div>
+						<div class="table-responsive col-md-9" style="border-left: 1px solid green">
+							<h4 class="text-center text-info"><u>Dispensable Items</u></h4>
+							<table class="table table-hover">
+								<thead class="bg-success">
+									<th colspan="2" class="text-center">Item</th>
+									<th>Qty</th>
+									<th>Expiry Date</th>
+									<th>Available Unit</th>
+									<th colspan="2">Dispensing Unit</th>
+								</thead>
+								<tbody>
+									<tr ng-repeat="item in currrentDispensedItems">
+										<td width="2%">
+											<div class="checkbox">
+												<label>
+													<input type="checkbox" ng-model="selectedItems[item.DispensedItemsID]" ng-disabled="_currentRequest.Acknowledged == 1">
+													<i ng-if="selectedItems[item.DispensedItemsID]">dispensed</i>
+													<i ng-if="!selectedItems[item.DispensedItemsID]" class="text-danger">undispensed</i>
+												</label>
+											</div>
+										</td>
+										<td>
+											<span class="text-bold">
+												{{item.BillingTypeItemName}}
+											</span><br/>
+											<span class="text-small" ng-if="item.ItemBrand || item.ItemManufacturer">
+												<span ng-if="item.ItemBrand">
+													{{item.ItemBrand}}
+												</span>
+												<span ng-if="item.ItemManufacturer">, {{item.ItemManufacturer}}</span><br/>
+											</span>
+											<span class="text-small text-info">
+												Item ID: {{item.ItemID}}
+											</span>
+										</td>
+										<td><span class="text-danger">&times;</span> {{item.DispensedQuantity}}</td>
+										<td colspan="5">
+											<table class="table">
+												<tbody>
+													<tr ng-repeat="label in item.label">
+														<td ng-class="isExpired(label.ItemExpiryDate) ? 'text-danger' : 'text-success'">
+															<strong>{{toDateString(label.ItemExpiryDate)}}</strong>
+														</td>
+														<td>{{label.AvailableQuantity}}</td>
+														<td>
+															<input class="form-control" type="number" ng-model="label.ItemDispensedUnit"/>
+														</td>
+														<td>
+															<button class="btn btn-link text-danger" ng-click="removeLabel($index, $parent.$index)"><i class="fa fa-times"></i></button>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer" ng-if="_currentRequest.Acknowledged == -1">
+					<button type="submit" class="btn btn-danger" ng-click="close('retract')">Retract this transaction</button>
+					<button type="submit" class="btn btn-info" ng-click="initScanner()">
+						<input ng-model="scannedCode" id="scanned-code" style="width: 0px; height: 0px; border: 0px"/>Begin Item Scanning
+					</button>
+					<button type="submit" class="btn btn-success" ng-click="close()">Mark this request as dispensed</button>
+				</div>
+				<div class="modal-footer" ng-if="_currentRequest.Acknowledged == -2">
+					<button type="submit" class="btn btn-info" ng-click="initScanner()">
+						<input ng-model="scannedCode" id="scanned-code" style="width: 0px; height: 0px; border: 0px"/>Begin Item Scanning
+					</button>
+					<button type="submit" class="btn btn-success" ng-click="close()">Mark this request as dispensed</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

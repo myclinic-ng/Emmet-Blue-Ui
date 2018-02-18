@@ -43,7 +43,9 @@ angular.module("EmmetBlue")
 		utils.DT.columnBuilder.newColumn('patientInfo.patientuuid').withTitle("Patient Number"),
 		utils.DT.columnBuilder.newColumn('patientInfo.patientfullname').withTitle("Patient Name"),
 		utils.DT.columnBuilder.newColumn('Request').withTitle("Pharmacy Request/Prescription"),
-		utils.DT.columnBuilder.newColumn('RequestDate').withTitle("Date Created"),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Date Created").renderWith(function(data, a, b){
+			return (new Date(data.RequestDate)).toDateString()+" "+(new Date(data.RequestDate)).toLocaleTimeString();
+		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(dtAction).notSortable()
 	];
 

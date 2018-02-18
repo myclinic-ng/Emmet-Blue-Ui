@@ -10,9 +10,10 @@ var css = [
 	"assets/css/watermark.min.css",
 	"assets/css/datatables/angular-datatables.min.css",
 	"assets/css/datatables/buttons.dataTables.min.css",
-	"assets/css/datatables/fixedHeader.dataTables.min.css",
 	"assets/js/plugins/sliders/slick/slick.css",
-	"assets/angular/libraries/ng-print/ngPrint.min.css"
+	"assets/angular/libraries/ng-print/ngPrint.min.css",
+	"assets/css/dt-picker.min.css",
+	"assets/angular/libraries/angular-bootstrap-calendar/angular-bootstrap-calendar.min.css"
 ];
 
 var jquery = {"jquery": "assets/js/core/libraries/jquery.min.js"};
@@ -28,15 +29,23 @@ var libraries = [
 	"assets/js/plugins/notifications/sweet_alert.min.js",
 	"assets/js/plugins/tables/datatables/datatables.min.js",
 	"assets/js/plugins/tables/datatables/extensions/dataTables.fixedHeader.min.js",
+	// "assets/js/plugins/tables/datatables/extensions/dataTables.bootstrap.min.js",
 	"assets/js/core/libraries/jasny_bootstrap.min.js",
 	"assets/js/plugins/webcam/webcam.min.js",
-	"assets/js/core/libraries/jquery_ui/core.min.js",
-	"assets/js/core/libraries/jquery_ui/effects.min.js",
-	"assets/js/core/libraries/jquery_ui/interactions.min.js",
-	"assets/js/plugins/trees/fancytree_all.min.js",
+	// "assets/js/core/libraries/jquery_ui/core.min.js",
+	// "assets/js/core/libraries/jquery_ui/effects.min.js",
+	// "assets/js/core/libraries/jquery_ui/interactions.min.js",
+	// "assets/js/plugins/trees/fancytree_all.min.js",
+	// "assets/js/plugins/trees/fancytree_childcounter.min.js",
+	"assets/js/moment.min.js",
+	"assets/js/plugins/extensions/session_timeout.min.js",
 	"assets/js/plugins/media/fancybox.min.js",
-	"assets/js/plugins/trees/fancytree_childcounter.min.js",
-	"assets/js/plugins/ui/prism.min.js"
+	"assets/js/plugins/ui/prism.min.js",
+	"assets/js/dt-picker.js",
+	"assets/js/dom-to-image.min.js",
+	"assets/js/qrcodegenlib.js",
+	"assets/js/qrcodegen.js",
+	"assets/js/jsbarcode.code128.min.js"
 ];
 
 var themes = [
@@ -44,7 +53,7 @@ var themes = [
 ];
 
 var angular = {"angular": "assets/angular/libraries/angular.min.js"};
-var appDefaults = {"appDefaults": "assets/angular/core/defaults.js"}
+var appDefaults = ["./consts.js", {"appDefaults": "assets/angular/core/defaults.js"}];
 var app = {"app": "assets/angular/core/app.js"};
 var angularLibraries = [
 	"assets/angular/libraries/angular-route.min.js",
@@ -53,7 +62,9 @@ var angularLibraries = [
 	"assets/angular/libraries/angular-messages.min.js",
 	"assets/angular/libraries/angular-cookies.min.js",
 	"assets/angular/libraries/angular-sanitize.min.js",
-	"assets/angular/libraries/angular-datatables.min.js",
+	"assets/angular/libraries/angular-datatables.js",
+	"assets/angular/libraries/angular-moment.min.js",
+	// "assets/angular/libraries/angular-datatables.bootstrap.min.js",
 	"assets/angular/libraries/ng-print/ngPrint.min.js",
 	"assets/angular/libraries/ng-pagination/ng-pagination.min.js",
 	"assets/angular/libraries/angular-datatables.buttons.min.js",
@@ -63,7 +74,8 @@ var angularLibraries = [
 	"assets/angular/libraries/datatable-buttons/buttons.bootstrap.min.js",
 	"assets/angular/libraries/angular-datatables.fixedheader.js",
 	"assets/angular/libraries/angular-dropzone.min.js",
-	"assets/angular/libraries/ngStorage.min.js"
+	"assets/angular/libraries/ngStorage.min.js",
+	"assets/angular/libraries/angular-bootstrap-calendar/angular-bootstrap-calendar-tpls.min.js"
 ]
 
 // Load Files
@@ -90,6 +102,7 @@ var cntrllers = [
 	"plugins/mortuary/assets/controllers.js",
 	"plugins/user/assets/controllers.js",
 	"plugins/human-resources/assets/controllers.js",
+	"plugins/human-resources/it/assets/controllers.js",
 	"plugins/accounts/billing/assets/controllers.js",
 	"plugins/accounts/main/assets/controllers.js",
 	"plugins/accounts/hmo/assets/controllers.js",
@@ -99,7 +112,9 @@ var cntrllers = [
 	"plugins/pharmacy/assets/controllers.js",
 	"plugins/pharmacy/dispensory/assets/controllers.js",
 	"plugins/consultancy/assets/controllers.js",
-	"plugins/lab/assets/controllers.js"
+	"plugins/lab/assets/controllers.js",
+	"plugins/financial-audit/assets/controllers.js",
+	"plugins/records/cloud/assets/controllers.js"
 ]
 
 var services = [

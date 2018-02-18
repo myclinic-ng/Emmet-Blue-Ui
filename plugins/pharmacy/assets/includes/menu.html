@@ -8,16 +8,28 @@
 		<div class="navbar-collapse collapse" id="navbar-second-toggle">
 			<ul class="nav navbar-nav">
 				<li><a href="pharmacy/dashboard"><i class="icon-display4 position-left"></i> Dashboard</a></li>
-				<!-- <li><a href="pharmacy/manage-stores"><i class="fa fa-archive"></i> Manage Stores</a></li> -->
+				<li><a href="pharmacy/inventory-items"><i class="fa fa-archive"></i> Manage Inventory Items</a></li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="fa fa-bar-chart"></i> View Logs/Reports
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="pharmacy/reports"><i class="position-left"></i> Dispensation Logs/Reports</a></li>
+						<li><a href="pharmacy/transfer-reports"><i class="position-left"></i> Store Transfer Logs/Reports</a></li>
+					</ul>
+				</li>
+				<li><a href="pharmacy/billing-types"><i class="icon-cart position-left"></i> Manage Billing Type Items</a></li>
+				<li><a href="pharmacy/purchase-invoices"><i class="icon-calculator position-left"></i> Manage Purchase Invoices</a></li>
 			</ul>
 
-			<ul class="nav navbar-nav navbar-right">
+			<!-- <ul class="nav navbar-nav navbar-right">
 				<li><a href="#" data-toggle="modal" data-target="#setting_dispensory_store" data-backdrop="static"><i class="icon-gear"></i> All settings</a></li>
-			</ul>
+			</ul> -->
 		</div>
 </div>
 <!-- /second navbar -->
 
 <!-- Settings Modal-->
-<ng-include src="'plugins/pharmacy/assets/includes/setting/index.html'"></ng-include>
+<!-- <ng-include src="'plugins/pharmacy/assets/includes/setting/index.html'"></ng-include> -->
 <!--/Settings Modal-->

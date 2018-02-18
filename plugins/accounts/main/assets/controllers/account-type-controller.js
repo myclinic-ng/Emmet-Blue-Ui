@@ -64,7 +64,6 @@ angular.module("EmmetBlue")
 	})
 	.withPaginationType('full_numbers')
 	.withDisplayLength(10)
-	.withFixedHeader()
 	.withOption('createdRow', function(row, data, dataIndex){
 		utils.compile(angular.element(row).contents())($scope);
 	})
