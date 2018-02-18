@@ -164,4 +164,10 @@ angular.module("EmmetBlue")
 			})
 		}
 	}
+
+	var userSessionQrCodeHandler = function(){
+		$(".userSessionQrCodeSvg").html(utils.generateQrCode(JSON.stringify(utils.userSession.cookie()), "user"));
+	}
+
+	userSessionQrCodeHandler();
 });

@@ -515,7 +515,8 @@ angular.module("EmmetBlue")
 					resourceId: $scope.currentRequestID,
 					status: 1,
 					staff: utils.userSession.getID(),
-					itemStatus: []
+					itemStatus: [],
+					labels:[]
 				};
 
 				angular.forEach($scope.selectedItems, function(value, key){
@@ -525,12 +526,45 @@ angular.module("EmmetBlue")
 					}
 				});
 
-				utils.serverRequest('/pharmacy/pharmacy-request/close', 'PUT', data).then(function(response){
-					$("#ack_view_modal").modal("hide");
-					$scope.reloadDispensationsTable();
-				}, function(error){
-					utils.errorHandler(error);
-				});
+				var containsUnscanItems = false;
+				for (var i = 0; i < $scope.currrentDispensedItems.length; i++){
+					if (typeof $scope.currrentDispensedItems[i].label == "undefined"){
+						if (data.status == -2 && data.itemStatus.indexOf($scope.currrentDispensedItems[i].DispensedItemsID) != -1){
+							continue;
+						}
+						else {
+							containsUnscanItems = true;
+							break;
+						}
+					} else {
+						for (var k = $scope.currrentDispensedItems[i].label.length - 1; k >= 0; k--) {
+							var _label = $scope.currrentDispensedItems[i].label[k];
+							data.labels.push({
+								LabelID: _label.LabelID,
+								LabelUUID: _label.LabelUUID,
+								ItemDispensedUnit: _label.ItemDispensedUnit
+							});
+						}
+
+						if (data.labels.length == 0){
+							containsUnscanItems = true;
+						}
+					}
+				}
+
+				if (containsUnscanItems){
+					utils.notify("Some items not scanned");
+					$scope.initScanner();
+				}
+				else {
+					utils.serverRequest('/pharmacy/pharmacy-request/close', 'PUT', data).then(function(response){
+						$("#ack_view_modal").modal("hide");
+						$scope.reloadDispensationsTable();
+					}, function(error){
+						utils.errorHandler(error);
+					});
+				}	
+				
 				break;
 			}
 			case "retract":{
@@ -616,6 +650,9 @@ angular.module("EmmetBlue")
 				utils.serverRequest("/pharmacy/pharmacy-request/view?resourceId="+$scope.currentRequestID, "GET")
 				.then(function(response){
 					$scope._currentRequest = response;
+					if (response.Acknowledged == -1 || response.Acknowledged == -2){
+						$scope.initScanner();
+					}
 				}, function(error){
 					utils.errorHandler(eror);
 				});
@@ -696,5 +733,120 @@ angular.module("EmmetBlue")
 
 	$scope.exists = function(p, ind){
 		return typeof p[ind] != "undefined"
+	}
+
+	$scope.processLabelScan = function(data){
+		var uuid = data;
+
+		var req = utils.serverRequest("/pharmacy/inventory-label/get-label-details?uuid="+uuid, "GET");
+		req.then(function(response){
+			var item = response.ItemID;
+			var found = false;
+			if (response.AvailableQuantity > 0){
+				for (var i = 0; i < $scope.currrentDispensedItems.length; i++){
+					if ($scope.currrentDispensedItems[i].ItemID == item){
+						var reqQty = parseInt($scope.currrentDispensedItems[i].DispensedQuantity);
+
+						if (typeof $scope.currrentDispensedItems[i]["label"] == "undefined"){
+							$scope.currrentDispensedItems[i]["label"] = [];
+							if (reqQty > response.AvailableQuantity){
+								reqQty = response.AvailableQuantity
+							}
+						}
+						else {
+							var disQty = 0;
+							for (var k = $scope.currrentDispensedItems[i]["label"].length - 1; k >= 0; k--) {
+								disQty += $scope.currrentDispensedItems[i]["label"][k].ItemDispensedUnit
+							}
+
+							if (reqQty > disQty){
+								reqQty = reqQty - disQty;
+							}
+							else {
+								reqQty = 0;
+							}
+						}
+
+						response.ItemDispensedUnit = reqQty;
+						$scope.currrentDispensedItems[i]["label"].push(response);
+						found = true;
+						break;
+					}
+				};
+			}
+
+			if (found){
+				utils.notify("Scan completed successfully", "", "success");
+			}
+			else {
+				if (response.AvailableQuantity <= 0){
+					utils.notify("Invalid Scan Detected", "Scanned Item Has Exceeded Its Max Threshold", "warning");
+				}
+				else {
+					utils.notify("Invalid Scan Detected", "Scanned Item Not In Dispensation List Or Is Unrecognized", "error");
+				}
+			}
+
+		}, function(error){
+			utils.errorHandler(error);
+		});
+	}
+
+	$scope.removeLabel = function(index, parent){
+		$scope.currrentDispensedItems[parent].label.splice(index, 1);
+		$scope.initScanner();
+	}
+
+	$scope.initLabelScanner = function(){
+		var socket = utils.newWebSocket();
+
+		socket.onopen = function(event){
+			var data = {"to":"0", "content":utils.userSession.getID()};
+			socket.send(JSON.stringify(data));
+		}
+
+		socket.onmessage = function(data){
+			data = (JSON.parse(data.data));
+			switch(data.type){
+				case "broadcast":{
+					var label = data.content;
+					if (label.to == utils.userSession.getID()){
+						var content = JSON.parse(label.content);
+						
+						$scope.processLabelScan(content);
+					}
+					else {
+						console.log("Intercepted scan meant for a different device");
+					}
+					break;
+				}
+
+				default:{
+					console.log("socket message intercepted");
+				}
+			}
+		}
+	}
+
+	$scope.initScanner = function(){
+		$("#scanned-code").focus();
+		$('#scanned-code').on({
+		    keypress: function() { typed_into = true; },
+		    change: function() {
+		        if (typed_into) {
+		        	$scope.processLabelScan($(this).val());
+		            typed_into = false;
+		            $(this).val("");
+		        }
+		    }
+		});
+	}
+
+	$scope.isExpired = function(date){
+		return new Date() >= new Date(date);
+	}
+
+	$scope.toDateString = function(date){
+		return (new Date(date)).toLocaleDateString();
 	}
 });

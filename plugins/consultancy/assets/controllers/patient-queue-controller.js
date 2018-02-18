@@ -8,8 +8,6 @@ angular.module("EmmetBlue")
 
 		req.then(function(response){
 			$scope.queuedPatients = response;
-		}, function(error){
-			utils.errorHandler(error);
 		});
 	}
 

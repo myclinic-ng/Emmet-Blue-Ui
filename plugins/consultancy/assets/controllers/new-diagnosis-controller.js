@@ -1,6 +1,7 @@
 angular.module("EmmetBlue")
 
 .controller("consultancyNewDiagnosisController", function($scope, utils, $http, $rootScope){
+	$scope.utils = utils;
 	var modules = {};
 	
 	$scope.exists = function(p, ind){
@@ -340,6 +341,7 @@ angular.module("EmmetBlue")
 					var req = utils.serverRequest("/patients/patient-repository/view-most-recent-json-by-patient?resourceId="+$scope.patient.profile.patientid, 'GET');
 					req.then(function(response){
 						$scope.mostRecentObservation = response
+						console.log($scope.mostRecentObservation);
 					}, function(error){
 						utils.errorHandler(error);
 						utils.notify("Unable to load most recent observation", "", "warning");
@@ -390,6 +392,15 @@ angular.module("EmmetBlue")
 			// }, function(error){
 			// 	utils.errorHandler(error);
 			// });
+		},
+		loadPendingInvestigations: function(){
+			var req = utils.serverRequest("/lab/patient/view?resourceId=0&patient="+$scope.patient.profile.patientid, "GET");
+
+			req.then(function(response){
+				$scope.patient.history.pendingInvestigations = response;
+			}, function(error){
+				utils.errorHandler(error);
+			})
 		}
 	}
 
@@ -596,8 +607,6 @@ angular.module("EmmetBlue")
 				}
 			}
 
-			// console.log(data);
-
 			var successCallback = function(response){
 				utils.notify("Operation Successful", "Diagnosis has been submitted", "success");
 
@@ -622,12 +631,13 @@ angular.module("EmmetBlue")
 					//continue;
 				}
 				else if (response.length == 1 && response[0].Consultant  == utils.userSession.getID()){
-					modules.globals.loadSavedDiagnosis();
 				}
 				else {
 					$scope.allSavedDiagnoses = response;
 					$("#show-saved-diag-selector").modal("show");
 				}
+				
+				modules.globals.loadSavedDiagnosis();
 			}, errorCallback);
 		},
 		loadSavedDiagnosis: function(patient=0, consultant=0){
@@ -656,7 +666,7 @@ angular.module("EmmetBlue")
 					$scope.conclusion.diagnosis = {};
 					$scope.conclusion.prescriptionList = [];
 
-					modules.examination.loadExaminationTypes();
+					// modules.examination.loadExaminationTypes();
 				}
 			}
 
@@ -797,8 +807,10 @@ angular.module("EmmetBlue")
 			history: {
 				displayPage: 'profile',
 				loadRepositories: modules.patient.loadRepositories,
+				loadPendingInvestigations: modules.patient.loadPendingInvestigations,
 				loadAdmissionHistory: modules.patient.loadAdmissionHistory,
 				repositories: {},
+				pendingInvestigations: {},
 				loadRepo: function(repo){
 					$scope.patient.history.repositories.currentRepository = repo;
 					$("#repository-items").modal("show");
@@ -940,6 +952,10 @@ angular.module("EmmetBlue")
 		$scope.conclusion.prescriptionList = data;
 	});
 
+	$scope.$on("examinationObservationConducted", function(e, data){
+		$scope.examination.examinationTypes.push(data);
+	})
+
 	$scope.$watch(function(){ return $scope.conclusion.diagnosis.title; }, function(nv, ov){
 		$rootScope.$broadcast("currentDiagnosis", nv);
 	})
@@ -954,4 +970,6 @@ angular.module("EmmetBlue")
 		$rootScope.$broadcast("prepareNewAdmission", patient);
 		$("#_patient-admission-form").modal("show");	
 	}
+
+
 });

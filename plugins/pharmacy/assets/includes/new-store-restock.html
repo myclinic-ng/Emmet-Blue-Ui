@@ -6,8 +6,8 @@
 		<div class="content-group col-md-9">
 			<label class="control-label">Select Item(s)</label>
 			<select class="select" multiple="" ng-model="stock.selectedItems" id="#selectedItems">
-				<option ng-repeat="item in inventoryItems" value="{{item.ItemID}}" ng-if="!itemBrandIsNull(item.ItemBrand)">{{item.BillingTypeItemName}} ({{item.ItemBrand}})</option>
-				<option ng-repeat="item in inventoryItems" value="{{item.ItemID}}" ng-if="itemBrandIsNull(item.ItemBrand)">{{item.BillingTypeItemName}}</option>
+				<option ng-repeat="item in inventoryItems" value="{{item.ItemID}}" ng-if="!itemBrandIsNull(item.ItemBrand)">{{item.BillingTypeItemName}} ({{item.ItemBrand}}) [{{item.ItemQuantity}} available] </option>
+				<option ng-repeat="item in inventoryItems" value="{{item.ItemID}}" ng-if="itemBrandIsNull(item.ItemBrand)">{{item.BillingTypeItemName}} [{{item.ItemQuantity}} available] </option>
 			</select>
 		</div>
 		<div class="content-group col-md-3">

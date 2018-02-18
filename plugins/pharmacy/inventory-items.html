@@ -1,6 +1,19 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
 <script>$('select.select').select2();</script>
 
+<style>
+	@media print {
+		.font-black: {
+			color: rgb(0,0,0) !important;
+			font-weight: bolder !important;
+			margin: 30px !important;
+		}
+		.ins-page-brk {
+			page-break-after: always;
+		}
+	}
+</style>
+
 <div ng-controller="pharmacyInventoryController">
 	<div class="panel panel-success">
 		<div class="panel-heading">
@@ -158,6 +171,120 @@
 					</div>
 				</div>
 			</div>
+
+			<div id="inventory_label_manager" class="modal fade">
+				<div class="modal-full">
+					<div class="modal-content">
+						<div class="modal-header bg-warning">
+							<button type="button" class="close" onclick="$('#inventory_label_manager').modal('hide')">&times;</button>
+							<h6 class="modal-title">Inventory Items Label Generator</h6>
+						</div>
+
+						<div class="modal-body">
+							<div class="row">
+								<div class="col-md-5" style="border-right: 1px solid green">
+									<h3 class="text-center">Generate New Labels</h3>
+									<form role="form">
+										<div class="form-group">
+											<div class="row">
+												<div class="content-group col-sm-12">
+													<label class="text-bold">Batch Number</label>
+													<input class="form-control" ng-model="newInvLabel['data'].batchNumber"/>
+												</div>
+												<div class="content-group col-sm-12">
+													<label class="text-bold">Serial Number</label>
+													<input class="form-control" ng-model="newInvLabel['data'].serialNumber"/>
+												</div>
+												<div class="content-group col-sm-6">
+													<label class="text-bold">Manufactured Date</label>
+													<input class="form-control" ng-model="newInvLabel['data'].manufacturedDate" type="date"/>
+												</div>
+												<div class="content-group col-sm-6">
+													<label class="text-bold">Expiry Date</label>
+													<input class="form-control" ng-model="newInvLabel['data'].expiryDate" type="date"/>
+												</div>
+												<div class="checkbox col-sm-3">
+													<label class="checkbox-inline">
+														<input type="checkbox" checked="checked" ng-model="newInvLabel['data'].dispensableInUnits">
+														Dispensable In Units
+													</label>
+												</div>
+												<div class="content-group col-sm-4">
+													<label class="text-bold">Total Units</label>
+													<input class="form-control" type="number" id="newLabelTotalUnits" ng-model="newInvLabel['data'].totalUnit"/>
+												</div>
+												<div class="content-group col-sm-5">
+													<label class="text-bold">Total Labels To Generate</label>
+													<input class="form-control" type="number" ng-model="newInvLabel.labelQty"/>
+												</div>
+												<div class="text-center"><button type="button" class="btn btn-warning" ng-click="generateNewLabels()">Generate</button></div>
+											</div>
+										</div>
+									</form>
+								</div>
+								<div class="col-md-7">
+									<div class="col-md-7 col-md-offset-2">
+										<div class="content-group col-sm-12">
+											<label class="text-bold">Item Batch Number</label>
+											<input class="form-control" ng-model="searchLabel.btchNo"/>
+										</div>
+										<div class="content-group col-sm-6">
+											<label class="text-bold">Manufactured Date</label>
+											<input class="form-control" ng-model="searchLabel.mfDate" type="date"/>
+										</div>
+										<div class="content-group col-sm-6">
+											<label class="text-bold">Expiry Date</label>
+											<input class="form-control" ng-model="searchLabel.expDate" type="date"/>
+										</div>
+										<div class="text-center"><button type="button" class="btn btn-warning" ng-click="searchLabels()">Search</button></div>
+									</div>
+									<div class="col-md-12 mt-10 text-center">
+										<h2 class="mb-10">Found <strong><em>{{printableLabels.length}}</em></strong> Printable Labels Matching Search Query.</h2>
+										<div ng-if="printableLabels.length > 0" class="mt-10"><button type="button" class="btn btn-success" ng-click="printLabels(printLabelQuantity, true)">Print Found Labels</button></div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="modal-footer">
+							<button type="button" class="btn btn-link" onclick="$('#inventory_label_manager').modal('hide')" ng-click="newItem = {}"><i class="fa fa-times-circle-o"></i> Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="print_inventory_labels" class="modal fade">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header bg-info">
+							<button type="button" class="close" onclick="$('#print_inventory_labels').modal('hide')">&times;</button>
+							<h6 class="modal-title">Print Inventory Item Labels</h6>
+						</div>
+
+						<div class="modal-body">
+							<div class="row">
+								<div class="col-md-12 content-group">
+									<label class="control-label">Quantity to print (max: <strong><em>{{printableLabels.length}}</em></strong>)</label>
+									<div class="col-md-10"><input class="form-control" type="number" data-max="{{printLabels.length}}" data-min="1" ng-model="printLabelQuantity"/></div>
+									<button class="btn btn-default col-md-1" ng-click="printLabels(printLabelQuantity)">Go</button>
+								</div>
+								<div id="qr_labels">
+									<div class="row font-black">
+										<!-- <div ng-repeat="item in printableGeneratedLabels" class="col-xs-12 ins-page-brk">
+											<img id="barCode-{{$index}}"/>
+										</div> -->
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="modal-footer">
+							<button type="button" class="btn btn-warning" ng-print print-element-id="qr_labels" ><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"> </i></span> Print</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
 		</div>
 	</div>
 </div>

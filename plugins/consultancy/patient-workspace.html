@@ -56,7 +56,7 @@
 			<div class="col-sm-9">
 				<div class="tabbable">
 					<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
-						<li class="active" href="#archives" data-toggle="tab" ng-click="loadRepositories()"><a><i class='icon-archive'></i> Archives</a></li>
+						<li class="active" href="#archives" data-toggle="tab" ng-click="loadRepositories();"><a><i class='icon-archive'></i> Archives</a></li>
 						<li href="#diagnosis-note" data-toggle="tab"><a><i class='icon-file-plus2'></i> Diagnosis Note</a></li>
 						<li href="#services-rendered" data-toggle="tab"><a><i class='icon-clipboard2'></i> Services Rendered</a></li>
 						<li href="#treatment-chart" data-toggle="tab"><a><i class='icon-stats-growth'></i> Treatment Chart</a></li>
@@ -65,49 +65,82 @@
 					</ul>
 
 					<div class="tab-content mr-5">
-						<div class="tab-pane active overflow-auto" style="height: 100vh" id="archives">
-							<div class="col-sm-6 mb-15"><input class="form-control" placeholder="search" ng-model="repositoryFilter"/></div>
-							<div class="col-sm-6 mb-15">
-								<select class="select" ng-model="repositoryFilter	">
-									<option value="lab_result">Lab Result</option>
-									<option value="observation">Vital Signs &amp; Other Observations</option>
-								</select>
+						<div class="tab-pane active overflow-auto" id="archives">
+							<div class="col-sm-3">
+								<div class="sidebar sidebar-main sidebar-default" style="box-shadow: none; border-color: #F5F5F5; border-radius: 0px;">
+									<div class="sidebar-content">
+										<!-- Main navigation -->
+										<div class="sidebar-category sidebar-category-visible">
+											<div class="category-content no-padding">
+												<ul class="navigation navigation-main navigation-accordion navigation-bordered">
+													<!-- Main -->
+													<li ng-click="archives.displayPage='repositories'">
+														<a href="#"><i class="icon-library2 text-teal"></i> <span> Load Archives</span></a>
+													</li>
+													<li ng-click="archives.displayPage='admissionHistory'">
+														<a href="#"><i class="icon-bed2 text-success"></i> <span> Admission History</span></a>
+													</li>
+													<li ng-click="archives.displayPage='medicalSummary'">
+														<a href="#"><i class="icon-certificate text-danger"></i> <span> Medical Summary</span></a>
+													</li>
+													<!-- /main -->
+												</ul>
+											</div>
+										</div>
+										<!-- /main navigation -->
+									</div>
+								</div>
 							</div>
-							<div class="col-sm-12" ng-repeat="repo in repositories | toArray:false | filter:repositoryFilter track by $index">
-								<div class="panel border-left-lg border-left-danger no-border-radius">
-									<div class="panel-body">
-										<div class="row">
-											<div class="col-md-8">
-												<h6 class="no-margin-top"><a href="#">{{repo.RepositoryName}}</a></h6>
-												<p class="mb-15" ng-if="repo.RepositoryDescription">{{repo.RepositoryDescription}}</p>
-												<p class="mb-15 text-muted" ng-if="!repo.RepositoryDescription">No extra note/description</p>
+							<div class="col-sm-9" style="min-height: 100vh">
+								<div class="row" ng-show="archives.displayPage=='repositories'">
+									<div class="col-md-6 mb-15"><input class="form-control" placeholder="search" ng-model="repositoryFilter"/></div>
+									<div class="col-md-6 mb-15">
+										<select class="select" ng-model="repositoryFilter	">
+											<option value="lab_result">Lab Result</option>
+											<option value="observation">Vital Signs &amp; Other Observations</option>
+										</select>
+									</div>
+									<div class="col-md-12" ng-repeat="repo in repositories | toArray:false | filter:repositoryFilter track by $index">
+										<div class="panel border-left-lg border-left-danger no-border-radius">
+											<div class="panel-body">
+												<div class="row">
+													<div class="col-md-8">
+														<h6 class="no-margin-top"><a href="#">{{repo.RepositoryName}}</a></h6>
+														<p class="mb-15" ng-if="repo.RepositoryDescription">{{repo.RepositoryDescription}}</p>
+														<p class="mb-15 text-muted" ng-if="!repo.RepositoryDescription">No extra note/description</p>
+													</div>
+
+													<div class="col-md-4">
+														<ul class="list task-details">
+															<li title="{{repo.RepositoryCreationDate}}" class="text-black">{{toDateString(repo.RepositoryCreationDate)}}</li>
+															<li class="dropdown">
+										                		Created by: &nbsp;
+																<a href="#" class="label label-danger bg-white dropdown-toggle" data-toggle="dropdown">{{staffNames[repo.RepositoryCreator]}}</a>
+															</li>
+														</ul>
+													</div>
+												</div>
 											</div>
 
-											<div class="col-md-4">
-												<ul class="list task-details">
-													<li title="{{repo.RepositoryCreationDate}}" class="text-black">{{toDateString(repo.RepositoryCreationDate)}}</li>
-													<li class="dropdown">
-								                		Created by: &nbsp;
-														<a href="#" class="label label-danger bg-white dropdown-toggle" data-toggle="dropdown">{{staffNames[repo.RepositoryCreator]}}</a>
+											<div class="panel-footer">
+												<ul>
+													<li class="text-muted">Repo UUID: <span class="text-semibold">{{repo.RepositoryNumber}}</span></li>
+												</ul>
+
+												<ul class="pull-right">
+													<li>
+														<a href="#" ng-click="loadRepo(repo.RepositoryID)"><span class="icon-download4"></span> Load Repository </a>
 													</li>
 												</ul>
 											</div>
 										</div>
 									</div>
-
-									<div class="panel-footer">
-										<ul>
-											<li class="text-muted">Repo UUID: <span class="text-semibold">{{repo.RepositoryNumber}}</span></li>
-										</ul>
-
-										<ul class="pull-right">
-											<li>
-												<a href="#" ng-click="loadRepo(repo.RepositoryID)"><span class="icon-download4"></span> Load Repository </a>
-											</li>
-										</ul>
-									</div>
 								</div>
+								<ng-patient-admission-history patient-id="admissionInfo.AdmissionInfo.Patient" ng-if="archives.displayPage=='admissionHistory'"></ng-patient-admission-history>
+								<ng-patient-medical-summary patient-id="admissionInfo.AdmissionInfo.Patient" ng-if="archives.displayPage=='medicalSummary'"></ng-patient-medical-summary>
 							</div>
+						</div>
+						<div class="tab-pane" style="height: 100vh" id="archive">
 						</div>
 						<div class="tab-pane" id="treatment-chart">
 							<ng-treatment-chart admission-id="admissionInfo.PatientAdmissionID" ng-if="patientProfileLoaded" allow-new="false"></ng-treatment-chart>

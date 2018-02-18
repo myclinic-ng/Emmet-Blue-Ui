@@ -151,7 +151,7 @@
 </div>
 
 <div id="paymentRequestLocker-{{patientInfo.patientid}}" class="modal fade">
-	<div class="modal-dialog modal-sm">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content" style="margin-top: 30%">
 			<div class="modal-header bg-success">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -160,14 +160,49 @@
 
 			<div class="modal-body">
 				<div class="row">
-					<div class="content-group">
+					<div class="content-group col-md-5">
 						<label class="control-label"><small> This can only be found on the receipt issued at the point of payment. Leave this field blank if theres no payment available</small></label>
 						<input class="form-control" placeholder="enter a verified payment request number here" ng-model="requestNumberForLocker"/>
+						<div class="clear"><br/></div>
+
+						<div class="col-md-12"><img src="{{loadImage(patientInfo.patientpicture)}}" class="img img-responsive pull-left" width="150" height="150"/></div>
+						<div class="col-xs-12">
+							<h5 data-popup="tooltip" title="{{patientInfo.patientfullname}}">{{patientInfo.patientfullname}}</h5>
+							<h5><span class="text-info"><small>{{patientInfo.patientuuid}} | {{patientInfo.patienttypename}}</small></span></h5>
+						</div>
+					</div>
+					<div class="col-md-7">
+						<div class="row">
+							<h6 class="text-primary text-center">Select a doctor from the list below</h6>
+							<div class="text-center col-md-12">
+								<input class="form-control" placeholder="Filter doctors" ng-model="doctorFilter"/>
+							</div>
+							<div class="col-md-12 overflow-auto mt-15" style="height: 350px">
+								<table class="table table-condensed table-hover">
+									<thead class="bg-success">
+										<th colspan="2" class="text-center">Doctor</th>
+										<th>Queue</th>
+									</thead>
+									<tbody>
+										<tr ng-repeat="doctor in doctors | filter:doctorFilter">
+											<td style="border-right: 1px solid #4CAF50">
+												<input type="radio" name="selectedDoctor" ng-model="$parent.selectedDoctor" value="{{doctor.StaffID}}"/>
+											</td>
+											<td>
+												<span class="display-block">{{doctor.StaffFullName}}</span>
+												<span class="text-muted text-thin">{{doctor.StaffRole}}</span>
+											</td>
+											<td class="text-bold">{{doctor.queueCount}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-labeled btn-success" ng-click="unlockProfile()">
+				<button type="button" class="btn btn-labeled btn-success" ng-click="queuePatient()">
 					<b><i class="icon-arrow-right5"></i></b> Continue
 				</button>
 			</div>

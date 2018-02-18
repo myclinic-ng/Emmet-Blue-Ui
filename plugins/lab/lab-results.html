@@ -15,32 +15,160 @@
 	<div class="panel panel-success mt-10" ng-show="investigationLoaded">
 		<div class="panel-heading">
 			<h6 class="panel-title">{{patientInfo.patientfullname}} ({{patientInfo.categoryname}})</h6>
+			<a class="btn btn-default" href="/lab/old-lab-results">SWITCH TO OLD FORMAT (DEPRECATED)</a>
 		</div>
 
 		<div class="panel-body">
 			<div class="row">
-				<!-- <div class="col-md-5" style="border-right: 1px solid #F5F5F5">
+				<div class="col-md-3">
+					<div class="panel panel-body">
+						<div class="media">
+							<div class="media-left">
+								<a href="#" data-popup="lightbox">
+									<img src="{{utils.loadImage(patientInfo.patientpicture)}}" style="width: 70px; height: 70px;" class="img-circle" alt="">
+								</a>
+							</div>
 
-				</div> -->
-				<div class="col-md-12">
-					<ng-lab-result-form-design patient-info="patientInfo"></ng-lab-result-form-design>
+							<div class="media-body">
+								<h6 class="media-heading text-capitalize">{{patientInfo.patientfullname}}</h6>
+								<p class="text-muted">{{patientInfo.patientuuid}}</p>
+								<p class="text-size-small">
+									<span class="text-bold">{{utils.getAge(patientInfo["date of birth"])}} y/old</span> / 
+									<span class="text-bold">{{patientInfo.gender}}</span> /
+									<span class="text-bold">{{patientInfo.categoryname}}</span>
+								</p>
+							</div>
+						</div>
+					</div>
+					<table class="table table-responsive table-bordered table-condensed table-hover col-md-12">
+						<thead class="bg-success">
+							<th colspan="2"><span class="text-center">PENDING REQUESTS</span></th>
+							<th>Select</th>
+						</thead>
+						<thody>
+							<tr ng-repeat="item in investigationsToAffect">
+								<td class="text-bold">{{item.InvestigationTypeName}}</td>
+								<td>
+									<div class="text-size-small">
+										{{item.RequestedByDetails.StaffFullName}}<br/>
+										<span class="text-muted">
+											{{dateObject(item.DateRequested).toLocaleDateString()}} {{dateObject(item.DateRequested).toLocaleTimeString()}}
+										</span>
+									</div>
+								</td>
+								<td>
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" ng-model="selected[item.PatientLabNumber].value"/>
+										</label>
+									</div>
+								</td>
+							</tr>
+							<tr ng-if="investigationsToAffect.length < 1">
+								<td colspan="5" class="text-muted text-center"><span class="text-center">No Request Has Been Opened For This Patient, You can still click on the submit button</span></td>
+							</tr>
+						</thody>						
+					</table>
 				</div>
-			</div>
-		</div>
-	</div>
+				<div class="col-md-7" style="border-left: 1px solid #4BAF5E; border-right: 1px solid #4BAF5E; min-height: 100vh;">
+					<div class="row" style="border-bottom: 1px solid #4CAF50">
+						<div class="col-md-6">
+							<select class="select" ng-model="selectedlab">
+								<option value="{{lab.LabID}}" ng-repeat="lab in labs">{{lab.LabName}}</option>
+							</select>
+						</div>
+						<div class="col-md-6">
+							<select class="select" ng-model="investigationType">
+								<option value="{{inv.InvestigationTypeID}}" ng-repeat="inv in labInvestigations">{{inv.InvestigationTypeName}}</option>
+							</select>
+						</div>
+					</div>
+					<!-- <div class="row">
+						<div class="col-md-12">
+							<div class="navbar navbar-component" style="position: relative; z-index: 99;border-bottom: 1px solid #4CAF50">
+								<div class="navbar-collapse collapse">
+									<ul class="nav navbar-nav">
+										<!- <li><a href="#">MPS + Widal Test</a></li> ->
+									</ul>
 
-	<div id="repository-items" class="modal fade" style="margin: 0; margin-right: auto; margin-left: auto; width: 100%">
-		<div class="modal-full modal-lg" style="margin: 0; margin-right: auto; margin-left: auto; width: 100%">
-			<div class="modal-content" style="background-color: transparent;">
-				<div class="modal-header bg-warning">
-					<button type="button" class="close" data-dismiss="modal">&times; close</button>
+									<div class="navbar-right">
+										<ul class="nav navbar-nav">
+											<li class="dropdown dropdown-user">
+												<a class="dropdown-toggle" data-toggle="dropdown">
+													<i class="caret text-black text-bold"></i>
+												</a>
+												<ul class="dropdown-menu dropdown-menu-right">
+													<!- <li><a href="#">MPS + Widal Test</a></li> ->
+												</ul>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div> -->
+					<div class="row">
+						<div class="col-md-12">
+							<h4 class="text-center text-black">{{currentInvestigationName}}</h4>
+							<div class="col-md-6 content-group" ng-repeat="field in investigationFields">
+								<label class="control-label">{{field.FieldName}}</label>
+								<textarea class="text-black text-bold form-control autosuggest" ng-if="field.TypeName == 'longtext'" data-id="{{field.FieldID}}" ng-model="investigationResult[field.FieldName]"></textarea>
+								<input class="text-black text-bold form-control autosuggest" ng-if="field.TypeName == 'text'" type="text" data-id="{{field.FieldID}}" ng-model="investigationResult[field.FieldName]"/>
+								<input class="text-black text-bold form-control autosuggest" ng-if="field.TypeName == 'number'" type="number" data-id="{{field.FieldID}}" ng-model="investigationResult[field.FieldName]"/>
+							</div>
+						</div>
+						<div class="col-md-12" ng-if="investigationFields.length < 1">
+							<div class="text-center text-muted mt-20">
+								<i class="fa fa-warning text-warning"></i>
+								<br/>
+								Please select an investigation with available form fields to proceed
+							</div>
+						</div>
+					</div>
+					<div class="row" ng-if="investigationFields.length > 0">
+						<div class="col-md-12 text-center">
+							<button type="button" class="btn btn-primary" ng-click="addToList()">Add To List</button>
+						</div>
+					</div>
 				</div>
-				<div class="modal-body">
-					<ng-repository repository-id="currentRepository"></ng-repository>
+				<div class="col-md-2">
+					<table class="table table-responsive table-condensed table-hover col-md-12">
+						<thead class="bg-success">
+							<th colspan="2"><span class="text-center">RESULTS</span></th>
+						</thead>
+						<tbody>
+							<tr ng-repeat="(name, item) in investigationResults">
+								<td colspan="2">
+									<table>
+										<thead>
+											<th colspan="2"><span class="text-center text-black">{{name}}</span></th>
+										</thead>
+										<tbody>
+											<tr ng-repeat="(key, value) in item">
+												<td>{{key}}</td>
+												<td>
+													<span class="text-danger">
+														<a href="#"><i class="fa fa-times"></i></a>
+													</span>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr ng-if="getLength(investigationResults) < 1">
+								<td colspan="5" class="text-muted text-center"><span class="text-center">No Result Has Been Recorded Yet.</span></td>
+							</tr>
+						</tbody>						
+					</table>
+					<div class="row" ng-if="getLength(investigationResults) > 0">
+						<div class="col-md-12 text-center mt-20">
+							<button type="button" class="btn btn-primary" ng-click="submit()">Publish Result(s)</button>
+						</div>
+					</div>
+
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-
-<!-- <ng-include src="'plugins/lab/assets/includes/investigation-type-fields.html'"></ng-include> -->

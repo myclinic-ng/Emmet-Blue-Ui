@@ -11,7 +11,8 @@ angular.module('EmmetBlue', [
 	'ngStorage',
 	'ngPrint',
 	'angularUtils.directives.dirPagination',
-	'angular-toArrayFilter' //<--- LIFE SAVER! Thanks https://github.com/petebacondarwin! (in case, paradventure, probably, you ever read this code)
+	'angular-toArrayFilter', //<--- LIFE SAVER! Thanks https://github.com/petebacondarwin! (in case, paradventure, probably, you ever read this code)
+	'mwl.calendar'
 ])
 
 .constant("CONSTANTS", getConstants())

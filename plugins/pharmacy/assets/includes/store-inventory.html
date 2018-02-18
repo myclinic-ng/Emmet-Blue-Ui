@@ -81,4 +81,82 @@
 			</div>
 		</div>
 	</div>
+
+	<div id="manage_labels" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" onclick="$('#manage_labels').modal('hide')">&times;</button>
+					<h6 class="modal-title">Label Manager For Selected Inventory Item</h6>
+				</div>
+
+				<div class="modal-body">
+					<form role="form">
+						<div class="form-group">
+							<div class="row">
+								<div class="content-group col-sm-12">
+									<label class="text-bold">Item name</label>
+									<select class="select" ng-model="newItem.name" ng-click="loadInventoryItems()">
+										<optgroup label="{{key}}" ng-repeat="(key, item) in inventoryItems">
+											<option ng-repeat="value in item" value="{{value.BillingTypeItemID}}">{{value.BillingTypeItemName}}</option>
+										</optgroup>
+									</select>
+								</div>
+								<!-- <div class="content-group col-sm-4">
+									<label class="text-bold">Quantity</label>
+									<input type="number" class="form-control" ng-model="newItem.quantity"/>
+								</div> -->
+								<div class="content-group col-sm-6">
+									<label class="text-bold">Item Brand</label>
+									<input class="form-control" ng-model="newItem.brand"/>
+								</div>
+								<div class="content-group col-sm-6">
+									<label class="text-bold">Item Manufacturer</label>
+									<input class="form-control" ng-model="newItem.manufacturer"/>
+								</div>
+								<fieldset class="col-md-4">
+									<label class="text-bold">Item Tag</label>
+									<div class="content-group col-sm-12">
+										<label>Title</label>
+										<input class="form-control" ng-model="itemTag.title"/>
+									</div>
+									<div class="content-group col-sm-12">
+										<label>Value</label>
+										<input class="form-control" ng-model="itemTag.name"/>
+									</div>
+									<div class="content-group col-sm-12">
+										<button class="btn btn-wwarning" ng-click="addTagToList()">Add to list</button>
+									</div>
+								</fieldset>
+								<div class="col-md-8">
+									<p class="text-bold">Associated Tags</p class="text-bold">
+									<table class="table table-bordered table-condensed table-responsive">
+										<thead>
+											<tr>
+												<th>S/N</th>
+												<th>Title</th>
+												<th>Value</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="tag in newItem.tags">
+												<th>{{$index + 1}}</th>
+												<th>{{tag.title}}</th>
+												<th>{{tag.name}}</th>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" onclick="$('#new_store_inventory').modal('hide')" ng-click="newItem = {}"><i class="fa fa-times-circle-o"></i> Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveNewItem()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"> </i></span>  Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

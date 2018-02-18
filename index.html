@@ -27,6 +27,17 @@
 	<meta name="theme-color" content="#ffffff">
 	<!-- Core JS files -->
 	<!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">  -->
+	<script>
+		if ('serviceWorker' in navigator) {
+		  window.addEventListener('load', function() {
+		    navigator.serviceWorker.register('/sw.js').then(function(registration) {
+		    	
+		    }, function(err) {
+		      console.log('ServiceWorker registration failed: ', err);
+		    });
+		  });
+		}
+	</script>
 	<script
 		type="text/javascript"
 		src="assets/js/core/libraries/headjs/head.min.js"

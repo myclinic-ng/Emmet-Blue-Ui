@@ -14,7 +14,6 @@ angular.module("EmmetBlue")
 	};
 
 	function dtAction(data, full, meta, type){
-		console.log(data);
 		observationButtonAction = "manage('process',"+data.PatientAdmissionID+")";
 		viewButtonAction = "manage('view',"+data.PatientAdmissionID+")";
 		redirectButtonAction = "manage('gotoWorkspace',"+data.PatientAdmissionID+")";
@@ -41,11 +40,38 @@ angular.module("EmmetBlue")
 	$scope.dtInstance = {};
 
 	$scope.dtOptions = utils.DT.optionsBuilder
-	.fromFnPromise(function(){
-		return utils.serverRequest('/consultancy/patient-admission/view-discharged-patients?resourceId='+$scope.currentWard, 'GET');
+	.newOptions()
+	.withFnServerData(function(source, data, callback, settings){
+		var draw = data[0].value;
+        var order = data[2].value;
+        var start = data[3].value;
+        var length = data[4].value;
+
+        var url = '/consultancy/patient-admission/view-discharged-patients?resourceId='+$scope.currentWard+'&paginate&from='+start+'&size='+length;
+		if (typeof data[5] !== "undefined" && data[5].value.value != ""){
+			url += "&keywordsearch="+data[5].value.value;
+		}
+
+		var discharges = utils.serverRequest(url, 'GET');
+		discharges.then(function(response){
+			var records = {
+				data: response.data,
+				draw: draw,
+				recordsTotal: response.total,
+				recordsFiltered: response.filtered
+			};
+
+			callback(records);
+		}, function(error){
+			utils.errorHandler(error);
+		});
 	})
+	.withDataProp('data')
+	.withOption('processing', true)
+	.withOption('serverSide', true)
+	.withOption('paging', true)
 	.withPaginationType('full_numbers')
-	.withDisplayLength(50)
+	.withDisplayLength(10)
 	.withOption('createdRow', function(row, data, dataIndex){
 		utils.compile(angular.element(row).contents())($scope);
 	})
@@ -153,6 +179,7 @@ angular.module("EmmetBlue")
 		$scope.dtInstance.reloadData();
 	}
 
+
 	$scope.manage = function(value, id){
 		switch(value)
 		{
@@ -247,7 +274,7 @@ angular.module("EmmetBlue")
 		$scope.forwardEnabled = true; 
 	})
 
-	$scope.$watch(function(){ return $scope.currentWard; }, function(nv){
+	$scope.$watch(function(){ return $scope.currentWard; }, function(ov, nv){
 		if (typeof nv != "undefined"){
 			reloadTable();
 		}

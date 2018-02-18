@@ -94,7 +94,7 @@
 	</div>
 
 	<div id="ack_view_modal" class="modal fade">
-		<div class="modal-dialog modal-lg">
+		<div class="modal-dialog modal-full">
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
 					<h6 class="modal-title">Prescription Request for {{_currentRequest.patientInfo.patientfullname}}<br/><span class="label label-primary bg-white">{{_currentRequest.patientInfo.patienttypename}}, {{_currentRequest.patientInfo.categoryname}}</span>
@@ -106,34 +106,37 @@
 				<div class="modal-body">
 					<div class="row" style="margin-top: -10px;">
 						<h3 class="text-center text-bold text-danger" ng-if="_currentRequest.Acknowledged == 2"><i class="fa fa-exclamation-triangle" style="font-size: 2em"></i> <br/>PLEASE NOTE THAT YOU ARE CURRENTLY VIEWING A RETRACTED REQUEST</h3>
-						<div class="col-md-5" style="border-right: 1px solid green">
+						<div class="col-md-3" style="border-right: 1px solid green">
 							<h4 class="text-center text-info"><u>Original Request</u></h4>
 							<h6>Requested By: <b>{{_currentRequest.RequestedByFullName}}</b></h6>
 							<h6>Acknowledged By: <b>{{_currentRequest.AcknowledgedByFullName}}</b></h6>
 							<div class="content-group" ng-repeat="prescription in _currentRequest.Request" ng-if="!exists(prescription, 'smart')">
-									<label class="control-label"><span class='text-bold'>{{$index + 1}}.</span> {{prescription.item}}</label>
-									<p class="text-bold pl-10">{{prescription.duration}}</p>
-								</div>
-								<div class="content-group" ng-repeat="prescription in _currentRequest.Request" ng-if="exists(prescription, 'smart')">
-									<span ng-if="prescription.smart">
-										<label class="control-label"><span class='text-bold'>{{$index + 1}}.</span> <b>{{prescription.item.item.name}}</b></label>
-										<p class="pl-10">{{prescription.item.item.category}}, {{prescription.item.times}} daily for {{prescription.item.duration}} days <span class="label label-success">SMART</span></p>
-									</span>
-									<span ng-if="!prescription.smart">
-										<label class="control-label"><span class='text-bold'>{{$index + 1}}.</span> {{prescription.item.name}} <br/><span class="label label-warning">NOT SMART</span></label>
-									</span>
-								</div>
+								<label class="control-label"><span class='text-bold'>{{$index + 1}}.</span> {{prescription.item}}</label>
+								<p class="text-bold pl-10">{{prescription.duration}}</p>
+							</div>
+							<div class="content-group" ng-repeat="prescription in _currentRequest.Request" ng-if="exists(prescription, 'smart')">
+								<span ng-if="prescription.smart">
+									<label class="control-label"><span class='text-bold'>{{$index + 1}}.</span> <b>{{prescription.item.item.name}}</b></label>
+									<p class="pl-10">{{prescription.item.item.category}}, {{prescription.item.times}} daily for {{prescription.item.duration}} days <span class="label label-success">SMART</span></p>
+								</span>
+								<span ng-if="!prescription.smart">
+									<label class="control-label"><span class='text-bold'>{{$index + 1}}.</span> {{prescription.item.name}} <br/><span class="label label-warning">NOT SMART</span></label>
+								</span>
+							</div>
 						</div>
-						<div class="table-responsive col-md-7" style="border-left: 1px solid green">
+						<div class="table-responsive col-md-9" style="border-left: 1px solid green">
 							<h4 class="text-center text-info"><u>Dispensable Items</u></h4>
 							<table class="table table-hover">
 								<thead class="bg-success">
-									<th colspan="2">Item</th>
+									<th colspan="2" class="text-center">Item</th>
 									<th>Qty</th>
+									<th>Expiry Date</th>
+									<th>Available Unit</th>
+									<th colspan="2">Dispensing Unit</th>
 								</thead>
 								<tbody>
 									<tr ng-repeat="item in currrentDispensedItems">
-										<th width="2%">
+										<td width="2%">
 											<div class="checkbox">
 												<label>
 													<input type="checkbox" ng-model="selectedItems[item.DispensedItemsID]" ng-disabled="_currentRequest.Acknowledged == 1">
@@ -141,13 +144,40 @@
 													<i ng-if="!selectedItems[item.DispensedItemsID]" class="text-danger">undispensed</i>
 												</label>
 											</div>
-										</th>
-										<th>
-											<span class="text-bold">{{item.BillingTypeItemName}}</span><br/>
-											<span class="text-small" ng-if="item.ItemBrand || item.ItemManufacturer"><span ng-if="item.ItemBrand">{{item.ItemBrand}}</span><span ng-if="item.ItemManufacturer">, {{item.ItemManufacturer}}</span><br/></span>
-											<span class="text-small text-info">Item ID: {{item.ItemID}}</span>
-										</span>
-										<th><span class="text-danger">&times;</span> {{item.DispensedQuantity}}</th>
+										</td>
+										<td>
+											<span class="text-bold">
+												{{item.BillingTypeItemName}}
+											</span><br/>
+											<span class="text-small" ng-if="item.ItemBrand || item.ItemManufacturer">
+												<span ng-if="item.ItemBrand">
+													{{item.ItemBrand}}
+												</span>
+												<span ng-if="item.ItemManufacturer">, {{item.ItemManufacturer}}</span><br/>
+											</span>
+											<span class="text-small text-info">
+												Item ID: {{item.ItemID}}
+											</span>
+										</td>
+										<td><span class="text-danger">&times;</span> {{item.DispensedQuantity}}</td>
+										<td colspan="5">
+											<table class="table">
+												<tbody>
+													<tr ng-repeat="label in item.label">
+														<td ng-class="isExpired(label.ItemExpiryDate) ? 'text-danger' : 'text-success'">
+															<strong>{{toDateString(label.ItemExpiryDate)}}</strong>
+														</td>
+														<td>{{label.AvailableQuantity}}</td>
+														<td>
+															<input class="form-control" type="number" ng-model="label.ItemDispensedUnit"/>
+														</td>
+														<td>
+															<button class="btn btn-link text-danger" ng-click="removeLabel($index, $parent.$index)"><i class="fa fa-times"></i></button>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
 									</tr>
 								</tbody>
 							</table>
@@ -156,9 +186,15 @@
 				</div>
 				<div class="modal-footer" ng-if="_currentRequest.Acknowledged == -1">
 					<button type="submit" class="btn btn-danger" ng-click="close('retract')">Retract this transaction</button>
+					<button type="submit" class="btn btn-info" ng-click="initScanner()">
+						<input ng-model="scannedCode" id="scanned-code" style="width: 0px; height: 0px; border: 0px"/>Begin Item Scanning
+					</button>
 					<button type="submit" class="btn btn-success" ng-click="close()">Mark this request as dispensed</button>
 				</div>
 				<div class="modal-footer" ng-if="_currentRequest.Acknowledged == -2">
+					<button type="submit" class="btn btn-info" ng-click="initScanner()">
+						<input ng-model="scannedCode" id="scanned-code" style="width: 0px; height: 0px; border: 0px"/>Begin Item Scanning
+					</button>
 					<button type="submit" class="btn btn-success" ng-click="close()">Mark this request as dispensed</button>
 				</div>
 			</div>

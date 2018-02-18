@@ -105,6 +105,30 @@ angular.module("EmmetBlue")
 			}
 
 			$scope.loadAppointments($scope.patientInfo.patientid);
+
+			function loadDoctors(){
+				utils.serverRequest("/nursing/load-doctors/view-queue-count", "GET").then(function(response){
+					$scope.doctors = response;
+				}, function(error){
+					utils.errorHandler(error);
+				})
+			};
+			loadDoctors();
+
+			$scope.selectedDoctor = "";
+			$scope.queuePatient = function(){
+				var data = {
+					consultant: $scope.selectedDoctor,
+					patient: $scope.patientInfo.patientid
+				};
+
+				utils.serverRequest("/consultancy/patient-queue/new", "POST", data).then(function(response){
+					utils.alert("Doctor queue updated successfully", "Patient can go to consulting room", "info", "notify");
+					$scope.unlockProfile($scope.patientInfo.patientid);
+				}, function(error){
+					utils.errorHandler(error);
+				})
+			}
 		}
 	}
 })

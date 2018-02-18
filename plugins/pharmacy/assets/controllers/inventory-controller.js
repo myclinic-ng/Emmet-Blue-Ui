@@ -88,9 +88,9 @@ angular.module("EmmetBlue")
 		}),
 		utils.DT.columnBuilder.newColumn('_meta.totalQuantity').withTitle("Total Quantity Available"),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Manage").renderWith(function(data, type, full){
-			var editButtonAction = "manageStore('edit', "+data.ItemID+")";
-			var deleteButtonAction = "manageStore('delete', "+data.ItemID+")";
-			var inventoryButtonAction = "manageStore('tags', "+data.ItemID+")";
+			var editButtonAction = "manageStore('edit', "+data.ItemID+", "+data.Item+")";
+			var deleteButtonAction = "manageStore('delete', "+data.ItemID+", "+data.Item+")";
+			var inventoryButtonAction = "manageStore('labels', "+data.ItemID+", "+data.Item+")";
 
 			var tags = JSON.stringify(data.Tags);
 
@@ -100,7 +100,7 @@ angular.module("EmmetBlue")
 					                	"<button type='button' class='btn bg-active btn-labeled dropdown-toggle' data-toggle='dropdown'><b><i class='icon-cog3'></i></b> manage <span class='caret'></span></button>"+
 					                	"<ul class='dropdown-menu dropdown-menu-right'>"+
 										"	<li><a href='#' class='storeInventory-btn' ng-click=\""+editButtonAction+"\" "+dataOpt+"><i class='icon-pencil5'></i> Edit Brand Info</a></li>"+
-										"	<li><a href='#' class='storeInventory-btn' ng-click=\""+inventoryButtonAction+"\" "+dataOpt+"><i class='fa fa-bar-chart'></i> Manage Thresholds</a></li>"+
+										"	<li><a href='#' class='storeInventory-btn' ng-click=\""+inventoryButtonAction+"\" "+dataOpt+"><i class='fa fa-qrcode'></i> Open Label Manager</a></li>"+
 										"	<li class='divider'></li>"+
 										"	<li><a href='#' class='storeInventory-btn' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"><i class='fa fa-trash-o'></i> Delete Item</a></li>"+
 										"</ul>"+
@@ -203,7 +203,7 @@ angular.module("EmmetBlue")
 		})
 	}
 
-	$scope.manageStore = function(manageGroup, id){
+	$scope.manageStore = function(manageGroup, id, item=""){
 		switch(manageGroup.toLowerCase()){
 			case "edit":{
 				$scope.tempHolder = {};
@@ -217,11 +217,23 @@ angular.module("EmmetBlue")
 				break;
 			}
 			case "delete":{
-				functions.manageAccount.changeAccountType(id);
 				break;
 			}
-			case "tags":{
-				functions.manageAccount.toggleAccountStatus(id);
+			case "labels":{
+				$scope.newLabelHolder = {};
+				$scope.newLabelHolder.item = id;
+				$scope.newInvLabel = {
+					data: {
+						dispensableInUnits: false,
+						totalUnit: 1
+					}
+				};
+
+				$scope.searchLabel = {};
+				$scope.printableLabels = [];
+
+				$("#inventory_label_manager").modal("show");
+				// functions.manageAccount.toggleAccountStatus(id);
 				break;
 			}
 		}
@@ -270,5 +282,102 @@ angular.module("EmmetBlue")
 		}, function(error){
 			utils.errorHandler(error);
 		})
+	}
+
+	$scope.generateNewLabels = function(){
+		$scope.newInvLabel.item = $scope.newLabelHolder.item;
+		$scope.newInvLabel.staff = utils.userSession.getID();
+		$scope.newInvLabel.data.manufacturedDate = (new Date($scope.newInvLabel.data.manufacturedDate)).toLocaleDateString();
+		$scope.newInvLabel.data.expiryDate = (new Date($scope.newInvLabel.data.expiryDate)).toLocaleDateString();
+
+		var title = "Please Read This Carefully";
+		var text = "Do you really want to generate "+$scope.newInvLabel.labelQty+" labels with the following data?"+
+					"\nBatch Number: "+ $scope.newInvLabel.data.batchNumber+
+					"\nSerial Number: "+ $scope.newInvLabel.data.serialNumber+
+					"\nExpiry Date: "+ $scope.newInvLabel.data.expiryDate+
+					"\nManufactured Date: "+ $scope.newInvLabel.data.manufacturedDate+
+					"\nItem Dispensable In Units: "+ $scope.newInvLabel.data.dispensableInUnits+
+					"\nTotal Units Per Item: "+ $scope.newInvLabel.data.totalUnit+
+					"\n\nLABEL QUANTITY: "+ $scope.newInvLabel.labelQty;
+		var close = true;
+		var type = "info";
+		var btnText = "Yes, continue";
+
+		var callback = function(){
+			var req = utils.serverRequest("/pharmacy/inventory-label/new-label", "POST", $scope.newInvLabel);
+			req.then(function(response){
+				utils.notify("Operation Successful", "Labels generated successfully", "success");
+
+				$scope.newInvLabel = {
+					data: {
+						dispensableInUnits: false,
+						totalUnit: 1
+					}
+				};
+			}, function(error){
+				utils.errorHandler(error);
+			});
+		}
+
+		utils.confirm(title, text, close, callback, type, btnText);
+	}
+
+	$scope.$watch("newInvLabel.data.dispensableInUnits", function(newVal){
+		if (!newVal){
+			$("#newLabelTotalUnits").attr("disabled", "disabled");
+			$("#newLabelTotalUnits").val(1);
+			$scope.newInvLabel.data.totalUnit = 1;
+		}
+		else {
+			$("#newLabelTotalUnits").removeAttr("disabled");
+			$("#newLabelTotalUnits").val(null);
+			$scope.newInvLabel.data.totalUnit = null;
+		}
+	})
+
+
+	$scope.searchLabels = function(){
+		var item = $scope.newLabelHolder.item;
+		var mfDate = (new Date($scope.searchLabel.mfDate)).toLocaleDateString();
+		var exDate = (new Date($scope.searchLabel.expDate)).toLocaleDateString();
+
+		var url = "/pharmacy/inventory-label/get-printable-labels?resourceId="+item+"&manufacturedDate="+mfDate+"&expiryDate="+exDate;
+		if (typeof $scope.searchLabel.btchNo != "undefined"){
+			url += "&batchNumber="+$scope.searchLabel.btchNo;
+		}
+
+		var req = utils.serverRequest(url, "GET");
+		req.then(function(response){
+			$scope.printableLabels = response;
+			$scope.printLabelQuantity = response.length;	
+		}, function(error){
+			utils.errorHandler(error);
+		})
+	}
+
+	$scope.printLabels = function(qty, show=false){
+		if (show){
+			$("#print_inventory_labels").modal("show");
+			$("#qr_labels > .row").html("");
+		}
+		var generatedLabels = [];
+		for (var i = 0; i < qty; i++){
+			var label = $scope.printableLabels[i];
+			// $scope.printableGeneratedLabels.push(label);
+			var img = $("<img>", {id: "barCode-"+i, class: "ins-page-brk"});
+			$("#qr_labels > .row").append(img).append("<br/><br/>");
+
+			img.JsBarcode(label.LabelID, {
+				fontOptions: "bold",
+				width: 3
+			});
+		}
+
+		// $scope.printableGeneratedLabels = generatedLabels;
+
+		JsBarcode("#barCode", $scope.printableLabels[0].LabelID, {
+			fontOptions: "bold",
+			width: 3
+		});
 	}
 });

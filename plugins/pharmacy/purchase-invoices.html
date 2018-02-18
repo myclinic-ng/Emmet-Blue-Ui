@@ -1,0 +1,183 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/ui/moment/moment.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/pickers/daterangepicker.js"></script>
+<script src="assets/js/plugins/forms/tags/tagsinput.min.js"></script>
+<script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
+<script>
+	$('select.select').select2();
+	$('.daterange').daterangepicker({
+		showWeekNumbers: true,
+		showDropdowns: true,
+        opens: "right",
+        applyClass: 'bg-success',
+        cancelClass: 'btn-default'
+	});
+</script>
+
+
+<div ng-controller="pharmacyPurchaseInvoiceController">
+<div class="panel panel-success">
+	<div class="panel-heading">
+		<h6 class="panel-title">Purchase Invoice Log</h6>
+		<div class="heading-elements">
+			<span class="pull-left">
+				<input type="text" class="form-control daterange" ng-model="dateRange" placeholder="select date range">
+			</span>
+			<ul class="icons-list">
+	    		<li>
+	    			<a href="#" ng-click="hideRequestFilters = !hideRequestFilters"><i class="icon-filter3"></i></a>
+	    		</li>
+	    	</ul>
+		</div>
+	</div>
+	<div class="panel-body">
+		<div class="col-md-2">
+			<div class="col-md-12" ng-hide="hideRequestFilters">
+				<div class="form-group col-md-12">
+					<label class="control-label">Filter By</label>
+					<select class="select" ng-model="filterSelector.type" ng-change="filterSelector.value = null">
+						<optgroup label="Sub Groups">
+							<option value="invoice number">Invoice Number</option>
+							<option value="item code">Item ID</option>
+						</optgroup>
+					</select>
+				</div>
+				<div class="form-group col-md-12" ng-show="filterSelector.type == 'invoice number'">
+					<label class="control-label">Enter Invoice Number</label>
+					<input class="form-control" ng-model="filterSelector.value" type="text"/>
+				</div>
+				<div class="form-group col-md-12" ng-show="filterSelector.type == 'item code'">
+					<label class="control-label">Enter Item ID</label>
+					<input class="form-control" ng-model="filterSelector.value" type="text"/>
+				</div>
+				<div class="content-group col-md-12">
+					<button class="btn btn-info col-md-12 bg-primary btn-labeled" ng-click="activateFilter()">
+						<b><i class="icon-filter4"></i></b> Apply filter
+					</button>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="form-group" ng-if="createdFilters.length > 0">
+					<label class="text-semibold">Applied Filters:</label>
+					<div class="checkbox" ng-repeat="(index, filter) in createdFilters">
+						<label>
+							<input type="checkbox" class="styled" ng-model="filter.use" ng-disabled="index == 0" ng-change="reloadLogTable()">
+							{{filter.description}}
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="table-responsive col-md-10">
+			<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
+
+			</table>
+		</div>
+
+		<div id="new_purchase_log" class="modal fade">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header bg-warning">
+						<button type="button" class="close" onclick="$('#new_purchase_log').modal('hide')">&times;</button>
+						<h6 class="modal-title">Log a new purchase invoice</h6>
+					</div>
+
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="col-md-6" style="border-right: 1px solid #4CAF50">
+									<form role="form">
+										<div class="form-group">
+											<div class="row">
+												<div class="content-group col-sm-6">
+													<label class="text-bold">Invoice Number</label>
+													<input class="form-control" ng-model="newItem.invoiceNumber"/>
+												</div>
+												<div class="content-group col-sm-6">
+													<label class="text-bold">Vendor</label>
+													<select class="select" ng-model="newItem.itemVendor">
+														<option ng-repeat="vendor in corporateVendors" value="{{vendor.VendorID}}">{{vendor.VendorName}}</option>
+													</select>
+												</div>
+												<div class="content-group col-sm-6">
+													<label class="text-bold">Purchased By</label>
+													<input class="form-control" ng-model="newItem.itemBuyee"/>
+												</div>
+												<div class="content-group col-sm-6">
+													<label class="text-bold">Purchase Date</label>
+													<input type="date" class="form-control" ng-model="newItem.itemPurchaseDate"/>
+												</div>
+											</div>
+
+
+											<div class="row" style="margin-top: 20px; border: 1px solid #eee">
+												<h3 class="text-center">Populate Invoice List</h3>
+												<div class="content-group col-sm-12">
+													<label class="text-bold">Item name</label>
+													<select class="select" ng-model="listItem.itemSelector">
+														<option ng-repeat="item in inventoryItems" value="{{item.BillingTypeItemName}}|{{item.ItemID}}">{{item.BillingTypeItemName}} ({{item.ItemBrand}})</option>
+													</select>
+												</div>
+												<!-- <div class="content-group col-sm-4">
+													<label class="text-bold">Quantity</label>
+													<input type="number" class="form-control" ng-model="newItem.quantity"/>
+												</div> -->
+												<div class="content-group col-sm-6">
+													<label class="text-bold">Total Quantity</label>
+													<input class="form-control" ng-model="listItem.itemQty"/>
+												</div>
+												<div class="content-group col-sm-6">
+													<label class="text-bold">Cost Price</label>
+													<input class="form-control" ng-model="listItem.itemCostPrice"/>
+												</div>
+												<div class="content-group col-sm-12">
+													<center><button class="btn" ng-click="addItemToInvoice()">Add to list</button></center>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+								<div class="col-md-6">
+									<form role="form">
+										<div class="form-group">
+											<div class="row">
+												<div class="col-md-12">
+													<p class="text-bold">Invoice List</p class="text-bold">
+													<table class="table table-condensed table-responsive">
+														<thead class="bg-success">
+															<tr>
+																<th>S/N</th>
+																<th>Item Name</th>
+																<th>Quantity</th>
+																<th>Cost Price</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr ng-repeat="item in newItem.items">
+																<th>{{$index + 1}}</th>
+																<th>{{item._item}}</th>
+																<th>{{item.itemQty}}</th>
+																<th>{{item.itemCostPrice}}</th>
+																<th><a class="btn btn-link btn-clear btn-icon btn-xs text-danger" ng-click="removeItemFromInvoice($index)"><i class="fa fa-times"></i></a></th>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-link" onclick="$('#new_purchase_log').modal('hide')" ng-click="newItem = {}"><i class="fa fa-times-circle-o"></i> Close</button>
+						<button type="button" class="btn btn-warning" ng-click="saveInvoice()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"> </i></span>  Save</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>

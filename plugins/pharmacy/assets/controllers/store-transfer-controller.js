@@ -105,7 +105,13 @@ angular.module("EmmetBlue")
 		data.storeId = $scope.storeID;
 		data.receivingStore = $scope.receivingStore;
 
+		var data2 = {
+			store: data.receivingStore,
+			labels: $scope.globalLabels
+		}
+
 		var req = utils.serverRequest('/pharmacy/store-transfer/new', 'POST', data);
+		var req2 = utils.serverRequest('/pharmacy/inventory-label/print-labels', 'POST', data2);
 
 		req.then(function(response){
 			utils.alert("Inventory Items Transferred", "You have just updated the inventory items database successfully", "success");
@@ -113,6 +119,77 @@ angular.module("EmmetBlue")
 			$rootScope.$broadcast("reloadStats");
 		}, function(error){
 			utils.errorHandler(error);
+		});
+
+		req2.then(function(response){
+			$scope.globalLabels = [];
+		}, function(error){
+			utils.errorHandler(error);
+		});
+	}
+
+	$scope.showLabelManager = function(id, qty){
+		$scope.searchLabel = {};
+		$scope.searchLabel.item = id;
+		$scope.searchLabel.qty = qty
+
+		$("#inventory_label_manager").modal("show");
+	}
+
+	$scope.searchLabels = function(){
+		var item = $scope.searchLabel.item;
+		var mfDate = (new Date($scope.searchLabel.mfDate)).toLocaleDateString();
+		var exDate = (new Date($scope.searchLabel.expDate)).toLocaleDateString();
+
+		var url = "/pharmacy/inventory-label/get-printable-labels?resourceId="+item+"&manufacturedDate="+mfDate+"&expiryDate="+exDate;
+		if (typeof $scope.searchLabel.btchNo != "undefined"){
+			url += "&batchNumber="+$scope.searchLabel.btchNo;
+			url += "&count="+$scope.searchLabel.qty
+		}
+
+		var req = utils.serverRequest(url, "GET");
+		req.then(function(response){
+			$scope.printableLabels = response;
+			$scope.printLabelQuantity = response.length;	
+		}, function(error){
+			utils.errorHandler(error);
 		})
+	}
+
+	$scope.printLabels = function(qty, show=false){
+		if (show){
+			$("#print_inventory_labels").modal("show");
+			$("#qr_labels > .row").html("");
+		}
+		var generatedLabels = [];
+		for (var i = 0; i < qty; i++){
+			var label = $scope.printableLabels[i];
+			// $scope.printableGeneratedLabels.push(label);
+			var img = $("<img>", {id: "barCode-"+i, class: "ins-page-brk"});
+			$("#qr_labels > .row").append(img).append("<br/><br/>");
+
+			img.JsBarcode(label.LabelID, {
+				fontOptions: "bold",
+				width: 3
+			});
+		}
+
+		// $scope.printableGeneratedLabels = generatedLabels;
+
+		JsBarcode("#barCode", $scope.printableLabels[0].LabelID, {
+			fontOptions: "bold",
+			width: 3
+		});
+	}
+
+	$scope.globalLabels = [];
+
+	$scope.storePrintedLabels = function(){
+		for (var i = $scope.printableLabels.length - 1; i >= 0; i--) {
+			$scope.globalLabels.push($scope.printableLabels[i].LabelID);
+		}
+
+		$("#inventory_label_manager").modal("hide");
+		$("#print_inventory_labels").modal("hide");
 	}
 })

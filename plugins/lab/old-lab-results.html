@@ -1,0 +1,46 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script src="assets/js/plugins/forms/tags/bootstrap-tagsinput.js"></script>
+<script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
+<script>$('select.select').select2();</script>
+
+<div ng-controller="OldLabResultsController">
+	<div class="row">
+		<div class="input-group col-md-7 col-md-offset-3">
+			<input class="form-control patient-search" id="patientuuid" ng-model="patient" placeholder="Enter a name or an hospital number to search" />
+			<span class="input-group-btn">
+				<button class="btn btn-danger" ng-click="loadInvestigation()">continue</button>
+			</span>
+		</div>
+	</div>
+	<div class="panel panel-success mt-10" ng-show="investigationLoaded">
+		<div class="panel-heading">
+			<h6 class="panel-title">{{patientInfo.patientfullname}} ({{patientInfo.categoryname}})</h6>
+		</div>
+
+		<div class="panel-body">
+			<div class="row">
+				<!-- <div class="col-md-5" style="border-right: 1px solid #F5F5F5">
+
+				</div> -->
+				<div class="col-md-12">
+					<ng-lab-result-form-design patient-info="patientInfo"></ng-lab-result-form-design>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="repository-items" class="modal fade" style="margin: 0; margin-right: auto; margin-left: auto; width: 100%">
+		<div class="modal-full modal-lg" style="margin: 0; margin-right: auto; margin-left: auto; width: 100%">
+			<div class="modal-content" style="background-color: transparent;">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times; close</button>
+				</div>
+				<div class="modal-body">
+					<ng-repository repository-id="currentRepository"></ng-repository>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- <ng-include src="'plugins/lab/assets/includes/investigation-type-fields.html'"></ng-include> -->

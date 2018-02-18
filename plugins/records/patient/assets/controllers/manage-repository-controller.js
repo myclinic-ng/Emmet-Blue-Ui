@@ -760,6 +760,7 @@ angular.module("EmmetBlue")
 
 var recordsPatientManageRepositoryController = function($scope, utils, $http){
 	// $scope.currentRepository = 7;
+	$scope.utils = utils;
 	$scope.loadImage = utils.loadImage;
 	$scope.$watch(function(){
 		return $scope.currentRepository
@@ -866,6 +867,13 @@ var recordsPatientManageRepositoryController = function($scope, utils, $http){
 
 		utils.serverRequest("/read-resource?url="+url, "GET").then(function(response){
 			$scope.currentJsonFile = response;
+		}, function(error){
+			utils.notify("An error occurred", "Unable to load document", "error");
+		});
+
+		utils.serverRequest("/lab/lab-result/view-by-repository-id?resourceId="+$scope.repository.RepositoryID, "GET").then(function(response){
+			$scope.labResultMeta = response;
+			$scope.issetLabMeta = (typeof response.PatientPicture !== "undefined");
 		}, function(error){
 			utils.notify("An error occurred", "Unable to load document", "error");
 		});

@@ -84,7 +84,7 @@ angular.module("EmmetBlue")
 
         // filter.splice(0, 1);
 
-        var data = {
+        var datum = {
         	"startdate": dates[0],
         	"enddate": dates[1],
         	"resourceId":0,
@@ -96,13 +96,13 @@ angular.module("EmmetBlue")
         }
 
 		if (typeof data[5] !== "undefined" && data[5].value.value != ""){
-			data.keywordsearch = data[5].value.value;
+			datum.keywordsearch = data[5].value.value;
 		}
 
 		for (var i = filter.length - 1; i >= 1; i--) {
 			var _filter = filter[i];
 			if (_filter.use){
-				data.query.push({
+				datum.query.push({
 					type:_filter.type,
 					value:_filter.value
 				});	
@@ -111,7 +111,7 @@ angular.module("EmmetBlue")
 
         var url = '/pharmacy/dispensation/retrieve-dispensed-items-report';
 
-		var dispensations = utils.serverRequest(url, 'POST', data);
+		var dispensations = utils.serverRequest(url, 'POST', datum);
 		dispensations.then(function(response){
 			var records = {
 				data: response.data,

@@ -142,47 +142,10 @@ angular.module("EmmetBlue")
 	    }
 	};
 
-	// $scope.dtOptions = utils.DT.optionsBuilder.fromFnPromise(function(){
-	// 	var request = utils.serverRequest("/patients/patient/view", "GET");
-
-	// 	return request;
-	// })
-	// .withPaginationType('full_numbers')
-	// .withDisplayLength(10)
-	// .withFixedHeader()
-	// .withOption('createdRow', function(row, data, dataIndex){
-	// 	utils.compile(angular.element(row).contents())($scope);
-	// });
-
-	// $scope.dtColumns = [
-	// 	utils.DT.columnBuilder.newColumn("PatientUUID").withTitle("Patient Number").notVisible(),
-	// 	utils.DT.columnBuilder.newColumn("PatientFullName").withTitle("Name"),
-	// 	utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(actionMarkup).notSortable()
-	// ]
-
-	// function actionMarkup(data, type, full, meta){
-	// 	var list = "<ul class='icons-list text-nowrap'>"+
-	// 					"<li class='dropdown'>"+
-	// 						"<a href='#' class='dropdown-toggle' data-toggle='dropdown'><i class='icon-menu9'></i></a>"+
-
-	// 						"<ul class='dropdown-menu dropdown-menu-right'>"+
-	// 				        	"<li><a href='#' ng-click='loadPatientProfile("+data.PatientID+")'><i class='icon-user'></i> View Profile</a></li>"+
-	// 				        	"<li><a href='#'><i class='icon-cog'></i> Modify Profile</a></li>"+
-	// 						"</ul>"+
-	// 					"</li>"+
-	// 				"</ul>";
-
-	// 	return list;
-	// }
-
-	// $scope.dtInstance = {};
-	// $scope.reloadTable = function(){
-	// 	$scope.dtInstance.reloadData();
-	// }
-
 	$scope.saveNewPatient = function(){
 
 		var patient = $scope.newPatient;
+		patient.createdBy = utils.userSession.getID();
 
 		var request = utils.serverRequest("/patients/patient/new", "POST", patient);
 
@@ -273,6 +236,8 @@ angular.module("EmmetBlue")
   		var data = $scope.newPatient;
   		if (typeof $scope.newPatient['First Name'] !== "undefined" || typeof $scope.newPatient['Last Name'] !== "undefined") {
   			data.patientName = $scope.newPatient['First Name'] + " " + $scope.newPatient['Last Name'];
+  			data.createdBy = utils.userSession.getID();
+
 	  		
 			$('.loader').addClass('show');
 	  		var submitData = utils.serverRequest("/patients/patient/new", "POST", data);

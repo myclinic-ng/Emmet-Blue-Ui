@@ -164,6 +164,13 @@
 											<tr class="bg-danger text-center" ng-if="currentLog.diagnosisInfo.Diagnosis.investigations.lab.length > 0 || currentLog.diagnosisInfo.Diagnosis.investigations.imaging.length > 0">
 												<th colspan="3">Investigation</th>
 											</tr>
+											<tr class="active text-center" ng-if="currentLog.diagnosisInfo.Diagnosis.examination.length > 0">
+												<th colspan="3"><span class="text-center">Conducted Examinations</span></th>
+											</tr>
+											<tr ng-repeat="exam in currentLog.diagnosisInfo.Diagnosis.examination">
+												<td class="no-border">{{$index+1}}</td>
+												<td class="no-border">{{exam.name}}</td>
+											</tr>
 											<tr class="active text-center" ng-if="currentLog.diagnosisInfo.Diagnosis.investigations.lab.length > 0">
 												<th colspan="3"><span class="text-center">Laboratory</span></th>
 											</tr>
@@ -189,11 +196,22 @@
 											<tr class="bg-teal text-center" ng-if="currentLog.diagnosisInfo.Diagnosis.conclusion.prescription.length > 0">
 												<th colspan="3">Prescription</th>
 											</tr>
-											<tr ng-repeat="item in currentLog.diagnosisInfo.Diagnosis.conclusion.prescription" ng-if="currentLog.diagnosisInfo.Diagnosis.conclusion.prescription.length > 0">
+											<tr ng-repeat="prescription in currentLog.diagnosisInfo.Diagnosis.conclusion.prescription" ng-if="currentLog.diagnosisInfo.Diagnosis.conclusion.prescription.length > 0">
 												<td class="no-border">{{$index + 1}}</td>
 												<td>
-													{{item.item}}<br/>
-													<span class="text-bold">{{item.duration}}</span>
+													<div class="content-group" ng-if="!exists(prescription, 'smart')">
+														<label class="control-label"><span class='text-bold'>{{prescription.item}}</label>
+														<p class="text-bold pl-10">{{prescription.duration}}</p>
+													</div>
+													<div class="content-group" ng-if="exists(prescription, 'smart')">
+														<span ng-if="prescription.smart">
+															<label class="control-label"><b>{{prescription.item.item.name}}</b></label>
+															<p class="pl-10">{{prescription.item.item.category}}, {{prescription.item.times}} daily for {{prescription.item.duration}} days <span class="label label-success">SMART</span></p>
+														</span>
+														<span ng-if="!prescription.smart">
+															{{prescription.item.name}} <br/><span class="label label-warning">NOT SMART</span></label>
+														</span>
+													</div>
 												</td>
 											</tr>
 										</tbody>
@@ -248,8 +266,19 @@
 																</div>
 																<h6 class="text-muted"><u>Original Request</u></h6>
 																<div class="content-group" ng-repeat="prescription in item.Request">
-																	<h6 class="control-label"><span class='text-bold'>{{$index + 1}}.</span> {{prescription.item}}</h6>
-																	<p class="text-bold pl-10">{{prescription.duration}}</p>
+																	<div class="content-group" ng-if="!exists(prescription, 'smart')">
+																		<label class="control-label"><span class='text-bold'>{{$index + 1}}.</span> {{prescription.item}}</label>
+																		<p class="text-bold pl-10">{{prescription.duration}}</p>
+																	</div>
+																	<div class="content-group" ng-if="exists(prescription, 'smart')">
+																		<span ng-if="prescription.smart">
+																			<label class="control-label"><span class="text-bold">{{$index + 1}}.</span> <b>{{prescription.item.item.name}}</b></label>
+																			<p class="pl-10">{{prescription.item.item.category}}, {{prescription.item.times}} daily for {{prescription.item.duration}} days <span class="label label-success">SMART</span></p>
+																		</span>
+																		<span ng-if="!prescription.smart">
+																			<span class="text-bold">{{$index + 1}}.</span> {{prescription.item.name}} <br/><span class="label label-warning">NOT SMART</span></label>
+																		</span>
+																	</div>
 																</div>
 															</div>
 

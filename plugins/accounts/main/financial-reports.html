@@ -79,7 +79,7 @@
 					<div class="form-group col-md-8" ng-show="filterSelector.type == 'period'">
 						<label class="control-label">Select Period</label>
 						<select class="select" ng-model="filterSelector.value">
-							<option ng-repeat="period in accountingPeriods" value="{{period.PeriodAlias}}<seprator>{{toLocaleDateString(period.PeriodStartDate)}} - {{toLocaleDateString(period.PeriodEndDate)}}">{{period.PeriodAlias}}</option>
+							<option ng-repeat="period in accountingPeriods" value="{{period.PeriodAlias}}<seprator>{{period.PeriodID}}">{{period.PeriodAlias}}</option>
 						</select>
 					</div>
 					<div class="form-group col-md-8" ng-show="filterSelector.type == 'dateRange'">

@@ -84,7 +84,23 @@ angular.module("EmmetBlue")
 	$scope.currentRequestsUris = {};
 
 	$scope.dtColumns = [
-		utils.DT.columnBuilder.newColumn('PatientLabNumber').withTitle("Lab Number"),
+		// utils.DT.columnBuilder.newColumn('PatientLabNumber').withTitle("Lab Number"),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Lab Number").renderWith(function(data, full, meta){
+			var admissionString = (data.PatientInfo.admissionStatus) ? "In-Patient" : "" ;
+			var wardString = (data.PatientInfo.admissionStatus) ? data.PatientInfo.admissionStatus.WardName + " (" + data.PatientInfo.admissionStatus.WardSectionName + ")" : "" ;
+			var html = "<td>"+
+							"<div>"+
+								"<div class=''><a href='#' class='text-default'>"+data.PatientLabNumber+"</a></div>"+
+								"<div class='label label-danger text-size-small'>"+
+									admissionString+
+								"</div>"+
+								"<div class='text-bold text-size-small'>"+
+									wardString+
+								"</div>"+
+							"</div>"+
+						"</td>";
+			return html;
+		}),
 		utils.DT.columnBuilder.newColumn('LabName').withTitle("Required Lab"),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Patient").renderWith(function(data, full, meta){
 			var image = $scope.loadImage(data.PatientInfo.patientpicture);

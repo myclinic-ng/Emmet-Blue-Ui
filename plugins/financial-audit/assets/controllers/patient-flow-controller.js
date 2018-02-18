@@ -337,4 +337,9 @@ angular.module("EmmetBlue")
 	$scope.getTime = function(date){
 		return new Date(date).toLocaleTimeString();
 	}
+
+	$scope.exists = function(p, ind){
+		return typeof p[ind] != "undefined"
+	}
+
 })

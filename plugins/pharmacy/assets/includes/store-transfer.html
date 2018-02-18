@@ -12,8 +12,8 @@
 		<div class="content-group col-md-9">
 			<label class="control-label">Select Item(s)</label>
 			<select class="select" multiple="" ng-model="stock.selectedItems" id="#selectedItems">
-				<option ng-repeat="item in inventoryItems" value="{{item.ItemID}}" ng-if="!itemBrandIsNull(item.ItemBrand)">{{item.BillingTypeItemName}} ({{item.ItemBrand}})</option>
-				<option ng-repeat="item in inventoryItems" value="{{item.ItemID}}" ng-if="itemBrandIsNull(item.ItemBrand)">{{item.BillingTypeItemName}}</option>
+				<option ng-repeat="item in inventoryItems" value="{{item.ItemID}}" ng-if="!itemBrandIsNull(item.ItemBrand)">{{item.BillingTypeItemName}} ({{item.ItemBrand}}) [{{item.ItemQuantity}} available] </option>
+				<option ng-repeat="item in inventoryItems" value="{{item.ItemID}}" ng-if="itemBrandIsNull(item.ItemBrand)">{{item.BillingTypeItemName}} [{{item.ItemQuantity}} available] </option>
 			</select>
 		</div>
 		<div class="content-group col-md-3">
@@ -32,7 +32,7 @@
 				<th>S/N</th>
 				<th>Item Name</th>
 				<th>Quantity Left In Stock</th>
-				<th colspan="2">Quantity Added</th>
+				<th colspan="3">Quantity Added</th>
 			</thead>
 			<tbody>
 				<tr ng-if="globalRestockItems.length < 1">
@@ -43,15 +43,93 @@
 					<td>{{item.itemName}}</td>
 					<td>{{item.quantityBefore}}</td>
 					<td>{{item.quantityAdded}}</td>
+					<td><a class="btn" ng-click="showLabelManager(item.item, item.quantityAdded)"> Assign Labels</a></td>
 					<td><a class="btn btn-link text-info" ng-click="removeFromList($index)"> <i class="fa fa-trash-o"></i> remove</a></td>
 				</tr>
 			</tbody>
 			<tfoot ng-if="globalRestockItems.length > 0">
 				<tr>
-					<td></td><td colspan="2"></td>
+					<td></td><td colspan="2" class="pull-right"><strong>{{globalLabels.length}}</strong> labels printed</td>
 					<td colspan="2"><a class="btn btn-warning pull-right no-border-radius" ng-click="storeTransfer()"> Complete Transfer </a></td>
 				</tr>
 			</tfoot>
 		</table>
+	</div>
+
+	<div id="inventory_label_manager" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" onclick="$('#inventory_label_manager').modal('hide')">&times;</button>
+					<h6 class="modal-title">Inventory Items Label Printer</h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="">
+								<div class="content-group col-sm-12">
+									<label class="text-bold">Item Batch Number</label>
+									<input class="form-control" ng-model="searchLabel.btchNo"/>
+								</div>
+								<div class="content-group col-sm-5">
+									<label class="text-bold">Manufactured Date</label>
+									<input class="form-control" ng-model="searchLabel.mfDate" type="date"/>
+								</div>
+								<div class="content-group col-sm-5">
+									<label class="text-bold">Expiry Date</label>
+									<input class="form-control" ng-model="searchLabel.expDate" type="date"/>
+								</div>
+								<div class="content-group col-sm-2">
+									<label class="text-bold">Qty</label>
+									<input class="form-control" ng-model="searchLabel.qty" type="text"/>
+								</div>
+								<div class="text-center"><button type="button" class="btn btn-warning" ng-click="searchLabels()">Search</button></div>
+							</div>
+							<div class="col-md-12 mt-10 text-center">
+								<h2 class="mb-10">Found <strong><em>{{printableLabels.length}}</em></strong> Printable Labels Matching Search Query.</h2>
+								<div ng-if="printableLabels.length > 0" class="mt-10"><button type="button" class="btn btn-success" ng-click="printLabels(printLabelQuantity, true)">Print Found Labels</button></div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" onclick="$('#inventory_label_manager').modal('hide')" ng-click="newItem = {}"><i class="fa fa-times-circle-o"></i> Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="print_inventory_labels" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-info">
+					<button type="button" class="close" onclick="$('#print_inventory_labels').modal('hide')">&times;</button>
+					<h6 class="modal-title">Print Inventory Item Labels</h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12 content-group">
+							<label class="control-label">Quantity to print (max: <strong><em>{{printableLabels.length}}</em></strong>)</label>
+							<div class="col-md-10"><input class="form-control" type="number" data-max="{{printLabels.length}}" data-min="1" ng-model="printLabelQuantity"/></div>
+							<button class="btn btn-default col-md-1" ng-click="printLabels(printLabelQuantity)">Go</button>
+						</div>
+						<div id="qr_labels">
+							<div class="row font-black">
+								<!-- <div ng-repeat="item in printableGeneratedLabels" class="col-xs-12 ins-page-brk">
+									<img id="barCode-{{$index}}"/>
+								</div> -->
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" ng-print print-element-id="qr_labels" ng-click="storePrintedLabels()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"> </i></span> Print</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

@@ -1,6 +1,6 @@
 angular.module("EmmetBlue")
 
-.controller('pharmacyTransferReportsController', function($scope, utils, patientEventLogger, $rootScope){
+.controller('pharmacyPurchaseInvoiceController', function($scope, utils, patientEventLogger, $rootScope){
 	$scope.loadImage = utils.loadImage;
 	$scope.patient = {};
 
@@ -34,18 +34,14 @@ angular.module("EmmetBlue")
 
 	$scope.requestFilter = {
 		type: 'nil',
-		description: 'Today\'s Dispensations',
-		value: $scope.getDateRange("today")
+		description: 'Current Months\'s Invoices',
+		value: $scope.getDateRange("month")
 	}
 
 	$scope.createdFilters = [];
-	$scope.createdFilters.push({
-		type: 'nil',
-		description: 'Today\'s Dispensations',
-		value: $scope.getDateRange("today")
-	});
+	$scope.createdFilters.push($scope.requestFilter);
 
-	$scope.dateRange = $scope.getDateRange("today");
+	$scope.dateRange = $scope.getDateRange("month");
 
 	$scope.$watch("dateRange", function(nv){
 		var dates = nv.split(" - ");
@@ -64,7 +60,7 @@ angular.module("EmmetBlue")
 			};	
 		}
 
-		$scope.reloadDispensationsTable(true);
+		$scope.reloadLogTable(true);
 	})
 
 	$("option[status='disabled']").attr("disabled", "disabled");
@@ -109,7 +105,7 @@ angular.module("EmmetBlue")
 			}
 		}
 
-        var url = '/pharmacy/store-transfer/view';
+        var url = '/pharmacy/purchase-log/view';
 
 		var transfers = utils.serverRequest(url, 'POST', datum);
 		transfers.then(function(response){
@@ -141,6 +137,17 @@ angular.module("EmmetBlue")
     })
 	.withButtons([
         {
+        	text: '<i class="icon-new"></i> <u>N</u>ew Invoice Log',
+        	key: {
+        		key: 'n',
+        		ctrlKey: false,
+        		altKey: true
+        	},
+        	action: function(){
+        		$("#new_purchase_log").modal("show");	
+			}
+        },
+        {
         	extend: 'print',
         	text: '<i class="icon-printer"></i> <u>P</u>rint this data page',
         	key: {
@@ -161,17 +168,37 @@ angular.module("EmmetBlue")
 	]);	
 
 	$scope.dtColumns = [
+		utils.DT.columnBuilder.newColumn(null).withTitle("Invoice No.").renderWith(function(data){
+			if (data.InvoiceNumber == null){
+				data.InvoiceNumber = "N/A";
+			}
+			return "<span>"+data.InvoiceNumber+"</span>"
+		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Item").renderWith(function(data){
 			return "<span class='text-bold'>"+data.BillingTypeItemName+
 					"</span> <br/> <span class='text-size-small'>Brand: "+data.ItemBrand;
 		}),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Transferred Quantity").renderWith(function(data){
-			return "<span class='text-bold'>"+data.ItemQuantity+"</span>";
+		utils.DT.columnBuilder.newColumn(null).withTitle("Vendor").renderWith(function(data){
+			if (data.VendorAddress == null){
+				data.VendorAddress = "";
+			}
+
+			return "<span>"+data.VendorName+
+					"</span> <br/> <span class='text-size-small text-muted'>"+data.VendorAddress;
 		}),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Recipient Store").renderWith(function(data){
-			return "<span class='text-bold'>"+data.RecipientStoreName+"</span>";
+		utils.DT.columnBuilder.newColumn(null).withTitle("Cost Price").renderWith(function(data){
+			return "<span ng-currency ng-currency-symbol='naira'></span>"+"<span>"+data.ItemCostPrice+"</span>";
 		}),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Staff").renderWith(function(data, full, meta){
+		utils.DT.columnBuilder.newColumn(null).withTitle("Purchased Quantity").renderWith(function(data){
+			return "<span>"+data.ItemQuantity+"</span>";
+		}),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Purchased By").renderWith(function(data){
+			return "<span>"+data.ItemBuyee+"</span>";
+		}),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Purchased Date").renderWith(function(data){
+			return (new Date(data.ItemPurchaseDate)).toDateString();
+		}),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Logged By").renderWith(function(data, full, meta){
 			var image = $scope.loadImage(data.staffInfo.StaffPicture);
 			var html = "<td>"+
 							"<div class='media-left media-middle'>"+
@@ -187,12 +214,12 @@ angular.module("EmmetBlue")
 
 			return html;
 		}),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Date").renderWith(function(data, a, b){
-			return (new Date(data.TransferDate)).toDateString()+"<br/>"+(new Date(data.TransferDate)).toLocaleTimeString();
+		utils.DT.columnBuilder.newColumn(null).withTitle("Date Logged").renderWith(function(data, a, b){
+			return (new Date(data.DateCreated)).toDateString()+"<br/>"+(new Date(data.DateCreated)).toLocaleTimeString();
 		})
 	];
 
-	$scope.reloadDispensationsTable = function(applyToFirstIndex=false){
+	$scope.reloadLogTable = function(applyToFirstIndex=false){
 		if (typeof $scope.requestFilter.type !== "undefined"){	
 			var data = {
 				description: $scope.requestFilter.description,
@@ -260,41 +287,12 @@ angular.module("EmmetBlue")
 	$scope.activateFilter = function(){
 		var selector = $scope.filterSelector;
 		switch(selector.type){
-			case "status":{
-				if (selector.value !== null){
-				$scope.requestFilter.type = "status";
-					var value = selector.value.split("<seprator>");
-					$scope.requestFilter.value = value[1];
-					$scope.requestFilter.description = "Status: "+value[0];
-					$scope.reloadDispensationsTable();
-				}
-				break;
-			}
 			case "dateRange":{
 				$scope.requestFilter.type = "date";
 				var value = selector.value.split(" - ");
 				$scope.requestFilter.value= selector.value;
 				$scope.requestFilter.description = "Date Ranges Between: "+ new Date(value[0]).toDateString()+" And "+ new Date(value[1]).toDateString();
-				$scope.reloadDispensationsTable(true);
-				break;
-			}
-			case "patient":{
-				$scope.requestFilter.type = "patient";
-				$scope.requestFilter.value= selector.value;
-				$scope.requestFilter.description = "Patient Search: '"+selector.value+"'";
-
-				var req = utils.serverRequest("/patients/patient/search", "POST", {"query": selector.value, "from": 0, "size": 1});
-				req.then(function(result){
-					if (typeof result.hits.hits[0]["_source"]["patientid"] !== "undefined"){
-						$scope.requestFilter.value = result.hits.hits[0]["_source"]["patientid"];
-						$scope.reloadDispensationsTable();
-					}
-					else {
-						utils.notify("Invalid Search Query", "Please enter a valid patient profile identifier to continue", "warning");
-					}
-				}, function(error){
-					utils.errorHandler(error);
-				})
+				$scope.reloadLogTable(true);
 				break;
 			}
 			case "staff":{
@@ -306,7 +304,7 @@ angular.module("EmmetBlue")
 				req.then(function(result){
 					if (typeof result["StaffID"] !== "undefined"){
 						$scope.requestFilter.value = result["StaffID"];
-						$scope.reloadDispensationsTable();
+						$scope.reloadLogTable();
 					}
 					else {
 						utils.notify("Invalid Staff Username", "Please enter a valid username to continue", "warning");
@@ -316,43 +314,19 @@ angular.module("EmmetBlue")
 				})
 				break;
 			}
-			case "patienttype":{
-				$scope.requestFilter.type = "patienttype";
-				var value = selector.value.split("<seprator>");
-				$scope.requestFilter.value = value[1];
-				$scope.requestFilter.description = "Patient Type: '"+value[0]+"'";
-				$scope.reloadDispensationsTable();
+			case "invoice number":{
+				$scope.requestFilter.type = "invoicenumber";
+				var value = selector.value;
+				$scope.requestFilter.value = value;
+				$scope.requestFilter.description = "Invoice Number: '"+value+"'";
+				$scope.reloadLogTable();
 				break;
 			}
-			case "billingtype":{
-				$scope.requestFilter.type = "billingtype";
-				var value = selector.value.split("<seprator>");
-				$scope.requestFilter.value = value[0];
-				$scope.requestFilter.description = "Billing Type Item: '"+value[1]+"'";
-				$scope.reloadDispensationsTable();
-				break;
-			}
-			case "Transferring Store":{
-				$scope.requestFilter.type = "transferstore";
-				var value = selector.value.split("<seprator>");
-				$scope.requestFilter.value = value[0];
-				$scope.requestFilter.description = "Transferring Store: '"+value[1]+"'";
-				$scope.reloadDispensationsTable();
-				break;
-			}
-			case "Recipient Store":{
-				$scope.requestFilter.type = "recipientstore";
-				var value = selector.value.split("<seprator>");
-				$scope.requestFilter.value = value[0];
-				$scope.requestFilter.description = "Recipient Store: '"+value[1]+"'";
-				$scope.reloadDispensationsTable();
-				break;
-			}
-			case "itemcode":{
+			case "item code":{
 				$scope.requestFilter.type = "itemcode";
 				$scope.requestFilter.value= selector.value;
 				$scope.requestFilter.description = "Item Code: '"+selector.value+"'";
-				$scope.reloadDispensationsTable();
+				$scope.reloadLogTable();
 				break;
 			}
 			default:{
@@ -360,8 +334,69 @@ angular.module("EmmetBlue")
 				var value = selector.type.split("<seprator>");
 				$scope.requestFilter.value = value[1];
 				$scope.requestFilter.description = value[0];
-				$scope.reloadDispensationsTable();
+				$scope.reloadLogTable();
 			}
 		}
+	}
+
+	function loadInventoryItems(){
+		var request = utils.serverRequest("/pharmacy/store-inventory/view", "GET");
+
+		request.then(function(response){
+			$scope.inventoryItems = response;
+		}, function(error){
+			utils.errorHandler(error);
+		});
+	}
+
+	loadInventoryItems();
+
+	function loadVendors(){
+		var request = utils.serverRequest("/financial-accounts/corporate-vendor/view", "GET");
+
+		request.then(function(response){
+			$scope.corporateVendors = response;
+		}, function(error){
+			utils.errorHandler(error);
+		});
+	}
+
+	loadVendors();
+
+	$scope.listItem = {};
+	$scope.newItem = {};
+
+	$scope.newItem.items = [];
+
+	$scope.addItemToInvoice = function(){
+		var item = $scope.listItem;
+		selector = item.itemSelector.split("|");
+		item.item = selector[1];
+		item._item = selector[0];
+		$scope.newItem.items.push(item);
+		$scope.listItem = {};
+	}
+
+	$scope.removeItemFromInvoice = function(index){
+		$scope.newItem.items.splice(index, 1);
+	}
+
+	$scope.saveInvoice = function(){
+		var data = $scope.newItem;
+		data.staff = utils.userSession.getID();
+
+		var request = utils.serverRequest("/pharmacy/purchase-log/new", "POST", data);
+		request.then(function(response){
+			if (response){
+				utils.notify("Operation Successful", "Invoice has been logged successfully", "success");
+				$("#new_purchase_log").modal("hide");
+				$scope.reloadLogTable();
+			}
+			else {
+				utils.notify("An error occurred", "Please try again", "error");
+			}
+		}, function(error){
+			utils.errorHandler(error);
+		});
 	}
 });

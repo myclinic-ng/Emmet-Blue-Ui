@@ -64,6 +64,12 @@
 									<input type="text" class="form-control" ng-model="tempInvestigationType.InvestigationTypeName">
 								</div>
 								<div class="content-group col-sm-12">
+									<label>Lab <span class="text-hint text-small">(Leave blank to retain current lab)</span></label>
+									<select class="select" ng-model="tempInvestigationType.InvestigationTypeLab">
+										<option value="{{lab.LabID}}" ng-repeat="lab in labs">{{lab.LabName}}</option>
+									</select>
+								</div>
+								<div class="content-group col-sm-12">
 									<label>Investigation Type description</label>
 									<textarea class="form-control" cols="3" rows="3" ng-model="tempInvestigationType.InvestigationTypeDescription"></textarea>
 								</div>

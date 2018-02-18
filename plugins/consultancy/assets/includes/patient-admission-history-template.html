@@ -31,6 +31,9 @@
 						<button class="btn btn-primary" ng-click="loadWorkspace(detail.WardDetails.WardAdmissionID)">View</button>
 					</td>
 				</tr>
+				<tr ng-show="admissionDetails.length < 1">
+					<td colspan="5" class="text-center text-info">No Admission Record Found</td>
+				</tr>
 			</tbody>
 		</table>
 	</div>

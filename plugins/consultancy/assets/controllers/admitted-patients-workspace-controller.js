@@ -144,6 +144,9 @@ function consultancyPatientWorkspaceController($rootScope, $scope, utils, $http)
 			utils.serverRequest("/patients/patient/search", "POST", data).then(function(response){
 				$scope.patient = response.hits.hits[0]["_source"];
 				$scope.patientProfileLoaded = true;
+				$scope.archives = {
+					displayPage: 'repositories'
+				};				
 				$scope.loadRepositories();
 				loadConsultationNotes();
 				loadConsultantsInNotes($scope.admissionInfo.WardAdmissionID);

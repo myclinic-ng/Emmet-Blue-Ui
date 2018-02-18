@@ -84,6 +84,10 @@ angular.module("EmmetBlue")
             },
             history: {
             	menu: false
+            },
+            mobile: {
+            	swipe_dismiss: true,
+            	styling: true
             }
         });
 	};
@@ -149,13 +153,19 @@ angular.module("EmmetBlue")
 	services.serverUpload = function(url, requestType, data={}){
 		var deferred = $q.defer();
 
-		return $http({
+		var _req = {
 			url: url,
 			method: requestType,
 			data: data,
 			transformRequest: angular.identity,
        		headers: {'Content-Type': undefined}
-		}).then(function(result){
+		}
+
+		if (typeof $cookies.getObject(CONSTANTS.USER_COOKIE_IDENTIFIER) !== "undefined"){
+			_req.headers.Authorization = $cookies.getObject(CONSTANTS.USER_COOKIE_IDENTIFIER).token;
+		}
+
+		return $http(_req).then(function(result){
 			deferred.resolve(result.data.contentData);
 			return deferred.promise;
 		}, function(result){
@@ -281,6 +291,10 @@ angular.module("EmmetBlue")
 		}
 	}
 
+	services.newWebSocket = function(){
+		return new WebSocket(CONSTANTS.WEB_SOCKET_SERVER);
+	}
+
 	services.substringMatcher = function(strs) {
         return function findMatches(q, cb) {
             var matches, substringRegex;
@@ -304,6 +318,11 @@ angular.module("EmmetBlue")
             cb(matches);
         };
     };
+
+    services.generateQrCode = function(content, type="label"){
+    	var data  = {type: type, content: content};
+    	return generateQrCode(JSON.stringify(data));
+    }
 
 	services.globalConstants = CONSTANTS;
 
