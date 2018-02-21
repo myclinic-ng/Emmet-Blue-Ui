@@ -217,7 +217,7 @@ angular.module("EmmetBlue")
 		if (typeof image == "undefined"){
 			return null;
 		}
-		return CONSTANTS.EMMETBLUE_SERVER+image
+		return CONSTANTS.EMMETBLUE_FILE_SERVER+image
 	}
 
 	services.dateObject = function(dateString){

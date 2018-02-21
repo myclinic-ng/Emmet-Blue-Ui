@@ -1,5 +1,6 @@
 function getConstants(){
 	var server = "https://emmetblue.org.ng:700/";
+	var file_server = "https://emmetblue.org.ng:702/";
 	var ws_server = "wss://emmetblue.org.ng/echobot";
 	var client = {
 		short_name: "Harmony Hospital",
@@ -28,6 +29,7 @@ function getConstants(){
 		"EMMETBLUE_SERVER_VERSION":"v1",
 		"USER_COOKIE_IDENTIFIER":"_______",
 		"USER_CLIENT":client,
-		"WEB_SOCKET_SERVER":ws_server
+		"WEB_SOCKET_SERVER":ws_server,
+		"EMMETBLUE_FILE_SERVER":file_server
 	};
 }
