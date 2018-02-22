@@ -334,6 +334,8 @@ angular.module("EmmetBlue")
 
 	services.restServer = CONSTANTS.EMMETBLUE_SERVER+CONSTANTS.EMMETBLUE_SERVER_VERSION;
 
+	services.fileServer = CONSTANTS.EMMETBLUE_FILE_SERVER;
+
 	services.DT = {
 		optionsBuilder: DTOptionsBuilder,
 		columnBuilder: DTColumnBuilder,
