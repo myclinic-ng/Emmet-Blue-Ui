@@ -131,4 +131,6 @@ angular.module("EmmetBlue")
 		$scope.currentType = $scope.currentType == "password" ? "text" : "password";
 		$("#password").attr("type", $scope.currentType);
 	}
+
+	$scope.currentYear = (new Date()).getFullYear();
 })

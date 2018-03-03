@@ -1,10 +1,10 @@
 function getConstants(){
-	var server = "https://emmetblue.org.ng:704/";
-	var file_server = "https://emmetblue.org.ng:702/";
+	var server = "https://35.227.119.191:704/";
+	var file_server = "https://35.227.119.191:702/";
 	var ws_server = "wss://emmetblue.org.ng/echobot";
 	var client = {
-		short_name: "Harmony Hospital",
-		name: "Harmony Hospital and Specialists Clinic",
+		short_name: "Emmetblue",
+		name: "Emmetblue",
 		_style:{
 			accounts:{
 				billing:{
