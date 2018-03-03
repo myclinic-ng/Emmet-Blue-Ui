@@ -87,7 +87,8 @@ angular.module("EmmetBlue")
 						accountActivated: response.accountActivated,
 						staffid: response.id,
 						username: $scope.login.username,
-						token: response.token
+						token: response.token,
+						businessInfo: response.business
 					};
 
 					$cookies.putObject(utils.globalConstants.USER_COOKIE_IDENTIFIER, responseObject);

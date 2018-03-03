@@ -82,6 +82,7 @@ angular.module("EmmetBlue")
 
 	var loadUserProfile = function(){
 		if ($location.path() != '/user/login'){
+			$scope.businessInfo = utils.userSession.getBusinessInfo();
 			var req = utils.serverRequest("/human-resources/staff/view-staff-with-department-and-role?uuid="+utils.userSession.getUUID(), "GET");
 
 			req.then(function(response){
