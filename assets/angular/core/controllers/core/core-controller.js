@@ -86,8 +86,10 @@ angular.module("EmmetBlue")
 			var req = utils.serverRequest("/human-resources/staff/view-staff-with-department-and-role?uuid="+utils.userSession.getUUID(), "GET");
 
 			req.then(function(response){
-				$scope.currentStaffDepartmentInfo = response[0];
-				utils.storage.currentStaffDepartmentID = response[0].DepartmentID;
+				if (typeof response[0] !== "undefined"){
+					$scope.currentStaffDepartmentInfo = response[0];
+					utils.storage.currentStaffDepartmentID = response[0].DepartmentID;
+				}
 			}, function(error){
 				utils.errorHandler(error);
 			})
@@ -126,7 +128,9 @@ angular.module("EmmetBlue")
 	}, function(nv){
 		var req = utils.serverRequest("/human-resources/department/view?resourceId="+nv, "GET");
 		req.then(function(response){
-			$scope.currentDepartmentName = response[0].Name;
+			if (typeof response[0] !== "undefined"){
+				$scope.currentDepartmentName = response[0].Name;
+			}
 		});
 	})
 

@@ -57,19 +57,25 @@ function determineRouteAvailability(url){
 	// alert(route);
 
 	if (typeof $.cookie(getConstants().USER_COOKIE_IDENTIFIER) != "undefined"){
-		var userDashboard = ((JSON.parse($.cookie(getConstants().USER_COOKIE_IDENTIFIER))).dashboard).split("/");
-		var userUrl = url.split("/");
-		delete userDashboard[userDashboard.length - 1];
-		delete userUrl[userUrl.length - 1];
-		var userDashboardDirPath = userDashboard.join("/");
-		var userUrlDirPath = userUrl.join("/");
-		if (userDashboardDirPath !== userUrlDirPath){
-			if (urlParts[0] == 'user'){
-				//do nothing
+		var uci = JSON.parse($.cookie(getConstants().USER_COOKIE_IDENTIFIER));
+		if (typeof uci.dashboard !== "undefined"){
+			var userDashboard = (uci.dashboard).split("/");
+			var userUrl = url.split("/");
+			delete userDashboard[userDashboard.length - 1];
+			delete userUrl[userUrl.length - 1];
+			var userDashboardDirPath = userDashboard.join("/");
+			var userUrlDirPath = userUrl.join("/");
+			if (userDashboardDirPath !== userUrlDirPath){
+				if (urlParts[0] == 'user'){
+					//do nothing
+				}
+				else {
+					return 'plugins/user/home.html';
+				}
 			}
-			else {
-				return 'plugins/user/home.html';
-			}
+		}
+		else {
+			return 'plugins/user/login.html';
 		}
 	}
 
