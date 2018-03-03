@@ -44,7 +44,7 @@ angular.module("EmmetBlue")
 			});
 
 			$loginPromise.then(function(response){
-				if (typeof response.status == "undefined" || !response.status){
+				if (typeof response == "undefined" || !response.status){
 					$(".form-control").addClass('has-warning')
 					utils.alert(
 						"Invalid login data",
