@@ -128,7 +128,7 @@ angular.module("EmmetBlue")
 	}, function(nv){
 		var req = utils.serverRequest("/human-resources/department/view?resourceId="+nv, "GET");
 		req.then(function(response){
-			if (typeof response[0] !== "undefined"){
+			if (typeof response !== "undefined" && typeof response[0] !== "undefined"){
 				$scope.currentDepartmentName = response[0].Name;
 			}
 		});
@@ -159,12 +159,16 @@ angular.module("EmmetBlue")
 	checkLogin();
 	loadUserProfile();
 
+	$scope.showSwitchLoader = false;
 	$scope.loadSwitchableDepts = function(){
 		if (typeof $scope.switchableDepartments == "undefined"){
+			$scope.showSwitchLoader = true;
 			utils.serverRequest("/human-resources/staff-department/view-secondary-departments?resourceId="+utils.userSession.getID(), "GET")
 			.then(function(response){
+				$scope.showSwitchLoader = false;
 				$scope.switchableDepartments = response;
 			}, function(error){
+				$scope.showSwitchLoader = false;
 				utils.errorHandler(error);
 			})
 		}

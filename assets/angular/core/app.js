@@ -69,21 +69,19 @@ angular.module("EmmetBlue")
 
 	services.notify = function(title, text, type){
 		PNotify.desktop.permission();
+		
+		$(".ui-pnotify-container").remove();
 	    new PNotify({
             title: title,
             text: text,
-            addclass: 'alert-styled-left alert-arrow-left text-sky-royal',
+            addclass: 'alert-styled-left alert-arrow-left text-white',
             type: type,
-            mouse_reset: true,
             insert_brs: true,
             nonblock: {
             	nonblock: true
             },
             desktop: {
             	desktop: false
-            },
-            history: {
-            	menu: false
             },
             mobile: {
             	swipe_dismiss: true,

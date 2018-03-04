@@ -59,11 +59,19 @@
 					<ul class="dropdown-menu dropdown-menu-right">
 						<li>
 							<div class="form-group" style=" padding: 0 !important; margin: 0 !important;">
-								<input class="form-control" type="text" placeholder="Filter departments " style="border-radius: 0;" ng-model="departmentsFilter" id="__departmentsFilter"/>
+								<input class="form-control" type="text" placeholder="Filter departments " style="border: 0;" ng-model="departmentsFilter" id="__departmentsFilter"/>
 							</div>
 						</li>
+						<li ng-if="showSwitchLoader == true">
+							<a href="#" class="text-center" style="font-size: 0.8em !important"><i class="icon-spinner2 fa-spin"></i> Loading departments</a>
+						</li>
 						<li class="divider"></li>
-						<li ng-repeat="department in switchableDepartments | filter: departmentsFilter" ng-click="switch(department.DepartmentID)"><a href="#">{{department.Name}}</a></li>
+						<li ng-repeat="department in switchableDepartments | filter: departmentsFilter" ng-click="switch(department.DepartmentID)">
+							<a href="#"><i class="fa fa-bookmark"></i> {{department.Name}}</a>
+						</li>
+						<li ng-if="switchableDepartments.length == 0">
+							<a href="#" class="text-center" style="font-size: 0.8em !important"><i class="fa fa-ban"></i> No secondary department</a>
+						</li>
 					</ul>
 				</li>
 

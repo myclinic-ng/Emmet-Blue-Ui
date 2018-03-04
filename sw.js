@@ -20,11 +20,11 @@ importScripts('workbox-sw.prod.v2.1.3.js');
 const fileManifest = [
   {
     "url": "assets/angular/core/app.js",
-    "revision": "c217c67d7352022c08704a54b083e5b4"
+    "revision": "d66d8ca077be242b8475594abf824b98"
   },
   {
     "url": "assets/angular/core/controllers/core/core-controller.js",
-    "revision": "c7c930128907eb27620e481541d10af1"
+    "revision": "f402c81a62126d23e4137407a747ff43"
   },
   {
     "url": "assets/angular/core/controllers/core/sudo-mode-controller.js",
@@ -40,7 +40,7 @@ const fileManifest = [
   },
   {
     "url": "assets/angular/core/templates/header.html",
-    "revision": "c99e322c4b6d709e7a387a90273d327b"
+    "revision": "adbca77375fa544408c98e36c75b27c7"
   },
   {
     "url": "assets/angular/core/templates/sudo-mode.html",
@@ -340,7 +340,7 @@ const fileManifest = [
   },
   {
     "url": "assets/css/watermark.min.css",
-    "revision": "d2c827e218f692ec514fa4d21989a204"
+    "revision": "b46d07f62a77947dec991237ba791527"
   },
   {
     "url": "assets/fonts/Montserrat-Bold.ttf",
