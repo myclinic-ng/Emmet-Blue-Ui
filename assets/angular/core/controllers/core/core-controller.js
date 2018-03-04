@@ -174,7 +174,7 @@ angular.module("EmmetBlue")
 		}
 	}
 
-	$scope.switchRandomColors = ["#f00", "#0f0", "#00f", "#000", "#fff","#f00", "#0f0", "#00f", "#000", "#fff","#f00", "#0f0", "#00f", "#000", "#fff"];
+	$scope.switchRandomColors = ["#41E1D7", "#E18441", "#6141E1", "#E14154", "#FFA03B","#41E1D7", "#E18441", "#6141E1", "#E14154", "#FFA03B","#41E1D7", "#E18441", "#6141E1", "#E14154", "#FFA03B"];
 
 	var userSessionQrCodeHandler = function(){
 		$(".userSessionQrCodeSvg").html(utils.generateQrCode(JSON.stringify(utils.userSession.cookie()), "user"));
