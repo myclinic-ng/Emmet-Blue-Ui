@@ -174,6 +174,8 @@ angular.module("EmmetBlue")
 		}
 	}
 
+	$scope.switchRandomColors = ["f00", "0f0", "00f", "000", "fff","f00", "0f0", "00f", "000", "fff","f00", "0f0", "00f", "000", "fff","f00", "0f0", "00f", "000", "fff"];
+
 	var userSessionQrCodeHandler = function(){
 		$(".userSessionQrCodeSvg").html(utils.generateQrCode(JSON.stringify(utils.userSession.cookie()), "user"));
 	}
