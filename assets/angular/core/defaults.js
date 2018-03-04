@@ -75,7 +75,7 @@ function determineRouteAvailability(url){
 			}
 		}
 		else {
-			return 'plugins/user/login.html';
+			//do nothing
 		}
 	}
 

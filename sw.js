@@ -24,7 +24,7 @@ const fileManifest = [
   },
   {
     "url": "assets/angular/core/controllers/core/core-controller.js",
-    "revision": "f2118726381232c1b42cb42949b26a33"
+    "revision": "c7c930128907eb27620e481541d10af1"
   },
   {
     "url": "assets/angular/core/controllers/core/sudo-mode-controller.js",
@@ -36,11 +36,11 @@ const fileManifest = [
   },
   {
     "url": "assets/angular/core/defaults.js",
-    "revision": "15d57df145343fa507a478f3a96a1b8a"
+    "revision": "d74d829673476fa14f4ac01184841aa1"
   },
   {
     "url": "assets/angular/core/templates/header.html",
-    "revision": "c576699df766bf2fc85e2764235294f8"
+    "revision": "c99e322c4b6d709e7a387a90273d327b"
   },
   {
     "url": "assets/angular/core/templates/sudo-mode.html",
@@ -500,7 +500,7 @@ const fileManifest = [
   },
   {
     "url": "assets/images/logo.png",
-    "revision": "63c7483c3702b8d0fb709132aa32fa24"
+    "revision": "376dd3987b4ce94ba1424924db77b15d"
   },
   {
     "url": "assets/images/no-refunds.png",

@@ -1,83 +1,98 @@
-<div class="navbar navbar-inverse" id="navbar-primary" ng-controller="coreController">
-	<div class="navbar-header">
-
-		<a class="navbar-brand" href="/user/home"><img src="assets/images/logo.png" class="img img-responsive" style="height: 32px; margin-top: -5px;"/></a>
-
-		<ul class="nav navbar-nav pull-right visible-xs-block">
-			<li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-menu5"></i></a></li>
+<div ng-controller="coreController">
+	<div class="navbar navbar-default" id="navbar-first" style="padding: 10px !important;" ng-if="showBillingMenu">
+		<ul class="nav navbar-nav no-border visible-xs-block">
+			<li><a class="text-center collapsed" data-toggle="collapse" data-target="#navbar-second-toggle"><i class="icon-menu7"></i></a></li>
 		</ul>
 
-		<p class="navbar-text">
-			{{businessInfo.BusinessName}} <span style="font-size: 0.8em !important">{{businessInfo.BusinessState}}, {{businessInfo.BusinessCountry}}</span>
-		</p>
-		<p class="navbar-text">
-			<span class="label bg-success-800">{{businessInfo.BusinessType}}</span>
-		</p>
-	</div>
+		<div class="navbar-collapse collapse" id="navbar-second-toggle">
+			<ul class="nav navbar-nav">
+				<li class="text-large text-light"><a href='#"'>
+					<i class="icon-gift position-left"></i> 
+					You have 100 Blueunits in credit
+				</a></li>
+			</ul>
 
-	<div class="navbar-collapse collapse" id="navbar-mobile">
-		<ul class="no-login nav navbar-nav navbar-right">
-			<li>
-				<a href="#">{{currentDepartmentName}}</a>
-			</li>
-			<li><a ng-click="returnToPrimaryDept()"><i class="fa fa-home"></i></a></li>
-			<li class="dropdown">
-				<a class="dropdown-toggle" data-toggle="dropdown" ng-click="loadSwitchableDepts()">
-					Switch Department <i class="caret"></i>
-				</a>
-				<ul class="dropdown-menu dropdown-menu-right">
-					<li>
-						<div class="form-group" style=" padding: 0 !important; margin: 0 !important;">
-							<input class="form-control" type="text" placeholder="Filter departments " style="border-radius: 0;" ng-model="departmentsFilter" id="__departmentsFilter"/>
-						</div>
-					</li>
-					<li class="divider"></li>
-					<li ng-repeat="department in switchableDepartments | filter: departmentsFilter" ng-click="switch(department.DepartmentID)"><a href="#">{{department.Name}}</a></li>
-				</ul>
-			</li>
-
-			<li class="dropdown dropdown-user">
-				<a class="dropdown-toggle" data-toggle="dropdown">
-					<img ng-src="{{loadImage(currentStaffInfo.StaffPicture)}}" alt="" ng-if="staffProfileExists()">
-					<i class="icon-user-lock" ng-if="!staffProfileExists()"></i>
-					<span>&nbsp;<span ng-if="staffProfileExists()">{{currentStaffInfo.StaffFullName}}</span></span>
-					<i class="caret"></i>
-				</a>
-
-				<ul class="dropdown-menu dropdown-menu-right">
-					<li data-toggle="modal" data-target="#userSessionQrCodeSvgModal">
-						<a href="#"><div style="width:100%; background-color:transparent;" class="userSessionQrCodeSvg"></div></a>
-					</li>
-					<li class="divider"></li>	
-					<li><a href="/user/switch-department"><i class="icon-cog5"></i> Switch Department</a></li>
-					<!-- <li><a href="#"><i class="icon-coins"></i> Inbox</a></li> -->
-					<li data-toggle="modal" data-target="#userWorkScheduleModal"><a href="#"><i class="fa fa-calendar"></i> Work Schedules</a></li>
-
-					<li class="divider"></li>	
-					<li><a href="#" ng-click="logout()"><i class="icon-switch2"></i> Logout</a></li>
-				</ul>
-			</li>
-		</ul>
-	</div>
-</div>
-<div class="modal modal-fade" id="userSessionQrCodeSvgModal">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-body">
-				<div class="row">
-					<div style="width:98%; height: 90%; background-color:transparent;" class="userSessionQrCodeSvg"></div>
-				</div>
-			</div>
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a ng-click="toggleBillingMenu()" class="btn btn-link" style="color: #3B78E7 !important">
+						DISMISS
+					</a>
+				</li>
+				<li>
+					<a href="#" class="btn btn-xs btn-default" style="background-color: #3B78E7 !important; border-color: #3B78E7 !important; color: #fff !important;">
+						Go To Billing Dashboard
+					</a>
+				</li>
+			</ul>
 		</div>
 	</div>
-</div>
+	<div class="navbar navbar-inverse" id="navbar-primary">
+		<div class="navbar-header">
 
-<div class="modal modal-fade" id="userWorkScheduleModal">
-	<div class="modal-full">
-		<div class="modal-content">
-			<div class="modal-body">
-				<div class="row">
-					<ng-include src="'plugins/user/work-schedules.html'"></ng-include>
+			<a class="navbar-brand" href="/user/home"><img src="assets/images/logo.png" class="img img-responsive" style="height: 32px; margin-top: -5px;"/></a>
+
+			<ul class="nav navbar-nav pull-right visible-xs-block">
+				<li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-menu5"></i></a></li>
+			</ul>
+
+			<p class="navbar-text">
+				{{businessInfo.BusinessName}} <span style="font-size: 0.8em !important">{{businessInfo.BusinessState}}, {{businessInfo.BusinessCountry}}</span>
+			</p>
+			<p class="navbar-text">
+				<span class="label bg-success-800">{{businessInfo.BusinessType}}</span>
+			</p>
+			<p class="navbar-text">
+				{{currentDepartmentName}}
+			</p>
+		</div>
+
+		<div class="navbar-collapse collapse" id="navbar-mobile">
+			<ul class="no-login nav navbar-nav navbar-right">
+				<li>
+					<a ng-click="toggleBillingMenu()"><i class="icon-gift"></i></a>
+				</li>
+				<li><a ng-click="returnToPrimaryDept()"><i class="fa fa-home"></i></a></li>
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" ng-click="loadSwitchableDepts()">
+						Switch Department <i class="caret"></i>
+					</a>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li>
+							<div class="form-group" style=" padding: 0 !important; margin: 0 !important;">
+								<input class="form-control" type="text" placeholder="Filter departments " style="border-radius: 0;" ng-model="departmentsFilter" id="__departmentsFilter"/>
+							</div>
+						</li>
+						<li class="divider"></li>
+						<li ng-repeat="department in switchableDepartments | filter: departmentsFilter" ng-click="switch(department.DepartmentID)"><a href="#">{{department.Name}}</a></li>
+					</ul>
+				</li>
+
+				<li class="dropdown dropdown-user">
+					<a class="dropdown-toggle" data-toggle="dropdown">
+						<img ng-src="{{loadImage(currentStaffInfo.StaffPicture)}}" alt="" ng-if="staffProfileExists()">
+						<i class="icon-user-lock" ng-if="!staffProfileExists()"></i>
+						<span>&nbsp;<span ng-if="staffProfileExists()">{{currentStaffInfo.StaffFullName}}</span></span>
+						<i class="caret"></i>
+					</a>
+
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li data-toggle="modal" data-target="#userWorkScheduleModal"><a href="#"><i class="fa fa-calendar"></i> Work Schedules</a></li>
+
+						<li class="divider"></li>	
+						<li><a href="#" ng-click="logout()"><i class="icon-switch2"></i> Logout</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="modal modal-fade" id="userWorkScheduleModal">
+		<div class="modal-full">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="row">
+						<ng-include src="'plugins/user/work-schedules.html'"></ng-include>
+					</div>
 				</div>
 			</div>
 		</div>

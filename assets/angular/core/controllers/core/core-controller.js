@@ -174,5 +174,9 @@ angular.module("EmmetBlue")
 		$(".userSessionQrCodeSvg").html(utils.generateQrCode(JSON.stringify(utils.userSession.cookie()), "user"));
 	}
 
-	userSessionQrCodeHandler();
+	$scope.showBillingMenu = false;
+
+	$scope.toggleBillingMenu = function(){
+		$scope.showBillingMenu = !$scope.showBillingMenu;
+	}
 });
