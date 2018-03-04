@@ -67,7 +67,7 @@
 						</li>
 						<li class="divider"></li>
 						<li ng-repeat="(key, department) in switchableDepartments | filter: departmentsFilter" ng-click="switch(department.DepartmentID)">
-							<a href="#"><i class="fa fa-bookmark" style="color: {{switchRandomColors[key]}}"></i> {{department.Name}}</a>
+							<a href="#"><i class="fa fa-bookmark" style="color: {{switchRandomColors[key]}} !important;"></i>  {{switchRandomColors[key]}} {{department.Name}}</a>
 						</li>
 						<li ng-if="switchableDepartments.length == 0">
 							<a href="#" class="text-center" style="font-size: 0.8em !important"><i class="fa fa-ban"></i> No secondary department</a>

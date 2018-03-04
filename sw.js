@@ -24,7 +24,7 @@ const fileManifest = [
   },
   {
     "url": "assets/angular/core/controllers/core/core-controller.js",
-    "revision": "99539584cb1eaa41036a143c288f69a8"
+    "revision": "8a9e3bcd69e417093d3124238cc89838"
   },
   {
     "url": "assets/angular/core/controllers/core/sudo-mode-controller.js",
@@ -40,7 +40,7 @@ const fileManifest = [
   },
   {
     "url": "assets/angular/core/templates/header.html",
-    "revision": "2f4f1a54347892d254bdf6ff0e5301fc"
+    "revision": "e985e688d7aa56a1cdb70e1db34c265f"
   },
   {
     "url": "assets/angular/core/templates/sudo-mode.html",
