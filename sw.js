@@ -500,7 +500,7 @@ const fileManifest = [
   },
   {
     "url": "assets/images/logo.png",
-    "revision": "376dd3987b4ce94ba1424924db77b15d"
+    "revision": "893855b056a078feef65fe79ad3f5602"
   },
   {
     "url": "assets/images/no-refunds.png",
