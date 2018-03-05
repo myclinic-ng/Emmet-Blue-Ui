@@ -3552,7 +3552,7 @@ const fileManifest = [
   },
   {
     "url": "plugins/human-resources/assets/controllers/access-control-controller.js",
-    "revision": "37cff18cd502afb229e192ddfb8a582e"
+    "revision": "f0301882e513856633206c98377babd1"
   },
   {
     "url": "plugins/human-resources/assets/controllers/dashboard-controller.js",
@@ -4780,7 +4780,7 @@ const fileManifest = [
   },
   {
     "url": "plugins/user/assets/controllers/dashboard-controller.js",
-    "revision": "b4d952736d95a3c4cd3a11145abb7896"
+    "revision": "3dd5253bf0ce14796d6d4d3d51dfa67b"
   },
   {
     "url": "plugins/user/assets/controllers/home-controller.js",
