@@ -24,7 +24,7 @@ const fileManifest = [
   },
   {
     "url": "assets/angular/core/controllers/core/core-controller.js",
-    "revision": "37aff98570f3ac69cd16cfe7a56ebca5"
+    "revision": "18431abad927698c7211c449014dba50"
   },
   {
     "url": "assets/angular/core/controllers/core/sudo-mode-controller.js",

@@ -183,12 +183,14 @@ angular.module("EmmetBlue")
 	$scope.showBillingMenu = false;
 
 	$scope.toggleBillingMenu = function(){
-		$scope.getCurrentBusinessAccount();
+		if (!$scope.showBillingMenu){
+			$scope.getCurrentBusinessAccount();
+		}
 		$scope.showBillingMenu = !$scope.showBillingMenu;
 	}
 
 	$scope.getCurrentBusinessAccount = function(){
-		utils.serverRequest('/business/get-account-balance', 'GET')
+		utils.serverRequest('v1/business/get-account-balance', 'GET')
 		.then(function(response){
 			$scope.currentBusinessAccount = response;
 		}, function(error){
