@@ -3552,7 +3552,7 @@ const fileManifest = [
   },
   {
     "url": "plugins/human-resources/assets/controllers/access-control-controller.js",
-    "revision": "7cb9f5195cb12defc56bf701cbee1720"
+    "revision": "f0301882e513856633206c98377babd1"
   },
   {
     "url": "plugins/human-resources/assets/controllers/dashboard-controller.js",

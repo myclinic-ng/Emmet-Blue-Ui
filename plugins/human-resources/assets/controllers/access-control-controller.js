@@ -115,6 +115,6 @@ angular.module("EmmetBlue")
 		});
 	}
 
-	// loadDepartments();
-	// loadAllResources();
+	loadDepartments();
+	loadAllResources();
 })
