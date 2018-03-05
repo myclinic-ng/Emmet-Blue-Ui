@@ -194,7 +194,7 @@ angular.module("EmmetBlue")
 				break;
 			}
 			case 402:{
-				services.notify("Billing Error", 'Unable to complete your request due to a billing issue associated with this account. Please contact an administrator. Error Code: AB0'+errorObject.status+' Server Message: '+errorObject.data.errorMessage', "error");
+				services.notify("Billing Error", 'Unable to complete your request due to a billing issue associated with this account. Please contact an administrator. Error Code: AB0'+errorObject.status+' Server Message: '+errorObject.data.errorMessage, "error");
 				break;
 			}
 			default:
