@@ -127,6 +127,8 @@ angular.module("EmmetBlue")
 	services.serverRequest = function(url, requestType, data={}){
 		var deferred = $q.defer();
 
+		url = (url == null) ? '': url;
+
 		var _req = {
 			"url":services.restServer+url,
 			"method":requestType,
