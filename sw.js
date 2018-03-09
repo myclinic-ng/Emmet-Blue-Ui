@@ -40,7 +40,7 @@ const fileManifest = [
   },
   {
     "url": "assets/angular/core/templates/header.html",
-    "revision": "29a8162fe012f2699211b27f9c924f6b"
+    "revision": "16fce5cefad8ee185248b85b1d1c1470"
   },
   {
     "url": "assets/angular/core/templates/sudo-mode.html",
