@@ -20,7 +20,7 @@ importScripts('workbox-sw.prod.v2.1.3.js');
 const fileManifest = [
   {
     "url": "assets/angular/core/app.js",
-    "revision": "9eae6071754de0d9ce05e1e6b3e1f4e5"
+    "revision": "0fa057824864da1db30ce4e948ef9d27"
   },
   {
     "url": "assets/angular/core/controllers/core/core-controller.js",

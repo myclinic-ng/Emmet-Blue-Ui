@@ -221,7 +221,9 @@ angular.module("EmmetBlue")
 		if (typeof image == "undefined"){
 			return null;
 		}
-		return CONSTANTS.EMMETBLUE_FILE_SERVER+image
+		var businessId = services.userSession.getBusinessInfo().BusinessID;
+
+		return CONSTANTS.EMMETBLUE_FILE_SERVER+businessId+"/"+image;
 	}
 
 	services.dateObject = function(dateString){
