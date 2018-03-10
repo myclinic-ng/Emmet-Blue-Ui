@@ -40,7 +40,7 @@ const fileManifest = [
   },
   {
     "url": "assets/angular/core/templates/header.html",
-    "revision": "16fce5cefad8ee185248b85b1d1c1470"
+    "revision": "ffb8e752e31073df627e738258ac6864"
   },
   {
     "url": "assets/angular/core/templates/sudo-mode.html",
@@ -497,6 +497,10 @@ const fileManifest = [
   {
     "url": "assets/images/logo-orange-small.png",
     "revision": "969d4cd32faaba6f9d95eabde6280a47"
+  },
+  {
+    "url": "assets/images/logo-white.png",
+    "revision": "949010335800fadaf971c292ef6fc829"
   },
   {
     "url": "assets/images/logo.png",
