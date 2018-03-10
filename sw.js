@@ -2904,7 +2904,7 @@ const fileManifest = [
   },
   {
     "url": "plugins/accounts/billing/account-payment-request.html",
-    "revision": "b911df1d1f27ba76f5fd9a1b5984944a"
+    "revision": "443f3533210a0fecae25910c7425d9b7"
   },
   {
     "url": "plugins/accounts/billing/assets/controllers.js",
@@ -2912,7 +2912,7 @@ const fileManifest = [
   },
   {
     "url": "plugins/accounts/billing/assets/controllers/account-payment-request-controller.js",
-    "revision": "a59a9e096d788e97a2f33b1eaa658698"
+    "revision": "dca8dbe2ac8538d6183a1af84e95c49a"
   },
   {
     "url": "plugins/accounts/billing/assets/controllers/dashboard-controller.js",
@@ -2972,7 +2972,7 @@ const fileManifest = [
   },
   {
     "url": "plugins/accounts/billing/assets/includes/invoice-template.html",
-    "revision": "86d8f5f32f09fa35500246773bdcbf8c"
+    "revision": "dc3bb0a5ff9c40119f461d822f310b22"
   },
   {
     "url": "plugins/accounts/billing/assets/includes/invoice.html",
@@ -3012,7 +3012,7 @@ const fileManifest = [
   },
   {
     "url": "plugins/accounts/billing/assets/includes/receipt-template.html",
-    "revision": "3313b0ebfd000f64b917f1b30fb80b5e"
+    "revision": "90f1c131186220fb92f9141756fa0dcc"
   },
   {
     "url": "plugins/accounts/billing/dashboard.html",
@@ -4268,7 +4268,7 @@ const fileManifest = [
   },
   {
     "url": "plugins/pharmacy/assets/controllers/dispensation-controller.js",
-    "revision": "7fc419509299467e120b2166b0294014"
+    "revision": "1159a96605ede65a58939209e319d549"
   },
   {
     "url": "plugins/pharmacy/assets/controllers/inventory-controller.js",
@@ -4332,7 +4332,7 @@ const fileManifest = [
   },
   {
     "url": "plugins/pharmacy/assets/includes/new-dispensation.html",
-    "revision": "63e9469ca001c858b438430c9517c194"
+    "revision": "419a77208536e5f519fcc395d1b87009"
   },
   {
     "url": "plugins/pharmacy/assets/includes/new-store-restock.html",
@@ -4440,27 +4440,31 @@ const fileManifest = [
   },
   {
     "url": "plugins/pharmacy/standalone-dispensory/assets/controllers.js",
-    "revision": "01748c2ea126dd816996fa27c08e9887"
+    "revision": "0e19a1d7caf843c8937876c95692ff6c"
   },
   {
     "url": "plugins/pharmacy/standalone-dispensory/assets/controllers/dashboard-controller.js",
-    "revision": "51962f58ca16691b3a4d2844955ec331"
+    "revision": "3f18f7b6280a10034e48614ffd2c94f6"
+  },
+  {
+    "url": "plugins/pharmacy/standalone-dispensory/assets/controllers/new-dispensation-controller.js",
+    "revision": "2ac0c775ed7bfb013cc4ea1f6fd3acd2"
   },
   {
     "url": "plugins/pharmacy/standalone-dispensory/assets/includes/menu.html",
-    "revision": "fb2833bda066df0d4ff92dd9fbd7c150"
+    "revision": "7daa30bd5ae84332f3db45b4883cd007"
   },
   {
     "url": "plugins/pharmacy/standalone-dispensory/assets/includes/new-dispensation.html",
-    "revision": "84e6dde881a474edefb691968ad9c1f9"
+    "revision": "5fdb2a791d820e241e77bbfacef5d2ee"
   },
   {
-    "url": "plugins/pharmacy/standalone-dispensory/assets/includes/queued-requests.html",
-    "revision": "3338afd109f7a61ce0730574305a54bc"
+    "url": "plugins/pharmacy/standalone-dispensory/billing-workspace.html",
+    "revision": "a13169e9c00d2b7e21f5c16a34b1be32"
   },
   {
     "url": "plugins/pharmacy/standalone-dispensory/dashboard.html",
-    "revision": "0e9952ad57cbd89b7a08ac12a7a0d622"
+    "revision": "e5c95b04c5a42df7f408f87f45d64fc7"
   },
   {
     "url": "plugins/pharmacy/transfer-reports.html",

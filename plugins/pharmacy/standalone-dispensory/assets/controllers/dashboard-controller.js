@@ -3,7 +3,7 @@ angular.module("EmmetBlue")
 .controller("pharmacyStandaloneDispensoryDashboardController", function($scope, utils){
 	$scope.pageSegment = "";
 	$scope.loadPageSegment = function(segment){
-		var urlPart = "plugins/pharmacy/dispensory/assets/includes/";
+		var urlPart = "plugins/pharmacy/standalone-dispensory/assets/includes/";
 		switch(segment){
 			case "new-dispensation":{
 				$scope.pageSegment = urlPart+"new-dispensation.html";

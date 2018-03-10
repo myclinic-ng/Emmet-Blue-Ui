@@ -573,12 +573,6 @@ angular.module("EmmetBlue")
 
 	$scope.functions = functions;
 
-	function keepReloading(){
-		setInterval(function(){
-			$scope.reloadTable();
-		}, 2000);
-	}
-
 	function loadDepartments(){
 		var request = utils.serverRequest("/human-resources/department/view", "GET");
 		request.then(function(result){

@@ -241,11 +241,11 @@ angular.module("EmmetBlue")
 					break;
 				}
 				case "-2":{
-					var html = "<i class='fa fa-flag text-danger-400'></i>";
+					var html = "<i class='fa fa-flag text-info-400'></i>";
 					break;
 				}
 				default:{
-					var html = "<span class='text-grey-400 fa fa-dot-circle-o'></span>";
+					var html = "<i class='fa fa-pause text-danger-800'></i>";
 				}
 			}
 			
