@@ -2896,7 +2896,7 @@ const fileManifest = [
   },
   {
     "url": "index.html",
-    "revision": "2e306961e47b749f12f9919e1bc67344"
+    "revision": "bdc1a17e7444a7b2b92b82b2796970eb"
   },
   {
     "url": "init.js",
@@ -4452,7 +4452,7 @@ const fileManifest = [
   },
   {
     "url": "plugins/pharmacy/standalone-dispensory/assets/includes/menu.html",
-    "revision": "7daa30bd5ae84332f3db45b4883cd007"
+    "revision": "93e2eacc4ccb7d68985d5cba75da142a"
   },
   {
     "url": "plugins/pharmacy/standalone-dispensory/assets/includes/new-dispensation.html",
