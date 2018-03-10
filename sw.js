@@ -2896,11 +2896,11 @@ const fileManifest = [
   },
   {
     "url": "index.html",
-    "revision": "bdc1a17e7444a7b2b92b82b2796970eb"
+    "revision": "2e306961e47b749f12f9919e1bc67344"
   },
   {
     "url": "init.js",
-    "revision": "1eb3e3cb4b8df9c3cbb8626fabad3dbc"
+    "revision": "a4425143778a1a6236dfd12a1089e6cf"
   },
   {
     "url": "plugins/accounts/billing/account-payment-request.html",
@@ -4437,6 +4437,30 @@ const fileManifest = [
   {
     "url": "plugins/pharmacy/reports.html",
     "revision": "b4b7ebd8aea01f531e5de23de5ee4317"
+  },
+  {
+    "url": "plugins/pharmacy/standalone-dispensory/assets/controllers.js",
+    "revision": "01748c2ea126dd816996fa27c08e9887"
+  },
+  {
+    "url": "plugins/pharmacy/standalone-dispensory/assets/controllers/dashboard-controller.js",
+    "revision": "51962f58ca16691b3a4d2844955ec331"
+  },
+  {
+    "url": "plugins/pharmacy/standalone-dispensory/assets/includes/menu.html",
+    "revision": "fb2833bda066df0d4ff92dd9fbd7c150"
+  },
+  {
+    "url": "plugins/pharmacy/standalone-dispensory/assets/includes/new-dispensation.html",
+    "revision": "84e6dde881a474edefb691968ad9c1f9"
+  },
+  {
+    "url": "plugins/pharmacy/standalone-dispensory/assets/includes/queued-requests.html",
+    "revision": "3338afd109f7a61ce0730574305a54bc"
+  },
+  {
+    "url": "plugins/pharmacy/standalone-dispensory/dashboard.html",
+    "revision": "0e9952ad57cbd89b7a08ac12a7a0d622"
   },
   {
     "url": "plugins/pharmacy/transfer-reports.html",

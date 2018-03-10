@@ -114,7 +114,9 @@ var cntrllers = [
 	"plugins/consultancy/assets/controllers.js",
 	"plugins/lab/assets/controllers.js",
 	"plugins/financial-audit/assets/controllers.js",
-	"plugins/records/cloud/assets/controllers.js"
+	"plugins/records/cloud/assets/controllers.js",
+
+	"plugins/pharmacy/standalone-dispensory/assets/controllers.js"
 ]
 
 var services = [

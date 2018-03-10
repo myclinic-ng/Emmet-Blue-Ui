@@ -1,0 +1,58 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>$('select.select').select2();</script>
+<div class="row" ng-controller="pharmacyStandaloneDispensoryDashboardController">
+	<div class="col-md-3">
+		<div class="sidebar sidebar-secondary sidebar-default">
+			<div class="sidebar-content">
+				<!-- Actions -->
+				<div class="sidebar-category">
+					<div class="category-title bg-success">
+						<span>Actions</span>
+						<ul class="icons-list">
+							<li></a></li>
+						</ul>
+					</div>
+
+					<div class="category-content">
+						<div class="row row-condensed">
+							<div class="col-xs-6">
+								<a href="#" type="button" class="btn bg-teal-400 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('new-dispensation')"><i class="icon-file-plus"></i> <span>New Dispensation</span></a>
+							</div>
+							
+							<div class="col-xs-6">
+								<a href="#" type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('dispensation-log')"><i class="icon-archive"></i> <span>Dispensation Workspace</span></a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /actions -->
+			</div>
+		</div>
+	</div>
+	<div class="col-md-9">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h6 class="panel-title">Pharmacy Dispensory Dashboard</h6>
+			</div>
+			<div class="panel-body">
+				<ng-include src="pageSegment"></ng-include>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="new_dispensation" class="modal fade">
+	<div class="modal-full">
+		<div class="modal-content">
+			<div class="modal-header bg-warning">
+				<button type="button" class="close" data-dismiss="modal" ng-click="reloadDispensationsTable()">&times;</button>
+				<div class="modal-title"> New Dispensation</div>
+			</div>
+			<div class="modal-body">
+				<ng-include src="'plugins/pharmacy/assets/includes/new-dispensation.html'"></ng-include>
+			</div>
+			<div class="modal-footer">
+			</div>
+		</div>
+	</div>
+</div>
