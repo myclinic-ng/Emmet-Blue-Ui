@@ -236,7 +236,7 @@ const fileManifest = [
   },
   {
     "url": "assets/css/datatables/angular-datatables.min.css",
-    "revision": "65549fae6e0c129399cc6e916b1ce4c9"
+    "revision": "b0da138d7b7cb03823c84fe4b5e3dd45"
   },
   {
     "url": "assets/css/datatables/buttons.dataTables.min.css",
@@ -2924,7 +2924,7 @@ const fileManifest = [
   },
   {
     "url": "plugins/accounts/billing/assets/controllers/invoice-template-directive.js",
-    "revision": "c7096338d7693773c01749118db9bf25"
+    "revision": "09c637f67df544031588ab96718aaa59"
   },
   {
     "url": "plugins/accounts/billing/assets/controllers/manage-invoices/invoice-grid-directive.js",
@@ -2960,7 +2960,7 @@ const fileManifest = [
   },
   {
     "url": "plugins/accounts/billing/assets/controllers/receipt-template-directive.js",
-    "revision": "3c5b494f90ec7c461ebbdd2b2c19c4f9"
+    "revision": "e5e52fdef0da27d214ffedec8203a1f0"
   },
   {
     "url": "plugins/accounts/billing/assets/includes/deposits-account.html",
@@ -2972,7 +2972,7 @@ const fileManifest = [
   },
   {
     "url": "plugins/accounts/billing/assets/includes/invoice-template.html",
-    "revision": "dc3bb0a5ff9c40119f461d822f310b22"
+    "revision": "c603505e63b28e757e54159a4bb78ca4"
   },
   {
     "url": "plugins/accounts/billing/assets/includes/invoice.html",
@@ -3012,7 +3012,7 @@ const fileManifest = [
   },
   {
     "url": "plugins/accounts/billing/assets/includes/receipt-template.html",
-    "revision": "90f1c131186220fb92f9141756fa0dcc"
+    "revision": "fb356125b87e7df3ba9f993092c2576c"
   },
   {
     "url": "plugins/accounts/billing/dashboard.html",
