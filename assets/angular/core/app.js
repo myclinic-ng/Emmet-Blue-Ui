@@ -291,12 +291,18 @@ angular.module("EmmetBlue")
 			return services.userSession.cookie().businessInfo;
 		},
 		clear: function(){
-			services.serverRequest("/user/session/deactivate?resourceId="+services.userSession.getID(), "GET").then(function(response){
+			if (typeof services.userSession.getID() !== "undefined"){
+				services.serverRequest("/user/session/deactivate?resourceId="+services.userSession.getID(), "GET").then(function(response){
+					$cookies.remove(CONSTANTS.USER_COOKIE_IDENTIFIER);
+					$location.path('user/login');
+				}, function(error){
+					services.errorHandler(error);
+				})	
+			}
+			else {
 				$cookies.remove(CONSTANTS.USER_COOKIE_IDENTIFIER);
 				$location.path('user/login');
-			}, function(error){
-				services.errorHandler(error);
-			})
+			}
 		}
 	}
 

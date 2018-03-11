@@ -3,7 +3,8 @@ angular.module("EmmetBlue")
 .controller('coreController', function($scope, $location, $routeParams, CONSTANTS, utils, $cookies){
 	$scope.loadImage = utils.loadImage;
 	$scope.userClient = utils.globalConstants.USER_CLIENT;
-	$scope.$on('$routeChangeSuccess', function(event, current, previous){
+
+	$scope.$on('$locationChangeStart', function(event, current, previous){
 		var path = ($location.path()).split('/');
 		var userDashboard = ("/"+utils.userSession.getDashboard()).split("/");
 		delete path[path.length - 1];
@@ -13,7 +14,7 @@ angular.module("EmmetBlue")
 		var dirUserDashboard = userDashboard.join("/");
 		if (path[1] !== "" && dirUserDashboard !== dirPath){
 			if (path[1] != "user"){
-				utils.alert("Request cannot be processed", "This is usually due to a request for an inexistent resource or lack of permission to access the requested resource. Please contact an administrator if this error persists", "info");
+				utils.notify("You have been redirected", "Unable to authorize your access to the requested page. Please use the switch department option to switch to a different department", "info");
 				$location.path('user/home');
 			}
 		}

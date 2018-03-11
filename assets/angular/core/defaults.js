@@ -32,9 +32,6 @@ angular.module('EmmetBlue', [
 
 .config(function($routeProvider, $locationProvider){
 	$routeProvider
-	.when('/', {
-		templateUrl: 'plugins/user/home.html'
-	})
 	.when('/:page*', {
 		templateUrl: function(url){
 			return determineRouteAvailability(url.page);
@@ -42,7 +39,7 @@ angular.module('EmmetBlue', [
 		reloadOnSearch: false
 	})
 	.otherwise({
-		redirectTo: '/'
+		redirectTo: '/user/home'
 	});
 
 	$locationProvider.html5Mode(true);
@@ -56,7 +53,7 @@ function determineRouteAvailability(url){
 
 	// alert(route);
 
-	if (typeof $.cookie(getConstants().USER_COOKIE_IDENTIFIER) != "undefined"){
+	if (typeof $.cookie(getConstants().USER_COOKIE_IDENTIFIER) !== "undefined"){
 		var uci = JSON.parse($.cookie(getConstants().USER_COOKIE_IDENTIFIER));
 		if (typeof uci.dashboard !== "undefined"){
 			var userDashboard = (uci.dashboard).split("/");
@@ -77,6 +74,9 @@ function determineRouteAvailability(url){
 		else {
 			//do nothing
 		}
+	}
+	else {
+		return 'plugins/user/login.html';
 	}
 
  	var _url = 'plugins/'+urlParts.join('/')+'.html';
