@@ -94,28 +94,23 @@ angular.module("EmmetBlue")
 					$cookies.putObject(utils.globalConstants.USER_COOKIE_IDENTIFIER, responseObject);
 
 					$timeout(function(){
-						utils.serverRequest("/human-resources/staff/view-root-url?resourceId="+responseObject.staffid, "GET").then(function(response){
-							responseObject.dashboard = response.Url;
-							$cookies.putObject(utils.globalConstants.USER_COOKIE_IDENTIFIER, responseObject);
-							$(".login-wrapper").fadeOut();
-							$location.path(response.Url);
-						}, function(error){
-							utils.alert("Department Dashboard Inaccessible", "This is usually due to your account being associated with an inexistent department, a department on general lockdown or some other indeterminate reasons. Please contact an administrator if this error persists", "error");
-							$(block).unblock();
-							utils.notify("Redirection Incomplete", "Please see previous errors", "warning");
-						});
-
-						// if (response.accountActivated !== "0")
-						// {
-						// 	utils.serverRequest("/human-resources/staff/view-root-url?resourceId="+responseObject.staffid, "GET").then(function(response){
-						// 		$location.path(response.Url);
-						// 	});
-						// }
-						// else
-						// {
-						// 	utils.alert('Looks like its your first time', 'show some tutorial stuff', 'info');
-						// 	$location.path('/');
-						// }
+						if (response.accountActivated !== "0")
+						{
+							utils.serverRequest("/human-resources/staff/view-root-url?resourceId="+responseObject.staffid, "GET").then(function(response){
+								responseObject.dashboard = response.Url;
+								$cookies.putObject(utils.globalConstants.USER_COOKIE_IDENTIFIER, responseObject);
+								$(".login-wrapper").fadeOut();
+								$location.path(response.Url);
+							}, function(error){
+								utils.alert("Department Dashboard Inaccessible", "This is usually due to your account being associated with an inexistent department, a department on general lockdown or some other indeterminate reasons. Please contact an administrator if this error persists", "error");
+								$(block).unblock();
+								utils.notify("Redirection Incomplete", "Please see previous errors", "warning");
+							});
+						}
+						else
+						{
+							$location.path('/user/welcome');
+						}
 					}, 4000);
 				}
 			}, function(response){

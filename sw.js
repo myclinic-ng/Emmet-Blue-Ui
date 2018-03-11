@@ -3012,7 +3012,7 @@ const fileManifest = [
   },
   {
     "url": "plugins/accounts/billing/assets/includes/receipt-template.html",
-    "revision": "fb356125b87e7df3ba9f993092c2576c"
+    "revision": "2d296b20f9deb8445cf6dde4b78be6d6"
   },
   {
     "url": "plugins/accounts/billing/dashboard.html",
@@ -4808,7 +4808,7 @@ const fileManifest = [
   },
   {
     "url": "plugins/user/assets/controllers.js",
-    "revision": "533faef73c2cfa29714326017108a93b"
+    "revision": "5fb9e8d9b9f72c6f099e93cf9c3342e3"
   },
   {
     "url": "plugins/user/assets/controllers/dashboard-controller.js",
@@ -4820,11 +4820,15 @@ const fileManifest = [
   },
   {
     "url": "plugins/user/assets/controllers/login-controller.js",
-    "revision": "f79096be4537d0629fa527d06574e869"
+    "revision": "01d40d1ab21004494bdfd9a53ca23ba2"
   },
   {
     "url": "plugins/user/assets/controllers/logout-controller.js",
     "revision": "f5791b26ec228ba8854a9d8e7b1dfe01"
+  },
+  {
+    "url": "plugins/user/assets/controllers/setup-controller.js",
+    "revision": "efd747fbaf545e4f17ab2cead45fabcf"
   },
   {
     "url": "plugins/user/assets/controllers/switch-department-controller.js",
@@ -4875,8 +4879,16 @@ const fileManifest = [
     "revision": "29edaf9304ba4a8904733e15fc4a4151"
   },
   {
+    "url": "plugins/user/setup.html",
+    "revision": "f0647ef7e335cc9bffbb9dbe56598d05"
+  },
+  {
     "url": "plugins/user/switch-department.html",
     "revision": "019cfb838dedc24096cc59f4e875c241"
+  },
+  {
+    "url": "plugins/user/welcome.html",
+    "revision": "ac7f3d636ad9b4eede9004a00be77b38"
   },
   {
     "url": "plugins/user/work-schedules.html",
