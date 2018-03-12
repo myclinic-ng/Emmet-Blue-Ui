@@ -80,6 +80,7 @@ function determineRouteAvailability(url){
 	}
 
  	var _url = 'plugins/'+urlParts.join('/')+'.html';
+ 	console.log(_url);
 
  	return _url;
 }

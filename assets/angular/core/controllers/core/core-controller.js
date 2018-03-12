@@ -117,22 +117,25 @@ angular.module("EmmetBlue")
 		var cookie = $cookies.getObject(utils.globalConstants.USER_COOKIE_IDENTIFIER);
 		cookie.dashboard = url;
 		$cookies.putObject(utils.globalConstants.USER_COOKIE_IDENTIFIER, cookie);
-		
-		$location.path(url);
+
 		if (department !== ""){
 			utils.storage.currentStaffDepartmentID = department
 		}
+		
+		$location.path(url);
 	}
 
 	$scope.$watch(function(){
 		return utils.storage.currentStaffDepartmentID;
 	}, function(nv){
-		var req = utils.serverRequest("/human-resources/department/view?resourceId="+nv, "GET");
-		req.then(function(response){
-			if (typeof response !== "undefined" && typeof response[0] !== "undefined"){
-				$scope.currentDepartmentName = response[0].Name;
-			}
-		});
+		if (typeof nv !== "undefined"){
+			var req = utils.serverRequest("/human-resources/department/view?resourceId="+nv, "GET");
+			req.then(function(response){
+				if (typeof response !== "undefined" && typeof response[0] !== "undefined"){
+					$scope.currentDepartmentName = response[0].Name;
+				}
+			});	
+		}
 	})
 
 	$scope.switch = function(id){
