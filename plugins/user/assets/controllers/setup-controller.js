@@ -10,7 +10,7 @@ angular.module("EmmetBlue")
 	});
 
 	var redirectUser = function(role){
-		if (role == 1){
+		if (role == 43){
 			//is business owner
 			var businessType = utils.userSession.getBusinessInfo().BusinessType.toLowerCase();
 

@@ -1,5 +1,67 @@
-<div class="panel panel-success col-md-6 col-md-offset-3" style="margin-top:5%">
-	<div class="panel-body">
-		
+<div ng-controller="userPharmacySetupIndexController">
+	<div class="panel panel-success col-md-6 col-md-offset-3" style="margin-top:2%">
+		<div class="panel-body">
+			<div class="row">
+				<div class="form-group">
+					<label class="display-block text-bold text-capitalize" style="font-size: 1.35em;">How many employees do you have currently?</label>
+					<label class="radio-inline text-size-large" style="font-family: arial">
+						<input type="radio" name="empNo" ng-disabled="showLargeBusinessOpts" class="styled" ng-value="0" ng-model="formData.empNo" checked="checked">
+						Just Me
+					</label>
+
+					<label class="radio-inline text-size-large" style="font-family: arial">
+						<input type="radio" name="empNo" ng-disabled="showLargeBusinessOpts" class="styled" ng-value="2" ng-model="formData.empNo">
+						1 - 2
+					</label>
+
+					<label class="radio-inline text-size-large" style="font-family: arial">
+						<input type="radio" name="empNo" ng-disabled="showLargeBusinessOpts" class="styled" ng-value="5" ng-model="formData.empNo">
+						3 - 5
+					</label>
+
+					<label class="radio-inline text-size-large" style="font-family: arial">
+						<input type="radio" name="empNo" ng-disabled="showLargeBusinessOpts" class="styled" ng-value="6" ng-model="formData.empNo">
+						Greater Than 5
+					</label>
+				</div>
+			</div>
+			<div class="row mt-20" ng-if="showLargeBusinessOpts">
+				<div class="form-group">
+					<label class="display-block text-semibold text-capitalize" style="font-size: 1.30em;">Do you have a Staff/Staffs in charge of human resources?</label>
+					<label class="radio-inline text-size-large" style="font-family: arial">
+						<input type="radio" name="hroAvailable" class="styled" ng-value="true" ng-model="formData.hroAvailable" checked="checked">
+						Yes
+					</label>
+
+					<label class="radio-inline text-size-large" style="font-family: arial">
+						<input type="radio" name="hroAvailable" class="styled" ng-value="false" ng-model="formData.hroAvailable">
+						NO
+					</label>
+				</div>
+				<div class="form-group">
+					<label class="display-block text-semibold text-capitalize" style="font-size: 1.30em;">Do you have cashiers or accountants?</label>
+					<label class="radio-inline text-size-large" style="font-family: arial">
+						<input type="radio" name="accountantAvailable" class="styled" ng-value="true" ng-model="formData.accountantAvailable" checked="checked">
+						Yes
+					</label>
+
+					<label class="radio-inline text-size-large" style="font-family: arial">
+						<input type="radio" name="accountantAvailable" class="styled" ng-value="false" ng-model="formData.accountantAvailable">
+						NO
+					</label>
+				</div>
+			</div>
+			<div class="row">
+				<div style="margin-top: 5%" class="col-md-12" ng-if="!processing">
+					<p class="pull-right">
+						<a href="#" class="btn btn-success btn-lg" ng-click="proceed()">Continue &nbsp;&nbsp; <i class="fa fa-angle-right"></i></a>
+					</p>
+				</div>
+
+				<div style="margin-top: 10%" class="col-md-12" ng-if="processing">
+					<h1 class="text-center text-info" ng-bind-html='redirectMessage'></h1>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

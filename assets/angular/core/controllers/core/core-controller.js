@@ -84,24 +84,26 @@ angular.module("EmmetBlue")
 	var loadUserProfile = function(){
 		if ($location.path() != '/user/login'){
 			$scope.businessInfo = utils.userSession.getBusinessInfo();
-			var req = utils.serverRequest("/human-resources/staff/view-staff-with-department-and-role?uuid="+utils.userSession.getUUID(), "GET");
+			if (typeof utils.userSession.getID() !== "undefined"){
+				var req = utils.serverRequest("/human-resources/staff/view-staff-with-department-and-role?uuid="+utils.userSession.getUUID(), "GET");
 
-			req.then(function(response){
-				if (typeof response[0] !== "undefined"){
-					$scope.currentStaffDepartmentInfo = response[0];
-					utils.storage.currentStaffDepartmentID = response[0].DepartmentID;
-				}
-			}, function(error){
-				utils.errorHandler(error);
-			})
+				req.then(function(response){
+					if (typeof response[0] !== "undefined"){
+						$scope.currentStaffDepartmentInfo = response[0];
+						utils.storage.currentStaffDepartmentID = response[0].DepartmentID;
+					}
+				}, function(error){
+					utils.errorHandler(error);
+				})
 
-			var req2 = utils.serverRequest("/human-resources/staff/view-staff-profile?resourceId="+utils.userSession.getID(), "GET");
+				var req2 = utils.serverRequest("/human-resources/staff/view-staff-profile?resourceId="+utils.userSession.getID(), "GET");
 
-			req2.then(function(response){
-				$scope.currentStaffInfo = response[0];
-			}, function(error){
-				utils.errorHandler(error);
-			})
+				req2.then(function(response){
+					$scope.currentStaffInfo = response[0];
+				}, function(error){
+					utils.errorHandler(error);
+				})	
+			}
 		}
 	}
 

@@ -20,11 +20,11 @@ importScripts('workbox-sw.prod.v2.1.3.js');
 const fileManifest = [
   {
     "url": "assets/angular/core/app.js",
-    "revision": "0fa057824864da1db30ce4e948ef9d27"
+    "revision": "d3196e1647e897b5cb9b8f2029ca3721"
   },
   {
     "url": "assets/angular/core/controllers/core/core-controller.js",
-    "revision": "18431abad927698c7211c449014dba50"
+    "revision": "9db7d291f72fd6d4d19338c9c2e30e4b"
   },
   {
     "url": "assets/angular/core/controllers/core/sudo-mode-controller.js",
@@ -36,11 +36,11 @@ const fileManifest = [
   },
   {
     "url": "assets/angular/core/defaults.js",
-    "revision": "d74d829673476fa14f4ac01184841aa1"
+    "revision": "249cc09a965c9be0c6ab393c33cac301"
   },
   {
     "url": "assets/angular/core/templates/header.html",
-    "revision": "0c301f28bbe77d2a6ac4ac38b40259b7"
+    "revision": "8bfb80e34cd229a9c20c4e8d1d82cd50"
   },
   {
     "url": "assets/angular/core/templates/sudo-mode.html",
@@ -2900,7 +2900,7 @@ const fileManifest = [
   },
   {
     "url": "init.js",
-    "revision": "a4425143778a1a6236dfd12a1089e6cf"
+    "revision": "c99a90c0a739a73693dd93d568bff99f"
   },
   {
     "url": "plugins/accounts/billing/account-payment-request.html",
@@ -4747,6 +4747,14 @@ const fileManifest = [
     "revision": "936c2358ad5d32fd3392a72c3a60f634"
   },
   {
+    "url": "plugins/user/404.html",
+    "revision": "6c57c3423b34aa214dd58cbbfeb7c58c"
+  },
+  {
+    "url": "plugins/user/activate-profile.html",
+    "revision": "542c648bdf87c4a634a9464e0d8f557a"
+  },
+  {
     "url": "plugins/user/assets/assets/css/style.css",
     "revision": "cc7b414a1756f48cc6f1a01989984edc"
   },
@@ -4808,7 +4816,11 @@ const fileManifest = [
   },
   {
     "url": "plugins/user/assets/controllers.js",
-    "revision": "5fb9e8d9b9f72c6f099e93cf9c3342e3"
+    "revision": "d9df6ce1c3b57d12a27f1fcde0bea937"
+  },
+  {
+    "url": "plugins/user/assets/controllers/activate-profile-controller.js",
+    "revision": "6ec46d2a37c8b025bc25fad786c47d32"
   },
   {
     "url": "plugins/user/assets/controllers/dashboard-controller.js",
@@ -4816,7 +4828,7 @@ const fileManifest = [
   },
   {
     "url": "plugins/user/assets/controllers/home-controller.js",
-    "revision": "09d90600c3212e8c7a877331bceaef3e"
+    "revision": "fdd18cad7d02e71012be78e4bc984426"
   },
   {
     "url": "plugins/user/assets/controllers/login-controller.js",
@@ -4824,11 +4836,11 @@ const fileManifest = [
   },
   {
     "url": "plugins/user/assets/controllers/logout-controller.js",
-    "revision": "f5791b26ec228ba8854a9d8e7b1dfe01"
+    "revision": "0a4061cd474ec51ae8a606c15c5cc39f"
   },
   {
     "url": "plugins/user/assets/controllers/setup-controller.js",
-    "revision": "efd747fbaf545e4f17ab2cead45fabcf"
+    "revision": "82bb6d54b017ca9a2625e30bfb86f97f"
   },
   {
     "url": "plugins/user/assets/controllers/switch-department-controller.js",
@@ -4879,8 +4891,28 @@ const fileManifest = [
     "revision": "29edaf9304ba4a8904733e15fc4a4151"
   },
   {
+    "url": "plugins/user/pharmacy-setup/assets/controllers.js",
+    "revision": "479bf1138935261d99dfb71b4aefd0d1"
+  },
+  {
+    "url": "plugins/user/pharmacy-setup/assets/controllers/index-controller.js",
+    "revision": "7555b5aca1be8ffe1ce387ebf3176156"
+  },
+  {
+    "url": "plugins/user/pharmacy-setup/assets/includes/header.html",
+    "revision": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  {
+    "url": "plugins/user/pharmacy-setup/assets/includes/menu.html",
+    "revision": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  {
+    "url": "plugins/user/pharmacy-setup/index.html",
+    "revision": "edbad35c0d0c2b6c231b824d5b5b70d6"
+  },
+  {
     "url": "plugins/user/setup.html",
-    "revision": "f0647ef7e335cc9bffbb9dbe56598d05"
+    "revision": "35e9b7cebc8f2d82f315d446e4500b42"
   },
   {
     "url": "plugins/user/switch-department.html",
