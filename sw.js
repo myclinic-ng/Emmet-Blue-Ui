@@ -4840,7 +4840,7 @@ const fileManifest = [
   },
   {
     "url": "plugins/user/assets/controllers/setup-controller.js",
-    "revision": "82bb6d54b017ca9a2625e30bfb86f97f"
+    "revision": "b126b74bcab292203c00e51050cb7e30"
   },
   {
     "url": "plugins/user/assets/controllers/switch-department-controller.js",
