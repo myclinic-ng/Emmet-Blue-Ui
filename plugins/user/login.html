@@ -1,8 +1,8 @@
 <link class="main-stylesheet" href="plugins/user/assets/pages/css/pages.min.css" rel="stylesheet" type="text/css" />
 <style>
-  .text-underline-hover:hover{
-    text-decoration: underline;
-  }
+.text-underline-hover:hover{
+  text-decoration: underline;
+}
 </style>
 <script>
   $(document).ready(function(){
@@ -38,78 +38,123 @@
   </center>
 </div>
 <div class="login-wrapper hide" ng-controller="userLoginController">
-<!-- START Login Background Pic Wrapper-->
-<div class="bg-pic">
-  <!-- START Background Pic-->
-  <img id="bgPic" src="" data-src="" data-src-retina="" alt="" class="lazy">
-  <!-- END Background Pic-->
-  <!-- START Background Caption-->
-  <div class="bg-caption pull-bottom sm-pull-bottom text-white p-l-20 m-b-20">
-    <h2 class="semi-bold text-white">{{userClient.short_name}}.</h2>
-    <p class="small mt-15">
-      All work copyright of respective owners, otherwise © 2016 Emmetblue.
-    </p>
+  <!-- START Login Background Pic Wrapper-->
+  <div class="bg-pic">
+    <!-- START Background Pic-->
+    <img id="bgPic" src="" data-src="" data-src-retina="" alt="" class="lazy">
+    <!-- END Background Pic-->
+    <!-- START Background Caption-->
+    <div class="bg-caption pull-bottom sm-pull-bottom text-white p-l-20 m-b-20">
+      <h2 class="semi-bold text-white">{{userClient.short_name}}.</h2>
+      <p class="small mt-15">
+        All work copyright of respective owners, otherwise © 2016 Emmetblue.
+      </p>
+    </div>
+    <!-- END Background Caption-->
   </div>
-  <!-- END Background Caption-->
-</div>
-<!-- END Login Background Pic Wrapper-->
-<!-- START Login Right Container-->
-<div class="login-container bg-white" style="height: 100vh !important;">
-  <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40">
-    <center>
-      <img src="assets/images/logo-orange-small.png" alt="logo" data-src="assets/images/logo-orange-small.png" data-src-retina="plugins/user/assets/assets/img/logo_2x.png" width="{{userClient._style.user.login.logo_width}}">
-    </center>
-    <p class="p-t-35 text-center text-bold">Sign into your account</p>
-    <span class="fade"><center><small class="text-danger text-center scaleUp" ng-show="currentType == 'text'"><i class="fa fa-exclamation-triangle"></i> <span class="text-bold">Security Risk:</span> Your password is visible to the general public</small></center></span>
-    <!-- START Login Form -->
-    <form id="form-login" class="p-t-15" role="form">
-      <!-- START Form Control-->
-      <div class="form-group form-group-default">
-        <label>Login</label>
-        <div class="controls">
-          <input type="text" name="username" placeholder="Enter your username here" class="form-control" ng-model="login.username" required>
-        </div>
-      </div>
-      <!-- END Form Control-->
-      <!-- START Form Control-->
-      <div class="form-group form-group-default">
-        <label>Password <a class="pull-right btn btn-link text-danger text-underline-hover" style="font-size: 0.8em" ng-click="togglePassword()">
-        <small>
-          <span ng-if="currentType == 'password'"><i class="fa fa-toggle-on"></i> show plain text</span>
-          <span ng-if="currentType == 'text'"><i class="fa fa-toggle-off"></i> hide password</span>
-        </small></a></label>
-        <div class="controls">
-          <input type="password" class="form-control" name="password" placeholder="Enter your password here" ng-model="login.password" id="password">
-        </div>
-      </div>
-      <!-- START Form Control-->
-      <div class="row">
-        <div class="col-md-6 no-padding">
-          <div class="checkbox ">
-            <input type="checkbox" id="checkbox1" ng-model="login.remember">
-            <label for="checkbox1">Remember me on this computer next time</label>
+  <!-- END Login Background Pic Wrapper-->
+  <!-- START Login Right Container-->
+  <div class="login-container bg-white" style="height: 100vh !important;">
+    <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-30 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-20">
+      <center>
+        <img src="assets/images/logo-orange-small.png" alt="logo" data-src="assets/images/logo-orange-small.png" data-src-retina="plugins/user/assets/assets/img/logo_2x.png" width="{{userClient._style.user.login.logo_width}}">
+      </center>
+      <p class="p-t-35 text-center text-bold">Sign into your account</p>
+      <span class="fade"><center><small class="text-danger text-center scaleUp" ng-show="currentType == 'text'"><i class="fa fa-exclamation-triangle"></i> <span class="text-bold">Security Risk:</span> Your password is visible to the general public</small></center></span>
+      <!-- START Login Form -->
+      <form id="form-login" class="p-t-15" role="form">
+        <!-- START Form Control-->
+        <div class="form-group form-group-default">
+          <label>Login</label>
+          <div class="controls">
+            <input type="text" name="username" placeholder="Enter your username here" class="form-control" ng-model="login.username" required>
           </div>
         </div>
-        <div class="col-md-6 text-right">
-          <a href="#" class="text-info small">Help?</a>
-        </div>
-      </div>
-      <!-- END Form Control-->
-      <button class="btn btn-primary btn-cons m-t-10" type="submit" ng-click="processLogin()">Sign in</button>
-    </form>
-    <!--END Login Form-->
-    <div class="pull-bottom sm-pull-bottom">
-      <div class="m-b-30 p-r-80 sm-m-t-20 sm-p-r-15 sm-p-b-20 clearfix">
-        <div class="col-sm-12 no-padding m-t-10">
-          <p class="text-muted">
+        <!-- END Form Control-->
+        <!-- START Form Control-->
+        <div class="form-group form-group-default">
+          <label>Password <a class="pull-right btn btn-link text-danger text-underline-hover" style="font-size: 0.8em" ng-click="togglePassword()">
             <small>
-              With <i class="fa fa-heart"></i> from &nbsp;<i class="fa fa-skyatlas"></i> Emmetblue.
-            </small>
-          </p>
+              <span ng-if="currentType == 'password'"><i class="fa fa-toggle-on"></i> show plain text</span>
+              <span ng-if="currentType == 'text'"><i class="fa fa-toggle-off"></i> hide password</span>
+            </small></a></label>
+            <div class="controls">
+              <input type="password" class="form-control" name="password" placeholder="Enter your password here" ng-model="login.password" id="password">
+            </div>
+          </div>
+          <!-- START Form Control-->
+          <div class="row">
+            <div class="col-md-6 no-padding">
+              <div class="checkbox ">
+                <input type="checkbox" id="checkbox1" ng-model="login.remember">
+                <label for="checkbox1">Remember me on this computer next time</label>
+              </div>
+            </div>
+            <div class="col-md-6 text-right">
+              <a href="#" class="text-info small">Help?</a>
+            </div>
+          </div>
+          <!-- END Form Control-->
+          <button class="btn btn-primary btn-cons m-t-10" type="submit" ng-click="processLogin()">Sign in</button>
+        </form>
+
+        <div class="row">
+          <div class="col-md-12 m-t-10 text-center">
+            <p class="text-bold">Sign in with your biometric id instead</p>
+            <button class="btn btn-info btn-xs m-t-10" data-toggle="modal" data-target="#biometric_login_modal" ng-click="streamFingerprint();"><img class="img" src="assets/images/fingerprint_white_48x48.png"/></button>
+          </div>
+        </div>
+
+        <!--END Login Form-->
+      </div>
+    </div>
+    <!-- END Login Right Container-->
+
+    <div id="biometric_login_modal" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" ng-click="browserReload();">&times; close</button>
+            <h3 class="modal-title">Sign in with your Biometric ID</h3>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12 m-t-30" ng-if="!fingerLoaded">
+                <div class="text-center">
+                  <h1><i class="icon-spinner2 spinner"></i></h1>
+                  <h3>Waiting for Fingerprint</h3>
+
+                  <p class="m-t-30 hint-text">Please scan your fingerprint using the Fingerprint Capture Client</p>
+                </div>
+              </div>
+              <div class="col-md-12 m-t-30" ng-if="fingerLoaded">
+                <div class="col-md-6" style="border-right: 1px solid #6141E1">
+                  <img class="img img-responsive img-thumbnail" src="{{fingerprintImage}}" ng-dblclick="streamFingerprint()"/>
+                </div>
+                <div class="col-md-6">
+                  <div class="thumbnail" ng-if="fingerOwnerLoaded == 1">
+                    <a href="#">
+                      <img src="{{loadImage(fingerOwner.StaffPicture)}}" alt="Lights" style="width:100%">
+                      <div class="caption">
+                        <button class="btn btn-primary btn-cons col-md-12" ng-click="processLogin(true)" data-dismiss="modal">Continue as {{fingerOwner.StaffFullName}} &nbsp; <i class="fa fa-angle-right"></i></button>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="text-center m-t-30" ng-if="fingerOwnerLoaded == 0">
+                    <h1><i class="icon-spinner2 spinner"></i></h1>
+                    <h3>Identifying fingerprint...</h3>
+                  </div>
+
+                  <div class="text-center m-t-30" ng-if="fingerOwnerLoaded == -1">
+                    <h1><i class="fa fa-exclamation-triangle text-danger"></i></h1>
+                    <h5>Fingerprint does not match any profile, please try again with a different finger or try alternative methods of signing in</h5>
+                    <h6 class="hint-text m-t-10"><i class="fa fa-info-circle"></i> Double click the scanned image to retry</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<!-- END Login Right Container-->
-</div>

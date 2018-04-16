@@ -1,6 +1,6 @@
 angular.module("EmmetBlue")
 
-.controller("recordsPatientManagePatientsController", function($scope, utils, patientEventLogger){
+.controller("recordsPatientManagePatientsController", function($scope, utils, patientEventLogger, $timeout){
 	$scope.loadDeps = false;
 	$scope.utils = utils;
 	$scope.disablers = {
@@ -183,6 +183,7 @@ angular.module("EmmetBlue")
 	$scope.newPatient.hospitalHistory = [];
 	$scope.newPatient.diagnosis = [];
 	$scope.newPatient.operation = [];
+	$scope.newPatient.fingerprints = {};
 
 	$scope.submitHospitalHistory = function(){
 		if (typeof $scope.hospitalHistory !== "undefined"){
@@ -257,6 +258,7 @@ angular.module("EmmetBlue")
 				$scope.newPatient.hospitalHistory = [];
 				$scope.newPatient.diagnosis = [];
 				$scope.newPatient.operation = [];
+				$scope.newPatient.fingerprints = {};
 
 				$("#passport").attr("src", "plugins/records/patient/assets/images/passport-placeholder.png");
 				$scope.eDisablers("enable");
@@ -355,5 +357,73 @@ angular.module("EmmetBlue")
 		if (event.which == 13){
 			$scope.search(true);
 		}
+	}
+
+	$scope.fingerprintImage = ['', '', '', ''];
+	$scope.fpStreamCounter = 0;
+	$scope.fingerLoaded = [false, false, false, false];
+	$scope.fingerprintCount = 4;
+
+	function streamFingerprint(index, auto=true){
+		var req = utils.serverRequest("/stream-fingerprint", "GET");
+		req.then(function(response){
+			if (response){
+				$scope.fingerprintImage[index] = response;
+				$scope.fingerLoaded[index] = true;
+				if (auto && index < $scope.fingerprintCount){
+					index++;
+					console.log("Starting ", index);
+					streamFingerprint(index);
+				}
+			}
+			else {
+				if ($scope.fpStreamCounter < 30){
+					$timeout(function() {
+						streamFingerprint(index, auto);
+						$scope.fpStreamCounter++;
+					}, 1000);
+				}
+				else {
+					utils.notify("Scanner Timeout", "No Scan Detected. Please try again or contact an administrator", "info");
+				}
+			}
+		})
+	}
+
+	$scope.streamFingerprint = function(count){
+		$scope.fingerprintCount = count;
+		$scope.fpStreamCounter = 0;
+		console.log("Starting ", 0);
+		streamFingerprint(0, true);	
+	}
+
+	$scope.rescanFinger = function(index){
+		$scope.fingerLoaded[index] = false;
+		$scope.fingerprintImage[index] = '';
+		$scope.fpStreamCounter = 0;
+		console.log("Starting", index);
+		streamFingerprint(index, false)
+	}
+
+
+	$scope.biometricEnroll = function(){
+		var req = utils.serverRequest("/biometrics/fingerprint-cache/clear-cache", "GET");
+		req.then(function(response){
+			$scope.fingerprintImage = ['', '', '', ''];
+			$scope.fpStreamCounter = 0;
+			$scope.fingerLoaded = [false, false, false, false];
+			$("#biometric_new_patient_modal").modal("show");
+			$scope.streamFingerprint(4);
+		})
+	}
+
+	$scope.addFingerprintsToRegistration = function(){
+		$scope.newPatient.fingerprints = {
+			"left1":  "data:image/jpg;base64,"+$scope.fingerprintImage[0],
+			"left2":  "data:image/jpg;base64,"+$scope.fingerprintImage[1],
+			"right1": "data:image/jpg;base64,"+ $scope.fingerprintImage[2],
+			"right2": "data:image/jpg;base64,"+ $scope.fingerprintImage[3]
+		};
+		$("#biometric_new_patient_modal").modal("hide");
 	}
 })
