@@ -1,10 +1,6 @@
 <div ng-controller="coreController">
 	<div class="navbar navbar-default" id="navbar-first" style="padding: 10px !important;" ng-if="showBillingMenu">
-		<ul class="nav navbar-nav no-border visible-xs-block">
-			<li><a class="text-center collapsed" data-toggle="collapse" data-target="#navbar-second-toggle"><i class="icon-menu7"></i></a></li>
-		</ul>
-
-		<div class="navbar-collapse collapse" id="navbar-second-toggle">
+		<div>
 			<ul class="nav navbar-nav">
 				<li class="text-large text-light"><a href='#"' style="1.2em">
 					<i class="icon-gift position-left"></i> 
@@ -38,10 +34,10 @@
 			<p class="navbar-text" style="font-size: 1.1em !important">
 				{{businessInfo.BusinessName}} <span style="font-size: 0.8em !important">{{businessInfo.BusinessState}}, {{businessInfo.BusinessCountry}}</span>
 			</p>
-			<p class="navbar-text">
+			<p class="navbar-text visible-md visible-lg">
 				<span class="label bg-success-800">{{businessInfo.BusinessType}}</span>
 			</p>
-			<p class="navbar-text">
+			<p class="navbar-text text-center">
 				{{currentDepartmentName}}
 			</p>
 		</div>
@@ -49,9 +45,19 @@
 		<div class="navbar-collapse collapse" id="navbar-mobile">
 			<ul class="no-login nav navbar-nav navbar-right">
 				<li>
-					<a ng-click="toggleBillingMenu()"><i class="icon-gift"></i></a>
+					<a ng-click="toggleBillingMenu()">
+						<span class="visible-xs visible-sm">
+							<i class="icon-gift"></i>&nbsp;&nbsp;Billing
+						</span>
+					</a>
 				</li>
-				<li><a ng-click="returnToPrimaryDept()"><i class="fa fa-home"></i></a></li>
+				<li>
+					<a ng-click="returnToPrimaryDept()">
+						<span class="visible-xs visible-sm">
+							<i class="fa fa-home"></i>&nbsp;&nbsp;Home
+						</span>
+					</a>
+				</li>
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" ng-click="loadSwitchableDepts()">
 						Switch Department <i class="caret"></i>
