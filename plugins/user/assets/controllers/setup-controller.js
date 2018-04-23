@@ -35,6 +35,7 @@ angular.module("EmmetBlue")
 		}
 		else {
 			//not business owner
+			window.location.assign('user/activate-profile');
 		}
 	}
 
