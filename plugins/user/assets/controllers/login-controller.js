@@ -139,9 +139,8 @@ angular.module("EmmetBlue")
 		$("#password").attr("type", $scope.currentType);
 	}
 
-<<<<<<< HEAD
 	$scope.currentYear = (new Date()).getFullYear();
-=======
+
 	$scope.fingerprintImage = "";
 	$scope.fpStreamCounter = 0;
 	$scope.fingerLoaded = false;
@@ -204,5 +203,4 @@ angular.module("EmmetBlue")
 			utils.errorHandler(error);
 		});
 	}
->>>>>>> 5f559ae60891b51fc0347d3e187bcddb82d6a219
 })
