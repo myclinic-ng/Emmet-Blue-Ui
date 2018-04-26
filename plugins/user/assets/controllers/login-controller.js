@@ -4,18 +4,22 @@ angular.module("EmmetBlue")
 	$scope.login = {};
 	$scope.userClient = utils.globalConstants.USER_CLIENT;
 	
+	$scope.loadImage = utils.loadImage;
+
 	if (typeof $.cookie("last-stored-login-username") != "undefined"){
 		$scope.login.username = $.parseJSON($.cookie("last-stored-login-username")).value;
 	}
 
-	$scope.processLogin = function(){
+	$scope.processLogin = function(biometric = false){
 		var loginData = $scope.login;
 
-		if (typeof loginData == "undefined"
-			|| typeof loginData.username == "undefined"
-			|| typeof loginData.password == "undefined"
-			|| loginData.username == ""
-			|| loginData.password == ""
+		if (!biometric && (
+				typeof loginData == "undefined"
+				|| typeof loginData.username == "undefined"
+				|| typeof loginData.password == "undefined"
+				|| loginData.username == ""
+				|| loginData.password == ""
+			)
 		)
 		{
 			utils.alert("All fields are required", "Please enter both your username and password to continue", "warning");
@@ -38,10 +42,17 @@ angular.module("EmmetBlue")
 			    }
 			});
 
-			$loginPromise = utils.serverRequest("/login", "POST", {
-				username: loginData.username,
-				password: loginData.password
-			});
+			if (!biometric){
+				$loginPromise = utils.serverRequest("/login", "POST", {
+					username: loginData.username,
+					password: loginData.password
+				});	
+			}
+			else {
+				$loginPromise = utils.serverRequest("/login", "POST", {
+					fingerprint: $scope.fingerprintImage,
+				});
+			}
 
 			$loginPromise.then(function(response){
 				if (typeof response == "undefined" || !response.status){
@@ -49,8 +60,8 @@ angular.module("EmmetBlue")
 					utils.alert(
 						"Invalid login data",
 						"We were unable to sign you into your account "+
-						"because we could not link the username and password you entered to any account. "+
-						"Please try again with a valid username and password",
+						"because we could not link the login data you supplied to any account. "+
+						"Please try again with a valid login data",
 						"error"
 					);
 					$(block).unblock();
@@ -128,5 +139,70 @@ angular.module("EmmetBlue")
 		$("#password").attr("type", $scope.currentType);
 	}
 
+<<<<<<< HEAD
 	$scope.currentYear = (new Date()).getFullYear();
+=======
+	$scope.fingerprintImage = "";
+	$scope.fpStreamCounter = 0;
+	$scope.fingerLoaded = false;
+
+	function streamFingerprint(){
+		var req = utils.serverRequest("/stream-fingerprint", "GET");
+		req.then(function(response){
+			if (response){
+				$scope.fingerprintImage = "data:image/jpg;base64,"+response;
+				$scope.fingerLoaded = true;
+			}
+			else {
+				if ($scope.fpStreamCounter < 10){
+					$timeout(function() {
+						streamFingerprint();
+						$scope.fpStreamCounter++;
+					}, 1000);
+				}
+				else {
+					utils.notify("Scanner Timeout", "No Scan Detected. Please try again or contact an administrator", "info");
+				}
+			}
+		})
+	}
+
+	$scope.streamFingerprint = function(){
+		$scope.fingerprintImage = "";
+		$scope.fpStreamCounter = 0;
+		$scope.fingerLoaded = false;
+		streamFingerprint();
+	}
+
+	$scope.browserReload = function(){
+		$("#biometric_login_modal").modal("hide");
+		location.reload();
+	}
+
+	$scope.$watch("fingerLoaded", function(val){
+		if (val == true){
+			$scope.identifyStaff();
+		}
+	});
+
+	$scope.identifyStaff = function(){
+		$scope.fingerOwnerLoaded = 0;
+		$scope.fingerOwner = {};
+		$loginPromise = utils.serverRequest("/identify-fingerprint", "POST", {
+			fingerprint: $scope.fingerprintImage
+		});
+
+		$loginPromise.then(function(response){
+			if (typeof response.StaffID !== "undefined"){
+				$scope.fingerOwner = response;
+				$scope.fingerOwnerLoaded = 1;	
+			}
+			else {
+				$scope.fingerOwnerLoaded = -1;
+			}
+		}, function(error){
+			utils.errorHandler(error);
+		});
+	}
+>>>>>>> 5f559ae60891b51fc0347d3e187bcddb82d6a219
 })

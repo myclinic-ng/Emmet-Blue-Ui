@@ -1,6 +1,6 @@
 angular.module("EmmetBlue")
 
-.controller('humanResourcesStaffManagementController', function($scope, utils){
+.controller('humanResourcesStaffManagementController', function($scope, utils, $timeout){
 	var functions = {
 		loadDepartments: function(){
 			var loadDepartments = utils.serverRequest('/human-resources/department/view', 'GET');
@@ -72,6 +72,7 @@ angular.module("EmmetBlue")
 		var editButtonAction = "manageStaff('edit', "+data.StaffID+")";
 		var changeTypeButtonAction = "manageStaff('department', "+data.StaffID+")";
 		var deactivateButtonAction = "manageStaff('profile', "+data.StaffID+")";
+		var fingerEnrollButtonAction = "manageStaff('fingerEnroll', "+data.StaffID+")";
 
 		var dataOpt = "data-option-id='"+data.SaffID+"' data-option-name='"+data.StaffUsername+"' data-option-department='"+data.DepartmentID+"'";
 
@@ -82,6 +83,7 @@ angular.module("EmmetBlue")
 								"	<li><a href='#' class='staff-management-btn' ng-click=\""+changeTypeButtonAction+"\" "+dataOpt+"><i class='fa fa-unlink'></i> Manage Departments</a></li>"+
 								"	<li><a href='#'><i class='fa fa-file-text-o'></i> View Log</a></li>"+
 								"	<li class='divider'></li>"+
+								"	<li><a href='#' class='staff-management-btn' ng-click=\""+fingerEnrollButtonAction+"\" "+dataOpt+">Enroll Biometric ID</a></li>"+
 								"	<li><a href='#' class='staff-management-btn' ng-click=\""+deactivateButtonAction+"\" "+dataOpt+">Manage Profile</a></li>"+
 								"</ul>"+
 							"</div>";
@@ -192,6 +194,10 @@ angular.module("EmmetBlue")
 			case "profile":{
 				break;
 			}
+			case "fingerEnroll":{
+				$scope.currentEnrollStaff = id;
+				$scope.biometricEnroll();
+			}
 		}
 	}
 
@@ -219,6 +225,88 @@ angular.module("EmmetBlue")
 			utils.notify("Operation Successful", "The selected account has been assigned to the specified department", "success");
 			$scope.manageStaff("department", $scope.switchDept.currentStaff);
 			$scope.dtInstance.reloadData();
+		}, function(error){
+			utils.errorHandler(error);
+		})
+	}
+
+	$scope.fingerprintImage = ['', '', '', ''];
+	$scope.fpStreamCounter = 0;
+	$scope.fingerLoaded = [false, false, false, false];
+	$scope.fingerprintCount = 4;
+
+	function streamFingerprint(index, auto=true){
+		var req = utils.serverRequest("/stream-fingerprint", "GET");
+		req.then(function(response){
+			if (response){
+				$scope.fingerprintImage[index] = response;
+				$scope.fingerLoaded[index] = true;
+				if (auto && index < $scope.fingerprintCount){
+					index++;
+					console.log("Starting ", index);
+					streamFingerprint(index);
+				}
+			}
+			else {
+				if ($scope.fpStreamCounter < 30){
+					$timeout(function() {
+						streamFingerprint(index, auto);
+						$scope.fpStreamCounter++;
+					}, 1000);
+				}
+				else {
+					utils.notify("Scanner Timeout", "No Scan Detected. Please try again or contact an administrator", "info");
+				}
+			}
+		})
+	}
+
+	$scope.streamFingerprint = function(count){
+		$scope.fingerprintCount = count;
+		$scope.fpStreamCounter = 0;
+		console.log("Starting ", 0);
+		streamFingerprint(0, true);	
+	}
+
+	$scope.rescanFinger = function(index){
+		$scope.fingerLoaded[index] = false;
+		$scope.fingerprintImage[index] = '';
+		$scope.fpStreamCounter = 0;
+		console.log("Starting", index);
+		streamFingerprint(index, false)
+	}
+
+
+	$scope.biometricEnroll = function(){
+		var req = utils.serverRequest("/biometrics/fingerprint-cache/clear-cache", "GET");
+		req.then(function(response){
+			$scope.fingerprintImage = ['', '', '', ''];
+			$scope.fpStreamCounter = 0;
+			$scope.fingerLoaded = [false, false, false, false];
+			$("#biometric_new_staff_modal").modal("show");
+			$scope.streamFingerprint(4);
+		})
+	}
+
+	$scope.addFingerprintsToRegistration = function(){
+		var fingerprints = {
+			"left1":  "data:image/jpg;base64,"+$scope.fingerprintImage[0],
+			"left2":  "data:image/jpg;base64,"+$scope.fingerprintImage[1],
+			"right1": "data:image/jpg;base64,"+ $scope.fingerprintImage[2],
+			"right2": "data:image/jpg;base64,"+ $scope.fingerprintImage[3]
+		};
+
+		var data = {
+			fingerprints: fingerprints,
+			staff: $scope.currentEnrollStaff
+		};
+
+		$("#biometric_new_staff_modal").modal("hide");
+
+		var req = utils.serverRequest("/human-resources/staff-profile/enroll-fingerprint", "POST", data);
+		req.then(function(response){
+			console.log(response);
+			utils.notify("Enrollment Complete", "The biometric id for selected staff has been stored successfully", "success");
 		}, function(error){
 			utils.errorHandler(error);
 		})

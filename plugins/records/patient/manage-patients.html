@@ -5,16 +5,16 @@
 
 	    // Initialize lightbox
 	    $('[data-popup=lightbox]').fancybox({
-	        padding: 3
+	    	padding: 3
 	    });
 	    
 	});
 
 	$('body').on('hidden.bs.modal', function () {
-	    if($('.modal.in').length > 0)
-	    {
-	        $('body').addClass('modal-open');
-	    }
+		if($('.modal.in').length > 0)
+		{
+			$('body').addClass('modal-open');
+		}
 	});
 
 	$(function() {
@@ -37,35 +37,35 @@
 <div ng-controller="recordsPatientManagePatientsController as ctrller">
 	<div class="col-sm-3">
 		<div class="sidebar sidebar-secondary sidebar-default">
-				<div class="sidebar-content">
+			<div class="sidebar-content">
 
-					<!-- Actions -->
-					<div class="sidebar-category">
-						<div class="category-title bg-success">
-							<span>Dashboard</span>
-							<ul class="icons-list">
-								<li><i class="icon-users"></i></li>
-							</ul>
-						</div>
+				<!-- Actions -->
+				<div class="sidebar-category">
+					<div class="category-title bg-success">
+						<span>Dashboard</span>
+						<ul class="icons-list">
+							<li><i class="icon-users"></i></li>
+						</ul>
+					</div>
 
-						<div class="category-content">
-							<div class="row row-condensed">
-								<div class="col-xs-6">
-									<button type="button" class="btn bg-teal-400 btn-block btn-float btn-float-lg" data-toggle="modal" data-target="#new_patient" data-backdrop="static" ng-click="loadDeps = true">
-										<i class="icon-file-plus"></i> <span>Patient Registration</span>
-									</button>
-									<a href="records/patient/reports" type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg"><i class="fa fa-bar-chart"></i> <span>Summaries &amp; Statistics</span></a>
-								</div>
-								
-								<div class="col-xs-6">
-									<button type="button" class="btn bg-warning-400 btn-block btn-float btn-float-lg" data-toggle="modal" data-target="#payment_request"><i class="icon-stats-bars"></i> <span>Payment Request</span></button>
-								</div>
+					<div class="category-content">
+						<div class="row row-condensed">
+							<div class="col-xs-6">
+								<button type="button" class="btn bg-teal-400 btn-block btn-float btn-float-lg" data-toggle="modal" data-target="#new_patient" data-backdrop="static" ng-click="loadDeps = true">
+									<i class="icon-file-plus"></i> <span>Patient Registration</span>
+								</button>
+								<a href="records/patient/reports" type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg"><i class="fa fa-bar-chart"></i> <span>Summaries &amp; Statistics</span></a>
+							</div>
+
+							<div class="col-xs-6">
+								<button type="button" class="btn bg-warning-400 btn-block btn-float btn-float-lg" data-toggle="modal" data-target="#payment_request"><i class="icon-stats-bars"></i> <span>Payment Request</span></button>
 							</div>
 						</div>
 					</div>
-					<!-- /actions -->
 				</div>
+				<!-- /actions -->
 			</div>
+		</div>
 	</div>
 	<div class="col-sm-9">
 		<div class="panel panel-success">
@@ -95,7 +95,7 @@
 									</span>
 								</div>
 							</ul>
-			            </div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -267,31 +267,56 @@
 						</div>
 						<div class="col-sm-4">
 							<div class="panel panel-default col-sm-11 col-sm-offset-1">
-				                <div class="panel-heading">
-				                  <h6 class="panel-title">Upload Patient Picture</h6>
-				                </div>
-				                <div class="panel-body" id="camera">
-				                  <img src="plugins/records/patient/assets/images/passport-placeholder.png" class="col-sm-12 img img-responsive" style="width:100% !important; height: 100% !important;"/>
-				                </div><!-- /.panel-body -->
-				                 <input type="hidden" id="patient-passport"/>
-				                <div class="panel-footer">
+								<div class="panel-heading">
+									<h6 class="panel-title">Upload Patient Picture</h6>
+								</div>
+								<div class="panel-body" id="camera">
+									<img src="plugins/records/patient/assets/images/passport-placeholder.png" class="col-sm-12 img img-responsive" style="width:100% !important; height: 100% !important;"/>
+								</div><!-- /.panel-body -->
+								<input type="hidden" id="patient-passport"/>
+								<div class="panel-footer">
 									<div class="text-center">
 										<button class="btn btn-info" onClick="enableCamera()" ng-click="eDisablers('enable')" ng-show="disablers.enable_camera"><i class="icon-camera"></i> Enable Camera</button>
 										<button class="btn btn-success" onClick="takeSnapshot()" ng-click="eDisablers('take')" ng-show="disablers.take_snapshot"><i class="icon-play"></i> Take Snapshot</button>
 										<button class="btn btn-danger" onClick="retakeSnapshot()" ng-click="eDisablers('retake')" ng-show="disablers.snapshot_taken"><i class="icon-undo"></i> Retake Snapshot</button>
 									</div>
-				                </div>
-				              </div><!-- /.panel -->
-				              <div class="form-group col-sm-11 col-sm-offset-1">
+								</div>
+							</div><!-- /.panel -->
+							<div class="form-group col-sm-11 col-sm-offset-1">
 								<label class="control-label">Upload Identification Document</label>
-				              	<input type="file" class="file-styled-primary" ng-model="uploadedDocument" name="file" id="document"/>
-				              	<img src="{{newPatient.documents}}" class="img img-responsive"/>
-				              </div>
+								<input type="file" class="file-styled-primary" ng-model="uploadedDocument" name="file" id="document"/>
+								<img src="{{newPatient.documents}}" class="img img-responsive"/>
+							</div>
+
+							<div class="form-group col-sm-11 col-sm-offset-1">
+								<div class="text-center">
+									<button class="btn btn-info" ng-click="biometricEnroll()"><i class="icon-camera"></i> Register Fingerprints</button>
+								</div>
+							</div>
+
+							<div class="col-sm-11 col-sm-offset-1" ng-hide="false">
+								<div class="row">
+									<div class="col-md-6">
+										<img ng-src="{{newPatient.fingerprints.left1}}" class="img img-responsive"/>
+									</div>
+									<div class="col-md-6">
+										<img ng-src="{{newPatient.fingerprints.left2}}" class="img img-responsive"/>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<img ng-src="{{newPatient.fingerprints.right1}}" class="img img-responsive"/>
+									</div>
+									<div class="col-md-6">
+										<img ng-src="{{newPatient.fingerprints.right2}}" class="img img-responsive"/>
+									</div>
+								</div>
+							</div>
 						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
-					<div class="col-sm-12 pull-right">
+					<div class="col-sm-12 pull-right" style="margin-top: 30px">
 						<button type="button" class="btn btn-link" data-dismiss="modal" ng-click="newPatient = {}">Close</button>
 						<button class="btn btn-warning btn-lg" ng-click="submit()"><span class="hide loader pull-left"> <i class="fa fa-spinner fa-spin">  </i> </span> Submit</button>
 					</div>
@@ -429,6 +454,76 @@
 							</div> -->
 						</div>
 					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="biometric_new_patient_modal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times; close</button>
+					<h3 class="modal-title">Scan Fingerprints</h3>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="col-md-12 m-t-30" ng-if="!fingerLoaded[0]">
+								<div class="text-center">
+									<h1><i class="icon-spinner2 spinner"></i></h1>
+									<h3>Waiting for Fingerprint</h3>
+
+									<p class="m-t-30 hint-text">LEFT THUMB</p>
+								</div>
+							</div>
+							<div class="col-md-12" style="border-right: 1px solid #6141E1" ng-if="fingerLoaded[0]" ng-dblclick="rescanFinger(0)">
+								<img class="img img-responsive img-thumbnail" src="data:image/jpg;base64,{{fingerprintImage[0]}}"/>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="col-md-12 m-t-30" ng-if="!fingerLoaded[1]">
+								<div class="text-center">
+									<h1><i class="icon-spinner2 spinner"></i></h1>
+									<h3>Waiting for Fingerprint</h3>
+
+									<p class="m-t-30 hint-text">LEFT THUMB</p>
+								</div>
+							</div>
+							<div class="col-md-12" style="border-right: 1px solid #6141E1" ng-if="fingerLoaded[1]" ng-dblclick="rescanFinger(1)">
+								<img class="img img-responsive img-thumbnail" src="data:image/jpg;base64,{{fingerprintImage[1]}}"/>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="col-md-12 m-t-30" ng-if="!fingerLoaded[2]">
+								<div class="text-center">
+									<h1><i class="icon-spinner2 spinner"></i></h1>
+									<h3>Waiting for Fingerprint</h3>
+
+									<p class="m-t-30 hint-text">RIGHT THUMB</p>
+								</div>
+							</div>
+							<div class="col-md-12" style="border-right: 1px solid #6141E1" ng-if="fingerLoaded[2]" ng-dblclick="rescanFinger(2)">
+								<img class="img img-responsive img-thumbnail" src="data:image/jpg;base64,{{fingerprintImage[2]}}"/>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="col-md-12 m-t-30" ng-if="!fingerLoaded[3]">
+								<div class="text-center">
+									<h1><i class="icon-spinner2 spinner"></i></h1>
+									<h3>Waiting for Fingerprint</h3>
+
+									<p class="m-t-30 hint-text">RIGHT THUMB</p>
+								</div>
+							</div>
+							<div class="col-md-12" style="border-right: 1px solid #6141E1" ng-if="fingerLoaded[3]" ng-dblclick="rescanFinger(3)">
+								<img class="img img-responsive img-thumbnail" src="data:image/jpg;base64,{{fingerprintImage[3]}}"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" ng-click="addFingerprintsToRegistration()"><i class="icon-printer"></i> CONTINUE</button>
 				</div>
 			</div>
 		</div>
