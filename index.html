@@ -32,9 +32,9 @@
 	<!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">  -->
 	<script>
 		if ('serviceWorker' in navigator) {
-			window.addEventListener('load', function() {
-		    // navigator.serviceWorker.register('/sw.js');
-		});
+		  window.addEventListener('load', function() {
+		    navigator.serviceWorker.register('/sw.js');
+		  });
 		}
 	</script>
 	<script
