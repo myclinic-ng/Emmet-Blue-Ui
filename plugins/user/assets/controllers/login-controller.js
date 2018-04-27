@@ -145,6 +145,10 @@ angular.module("EmmetBlue")
 	$scope.fpStreamCounter = 0;
 	$scope.fingerLoaded = false;
 
+	$scope.fingerprintUnsupported = function(){
+		utils.alert("Please contact us", "This feature is currently disabled for your organization, please contact us for details on how to get started.", "info")
+	}
+
 	function streamFingerprint(){
 		var req = utils.serverRequest("/stream-fingerprint", "GET");
 		req.then(function(response){

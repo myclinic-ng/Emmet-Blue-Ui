@@ -1,5 +1,6 @@
 // Define file locations
 var css = [
+	"assets/js/plugins/loaders/pace-corner-indicator.css",
 	"assets/css/icons/icomoon/styles.min.css",
 	"assets/css/icons/fontawesome/styles.min.css",
 	"assets/css/bootstrap.min.css",
@@ -19,9 +20,9 @@ var css = [
 var jquery = {"jquery": "assets/js/core/libraries/jquery.min.js"};
 var bootstrap = {"bootstrap": "assets/js/core/libraries/bootstrap.min.js"};
 var libraries = [
+	"assets/js/plugins/loaders/pace.min.js",
 	"assets/js/plugins/ui/drilldown.min.js",
 	"assets/js/plugins/ui/nicescroll.min.js",
-	"assets/js/plugins/loaders/pace.min.js",
 	"assets/js/plugins/loaders/blockui.min.js",
 	"assets/js/plugins/forms/styling/uniform.min.js",
 	"assets/js/plugins/notifications/pnotify.min.js",
@@ -79,12 +80,12 @@ var angularLibraries = [
 ]
 
 // Load Files
-head.load(css);
 
 head.load([jquery, bootstrap]);
 
 head.ready(["jquery", "bootstrap"], function(){
 	head.load(libraries);
+	head.load(css);
 	head.load(themes);
 
 	head.load(angular);

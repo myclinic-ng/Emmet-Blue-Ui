@@ -4,6 +4,10 @@ angular.module("EmmetBlue")
 	$scope.loadImage = utils.loadImage;
 	$scope.userClient = utils.globalConstants.USER_CLIENT;
 
+	$scope.businessInfo = {
+		BusinessName: 'Emmetcare'
+	}
+
 	$scope.$on('$locationChangeStart', function(event, current, previous){
 		var path = ($location.path()).split('/');
 		var userDashboard = ("/"+utils.userSession.getDashboard()).split("/");
