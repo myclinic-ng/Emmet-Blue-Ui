@@ -1,6 +1,6 @@
 // Define file locations
 var css = [
-	"assets/js/plugins/loaders/pace-corner-indicator.css",
+	// "assets/js/plugins/loaders/pace-corner-indicator.css",
 	"assets/css/icons/icomoon/styles.min.css",
 	"assets/css/icons/fontawesome/styles.min.css",
 	"assets/css/bootstrap.min.css",

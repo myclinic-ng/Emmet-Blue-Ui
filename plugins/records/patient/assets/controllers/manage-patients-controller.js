@@ -329,16 +329,17 @@ angular.module("EmmetBlue")
 	}
 
 	var loadPatients = function(){
-		var request = utils.serverRequest("/patients/patient/view", "GET");
+		// var request = utils.serverRequest("/patients/patient/view", "GET");
 
-		request.then(function(response){
-			if (typeof response.hits !== "undefined"){				
-				$scope.searched.totalPageCount = response.hits.total;
-				$scope.searched.patients = response.hits.hits;	
-			}
-		}, function(response){
-			utils.errorHandler(response);
-		})
+		// request.then(function(response){
+		// 	if (typeof response.hits !== "undefined"){				
+		// 		$scope.searched.totalPageCount = response.hits.total;
+		// 		$scope.searched.patients = response.hits.hits;	
+		// 	}
+		// }, function(response){
+		// 	utils.errorHandler(response);
+		// })
+		search("/patients/patient/search?query=");
 	}
 	
 	loadPatients();

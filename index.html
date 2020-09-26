@@ -23,7 +23,7 @@
 	<!-- Core JS files -->
 	<!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">  -->
 	<!-- Hotjar Tracking Code for https://app.emmetblue.ng/ -->
-	<script>
+	<!-- <script>
 	    (function(h,o,t,j,a,r){
  	      h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
  	      h._hjSettings={hjid:860035,hjsv:6};
@@ -32,21 +32,22 @@
     	      r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
      	      a.appendChild(r);
     	   })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-	</script>
+	</script> -->
 	
 	<script>
-		if ('serviceWorker' in navigator) {
-		  window.addEventListener('load', function() {
-		    navigator.serviceWorker.register('/sw.js');
-		  });
-		}
+		// if ('serviceWorker' in navigator) {
+		//   window.addEventListener('load', function() {
+		//     // navigator.serviceWorker.register('/sw.js');
+		//   });
+		// }
 	</script>
+	<script type="text/javascript" src="assets/js/core/libraries/jquery.min.js"></script>
 	<script
 	type="text/javascript"
 	src="assets/js/core/libraries/headjs/head.min.js"
 	data-headjs-load="init.js"
 	>
-</script>
+	</script>
 
 <style>
 	@font-face {
@@ -111,7 +112,7 @@
 		<div ng-if="!isAuthPage()">
 			<div id="globalHeader" ng-include src="'assets/angular/core/templates/header.html'"></div>
 			<div id="moduleMenu"  ng-include src="moduleMenu"></div>
-			<!-- <div id="moduleHeader"  ng-include src="moduleHeader"></div> -->
+			<div id="moduleHeader"  ng-include src="moduleHeader"></div>
 
 			<!-- Page container -->
 			<div class="page-container" >

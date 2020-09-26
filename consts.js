@@ -1,6 +1,6 @@
 function getConstants(){
-	var server = "https://emmetblue.org.ng:704/";
-	var file_server = "https://emmetblue.org.ng:702/";
+	var server = "http://localhost:700/";
+	var file_server = "http://localhost:7005/";
 	var ws_server = "wss://emmetblue.org.ng/echobot";
 	var client = {
 		short_name: "Emmetblue",

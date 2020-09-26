@@ -67,7 +67,7 @@ function determineRouteAvailability(url){
 					//do nothing
 				}
 				else {
-					return 'plugins/user/home.html';
+					return '/plugins/user/home.html';
 				}
 			}
 		}
@@ -76,11 +76,10 @@ function determineRouteAvailability(url){
 		}
 	}
 	else {
-		return 'plugins/user/login.html';
+		return '/plugins/user/login.html';
 	}
 
- 	var _url = 'plugins/'+urlParts.join('/')+'.html';
- 	console.log(_url);
+ 	var _url = '/plugins/'+urlParts.join('/')+'.html';
 
  	return _url;
 }

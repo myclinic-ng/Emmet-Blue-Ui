@@ -28,10 +28,10 @@ angular.module("EmmetBlue")
 		delete path[path.length - 1];
 
 		var moduleMenu = CONSTANTS.TEMPLATE_DIR +
-						 path.join('/')+
+						 path.join('/').replace(/^\//g, '')+ //strip the first backslash
 						 CONSTANTS.MODULE_MENU_LOCATION;
 		var moduleHeader = CONSTANTS.TEMPLATE_DIR +
-						 path.join('/')+
+						 path.join('/').replace(/^\//g, '')+
 						 CONSTANTS.MODULE_HEADER_LOCATION;
 
 		$scope.moduleMenu = moduleMenu;
@@ -127,7 +127,7 @@ angular.module("EmmetBlue")
 		if (department !== ""){
 			utils.storage.currentStaffDepartmentID = department
 		}
-		
+
 		$location.path(url);
 	}
 
