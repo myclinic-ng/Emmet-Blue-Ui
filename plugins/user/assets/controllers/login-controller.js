@@ -103,7 +103,7 @@ angular.module("EmmetBlue")
 					};
 
 					if (typeof response.business == "undefined"){
-						utils.serverRequest("/v1/read-resource?url=business-info.json", "GET").then(function(resource){
+						utils.serverRequest("/read-resource?url=business-info", "GET").then(function(resource){
 							responseObject.businessInfo = resource;
 							$cookies.putObject(utils.globalConstants.USER_COOKIE_IDENTIFIER, responseObject);
 						}, function(error){
