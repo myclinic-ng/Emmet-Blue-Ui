@@ -32,7 +32,7 @@ var libraries = [
 	"assets/js/plugins/tables/datatables/extensions/dataTables.fixedHeader.min.js",
 	// "assets/js/plugins/tables/datatables/extensions/dataTables.bootstrap.min.js",
 	"assets/js/core/libraries/jasny_bootstrap.min.js",
-	"assets/js/plugins/webcam/webcam.min.js",
+	"assets/js/plugins/webcam/webcam.js",
 	// "assets/js/core/libraries/jquery_ui/core.min.js",
 	// "assets/js/core/libraries/jquery_ui/effects.min.js",
 	// "assets/js/core/libraries/jquery_ui/interactions.min.js",

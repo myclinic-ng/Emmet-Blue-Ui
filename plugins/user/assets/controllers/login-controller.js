@@ -104,7 +104,7 @@ angular.module("EmmetBlue")
 
 					if (typeof response.business == "undefined"){
 						utils.serverRequest("/read-resource?url=business-info", "GET").then(function(resource){
-							responseObject.businessInfo = resource;
+							responseObject.businessInfo = $.parseJSON(resource);
 							$cookies.putObject(utils.globalConstants.USER_COOKIE_IDENTIFIER, responseObject);
 						}, function(error){
 
