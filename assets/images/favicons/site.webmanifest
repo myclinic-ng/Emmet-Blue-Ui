@@ -1,6 +1,7 @@
 {
-    "name": "",
-    "short_name": "",
+    "name": "EmmetBlue",
+    "short_name": "EmmetBlue",
+    "start_url": "/",
     "icons": [
         {
             "src": "/assets/images/favicons/android-chrome-192x192.png?v=kPxJ9Mk6a8",

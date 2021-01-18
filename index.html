@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="EmmetBlue" ng-controller="coreController">
-<head>
+<head ng-cloak>
 	<meta charset="utf-8">
 	<base href="/">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,9 +21,9 @@
 	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 
 	<!-- Core JS files -->
-	<!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">  -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"> 
 	<!-- Hotjar Tracking Code for https://app.emmetblue.ng/ -->
-	<!-- <script>
+	<script>
 	    (function(h,o,t,j,a,r){
  	      h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
  	      h._hjSettings={hjid:860035,hjsv:6};
@@ -32,12 +32,12 @@
     	      r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
      	      a.appendChild(r);
     	   })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-	</script> -->
+	</script>
 	
 	<script>
 		if ('serviceWorker' in navigator) {
 		  window.addEventListener('load', function() {
-		    // navigator.serviceWorker.register('/sw.js');
+		    navigator.serviceWorker.register('/sw.js');
 		  });
 		}
 	</script>
