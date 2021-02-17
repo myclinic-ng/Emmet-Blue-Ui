@@ -190,7 +190,7 @@ angular.module("EmmetBlue")
 						utils.notify("Operation Successful", "Request sent successfully", "success");
 						$scope.investigations = "";
 						reqs = [];
-						showLabForwarder(response);
+						// showLabForwarder(response); -> Disable until feature is requested
 					}, function(error){
 						utils.errorHandler(error);
 					})

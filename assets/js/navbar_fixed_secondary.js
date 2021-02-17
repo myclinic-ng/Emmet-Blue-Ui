@@ -15,7 +15,11 @@ $(function() {
     $('#navbar-second').affix({
         offset: {
             top: function() {
-                return (this.top = $("#navbar-primary").outerHeight());
+                height = (this.top = $("#navbar-primary").outerHeight());
+                if (height == 0){
+                    height = 68;
+                }                
+                return height;
             }
         }
     });
