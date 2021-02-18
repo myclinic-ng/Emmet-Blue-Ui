@@ -552,18 +552,26 @@ angular.module("EmmetBlue")
 					}
 				}
 
-				if (containsUnscanItems){
-					utils.notify("Some items not scanned");
-					$scope.initScanner();
-				}
-				else {
-					utils.serverRequest('/pharmacy/pharmacy-request/close', 'PUT', data).then(function(response){
-						$("#ack_view_modal").modal("hide");
-						$scope.reloadDispensationsTable();
-					}, function(error){
-						utils.errorHandler(error);
-					});
-				}	
+				// var IGNORE_UNSCAN = true
+				// if (IGNORE_UNSCAN == false && containsUnscanItems){
+				// 	utils.notify("Some items not scanned");
+				// 	$scope.initScanner();
+				// }
+				// else {
+				// 	utils.serverRequest('/pharmacy/pharmacy-request/close', 'PUT', data).then(function(response){
+				// 		$("#ack_view_modal").modal("hide");
+				// 		$scope.reloadDispensationsTable();
+				// 	}, function(error){
+				// 		utils.errorHandler(error);
+				// 	});
+				// }	
+
+				utils.serverRequest('/pharmacy/pharmacy-request/close', 'PUT', data).then(function(response){
+					$("#ack_view_modal").modal("hide");
+					$scope.reloadDispensationsTable();
+				}, function(error){
+					utils.errorHandler(error);
+				});
 				
 				break;
 			}
