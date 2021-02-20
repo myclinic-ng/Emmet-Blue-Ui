@@ -9,7 +9,7 @@ angular.module("EmmetBlue")
 	.withOption('createdRow', function(row, data, dataIndex){
 		utils.compile(angular.element(row).contents())($scope);
 	})
-	.withOption('order', [0, 'desc'])
+	// .withOption('order', [0, 'desc'])
 	.withOption('headerCallback', function(header) {
         if (!$scope.headerCompiled) {
             $scope.headerCompiled = true;

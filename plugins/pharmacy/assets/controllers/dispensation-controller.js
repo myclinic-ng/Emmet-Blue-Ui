@@ -245,7 +245,7 @@ angular.module("EmmetBlue")
 					break;
 				}
 				default:{
-					var html = "<i class='fa fa-pause text-danger-800'></i>";
+					var html = "<i class='fa fa-flag text-default'></i>";
 				}
 			}
 			
