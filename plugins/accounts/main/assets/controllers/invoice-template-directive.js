@@ -21,7 +21,7 @@ angular.module("EmmetBlue")
 			});
 			
 			$scope.getItemName = function(item){
-				utils.serverRequest('/accounts-biller/billing-type-items/view--by-id?resourceId='+item, "GET").then(function(response){
+				utils.serverRequest('/accounts-biller/billing-type-items/view-by-id?resourceId='+item, "GET").then(function(response){
 					console.log(response);
 					return response;
 				})

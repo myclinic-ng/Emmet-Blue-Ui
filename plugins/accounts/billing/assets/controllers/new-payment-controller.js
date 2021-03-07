@@ -148,7 +148,7 @@ angular.module("EmmetBlue")
 					var items = [];
 					var amounts = {};
 					for (var i = 0; i < response.BillingTransactionItems.length; i++){
-						response.BillingTransactionItems[i].itemName = response.BillingTransactionItems[i].BillingTransactionItemName;
+						response.BillingTransactionItems[i].itemName = response.BillingTransactionItems[i].BillingTypeItemName;
 						response.BillingTransactionItems[i].itemPrice = response.BillingTransactionItems[i].BillingTransactionItemPrice;
 						response.BillingTransactionItems[i].itemQuantity = response.BillingTransactionItems[i].BillingTransactionItemQuantity;
 						items.push(response.BillingTransactionItems[i].BillingTransactionItem);
