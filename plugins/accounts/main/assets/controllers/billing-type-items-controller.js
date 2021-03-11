@@ -123,7 +123,7 @@ angular.module("EmmetBlue")
 				var callback = function(){
 					var deleteRequest = utils.serverRequest('/accounts-biller/billing-type-items/delete?'+utils.serializeParams({
 						'resourceId': $scope._id
-					}), 'POST');
+					}), 'DELETE');
 
 					deleteRequest.then(function(response){
 						functions.billingTypeItemsDeleted();
