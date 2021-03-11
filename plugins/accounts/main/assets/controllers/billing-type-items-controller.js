@@ -117,13 +117,13 @@ angular.module("EmmetBlue")
 			},
 			deleteBillingTypeItems: function(id){
 				var title = "Delete Prompt";
-				var text = "You are about to delete the BillingTypeItems named "+$(".billing-type-items-btn[data-option-id='"+id+"']").attr('data-option-name')+". Do you want to continue? Please note that this action cannot be undone";
+				var text = "You are about to delete the Billing Type Item named "+$(".billing-type-items-btn[data-option-id='"+id+"']").attr('data-option-name')+". Do you want to continue? Please note that this action cannot be undone";
 				var close = true;
 				$scope._id = id;
 				var callback = function(){
 					var deleteRequest = utils.serverRequest('/accounts-biller/billing-type-items/delete?'+utils.serializeParams({
 						'resourceId': $scope._id
-					}), 'DELETE');
+					}), 'POST');
 
 					deleteRequest.then(function(response){
 						functions.billingTypeItemsDeleted();
