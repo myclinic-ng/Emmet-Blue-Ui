@@ -200,8 +200,6 @@
 						<h5><span class="text-muted">Diagnosis Title: &nbsp;</span> <span class="text-black" ng-if="!diagnosis.DiagnosisTitle">N/A</span> {{diagnosis.DiagnosisTitle}}</h5>
 						<h5 title="{{diagnosis.DiagnosisDate}}"><span class="text-muted">Diagnosis Date:&nbsp;</span> {{toDateString(diagnosis.DiagnosisDate)}} <span class="text-muted">at</span> {{getTime(diagnosis.DiagnosisDate)}}</h5>
 						<h5><span class="text-muted">Diagnosis By: &nbsp;&nbsp;&nbsp;&nbsp;</span> {{diagnosis.StaffFullName}}</h5>
-						<h5 class="text-muted" ng-if="diagnosis.Diagnosis.conclusion.diagnosis.description">Extra Information</h5>
-						<p>{{diagnosis.Diagnosis.conclusion.diagnosis.description}}</p>
 					</div>
 					<div class="table-responsive col-md-8">
 						<table class="table table-bordered">
@@ -269,6 +267,10 @@
 								</tr>
 							</tbody>
 						</table>
+					</div>
+					<div class="col-md-12">
+						<h5 class="text-muted" ng-if="diagnosis.Diagnosis.conclusion.diagnosis.description">Extra Information</h5>
+						<div ng-bind-html="diagnosis.Diagnosis.conclusion.diagnosis.description | decodeHtml"></div>
 					</div>
 				</div>
 				<div class="modal-footer">

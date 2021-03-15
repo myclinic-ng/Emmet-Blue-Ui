@@ -29,6 +29,18 @@ angular.module("EmmetBlue")
     };
 })
 
+.filter('decodeHtml', [ '$sanitize', function($sanitize) {
+    function htmlDecode(input) {
+      var e = document.createElement('div');
+      e.innerHTML = input;
+      return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+    }
+
+    return function(input) {
+      return htmlDecode(input);
+    }
+  }])
+
 .factory("utils", function(
 	$rootScope,
 	$location,

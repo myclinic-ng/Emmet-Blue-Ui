@@ -22,6 +22,7 @@ angular.module("EmmetBlue")
 				utils.serverRequest("/patients/patient-diagnosis/view?resourceId="+id, "GET")
 				.then(function(response){
 					$scope.diagnoses = response;
+					console.log(response);
 				}, function(error){
 					utils.errorHandler(error);
 				})

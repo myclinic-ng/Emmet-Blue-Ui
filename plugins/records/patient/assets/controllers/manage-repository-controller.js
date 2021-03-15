@@ -778,24 +778,31 @@ var recordsPatientManageRepositoryController = function($scope, utils, $http){
 	};
 
 	$scope.uploadDocs = function(){
-		var formData = new FormData();
-		formData.append("documents", $scope.document.documents);
-		formData.append("name", $scope.document.documentTitle);
-		formData.append("description", $scope.document.documentDescription);
-		formData.append("category", $scope.document.documentCategory);
-		formData.append("creator", utils.userSession.getID());
-		formData.append("repository", $scope.currentRepository);
+		var fileUploaded = ($("#uploadedFile").prop("files"));
+		
+		var f = new FileReader();
+		f.readAsDataURL(fileUploaded[0]);
+		f.onload = function(e) {
+			var formData = {
+				"documents": btoa(f.result),
+				"name":$scope.document.documentTitle,
+				"description": $scope.document.documentDescription,
+				"category": $scope.document.documentCategory,
+				"creator": utils.userSession.getID(),
+				"repository": $scope.currentRepository
+			}
 
-		var res = utils.serverUpload(utils.restServer+"/patients/repository-item/new", "POST", formData);
+			var res = utils.serverRequest("/patients/repository-item/new", "POST", formData);
 
-		res.then(function(response){
-			$scope.document = {};
-			utils.alert("Upload successful", "The selected document has been uploaded to this repository successfully", "success");
+			res.then(function(response){
+				$scope.document = {};
+				utils.alert("Upload successful", "The selected document has been uploaded to this repository successfully", "success");
 
-			loadRepo();
-		}, function(error){
-			utils.errorHandler(error);
-		})
+				loadRepo();
+			}, function(error){
+				utils.errorHandler(error);
+			})
+		};
 	}
 
 	var loadRepo = function(){
