@@ -79,6 +79,8 @@ angular.module("EmmetBlue")
 	});
 
 	$scope.newField = {
+		refrange: '',
+		unit: '',
 		tags:[]
 	}
 	
