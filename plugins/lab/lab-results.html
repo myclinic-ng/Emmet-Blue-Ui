@@ -111,7 +111,7 @@
 						<div class="col-md-12">
 							<h4 class="text-center text-black">{{currentInvestigationName}}</h4>
 							<div class="col-md-6 content-group" ng-repeat="field in investigationFields">
-								<label class="control-label">{{field.FieldName}}</label>
+								<label class="control-label">{{field.FieldName}} <small>({{field.FieldDescription}})</small></label>
 								<textarea class="text-black text-bold form-control autosuggest" ng-if="field.TypeName == 'longtext'" data-id="{{field.FieldID}}" ng-model="investigationResult[field.FieldName]"></textarea>
 								<input class="text-black text-bold form-control autosuggest" ng-if="field.TypeName == 'text'" type="text" data-id="{{field.FieldID}}" ng-model="investigationResult[field.FieldName]"/>
 								<input class="text-black text-bold form-control autosuggest" ng-if="field.TypeName == 'number'" type="number" data-id="{{field.FieldID}}" ng-model="investigationResult[field.FieldName]"/>
@@ -127,7 +127,7 @@
 					</div>
 					<div class="row" ng-if="investigationFields.length > 0">
 						<div class="col-md-12 text-center">
-							<button type="button" class="btn btn-primary" ng-click="addToList()">Add To List</button>
+							<button type="button" class="btn btn-labeled btn-primary bg-info no-border-radius" ng-click="addToList()"><b><i class="fa fa-plus"></i></b>Add To List</button>
 						</div>
 					</div>
 				</div>

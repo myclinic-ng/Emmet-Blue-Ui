@@ -85,8 +85,8 @@ angular.module("EmmetBlue")
 	});
 
 	$scope.newField = {
-		refrange: '',
-		unit: '',
+		refrange: 'Ref. Range',
+		units: 'Units',
 		tags:[]
 	}
 	
@@ -105,7 +105,7 @@ angular.module("EmmetBlue")
 			"investigationType":$scope.investigationType,
 			"fieldType":$scope.newField.type,
 			"name":$scope.newField.name,
-			"description":$scope.newField.refrange + "|" + $scope.newField.units
+			"description":$scope.newField.refrange + " | " + $scope.newField.units
 		}
 
 		var request = utils.serverRequest("/lab/investigation-type-field/new", "POST", field);
