@@ -99,6 +99,8 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.saveNewField = function(){
+		$scope.newField.refrange = $scope.newField.refrange.replace(">", "gt ");
+		$scope.newField.refrange = $scope.newField.refrange.replace("<", "lt ");
 		var field = {
 			"investigationType":$scope.investigationType,
 			"fieldType":$scope.newField.type,
