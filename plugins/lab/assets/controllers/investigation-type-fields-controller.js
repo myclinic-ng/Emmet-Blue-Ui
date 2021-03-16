@@ -39,11 +39,17 @@ angular.module("EmmetBlue")
 		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Reference Range").renderWith(function(data, type, full){
 			var string = (data.FieldDescription).split("|");
-			return string[0];
+			if (typeof string[0] !== "undefined"){
+				return string[0];
+			}
+			return "";
 		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Units").renderWith(function(data, type, full){
 			var string = (data.FieldDescription).split("|");
-			return string[1];
+			if (typeof string[1] !== "undefined"){
+				return string[1];
+			}
+			return "";
 		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Action").renderWith(actions).notSortable()
 	];
