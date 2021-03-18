@@ -544,6 +544,8 @@ angular.module("EmmetBlue")
 				transactionStatus:"Reprint"
 			};
 
+			console.log($scope.receiptData);
+
 			$("#request_payment_bill").modal("hide");
 			$("#_payment_receipt").modal("show");
 		}, function(error){
