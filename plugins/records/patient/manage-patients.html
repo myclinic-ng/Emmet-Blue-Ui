@@ -54,11 +54,15 @@
 								<button type="button" class="btn bg-teal-400 btn-block btn-float btn-float-lg" data-toggle="modal" data-target="#new_patient" data-backdrop="static" ng-click="loadDeps = true">
 									<i class="icon-file-plus"></i> <span>Patient Registration</span>
 								</button>
-								<a href="records/patient/reports" type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg"><i class="fa fa-bar-chart"></i> <span>Summaries &amp; Statistics</span></a>
+								<button type="button" class="btn bg-info-600 btn-block btn-float btn-float-lg" data-toggle="modal" data-target="#view_patient_queue" data-backdrop="static" ng-click="loadDoctors()">
+									<i class="fa fa-list-ol"></i> <span>Patient Queue </span>
+								</button>
 							</div>
 
 							<div class="col-xs-6">
 								<button type="button" class="btn bg-warning-400 btn-block btn-float btn-float-lg" data-toggle="modal" data-target="#payment_request"><i class="icon-stats-bars"></i> <span>Payment Request</span></button>
+								
+								<a href="records/patient/reports" type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg"><i class="fa fa-bar-chart"></i> <span>Summaries &amp; Statistics</span></a>
 							</div>
 						</div>
 					</div>
@@ -524,6 +528,86 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-warning" ng-click="addFingerprintsToRegistration()"><i class="icon-printer"></i> CONTINUE</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="view_patient_queue" class="modal fade">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times; close</button>
+					<h6 class="modal-title">Patient Queue</h6>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12 text-center">
+							<h3> There are <b>{{totalQueueCount}} Patients</b> on the global queue</h3>
+						</div>
+						<div class="col-md-5" style="border-right: 1px solid #0f0;">
+							<div class="row">
+								<h6 class="text-primary text-center">Select a doctor from the list below</h6>
+								<div class="text-center col-md-12">
+									<input class="form-control" placeholder="Filter doctors" ng-model="doctorFilter"/>
+								</div>
+								<div class="col-md-12 overflow-auto mt-15" style="height: 350px">
+									<table class="table table-condensed table-hover">
+										<thead class="bg-success">
+											<th>Doctor</th>
+											<th>Queue</th>
+											<th>Action</th>
+										</thead>
+										<tbody>
+											<tr ng-repeat="doctor in doctors | filter:doctorFilter">
+												<td>
+													<span class="display-block">
+														{{doctor.StaffFullName}} 
+													</span>
+													<span class="text-muted text-thin">{{doctor.StaffRole}}</span>
+												</td>
+												<td class="text-bold">{{doctor.queueCount}}</td>
+												<td>
+													<button class="btn bg-info btn-sm" ng-click="loadDoctorQueue(doctor)">View</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-7">
+							<div class="col-md-12 text-center">
+								<h3>{{doctorInView.StaffFullName}}</h3>
+								<p class="">{{doctorInView.StaffRole}}</p>
+							</div>
+							<table class="table table-condensed table-hover">
+								<thead class="bg-purple-300">
+									<tr>
+										<th>Queue ID</th>
+										<th>Patient</th>
+										<th>Category</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="patient in patientQueueInView">
+										<td>{{patient.QueueID}}</td>
+										<td>{{patient.patientInfo.patientfullname}}</td>
+										<td>{{patient.patientInfo.patienttypename}} ({{patient.patientInfo.categoryname}})</td>
+										<td></td>
+									</tr>
+									<tr ng-if="patientQueueInView.length < 1">
+										<td colspan="4" class="text-center">
+											<p class="text-info">The selected doctor has no patient on queue.</p>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer"></div>
 				</div>
 			</div>
 		</div>
