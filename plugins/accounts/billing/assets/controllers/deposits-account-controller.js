@@ -7,7 +7,9 @@ angular.module("EmmetBlue")
 		var req = utils.serverRequest("/patients/patient/search?query="+$scope.patientNumber, "GET");
 
 		req.then(function(response){
-			if (response.hits.total != 1){
+			var total = 0;
+			total = (typeof response.hits.total.value != "undefined") ? response.hits.total.value : response.hits.total
+			if (total != 1){
 				utils.alert("Patient profile not found", "This is usually due to supplying an inexistent patient id or using an ambiguous search query. Please try again", "warning");
 			}
 			else {
