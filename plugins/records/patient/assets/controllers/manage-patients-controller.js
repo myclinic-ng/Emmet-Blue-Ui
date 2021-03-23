@@ -430,7 +430,7 @@ angular.module("EmmetBlue")
 
 	$scope.totalQueueCount = 0;
 
-	$scope.loadDoctors = loadDoctors(){
+	$scope.loadDoctors = function loadDoctors(){
 		utils.serverRequest("/nursing/load-doctors/view-queue-count", "GET").then(function(response){
 			$scope.totalQueueCount = 0;
 			$scope.doctors = response;
@@ -440,7 +440,8 @@ angular.module("EmmetBlue")
 		}, function(error){
 			utils.errorHandler(error);
 		})
-	};
+	}
+
 	$scope.loadDoctors();
 
 	$scope.addToQueueCount = function(qty){
