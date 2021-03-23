@@ -48,7 +48,7 @@ angular.module("EmmetBlue")
 								"<div class='text-muted text-size-small'>"+
 									"<span class='status-mark border-blue position-left'></span>"+
 									data.PatientUUID+
-									"<br/><span class='label label-success'>Unlocked</span>"+
+									"<br/><span class=''>Assigned to: </span><span class='text-bold'>"+data.queueInfo.ConsultantInfo.StaffFullName+"</span>"+
 								"</div>"+
 							"</div>"+
 						"</td>";
