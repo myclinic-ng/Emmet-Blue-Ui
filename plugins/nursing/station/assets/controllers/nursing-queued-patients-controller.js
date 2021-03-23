@@ -7,7 +7,7 @@ angular.module("EmmetBlue")
 	function dtAction(data, full, meta, type){
 		viewCardButtonAction = "manage('view',"+data.PatientID+")";
 		closeButtonAction = "manage('close',"+data.PatientID+")";
-		observationButtonAction = "manage('observation',"+data.PatientID+")";
+		observationButtonAction = "manage('observation',"+data.PatientID+","+data.PatientID.queueInfo.ConsultantInfo.StaffFullName+")";
 
 		var dataOpts = "data-option-id = '"+data.PatientID+"' "+
 					   "data-patient-uuid = '"+data.PatientUUID+"'";
@@ -99,7 +99,7 @@ angular.module("EmmetBlue")
 	// 	reloadTable();
 	// }, 5000);
 
-	$scope.manage = function(value, id){
+	$scope.manage = function(value, id, consultantName=""){
 		switch(value)
 		{
 			case "view":{
@@ -138,6 +138,7 @@ angular.module("EmmetBlue")
 				utils.serverRequest("/patients/patient/view?resourceId="+id, 'GET').then(function(response){
 					$scope.patientInfo = response["_source"];
 					$scope.forwardEnabled = false;
+					$scope.assignedDoctor = consultantName;
 					$("#observation").modal("show");
 				}, function(error){
 					utils.errorHandler(error);
