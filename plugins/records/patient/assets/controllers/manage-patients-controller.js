@@ -440,6 +440,8 @@ angular.module("EmmetBlue")
 		}, function(error){
 			utils.errorHandler(error);
 		})
+
+		$scope.loadDoctorQueue($scope.doctorInView);
 	}
 
 	$scope.loadDoctors();

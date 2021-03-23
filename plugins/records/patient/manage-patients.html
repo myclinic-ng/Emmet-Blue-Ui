@@ -586,15 +586,18 @@
 									<tr>
 										<th>Queue ID</th>
 										<th>Patient</th>
-										<th>Category</th>
+										<th>Date</th>
 										<th>Action</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr ng-repeat="patient in patientQueueInView">
 										<td>{{patient.QueueID}}</td>
-										<td>{{patient.patientInfo.patientfullname}}</td>
-										<td>{{patient.patientInfo.patienttypename}} ({{patient.patientInfo.categoryname}})</td>
+										<td><span class="text-bold">{{patient.patientInfo.patientfullname}}</span>
+											<br/>
+											<span>{{patient.patientInfo.patienttypename}} ({{patient.patientInfo.categoryname}})</span>
+										</td>
+										<td>{{utils.dateObject(patient.QueueDate).toLocaleDateString()}}</td>
 										<td></td>
 									</tr>
 									<tr ng-if="patientQueueInView.length < 1">
