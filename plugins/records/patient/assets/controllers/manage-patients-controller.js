@@ -435,13 +435,15 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.loadDoctorQueue = function(staff){
-		const staffId = staff.StaffID;
-		$scope.doctorInView = staff;
-		utils.serverRequest("/consultancy/patient-queue/view?resourceId="+staffId, "GET").then(function(response){
-			$scope.patientQueueInView = response;
-		}, function(error){
-			utils.errorHandler(error);
-		})
+		if (typeof staff.StaffID != "undefined"){
+			const staffId = staff.StaffID;
+			$scope.doctorInView = staff;
+			utils.serverRequest("/consultancy/patient-queue/view?resourceId="+staffId, "GET").then(function(response){
+				$scope.patientQueueInView = response;
+			}, function(error){
+				utils.errorHandler(error);
+			})	
+		}
 	}
 
 	$scope.loadDoctors = function loadDoctors(){
