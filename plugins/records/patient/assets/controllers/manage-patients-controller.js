@@ -430,6 +430,20 @@ angular.module("EmmetBlue")
 
 	$scope.totalQueueCount = 0;
 
+	$scope.addToQueueCount = function(qty){
+		$scope.totalQueueCount += parseInt(qty);
+	}
+
+	$scope.loadDoctorQueue = function(staff){
+		const staffId = staff.StaffID;
+		$scope.doctorInView = staff;
+		utils.serverRequest("/consultancy/patient-queue/view?resourceId="+staffId, "GET").then(function(response){
+			$scope.patientQueueInView = response;
+		}, function(error){
+			utils.errorHandler(error);
+		})
+	}
+
 	$scope.loadDoctors = function loadDoctors(){
 		utils.serverRequest("/nursing/load-doctors/view-queue-count", "GET").then(function(response){
 			$scope.totalQueueCount = 0;
@@ -445,18 +459,4 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.loadDoctors();
-
-	$scope.addToQueueCount = function(qty){
-		$scope.totalQueueCount += parseInt(qty);
-	}
-
-	$scope.loadDoctorQueue = function(staff){
-		const staffId = staff.StaffID;
-		$scope.doctorInView = staff;
-		utils.serverRequest("/consultancy/patient-queue/view?resourceId="+staffId, "GET").then(function(response){
-			$scope.patientQueueInView = response;
-		}, function(error){
-			utils.errorHandler(error);
-		})
-	}
 })
