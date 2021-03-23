@@ -7,7 +7,7 @@ angular.module("EmmetBlue")
 	function dtAction(data, full, meta, type){
 		viewCardButtonAction = "manage('view',"+data.PatientID+")";
 		closeButtonAction = "manage('close',"+data.PatientID+")";
-		observationButtonAction = "manage('observation',"+data.PatientID+","+data.PatientID.queueInfo.ConsultantInfo.StaffFullName+")";
+		observationButtonAction = "manage('observation',"+data.PatientID+","+data.queueInfo.ConsultantInfo.StaffFullName+")";
 
 		var dataOpts = "data-option-id = '"+data.PatientID+"' "+
 					   "data-patient-uuid = '"+data.PatientUUID+"'";
