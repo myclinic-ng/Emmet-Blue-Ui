@@ -597,7 +597,10 @@
 											<br/>
 											<span>{{patient.patientInfo.patienttypename}} ({{patient.patientInfo.categoryname}})</span>
 										</td>
-										<td>{{utils.dateObject(patient.QueueDate).toLocaleDateString()}}</td>
+										<td><span class="text-bold">{{utils.dateObject(patient.QueueDate).getHours()}}:{{utils.dateObject(patient.QueueDate).getMinutes()}}</span>
+											<br/>
+											<span>{{utils.dateObject(patient.QueueDate).toLocaleDateString()}}</span>
+										</td>
 										<td></td>
 									</tr>
 									<tr ng-if="patientQueueInView.length < 1">
