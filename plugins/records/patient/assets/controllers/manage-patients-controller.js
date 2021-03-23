@@ -429,6 +429,7 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.totalQueueCount = 0;
+	$scope.doctorInView = {};
 
 	$scope.addToQueueCount = function(qty){
 		$scope.totalQueueCount += parseInt(qty);
