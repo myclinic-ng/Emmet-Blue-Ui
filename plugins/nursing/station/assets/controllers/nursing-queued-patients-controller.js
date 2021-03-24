@@ -43,6 +43,10 @@ angular.module("EmmetBlue")
 	$scope.dtColumns = [
 		utils.DT.columnBuilder.newColumn(null).withTitle("Patient").renderWith(function(data, full, meta){
 			var image = $scope.loadImage(data.PatientPicture);
+			staffFullName = "";
+			if (typeof data.queueInfo.ConsultantInfo !== "undefined"){
+				staffFullName = data.queueInfo.ConsultantInfo.StaffFullName;
+			}
 			var html = "<td>"+
 							"<div class='media-left media-middle'>"+
 								"<a href='#'><img src='"+image+"' class='img-circle img-xs' alt=''></a>"+
@@ -52,7 +56,7 @@ angular.module("EmmetBlue")
 								"<div class='text-muted text-size-small'>"+
 									"<span class='status-mark border-blue position-left'></span>"+
 									data.PatientUUID+
-									"<br/><span class=''>Assigned to: </span><span class='text-bold'>"+data.queueInfo.ConsultantInfo.StaffFullName+"</span>"+
+									"<br/><span class=''>Assigned to: </span><span class='text-bold'>"+staffFullName+"</span>"+
 								"</div>"+
 							"</div>"+
 						"</td>";
