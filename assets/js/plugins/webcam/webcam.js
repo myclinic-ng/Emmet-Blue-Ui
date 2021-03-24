@@ -132,8 +132,8 @@ var Webcam = {
 				"audio": false,
 				"video": this.params.constraints || {
 					mandatory: {
-						minWidth: this.params.dest_width,
-						minHeight: this.params.dest_height
+						minWidth: 50, //this.params.dest_width,
+						minHeight: 50 //this.params.dest_height
 					}
 				}
 			})
