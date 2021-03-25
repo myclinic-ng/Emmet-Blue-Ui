@@ -275,41 +275,42 @@
 								    	</div>
 									</div>
 								</div>
-
-								<div class="table-responsive col-md-12 mt-20" ng-repeat="(key, value) in currentJsonFile">
-									<table class="table table-condensed">
-										<thead>
-											<tr>
-												<th colspan="4" class="text-center"><span class="text-uppercase text-size-large text-bold">{{key}}</span></th>
-											</tr>
-											<tr>
-												<th class="col-md-4 text-bold">Investigation</th>
-												<th class="col-md-4 text-bold">Value</th>
-												<th class="col-md-2 text-bold">Biological Reference Range</th>
-												<th class="col-md-2 text-bold">Units</th>
-											</tr>
-										</thead>
-										<tbody ng-repeat="(invName, inv) in value">
-											<tr class="active border-double">
-												<td colspan="4" class="text-bold">{{invName}}</td>
-											</tr>
-											<tr ng-repeat="(k, v) in inv" ng-if="k != 'meta'">
-												<td><h6 class="text-default text-semibold">{{k}}</h6></td>
-												<td ng-if="inv['meta']['fields'][k].refrange == 'undefined'" colspan="3">
-													<span class="text-black">{{v}}</span>
-												</td>
-												<td ng-if="inv['meta']['fields'][k].refrange != 'undefined'">
-													<span class="text-black">{{v}}</span>
-												</td>
-												<td ng-if="inv['meta']['fields'][k].refrange != 'undefined'">
-													<span class="text-default">{{inv["meta"]["fields"][k].refrange}}</span>
-												</td>
-												<td ng-if="inv['meta']['fields'][k].refrange != 'undefined'">
-													<span class="text-default"> {{inv["meta"]["fields"][k].units}}</h6></span>
-												</td>
-											</tr>
-										</tbody>
-									</table>
+								<div class="col-md-12">
+									<div class="table-responsive col-md-12 mt-20" ng-repeat="(key, value) in currentJsonFile">
+										<table class="table table-condensed">
+											<thead>
+												<tr>
+													<th colspan="4" class="text-center"><span class="text-uppercase text-size-large text-bold">{{key}}</span></th>
+												</tr>
+												<tr>
+													<th class="col-md-4 text-bold">Investigation</th>
+													<th class="col-md-4 text-bold">Value</th>
+													<th class="col-md-2 text-bold">Biological Reference Range</th>
+													<th class="col-md-2 text-bold">Units</th>
+												</tr>
+											</thead>
+											<tbody ng-repeat="(invName, inv) in value">
+												<tr class="active border-double">
+													<td colspan="4" class="text-bold">{{invName}}</td>
+												</tr>
+												<tr ng-repeat="(k, v) in inv" ng-if="k != 'meta'">
+													<td><h6 class="text-default text-semibold">{{k}}</h6></td>
+													<td ng-if="inv['meta']['fields'][k].refrange == 'undefined'" colspan="3">
+														<span class="text-black">{{v}}</span>
+													</td>
+													<td ng-if="inv['meta']['fields'][k].refrange != 'undefined'">
+														<span class="text-black">{{v}}</span>
+													</td>
+													<td ng-if="inv['meta']['fields'][k].refrange != 'undefined'">
+														<span class="text-default">{{inv["meta"]["fields"][k].refrange}}</span>
+													</td>
+													<td ng-if="inv['meta']['fields'][k].refrange != 'undefined'">
+														<span class="text-default"> {{inv["meta"]["fields"][k].units}}</h6></span>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
 								</div>
 							</div>
 						</div>
