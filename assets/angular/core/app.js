@@ -196,7 +196,9 @@ angular.module("EmmetBlue")
 			case 500:
 			case 501:
 			case 400:{
-				services.notify('Unable To Process Request', 'This is usually due to making request for a missing resource or sending improperly formatted data to the server. Please contact an administrator if this error persists. Error Code: AB0'+errorObject.status+' Server Message: '+errorObject.data.errorMessage, "error");
+				if (errorObject.data.errorMessage != "A server error has occurred. Unable to connect to database"){
+					services.notify('Unable To Process Request', 'This is usually due to making request for a missing resource or sending improperly formatted data to the server. Please contact an administrator if this error persists. Error Code: AB0'+errorObject.status+' Server Message: '+errorObject.data.errorMessage, "error");
+				}
 				break;
 			}
 			case 503:{
