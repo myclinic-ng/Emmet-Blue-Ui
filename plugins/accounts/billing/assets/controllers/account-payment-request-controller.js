@@ -660,6 +660,14 @@ angular.module("EmmetBlue")
 				$scope.reloadTable();
 				break;
 			}
+			case "paymentmethod":{
+				$scope.requestFilter.type = "paymentmethod";
+				var value = selector.value.split("<seprator>");
+				$scope.requestFilter.value = value[1];
+				$scope.requestFilter.description = "Payment Method: '"+value[0]+"'";
+				$scope.reloadTable();
+				break;
+			}
 			default:{
 				$scope.requestFilter.type = "date";
 				var value = selector.type.split("<seprator>");
