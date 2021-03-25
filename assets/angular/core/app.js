@@ -206,7 +206,7 @@ angular.module("EmmetBlue")
 				break;
 			}
 			case 401:{
-				services.notify("Request Denied", "You need to sign in to an account with proper authorization to continue", "error");
+				services.notify("Request Denied", "You need to sign in to an account with proper authorization to continue", "info");
 				break;
 			}
 			case 402:{
