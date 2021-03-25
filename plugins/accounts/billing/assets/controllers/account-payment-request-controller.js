@@ -114,8 +114,8 @@ angular.module("EmmetBlue")
 		                    	"<button type='button' class='btn bg-teal-400 dropdown-toggle btn-xs' data-toggle='dropdown'><span class='caret'></span></button>"+
 		                    	"<ul class='dropdown-menu dropdown-menu-right'>"+
 									string+
-									"<li class='divider'></li>"+
-									"<li><a href='#' class='billing-type-btn' ng-click=\""+deleteButtonAction+"\" "+options+"><i class='icon-cross text-danger'></i> Delete Request</a></li>"+
+									// "<li class='divider'></li>"+
+									// "<li><a href='#' class='billing-type-btn' ng-click=\""+deleteButtonAction+"\" "+options+"><i class='icon-cross text-danger'></i> Delete Request</a></li>"+
 								"</ul>"+
 							"</div>";
 			return group;
