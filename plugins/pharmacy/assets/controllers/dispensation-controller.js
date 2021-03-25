@@ -402,9 +402,11 @@ angular.module("EmmetBlue")
 		utils.DT.columnBuilder.newColumn('ItemManufacturer').withTitle("Manufacturer").notVisible(),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Tags").renderWith(function(data, type, full){
 			var string = invisible = "";
-			for (var i = 0; i < data.Tags.length; i++) {
-				invisible += data.Tags[i].TagTitle+": "+data.Tags[i].TagName+" ";
-				string += "<h6 class='display-block'><span class='label label-info text-muted pull-left' style='border-right:0px !important;'>"+data.Tags[i].TagTitle+"</span><span class='label label-warning pull-left' style='border-left:0px !important;'> "+data.Tags[i].TagName+"</span></h6><br/><br/>";
+			if (typeof data.Tags != "undefined"){
+				for (var i = 0; i < data.Tags.length; i++) {
+					invisible += data.Tags[i].TagTitle+": "+data.Tags[i].TagName+" ";
+					string += "<h6 class='display-block'><span class='label label-info text-muted pull-left' style='border-right:0px !important;'>"+data.Tags[i].TagTitle+"</span><span class='label label-warning pull-left' style='border-left:0px !important;'> "+data.Tags[i].TagName+"</span></h6><br/><br/>";
+				}	
 			}
 			
 			return string;
