@@ -197,7 +197,7 @@
 
 							<div class="row" id="lab_result_doc">
 								<div class="col-md-12" ng-if="issetLabMeta">
-									<div class="col-xs-8">
+									<div class="">
 										<table class="table table-lg text-nowrap">
 											<tbody>
 												<tr>
@@ -267,7 +267,7 @@
 											</tbody>
 										</table>
 									</div>
-									<div class="col-xs-2 col-xs-offset-2">
+									<div class="">
 										<div class="thumbnail">
 											<div class="thumb thumb-square">
 												<img src="{{utils.loadImage(labResultMeta.PatientPicture)}}" alt=""/>
@@ -275,6 +275,7 @@
 								    	</div>
 									</div>
 								</div>
+								<br/>
 								<div class="col-md-12">
 									<div class="table-responsive col-md-12 mt-20" ng-repeat="(key, value) in currentJsonFile">
 										<table class="table table-condensed">
