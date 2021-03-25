@@ -12,14 +12,15 @@ angular.module("EmmetBlue")
 
 			$scope.$watch("invoiceData", function(nv){
 				if (typeof nv !== "undefined" && typeof nv.patient !== "undefined"){
-					var request = utils.serverRequest("/patients/patient/view?resourceId="+nv.patient, "GET");
+					// var request = utils.serverRequest("/patients/patient/view?resourceId="+nv.patient, "GET");
 
-					request.then(function(response){
-						$scope.patient = response["_source"];
-						$scope.showInvoice = true;
-					}, function(response){
-						utils.errorHandler(response);
-					})
+					// request.then(function(response){
+					// 	$scope.patient = response["_source"];
+					// 	$scope.showInvoice = true;
+					// }, function(response){
+					// 	utils.errorHandler(response);
+					// })
+					$scope.showInvoice = true;
 				}
 				else {
 					$scope.showInvoice = false;
