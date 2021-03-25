@@ -6,7 +6,7 @@ angular.module("EmmetBlue")
 	
 	$scope.getDateRange = function(selector){
 		var today = new Date();
-		var _day = today.getDay();
+		var _day = today.getDate();
 		var _month = today.getMonth() + 1;
 		var _year = today.getFullYear();
 		switch(selector){
