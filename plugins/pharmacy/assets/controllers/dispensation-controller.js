@@ -6,9 +6,12 @@ angular.module("EmmetBlue")
 	
 	$scope.getDateRange = function(selector){
 		var today = new Date();
+		var _day = today.getDay();
+		var _month = today.getMonth() + 1;
+		var _year = today.getFullYear();
 		switch(selector){
 			case "today":{
-				return today.toLocaleDateString() + " - " + today.toLocaleDateString();
+				return (_month+"/"+_day+"/"+_year) + " - " + (_month+"/"+_day+"/"+_year);
 			}
 			case "yesterday":{
 				var yesterday = new Date(new Date(new Date()).setDate(new Date().getDate() - 1)).toLocaleDateString();
@@ -689,7 +692,7 @@ angular.module("EmmetBlue")
 				$scope.requestFilter.type = "date";
 				var value = selector.value.split(" - ");
 				$scope.requestFilter.value= selector.value;
-				$scope.requestFilter.description = "Date Ranges Between: "+ new Date(value[0]).toLocaleDateString()+" And "+ new Date(value[1]).toLocaleDateString();
+				$scope.requestFilter.description = "Date Ranges Between: "+ new Date(value[0]).toDateString()+" And "+ new Date(value[1]).toDateString();
 				$scope.reloadDispensationsTable();
 				break;
 			}
