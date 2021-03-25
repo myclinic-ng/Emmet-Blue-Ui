@@ -689,7 +689,7 @@ angular.module("EmmetBlue")
 				$scope.requestFilter.type = "date";
 				var value = selector.value.split(" - ");
 				$scope.requestFilter.value= selector.value;
-				$scope.requestFilter.description = "Date Ranges Between: "+ new Date(value[0]).toDateString()+" And "+ new Date(value[1]).toDateString();
+				$scope.requestFilter.description = "Date Ranges Between: "+ new Date(value[0]).toLocaleDateString()+" And "+ new Date(value[1]).toLocaleDateString();
 				$scope.reloadDispensationsTable();
 				break;
 			}
