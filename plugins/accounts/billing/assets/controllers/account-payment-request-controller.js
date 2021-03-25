@@ -83,7 +83,7 @@ angular.module("EmmetBlue")
 				"' data-option-patient-category-name='"+data.PatientCategoryName+
 				"' data-option-patient-type-name='"+data.PatientTypeName+
 				"' ";
-			var deleteButton = "<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+options+"><i class='icon-bin'></i> </button>";
+			var deleteButton = "";//"<button class='btn btn-default' ng-click=\""+deleteButtonAction+"\" "+options+"><i class='icon-bin'></i> </button>";
 			var makePaymentButton = "<button class='btn btn-default' ng-click=\""+makePaymentButtonAction+"\" "+options+">Process Request</button>"
 			var buttons = "<div class='btn-group'>"+makePaymentButton+deleteButton+"</button>";
 
