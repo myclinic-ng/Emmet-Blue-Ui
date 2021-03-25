@@ -239,6 +239,9 @@ angular.module("EmmetBlue")
 		else if (filter.type == 'patienttype'){
 			_filter += 'filtertype=patienttype&query='+filter.value;
 		}
+		else if (filter.type == 'paymentmethod'){
+			_filter += 'filtertype=paymentmethod&query='+filter.value;
+		}
 
 		var draw = data[0].value;
         var order = data[2].value;
@@ -429,6 +432,12 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.loadPatientTypes();
+
+	$scope.paymentMethods = [
+		{"Name":"Cash"},
+		{"Name":"POS"},
+		{"Name":"Online Transfer"}
+	];
 
 	$scope.paymentRequestBillingItems = function(paymentRequestId, acceptPayment){
 		if (typeof(acceptPayment) === 'undefined') {

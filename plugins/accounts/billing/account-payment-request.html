@@ -33,7 +33,8 @@
 					<label class="control-label">Filter By</label>
 					<select class="select" ng-model="filterSelector.type" ng-change="filterSelector.value = null">
 						<optgroup label="Sub Groups">					
-							<option value="status">Status</option>
+							<option value="status">Status</option>					
+							<option value="paymentmethod">Payment Method</option>
 							<option value="department">Department</option>
 							<option value="patienttype">Patient Type</option>
 							<option value="patient">Patient</option>
@@ -64,6 +65,12 @@
 					<label class="control-label">Select Patient Type</label>
 					<select class="select" ng-model="filterSelector.value">
 						<option ng-repeat="type in patientTypes" value="{{type.CategoryName}}<seprator>{{type.CategoryName}}">{{type.CategoryName}}</option>
+					</select>
+				</div>
+				<div class="form-group col-md-8" ng-show="filterSelector.type == 'paymentmethod'">
+					<label class="control-label">Select Payment Method</label>
+					<select class="select" ng-model="filterSelector.value">
+						<option ng-repeat="type in paymentMethods" value="{{type.Name}}<seprator>{{type.Name}}">{{type.Name}}</option>
 					</select>
 				</div>
 				<div class="form-group col-md-8" ng-show="filterSelector.type == 'department'">
