@@ -116,7 +116,8 @@
 			</div>
 		</div>
 	</div>
-<!-- new payment request modal -->
+	
+	<!-- new payment request modal -->
 	<div id="new_account_payment_request" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -428,6 +429,20 @@
 												<icon class="icon-arrow-up5 text-danger"></icon>
 												<span ng-currency ng-currency-symbol="naira" ng-if="value.type=='netTotal'"></span> {{-1 * value.value}}
 											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<div class="table-responsive col-md-12">
+								<table class="table table-bordered">
+									<thead class="bg-info">
+										<th colspan="2" class="text-center no-border"><span class="text-center">Payment Methods Breakdown</span></th>
+									</thead>
+									<tbody>
+										<tr ng-repeat="(key, value) in currentFilterAnalysis.paymentMethodBreakdown">
+											<td class="no-border-top no-border-bottom">{{key}} </td>
+											<td class="no-border-top no-border-bottom"><span ng-currency ng-currency-symbol="naira"></span> {{value}}</td>
 										</tr>
 									</tbody>
 								</table>
