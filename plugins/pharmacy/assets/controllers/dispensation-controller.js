@@ -134,6 +134,7 @@ angular.module("EmmetBlue")
 		var filter = $scope.requestFilter;
 		var _filter = "";
 		if (filter.type == 'date'){
+			console.log(filter.value);
 			var dates = filter.value.split(" - ");
 			_filter += 'filtertype=date&startdate='+dates[0]+'&enddate='+dates[1];
 		}
