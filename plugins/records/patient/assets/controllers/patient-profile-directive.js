@@ -22,7 +22,7 @@ angular.module("EmmetBlue")
 				utils.serverRequest("/patients/patient-diagnosis/view?resourceId="+id, "GET")
 				.then(function(response){
 					$scope.diagnoses = response;
-					console.log(response);
+					// console.log(response);
 				}, function(error){
 					utils.errorHandler(error);
 				})
@@ -41,15 +41,17 @@ angular.module("EmmetBlue")
 					})
 				}
 				else {
-					var val = JSON.parse(newValue);
-					var year = val.YearDate;
-					var month = val.MonthDate;
-					utils.serverRequest("/patients/patient-diagnosis/view-diagnosis-in-date-groups?resourceId="+id+"&year="+year+"&month="+month, "GET")
-					.then(function(response){
-						$scope.diagnoses = response;
-					}, function(error){
-						utils.errorHandler(error);
-					})
+					if (typeof newValue != "undefined"){
+						var val = JSON.parse(newValue);
+						var year = val.YearDate;
+						var month = val.MonthDate;
+						utils.serverRequest("/patients/patient-diagnosis/view-diagnosis-in-date-groups?resourceId="+id+"&year="+year+"&month="+month, "GET")
+						.then(function(response){
+							$scope.diagnoses = response;
+						}, function(error){
+							utils.errorHandler(error);
+						})
+					}
 				}
 			})
 

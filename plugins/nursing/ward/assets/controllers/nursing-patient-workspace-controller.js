@@ -245,16 +245,17 @@ function nursingPatientWorkspaceController($rootScope, $scope, utils){
 					staffId: staffID
 				};
 
-				$rootScope.$broadcast("examinationObservationConducted", {
-					result: $scope.data.observation,
-					name: $scope.data.observationTypeName
-				});
-
 				utils.serverRequest("/nursing/observation/new", "POST", $scope.data).then(function(response){
 					utils.notify("Operation Completed Successfully", "Observation Published Successfuly", "success");
 					$scope.observationResult = {};
 					$scope.currentRepository = response.repoId;
 					$rootScope.$broadcast("observationComplete");
+
+					$rootScope.$broadcast("examinationObservationConducted", {
+						result: $scope.data.observation,
+						name: $scope.data.observationTypeName
+					});
+
 					utils.serverRequest("/nursing/nursing-station-departments/log-patient-processing", "POST", {
 						patient: $scope.data.patientId,
 						nurse: $scope.data.staffId,

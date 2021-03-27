@@ -340,8 +340,7 @@ angular.module("EmmetBlue")
 
 					var req = utils.serverRequest("/patients/patient-repository/view-most-recent-json-by-patient?resourceId="+$scope.patient.profile.patientid, 'GET');
 					req.then(function(response){
-						$scope.mostRecentObservation = response
-						console.log($scope.mostRecentObservation);
+						$scope.mostRecentObservation.push(response)
 					}, function(error){
 						utils.errorHandler(error);
 						utils.notify("Unable to load most recent observation", "", "warning");
@@ -678,6 +677,9 @@ angular.module("EmmetBlue")
 		showFlagNote: function(){
 			$("#flag-note-modal").modal("show");
 		},
+		addProvisionalDiagnosis: function(){
+			$("#provisional-diagnosis-modal").modal("show");
+		},
 		flagPatient: function(note){
 			var patient = $scope.patient.profile.patientid;
 			var req = utils.serverRequest("/audit/flags/flag-patient?resourceId="+patient+"&note="+note+"&staff="+utils.userSession.getID(), "GET");
@@ -693,6 +695,16 @@ angular.module("EmmetBlue")
 			}, function(error){
 				utils.errorHandler(error);
 			});
+		},
+		setProvisionalDiagnosis: function(){
+			var diagnosis = $scope.provisionalDiagnosis;
+			$("#conclusionTitle").val(diagnosis+" (PROVISIONAL DIAGNOSIS)");
+			$scope.conclusion.diagnosis.title = $("#conclusionTitle").val();
+			if (typeof $scope.conclusion.diagnosis.description == "undefined"){
+				$scope.conclusion.diagnosis.description = "";
+			}
+			$scope.conclusion.diagnosis.description = $scope.conclusion.diagnosis.description+"\nPROVISIONAL DIAGNOSIS: "+diagnosis;
+			$("#provisional-diagnosis-modal").modal("hide");
 		}
 	}
 
@@ -702,7 +714,7 @@ angular.module("EmmetBlue")
 			modules.patient.loadPatientProfile();
 		}
 
-		$scope.mostRecentObservation = {};
+		$scope.mostRecentObservation = [];
 
 		$scope.globals = {
 			today: function(){
@@ -719,7 +731,9 @@ angular.module("EmmetBlue")
 			registeredInvestigationTypes: [],
 			currentSavedDiagnosisID: 0,
 			flag: modules.globals.showFlagNote,
-			completeFlagging: modules.globals.flagPatient
+			completeFlagging: modules.globals.flagPatient,
+			addProvisionalDiagnosis: modules.globals.addProvisionalDiagnosis,
+			setProvisionalDiagnosis: modules.globals.setProvisionalDiagnosis,
 		};
 
 		// modules.globals.loadRegisteredLabs();
@@ -953,7 +967,13 @@ angular.module("EmmetBlue")
 	});
 
 	$scope.$on("examinationObservationConducted", function(e, data){
-		$scope.examination.examinationTypes.push(data);
+		var req = utils.serverRequest("/patients/patient-repository/view-most-recent-json-by-patient?resourceId="+$scope.patient.profile.patientid, 'GET');
+		req.then(function(response){
+			$scope.mostRecentObservation.push(response)
+		}, function(error){
+			utils.errorHandler(error);
+		});
+		// $scope.examination.examinationTypes.push(data);
 	})
 
 	$scope.$watch(function(){ return $scope.conclusion.diagnosis.title; }, function(nv, ov){
