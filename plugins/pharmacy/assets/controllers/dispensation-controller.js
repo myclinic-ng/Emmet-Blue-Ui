@@ -440,6 +440,8 @@ angular.module("EmmetBlue")
 		}
 	}
 
+	$scope.totalPrice = 0;
+
 	$scope.addItemToList = function(){
 		$scope.currentItem.quantity = $scope.itemQuantityBoxValue;
 		$scope.itemQuantityBoxValue = 1;
@@ -462,6 +464,7 @@ angular.module("EmmetBlue")
 				price: response.totalPrice,
 				quantity: _q
 			});
+			$scope.totalPrice += parseInt(response.totalPrice);
 			$scope.currentItem = {};
 		}, function(error){
 			utils.errorHandler(error);
@@ -469,7 +472,9 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.removeItemFromList = function(index){
+		price = $scope.dispensationItems[index].price;
 		$scope.dispensationItems.splice(index, 1);
+		$scope.totalPrice -= parseInt(price);
 	}
 
 	var saveDispensation = function(){
@@ -488,6 +493,7 @@ angular.module("EmmetBlue")
 		utils.serverRequest('/pharmacy/dispensation/new', 'POST', data).then(function(response){
 			$scope.reloadInventoryTable();
 			$("#new_dispensation").modal("hide");
+			$scope.totalPrice = 0;
 			var data = {
 				resourceId: $scope.currentRequest.RequestID,
 				status: -1,
