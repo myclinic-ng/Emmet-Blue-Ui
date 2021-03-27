@@ -187,12 +187,16 @@
 												<th>S/N</th>
 												<th>Lab</th>
 												<th>Investigation</th>
+												<th>Action</th>
 											</thead>
 											<tbody>
 												<tr ng-repeat="inv in investigations">
 													<td>{{$index + 1}}</td>
 													<td>{{inv.lName}}</td>
 													<td>{{inv.iName}}</td>
+													<td>
+														<a class="btn btn-link btn-clear btn-icon text-danger" ng-click="removeInvestigationFromList($index)"><i class="fa fa-times"></i> </a>
+													</td>
 												</tr>
 											</tbody>
 										</table>

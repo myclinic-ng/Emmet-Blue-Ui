@@ -107,6 +107,9 @@ angular.module("EmmetBlue")
 				$scope.treatmentItems.push(chart);
 				$scope.treatmentChart = {};
 			}
+			$scope.removeItemFromChart = function(index){
+				$scope.treatmentItems.splice(index, 1);
+			}
 
 			$scope.saveChart= function(){
 				$scope.generalTreatment.items = $scope.treatmentItems;

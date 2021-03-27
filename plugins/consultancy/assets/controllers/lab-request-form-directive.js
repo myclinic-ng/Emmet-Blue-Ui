@@ -11,6 +11,7 @@ angular.module("EmmetBlue")
 			$scope.showSubmitLoader = false;
 			$scope.investigationLists = {};
 			$scope.today = utils.today()+ " " + (new Date()).toLocaleTimeString();
+			$scope.getAge = utils.getAge;
 
 			var table = $(".lab-table tr");
 

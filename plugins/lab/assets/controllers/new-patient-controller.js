@@ -115,4 +115,8 @@ angular.module("EmmetBlue")
 			'iName':$("option[data-id='itid-"+$scope.investigation+"']").attr("data-name")
 		});
 	}
+
+	$scope.removeInvestigationFromList = function(index){
+		$scope.investigations.splice(index, 1);
+	}
 });

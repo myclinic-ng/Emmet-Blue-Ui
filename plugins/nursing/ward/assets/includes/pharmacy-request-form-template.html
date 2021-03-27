@@ -41,12 +41,12 @@
 		<div class="col-md-12">
 			<div class="content-group" ng-repeat="prescription in prescriptionList">
 				<label class="control-label"><span class='text-bold'>{{$index + 1}}.</span> {{prescription.item}}</label>
-				<textarea class="form-control" ng-model="prescription.duration" placeholder="Mg, Duration or any Extra note that might be useful to the Pharmacist"></textarea>
+				<textarea class="form-control" ng-model="prescription.duration" placeholder="Mg, Duration or any Extra note that may be useful to the Pharmacist"></textarea>
 			</div>
 		</div>
 
 		<div class="col-md-12">
-			<button type="button" class="btn btn-primary pull-right" ng-click="sendToPharmacy()"><i class="fa fa-send"></i> Send</button>
+			<button type="button" class="btn btn-primary bg-info pull-right" ng-click="sendToPharmacy()"><i class="fa fa-send"></i> Send</button>
 		</div>
 	</div>
 </div>

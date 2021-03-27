@@ -50,6 +50,7 @@
 									<th>Drug/Injection</th>
 									<th>Dosage</th>
 									<th>Route</th>
+									<th></th>
 								</thead>
 								<tbody>
 									<tr ng-repeat="item in treatmentItems">
@@ -60,6 +61,9 @@
 										</td>
 										<td>{{item.dose}}</td>
 										<td>{{item.route}}</td>
+										<th>
+											<a class="btn btn-link btn-clear btn-icon text-danger" ng-click="removeItemFromChart($index)"><i class="fa fa-times"></i></a>
+										</th>
 									</tr>
 									<tr ng-if="treatmentItems.length < 1">
 										<td colspan="3" class="text-center"><span class="text-muted">No Item Has Been Added</span>
