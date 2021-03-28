@@ -27,10 +27,10 @@
 				<div class="col-lg-12">
 					<p class="control-label text-center"><i class="icon-info22 text-info"></i> Start a new diagnosis by typing a patients name or hospital number in the text field below</p>
 					<div class="content-group no-margin">
-						<input type="text" id="patient-patientSearchQuery" class="form-control patient-search" placeholder="Enter patient hospital number here" ng-model="patientSearchQuery" ng-keypress="patient.catchLoadProfileEnterPress($event)"/>
+						<input type="text" id="patient-patientSearchQuery" class="form-control patient-search" placeholder="Enter patient name or hospital number here" ng-model="patientSearchQuery" ng-keypress="patient.catchLoadProfileEnterPress($event)"/>
 					</div>					
 					<span class="content-group text-center">
-						<center><button class="btn btn-sm btn-danger bg-danger-400 no-border-radius btn-labeled mt-5" ng-click="patient.loadPatientProfile()"><b><i class='icon-profile'></i></b> Load Profile</button></center>
+						<center><button class="btn btn-sm btn-primary bg-info-400 no-border-radius btn-labeled mt-5" ng-click="patient.loadPatientProfile()"><b><i class='icon-profile'></i></b> Load Profile</button></center>
 					</span>
 				</div>
 			</div>
@@ -54,7 +54,7 @@
 				<div class="tabbable">
 					<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
 						<li href="#history" data-toggle="tab" class="active"><a><i class="icon-history"></i> History</a></li>
-						<li href="#presenting-complaints" data-toggle="tab"><a><a><i class="icon-certificate"></i> Chief Complaint</a></li>
+						<li href="#presenting-complaints" data-toggle="tab" title="Presenting complaints"><a><a><i class="icon-certificate"></i> Complaints</a></li>
 						<li href="#allergies" data-toggle="tab"><a><a><i class="icon-clipboard4"></i> Allergies</a></li>
 						<li href="#examination" data-toggle="tab"><a><a><i class="icon-file-stats2"></i> Examination</a></li>
 						<li href="#investigation" data-toggle="tab"><a><a><i class="icon-lab"></i> Investigation</a></li>
@@ -274,7 +274,7 @@
 								<div class="input-group">
 									<input id="presentingComplaints-symptomSearchQuery" type="text" class="form-control symptom-search" placeholder="enter symptom to search" ng-model="presentingComplaints.symptomSearchQuery" ng-keypress="presentingComplaints.catchSearchPress($event)"/>
 									<span class="input-group-btn">
-										<button class="btn btn-danger" ng-click="presentingComplaints.performSymptomSearch()"> <i class="fa fa-plus-circle"></i> Add to list</button>
+										<button class="btn btn-purple" ng-click="presentingComplaints.performSymptomSearch()"> <i class="fa fa-plus-circle"></i> Add to list</button>
 									</span>
 								</div>
 							</div>
