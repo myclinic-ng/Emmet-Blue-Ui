@@ -8,7 +8,7 @@ angular.module("EmmetBlue")
 		},
 		templateUrl: "plugins/nursing/ward/assets/includes/observation-template.html",
 		controller: function($rootScope, $scope, utils){
-			nursingPatientWorkspaceController($rootScope, $scope, utils);
+			nursingPatientWorkspaceDirective($rootScope, $scope, utils);
 		}
 	}
 })
@@ -16,6 +16,176 @@ angular.module("EmmetBlue")
 .controller("nursingPatientWorkspaceController", function($rootScope, $scope, utils){
 	nursingPatientWorkspaceController($rootScope, $scope, utils);
 });
+
+//MAJOR REFACTORING REQUIRED HERE. TOO MUCH CODE DUPLICATION!!
+function nursingPatientWorkspaceDirective($rootScope, $scope, utils){
+	$scope.currentObservationType;
+	$scope.observationResult = {};
+
+	var loadObservationTypes = function(){
+		var request = utils.serverRequest("/nursing/observation-type/view", "GET");
+
+		request.then(function(response){
+			$scope.observationTypes = response
+
+		}, function(error){
+			utils.errorHandler(error);
+		});
+	}();
+
+
+
+	function reloadFields(id){
+		utils.serverRequest('/nursing/observation-type/view?resourceId='+id, 'GET').then(function(response){
+			$scope.currentObservationTypeName = response[0].ObservationTypeName;
+		}, function(error){
+
+		});
+
+		utils.serverRequest('/nursing/observation-type-field/view?resourceId='+id, 'GET')
+		.then(function(response){
+			$scope.observationTypeFields = response;
+			setTimeout(function(){
+				$(".autosuggest").each(function(){
+					var current = $(this);
+					current.typeahead({
+				        hint: true,
+				        highlight: true,
+				        minLength: 1
+				    },
+				    {
+				    	source: function(query, process){
+				    		utils.serverRequest("/nursing/observation-type-field-default/view?resourceId="+current.attr("data-id"), "GET").then(function(response){
+				    			var data = [];
+				        		angular.forEach(response, function(value){
+				        			data.push(value.Value);
+				        		})
+
+				        		data = $.map(data, function (string) { return { value: string }; });
+				        		process(data);
+				    		}, function(error){
+				    			utils.errorHandler(error);
+				    		})
+				    	}
+				    })
+				})
+			}, 2000);
+		}, function(error){
+			utils.errorHandler(error);
+		});
+	}
+
+
+	$scope.$watch("currentObservationType", function(nv){
+		if (typeof nv != "undefined"){
+			reloadFields(nv);
+		}
+	})
+
+
+
+	$scope.getFieldName = function(id){
+		var name = $(".observationData[data-id='"+id+"']").attr("data-value-name");
+
+		return name;
+	}
+
+	$scope.submitLikeThat = function(){
+		$("#dirtyValuesPresentModal").modal("hide");
+		$scope.process();
+	}
+
+	$scope.submitObservation = function(){
+		var patient = $scope.patient.patientid;
+		// var observationName = $scope.observation.InvestigationRequired+"("+$scope.observation.InvestigationTypeName+")";
+		var observation = {};
+		var staffID = utils.userSession.getID();
+
+		var data = [];
+		$(".observationData").each(function(){
+			observation[$(this).attr("data-value-name")] = $(this).val();
+			if ($(this).val() != ""){
+				data.push({
+					"field":$(this).attr("data-id"),
+					"value":$(this).val()
+				})
+			}
+		})
+
+		if (angular.equals($scope.observationResult, {})){
+			utils.alert("An error occurred", "Please make sure you've filled in at least one field to continue", "warning");
+		}
+		else {
+			var req = utils.serverRequest("/nursing/observation-type-field-dirty-value/contains-dirt", "POST", data);
+			req.then(function(response){
+				if (!angular.equals(response, {}) && response.conclusion){
+					$scope.dirtyValues = response;
+					delete $scope.dirtyValues.conclusion;
+					$("#dirtyValuesPresentModal").modal("show");
+				}
+				else {
+					$scope.process();
+				}
+			}, function(error){
+			});
+		}
+
+		$scope.process = function(){
+			function success(){
+				$scope.data = {
+					patientId: patient,
+					observationType: $scope.currentObservationType,
+					observationTypeName: $scope.currentObservationTypeName,
+					observation: {
+						"Meta Information":{
+							"Observation Type": $scope.currentObservationTypeName,
+							"Carried Out By": $scope.staffFullName,
+							"Date Of Observation": (new Date()).toDateString()+", "+(new Date()).toLocaleTimeString()
+						},
+						"Deduction/Conclusions": observation
+					},
+					staffId: staffID
+				};
+
+				utils.serverRequest("/nursing/observation/new", "POST", $scope.data).then(function(response){
+					utils.notify("Operation Completed Successfully", "Observation Published Successfuly", "success");
+					$scope.observationResult = {};
+					$scope.currentRepository = response.repoId;
+					$rootScope.$broadcast("observationComplete");
+
+					$rootScope.$broadcast("examinationObservationConducted", {
+						result: $scope.data.observation,
+						name: $scope.data.observationTypeName
+					});
+
+					utils.serverRequest("/nursing/nursing-station-departments/log-patient-processing", "POST", {
+						patient: $scope.data.patientId,
+						nurse: $scope.data.staffId,
+						observation: $scope.currentObservationTypeName,
+						department: utils.storage.currentStaffDepartmentID
+					}, function(response){
+						console.log(response);
+					});
+
+				}, function(error){
+					utils.errorHandler(error);
+				})
+			}
+
+			if (typeof $scope.staffFullName != "undefined"){
+				success();
+			}
+			else {
+				utils.getStaffFullName(staffID).then(function(response){
+					$scope.staffFullName = response.StaffFullName;
+					success();
+				}, function(error){
+					$scope.staffFullName = "ID: ".staffID;
+				})
+			}
+		}
+	}
+}
 
 function nursingPatientWorkspaceController($rootScope, $scope, utils){
 	$scope.loadImage = utils.loadImage;

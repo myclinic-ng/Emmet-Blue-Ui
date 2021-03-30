@@ -515,10 +515,12 @@ angular.module("EmmetBlue")
 	    	storeAllSymptomsPersistently: function(){
 	    		modules.globals.symptoms.search("*", function(response){
 	    			var data = {};
-	        		angular.forEach(response.hits.hits, function(value){
-	        			value = value["_source"];
-	        			data[value.id] = value;
-	        		})
+	    			if (typeof response.hits != "undefined"){
+		        		angular.forEach(response.hits.hits, function(value){
+		        			value = value["_source"];
+		        			data[value.id] = value;
+		        		})
+	    			}
 
 	        		utils.storage.consultancy.symptoms = data;
 	    		}, function(error){
@@ -546,10 +548,12 @@ angular.module("EmmetBlue")
 	    	storeAllLabTestsPersistently: function(){
 	    		modules.globals.labTests.search("*", function(response){
 	    			var data = {};
-	        		angular.forEach(response.hits.hits, function(value){
-	        			value = value["_source"];
-	        			data[value.id] = value;
-	        		})
+	    			if (typeof response.hits != "undefined"){
+		        		angular.forEach(response.hits.hits, function(value){
+		        			value = value["_source"];
+		        			data[value.id] = value;
+		        		})
+	    			}
 
 	        		utils.storage.consultancy.labtests = data;
 	    		}, function(error){
@@ -832,16 +836,16 @@ angular.module("EmmetBlue")
 			}
 		}
 
-		modules.allergies.loadAllergyTypes();
-		modules.allergies.populateSymptomsTagsInput();
+		// modules.allergies.loadAllergyTypes();
+		// modules.allergies.populateSymptomsTagsInput();
 
-		$scope.$watch(function(){
-			return $scope.allergies.newAllergy.type;
-		}, function(newValue){
-			if (typeof newValue != "undefined"){
-				modules.allergies.loadAllergyTypeTriggers(newValue);				
-			}
-		});
+		// $scope.$watch(function(){
+		// 	return $scope.allergies.newAllergy.type;
+		// }, function(newValue){
+		// 	if (typeof newValue != "undefined"){
+		// 		modules.allergies.loadAllergyTypeTriggers(newValue);				
+		// 	}
+		// });
 
 		modules.presentingComplaints.symptomSearchAutoSuggestInit();
 		modules.globals.diagnosisSuggestInit();
@@ -999,6 +1003,5 @@ angular.module("EmmetBlue")
 		$rootScope.$broadcast("prepareNewAdmission", patient);
 		$("#_patient-admission-form").modal("show");	
 	}
-
 
 });
