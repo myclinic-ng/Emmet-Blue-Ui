@@ -39,6 +39,7 @@ angular.module("EmmetBlue")
 
 		$scope.patient.profile = {};
 		$scope.patient.allergies = {};
+		$scope.patient.medicalHighlights = [];
 
 		$scope.conclusion = {
 			prescriptionList: [],
@@ -366,6 +367,8 @@ angular.module("EmmetBlue")
 					modules.globals.loadAllSavedDiagnosis();
 					$scope.patient.history.displayPage='profile';
 
+					$scope.patient.loadMedicalHighlights();
+
 					if (typeof $scope.patient.profile.auditflags !== "undefined" && $scope.patient.profile.auditflags.length > 0){
 						var message = "";
 						for (var i = 0; i < $scope.patient.profile.auditflags.length; i++) {
@@ -430,6 +433,15 @@ angular.module("EmmetBlue")
 			// }, function(error){
 			// 	utils.errorHandler(error);
 			// });
+		},
+		loadMedicalHighlights: function(){
+			var request = utils.serverRequest("/patients/patient-medical-highlight/view?resourceId="+$scope.patient.profile.patientid, "GET");
+
+			request.then(function(response){
+				$scope.patient.medicalHighlights = response;			
+			}, function(error){
+				utils.errorHandler(error);
+			});
 		},
 		loadPendingInvestigations: function(){
 			var req = utils.serverRequest("/lab/patient/view?resourceId=0&patient="+$scope.patient.profile.patientid, "GET");
@@ -723,21 +735,49 @@ angular.module("EmmetBlue")
 		addProvisionalDiagnosis: function(){
 			$("#provisional-diagnosis-modal").modal("show");
 		},
-		flagPatient: function(note){
+		flagPatient: function(noteData){
 			var patient = $scope.patient.profile.patientid;
-			var req = utils.serverRequest("/audit/flags/flag-patient?resourceId="+patient+"&note="+note+"&staff="+utils.userSession.getID(), "GET");
-			req.then(function(response){
-				if (response){
-					utils.notify("Operation Successful", "This patients profile has been flagged", "success");
-					$("#flag-note-modal").modal("hide");
-				}
-				else {
-					$("#flag-note-modal").modal("hide");
-					utils.notify("An error occurred", "Unable to flag this profile possibly because patient has not been logged", "error");
-				}
-			}, function(error){
-				utils.errorHandler(error);
-			});
+			var note = noteData.message;
+			var title = noteData.title;
+			var category = noteData.category;
+			var staff = utils.userSession.getID();
+
+			if (category == 0){
+				var req = utils.serverRequest("/audit/flags/flag-patient?resourceId="+patient+"&note="+note+"&staff="+staff, "GET");
+				req.then(function(response){
+					if (response){
+						utils.notify("Operation Successful", "This patients profile has been flagged", "success");
+						$("#flag-note-modal").modal("hide");
+					}
+					else {
+						$("#flag-note-modal").modal("hide");
+						utils.notify("An error occurred", "Unable to flag this profile possibly because patient has not been logged", "error");
+					}
+				}, function(error){
+					utils.errorHandler(error);
+				});
+			}
+			else if (category == 1){
+				var req = utils.serverRequest("/patients/patient-medical-highlight/new", "POST", {
+					patient:patient,
+					title:title,
+					message:note,
+					staff:staff
+				});
+				req.then(function(response){
+					if (response){
+						$scope.patient.loadMedicalHighlights();
+						utils.notify("Operation Successful", "This patients profile has been flagged", "success");
+						$("#flag-note-modal").modal("hide");
+					}
+					else {
+						$("#flag-note-modal").modal("hide");
+						utils.notify("An error occurred", "Unable to flag this profile possibly because patient has not been logged", "error");
+					}
+				}, function(error){
+					utils.errorHandler(error);
+				});
+			}
 		},
 		setProvisionalDiagnosis: function(){
 			var diagnosis = $scope.provisionalDiagnosis;
@@ -821,6 +861,7 @@ angular.module("EmmetBlue")
 		$scope.patient = {
 			catchLoadProfileEnterPress: modules.patient.catchLoadProfileEnterPress,
 			loadPatientProfile: modules.patient.loadPatientProfile,
+			loadMedicalHighlights: modules.patient.loadMedicalHighlights,
 			isProfileReady: false,
 			history: {
 				displayPage: 'profile',

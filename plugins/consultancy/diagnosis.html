@@ -429,8 +429,19 @@
 						<div class="tab-pane active" id="diagnosis-workspace-summary" role="tabpanel" aria-labelledby="summary-tab">
 							<div class="table-responsive">
 								<table class="table table-bordered">
+									<tbody>
+										<tr class="bg-orange">
+											<th colspan="3">Flagged Clinical Information <span class="pull-right text-danger text-bold badge bg-white">{{patient.medicalHighlights.length}}</span></th>
+										</tr>
+										<tr>
+											<td colspan="3">
+												<p class="text-center">...</p>
+												<p class="text-bold">{{patient.medicalHighlights[0].HighlightTitle}}</p>
+												<h3>{{patient.medicalHighlights[0].HighlightMessage}}</h3>
+											</td>
+										</tr>
+									</tbody>
 									<tbody ng-repeat="observation in mostRecentObservation">
-										{{observation}}
 										<tr class="bg-purple-300" ng-if="$index==0">
 											<th colspan="3">{{observation.RepositoryItemName}} <a href="#" class="pull-right" ng-click="showObservationMeta[observation.RepositoryItemID] = !showObservationMeta[observation.RepositoryItemID]"><i class="fa fa-info-circle text-white" title="view metadata"></i></a></th>
 										</tr>
@@ -781,8 +792,29 @@
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div class="col-md-12">
-							<textarea class="form-control" row="5" ng-model="currentFlagNote"></textarea>
+						<div class="col-md-12 content-group">
+							<label class="control-label">Title (Optional)</label>
+							<input type="text" class="form-control" ng-model="currentFlagNote.title"></textarea>
+						</div>
+						<div class="col-md-12 content-group">
+							<label class="control-label">Message</label>
+							<textarea class="form-control" row="8" ng-model="currentFlagNote.message"></textarea>
+						</div>
+						<div class="content-group col-md-12">
+							<label class="control-label text-semibold">Category</label>
+							<div class="radio">
+								<label>
+									<input type="radio" name="flag_category" ng-model="currentFlagNote.category" value="1">
+									Clinical Information
+								</label>
+							</div>
+
+							<div class="radio">
+								<label>
+									<input type="radio" name="flag_category" ng-model="currentFlagNote.category" value="0">
+									Others
+								</label>
+							</div>
 						</div>
 					</div>
 				</div>
