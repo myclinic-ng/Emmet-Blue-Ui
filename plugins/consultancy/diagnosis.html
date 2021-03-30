@@ -417,93 +417,110 @@
 						<button style="margin: 4px;" class="btn btn-sm btn-success" ng-click="globals.submit()"><i class="icon-database-add"></i> Submit</button>
 					</div>
 				</div>
-				<div class="table-responsive">
-					<table class="table table-bordered">
-						<tbody ng-repeat="observation in mostRecentObservation">
-							<tr class="bg-purple-300" ng-if="$index==0">
-								<th colspan="3">{{observation.RepositoryItemName}}</th>
-							</tr>
-							<tr class="bg-info" ng-if="$index != 0">
-								<th colspan="3">{{observation.RepositoryItemName}}</th>
-							</tr>
-							<tr ng-repeat="(repoItem, id) in observation.RepositoryItemContent" ng-if="observation.RepositoryDetails.RepositoryType=='observation'">
-								<td colspan="3">
-									<ul class="media-list">
-										<li class="media-header text-muted">{{repoItem}}</li>
-										<li class="media" ng-repeat="(val, key) in id">
-											<span>{{val}}</span>
-											<span class="pull-right text-bold">{{key}}</span>
+				<div class="tabbable">
+					<ul class="nav nav-tabs nav-tabs-highlight nav-justified" id="diagnosis-workspace" role="tablist">
+						<li class="nav-item active" role="presentation" data-toggle="tab" href="#diagnosis-workspace-highlights" >
+							<a class="nav-link active">Profile Highlights</a>
+						</li>
+						<li class="nav-item" role="presentation" data-toggle="tab" href="#diagnosis-workspace-summary">
+							<a class="nav-link">Session Summary</a>
+						</li>
+					</ul>
+					<div class="tab-content" id="myTabContent">
+						<div class="tab-pane show active" id="diagnosis-workspace-highlights" role="tabpanel" aria-labelledby="highlights-tab-tab">
+						</div>
+						<div class="tab-pane" id="diagnosis-workspace-summary" role="tabpanel" aria-labelledby="summary-tab">
+							
+							<div class="table-responsive">
+								<table class="table table-bordered">
+									<tbody ng-repeat="observation in mostRecentObservation">
+										<tr class="bg-purple-300" ng-if="$index==0">
+											<th colspan="3">{{observation.RepositoryItemName}}</th>
 										</tr>
-									</ul>
-								</td>
-							</tr>
-							<tr ng-if="observation.RepositoryDetails.RepositoryType=='lab_result'">
-								<td colspan="3">
-									<ul class="media-list">
-										<li class="media-header text-muted">{{observation.RepositoryItemName}}</li>
-										<li class="media">
-											<span>{{observation.RepositoryDetails.RepositoryName}}</span>
-											<span class="pull-right text-bold">
-												{{utils.dateObject(
-													observation.RepositoryDetails.RepositoryCreationDate
-												).toLocaleDateString()}}
-												{{utils.dateObject(
-													observation.RepositoryDetails.RepositoryCreationDate
-												).toLocaleTimeString()}}
-											</span>
-										</li>
-									</ul>
-								</td>
-							</tr>
-						</tbody>
-						<tbody>
-							<tr class="bg-teal-400" ng-show="presentingComplaints.complaints.length > 0">
-								<th colspan="3">Complaints</th>
-							</tr>
-							<tr ng-repeat="complaint in presentingComplaints.complaints">
-								<td>{{$index + 1}}</td>
-								<td colspan="2">
-									<span class="text-bold">{{complaint.title}}</span><br/>
-									<span class="text-size-small">{{complaint.description}}</span>
-								</td>
-							</tr>
-							<tr class="bg-success" ng-show="labTests.investigations.lab.length > 0 || labTests.investigations.imaging.length > 0">
-								<th colspan="3">Investigations</th>
-							</tr>
-							<tr class="" ng-show="labTests.investigations.lab.length > 0">
-								<th colspan="3">Laboratory</th>
-							</tr>
-							<tr ng-repeat="investigation in labTests.investigations.lab">
-								<td>{{$index + 1}}</td>
-								<td colspan="2">{{investigation.title}}</td>
-							</tr>
-							<tr class="" ng-show="labTests.investigations.imaging.length > 0">
-								<th colspan="3">Radiology</th>
-							</tr>
-							<tr ng-repeat="investigation in labTests.investigations.imaging">
-								<td>{{$index + 1}}</td>
-								<td colspan="2">{{investigation.title}}</td>
-							</tr>
-							<tr class="bg-info" ng-show="conclusion.prescriptionList.length > 0">
-								<th colspan="3">Prescription</th>
-							</tr>
-							<tr ng-repeat="prescription in conclusion.prescriptionList" ng-if="!exists(prescription, 'smart') || prescription.smart == false">
-								<td>{{$index + 1}}</td>
-								<td colspan="2">{{prescription.item.name}}</td>
-							</tr>
-							<tr ng-repeat="prescription in conclusion.prescriptionList" ng-if="exists(prescription, 'smart') && prescription.smart == true">
-								<td>{{$index + 1}}</td>
-								<td colspan="2">[{{prescription.item.item.category}}] {{prescription.item.item.name}}, {{prescription.item.times}} daily for {{prescription.item.duration}} days</td>
-							</tr>
-							<tr class="bg-warning" ng-show="patient.allergies.length > 0">
-								<th colspan="3">Allergies</th>
-							</tr>
-							<tr ng-repeat="allergy in patient.allergies">
-								<td>{{$index + 1}}</td>
-								<td colspan="2">{{allergy.AllergyTitle}}</td>
-							</tr>
-						</tbody>
-					</table>
+										<tr class="bg-info" ng-if="$index != 0">
+											<th colspan="3">{{observation.RepositoryItemName}}</th>
+										</tr>
+										<tr ng-repeat="(repoItem, id) in observation.RepositoryItemContent" ng-if="observation.RepositoryDetails.RepositoryType=='observation'">
+											<td colspan="3">
+												<ul class="media-list">
+													<li class="media-header text-muted">{{repoItem}}</li>
+													<li class="media" ng-repeat="(val, key) in id">
+														<span>{{val}}</span>
+														<span class="pull-right text-bold">{{key}}</span>
+													</li>
+												</ul>
+											</td>
+										</tr>
+										<tr ng-if="observation.RepositoryDetails.RepositoryType=='lab_result'">
+											<td colspan="3">
+												<ul class="media-list">
+													<li class="media-header text-muted">{{observation.RepositoryItemName}}</li>
+													<li class="media">
+														<span>{{observation.RepositoryDetails.RepositoryName}}</span>
+														<span class="pull-right text-bold">
+															{{utils.dateObject(
+																observation.RepositoryDetails.RepositoryCreationDate
+															).toLocaleDateString()}}
+															{{utils.dateObject(
+																observation.RepositoryDetails.RepositoryCreationDate
+															).toLocaleTimeString()}}
+														</span>
+													</li>
+												</ul>
+											</td>
+										</tr>
+									</tbody>
+									<tbody>
+										<tr class="bg-teal-400" ng-show="presentingComplaints.complaints.length > 0">
+											<th colspan="3">Complaints</th>
+										</tr>
+										<tr ng-repeat="complaint in presentingComplaints.complaints">
+											<td>{{$index + 1}}</td>
+											<td colspan="2">
+												<span class="text-bold">{{complaint.title}}</span><br/>
+												<span class="text-size-small">{{complaint.description}}</span>
+											</td>
+										</tr>
+										<tr class="bg-success" ng-show="labTests.investigations.lab.length > 0 || labTests.investigations.imaging.length > 0">
+											<th colspan="3">Investigations</th>
+										</tr>
+										<tr class="" ng-show="labTests.investigations.lab.length > 0">
+											<th colspan="3">Laboratory</th>
+										</tr>
+										<tr ng-repeat="investigation in labTests.investigations.lab">
+											<td>{{$index + 1}}</td>
+											<td colspan="2">{{investigation.title}}</td>
+										</tr>
+										<tr class="" ng-show="labTests.investigations.imaging.length > 0">
+											<th colspan="3">Radiology</th>
+										</tr>
+										<tr ng-repeat="investigation in labTests.investigations.imaging">
+											<td>{{$index + 1}}</td>
+											<td colspan="2">{{investigation.title}}</td>
+										</tr>
+										<tr class="bg-info" ng-show="conclusion.prescriptionList.length > 0">
+											<th colspan="3">Prescription</th>
+										</tr>
+										<tr ng-repeat="prescription in conclusion.prescriptionList" ng-if="!exists(prescription, 'smart') || prescription.smart == false">
+											<td>{{$index + 1}}</td>
+											<td colspan="2">{{prescription.item.name}}</td>
+										</tr>
+										<tr ng-repeat="prescription in conclusion.prescriptionList" ng-if="exists(prescription, 'smart') && prescription.smart == true">
+											<td>{{$index + 1}}</td>
+											<td colspan="2">[{{prescription.item.item.category}}] {{prescription.item.item.name}}, {{prescription.item.times}} daily for {{prescription.item.duration}} days</td>
+										</tr>
+										<tr class="bg-warning" ng-show="patient.allergies.length > 0">
+											<th colspan="3">Allergies</th>
+										</tr>
+										<tr ng-repeat="allergy in patient.allergies">
+											<td>{{$index + 1}}</td>
+											<td colspan="2">{{allergy.AllergyTitle}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

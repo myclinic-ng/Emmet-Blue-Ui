@@ -8,6 +8,87 @@ angular.module("EmmetBlue")
 		return typeof p[ind] != "undefined"
 	}
 
+	$scope.bootstrap = function(){
+		console.log("here");
+		$scope.mostRecentObservation = [];
+
+		utils.storage.consultancy = {
+		};
+
+		$scope.allergies = {
+			newAllergy: {},
+			saveNewAllergy: modules.allergies.saveNewAllergy
+		};
+
+		$scope.presentingComplaints = {
+			symptomSearchQuery: "",
+			complaintTemplates: [],
+			performSymptomSearch: modules.presentingComplaints.performSymptomSearch,
+			loadSymptom: modules.presentingComplaints.loadSymptom,
+			complaints: [],
+			addToList: modules.presentingComplaints.addSymptomToComplaintList,
+			removeFromList: modules.presentingComplaints.removeSymptomFromComplaintList,
+			catchSearchPress: modules.presentingComplaints.catchSearchPress,
+			loadTemplateForComplaint: modules.presentingComplaints.loadTemplateForComplaint
+		};
+
+		$scope.presentingComplaints.searchedSymptoms = {};
+
+		// modules.examination.loadExaminationTypes();
+
+		$scope.examination = {
+			examinationTypes: []
+		};
+
+		$scope.labTests = {
+			performLabTestSearch: modules.labTests.performLabTestSearch,
+			loadTest: modules.labTests.loadTest,
+			investigations: {
+				lab: [],
+				imaging: []
+			},
+			addToLabList: modules.labTests.addToLabList,
+			removeFromLabList: modules.labTests.removeFromLabList,
+			addToImagingList: modules.labTests.addToImagingList,
+			removeFromImagingList: modules.labTests.removeFromImagingList,
+			searchPerformed: false,
+			sendVariables: {},
+			sendForInvestigation: modules.labTests.sendForInvestigation,
+			sendForImagingInvestigation: modules.labTests.sendForImagingInvestigation
+		}
+
+		// modules.labTests.testSearchAutoSuggestInit();
+		// modules.labTests.loadImagingInvestigations();
+		$scope.labTests.searchedTests = {};
+		$scope.labTests.imagingTests = {};
+
+		$scope.patient = {
+			catchLoadProfileEnterPress: modules.patient.catchLoadProfileEnterPress,
+			loadPatientProfile: modules.patient.loadPatientProfile,
+			isProfileReady: false,
+			history: {
+				displayPage: 'profile',
+				loadRepositories: modules.patient.loadRepositories,
+				loadPendingInvestigations: modules.patient.loadPendingInvestigations,
+				loadAdmissionHistory: modules.patient.loadAdmissionHistory,
+				repositories: {},
+				pendingInvestigations: {},
+				loadRepo: function(repo){
+					$scope.patient.history.repositories.currentRepository = repo;
+					$("#repository-items").modal("show");
+				}
+			}
+		}
+		
+		$scope.patient.profile = {};
+		$scope.patient.allergies = {};
+
+		$scope.conclusion = {
+			prescriptionList: [],
+			diagnosis: {}
+		}
+	}
+
 	modules.allergies = {
 		loadAllergyTypes: function(){
 			utils.serverRequest("/consultancy/allergy/view", "GET").then(function(response){
@@ -310,6 +391,7 @@ angular.module("EmmetBlue")
 	        })
 		},
 		loadPatientProfile: function(){
+			$scope.bootstrap();
 			var successCallback = function(response){
 				var result = response.hits.hits;
 				if (result.length != 1){
@@ -709,13 +791,6 @@ angular.module("EmmetBlue")
 	}
 
 	var bootstrap = function(){
-		if (typeof utils.storage.currentPatientNumberDiagnosis != "undefined" && utils.storage.currentPatientNumberDiagnosis != null){
-			$("#patient-patientSearchQuery").val(utils.storage.currentPatientNumberDiagnosis);
-			modules.patient.loadPatientProfile();
-		}
-
-		$scope.mostRecentObservation = [];
-
 		$scope.globals = {
 			today: function(){
 				var date = new Date();
@@ -742,8 +817,6 @@ angular.module("EmmetBlue")
 		// 	modules.globals.loadRegisteredInvestigationTypes(nv);
 		// })
 
-		utils.storage.consultancy = {
-		};
 
 		if (typeof utils.storage.consultancy.symptoms == "undefined"){
 			modules.globals.symptoms.storeAllSymptomsPersistently();
@@ -752,11 +825,6 @@ angular.module("EmmetBlue")
 		if (typeof utils.storage.consultancy.labtests == "undefined"){
 			modules.globals.labTests.storeAllLabTestsPersistently();
 		}
-
-		$scope.allergies = {
-			newAllergy: {},
-			saveNewAllergy: modules.allergies.saveNewAllergy
-		};
 
 		modules.allergies.loadAllergyTypes();
 		modules.allergies.populateSymptomsTagsInput();
@@ -769,80 +837,20 @@ angular.module("EmmetBlue")
 			}
 		});
 
-
-		$scope.presentingComplaints = {
-			symptomSearchQuery: "",
-			complaintTemplates: [],
-			performSymptomSearch: modules.presentingComplaints.performSymptomSearch,
-			loadSymptom: modules.presentingComplaints.loadSymptom,
-			complaints: [],
-			addToList: modules.presentingComplaints.addSymptomToComplaintList,
-			removeFromList: modules.presentingComplaints.removeSymptomFromComplaintList,
-			catchSearchPress: modules.presentingComplaints.catchSearchPress,
-			loadTemplateForComplaint: modules.presentingComplaints.loadTemplateForComplaint
-		};
-
 		modules.presentingComplaints.symptomSearchAutoSuggestInit();
 		modules.globals.diagnosisSuggestInit();
-		$scope.presentingComplaints.searchedSymptoms = {};
-
-		$scope.examination = {
-			examinationTypes: []
-		};
-
-		// modules.examination.loadExaminationTypes();
-
-		$scope.labTests = {
-			performLabTestSearch: modules.labTests.performLabTestSearch,
-			loadTest: modules.labTests.loadTest,
-			investigations: {
-				lab: [],
-				imaging: []
-			},
-			addToLabList: modules.labTests.addToLabList,
-			removeFromLabList: modules.labTests.removeFromLabList,
-			addToImagingList: modules.labTests.addToImagingList,
-			removeFromImagingList: modules.labTests.removeFromImagingList,
-			searchPerformed: false,
-			sendVariables: {},
-			sendForInvestigation: modules.labTests.sendForInvestigation,
-			sendForImagingInvestigation: modules.labTests.sendForImagingInvestigation
-		}
-
-		// modules.labTests.testSearchAutoSuggestInit();
-		// modules.labTests.loadImagingInvestigations();
-		$scope.labTests.searchedTests = {};
-		$scope.labTests.imagingTests = {};
-
-		$scope.patient = {
-			catchLoadProfileEnterPress: modules.patient.catchLoadProfileEnterPress,
-			loadPatientProfile: modules.patient.loadPatientProfile,
-			isProfileReady: false,
-			history: {
-				displayPage: 'profile',
-				loadRepositories: modules.patient.loadRepositories,
-				loadPendingInvestigations: modules.patient.loadPendingInvestigations,
-				loadAdmissionHistory: modules.patient.loadAdmissionHistory,
-				repositories: {},
-				pendingInvestigations: {},
-				loadRepo: function(repo){
-					$scope.patient.history.repositories.currentRepository = repo;
-					$("#repository-items").modal("show");
-				}
-			}
-		}
 
 		$("#conclusionTitle").on("change", function(e){
 			$scope.conclusion.diagnosis.title = $(this).val();
 		});
 
 		modules.patient.searchAutoSuggestInit();
-		$scope.patient.profile = {};
-		$scope.patient.allergies = {};
 
-		$scope.conclusion = {
-			prescriptionList: [],
-			diagnosis: {}
+		$scope.bootstrap();
+
+		if (typeof utils.storage.currentPatientNumberDiagnosis != "undefined" && utils.storage.currentPatientNumberDiagnosis != null){
+			$("#patient-patientSearchQuery").val(utils.storage.currentPatientNumberDiagnosis);
+			modules.patient.loadPatientProfile();
 		}
 	}();
 
