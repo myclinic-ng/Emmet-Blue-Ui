@@ -312,9 +312,38 @@
 						<ng-preview-invoice-with-data preview-invoice-data="temp" bill-items-list=""></ng-preview-invoice-with-data>
 					</div>
 				</div>
-				<div class="modal-footer">
-					<button ng-if="temp.fulfillmentStatus == '0'" class="btn btn-info bg-blue" ng-click="makePayment()">Accept Payment</button>
-					<button ng-if="temp.fulfillmentStatus == '1'" class="btn btn-info bg-blue" ng-click="printReceipt()">Reprint Receipt</button>
+				<div class="modal-footer" ng-if="temp.fulfillmentStatus == '0'">
+					<button class="btn btn-info bg-blue" ng-click="makePayment()">Accept Payment</button>
+					<!-- <button ng-if="temp.fulfillmentStatus == '1'" class="btn btn-info bg-blue" ng-click="printReceipt()">Reprint Receipt</button> -->
+				</div>
+				<div class="modal-footer" ng-if="temp.fulfillmentStatus == '1'" style="text-align: center !important">
+					<div class="col-md-12">
+						<h3>Payment Transactions</h3>
+						<table class="table-responsive table table-bordered table-hover" style="text-align: left !important">
+							<thead class="bg-info-300">
+								<tr>
+									<th>S/N</th>
+									<th>Tx. ID</th>
+									<th>Amount</th>
+									<th>Method</th>
+									<th>Date</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="tx in temp.paymentTransactions">
+									<td>{{$index+1}}</td>
+									<td>{{tx.BillingTransactionID}}</td>
+									<td>{{tx.BillingAmountPaid}}</td>
+									<td>{{tx.BillingPaymentMethod}}</td>
+									<td>{{tx.BillingTransactionDate}}</td>
+									<td>
+										<button class="btn btn-info bg-purple-300" ng-click="printReceipt(tx)">Reprint Receipt</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>
