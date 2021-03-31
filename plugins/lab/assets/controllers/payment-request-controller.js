@@ -77,6 +77,7 @@ angular.module("EmmetBlue")
 		$scope.search.query = "";
 	}
 
+	$scope.totalPrice = 0;
 	$scope.addPaymentRequestItemToList = function(){
 		var item = {
 			quantity: $scope.paymentRequestItem.quantity ? $scope.paymentRequestItem.quantity: 1,
@@ -93,6 +94,7 @@ angular.module("EmmetBlue")
 		utils.serverRequest("/accounts-biller/get-item-price/calculate?resourceId="+_p+"&item="+_i+"&quantity="+_q, "GET")
 		.then(function(response){
 			$scope.item.price = response.totalPrice;
+			$scope.totalPrice += (parseInt(response.totalPrice)*parseInt(_q));
 
 			$scope.paymentRequestItems.push(item);
 			$scope.paymentRequestItem = {};
@@ -102,7 +104,10 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.removeItem = function(index){
+		price = $scope.paymentRequestItems[index].price;
+		qty = $scope.paymentRequestItems[index].quantity
 		$scope.paymentRequestItems.splice(index, 1);
+		$scope.totalPrice -= (parseInt(price)*parseInt(qty));
 	}
 
 	$scope.createRequest = function(){
