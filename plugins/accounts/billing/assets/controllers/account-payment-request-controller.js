@@ -341,6 +341,17 @@ angular.module("EmmetBlue")
 				var icon = "<i class='fa fa-exclamation-circle text-warning'></i>";
 			}
 
+			if (data.RequestFulfillmentStatus == 1){
+				string += "<br/><span class='no-border-radius label label-success label-lg'>Fulfilled</span>";
+
+			}
+			else if(data.RequestFulfillmentStatus == -1) {
+				string += "<br/><span class='label label-info label-lg'>Invoice Generated</span>";
+			}
+			else {
+				string += "<br/><span class='no-border-radius label label-danger label-lg'>Unfulfilled</span>";
+			}
+
 			var html = "<td>"+
 							"<div class='media-left media-middle'>"+
 								icon+
@@ -376,7 +387,7 @@ angular.module("EmmetBlue")
 			var val ='<span class="display-block">'+data.Name+'</span>';
 			var html = "<td>"+
 							"<div class='media-left media-middle'>"+
-								"<i class='fa fa-caret-right text-info'></i>"+
+								"<i class='fa fa-user text-info'></i>"+
 							"</div>"+
 							"<div class='media-left'>"+
 								"<div class='text-muted'>"+
@@ -394,9 +405,18 @@ angular.module("EmmetBlue")
 
 			return val;
 		}),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Status").renderWith(function(data, full, meta){
+		utils.DT.columnBuilder.newColumn(null).withTitle("Payment Status").renderWith(function(data, full, meta){
 			if (data.RequestFulfillmentStatus == 1){
-				var string = "<p class='no-border-radius label label-success label-lg'>Fulfilled</p>";
+				var transactionStatus = data.BillingTransactionStatus;
+				var label = "label-default";
+				if (transactionStatus == "Paid"){
+					label = "label-success";
+				}
+				else if (transactionStatus == "Part Payment"){
+					label = "label-danger";
+				}
+
+				var string = "<p class='no-border-radius label "+label+" label-lg'>"+transactionStatus+"</p>";
 				string += "<td>"+
 							"<div class='media-left media-middle'>"+
 								"<span class='text-info text-size-small'>Amount Paid:</span><br/>"+
@@ -406,10 +426,10 @@ angular.module("EmmetBlue")
 
 			}
 			else if(data.RequestFulfillmentStatus == -1) {
-				var string = "<p class='label label-info label-lg'>Invoice Generated</p>";
+				var string = "<span class='text-muted text-size-small'>N/A</span>";
 			}
 			else {
-				var string = "<p class='no-border-radius label label-danger label-lg'>Unfulfilled</p>";
+				var string = "<span class='text-muted text-size-small'>N/A</span>";
 			}
 
 			return "<h6>"+string+"</h6>";
