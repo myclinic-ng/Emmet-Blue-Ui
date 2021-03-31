@@ -166,7 +166,12 @@ angular.module("EmmetBlue")
 						items: response.BillingTransactionItems,
 						paid: response._meta.status,
 						amountPaid: response.BillingAmountPaid,
-						department: response.RequestDepartmentName
+						department: response.RequestDepartmentName,
+						patientInfo: {
+							patientfullname: response.PatientName,
+							patientid: response.PatientID,
+							dategenerated: response.DateCreatedDateOnly
+						}
 					};
 
 					var paymentRuleData = {

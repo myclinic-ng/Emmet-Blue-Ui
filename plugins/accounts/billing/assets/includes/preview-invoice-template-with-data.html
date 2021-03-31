@@ -1,0 +1,93 @@
+<div class="col-md-6">
+    <table class="table">
+		<thead class="bg-success">
+			<th colspan="2" class="text-center">
+				Request Details
+			</th>
+		</thead>
+		<tbody>
+			<tr>
+				<td class="no-border">Request Number</td>
+				<td class="no-border">{{temp.requestNumber}}</td>
+			</tr>
+			<tr>
+				<td class="no-border">Patient ID</td>
+				<td class="no-border">{{temp.patientUUID}}</td>
+			</tr>
+			<tr>
+				<td class="no-border">Patient Name</td>
+				<td class="no-border">{{temp.patientFullName}}</td>
+			</tr>
+			<tr>
+				<td class="no-border">Patient Type</td>
+				<td class="no-border">{{temp.patientCategoryName}}, {{temp.patientTypeName}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="col-md-6">
+	<table class="table">
+		<thead class="bg-success">
+			<th colspan="2">
+				Request Status:
+				<span class='label label-danger label-lg' ng-if="temp.fulfillmentStatus == '0'">Unfulfilled</span>
+            	<span ng-if="temp.fulfillmentStatus == '1'">
+            		<span class='label label-success label-lg'>Fulfilled</span>
+            		<span class="pull-right"> Date Processed: <span class="label label-info label-lg">{{temp.fulfilledDate}}</span></span>
+            	</span>
+			</th>
+		</thead>
+		<tbody>
+			<tr>
+				<td class="no-border">Requesting Staff</td>
+				<td class="no-border">{{temp.staffUUIDFullName}}</td>
+			</tr>
+			<tr>
+				<td class="no-border">Department, Unit</td>
+				<td class="no-border">{{temp.subDeptName}} <span ng-if="temp.deptName">({{temp.deptName}})</span></td>
+			</tr>
+			<tr>
+				<td class="no-border">Request Date</td>
+				<td class="no-border">{{temp.requestDate}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="col-md-12">
+	<div class="table-responsive">
+		<table class="table table-responsive table-condensed">
+			<thead class="border-solid bg-success">
+				<tr>
+					<th>S/N</th>
+					<th>Item Code</th>
+					<th>Item</th>
+					<th>Quantity</th>
+					<th>Rate</th>
+					<th>Price (<span ng-currency ng-currency-symbol="naira"></span>)</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="bills in itemsList">
+					<th>{{$index + 1}}</th>
+					<th class="text-bold">{{bills.ItemID}}</th>
+					<th>{{bills.BillingTypeItemName}}</th>
+					<th>{{bills.ItemQuantity}}</th>
+					<th>{{bills.rateIdentifier}}</th>
+					<th ng-model="itemAmount" class="text-bold">{{bills.totalPrice}}</th>
+					<th>
+						<span class="button-group">
+							<a href="#" ng-click="removeFromItemList($index, item)"><i class="icon-bin"></i> remove item</a>
+						</span>
+					</th>
+				</tr>	
+			</tbody>
+			<tfoot>
+				<tr>
+					<th colspan="5"><span class="pull-right text-bold">Total Amount : </span></th>
+					<th class="text-bold"><span ng-currency ng-currency-symbol="naira"></span> {{itemsList.globalTotal}}</th>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>

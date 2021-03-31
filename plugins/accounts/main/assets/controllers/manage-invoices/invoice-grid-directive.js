@@ -31,32 +31,14 @@ angular.module("EmmetBlue")
 					totalAmount: invoice.BilledAmountTotal,
 					items: invoice.BillingTransactionItems,
 					paid: invoice._meta.status,
-					amountPaid: invoice.BillingAmountPaid
+					amountPaid: invoice.BillingAmountPaid,
+					department: invoice.RequestDepartmentName,
+					patientInfo: {
+						patientfullname: invoice.PatientName,
+						patientid: invoice.PatientID,
+						dategenerated: invoice.DateCreatedDateOnly
+					}
 				};
-
-				// var req=utils.serverRequest("/accounts-biller/payment-request/load-all-requests?filtertype=invoice&query="+$scope.invoice.invoiceId, "GET");
-				// req.then(function(response){
-				// 	response = response[0];
-				// 	$scope.temp = {
-				// 		requestId:response.PaymentRequestID,
-				// 		requestNumber:response.PaymentRequestUUID,
-				// 		staffUUID: response.RequestBy,
-				// 		patientUUID: response.PatientUUID,
-				// 		patientID:response.RequestPatientID,
-				// 		patientFullName: response.PatientFullName,
-				// 		patientType: response.PatientType,
-				// 		patientCategoryName: response.PatientCategoryName,
-				// 		patientTypeName: response.PatientTypeName,
-				// 		requestDate: (new Date(response.RequestDate)).toDateString(),
-				// 		fulfillmentStatus: response.RequestFulFillmentStatus,
-				// 		fulfilledDate: (new Date(response.RequestFulfilledDate)).toDateString(),
-				// 		fulfilledBy: response.RequestFulfilledBy,
-				// 		deptName: response.GroupName,
-				// 		subDeptName: response.Name
-				// 	};
-				// }, function(error){
-				// 	utils.errorHandler(error);
-				// })
 			}
 
 			$scope.$watch(function(){

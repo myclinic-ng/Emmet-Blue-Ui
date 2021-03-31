@@ -10,3 +10,4 @@ head.load(controllersLocation+"receipt-template-directive.js");
 head.load(controllersLocation+"account-payment-request-controller.js");
 head.load(controllersLocation+"deposits-account-controller.js");
 head.load(controllersLocation+"preview-invoice-template-directive.js");
+head.load(controllersLocation+"preview-invoice-template-with-data-directive.js");

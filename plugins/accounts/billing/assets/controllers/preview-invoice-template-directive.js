@@ -4,11 +4,11 @@ angular.module("EmmetBlue")
 	return {
 		restrict: "E",
 		scope: {
-			temp: "=previewInvoiceData"
+			invoiceId: "=invoiceId"
 		},
 		templateUrl: "plugins/accounts/billing/assets/includes/preview-invoice-template.html",
 		controller: function($scope, utils){
-			$scope.paymentRequestBillingItems = function(paymentRequestId){				
+			$scope.paymentRequestBillingItems = function(paymentRequestId){
 				var items = utils.serverRequest('/accounts-biller/payment-request/load-payment-request-billing-items?resourceId='+paymentRequestId,'get');
 				items.then(function(response){
 					$scope.itemsList = response;
@@ -22,6 +22,68 @@ angular.module("EmmetBlue")
 					utils.alert("Unable To Load Payment Form", "Please see the previous errors", "error");
 				})
 			}
+
+			// $scope.$watch(functon(){
+			// 	return $scope.invoiceId;
+			// }, function(nv){
+			// 	var req=utils.serverRequest("/accounts-biller/payment-request/load-all-requests?filtertype=invoice&query="+nv, "GET");
+			// 	req.then(function(response){
+			// 		response = response[0];
+			// 		$scope.temp = {
+			// 			requestId:response.PaymentRequestID,
+			// 			requestNumber:response.PaymentRequestUUID,
+			// 			staffUUID: response.RequestBy,
+			// 			patientUUID: response.PatientUUID,
+			// 			patientID:response.RequestPatientID,
+			// 			patientFullName: response.PatientFullName,
+			// 			patientType: response.PatientType,
+			// 			patientCategoryName: response.PatientCategoryName,
+			// 			patientTypeName: response.PatientTypeName,
+			// 			requestDate: (new Date(response.RequestDate)).toDateString(),
+			// 			fulfillmentStatus: response.RequestFulFillmentStatus,
+			// 			fulfilledDate: (new Date(response.RequestFulfilledDate)).toDateString(),
+			// 			fulfilledBy: response.RequestFulfilledBy,
+			// 			deptName: response.GroupName,
+			// 			subDeptName: response.Name
+			// 		};
+			// 	}, function(error){
+			// 		utils.errorHandler(error);
+			// 	});
+			// })
+
+			$scope.$watch(function(){
+				if (typeof $scope.invoiceId != "undefined"){
+					return $scope.invoiceId
+				}
+				return 0;
+			}, function(nv){
+				$scope.temp = {};
+				if (nv != 0){
+					var req=utils.serverRequest("/accounts-biller/payment-request/load-all-requests?filtertype=invoice&query="+nv, "GET");
+					req.then(function(response){
+						response = response[0];
+						$scope.temp = {
+							requestId:response.PaymentRequestID,
+							requestNumber:response.PaymentRequestUUID,
+							staffUUID: response.RequestBy,
+							patientUUID: response.PatientUUID,
+							patientID:response.RequestPatientID,
+							patientFullName: response.PatientFullName,
+							patientType: response.PatientType,
+							patientCategoryName: response.PatientCategoryName,
+							patientTypeName: response.PatientTypeName,
+							requestDate: (new Date(response.RequestDate)).toDateString(),
+							fulfillmentStatus: response.RequestFulFillmentStatus,
+							fulfilledDate: (new Date(response.RequestFulfilledDate)).toDateString(),
+							fulfilledBy: response.RequestFulfilledBy,
+							deptName: response.GroupName,
+							subDeptName: response.Name
+						};
+					}, function(error){
+						utils.errorHandler(error);
+					});
+				}
+			})
 
 			$scope.$watch(function(){
 				if (typeof $scope.temp !== "undefined"){

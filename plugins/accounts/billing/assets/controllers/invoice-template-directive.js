@@ -9,7 +9,7 @@ angular.module("EmmetBlue")
 		templateUrl: "plugins/accounts/billing/assets/includes/invoice-template.html",
 		controller: function($scope, utils){
 			$scope.businessInfo = utils.userSession.getBusinessInfo();
-
+			
 			$scope.$watch("invoiceData", function(nv){
 				if (typeof nv !== "undefined" && typeof nv.patient !== "undefined"){
 					// var request = utils.serverRequest("/patients/patient/view?resourceId="+nv.patient, "GET");
@@ -20,6 +20,7 @@ angular.module("EmmetBlue")
 					// }, function(response){
 					// 	utils.errorHandler(response);
 					// })
+					$scope.patient = nv.patientInfo;
 					$scope.showInvoice = true;
 				}
 				else {
