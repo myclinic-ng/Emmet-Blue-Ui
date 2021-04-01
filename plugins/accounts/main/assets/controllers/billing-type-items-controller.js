@@ -136,6 +136,30 @@ angular.module("EmmetBlue")
 
 				utils.confirm(title, text, close, callback, type, btnText);
 			},
+			deleteBillingTypeItemPrice: function(id){
+				var title = "Delete Prompt";
+				var text = "Do you want to continue? Please note that this action cannot be undone";
+				var close = true;
+				$scope.__id = id;
+				var callback = function(){
+					var deleteRequest = utils.serverRequest('/accounts-biller/billing-type-items-prices/delete?'+utils.serializeParams({
+						'resourceId': $scope.__id
+					}), 'DELETE');
+
+					deleteRequest.then(function(response){
+						utils.notify("Operation Successful", "The selected price has been deleted successfully", "success");
+						delete  $scope.__id;
+
+						$scope.reloadBillingTypeItemsPricesTable();
+					}, function(responseObject){
+						utils.errorHandler(responseObject);
+					})
+				}
+				var type = "warning";
+				var btnText = "Delete";
+
+				utils.confirm(title, text, close, callback, type, btnText);
+			},
 			viewBillingTypeItems: function(groupId){
 
 			}
@@ -413,9 +437,9 @@ angular.module("EmmetBlue")
 				$("#view_billing_type_item_prices").modal("show");
 				break;
 			}
-			case "deletePrice":{
+			case "deleteprice":{
+				functions.manageBillingTypeItems.deleteBillingTypeItemPrice(id);
 				break;
-				alert(id);
 			}
 			case "control":{				
 				$scope.billingTypeItemCurrentPrice = id;
