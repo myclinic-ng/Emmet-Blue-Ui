@@ -758,9 +758,7 @@ angular.module("EmmetBlue")
 			return $scope.temp;
 		}
 
-		return {
-			fulfillmentStatus:0
-		};
+		return "";
 	}, function(nv){
 		if (nv.fulfillmentStatus == '1'){
 			var requestId = nv.requestId;

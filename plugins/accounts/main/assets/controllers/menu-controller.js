@@ -1,6 +1,6 @@
 angular.module("EmmetBlue")
 
-.controller("accountsBillingMenuController", function($scope, utils, $rootScope){
+.controller("accountsMainMenuController", function($scope, utils, $rootScope){
 	$scope.$on("journalSavedSuccessfully", function(){
 		$("#newGeneralJournal").modal("hide");
 	})

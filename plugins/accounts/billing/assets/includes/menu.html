@@ -1,4 +1,12 @@
 <script src="assets/js/navbar_fixed_secondary.js"></script>
+<script type="text/javascript" src="assets/js/plugins/pickers/daterangepicker.js"></script>
+<script>
+	$('.daterange').daterangepicker({
+		showDropdowns: true,
+        applyClass: 'bg-success',
+        cancelClass: 'btn-default'
+	});
+</script>
 <!-- Second navbar -->
 <div class="navbar navbar-default" id="navbar-second" ng-controller="accountsBillingMenuController">
 	<ul class="nav navbar-nav no-border visible-xs-block">
@@ -20,38 +28,48 @@
 
 		<ul class="nav navbar-nav navbar-right">
 			<li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" ng-click="loadWallet()">
 					<i class="icon-wallet"></i>
 					<span class="position-right">My Wallet</span>
 				</a>
 				
 				<div class="dropdown-menu dropdown-content">
 					<div class="dropdown-content-heading">
-						Keep track of your purse
+						<h5 class="text-primary">{{walletTitle}}</h5>
 						<ul class="icons-list">
 							<li><a href="#"><i class="icon-sync"></i></a></li>
 						</ul>
 					</div>
 
-					<ul class="media-list dropdown-content-body width-350">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="control-label">Pick Date Ranges</label>
+							<div class="input-group">
+								<span class="input-group-addon"><i class="icon-calendar22"></i></span>
+								<input type="text" class="form-control daterange" ng-model="dateRanges"> 
+							</div>
+						</div>
+					</div>
+
+					<ul class="media-list dropdown-content-body width-350" ng-repeat="item in paymentBreakdown">
 						<li class="media">
 							<div class="media-left">
 								<a href="#" class="btn text-primary btn-flat btn-icon btn-sm"><i class="icon-cash"></i></a>
 							</div>
 
-							<div class="media-body">
-								<!-- <span ng-currency ng-currency-symbol="naira"></span>  --><em>N/A</em>
-								<div class="media-annotation">Cash at hand</div>
+							<div class="media-body text-bold">
+								<span ng-currency ng-currency-symbol="naira"></span> <em>{{item.total}}</em>
+								<div class="media-annotation">{{item.BillingPaymentMethod}}</div>
 							</div>
 						</li>
-						<li class="media">
+						<li class="media" ng-if="paymentBreakdown.length == 0">
 							<div class="media-left">
-								<a href="#" class="btn text-primary btn-flat btn-icon btn-sm"><i class="icon-piggy-bank"></i></a>
+								<a href="#" class="btn text-primary btn-flat btn-icon btn-lg"><i class="icon-info"></i></a>
 							</div>
 
-							<div class="media-body">
+							<div class="media-body text-bold">
 								<!-- <span ng-currency ng-currency-symbol="naira"></span>  --><em>N/A</em>
-								<div class="media-annotation">Cash in deposit accounts</div>
+								<div class="media-annotation">No Payment Transaction For The Selected Date</div>
 							</div>
 						</li>
 					</ul>
