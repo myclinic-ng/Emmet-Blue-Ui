@@ -173,11 +173,12 @@ angular.module("EmmetBlue")
 					var image = $scope.loadImage(data.StatusStaffPicture);
 					var note = "";
 					if(typeof data.StatusNote !== "undefined" && data.StatusNote != "" && data.StatusNote != null){
-						note = "<p class='text-danger'><i class='fa fa-quote-left position-left'></i>"+data.StatusNote+"</p>"
+						note = "<p class='text-danger'  style='display: inline-block; word-break: break-word; white-space: pre-line; overflow-wrap: break-word; width: 20vw;'><i class='fa fa-quote-left position-left'></i>"+data.StatusNote+"</p>"
 					}
 					else {
-						note = "<p class='text-muted text-center text-danger'><br/><small>No Flag Note</small></p>"
+						note = "<p class='text-muted text-center text-danger'><br/><small>No Flag Note</small></p>";
 					}
+					// note = "<div class='col-md-12'>"+note+"</div>";
 					var html = "<td>"+
 									"<div class='media-left media-middle'>"+
 										"<a href='#'><img src='"+image+"' class='img-circle img-xs' alt=''></a>"+
@@ -188,8 +189,8 @@ angular.module("EmmetBlue")
 											"<span class='fa fa-user border-danger position-left'></span>"+
 											data.StatusStaffFullName+
 										"</div>"+
-									"</div>"+
 									note+
+									"</div>"+
 								"</td>";
 					break;
 				}
