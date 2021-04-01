@@ -61,10 +61,10 @@ angular.module("EmmetBlue")
 		var deleteButtonAction = "manageField('delete', "+data.FieldID+")";
 		var fieldsButtonAction = "manageField('defaults', "+data.FieldID+")";
 
-		var dataOpt = "data-option-id='"+data.FieldID+"' data-option-name='"+data.FieldName+"' data-option-description='"+data.FieldDescription+"'";
+		var dataOpt = "data-option-id='"+data.FieldID+"' data-option-name='"+data.FieldName+"' data-option-description='"+data.FieldDescription+"' data-option-type='"+data.FieldType+"' data-option-type-name='"+data.TypeName+"'";
 
-		var editButton = "<button class='btn btn-default billing-type-btn' ng-click=\""+editButtonAction+"\" "+dataOpt+"><i class='icon-pencil5'></i> </button>";
-		var deleteButton = "<button class='btn btn-default billing-type-btn' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"><i class='icon-bin'></i> </button>";
+		var editButton = "<button class='btn btn-default investigation-field-btn' ng-click=\""+editButtonAction+"\" "+dataOpt+"><i class='icon-pencil5'></i> </button>";
+		var deleteButton = "<button class='btn btn-default investigation-field-btn' ng-click=\""+deleteButtonAction+"\" "+dataOpt+"><i class='icon-bin'></i> </button>";
 		var fieldsButton = "<button class='btn btn-default' ng-click=\""+fieldsButtonAction+"\" "+dataOpt+"><i class='icon-eye'> </i> Default Values</button>";
 		
 		var buttons = "<div class='btn-group'>"+fieldsButton+editButton+deleteButton+"</button>";
@@ -81,6 +81,7 @@ angular.module("EmmetBlue")
 		if (typeof newValue !== "undefined"){
 			$scope.investigationType = newValue;
 			$scope.reloadFieldTable();
+			$scope.editField = {};
 		}
 	});
 
@@ -118,6 +119,28 @@ angular.module("EmmetBlue")
 			utils.errorHandler(response);
 		})
 	}
+
+	$scope.updateField = function(){
+		$scope.editField.refrange = $scope.editField.refrange.replace(">", "gt ");
+		$scope.editField.refrange = $scope.editField.refrange.replace("<", "lt ");
+		var field = {
+			"FieldType":$scope.editField.type,
+			"FieldName":$scope.editField.name,
+			"FieldDescription":$scope.editField.refrange + " | " + $scope.editField.units,
+			"resourceId":$scope.editField.fieldId
+		}
+
+		var request = utils.serverRequest("/lab/investigation-type-field/edit", "PUT", field);
+		request.then(function(response){
+			utils.notify("Operation Successful", "Field updated successfully", "success");
+			$("#edit_investigation_field").modal("hide");
+			$scope.reloadFieldTable();
+			$scope.editField = {};
+		}, function(response){
+			utils.errorHandler(response);
+		})
+	}
+
 
 	$scope.saveNewDefaultValue = function(){
 		var value = {
@@ -184,6 +207,22 @@ angular.module("EmmetBlue")
 					var btnText = "Delete";
 
 					utils.confirm(title, text, close, callback, type, btnText);
+				}
+				break;
+			}
+			case "edit":{
+				if (typeof id !== "undefined"){
+					var string = ($(".investigation-field-btn[data-option-id='"+id+"']").attr('data-option-description')).split("|");
+					$scope.editField = {
+						name:$(".investigation-field-btn[data-option-id='"+id+"']").attr('data-option-name'),
+						refrange:string[0],
+						units:string[1],
+						type:$(".investigation-field-btn[data-option-id='"+id+"']").attr('data-option-type'),
+						typeName:$(".investigation-field-btn[data-option-id='"+id+"']").attr('data-option-type-name'),
+						fieldId: id
+					}
+
+					$("#edit_investigation_field").modal("show");
 				}
 				break;
 			}
