@@ -1,7 +1,17 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
 <script src="assets/js/plugins/forms/tags/bootstrap-tagsinput.js"></script>
 <script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
-<script>$('select.select').select2();</script>
+<script type="text/javascript" src="assets/js/plugins/pickers/daterangepicker.js"></script>
+<script>
+	$('select.select').select2();
+	$('.daterange').daterangepicker({
+		showWeekNumbers: true,
+		showDropdowns: true,
+        opens: "right",
+        applyClass: 'bg-success',
+        cancelClass: 'btn-default'
+	});
+</script>
 
 <div ng-controller="labRequestsController">
 	<div class="panel panel-success" >
@@ -27,12 +37,20 @@
 				</div>
 	    	</div>
 	    	<div class="row" ng-show="!labView">
-				<label class="control-label col-md-3"><span class="pull-right pt-5">Enter Patient Number:</span></label>
-				<div class="input-group col-md-7">
-					<input type="text" class="form-control patient-search" ng-model="patientUuid" id="patientUuid"/> 
-					<span class="input-group-btn">
-						<button class="btn btn-danger" ng-click="reloadInvestigationTypesTable(1)">Load Requests</button>
-					</span>
+				<div class="col-md-4">
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-calendar22"></i></span>
+						<input type="text" class="form-control daterange" ng-model="dateRanges" placeholder="filter by date range"> 
+					</div>
+				</div>
+	    		<div class="col-md-8">
+					<label class="control-label col-md-3"><span class="pull-right pt-5">Enter Patient Number:</span></label>
+					<div class="input-group col-md-7">
+						<input type="text" class="form-control patient-search" ng-model="patientUuid" id="patientUuid"/> 
+						<span class="input-group-btn">
+							<button class="btn btn-danger" ng-click="reloadInvestigationTypesTable(1)">Load Requests</button>
+						</span>
+					</div>
 				</div>
 	    	</div>
 			<div class="table-responsive col-md-12">

@@ -1,6 +1,8 @@
 angular.module("EmmetBlue")
 
 .controller('labRequestsController', function($scope, utils, $rootScope){
+	var today = new Date();
+	$scope.dateRanges = today.toLocaleDateString()+ " - "+today.toLocaleDateString();
 	var patient = {
 		search: function(query, successCallback, errorCallback){
 			query = {
@@ -84,7 +86,10 @@ angular.module("EmmetBlue")
 			var investigationTypes = utils.serverRequest('/lab/lab-request/view-by-patient?resourceId&patient='+$scope.currentPatient, 'GET');
 		}
 		else {
-			var investigationTypes = utils.serverRequest('/lab/lab-request/view?resourceId='+$scope.currentLab, 'GET');
+			date = ($scope.dateRanges).split(" - ");
+			start = date[0];
+			end = date[1];
+			var investigationTypes = utils.serverRequest('/lab/lab-request/view?resourceId='+$scope.currentLab+"&startdate="+start+"&enddate="+end, 'GET');
 		}
 		return investigationTypes;
 	})
