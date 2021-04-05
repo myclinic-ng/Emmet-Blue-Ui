@@ -303,4 +303,8 @@ angular.module("EmmetBlue")
 	}
 
 	loadLabs();
+
+	$scope.$watch("dateRanges", function(nv){
+		$scope.dtInstance.reloadData();
+	})
 });
