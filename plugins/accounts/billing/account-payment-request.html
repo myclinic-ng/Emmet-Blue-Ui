@@ -36,7 +36,7 @@
 							<option value="status">Status</option>					
 							<option value="paymentmethod">Payment Method</option>
 							<option value="department">Department</option>
-							<option value="patienttype">Patient Type</option>
+							<option value="patientcategory">Patient Category</option>
 							<option value="patient">Patient</option>
 							<option value="staff">Staff</option>
 						</optgroup>
@@ -61,8 +61,8 @@
 						<option value="Fullfilled Requests<seprator>1">Fullfilled Requests</option>
 					</select>
 				</div>
-				<div class="form-group col-md-8" ng-show="filterSelector.type == 'patienttype'">
-					<label class="control-label">Select Patient Type</label>
+				<div class="form-group col-md-8" ng-show="filterSelector.type == 'patientcategory'">
+					<label class="control-label">Select Patient Category</label>
 					<select class="select" ng-model="filterSelector.value">
 						<option ng-repeat="type in patientTypes" value="{{type.CategoryName}}<seprator>{{type.CategoryName}}">{{type.CategoryName}}</option>
 					</select>

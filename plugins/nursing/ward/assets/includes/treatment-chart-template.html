@@ -10,6 +10,28 @@
 		</table>
 	</div>
 
+	<div id="manage_plan" class="modal fade">
+		<div class="modal-dialog modal-lg modal-full">
+			<div class="modal-content">
+				<div class="modal-header bg-info">
+					<button type="button" class="close" onclick="$('#manage_plan').modal('hide')">&times;</button>
+					<h6 class="modal-title">Manage Treatment Plan</h6>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="table-responsive">
+								<table datatable="" dt-options="dttOptions" dt-columns="dttColumns" dt-instance="dttInstance" class="table table-condensed table-striped table-hover">
+									
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div id="new_item" class="modal fade">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -20,7 +42,7 @@
 
 				<div class="modal-body">
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-md-5">
 							<div class="row">
 								<div class="col-sm-12 mt-10">
 									<label>Drug / Injection</label>
@@ -34,6 +56,14 @@
 									<label>Route</label>
 									<input type="text" class="form-control" ng-model="treatmentChart.route">
 								</div>
+								<div class="col-sm-6 mt-10">
+									<label>Hourly Interval</label>
+									<input type="number" class="form-control" ng-model="treatmentChart.hourlyInterval">
+								</div>
+								<div class="col-sm-6 mt-10">
+									<label>Number Of Days</label>
+									<input type="number" class="form-control" ng-model="treatmentChart.numberOfDays">
+								</div>
 								<div class="col-sm-12 mt-10">
 									<label>Comment / Extra Note</label>
 									<textarea cols="3" rows="3" class="form-control" ng-model="treatmentChart.note"></textarea>
@@ -44,12 +74,12 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-7">
 							<table class="table table-hover">
 								<thead class="bg-success">
 									<th>Drug/Injection</th>
-									<th>Dosage</th>
-									<th>Route</th>
+									<th>Dosage/Route</th>
+									<th>Frequency</th>
 									<th></th>
 								</thead>
 								<tbody>
@@ -59,8 +89,14 @@
 											<br/>
 											<span>{{item.note}}</span>
 										</td>
-										<td>{{item.dose}}</td>
-										<td>{{item.route}}</td>
+										<td>
+											<span>{{item.dose}}</span><br/>
+											<span>{{item.route}}</span>
+										</td>
+										<td>
+											<span>{{24 / item.hourlyInterval}} times</span><br/>
+											<span>for {{item.numberOfDays}} days</span>
+										</td>
 										<th>
 											<a class="btn btn-link btn-clear btn-icon text-danger" ng-click="removeItemFromChart($index)"><i class="fa fa-times"></i></a>
 										</th>
@@ -72,7 +108,7 @@
 							</table>
 							<div class="clearfix"></div>
 							<div class="form-group mt-20">
-								<label class="control-label">Associated Time</label>
+								<label class="control-label text-bold">Start Time</label>
 								<input type="datetime-local" class="form-control" ng-model="generalTreatment.time"/>
 							</div>
 						</div>
@@ -82,6 +118,36 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-link" ng-click="treatmentChart = {}" onclick="$('#new_item').modal('hide')">cancel</button>
 					<button type="button" class="btn btn-warning" ng-click="saveChart()" ng-show="treatmentItems.length > 0">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="mark_as_administered" class="modal fade">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header bg-info">
+					<button type="button" class="close" onclick="$('#new_item').modal('hide')">&times;</button>
+					<h6 class="modal-title">Mark as administered</h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="row">
+						<div class="form-group mt-20">
+							<label class="control-label text-bold">Administered Time</label>
+							<input type="datetime-local" class="form-control" ng-model="administered.associatedDate"/>
+						</div>
+						<div class="clearfix"></div>
+						<div class="col-sm-12 mt-10">
+							<label>Comment / Extra Note</label>
+							<textarea cols="3" rows="3" class="form-control" ng-model="administered.note"></textarea>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" ng-click="administered = {}" onclick="$('#mark_as_administered').modal('hide')">cancel</button>
+					<button type="button" class="btn btn-warning" ng-click="saveAdministration()">Save</button>
 				</div>
 			</div>
 		</div>

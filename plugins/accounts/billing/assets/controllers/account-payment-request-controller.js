@@ -238,8 +238,8 @@ angular.module("EmmetBlue")
 			_filter += 'filtertype=staff&query='+filter.staff;
 			_filter += "&_date="+filter.date;
 		}
-		else if (filter.type == 'patienttype'){
-			_filter += 'filtertype=patienttype&query='+filter.value;
+		else if (filter.type == 'patientcategory'){
+			_filter += 'filtertype=patientcategory&query='+filter.value;
 		}
 		else if (filter.type == 'paymentmethod'){
 			_filter += 'filtertype=paymentmethod&query='+filter.value;
@@ -674,11 +674,11 @@ angular.module("EmmetBlue")
 				$scope.reloadTable();
 				break;
 			}
-			case "patienttype":{
-				$scope.requestFilter.type = "patienttype";
+			case "patientcategory":{
+				$scope.requestFilter.type = "patientcategory";
 				var value = selector.value.split("<seprator>");
 				$scope.requestFilter.value = value[1];
-				$scope.requestFilter.description = "Patient Type: '"+value[0]+"'";
+				$scope.requestFilter.description = "Patient Category: '"+value[0]+"'";
 				$scope.reloadTable();
 				break;
 			}
