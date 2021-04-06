@@ -1,7 +1,26 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-<script>$('select.select').select2();</script>
+<script type="text/javascript" src="assets/js/plugins/pickers/daterangepicker.js"></script>
+<script>
+	$('select.select').select2();
+	$('.daterange').daterangepicker({
+		showWeekNumbers: true,
+		showDropdowns: true,
+        opens: "left",
+        applyClass: 'bg-success',
+        cancelClass: 'btn-default'
+	});
+</script>
 
 <div ng-controller="pharmacyDispensationPrescriptionRequestsController">
+	<div class="col-md-12">
+		<div class="form-group text-center">
+			<label class="control-label">Pick Date Ranges</label>
+			<div class="input-group col-md-8 col-md-offset-2">
+				<span class="input-group-addon"><i class="icon-calendar22"></i></span>
+				<input type="text" class="form-control daterange" ng-model="dateRanges" placeholder="select date ranges"> 
+			</div>
+		</div>
+	</div>
 	<div class="table-responsive col-md-12">
 		<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
 

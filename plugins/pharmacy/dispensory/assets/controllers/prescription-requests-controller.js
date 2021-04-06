@@ -1,6 +1,9 @@
 angular.module("EmmetBlue")
 
 .controller('pharmacyDispensationPrescriptionRequestsController', function($scope, utils, patientEventLogger, $rootScope){
+	var today = new Date();
+	$scope.dateRanges = today.toLocaleDateString()+ " - "+today.toLocaleDateString();
+
 	var actions = function (data, type, full, meta){
 		var viewButtonAction = "manage('view', "+data.RequestID+")";
 		var dispenseButtonAction = "manage('dispense', "+data.RequestID+")";
@@ -23,7 +26,11 @@ angular.module("EmmetBlue")
         var start = data[3].value;
         var length = data[4].value;
 
-        var url = '/pharmacy/pharmacy-request/view?resourceId=0&paginate&from='+start+'&size='+length;
+		var date = ($scope.dateRanges).split(" - ");
+		var startdate = date[0];
+		var enddate = date[1];
+
+        var url = '/pharmacy/pharmacy-request/view?resourceId=0&paginate&from='+start+'&size='+length+"&startdate="+startdate+"&enddate="+enddate;
 		if (typeof data[5] !== "undefined" && data[5].value.value != ""){
 			url += "&keywordsearch="+data[5].value.value;
 		}
@@ -104,7 +111,9 @@ angular.module("EmmetBlue")
 	];
 
 	$scope.reloadDispensationsTable = function(){
-		$scope.dtInstance.reloadData();
+		if (typeof $scope.dtInstance.rerender == "function"){
+			$scope.dtInstance.rerender();
+		}
 	}
 
 	$scope.$on("reloadRequests", function(){
@@ -197,4 +206,8 @@ angular.module("EmmetBlue")
 	$scope.exists = function(p, ind){
 		return typeof p[ind] != "undefined"
 	}
+
+	$scope.$watch("dateRanges", function(nv){
+		$scope.reloadDispensationsTable();
+	});
 });
