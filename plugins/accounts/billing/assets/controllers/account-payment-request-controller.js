@@ -64,7 +64,7 @@ angular.module("EmmetBlue")
 			var deleteButtonAction = "functions.managePaymentRequest.deletePaymentRequest("+data.PaymentRequestID+")";
 			var makePaymentButtonAction = "functions.managePaymentRequest.requestPaymentBill("+data.PaymentRequestID+")";
 			var viewButtonAction = "functions.managePaymentRequest.viewPaymentBill("+data.PaymentRequestID+")";
-
+			
 			var options = 
 				" data-option-id='"+data.PaymentRequestID+
 				"' data-option-payment-request-uuid='"+data.PaymentRequestUUID+
