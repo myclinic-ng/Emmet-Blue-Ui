@@ -371,12 +371,13 @@ angular.module("EmmetBlue")
 		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Patient").renderWith(function(data, full, meta){
 			var image = $scope.loadImage(data.PatientPicture);
+			var filterString = "filterByPatient(\""+data.PatientUUID+"\",\""+data.PatientFullName+"\")";
 			var html = "<td>"+
 							"<div class='media-left media-middle'>"+
 								"<a href='#'><img src='"+image+"' class='img-circle img-xs' alt=''></a>"+
 							"</div>"+
 							"<div class='media-left'>"+
-								"<div class=''><a href='#' class='text-default text-bold'>"+data.PatientFullName+"</a></div>"+
+								"<div class=''><a href='#' class='text-default text-bold' title='filter' ng-click='"+filterString+"'>"+data.PatientFullName+" <i class='text-muted fa fa-filter'></i></a></div>"+
 								"<div class='text-muted text-size-small'>"+
 									"<span class='fa fa-user border-blue position-left'></span>"+
 									data.PatientCategoryName+
@@ -770,4 +771,27 @@ angular.module("EmmetBlue")
 			})
 		}
 	})
+
+	$scope.filterByPatient = function(patientId, patientName){
+		$scope.filterSelector = {
+			type: 'patient',
+			description: patientName,
+			value: patientId
+		};
+
+		$scope.activateFilter();
+		$scope.analysisFilters.status = [0, -1];
+		$scope.retriveAnalysisForCurrentTable();
+		$("#show_analysis").modal("show");
+	}
+
+	$scope.reloadCurrentDay = function(){
+		$scope.requestFilter = {
+			type: 'date',
+			description: 'Today\'s Requests',
+			value: $scope.getDateRange('today')
+		}
+
+		$scope.reloadTable();
+	}
 })
