@@ -788,6 +788,7 @@ angular.module("EmmetBlue")
 			}
 			$scope.conclusion.diagnosis.description = $scope.conclusion.diagnosis.description+"\nPROVISIONAL DIAGNOSIS: "+diagnosis;
 			$("#provisional-diagnosis-modal").modal("hide");
+			$scope.provisionalDiagnosis = {};
 		}
 	}
 
