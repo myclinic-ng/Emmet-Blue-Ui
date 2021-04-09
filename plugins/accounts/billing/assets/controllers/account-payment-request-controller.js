@@ -781,8 +781,8 @@ angular.module("EmmetBlue")
 
 		$scope.activateFilter();
 		$scope.analysisFilters.status = [0, -1];
-		$scope.retriveAnalysisForCurrentTable();
-		$("#show_analysis").modal("show");
+		// $scope.retriveAnalysisForCurrentTable();
+		// $("#show_analysis").modal("show");
 	}
 
 	$scope.reloadCurrentDay = function(){
