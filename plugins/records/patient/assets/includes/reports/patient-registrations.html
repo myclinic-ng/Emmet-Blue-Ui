@@ -1,8 +1,24 @@
 <div ng-controller="recordsReportsPatientRegistrationController">
 	<div class="row">
-		<div class="col-lg-5">
+		<div class="col-lg-4">
+			<div class="panel bg-orange-400">
+				<div class="panel-body">
+					<div class="heading-elements">
+						<ul class="icons-list">
+	                		<li><a data-action="reload"></a></li>
+	                	</ul>
+					</div>
 
-			<!-- Members online -->
+					<h3 class="no-margin text-bold">{{report.visits.TotalPatientCount}}</h3>
+					Patients Visited<br/>
+					<span class="text-muted text-size-small" ng-if="report.visits.max.CategoryName">with {{report.visits.max.CategoryName}} as the majority</span>
+					<span ng-if="!report.visits.max.CategoryName"><br/></span>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="col-lg-4">
 			<div class="panel bg-teal-400">
 				<div class="panel-body">
 					<div class="heading-elements">
@@ -11,19 +27,16 @@
 	                	</ul>
 					</div>
 
-					<h3 class="no-margin">{{report.TotalPatientCount}}</h3>
+					<h3 class="no-margin text-bold">{{report.registrations.TotalPatientCount}}</h3>
 					Patients Registered<br/>
-					<span class="text-muted text-size-small" ng-if="report.max.CategoryName">with {{report.max.CategoryName}} as the majority</span>
-					<span ng-if="!report.max.CategoryName"><br/></span>
+					<span class="text-muted text-size-small" ng-if="report.registrations.max.CategoryName">with {{report.registrations.max.CategoryName}} as the majority</span>
+					<span ng-if="!report.registrations.max.CategoryName"><br/></span>
 				</div>
 			</div>
-			<!-- /members online -->
-
 		</div>
 
-		<div class="col-lg-4">
 
-			<!-- Current server load -->
+		<div class="col-lg-4">
 			<div class="panel bg-pink-400">
 				<div class="panel-body">
 					<div class="heading-elements">
@@ -37,24 +50,22 @@
 					<div class="text-muted text-size-small">in 0 different wards</div>
 				</div>
 			</div>
-			<!-- /current server load -->
-
 		</div>
 	</div>
 
 	<ul class="nav nav-lg nav-tabs nav-justified no-margin no-border-radius">
-		<li>
+		<li class="active" ng-click="loadPageSegment('patient-visits')">
 			<a href="#patient-visits" class="text-size-small text-uppercase" data-toggle="tab">
 				Patient Visits Breakdown
 			</a>
 		</li>
-		<li class="active">
+		<li ng-click="loadPageSegment('new-registration')">
 			<a href="#new-registration" class="text-size-small text-uppercase" data-toggle="tab">
 				Patient Registration Breakdown
 			</a>
 		</li>
 
-		<li>
+		<li ng-click="loadPageSegment('ward-admission')">
 			<a href="#ward-admission" class="text-size-small text-uppercase" data-toggle="tab">
 				Ward Admission Breakdown
 			</a>
