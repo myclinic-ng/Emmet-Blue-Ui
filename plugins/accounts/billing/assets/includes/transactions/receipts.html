@@ -1,0 +1,57 @@
+<div ng-controller="accountsBillingTransactionsReceiptsController">
+	<div class="row">
+		<div class="col-lg-4">
+			<div class="panel bg-violet-600">
+				<div class="panel-body">
+					<div class="heading-elements">
+						<ul class="icons-list">
+	                		<li><a data-action="reload"></a></li>
+	                	</ul>
+					</div>
+
+					<h3 class="no-margin text-bold"> {{receiptsMeta.sumTotal}}</h3>
+					Sum Total of Receipts
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-4">
+			<div class="panel bg-green-600">
+				<div class="panel-body">
+					<div class="heading-elements">
+						<ul class="icons-list">
+	                		<li><a data-action="reload"></a></li>
+	                	</ul>
+					</div>
+
+					<h3 class="no-margin text-bold">{{receiptsMeta.totalReceipts}}</h3>
+					Total Receipts
+				</div>
+			</div>
+		</div>
+
+
+		<div class="col-lg-4">
+			<div class="panel bg-orange-600">
+				<div class="panel-body">
+					<div class="heading-elements">
+						<ul class="icons-list">
+	                		<li><a data-action="reload"></a></li>
+	                	</ul>
+					</div>
+
+					<h3 class="no-margin text-bold">{{receiptsMeta.totalPatients}}</h3>
+					Patients
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row pt-5">
+		<div class="table-responsive col-md-12">
+			<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
+
+			</table>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,61 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/ui/moment/moment.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/pickers/daterangepicker.js"></script>
+<script>
+	$('select.select').select2();
+	$('.daterange').daterangepicker({
+		showWeekNumbers: true,
+		showDropdowns: true,
+        opens: "right",
+        applyClass: 'bg-success',
+        cancelClass: 'btn-default'
+	});
+</script>
+
+<div class="row" ng-controller="accountsBillingTransactionsController">
+	<div class="col-md-3">
+		<div class="sidebar sidebar-secondary sidebar-default">
+			<div class="sidebar-content">
+				<!-- Actions -->
+				<div class="sidebar-category">
+					<div class="category-title bg-success">
+						<span>Transactions</span>
+					</div>
+
+					<div class="category-content">
+						<div class="row row-condensed">
+							<div class="col-xs-6">
+								<a href="#" type="button" class="btn bg-blue-400 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('receipts')"><i class="fa fa-money"></i> <span>Payment Receipts</span></a>
+							</div>
+							
+							<div class="col-xs-6">
+								<a type="button" class="btn bg-purple-400 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('part-payments')"><i class="icon-piggy-bank"></i> <span>Part Payments</span></a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /actions -->
+			</div>
+		</div>
+	</div>
+	<div class="col-md-9">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h6 class="panel-title">{{segmentTitle}}</h6>
+				<div class="heading-elements">
+					<span class="pull-left">
+						<input type="text" class="form-control daterange" ng-model="dateRange" placeholder="select date range">
+					</span>
+					<ul class="icons-list">
+	            		<li class="dropdown">
+	            			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i> <span class="caret"></span></a>
+	            		</li>
+	            	</ul>
+	        	</div>
+			</div>
+			<div class="panel-body">
+				<ng-include src="pageSegment"></ng-include>
+			</div>
+		</div>
+	</div>
+</div>
