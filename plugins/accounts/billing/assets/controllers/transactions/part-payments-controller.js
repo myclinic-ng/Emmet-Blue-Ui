@@ -403,7 +403,7 @@ angular.module("EmmetBlue")
 				string += "<td>"+
 							"<div class='media-left media-middle'>"+
 								"<span class='text-info text-size-small'>Balance:</span><br/>"+
-								"<span ng-currency ng-currency-symbol='naira'></span>"+data.BillingAmountBalance+
+								data.BillingAmountBalance+
 							"</div>"+
 						"</td>";
 
