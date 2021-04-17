@@ -43,6 +43,7 @@
 		<div class="panel-heading">
 			<h6 class="panel-title" ng-show="patient.isProfileReady"><span class="text-bold">Current Patient: </span> {{patient.profile["first name"]}} {{patient.profile["last name"]}} </h6>
 			<div class="heading-elements" ng-show="patient.isProfileReady">
+				<button class="btn btn-labeled btn-success bg-white no-border-radius" data-toggle="modal" data-target="#_newMedicalSummary"><b><i class="fa fa-user-md"></i></b>Add Medical Summary</button>
 				<button class="btn btn-labeled btn-warning bg-white no-border-radius" ng-click="admit()"><b><i class="fa fa-hotel"></i></b>Admit this patient</button>
 				<button class="btn btn-labeled btn-primary bg-white no-border-radius" data-toggle="modal" data-target="#new-appointment"><b><i class="icon-calendar3"></i></b>Create Appointment</button>
 				<button class="btn btn-labeled btn-info bg-white no-border-radius" data-toggle="modal" data-target="#refer-patient"><b><i class="icon-forward"></i></b>Refer This Patient</button>
@@ -872,6 +873,30 @@
 								</div>
 							</div>
 						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="_newMedicalSummary">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h5 class="modal-title">Add New Medical Summary Field</h5>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="form-group col-md-12">
+							<label class="control-label">Field Title</label>
+							<select class="select" ng-model="newSummary.field"><option ng-repeat="field in summaryFields" value="{{field.FieldID}}" >{{field.FieldTitle}}</option></select>
+						</div>
+						<div class="form-group col-md-12">
+							<label class="control-label">Summary</label>
+							<textarea class="form-control" style="min-height: 100px" ng-model="newSummary.summary"></textarea>
+						</div>
+						<a class="pull-right btn btn-info" ng-click="submitNewMedicalSummary()">Submit</a>
 					</div>
 				</div>
 			</div>

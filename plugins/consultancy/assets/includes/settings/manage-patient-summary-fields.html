@@ -1,0 +1,71 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script>
+	$('select.select').select2();
+</script>
+<div ng-controller="consultancySettingManagePatientSummaryFieldsController">
+	<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
+		
+	</table>
+	
+	<div id="edit_setting_field" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" onclick="$('#edit_setting_field').modal('hide')">&times;</button>
+					<h6 class="modal-title">Edit Field</h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-12">
+								<label>Field Name</label>
+								<input type="text" class="form-control" ng-model="tempHolder.FieldTitle" data-option-id="{{tempHolder.reourceId}}">
+							</div>
+							<div class="col-sm-12">
+								<label>Description</label>
+								<textarea cols="3" rows="3" class="form-control" ng-model="tempHolder.FieldDescription"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" ng-click="tempHolder = {}" onclick="$('#edit_setting_field').modal('hide')">Close</button>
+					<button type="button" class="btn btn-warning" ng-click="saveEditField()">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="new_setting_field" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" onclick="$('#new_setting_field').modal('hide')">&times;</button>
+					<h6 class="modal-title">Create a new field</h6>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-12">
+								<label>Field Name</label>
+								<input type="text" class="form-control" ng-model="newField.fieldTitle">
+							</div>
+							<div class="col-sm-12">
+								<label>Description</label>
+								<textarea cols="3" rows="3" class="form-control" ng-model="newField.fieldDescription"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" ng-click="newField = {}" onclick="$('#new_setting_field').modal('hide')">cancel</button>
+					<button type="button" class="btn btn-warning" ng-click="saveNewField()">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

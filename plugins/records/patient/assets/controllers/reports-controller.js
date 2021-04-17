@@ -10,6 +10,10 @@ angular.module("EmmetBlue")
 				$scope.pageSegment = urlPart+"patient-registrations.html";
 				break;
 			}
+			case "patient-visits-list":{
+				$scope.pageSegment = urlPart+"patient-visits-list.html";
+				break;
+			}
 		}
 	}
 

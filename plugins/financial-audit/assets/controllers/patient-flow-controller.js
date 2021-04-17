@@ -331,6 +331,15 @@ angular.module("EmmetBlue")
 		}
 	})
 
+	$scope.$watch(function(){
+		return utils.storage.currentReportDateRange
+	}, function(nv){
+		if (typeof nv !== "undefined"){
+			$scope.requestFilter.value = nv[0]+" - "+nv[1];
+			$scope.reloadTable();
+		}
+	})
+
 	$scope.toDateString = function(date){
 		return new Date(date).toDateString();
 	}

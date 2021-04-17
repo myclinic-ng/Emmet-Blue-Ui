@@ -44,7 +44,7 @@ angular.module("EmmetBlue")
 
 				var req = utils.serverRequest("/patients/medical-summary/new", "POST", [summ]);
 				req.then(function(response){
-					$("#newField").modal("hide");
+					$("#newMedicalSummary").modal("hide");
 					reloadTable();
 					$scope.newSummary = {};
 				}, function(error){
@@ -55,7 +55,7 @@ angular.module("EmmetBlue")
 			$scope.editSummary = function(summ){
 				$scope.newSummary = summ;
 
-				// $("#editField").modal("show");
+				// $("#editMedicalSummary").modal("show");
 			}
 
 			$scope.submitUpdateSummary = function(){
@@ -65,9 +65,9 @@ angular.module("EmmetBlue")
 					LastModifiedBy: utils.userSession.getID()
 				};
 
-				var req = utils.serverRequest("/patients/medical-summary/edit", "PUT", [summ]);
+				var req = utils.serverRequest("/patients/medical-summary/edit", "PUT", summ);
 				req.then(function(response){
-					$("#editField").modal("hide");
+					$("#editMedicalSummary").modal("hide");
 					reloadTable();
 					$scope.newSummary = {};
 				}, function(error){

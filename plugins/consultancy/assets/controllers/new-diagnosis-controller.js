@@ -507,6 +507,14 @@ angular.module("EmmetBlue")
 	        	}
 	        })
         },
+        loadMedicalSummaryFields: function(){
+			var req = utils.serverRequest("/patients/medical-summary/view-field", "GET");
+			req.then(function(response){
+				$scope.summaryFields = response;
+			}, function(error){
+				utils.errorHandler(error);
+			})
+		},
 		symptoms: {
 			search: function(query, successCallback, errorCallback){
 				modules.globals.httpGetRequest('/consultancy/infermedica/search-symptoms?phrase='+query, successCallback, errorCallback);
@@ -898,6 +906,8 @@ angular.module("EmmetBlue")
 
 		modules.patient.searchAutoSuggestInit();
 
+		modules.globals.loadMedicalSummaryFields();
+
 		$scope.bootstrap();
 	}();
 
@@ -1046,4 +1056,18 @@ angular.module("EmmetBlue")
 		$("#_patient-admission-form").modal("show");	
 	}
 
+	$scope.submitNewMedicalSummary = function(){
+		var summ = $scope.newSummary;
+		summ.patient = $scope.patient.profile.patientid;
+		summ.staff = utils.userSession.getID();
+
+		var req = utils.serverRequest("/patients/medical-summary/new", "POST", [summ]);
+		req.then(function(response){
+			$("#_newMedicalSummary").modal("hide");
+			reloadTable();
+			$scope.newSummary = {};
+		}, function(error){
+			utils.errorHandler(error);
+		});
+	}
 });
