@@ -402,8 +402,8 @@ angular.module("EmmetBlue")
 				var string = "<p class='no-border-radius label "+label+" label-lg'>"+transactionStatus+"</p>";
 				string += "<td>"+
 							"<div class='media-left media-middle'>"+
-								"<span class='text-info text-size-small'>Amount Paid:</span><br/>"+
-								"<span ng-currency ng-currency-symbol='naira'></span>"+data.BillingAmountPaid+
+								"<span class='text-info text-size-small'>Balance:</span><br/>"+
+								"<span ng-currency ng-currency-symbol='naira'></span>"+data.BillingAmountBalance+
 							"</div>"+
 						"</td>";
 
