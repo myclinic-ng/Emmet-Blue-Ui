@@ -1,7 +1,10 @@
 <div class="row">
 	<div class="col-md-4">
-		<a href="plugins/records/patient/assets/images/avatar_placeholder.png" data-popup="lightbox">
+		<!-- <a href="plugins/records/patient/assets/images/avatar_placeholder.png" data-popup="lightbox">
 			<img class="img img-responsive" ng-src="plugins/records/patient/assets/images/avatar_placeholder.png" alt="No picture has been uploaded, continue working with this profile at your discretion"/>
+		</a> -->
+		<a href="{{loadImage(patientInfo.patientpicture)}}" data-popup="lightbox">
+			<img class="img img-responsive" ng-src="{{loadImage(patientInfo.patientpicture)}}" alt="No picture has been uploaded, continue working with this profile at your discretion" onerror="this.src='plugins/records/patient/assets/images/avatar_placeholder.png';"/>
 		</a>
 	</div>
 	<div class="col-md-8">

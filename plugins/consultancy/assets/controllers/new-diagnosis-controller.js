@@ -336,7 +336,7 @@ angular.module("EmmetBlue")
 	        		suggestion: function(string){
         				return	"<div class='row'>"+
 	        						"<div class='col-sm-2'>"+
-	        							"<img class='img img-responsive' src='"+utils.loadImage(string.patientpicture)+"'/>"+
+	        							"<img class='img img-responsive' src='"+utils.loadImage(string.patientpicture)+"' onerror=\"this.src='plugins/records/patient/assets/images/avatar_placeholder.png';\"/>"+
 	        						"</div>"+
 	        						"<div class='col-sm-10'>"+
 	        						"<h5 class='text-bold'>"+string["first name"]+ " " + string["last name"]+"</h5>"+
