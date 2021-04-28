@@ -87,6 +87,7 @@ angular.module("EmmetBlue")
 
 				$("#_new_patient").modal("hide");
 				$rootScope.$broadcast("reloadLabPatients", {});
+				$scope.investigations = [];
 				if (typeof $scope.patient.patientID !== "undefined"){
 					var eventLog = patientEventLogger.lab.newPatientRegisteredEvent(
 						$scope.patient.patientID,
