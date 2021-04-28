@@ -6,11 +6,11 @@
 </style>
 <script>
   $(document).ready(function(){
-    var imgCount = 2;
+    var imgCount = 11;
     var randomize = function(imgCount){
       var ramdomNum = Math.floor((Math.random() * imgCount) + 1);
-      var image = "plugins/user/assets/assets/img/demo/"+ramdomNum+".jpg";
-      $("#bgPic").attr("src", image).attr("data-src", image).attr("data-src-retina", image).attr("alt", ramdomNum+".jpg");
+      var image = "plugins/user/assets/assets/img/demo/"+ramdomNum+".png";
+      $("#bgPic").attr("src", image).attr("data-src", image).attr("data-src-retina", image).attr("alt", ramdomNum+".png");
     }
 
     randomize(imgCount);
@@ -44,9 +44,9 @@
     <img id="bgPic" src="" data-src="" data-src-retina="" alt="" class="lazy">
     <!-- END Background Pic-->
     <!-- START Background Caption-->
-    <div class="bg-caption pull-bottom sm-pull-bottom text-white p-l-20 m-b-20">
-      <h2 class="semi-bold text-white">{{userClient.short_name}}.</h2>
-      <p class="small mt-15">
+    <div class="bg-caption text-info pull-bottom sm-pull-bottom text-white p-l-20 m-b-20">
+      <h2 class="text-bold text-info">{{userClient.short_name}}.</h2>
+      <p class="small mt-15 text-primary">
         All work copyright of respective owners, otherwise © 2016 - {{currentYear}} Emmetblue.
       </p>
     </div>
