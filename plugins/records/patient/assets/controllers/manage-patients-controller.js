@@ -309,6 +309,8 @@ angular.module("EmmetBlue")
 				$scope.searched.patients = response.hits.hits;
 				$scope.searched.searchIcon = "icon-search4";
 			}
+
+			console.log($scope.searched);
 		}, function(response){
 			utils.errorHandler(response);
 			$scope.searched.searchIcon = "icon-search4";

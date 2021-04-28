@@ -104,9 +104,9 @@
 				</div>
 			</div>
 
-			<div class="panel-body">
-				<div class="col-sm-12 text-center" ng-if="searched.totalPageCount.value > 0" ng-cloak>
-					<h6 class="text-muted">Found <strong><span class="text-bold text-black">{{searched.totalPageCount.value}}</span></strong> Profile<span ng-if="searched.totalPageCount > 1">s</span> Matching Search Query</h6>
+			<div class="panel-body" ng-if="searched.totalPageCount > 0" >
+				<div class="col-sm-12 text-center">
+					<h6 class="text-muted">Found <strong><span class="text-bold text-black">{{searched.totalPageCount}}</span></strong> Profile<span ng-if="searched.totalPageCount > 1">s</span> Matching Search Query</h6>
 					<dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="assets/angular/libraries/ng-pagination/ng-pagination.tpl.html"></dir-pagination-controls>
 				</div>
 
@@ -114,6 +114,12 @@
 					<div class="col-lg-6 col-sm-6" dir-paginate="patient in searched.patients | itemsPerPage: searched.pageSize" total-items="searched.totalPageCount" current-page="searched.currentPage">
 						<ng-patient-grid patient-info="patient['_source']"></ng-patient-grid>
 					</div>
+				</div>
+			</div>
+
+			<div class="panel-body" ng-if="searched.totalPageCount == 0" >
+				<div class="row" style="margin-top: 70px;">
+					<center><img src="plugins/records/patient/assets/images/undraw_empty_street_sfxm.svg" alt="No Patient Found for the Search Criteria" style="width: 70%; height: 70vh; opacity: 0.5"/></center>
 				</div>
 			</div>
 		</div>
@@ -375,7 +381,7 @@
 								</div>
 								<div ng-show="requestForm.showSearchResult">
 									<ul class="media-list overflow-auto" style="max-height: 400px;">
-										<li class="media-header">Found {{searched.totalPageCount.value}} profiles matching search query</li>
+										<li class="media-header">Found {{searched.totalPageCount}} profiles matching search query</li>
 
 										<li class="media btn col-sm-4" ng-repeat="patient in searched.patients" ng-click="showRequestForm(patient['_source'])">
 											<div class="media-left media-middle">
