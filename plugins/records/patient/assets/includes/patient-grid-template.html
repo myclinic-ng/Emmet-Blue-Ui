@@ -23,11 +23,17 @@
 		<div class="media-body">
 			<div class="col-xs-12">
 				<h5 data-popup="tooltip" title="{{patientInfo.patientfullname}}">{{patientInfo.patientfullname}}</h5>
-				<h5><span class="text-info"><small>{{patientInfo.patientuuid}} | {{patientInfo.patienttypename}}</small></span></h5>
+				<h5>
+					<span class="text-info">
+						<small>{{patientInfo.patientuuid}} | {{patientInfo.patienttypename}} | 
+							<i class="fa fa-user-plus text-success" ng-if="patientInfo.isLinkedToCloud == true" data-toggle="tooltip" title="Subscribed to EmmetBlue Cloud"></i>
+							<i class="fa fa-cloud text-muted" ng-if="patientInfo.isLinkedToCloud == false" data-toggle="tooltip" title="Unsubscribed"></i>
+						</small>
+					</span></h5>
 				<p class="text-muted">
-					<span class="badge badge-success" ng-show="patientInfo.patientprofilelockstatus == 1"><i class="icon-lock2"></i> profile locked</span>
-					<span class="badge badge-danger" ng-show="patientInfo.patientprofilelockstatus == 0"><i class="icon-unlocked2"></i> profile unlocked</span>
-					<!-- <span class="badge badge-info"><i class="icon-calendar"></i> last visit: <u>12/10/2016</u></info> -->
+					<span class="badge badge-success bg-white text-success" ng-show="patientInfo.patientprofilelockstatus == 1"><i class="icon-lock2"></i> profile locked</span>
+					<span class="badge badge-danger bg-white text-danger" ng-show="patientInfo.patientprofilelockstatus == 0"><i class="icon-unlocked2"></i> profile unlocked</span>
+					<!-- <span class="badge badge-info"><i class="icon-calendar"></i> <u>12/10/2016</u></info> -->
 				</p>
 			</div>
 
@@ -161,7 +167,7 @@
 <div id="paymentRequestLocker-{{patientInfo.patientid}}" class="modal fade">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
-			<div class="modal-header bg-success">
+			<div class="modal-header bg-primary">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 				<h6 class="modal-title">Enter Payment Request Code If Available</h6>
 			</div>
@@ -169,14 +175,21 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="content-group col-md-5">
+						<div class="row">
+							<div class="col-4">
+								<img src="{{loadImage(patientInfo.patientpicture)}}" class="img img-responsive pull-left img-circle" width="50" height="50" on-error-src="{{getGenderAvatar(patientInfo.gender)}}"/>
+							</div>
+							<div class="col-8" style="padding-left: 60px;">
+								<h5 class="text-bold" data-popup="tooltip" title="{{patientInfo.patientuuid}} | {{patientInfo.patienttypename}}">{{patientInfo.patientfullname}}</h5>
+							</div>
+						</div>
+						<div class="clear"><br/></div>
 						<label class="control-label"><small> This can only be found on the receipt issued at the point of payment. Leave this field blank if theres no payment available</small></label>
 						<input class="form-control" placeholder="enter a verified payment request number here" ng-model="requestNumberForLocker"/>
-						<div class="clear"><br/></div>
-
-						<div class="col-md-12"><img src="{{loadImage(patientInfo.patientpicture)}}" class="img img-responsive pull-left" width="150" height="150"/></div>
-						<div class="col-xs-12">
-							<h5 data-popup="tooltip" title="{{patientInfo.patientfullname}}">{{patientInfo.patientfullname}}</h5>
-							<h5><span class="text-info"><small>{{patientInfo.patientuuid}} | {{patientInfo.patienttypename}}</small></span></h5>
+						<div class="row">
+							<div class="col-md-12" style="margin-top: 50px">
+								<center><img src="plugins/records/patient/assets/images/undraw_Account_re_o7id.svg" style="width: 100%; height: 30vh; opacity: 0.5"/></center>
+							</div>
 						</div>
 					</div>
 					<div class="col-md-7">

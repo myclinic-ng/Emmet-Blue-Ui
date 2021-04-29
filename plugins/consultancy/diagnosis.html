@@ -1,3 +1,12 @@
+<style>
+	.loading {    
+	    background-color: #ffffff;
+	    background-image: url("assets/images/heartbeat_loader.gif");
+	    /*background-size: 15px;*/
+	    background-position:right center;
+	    background-repeat: no-repeat;
+	}
+</style>
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
 <script src="assets/js/plugins/forms/tags/bootstrap-tagsinput.js"></script>
 <script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
@@ -49,7 +58,7 @@
 	</div>
 	<div class="panel panel-success" ng-show="patient.isProfileReady" ng-cloak>
 		<div class="panel-heading">
-			<h6 class="panel-title" ng-show="patient.isProfileReady"><span class="text-bold">Current Patient: </span> {{patient.profile["first name"]}} {{patient.profile["last name"]}} </h6>
+			<h6 class="panel-title" ng-show="patient.isProfileReady"><span class="text-bold text-uppercase">{{patient.profile["first name"]}} {{patient.profile["last name"]}} </span></h6>
 			<div class="heading-elements" ng-show="patient.isProfileReady">
 				<button class="btn btn-labeled btn-success bg-white no-border-radius" data-toggle="modal" data-target="#_newMedicalSummary"><b><i class="fa fa-user-md"></i></b>Add Medical Summary</button>
 				<button class="btn btn-labeled btn-warning bg-white no-border-radius" ng-click="admit()"><b><i class="fa fa-hotel"></i></b>Admit this patient</button>

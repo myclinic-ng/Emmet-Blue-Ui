@@ -9,10 +9,6 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.bootstrap = function(){
-		if (typeof utils.storage.currentPatientNumberDiagnosis != "undefined" && utils.storage.currentPatientNumberDiagnosis != null){
-			$("#patient-patientSearchQuery").val(utils.storage.currentPatientNumberDiagnosis);
-			modules.patient.loadPatientProfile();
-		}
 
 		$scope.showObservationMeta = [];
 		$scope.mostRecentObservation = [];
@@ -597,7 +593,9 @@ angular.module("EmmetBlue")
 				modules.globals.httpPostRequest('/patients/patient/search', query, successCallback, errorCallback);
             },
 			typeAheadSource: function(query, process){
+				$("#patient-patientSearchQuery").addClass("loading");
 	    		modules.globals.patient.search(query, function(response){
+	    			$("#patient-patientSearchQuery").removeClass("loading");
 	    			var data = [];
 	        		angular.forEach(response.hits.hits, function(value){
 	        			data.push(value["_source"]);
@@ -608,6 +606,7 @@ angular.module("EmmetBlue")
 	        		});
 	        		process(data);
 	    		}, function(error){
+	    			$("#patient-patientSearchQuery").removeClass("loading");
 	    			utils.errorHandler(error);
 	    		})
 	    	}
@@ -805,7 +804,15 @@ angular.module("EmmetBlue")
 		}
 	}
 
+	$scope.searchPatient = function(){
+		if (typeof utils.storage.currentPatientNumberDiagnosis != "undefined" && utils.storage.currentPatientNumberDiagnosis != null){
+			$("#patient-patientSearchQuery").val(utils.storage.currentPatientNumberDiagnosis);
+			modules.patient.loadPatientProfile();
+		}
+	}
+
 	var bootstrap = function(){
+		$scope.searchPatient();
 		$scope.globals = {
 			today: function(){
 				var date = new Date();
@@ -1074,9 +1081,8 @@ angular.module("EmmetBlue")
 	$scope.$watch(function(){
 		return utils.storage.currentPatientNumberDiagnosis;
 	}, function(nv, ov){
-		console.log(nv, ov);
 		if (typeof nv !== "undefined" && nv !== ov){
-			$scope.bootstrap();
+			$scope.searchPatient();
 		}
 	})
 });

@@ -1,6 +1,6 @@
 angular.module("EmmetBlue")
 
-.controller("consultancyDashboardController", function($scope, utils){
+.controller("consultancyDashboardController", function($scope, utils, $location){
 	$scope.loadImage = utils.loadImage;
 	$scope.pageSegment = "";
 	$scope.loadPageSegment = function(segment){
@@ -79,6 +79,7 @@ angular.module("EmmetBlue")
 
 	$scope.openDiagnosis = function(uuid){
 		utils.storage.currentPatientNumberDiagnosis = uuid;
-		window.location.href = "consultancy/diagnosis";
+		// window.location.href = "consultancy/diagnosis";
+		$location.path("consultancy/diagnosis");
 	}
 })
