@@ -9,6 +9,8 @@ angular.module("EmmetBlue")
 		templateUrl: "plugins/records/patient/assets/includes/patient-grid-template.html",
 		controller: function($scope, utils, $rootScope){
 			$scope.loadImage = utils.loadImage;
+			$scope.getGenderAvatar = utils.getGenderAvatar;
+			
 			$scope.unlockData = {};
 			$scope.patients = {};
 			$scope.patients[$scope.patientInfo.patientid] = $scope.patientInfo;

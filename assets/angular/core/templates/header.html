@@ -62,7 +62,7 @@
 					<a class="dropdown-toggle" data-toggle="dropdown" ng-click="loadSwitchableDepts()">
 						Switch Department <i class="caret"></i>
 					</a>
-					<ul class="dropdown-menu dropdown-menu-right">
+					<ul class="dropdown-menu dropdown-menu-right" style="height: 400px; overflow-y: auto;">
 						<li>
 							<div class="form-group" style=" padding: 0 !important; margin: 0 !important;">
 								<input class="form-control" type="text" placeholder="Filter departments " style="border: 0;" ng-model="departmentsFilter" id="__departmentsFilter"/>
@@ -73,7 +73,7 @@
 						</li>
 						<li class="divider"></li>
 						<li ng-repeat="(key, department) in switchableDepartments | filter: departmentsFilter" ng-click="switch(department.DepartmentID)">
-							<a href="#"><i class="fa fa-bookmark" style="color: {{switchRandomColors[key]}} !important;"></i> {{department.Name}}</a>
+							<a href="#"><i class="fa fa-asterisk" style="color: {{switchRandomColors[key]}} !important;"></i> {{department.Name}}</a>
 						</li>
 						<li ng-if="switchableDepartments.length == 0">
 							<a href="#" class="text-center" style="font-size: 0.8em !important"><i class="fa fa-ban"></i> No secondary department</a>

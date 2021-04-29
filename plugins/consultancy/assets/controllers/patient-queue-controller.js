@@ -1,6 +1,6 @@
 angular.module("EmmetBlue")
 
-.controller("patientQueueController", function($rootScope, $scope, utils){
+.controller("patientQueueController", function($rootScope, $scope, utils, $location){
 	$scope.loadImage = utils.loadImage;
 	$scope.queuedPatients = {};
 	var loadQueue = function(consultant){
@@ -32,14 +32,16 @@ angular.module("EmmetBlue")
 	countQueue();
 
 	$scope.removeFromQueue = function(id, uuid){
+		$("#_patient-queue").modal("hide");
 		var req = utils.serverRequest("/consultancy/patient-queue/delete?resourceId="+id, "DELETE");
 
 		req.then(function(response){
 			var patientsLeft = $scope.queuedPatients.length-1;
 			utils.notify("", "The selected patient has been removed from queue, there are now "+ patientsLeft +" patients left to process", "success");
-			//$rootScope.$broadcast("reloadQueue");
 			utils.storage.currentPatientNumberDiagnosis = uuid;
-			window.location.href = "consultancy/diagnosis";
+			$rootScope.$broadcast("reloadQueue");
+			// window.location.href = "consultancy/diagnosis";
+			$location.path("consultancy/diagnosis");
 		}, function(error){
 			utils.errorHandler(error);
 		});

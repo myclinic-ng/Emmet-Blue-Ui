@@ -36,7 +36,7 @@
 		</div>
 		<div class="col-xs-5">
 			<div class="col-xs-12">
-				<center><img ng-src="{{loadImage(patientInfo.patientpicture)}}" class="img img-rounded img-responsive pull-left" style="width: 250px; height: 200px" alt="No picture has been uploaded, continue working with this profile at your discretion"/></center>
+				<center><img ng-src="{{loadImage(patientInfo.patientpicture)}}" class="img img-rounded img-responsive pull-left" style="width: 250px; height: 200px" alt="No picture has been uploaded, continue working with this profile at your discretion" on-error-src="{{getGenderAvatar(patientInfo.gender)}}"/></center>
 			</div>
 			 <div class="form-group col-xs-12">
 				<label class="col-xs-4">Issued On: </label>

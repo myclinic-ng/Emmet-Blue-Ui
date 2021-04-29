@@ -38,6 +38,14 @@
 	</div>
 	<div class="col-sm-12 mt-20" ng-show="patient.profileLoading && !patient.isProfileReady" ng-cloak>
 		<h5 class="text-center mt-15"><i class="icon-spinner2 fa-spin text-danger"></i> Loading...</h5>
+		<center>
+			<img src="plugins/consultancy/assets/images/undraw_Connected_re_lmq2.svg" style="width: 70%; height: 70vh; opacity: 0.5"/>
+		</center>
+	</div>
+	<div class="col-md-12 mt-15" ng-show="!patient.profileLoading && !patient.isProfileReady" ng-cloak>
+		<center>
+			<img src="plugins/consultancy/assets/images/undraw_doctors_hwty.svg" style="width: 70%; height: 70vh; opacity: 0.5"/>
+		</center>
 	</div>
 	<div class="panel panel-success" ng-show="patient.isProfileReady" ng-cloak>
 		<div class="panel-heading">

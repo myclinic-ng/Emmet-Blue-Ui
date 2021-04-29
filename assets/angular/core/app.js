@@ -6,6 +6,18 @@ angular.module("EmmetBlue")
 	}
 })
 
+.directive('onErrorSrc', function() {
+    return {
+        link: function(scope, element, attrs) {
+          element.bind('error', function() {
+            if (attrs.src != attrs.onErrorSrc) {
+              attrs.$set('src', attrs.onErrorSrc);
+            }
+          });
+        }
+    }
+})
+
 .filter('cut', function () {
     return function (value, wordwise, max, tail) {
         if (!value) return '';
@@ -352,6 +364,21 @@ angular.module("EmmetBlue")
     	var data  = {type: type, content: content};
     	return generateQrCode(JSON.stringify(data));
     }
+
+    services.getGenderAvatar = function(gender){
+		var str = "plugins/records/patient/assets/images/undraw_male_avatar_323b.svg";
+		if (gender == "Male"){
+			str = "plugins/records/patient/assets/images/undraw_male_avatar_323b.svg";
+		}
+		else if (gender == "Female"){
+			str = "plugins/records/patient/assets/images/undraw_female_avatar_w3jk.svg";
+		}
+		else {
+			str = "plugins/records/patient/assets/images/avatar_placeholder.png";
+		}
+
+		return str;
+	}
 
 	services.globalConstants = CONSTANTS;
 

@@ -9,6 +9,7 @@ angular.module("EmmetBlue")
 		templateUrl: "plugins/records/patient/assets/includes/patient-profile-template.html",
 		controller: function($scope, utils){
 			$scope.loadImage = utils.loadImage;
+			$scope.getGenderAvatar = utils.getGenderAvatar;
 			$scope.getAge = utils.getAge;
 
 			var loadDiagnosis = function(id){
