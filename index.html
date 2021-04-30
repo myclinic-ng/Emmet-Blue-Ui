@@ -38,11 +38,11 @@
 	</script>
 	
 	<script>
-		// if ('serviceWorker' in navigator) {
-		//   window.addEventListener('load', function() {
-		//     navigator.serviceWorker.register('/sw.js');
-		//   });
-		// }
+		if ('serviceWorker' in navigator) {
+		  window.addEventListener('load', function() {
+		    navigator.serviceWorker.register('/sw.js');
+		  });
+		}
 	</script>
 	<script type="text/javascript" src="assets/js/core/libraries/jquery.min.js"></script>
 	<script
@@ -130,7 +130,7 @@
 						<div class="pages" ng-view></div>
 					</div>
 				</div>
-				
+
 				<!-- /page content -->
 				<div class="footer text-muted" ng-cloak>
 					&copy; EmmetBlue </a>

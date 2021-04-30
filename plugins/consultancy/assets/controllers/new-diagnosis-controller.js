@@ -905,6 +905,7 @@ angular.module("EmmetBlue")
 		// });
 
 		modules.presentingComplaints.symptomSearchAutoSuggestInit();
+		modules.presentingComplaints.loadComplaintTemplates();
 		modules.globals.diagnosisSuggestInit();
 
 		$("#conclusionTitle").on("change", function(e){
