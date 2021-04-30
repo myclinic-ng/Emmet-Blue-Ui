@@ -308,9 +308,11 @@ angular.module("EmmetBlue")
 				$scope.searched.totalPageCount = response.hits.total;
 				$scope.searched.patients = response.hits.hits;
 				$scope.searched.searchIcon = "icon-search4";
-			}
 
-			console.log($scope.searched);
+				if (typeof $scope.searched.totalPageCount.value !== "undefined"){
+					$scope.searched.totalPageCount = $scope.searched.totalPageCount.value;
+				}
+			}
 		}, function(response){
 			utils.errorHandler(response);
 			$scope.searched.searchIcon = "icon-search4";
