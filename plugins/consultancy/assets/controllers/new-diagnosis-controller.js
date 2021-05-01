@@ -16,14 +16,6 @@ angular.module("EmmetBlue")
 		utils.storage.consultancy = {
 		};
 
-		if (typeof utils.storage.consultancy.symptoms == "undefined"){
-			modules.globals.symptoms.storeAllSymptomsPersistently();
-		}
-
-		if (typeof utils.storage.consultancy.labtests == "undefined"){
-			modules.globals.labTests.storeAllLabTestsPersistently();
-		}
-
 
 		$scope.presentingComplaints.searchedSymptoms = {};
 
@@ -45,6 +37,14 @@ angular.module("EmmetBlue")
 		$scope.conclusion = {
 			prescriptionList: [],
 			diagnosis: {}
+		}
+
+		if (typeof utils.storage.consultancy.symptoms == "undefined"){
+			modules.globals.symptoms.storeAllSymptomsPersistently();
+		}
+
+		if (typeof utils.storage.consultancy.labtests == "undefined"){
+			modules.globals.labTests.storeAllLabTestsPersistently();
 		}
 	}
 
@@ -357,7 +357,7 @@ angular.module("EmmetBlue")
 					// if (typeof $scope.patient != "undefined" && $scope.patient.isProfileReady == false){
 					// 	$scope.patient.isProfileReady = true;
 					// }
-					utils.alert("Unable to load profile", "You have sent an ambiguous request to the server. Please refine your search query and try again. It is recommended to use an actual patient number for search.", "info");
+					utils.alert("Unable to load profile: "+result.length+" patients match the provided search term", "Please refine your search query and try again. It is recommended to use an actual patient number for search.", "info");
 				}
 				else {
 					$scope.patient.profile = result[0]["_source"];
@@ -1083,6 +1083,7 @@ angular.module("EmmetBlue")
 		return utils.storage.currentPatientNumberDiagnosis;
 	}, function(nv, ov){
 		if (typeof nv !== "undefined" && nv !== ov){
+			$scope.bootstrap();
 			$scope.searchPatient();
 		}
 	})
