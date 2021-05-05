@@ -1,5 +1,5 @@
 function getConstants(){
-	var server = "https://api.emmetblue.ng/";
+	var server = "http://localhost:705/1008/"; /*"https://api.emmetblue.ng/";*/
 	var file_server = "http://api.emmetblue.ng:9003/";
 	var ws_server = ""; /*"wss://emmetblue.org.ng/echobot";*/
 	var client = {

@@ -104,7 +104,7 @@ angular.module("EmmetBlue")
 
 					if (typeof response.business == "undefined"){
 						utils.serverRequest("/read-resource?url=business-info", "GET").then(function(resource){
-							responseObject.businessInfo = $.parseJSON(JSON.Stringify(resource));
+							responseObject.businessInfo = $.parseJSON(JSON.stringify(resource));
 							$cookies.putObject(utils.globalConstants.USER_COOKIE_IDENTIFIER, responseObject);
 						}, function(error){
 
@@ -156,7 +156,7 @@ angular.module("EmmetBlue")
 	$scope.fingerLoaded = false;
 
 	$scope.fingerprintUnsupported = function(){
-		utils.alert("Please contact us", "This feature is currently disabled for your organization, please contact us for details on how to get started.", "info")
+		// utils.alert("Please contact us", "This feature is currently disabled for your organization, please contact us for details on how to get started.", "info")
 	}
 
 	function streamFingerprint(){
