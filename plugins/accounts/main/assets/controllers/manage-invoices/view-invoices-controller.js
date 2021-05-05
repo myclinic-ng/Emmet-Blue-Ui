@@ -23,6 +23,9 @@ angular.module("EmmetBlue")
 		if ($scope.filter.type == "date"){
 			url += "filtertype=date&startdate="+$scope.filter.dates[0]+"&enddate="+$scope.filter.dates[1];
 		}
+		else if($scope.filter.type == "status"){
+			url += "filtertype=status&query="+$scope.filter.value;
+		}
 
 		url += "&from="+$scope.pages.from+"&to="+$scope.pages.to;
 
@@ -65,7 +68,7 @@ angular.module("EmmetBlue")
 		}
 	}
 
-	$scope.filterInvoices = function(type){
+	$scope.filterInvoices = function(type, value = ""){
 		switch(type){
 			case "daterange":{
 				$scope.filter.type = "date";
@@ -90,6 +93,12 @@ angular.module("EmmetBlue")
 				$scope.filter.type = "date";
 				$scope.filter.label = "Since This Week, "+($scope.getDateRange("week")).toDateString()+" To "+ (new Date()).toDateString();
 				$scope.filter.dates = [($scope.getDateRange("week")).toLocaleDateString(), (new Date()).toLocaleDateString()];
+				break;
+			}
+			case "status":{
+				$scope.filter.type = "status";
+				$scope.filter.label = value;
+				$scope.filter.value = value;
 				break;
 			}
 		}

@@ -173,7 +173,7 @@
 						</div>
 					</div>
 					<div class="row" ng-if="repository.RepositoryType == 'lab_result'">
-						<h1 class="text-center text-uppercase tet-bold">Laboratory Report</h1>
+						<h1 class="text-center text-uppercase text-bold">Laboratory Report</h1>
 						<div class="table-responsive">
 							<table class="table table-lg text-nowrap">
 								<tbody>
@@ -194,8 +194,15 @@
 									</tr>
 								</tbody>
 							</table>
-
 							<div class="row" id="lab_result_doc">
+								<div class="row">
+									<div class="col-xs-12 text-center text-black text-bold ">
+										<h3 style="line-height: 0.5" class="text-uppercase text-bold">{{businessInfo.BusinessName}}</h3>
+										<h5 style="line-height: 0.5">{{businessInfo.BusinessOtherAddress}}</h5>
+										<h5 style="line-height: 0.5">{{businessInfo.BusinessContactPersonPhone}} | {{businessInfo.BusinessContactPersonEmail}}</h5>
+										<h5 style="line-height: 0.5">{{businessInfo.BusinessWebUrl}}</h5>
+									</div>
+								</div>
 								<div class="col-md-12" ng-if="issetLabMeta">
 									<div class="col-md-12">
 										<table class="table table-lg text-nowrap">

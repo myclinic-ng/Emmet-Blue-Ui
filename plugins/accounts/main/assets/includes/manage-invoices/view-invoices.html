@@ -41,7 +41,7 @@
 						<ul class="dropdown-menu">
 							<li><a href="#">Show all</a></li>
 							<li class="divider"></li>
-							<li ng-repeat="status in transactionStatuses"><a href="#">{{status.StatusName}}</a></li>
+							<li ng-repeat="status in transactionStatuses"><a href="#" ng-click="filterInvoices('status', status.StatusName)">{{status.StatusName}}</a></li>
 						</ul>
 					</li>
 				</ul>

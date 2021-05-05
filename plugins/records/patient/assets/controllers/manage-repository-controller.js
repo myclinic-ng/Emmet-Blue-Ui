@@ -762,6 +762,8 @@ var recordsPatientManageRepositoryController = function($scope, utils, $http){
 	// $scope.currentRepository = 7;
 	$scope.utils = utils;
 	$scope.loadImage = utils.loadImage;
+
+	$scope.businessInfo = utils.userSession.getBusinessInfo();
 	$scope.$watch(function(){
 		return $scope.currentRepository
 	}, function(nv){

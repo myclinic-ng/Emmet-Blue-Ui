@@ -24,6 +24,8 @@
 				</a>
 			</li>
 			<li><a href="#" data-toggle="modal" data-target="#_patient-admission-form"><i class="fa fa-hotel position-left"></i> Admit A Patient</a></li>
+
+			<li><a href="#" data-toggle="modal" data-target="#_payment_request"><i class="icon-cash position-left"></i>Create Payment Request</a></li>
 		</ul>
 
 		<ul class="nav navbar-nav navbar-right">
@@ -37,3 +39,94 @@
 <ng-include src="'plugins/consultancy/assets/includes/patient-appointments.html'"></ng-include>
 <ng-include src="'plugins/consultancy/assets/includes/admit-patient.html'"></ng-include>
 <ng-include src="'plugins/consultancy/assets/includes/settings/index.html'"></ng-include>
+
+
+<div id="_payment_request" class="modal fade" ng-controller="nursingStationPaymentRequestController">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header bg-warning">
+				<button type="button" class="close" data-dismiss="modal">&times; close</button>
+				<h6 class="modal-title">Payment Requests</h6>
+			</div>
+			<div class="modal-body">
+				<div class="tabbable">
+					<ul class="nav nav-tabs nav-tabs-highlight nav-justified">
+						<li class="active"><a href="#payment-request-new" data-toggle="tab">create new request</a></li>
+						<li><a href="#payment-request-verify" data-toggle="tab">verify payment</a></li>
+					</ul>
+
+					<div class="tab-content">
+						<div class="tab-pane active" id="payment-request-new">
+							<div class="form-group">
+								<div class="input-group">
+									<input class="form-control input-lg" placeholder="Enter patients hospital number" type="search" data-popup="tooltip" data-trigger="focus" ng-model="search.query"/>
+									<span class="input-group-btn">
+										<button class="btn btn-warning btn-lg" type="button" ng-click="search(true)"> <i class="{{searched.searchIcon}}"></i></button>
+									</span>
+								</div>
+							</div>
+
+							<div ng-show="!requestForm.showSearchResult">
+								<div class="row">
+									<h1 class="text-center text-black">{{requestForm.currentPatientProfile.patientfullname}}</h1>
+									<p class="text-center text-muted">
+										{{requestForm.currentPatientProfile.patienttypename}},{{requestForm.currentPatientProfile.categoryname}}
+									</p>
+									<div class="form-group col-md-7">
+										<select class="select" ng-model="paymentRequestItem.item">
+											<optgroup label="{{key}}" ng-repeat="(key, item) in requestItems">
+												<option ng-repeat="value in item" value="{{value}}">{{value.BillingTypeItemName}}</option>
+											</optgroup>
+										</select>
+									</div>
+									<div class="input-group col-md-5">
+										<input type="number" placeholder="Quantity. Defaults to 1" class="form-control col-md-7" ng-model="paymentRequestItem.quantity"/>
+										<span class="input-group-btn">
+											<button class="btn btn-default btn-success" ng-click="addPaymentRequestItemToList()">add</button>
+										</span>
+									</div>
+									<div class="col-md-12 table-responsive">
+										<table class="table table-condensed hover">
+											<thead>
+												<tr class="warning">
+													<th>S/N</th>
+													<th>Item</th>
+													<th>Quantity</th>
+													<th>Action</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng-repeat="item in paymentRequestItems">
+													<td>{{$index + 1}}</td>
+													<td>{{item._item.BillingTypeItemName}}</td>
+													<td>{{item.quantity}}</td>
+													<td><a class="btn btn-link text-danger" href="#" ng-click="removeItem($index)"><i class="icon-bin"></i> Remove</a></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-30">	
+								<button type="button" class="btn btn-warning pull-right" ng-show="paymentRequestItems.length > 0" ng-click="createRequest()">
+									<i class="icon-mail"></i> Create payment request
+								</button>
+							</div>
+						</div>
+
+						<div class="tab-pane" id="payment-request-verify">
+							<div class="form-group">
+								<div class="input-group">
+									<input class="form-control input-lg" placeholder="Enter request number" type="input" ng-model="paymentRequestNumber"/>
+									<span class="input-group-btn">
+										<button class="btn btn-warning btn-lg" type="button" ng-click="verifyPayment(paymentRequestNumber)"> <i class="icon-file"></i> verify</button>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
