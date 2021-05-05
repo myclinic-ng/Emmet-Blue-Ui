@@ -70,10 +70,10 @@
 									<tbody>
 										<tr>
 											<td class="no-border"><i class="icon-circle-small text-info"></i> Balance:</td>
-											<td class="no-border text-danger text-bold" ng-if="invoiceData.depositAccount.AccountBalance != -1 && invoiceData.depositAccount.AccountBalance < invoiceData.amount">
+											<td class="no-border text-danger text-bold" ng-if="invoiceData.depositAccount.AccountBalance != -1 && invoiceData.depositAccount.AccountBalance < newPayment.amountPaid">
 												<span ng-currency ng-currency-symbol="naira"></span> {{invoiceData.depositAccount.AccountBalance}}
 											</td>
-											<td class="no-border text-success text-bold" ng-if="invoiceData.depositAccount.AccountBalance >= invoiceData.amount">
+											<td class="no-border text-success text-bold" ng-if="invoiceData.depositAccount.AccountBalance >= newPayment.amountPaid">
 												<span ng-currency ng-currency-symbol="naira"></span> {{invoiceData.depositAccount.AccountBalance}}
 											</td>
 											<td class="no-border text-warning text-bold" ng-if="invoiceData.depositAccount.AccountBalance == -1">
@@ -87,7 +87,7 @@
 						<h6 class="text-center"><u>Payment Form</u></h6>
 						<div class="content-group col-md-12">
 							<label class="checkbox-inline">
-								<input type="checkbox" ng-model="newPayment.billFromDepositAccount" ng-disabled="invoiceData.depositAccount.AccountBalance < invoiceData.amount">
+								<input type="checkbox" ng-model="newPayment.billFromDepositAccount" ng-disabled="invoiceData.depositAccount.AccountBalance < newPayment.amountPaid">
 								Bill this invoice from patient's deposit account
 							</label>
 						</div>

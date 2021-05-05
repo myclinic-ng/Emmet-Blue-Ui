@@ -66,38 +66,53 @@ angular.module("EmmetBlue")
 		actionsMarkUp: function(meta, full, data){
 			var viewButtonAction = "functions.viewReceipt("+data.TransactionID+")";
 
-			var viewButton = "<button type='button' class='btn btn-payment-request bg-success-400  bg-white btn-success btn-labeled btn-xs' ng-click=\""+viewButtonAction+"><b><i class='icon-printer'></i></b> View Receipt</button>";
+			var options = 
+				" data-option-id='"+data.TransactionID+
+				"' data-option-account-id='"+data.AccountID+
+				"' data-option-patient-uuid='"+data.PatientUUID+
+				"' data-option-patient-id='"+data.PatientID+
+				"' data-option-patient-fullname='"+data.PatientFullName+
+				"' data-option-patient-type='"+data.PatientType+
+				"' data-option-staff-id='"+data.StaffID+
+				"' data-option-staff-name='"+data.StaffName+
+				"' data-option-transaction-date='"+data.TransactionDate+
+				"' data-option-transaction-amount='"+data.TransactionAmount+
+				"' data-option-transaction-comment='"+data.TransactionComment+
+				"' ";
 
-			if (data.RequestFulfillmentStatus == 1){
-				var viewButton = "<button type='button' class='btn btn-payment-request bg-success-400 bg-white btn-success btn-labeled btn-xs' ng-click=\""+viewButtonAction+"\" "+options+"><b><i class='icon-menu7'></i></b> Open Request</button>";
+			var viewButton = "<button type='button' class='btn btn-payment-request bg-success-400  bg-white btn-success btn-labeled btn-xs' ng-click=\""+viewButtonAction+"\" "+options+"><b><i class='icon-printer'></i></b> View Receipt</button>";
+
+			return viewButton;
+		},
+		viewReceipt: function(id){
+			var txStatus = "Credit";
+			if ($(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-transaction-amount") < 0){
+				txStatus = "Debit";
 			}
 
-			if (data.RequestFulfillmentStatus == -1){
-				var viewButton = "<button type='button' class='btn btn-payment-request bg-info-400 bg-white btn-info btn-labeled btn-xs' ng-click=\""+viewButtonAction+"\" "+options+"><b><i class='icon-menu7'></i></b> Open Request</button>";
-			}
+			var _receiptData = {
+				amountPaid:$(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-transaction-amount"),
+				customerName:$(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-patient-fullname"),
+				invoiceData:{
+					type:'',
+					number: id,
+					createdBy: $(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-staff-name"),
+					status: $(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-transaction-comment"),
+					amount: $(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-transaction-amount"),
+					patient: $(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-patient-id"),
+					totalAmount: $(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-transaction-amount"),
+					items: [],
+					paid: 1,
+					amountPaid: $(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-transaction-amount"),
+					department: ''
+				},
+				metaId: $(".btn-payment-request[data-option-id='"+id+"']").attr("data-option-account-id"),
+				paymentMethod:'Deposit',
+				transactionId: id,
+				transactionStatus:"Deposit Receipt ("+txStatus+")"
+			};
 
-			var string = "<li><a href='#' class='billing-type-btn' ng-click=\""+makePaymentButtonAction+"\" "+options+"><i class='icon-pencil5'></i> Process Request</a></li>";
-
-			if (data.RequestFulfillmentStatus != 0){
-				var string = "<li><a href='#'><i class='icon-pencil5'></i> <strike>Process Request</strike></a></li>";
-			}
-
-			if (typeof data.AttachedInvoiceNumber !== "undefined"){
-				var val = "<li><a href='#' ng-click='copyToClipboard("+data.AttachedInvoiceNumber+")'><i class='icon-copy2 text-primary'></i> Copy Invoice Number</a></li>";
-
-				string += val;
-			}
-
-			var group = "<div class='btn-group'>"+
-								viewButton+
-		                    	"<button type='button' class='btn bg-teal-400 dropdown-toggle btn-xs' data-toggle='dropdown'><span class='caret'></span></button>"+
-		                    	"<ul class='dropdown-menu dropdown-menu-right'>"+
-									string+
-									// "<li class='divider'></li>"+
-									// "<li><a href='#' class='billing-type-btn' ng-click=\""+deleteButtonAction+"\" "+options+"><i class='icon-cross text-danger'></i> Delete Request</a></li>"+
-								"</ul>"+
-							"</div>";
-			return group;
+			$scope.printReceipt(_receiptData);
 		}
 	}
 
@@ -119,6 +134,9 @@ angular.module("EmmetBlue")
 			var dates = filter.value.split(" - ");
 			_filter += 'filtertype=date&startdate='+dates[0]+'&enddate='+dates[1];
 		}
+		if (filter.type == 'patient'){
+			_filter += 'filtertype=patientuuid&query='+filter.value;
+		}
 
 		var draw = data[0].value;
         var order = data[2].value;
@@ -133,7 +151,6 @@ angular.module("EmmetBlue")
 		var requests = utils.serverRequest(url, 'GET');
 		
 		requests.then(function(response){
-			console.log(response);
 			var records = {
 				data: response.data,
 				draw: draw,
@@ -190,7 +207,17 @@ angular.module("EmmetBlue")
 
 	$scope.dtColumns = [
 		utils.DT.columnBuilder.newColumn(null).withTitle("Transaction ID").renderWith(function(data, full, meta){
-			return data.TransactionID;
+			var string = "<p>"+data.TransactionID+"</p>";
+
+			if (data.TransactionAmount > 0){
+				string += "<span class='no-border-radius label label-success label-lg'>Credit</span>";
+
+			}
+			else {
+				string += "<span class='no-border-radius label label-danger label-lg'>Debit</span>";
+			}
+
+			return string;
 		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Patient").renderWith(function(data, full, meta){
 			var image = $scope.loadImage(data.PatientPicture);
@@ -208,7 +235,7 @@ angular.module("EmmetBlue")
 						"</td>";
 			return html;
 		}),
-		utils.DT.columnBuilder.newColumn(null).withTitle("Transaction ID").renderWith(function(data, full, meta){
+		utils.DT.columnBuilder.newColumn(null).withTitle("Amount").renderWith(function(data, full, meta){
 			var string = "<div class='media-left media-middle text-bold'>"+
 							"<span ng-currency ng-currency-symbol='naira'></span> "+data.TransactionAmount+
 						"</div>";
@@ -240,183 +267,14 @@ angular.module("EmmetBlue")
 		utils.DT.columnBuilder.newColumn(null).withTitle('').notSortable().renderWith(functions.actionsMarkUp)
 	];
 
-
-	$scope.patientTypes = {};
-
-	$scope.loadPatientTypes = function(){
-		if (typeof (utils.userSession.getID()) !== "undefined"){
-			var requestData = utils.serverRequest("/patients/patient-type-category/view", "GET");
-			requestData.then(function(response){
-				$scope.patientTypes = response;
-			}, function(responseObject){
-				utils.errorHandler(responseObject);
-			});
-		}
-	}
-
-	$scope.loadPatientTypes();
-
-	$scope.paymentMethods = [
-		{"Name":"Cash"},
-		{"Name":"POS"},
-		{"Name":"Online Transfer"}
-	];
-
-	$scope.paymentRequestBillingItems = function(paymentRequestId, acceptPayment){
-		if (typeof(acceptPayment) === 'undefined') {
-			acceptPayment = true;
-		}
-		
-		var items = utils.serverRequest('/accounts-biller/payment-request/load-payment-request-billing-items?resourceId='+paymentRequestId,'get');
-		items.then(function(response){
-			$scope.itemsList = response;
-			$scope.itemsList.globalTotal = 0;
-			angular.forEach(response, function(value, key){
-				$scope.itemsList.globalTotal += +value.totalPrice;
-			})
-
-			for(var i = 0; i < response.length; i++){
-				response[i].itemName = response[i].BillingTypeItemName;
-				response[i].itemCode = response[i].ItemID;
-				response[i].itemPrice = response[i].totalPrice;
-				response[i].itemQuantity = response[i].ItemQuantity;
-			}
-
-			var data = {
-				type: $scope.temp.deptName,
-				createdBy: utils.userSession.getUUID(),
-				status: 'Payment Request',
-				amount: response.globalTotal,
-				items: response,
-				patient: $scope.temp.patientID
-			}
-
-			if ($scope.temp.fulfillmentStatus == 0 && acceptPayment){
-				var request = utils.serverRequest("/accounts-biller/transaction-meta/new", "POST", data);
-
-				request.then(function(response){
-					var lastInsertId = response.lastInsertId;
-
-					if (lastInsertId){
-						var edits = {
-							AttachedInvoice: lastInsertId,
-							RequestFulfillmentStatus: -1,
-							resourceId: $scope.temp.requestId
-						};
-
-						$scope.cTxNum = response.transactionNumber;
-
-						if (acceptPayment){
-							$("#request_payment_bill").modal("hide");
-							$("#accept_new_payment").modal("show");
-
-							utils.serverRequest("/accounts-biller/payment-request/edit?resourceId="+$scope.temp.requestId, "PUT", edits)
-							.then(function(response){
-								utils.notify("Info", "An invoice has been generated successfully for this payment request and request status has been updated", "success");
-								utils.storage.currentInvoiceNumber = $scope.cTxNum;
-								$scope.reloadTable();
-							}, function(error){
-								utils.errorHandler(error);
-							})
-						}
-					}
-				}, function(responseObject){
-					utils.errorHandler(responseObject);
-				})
-			}
-		}, function(error){
-			utils.errorHandler(error);
-			utils.alert("Unable To Load Payment Form", "Please see the previous errors", "error");
-		})
-	}
-	$scope.makePayment = function(){
-		// var edits = {
-		// 	resourceId : $scope.temp.requestId,
-		// 	staffUUID : utils.userSession.getUUID(),
-		// 	fulfilledDate: new Date(),
-		// 	status: 1
-		// }
-		// functions.managePaymentRequest.makePayment(edits);
-		// var eventLog = patientEventLogger.accounts.paymentRequestFulfilledEvent(
-		// 	$scope.temp.patientID,
-		// 	$scope.temp.requestId
-		// );
-		// eventLog.then(function(response){
-		// 	//patient registered event logged
-		// }, function(response){
-		// 	utils.errorHandler(response);
-		// });
-		$scope.paymentRequestBillingItems($scope.temp.requestId);
-	}
-
 	$scope.receiptData = {};
 	$scope.printReceipt = function(response){
-		// var req = utils.serverRequest("/accounts-biller/transaction/view-by-invoice?resourceId="+$scope.temp.requestId, "GET");
+		$scope.receiptData = response; 
 
-		// req.then(function(response){
-			
-		// }, function(error){
-		// 	utils.errorHandler(error);
-		// });
-
-		$scope.receiptData = {
-			amountPaid:response.BillingAmountPaid,
-			customerName:response.BillingTransactionCustomerName,
-			invoiceData:{
-				type:response.invoiceData.BillingType,
-				number: response.invoiceData.BillingTransactionNumber,
-				createdBy: response.invoiceData.CreatedByUUID,
-				status: response.invoiceData.BillingTransactionStatus,
-				amount: response.invoiceData.BilledAmountTotal,
-				patient: response.invoiceData.PatientID,
-				totalAmount: response.invoiceData.BilledAmountTotal,
-				items: response.invoiceData.BillingTransactionItems,
-				paid: response.invoiceData._meta.status,
-				amountPaid: response.invoiceData.BillingAmountPaid,
-				department: response.invoiceData.RequestDepartmentName
-			},
-			metaId: response.BillingTransactionMetaID,
-			paymentMethod:response.BillingPaymentMethod,
-			transactionId: response.BillingTransactionID,
-			transactionStatus:"Reprint"
-		};
-
-		$("#request_payment_bill").modal("hide");
-		$("#_payment_receipt").modal("show");
-	}
-
-	$scope.verifyPayment = function(requestNumber){
-		var request = utils.serverRequest('/accounts-biller/payment-request/get-status?resourceId&requestNumber='+requestNumber, 'GET');
-		request.then(function(response){
-			if (response.length < 1){
-				utils.notify("An error occurred", "Seems like that payment request number does not exist or you have submitted an empty form, please try again", "warning");
-			}
-			else
-			{
-				if (response[0]["Status"] == 1){
-					utils.alert("Verification successful", "The specified payment request has been fulfilled", "success");
-				}
-				else {
-					utils.alert("Request Unfulfilled", "The specified payment request has not been fulfilled", "error");
-				}
-			}
-		}, function(error){
-			utils.errorHandler(error);
-		})
+		$("#__payment_receipt").modal("show");
 	}
 
 	$scope.functions = functions;
-
-	function loadDepartments(){
-		var request = utils.serverRequest("/human-resources/department/view", "GET");
-		request.then(function(result){
-			$scope.departments = result;
-		}, function(error){
-			utils.errorHandler(error);
-		})
-	}
-
-	loadDepartments();
 
 	$scope.activateFilter = function(){
 		var selector = $scope.filterSelector;
@@ -499,90 +357,6 @@ angular.module("EmmetBlue")
 				$scope.reloadTable();
 			}
 		}
-	}
-
-	$scope.currentFilterAnalysis = {};
-	$scope.analysisFilters = {
-	};
-
-	$scope.retriveAnalysisForCurrentTable = function(){
-		if (typeof ($scope.paymentRuleAppliedAmount) !== "undefined") {
-			delete $scope.paymentRuleAppliedAmount;
-		}
-
-		var filter = $scope.currentRequestsFilter;
-		var _filters = [];
-		if (typeof $scope.analysisFilters.status !== "undefined"){
-			var string = "_status="+$scope.analysisFilters.status.join(",");
-			_filters.push(string);
-		}
-
-		if (typeof $scope.analysisFilters.date !== "undefined"){
-			var string = "_date="+$scope.analysisFilters.date;
-			string.replace(" ", "");
-			_filters.push(string)
-		}
-
-		if (typeof $scope.analysisFilters.department !== "undefined"){
-			var string = "_department="+$scope.analysisFilters.department.join(",");
-			_filters.push(string);
-		}
-
-		filter += "&"+_filters.join("&");
-		var req = utils.serverRequest("/accounts-biller/payment-request/analyse-requests?"+filter, "GET");
-
-		req.then(function(result){
-			$scope.currentFilterAnalysis = result;
-		}, function(error){
-			utils.errorHandler(error);
-		})
-	}
-
-	$scope.applyPaymentRule = function(amount){
-		utils.serverRequest("/patients/patient/search?query="+$scope.filterSelector.value, "GET").then(function(response){
-			var id = response["hits"]["hits"][0]["_source"]["patientid"];
-
-			var req = utils.serverRequest("/accounts-biller/get-item-price/apply-payment-rule?resourceId="+id+"&amount="+amount, "GET");
-
-			req.then(function(response){
-				$scope.paymentRuleAppliedAmount = response.amount;
-			}, function(error){
-				utils.errorHandler(error);
-			})
-		}, function(error){
-			utils.errorHandler(error);
-		})
-	}
-
-	$scope.$watch(function(){
-		if (typeof $scope.temp != "undefined"){
-			return $scope.temp;
-		}
-
-		return "";
-	}, function(nv){
-		if (nv.fulfillmentStatus == '1'){
-			var requestId = nv.requestId;
-			var req = utils.serverRequest("/accounts-biller/transaction/view-by-invoice?resourceId="+requestId+"&limit=0", "GET");
-			req.then(function(response){
-				$scope.temp.paymentTransactions = response;
-			}, function(error){
-				utils.errorHandler(error);
-			})
-		}
-	})
-
-	$scope.filterByPatient = function(patientId, patientName){
-		$scope.filterSelector = {
-			type: 'patient',
-			description: patientName,
-			value: patientId
-		};
-
-		$scope.activateFilter();
-		$scope.analysisFilters.status = [0, -1];
-		// $scope.retriveAnalysisForCurrentTable();
-		// $("#show_analysis").modal("show");
 	}
 
 	$scope.reloadCurrentDay = function(){

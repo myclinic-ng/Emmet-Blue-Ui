@@ -9,7 +9,7 @@ angular.module("EmmetBlue")
 		switch(segment){
 			case "receipts":{
 				$scope.pageSegment = urlPart+"receipts.html";
-				$scope.segmentTitle = "Payment Receipts";
+				$scope.segmentTitle = "Transactions Summary";
 				break;
 			}
 			case "part-payments":{

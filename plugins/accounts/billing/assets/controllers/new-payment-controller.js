@@ -182,7 +182,7 @@ angular.module("EmmetBlue")
 
 					utils.serverRequest("/accounts-biller/get-item-price/apply-payment-rule", "POST", paymentRuleData)
 					.then(function(response){
-						$scope.newPayment.amountPaid = response._meta.amount;
+						$scope.newPayment.amountPaid = response._meta.amount - $scope.invoiceData.amountPaid;
 						$scope.invoiceData.amount = response._meta.amount;
 					});
 

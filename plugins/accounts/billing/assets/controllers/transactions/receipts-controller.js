@@ -4,8 +4,10 @@ angular.module("EmmetBlue")
 
 	$scope.receiptsMeta = {
 		"sumTotal":0,
+		"sumTotalSales":0,
 		"totalPatients":0,
-		"totalReceipts":0
+		"totalReceipts":0,
+		"totalDepositCredits":0
 	};
 
 	$scope.getDateRange = function(selector){

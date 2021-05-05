@@ -11,7 +11,10 @@ angular.module("EmmetBlue")
 			$scope.userClient = utils.globalConstants.USER_CLIENT;
 			$scope.businessInfo = utils.userSession.getBusinessInfo();
 
-			$scope.$watch("receiptData", function(nv){
+			$scope.receiptData = {};
+			$scope.$watch(function(){
+				return $scope.receiptData;
+			}, function(nv){
 				$scope.receiptData = nv;
 			})
 

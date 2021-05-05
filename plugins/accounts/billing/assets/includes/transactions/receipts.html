@@ -1,6 +1,6 @@
 <div ng-controller="accountsBillingTransactionsReceiptsController">
 	<div class="row">
-		<div class="col-lg-4">
+		<div class="col-lg-3">
 			<div class="panel bg-violet-600">
 				<div class="panel-body">
 					<div class="heading-elements">
@@ -10,12 +10,12 @@
 					</div>
 
 					<h3 class="no-margin text-bold"><span ng-currency ng-currency-symbol="naira"></span> {{receiptsMeta.sumTotal}}</h3>
-					Sum Total of Receipts
+					Total Money Received
 				</div>
 			</div>
 		</div>
 
-		<div class="col-lg-4">
+		<div class="col-lg-3">
 			<div class="panel bg-green-600">
 				<div class="panel-body">
 					<div class="heading-elements">
@@ -25,13 +25,27 @@
 					</div>
 
 					<h3 class="no-margin text-bold">{{receiptsMeta.totalReceipts}}</h3>
-					Total Receipts
+					Total Receipts by {{receiptsMeta.totalPatients}} Patients
 				</div>
 			</div>
 		</div>
 
+		<div class="col-lg-3">
+			<div class="panel bg-info-600">
+				<div class="panel-body">
+					<div class="heading-elements">
+						<ul class="icons-list">
+	                		<li><a data-action="reload"></a></li>
+	                	</ul>
+					</div>
 
-		<div class="col-lg-4">
+					<h3 class="no-margin text-bold"><span ng-currency ng-currency-symbol="naira"></span> {{receiptsMeta.sumTotalSales}}</h3>
+					Total of Sales Receipts
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-3">
 			<div class="panel bg-orange-600">
 				<div class="panel-body">
 					<div class="heading-elements">
@@ -40,8 +54,8 @@
 	                	</ul>
 					</div>
 
-					<h3 class="no-margin text-bold">{{receiptsMeta.totalPatients}}</h3>
-					Patients
+					<h3 class="no-margin text-bold"><span ng-currency ng-currency-symbol="naira"></span> {{receiptsMeta.totalDepositCredits}}</h3>
+					Total of Deposits Received
 				</div>
 			</div>
 		</div>
