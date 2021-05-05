@@ -27,7 +27,7 @@ angular.module("EmmetBlue")
 	$scope.dtInstance = {};
 	$scope.dtOptions = utils.DT.optionsBuilder
 	.fromFnPromise(function(){
-		var url = '/accounts-biller/deposit-account/view-transactions?resourceId=';
+		var url = '/accounts-biller/deposit-account/view-transactions?filtertype=patient&query=';
 		var requests = utils.serverRequest(url+$scope.patientID, 'GET');
 		return requests;
 	})
