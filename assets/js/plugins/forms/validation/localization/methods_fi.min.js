@@ -1,1 +1,0 @@
-!function(t){"function"==typeof define&&define.amd?define(["jquery","../jquery.validate"],t):t(jQuery)}(function(t){t.extend(t.validator.methods,{date:function(t,e){return this.optional(e)||/^\d{1,2}\.\d{1,2}\.\d{4}$/.test(t)},number:function(t,e){return this.optional(e)||/^-?(?:\d+)(?:,\d+)?$/.test(t)}})});
