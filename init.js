@@ -95,6 +95,7 @@ head.ready(["jquery", "bootstrap"], function(){
 var cntrllers = [
 	"assets/angular/core/controllers/core/core-controller.js",
 	"assets/angular/core/controllers/core/sudo-mode-controller.js",
+	"assets/angular/core/controllers/chat-widget-controller.js",
 	"plugins/mortuary/assets/controllers.js",
 	"plugins/user/assets/controllers.js",
 	"plugins/human-resources/assets/controllers.js",
@@ -111,9 +112,7 @@ var cntrllers = [
 	"plugins/lab/assets/controllers.js",
 	"plugins/financial-audit/assets/controllers.js",
 	"plugins/records/cloud/assets/controllers.js",
-
 	"plugins/pharmacy/standalone-dispensory/assets/controllers.js",
-
 	"plugins/user/pharmacy-setup/assets/controllers.js"
 ]
 
