@@ -13,6 +13,14 @@ angular.module("EmmetBlue")
 				$scope.pageSegment = "plugins/pharmacy/assets/includes/dispensory.html";
 				break;
 			}
+			case "billing-workspace":{
+				$scope.pageSegment = "plugins/pharmacy/standalone-dispensory/billing-workspace.html";
+				break;
+			}
+			case "transactions":{
+				$scope.pageSegment = "plugins/pharmacy/standalone-dispensory/transactions.html";
+				break;
+			}
 		}
 	}
 

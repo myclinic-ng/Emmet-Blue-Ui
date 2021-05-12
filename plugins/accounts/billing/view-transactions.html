@@ -13,7 +13,7 @@
 </script>
 
 <div class="row" ng-controller="accountsBillingTransactionsController">
-	<div class="col-md-3">
+	<div class="col-md-2">
 		<div class="sidebar sidebar-secondary sidebar-default">
 			<div class="sidebar-content">
 				<!-- Actions -->
@@ -24,11 +24,11 @@
 
 					<div class="category-content">
 						<div class="row row-condensed">
-							<div class="col-xs-6">
-								<a href="#" type="button" class="btn bg-blue-400 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('receipts')"><i class="fa fa-money"></i> <span>Payment Receipts</span></a>
+							<div class="col-xs-12 mb-10">
+								<a href="#" type="button" class="btn bg-blue-400 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('receipts')"><i class="fa fa-money-bill"></i> <span>Payment Receipts</span></a>
 							</div>
 							
-							<div class="col-xs-6">
+							<div class="col-xs-12">
 								<a type="button" class="btn bg-purple-400 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('part-payments')"><i class="icon-piggy-bank"></i> <span>Part Payments</span></a>
 							</div>
 						</div>
@@ -38,7 +38,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-md-9">
+	<div class="col-md-10">
 		<div class="panel panel-success">
 			<div class="panel-heading">
 				<h6 class="panel-title">{{segmentTitle}}</h6>
