@@ -417,4 +417,31 @@ angular.module("EmmetBlue")
 			utils.errorHandler(error);
 		});
 	}
+
+	$scope.newProduct = {
+		"billing":{},
+		"price":0,
+		"inventory":{}
+	};
+
+	$scope.addNewProduct = function(){
+		var req = utils.serverRequest("/pharmacy/purchase-log/register-new-item", "POST", $scope.newProduct);
+		req.then(function(response){
+			if (response){
+				utils.notify("Operation Successful", "Item has been registered successfully", "success");
+				$("#add_new_item").modal("hide");
+				loadInventoryItems();
+				$scope.newProduct = {
+					"billing":{},
+					"price":0,
+					"inventory":{}
+				};
+			}
+			else {
+				utils.notify("An error occurred", "Please try again", "error");
+			}
+		}, function(error){
+			utils.errorHandler(error);
+		});
+	}
 });

@@ -113,7 +113,7 @@
 											<div class="row" style="margin-top: 20px; border: 1px solid #eee">
 												<h3 class="text-center">Populate Invoice List</h3>
 												<div class="content-group col-sm-12">
-													<label class="text-bold">Item name <a class="btn btn-link btn-info bg-white" data-toggle="modal" data-target="#"><i class="fa fa-plus"/> Add</a></label>
+													<label class="text-bold">Item name <a class="btn btn-link btn-info bg-white" data-toggle="modal" data-target="#add_new_item"><i class="fa fa-plus"/> Add</a></label>
 													<select class="select" ng-model="listItem.itemSelector">
 														<option ng-repeat="item in inventoryItems" value="{{item.BillingTypeItemName}}|{{item.ItemID}}">{{item.BillingTypeItemName}} ({{item.ItemBrand}})</option>
 													</select>
@@ -215,6 +215,68 @@
 					<div class="modal-footer">
 						<button type="button" class="btn btn-link" onclick="$('#add_new_vendor').modal('hide')" ng-click="newVendorData = {}"><i class="fa fa-times-circle-o"></i> Close</button>
 						<button type="button" class="btn btn-warning" ng-click="addNewVendor()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"> </i></span>  Save</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="add_new_item" class="modal fade">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header bg-warning">
+						<button type="button" class="close" onclick="$('#add_new_item').modal('hide')">&times;</button>
+						<h6 class="modal-title">Register a new product</h6>
+					</div>
+
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-12">
+								<form role="form">
+									<div class="form-group">
+										<div class="row">
+											<div class="content-group">
+												<label>Item Category</label>
+												<select class="select" ng-model="newProduct.billing.billingType">
+													<option ng-repeat="item in billingTypes" value="{{item.BillingTypeID}}">
+														{{item.BillingTypeName}}
+													</option>
+												</select>
+											</div>
+											<div class="content-group">
+												<label class="text-bold">Item Name</label>
+												<input type="text" class="form-control" ng-model="newProduct.billing.name"/>
+											</div>
+											<div class="content-group">
+												<label class="text-bold">Sales Price</label>
+												<input type="number" min="0" step="any" class="form-control" ng-model="newProduct.price"/> 
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+
+							<div class="col-md-12">
+								<form role="form">
+									<div class="form-group">
+										<div class="row">
+											<div class="content-group">
+												<label class="text-bold">Brand</label>
+												<input class="form-control" ng-model="newProduct.inventory.brand"/>
+											</div>
+											<div class="content-group">
+												<label class="text-bold">Manufacturer</label>
+												<input class="form-control" ng-model="newProduct.inventory.Manufacturer"/> 
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-link" onclick="$('#add_new_item').modal('hide')" ng-click="newProduct = {billing:{}, price:0, inventory:{}}"><i class="fa fa-times-circle-o"></i> Close</button>
+						<button type="button" class="btn btn-warning" ng-click="addNewProduct()"><span class="hide loader pull-left"><i class="fa fa-spinner fa-spin"> </i></span>  Save</button>
 					</div>
 				</div>
 			</div>
