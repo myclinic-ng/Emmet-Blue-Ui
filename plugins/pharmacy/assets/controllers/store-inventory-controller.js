@@ -100,7 +100,7 @@ angular.module("EmmetBlue")
 		}),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Manage").renderWith(function(data, type, full){
 			var editButtonAction = "manageStore('edit', "+data.ItemID+")";
-			var deleteButtonAction = "manageStore('delete', "+data.ItemID+")";
+			var deleteButtonAction = "manageStore('delete', "+data.InventoryItemID+")";
 			var inventoryButtonAction = "manageStore('tags', "+data.ItemID+")";
 
 			var tags = JSON.stringify(data.Tags);
@@ -254,11 +254,10 @@ angular.module("EmmetBlue")
 				break;
 			}
 			case "delete":{
-				functions.manageAccount.changeAccountType(id);
+				$scope.deleteInventoryItem(id);
 				break;
 			}
 			case "tags":{
-				functions.manageAccount.toggleAccountStatus(id);
 				break;
 			}
 		}
@@ -306,6 +305,16 @@ angular.module("EmmetBlue")
 		reqTag.then(function(response){
 		}, function(error){
 			utils.errorHandler(error);
+		})
+	}
+
+	$scope.deleteInventoryItem = function(id){
+		var req = utils.serverRequest("/pharmacy/store-inventory/delete-store-inventory-item?resourceId="+id, "GET");
+		req.then(function(response){
+			utils.notify("Operation Successful", "Specified item has been deleted successfully", "success");
+			$scope.reloadInventoryTable();
+		}, function(response){
+			utils.notify("An error occurred", "Unable to delete the specified item. Please try again or contact an administrator if this error persists", "danger");
 		})
 	}
 });

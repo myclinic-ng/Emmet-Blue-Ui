@@ -1,0 +1,82 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/ui/moment/moment.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/pickers/daterangepicker.js"></script>
+<script src="assets/js/plugins/forms/tags/tagsinput.min.js"></script>
+<script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
+<script>
+	$('select.select').select2();
+	$('.daterange').daterangepicker({
+		showWeekNumbers: true,
+		showDropdowns: true,
+        opens: "right",
+        applyClass: 'bg-success',
+        cancelClass: 'btn-default'
+	});
+</script>
+
+
+<div ng-controller="pharmacyRestockReportsController">
+<div class="panel panel-success">
+	<div class="panel-heading">
+		<h6 class="panel-title">Pharmacy Store Restock Log</h6>
+		<div class="heading-elements">
+			<span class="pull-left">
+				<input type="text" class="form-control daterange" ng-model="dateRange" placeholder="select date range">
+			</span>
+			<ul class="icons-list">
+	    		<li>
+	    			<a href="#" ng-click="hideRequestFilters = !hideRequestFilters"><i class="icon-filter3"></i></a>
+	    		</li>
+	    	</ul>
+		</div>
+	</div>
+	<div class="panel-body">
+		<div class="col-md-3">
+			<div class="col-md-12" ng-hide="hideRequestFilters">
+				<div class="form-group col-md-12">
+					<label class="control-label">Filter By</label>
+					<select class="select" ng-model="filterSelector.type" ng-change="filterSelector.value = null">
+						<optgroup label="Sub Groups">
+							<!-- <option value="Transferring Store">Transferring Store</option> -->
+							<!-- <option value="Recipient Store">Recipient Store</option> -->
+						</optgroup>
+					</select>
+				</div>
+				<div class="form-group col-md-12" ng-show="filterSelector.type == 'Transferring Store'">
+					<label class="control-label">Select Store</label>
+					<select class="select" ng-model="filterSelector.value">
+						<option ng-repeat="store in stores" value="{{store.StoreID}}<seprator>{{store.StoreName}}">{{store.StoreName}}</option>
+					</select>
+				</div>
+				<div class="form-group col-md-12" ng-show="filterSelector.type == 'Recipient Store'">
+					<label class="control-label">Select Store</label>
+					<select class="select" ng-model="filterSelector.value">
+						<option ng-repeat="store in stores" value="{{store.StoreID}}<seprator>{{store.StoreName}}">{{store.StoreName}}</option>
+					</select>
+				</div>
+				<div class="content-group col-md-12">
+					<button class="btn btn-info col-md-12 bg-primary btn-labeled" ng-click="activateFilter()">
+						<b><i class="icon-filter4"></i></b> Apply filter
+					</button>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="form-group" ng-if="createdFilters.length > 0">
+					<label class="text-semibold">Applied Filters:</label>
+					<div class="checkbox" ng-repeat="(index, filter) in createdFilters">
+						<label>
+							<input type="checkbox" class="styled" ng-model="filter.use" ng-disabled="index == 0" ng-change="reloadDispensationsTable()">
+							{{filter.description}}
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="table-responsive col-md-9" style="border-left: 1px solid green">
+			<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
+
+			</table>
+		</div>
+	</div>
+</div>
+</div>

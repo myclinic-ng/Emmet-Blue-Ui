@@ -5,6 +5,7 @@ head.load(controllersLocation+"store-inventory-controller.js");
 head.load(controllersLocation+"dispensation-controller.js");
 head.load(controllersLocation+"reports-controller.js");
 head.load(controllersLocation+"transfer-reports-controller.js");
+head.load(controllersLocation+"restock-reports-controller.js");
 head.load(controllersLocation+"purchase-invoice-controller.js");
 head.load(controllersLocation+"dashboard-controller.js");
 head.load(controllersLocation+"new-store-restock-controller.js");
