@@ -1,5 +1,8 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-<script>$('select.select').select2();</script>
+<script>$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});</script>
 
 <div ng-controller="pharmacyStoreInventoryController">
 	<table datatable="" dt-options="ddtOptions" dt-columns="ddtColumns" dt-instance="ddtInstance" class="table table-condensed table-striped table-hover"></table>

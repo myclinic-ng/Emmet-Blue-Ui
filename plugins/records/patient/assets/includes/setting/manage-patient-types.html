@@ -1,5 +1,8 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-<script>$('select.select').select2();</script>
+<script>$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});</script>
 <div ng-controller="recordsPatientSettingManagePatientTypesController">
 	<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
 		
@@ -23,6 +26,7 @@
 							<div class="col-sm-12">
 								<label>Category</label>
 								<select class="select" name="category" ng-model="tempHolder.CategoryName" required>
+<option></option>
 									<option ng-repeat="category in patientTypeCategories" value="{{category.CategoryName}}">{{category.CategoryName}}</option>		
 								</select>
 							</div>
@@ -62,6 +66,7 @@
 								<label class="control-label col-lg-2">Category</label>
 								<div class="input-group col-lg-10">
 									<select class="select" ng-model="newPatientType.patientTypeCategory">
+<option></option>
 										<option ng-repeat="category in patientTypeCategories" value="{{category.CategoryName}}">{{category.CategoryName}}</option>
 									</select>
 									<div class="input-group-btn">

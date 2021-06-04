@@ -4,7 +4,10 @@
 <script src="assets/js/plugins/forms/tags/tagsinput.min.js"></script>
 <script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
 <script>
-	$('select.select').select2();
+	$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});
 	$('.daterange').daterangepicker({
 		showWeekNumbers: true,
 		showDropdowns: true,
@@ -36,6 +39,7 @@
 				<div class="form-group col-md-12">
 					<label class="control-label">Filter By</label>
 					<select class="select" ng-model="filterSelector.type" ng-change="filterSelector.value = null">
+<option></option>
 						<optgroup label="Sub Groups">
 							<option value="invoice number">Invoice Number</option>
 							<option value="item code">Item ID</option>
@@ -96,6 +100,7 @@
 												<div class="content-group col-sm-6">
 													<label class="text-bold">Vendor <a class="btn btn-link btn-info bg-white" data-toggle="modal" data-target="#add_new_vendor"><i class="fa fa-plus"/> Add</a></label>
 													<select class="select" ng-model="newItem.itemVendor">
+<option></option>
 														<option ng-repeat="vendor in corporateVendors" value="{{vendor.VendorID}}">{{vendor.VendorName}}</option>
 													</select>
 												</div>
@@ -115,6 +120,7 @@
 												<div class="content-group col-sm-12">
 													<label class="text-bold">Item name <a class="btn btn-link btn-info bg-white" data-toggle="modal" data-target="#add_new_item"><i class="fa fa-plus"/> Add</a></label>
 													<select class="select" ng-model="listItem.itemSelector">
+<option></option>
 														<option ng-repeat="item in inventoryItems" value="{{item.BillingTypeItemName}}|{{item.ItemID}}">{{item.BillingTypeItemName}} ({{item.ItemBrand}})</option>
 													</select>
 												</div>
@@ -237,6 +243,7 @@
 											<div class="content-group">
 												<label>Item Category</label>
 												<select class="select" ng-model="newProduct.billing.billingType">
+<option></option>
 													<option ng-repeat="item in billingTypes" value="{{item.BillingTypeID}}">
 														{{item.BillingTypeName}}
 													</option>

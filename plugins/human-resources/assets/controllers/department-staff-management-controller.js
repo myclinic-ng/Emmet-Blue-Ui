@@ -71,10 +71,10 @@ angular.module("EmmetBlue")
 	function dtAction(data, full, meta, type){
 		var editButtonAction = "manageStaff('edit', "+data.StaffID+")";
 		var changeTypeButtonAction = "manageStaff('department', "+data.StaffID+")";
-		var deactivateButtonAction = "manageStaff('profile', "+data.StaffID+")";
+		var changePasswordButtonAction = "manageStaff('changePassword', "+data.StaffID+")";
 		var fingerEnrollButtonAction = "manageStaff('fingerEnroll', "+data.StaffID+")";
 
-		var dataOpt = "data-option-id='"+data.SaffID+"' data-option-name='"+data.StaffUsername+"' data-option-department='"+data.DepartmentID+"'";
+		var dataOpt = "data-option-id='"+data.StaffID+"' data-option-name='"+data.StaffUsername+"' data-option-department='"+data.DepartmentID+"'";
 
 		var manageButton  = "<div class='btn-group'>"+
 			                	"<button type='button' class='btn bg-active btn-labeled dropdown-toggle' data-toggle='dropdown'><b><i class='icon-cog3'></i></b> manage <span class='caret'></span></button>"+
@@ -84,7 +84,7 @@ angular.module("EmmetBlue")
 								"	<li><a href='#'><i class='fa fa-file-text-o'></i> View Log</a></li>"+
 								"	<li class='divider'></li>"+
 								"	<li><a href='#' class='staff-management-btn' ng-click=\""+fingerEnrollButtonAction+"\" "+dataOpt+">Enroll Biometric ID</a></li>"+
-								"	<li><a href='#' class='staff-management-btn' ng-click=\""+deactivateButtonAction+"\" "+dataOpt+">Manage Profile</a></li>"+
+								"	<li><a href='#' class='staff-management-btn' ng-click=\""+changePasswordButtonAction+"\" "+dataOpt+">Change Password</a></li>"+
 								"</ul>"+
 							"</div>";
 		var buttons = manageButton;
@@ -191,7 +191,16 @@ angular.module("EmmetBlue")
 				$("#manage_staff_department").modal("show");
 				break;
 			}
-			case "profile":{
+			case "changePassword":{
+				var staff = id;
+				$scope.tempHolder = {
+					username: $(".staff-management-btn[data-option-id='"+id+"']").attr('data-option-name'),
+					staff: id,
+					password: ''
+				};
+
+				$("#change_staff_password_modal").modal("show");
+
 				break;
 			}
 			case "fingerEnroll":{
@@ -200,6 +209,43 @@ angular.module("EmmetBlue")
 			}
 		}
 	}
+
+	$scope.submitChangePasswordForm = function(){
+		var confirmPassword = $("#confirmStaffPasswordValue").val();
+		if ($scope.tempHolder.password != confirmPassword){
+			utils.alert("Passwords do not match", "Please make sure you specify matching values for the two password fields", "warning")
+		}
+		else if ($scope.tempHolder.password == ''){
+			utils.alert("Invalid password specified", "Please fill in valid values in the password fields", "warning");
+		}
+		else {
+			$("#change_staff_password_modal").modal("hide");
+			$("#sudoModeModal").modal({
+				keyboard: false,
+				backdrop: "static"
+			});
+			$scope.currentSudoOperation = "changePassword";
+		}
+	}
+
+	$scope.$on("sudo-mode-bypassed", function(){
+		$("#sudoModeModal").modal("hide");
+
+		switch($scope.currentSudoOperation){
+			case "changePassword":
+			{
+				var data = $scope.tempHolder;
+				utils.serverRequest("/human-resources/staff/update-password", "POST", data).then(function(response){
+					utils.notify("Operation Successful", "The password for the selected account has been changed successfully", "success");
+					$scope.tempHolder = {};
+				}, function(error){
+					utils.errorHandler(error);
+				})
+
+				break;
+			}
+		}
+	});
 
 	$scope.addSecondaryDepartment = function(){
 		var data = {
@@ -243,7 +289,6 @@ angular.module("EmmetBlue")
 				$scope.fingerLoaded[index] = true;
 				if (auto && index < $scope.fingerprintCount){
 					index++;
-					console.log("Starting ", index);
 					streamFingerprint(index);
 				}
 			}

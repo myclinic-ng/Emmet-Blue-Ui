@@ -33,6 +33,7 @@
 				<div class="heading-elements">
 					<form class="heading-form" style="width: 300px;" ng-controller="pharmacyDashboardStoreInventoryController">
 						<select class="select" ng-model="selectedStore">
+<option></option>
 							<option ng-repeat="store in stores" value="{{store.StoreID}}">{{store.StoreName}}</option>
 						</select>
 					</form>

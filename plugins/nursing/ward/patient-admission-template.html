@@ -1,10 +1,14 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-<script>$('select.select').select2();</script>
+<script>$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});</script>
 <div ng-controller="nursingPatientAdmissionController">
 	<div class="row">
 		<label class="control-label col-xs-3"><span class="pull-right pt-5">Filter List By Ward:</span></label>
 		<div class="input-group col-xs-7">
 			<select class="select" ng-model="currentWard">
+<option></option>
 				<option value="{{ward.WardID}}" ng-repeat="ward in wards">{{ward.WardName}}</option>
 			</select> 
 		</div>
@@ -110,18 +114,21 @@
 						<div class="content-group col-sm-12">
 							<label class="control-label">ward</label>
 							<select class="select" ng-model="newTransfer.wardTo">
+<option></option>
 								<option value="{{ward.WardID}}" ng-repeat="ward in wards" >{{ward.WardName}}</option>
 							</select>
 						</div>
 						<div class="content-group col-sm-6">
 							<label class="control-label">Section</label>
 							<select class="select" ng-model="newTransfer.sectionTo">
+<option></option>
 								<option value="{{section.WardSectionID}}" ng-repeat="section in sections" >{{section.WardSectionName}}</option>
 							</select>
 						</div>
 						<div class="content-group col-sm-6">
 							<label class="control-label">Bed</label>
 							<select class="select" ng-model="newTransfer.bedTo">
+<option></option>
 								<option value="{{section.SectionBedID}}" ng-repeat="section in beds" >{{section.BedName}}</option>
 							</select>
 						</div>

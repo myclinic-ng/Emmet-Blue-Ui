@@ -4,7 +4,10 @@
 <script src="assets/js/plugins/forms/tags/tagsinput.min.js"></script>
 <script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
 <script>
-	$('select.select').select2();
+	$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});
 	$('.daterange').daterangepicker({
 		showWeekNumbers: true,
 		showDropdowns: true,
@@ -36,6 +39,7 @@
 				<div class="form-group col-md-12">
 					<label class="control-label">Filter By</label>
 					<select class="select" ng-model="filterSelector.type" ng-change="filterSelector.value = null">
+<option></option>
 						<optgroup label="Sub Groups">
 							<option value="Transferring Store">Transferring Store</option>
 							<option value="Recipient Store">Recipient Store</option>
@@ -45,12 +49,14 @@
 				<div class="form-group col-md-12" ng-show="filterSelector.type == 'Transferring Store'">
 					<label class="control-label">Select Store</label>
 					<select class="select" ng-model="filterSelector.value">
+<option></option>
 						<option ng-repeat="store in stores" value="{{store.StoreID}}<seprator>{{store.StoreName}}">{{store.StoreName}}</option>
 					</select>
 				</div>
 				<div class="form-group col-md-12" ng-show="filterSelector.type == 'Recipient Store'">
 					<label class="control-label">Select Store</label>
 					<select class="select" ng-model="filterSelector.value">
+<option></option>
 						<option ng-repeat="store in stores" value="{{store.StoreID}}<seprator>{{store.StoreName}}">{{store.StoreName}}</option>
 					</select>
 				</div>

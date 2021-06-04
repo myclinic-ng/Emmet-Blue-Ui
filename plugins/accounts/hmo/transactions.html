@@ -5,7 +5,10 @@
 <script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
 
 <script>
-	$('select.select').select2();
+	$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});
 	$('.daterange').daterangepicker({
 		showWeekNumbers: true,
 		showDropdowns: true,
@@ -32,6 +35,7 @@
 				<div class="form-group col-md-2">
 					<label class="control-label">Filter By</label>
 					<select class="select" ng-model="filterSelector.type" ng-change="filterSelector.value = null">
+<option></option>
 						<optgroup label="Sub Groups">					
 							<option value="patienttype">Patient Type</option>
 							<option value="patient">Patient</option>
@@ -52,12 +56,14 @@
 				<div class="form-group col-md-10" ng-show="filterSelector.type == 'patienttype'">
 					<label class="control-label">Select Patient Type</label>
 					<select class="select" ng-model="filterSelector.value">
+<option></option>
 						<option ng-repeat="type in patientTypes" value="{{type.PatientTypeName}}<seprator>{{type.PatientTypeID}}">{{type.PatientTypeName}}</option>
 					</select>
 				</div>
 				<div class="form-group col-md-8" ng-show="filterSelector.type == 'department'">
 					<label class="control-label">Select Department</label>
 					<select class="select" ng-model="filterSelector.value">
+<option></option>
 						<option ng-repeat="department in departments" value="{{department.Name}} ({{department.GroupName}})<seprator>{{department.DepartmentID}}">{{department.Name}} ({{department.GroupName}})</option>
 					</select>
 				</div>
@@ -114,6 +120,7 @@
 								Patient Type <span class="text-muted">(select one or more)</span></label>
 								<!-- <input type="text" data-role="tagsinput" class="tagsinput-typeahead" ng-model="body.tags"/> -->
 								<select class="select" multiple="multiple" ng-model="analysisFilters.patienttype">
+<option></option>
 									<option ng-repeat="type in patientTypes" value="{{type.PatientTypeID}}">{{type.PatientTypeName}}</option>
 								</select>
 							</div>
@@ -127,6 +134,7 @@
 								Department <span class="text-muted">(select one or more)</span></label>
 								<!-- <input type="text" data-role="tagsinput" class="tagsinput-typeahead" ng-model="body.tags"/> -->
 								<select class="select" multiple="multiple" ng-model="analysisFilters.department">
+<option></option>
 									<option ng-repeat="department in departments" value="{{department.DepartmentID}}">{{department.Name}} ({{department.GroupName}})</option>
 								</select>
 							</div>

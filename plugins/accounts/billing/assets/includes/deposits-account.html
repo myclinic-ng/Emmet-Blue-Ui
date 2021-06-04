@@ -1,5 +1,8 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-<script>$('select.select').select2();</script>
+<script>$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});</script>
 <script>
 	$('body').on('hidden.bs.modal', function () {
 	    if($('.modal.in').length > 0)
@@ -86,6 +89,7 @@
 						<div class="form-group">
 							<label class="control-label">Transaction Comment</label>
 							<select class="select" multiple="" ng-model="newTx.comment">
+<option></option>
 								<option value="Deposit">Deposit</option>
 								<option value="Refund">Refund</option>
 								<option value="Account Balance Adjustment">Account Balance Adjustment</option>

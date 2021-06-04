@@ -48,7 +48,7 @@ angular.module("EmmetBlue")
 					if (item !== ""){
 						utils.serverRequest("/pharmacy/pharmacy-request/smartify", "POST", {prescription: item}).then(function(response){
 							if (!response.valid){
-								utils.notify("Last entered prescription is not smart", "Reason: "+response.reason, "info");
+								// utils.notify("Last entered prescription is not smart", "Reason: "+response.reason, "info");
 								$scope.isSmart = false;
 							}
 
@@ -128,7 +128,7 @@ angular.module("EmmetBlue")
 					}
 				},
 				drugSearchAutoSuggestInit: function(){
-					$(".drug-search").typeahead({
+					$("#conclusion-drug").typeahead({
 			            hint: true,
 			            highlight: true
 			        },

@@ -5,7 +5,10 @@
 <script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
 
 <script>
-	$('select.select').select2();
+	$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});
 	$('.daterange').daterangepicker({
 		showWeekNumbers: true,
 		showDropdowns: true,
@@ -32,6 +35,7 @@
 				<div class="form-group col-md-2">
 					<label class="control-label">Filter By</label>
 					<select class="select" ng-model="filterSelector.type" ng-change="filterSelector.value = null">
+<option></option>
 						<optgroup label="Sub Groups">					
 							<option value="status">Status</option>					
 							<option value="paymentmethod">Payment Method</option>
@@ -56,6 +60,7 @@
 				<div class="form-group col-md-10" ng-show="filterSelector.type == 'status'">
 					<label class="control-label">Select Status</label>
 					<select class="select" ng-model="filterSelector.value">
+<option></option>
 						<option value="Unfulfilled Requests<seprator>0">Unfulfilled Requests</option>
 						<option value="Requests For Which Invoices Have Been Generated<seprator>-1">Requests For Which Invoices Have Been Generated</option>
 						<option value="Fullfilled Requests<seprator>1">Fullfilled Requests</option>
@@ -64,18 +69,21 @@
 				<div class="form-group col-md-8" ng-show="filterSelector.type == 'patientcategory'">
 					<label class="control-label">Select Patient Category</label>
 					<select class="select" ng-model="filterSelector.value">
+<option></option>
 						<option ng-repeat="type in patientTypes" value="{{type.CategoryName}}<seprator>{{type.CategoryName}}">{{type.CategoryName}}</option>
 					</select>
 				</div>
 				<div class="form-group col-md-8" ng-show="filterSelector.type == 'paymentmethod'">
 					<label class="control-label">Select Payment Method</label>
 					<select class="select" ng-model="filterSelector.value">
+<option></option>
 						<option ng-repeat="type in paymentMethods" value="{{type.Name}}<seprator>{{type.Name}}">{{type.Name}}</option>
 					</select>
 				</div>
 				<div class="form-group col-md-8" ng-show="filterSelector.type == 'department'">
 					<label class="control-label">Select Department</label>
 					<select class="select" ng-model="filterSelector.value">
+<option></option>
 						<option ng-repeat="department in departments" value="{{department.Name}} ({{department.GroupName}})<seprator>{{department.DepartmentID}}">{{department.Name}} ({{department.GroupName}})
 						</option>
 					</select>
@@ -162,6 +170,7 @@
 								<h1 class="text-center text-black">{{requestForm.currentPatientProfile.patientfullname}}</h1>
 								<div class="form-group col-md-6">
 									<select class="select" ng-model="paymentRequestItem.item">
+<option></option>
 										<optgroup label="{{key}}" ng-repeat="(key, item) in requestItems">
 											<option ng-repeat="value in item" value="{{value}}">{{value.BillingTypeItemName}}</option>
 										</optgroup>
@@ -406,6 +415,7 @@
 								Status <span class="text-muted">(select one or more)</span></label>
 								<!-- <input type="text" data-role="tagsinput" class="tagsinput-typeahead" ng-model="body.tags"/> -->
 								<select class="select" multiple="multiple" ng-model="analysisFilters.status">
+<option></option>
 									<option value="0" selected="selected">Unfulfilled Requests</option>
 									<option value="-1" selected="selected">Requests For Which Invoices Have Been Generated</option>
 									<option value="1">Fullfilled Requests</option>
@@ -421,6 +431,7 @@
 								Department <span class="text-muted">(select one or more)</span></label>
 								<!-- <input type="text" data-role="tagsinput" class="tagsinput-typeahead" ng-model="body.tags"/> -->
 								<select class="select" multiple="multiple" ng-model="analysisFilters.department">
+<option></option>
 									<option ng-repeat="department in departments" value="{{department.DepartmentID}}">{{department.Name}} ({{department.GroupName}})</option>
 								</select>
 							</div>

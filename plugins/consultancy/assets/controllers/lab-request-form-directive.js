@@ -13,17 +13,17 @@ angular.module("EmmetBlue")
 			$scope.today = utils.today()+ " " + (new Date()).toLocaleTimeString();
 			$scope.getAge = utils.getAge;
 
-			var table = $(".lab-table tr");
+			// var table = $(".lab-table tr");
 
-			$("#lab-form > div > .table-responsive").css("border", "1px solid #000");
+			// $("#lab-form > div > .table-responsive").css("border", "1px solid #000");
 
-			table.each(function(){
-				var th = $(this).children("th").first();
-				var td = $(this).children("td").first();
+			// table.each(function(){
+			// 	var th = $(this).children("th").first();
+			// 	var td = $(this).children("td").first();
 
-				th.html("<div class='checkbox'><label><input type='checkbox' class='control-primary'/> "+th.html()+"</label></div>").addClass("bg-danger")
-				td.html("<div class='checkbox'><label><input type='checkbox' class='control-primary'/> "+td.html()+"</label></div>")
-			});
+			// 	th.html("<div class='checkbox'><label><input type='checkbox' class='control-primary'/> "+th.html()+"</label></div>").addClass("bg-danger")
+			// 	td.html("<div class='checkbox'><label><input type='checkbox' class='control-primary'/> "+td.html()+"</label></div>")
+			// });
 
 			$scope.module = {
 				loadRegisteredLabs: function(){
@@ -49,7 +49,6 @@ angular.module("EmmetBlue")
 			})
 
 			var showLabForwarder = function(response){
-				console.log(response, $scope.investigationLists, $scope.module.lab);
 				$scope.pushToLab = {
 					investigations: []
 				};
@@ -128,78 +127,58 @@ angular.module("EmmetBlue")
 			}
 
 			$scope.submit = function(){
-				$scope.showSubmitLoader = true;
-				var reqs = [];
-				$(".lab-table tr").each(function(){
+				$scope.filterLab = "";
+				setTimeout(function(){
+					$scope.showSubmitLoader = true;
+					var reqs = [];
 
-					var th = $(this).children("th").first();
-					var td = $(this).children("td").first();
-
-					$(th).find("input").each(function(){
+					$(".invCheck").each(function(){
 						var checked = $(this).prop("checked");
 
 						if (checked){
 							reqs.push($.trim($(this).parent().text()));
 							$(this).attr("checked", "checked");
+							$(this).attr("style", "outline: 1px solid #0f0;width: 20px; height: 20px");
 						}
-					});
-
-					$(td).find("input").each(function(){
-						var checked = $(this).prop("checked");
-
-						if (checked){
-							reqs.push($.trim($(this).parent().text()));
-							$(this).attr("checked", "checked");
-							$(this).attr("style", "outline: 1px solid #f00;");
-						}
-					});
-				});
-
-				$(".invCheck").each(function(){
-					var checked = $(this).prop("checked");
-
-					if (checked){
-						reqs.push($.trim($(this).parent().text()));
-						$(this).attr("checked", "checked");
-						$(this).attr("style", "outline: 1px solid #f00;");
-					}
-				})
-
-				if (typeof $scope.investigations !== "undefined"){
-					reqs.push($scope.investigations);
-				}
-
-				$rootScope.$broadcast("addSentLabInvestigationsToList", reqs);
-				$scope.investigations = reqs.join(", ");
-				var form = $("#lab-form").get(0);
-				domtoimage.toPng(form)
-			    .then(function (dataUrl) {
-			        var img = new Image();
-			        img.src = dataUrl;
-
-					var data = {
-						patientID: $scope.patientInfo.patientid,
-						clinicalDiagnosis: dataUrl,
-						requestNote: $scope.diagnoses,
-						investigationRequired: $scope.investigations,
-						requestedBy: utils.userSession.getID()
-					}
-
-					utils.serverRequest('/lab/lab-request/new', 'POST', data).then(function(response){
-						$scope.showSubmitLoader = false;
-						window.scrollTo(0, 0);
-						utils.notify("Operation Successful", "Request sent successfully", "success");
-						$scope.investigations = "";
-						reqs = [];
-						// showLabForwarder(response); -> Disable until feature is requested
-					}, function(error){
-						utils.errorHandler(error);
 					})
-			    })
-			    .catch(function (error) {
-					$scope.showSubmitLoader = false;
-			        utils.notify('oops, something went wrong!', 'Unable to process request', "error");
-			    });
+
+					if (typeof $scope.investigations !== "undefined"){
+						reqs.push($scope.investigations);
+					}
+
+					$rootScope.$broadcast("addSentLabInvestigationsToList", reqs);
+					$scope.investigations = reqs.join(", ");
+					var form = $("#lab-form").get(0);
+					domtoimage.toPng(form)
+				    .then(function (dataUrl) {
+				        var img = new Image();
+				        img.src = dataUrl;
+
+						var data = {
+							patientID: $scope.patientInfo.patientid,
+							clinicalDiagnosis: dataUrl,
+							requestNote: $scope.diagnoses,
+							investigationRequired: $scope.investigations,
+							requestedBy: utils.userSession.getID()
+						}
+
+						utils.serverRequest('/lab/lab-request/new', 'POST', data).then(function(response){
+							$scope.showSubmitLoader = false;
+							window.scrollTo(0, 0);
+							utils.notify("Operation Successful", "Request sent successfully", "success");
+							$scope.investigations = "";
+							reqs = [];
+							$scope.module.loadRegisteredInvestigationTypes($scope.module.lab);
+							// showLabForwarder(response); -> Disable until feature is requested
+						}, function(error){
+							utils.errorHandler(error);
+						})
+				    })
+				    .catch(function (error) {
+						$scope.showSubmitLoader = false;
+				        utils.notify('oops, something went wrong!', 'Unable to process request', "error");
+				    });
+				}, 200)
 			}
 		}
 	}

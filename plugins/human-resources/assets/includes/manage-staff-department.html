@@ -1,6 +1,9 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
 <script>
-	$('select.select').select2();
+	$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});
 	$('body').on('hidden.bs.modal', function () {
 	    if($('.modal.in').length > 0)
 	    {
@@ -25,6 +28,7 @@
 						<div class="form-group">
 							<center><label class="control-label">Select department to change to</label></center>
 							<select class="select" ng-model="switchDept.secondaryDept">
+<option></option>
 								<optgroup ng-repeat="(key, depts) in departments" label="{{key}}">
 									<!-- <label>{{name}}</label> -->
 									<option ng-repeat="dept in depts" value="{{dept.DepartmentID}}">
@@ -40,6 +44,7 @@
 						<div class="form-group">
 							<center><label class="control-label">Grant access to a new department</label></center>
 							<select class="select" ng-model="switchDept.secondaryDept">
+<option></option>
 								<optgroup ng-repeat="(key, depts) in departments" label="{{key}}">
 									<!-- <label>{{name}}</label> -->
 									<option ng-repeat="dept in depts" value="{{dept.DepartmentID}}">

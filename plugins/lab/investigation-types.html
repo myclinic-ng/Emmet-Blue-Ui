@@ -1,5 +1,8 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-<script>$('select.select').select2();</script>
+<script>$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});</script>
 
 <div ng-controller="labInvestigationTypesController">
 	<div class="panel panel-white zoomIn" >
@@ -36,6 +39,7 @@
 								<div class="content-group col-sm-12">
 									<label>Lab</label>
 									<select class="select" ng-model="newInvestigationType.lab">
+<option></option>
 										<option value="{{lab.LabID}}" ng-repeat="lab in labs">{{lab.LabName}}</option>
 									</select>
 								</div>

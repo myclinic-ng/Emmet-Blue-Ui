@@ -366,7 +366,7 @@ angular.module("EmmetBlue")
 					modules.allergies.loadPatientAllergies($scope.patient.profile.patientid);
 					utils.notify("Profile loaded successfully", "", "info");
 					modules.globals.loadAllSavedDiagnosis();
-					$scope.patient.history.displayPage='profile';
+					$scope.patient.history.displayPage='encounters';
 
 					$scope.patient.loadMedicalHighlights();
 
@@ -407,9 +407,9 @@ angular.module("EmmetBlue")
 				modules.globals.patient.search(query, successCallback, errorCallback);
 			}
 			else {
-				if (typeof $scope.patient != "undefined" && $scope.patient.isProfileReady == false){
-					$scope.patient.isProfileReady = true;
-				}
+				// if (typeof $scope.patient != "undefined" && $scope.patient.isProfileReady == false){
+				// 	$scope.patient.isProfileReady = true;
+				// }
 				utils.notify("Invalid search request", "Please make sure you have not submitted an empty search field", "warning");
 			}
 		},
@@ -677,6 +677,7 @@ angular.module("EmmetBlue")
 				utils.notify("Operation Successful", "Diagnosis has been submitted", "success");
 
 				utils.storage.currentPatientNumberDiagnosis = null;
+				$scope.patient.isProfileReady = false;
 				var req = utils.serverRequest('/consultancy/saved-diagnosis/delete?resourceId='+$scope.globals.currentSavedDiagnosisID, 'DELETE');
 				req.then(function(response){}, function(error){});
 			}
@@ -880,7 +881,7 @@ angular.module("EmmetBlue")
 			loadMedicalHighlights: modules.patient.loadMedicalHighlights,
 			isProfileReady: false,
 			history: {
-				displayPage: 'profile',
+				displayPage: 'encounters',
 				loadRepositories: modules.patient.loadRepositories,
 				loadPendingInvestigations: modules.patient.loadPendingInvestigations,
 				loadAdmissionHistory: modules.patient.loadAdmissionHistory,
@@ -1047,7 +1048,8 @@ angular.module("EmmetBlue")
 			utils.errorHandler(error);
 		});
 		// $scope.examination.examinationTypes.push(data);
-	})
+	});
+
 
 	$scope.$watch(function(){ return $scope.conclusion.diagnosis.title; }, function(nv, ov){
 		$rootScope.$broadcast("currentDiagnosis", nv);

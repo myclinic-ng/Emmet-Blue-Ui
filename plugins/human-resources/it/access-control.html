@@ -1,6 +1,9 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
 <script>
-	$('select.select').select2();
+	$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});
 	$(".styled, .multiselect-container input").uniform({
         radioClass: 'choice'
     });
@@ -72,6 +75,7 @@
 								<div class="form-group">
 									<label class="control-label">Select Role</label> 
 									<select class="select" ng-model="roleSelector">
+<option></option>
 										<option ng-repeat="role in department.role" value="{{role.Name}}">{{role.Name}}</option>
 									</select>
 								</div>
@@ -87,6 +91,7 @@
 								<div class="form-group col-md-7">
 									<label class="control-label">Resource</label> 
 									<select class="select" ng-model="newPermission.resource">
+<option></option>
 										<optgroup ng-repeat="(key, value) in allResources" label="{{key}}">
 											<option ng-repeat="resource in value" value="{{key}},{{resource}}">{{resource}}</option>
 										</optgroup>

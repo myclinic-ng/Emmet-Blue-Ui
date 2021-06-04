@@ -38,10 +38,10 @@
 
 					<div class="category-content no-padding">
 						<ul class="navigation navigation-alt navigation-accordion">
-							<li><a href="consultancy/diagnosis"><i class="icon-repo-forked"></i> Start a new diagnosis</a></li>
+							<li><a href="consultancy/diagnosis"><i class="icon-repo-forked"></i> Start a new encounter</a></li>
 							<li class="navigation-divider"></li>
 							<li class="navigation-header">
-								Saved Patients <span class="label label-primary pl-15 pr-15 no-border-radius">{{savedDiagnosis.length}}</span>
+								Saved Encounters <span class="label label-primary pl-15 pr-15 no-border-radius">{{savedDiagnosis.length}}</span>
 							</li>
 							<li ng-repeat="patient in savedDiagnosis" class="media pl-15 pb-15">
 								<div class="media-left media-middle">
@@ -85,7 +85,7 @@
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
-					<h6 class="modal-title">Diagnosis Log</h6>
+					<h6 class="modal-title">Encounter Log</h6>
 				</div>
 				<div class="modal-body">
 					<ng-include src="'plugins/consultancy/assets/includes/diagnoses-log.html'"></ng-include>

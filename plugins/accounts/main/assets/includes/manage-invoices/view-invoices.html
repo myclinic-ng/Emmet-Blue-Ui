@@ -3,7 +3,10 @@
 <script type="text/javascript" src="assets/js/plugins/pickers/daterangepicker.js"></script>
 
 <script>
-	$('select.select').select2();
+	$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});
 	$('.daterange').daterangepicker({
 		showWeekNumbers: true,
 		showDropdowns: true,

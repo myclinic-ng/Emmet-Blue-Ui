@@ -2,7 +2,10 @@
 <script src="assets/js/plugins/forms/tags/tagsinput.min.js"></script>
 <script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
 <script>
-	$("select").select2();
+	$("select").select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});
 </script>
 <!---new body modal form-->
 <div id="new-body-registration" class="modal fade" ng-controller="mortuaryBodyRegistrationController">

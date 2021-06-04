@@ -103,6 +103,7 @@
 									</p>
 									<div class="form-group col-md-7">
 										<select class="select" ng-model="paymentRequestItem.item">
+<option></option>
 											<optgroup label="{{key}}" ng-repeat="(key, item) in requestItems">
 												<option ng-repeat="value in item" value="{{value}}">{{value.BillingTypeItemName}}</option>
 											</optgroup>

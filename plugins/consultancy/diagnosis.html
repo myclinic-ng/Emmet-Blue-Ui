@@ -12,7 +12,10 @@
 <script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
 <script src="assets/js/core/app.js"></script>
 <script>
-	$('select.select').select2();
+	$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});
 	$('.datepicker').datepicker();
 	$(function() {
 	    // Initialize lightbox
@@ -34,7 +37,7 @@
 		<div class="col-sm-7 col-sm-offset-3 valign-middle">
 			<div class="form-group pb-10">
 				<div class="col-lg-12">
-					<p class="control-label text-center"><i class="icon-info22 text-info"></i> Start a new diagnosis by typing a patients name or hospital number in the text field below</p>
+					<p class="control-label text-center"><i class="icon-info22 text-info"></i> Start a new encounter by typing a patients name or hospital number in the text field below</p>
 					<div class="content-group no-margin">
 						<input type="text" id="patient-patientSearchQuery" class="form-control patient-search" placeholder="Enter patient name or hospital number here" ng-model="patientSearchQuery" ng-keypress="patient.catchLoadProfileEnterPress($event)"/>
 					</div>					
@@ -60,7 +63,7 @@
 		<div class="panel-heading">
 			<h6 class="panel-title" ng-show="patient.isProfileReady"><span class="text-bold text-uppercase">{{patient.profile["first name"]}} {{patient.profile["last name"]}} </span></h6>
 			<div class="heading-elements" ng-show="patient.isProfileReady">
-				<button class="btn btn-labeled btn-success bg-white no-border-radius" data-toggle="modal" data-target="#_newMedicalSummary"><b><i class="fa fa-user-md"></i></b>Add Medical Summary</button>
+				<button class="btn btn-labeled btn-success bg-white no-border-radius" data-toggle="modal" data-target="#_newMedicalSummary"><b><i class="fa fa-user-md"></i></b>Add Medical Note</button>
 				<button class="btn btn-labeled btn-warning bg-white no-border-radius" ng-click="admit()"><b><i class="fa fa-hotel"></i></b>Admit this patient</button>
 				<button class="btn btn-labeled btn-primary bg-white no-border-radius" data-toggle="modal" data-target="#new-appointment"><b><i class="icon-calendar3"></i></b>Create Appointment</button>
 				<button class="btn btn-labeled btn-info bg-white no-border-radius" data-toggle="modal" data-target="#refer-patient"><b><i class="icon-forward"></i></b>Refer This Patient</button>
@@ -70,25 +73,31 @@
 		<div class="panel-body table-responsive" ng-show="patient.isProfileReady">
 			<div class="col-sm-9">
 				<div class="tabbable">
-					<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
-						<li href="#history" data-toggle="tab" class="active"><a><a><i class="icon-history"></i> History</a></li>
-						<li href="#presenting-complaints" data-toggle="tab" title="Presenting complaints"><a><a><i class="icon-certificate"></i> Complaints</a></li>
-						<li href="#allergies" data-toggle="tab"><a><a><i class="icon-clipboard4"></i> Allergies</a></li>
-						<li href="#examination" data-toggle="tab"><a><a><i class="icon-file-stats2"></i> Examination</a></li>
-						<li href="#investigation" data-toggle="tab"><a><a><i class="icon-lab"></i> Investigation</a></li>
-						<li href="#diagnosis" data-toggle="tab"><a><a><i class="icon-mail-read"></i> Conclusion</a></li>
+					<ul class="nav nav-tabs nav-justified nav-tabs-highlight">
+						<li href="#history" data-toggle="tab" ng-click="patient.history.displayPage='profile'"><a><i class="icon-history"></i> Profile</a></li>
+						<li href="#presenting-complaints" data-toggle="tab" title="Presenting complaints"><a><i class="icon-certificate"></i> Complaints</a></li>
+						<!-- <li href="#allergies" data-toggle="tab"><a><i class="icon-clipboard4"></i> Allergies</a></li> -->
+						<li href="#examination" data-toggle="tab"><a><i class="icon-file-stats2"></i> Examination</a></li>
+						<li href="#investigation" data-toggle="tab"><a><i class="icon-lab"></i> Investigation</a></li>
+						<li href="#diagnosis" data-toggle="tab"><a><i class="icon-mail-read"></i> Conclusion</a></li>
 					</ul>
 
-					<div class="col-sm-3">
-						<div class="sidebar sidebar-main sidebar-default" style="box-shadow: none; border-color: #F5F5F5; border-radius: 0px;">
+					<div class="col-sm-3 no-padding no-margin">
+						<div class="sidebar sidebar-secondary sidebar-default" style="box-shadow: none; border-color: #F5F5F5; border-radius: 0px; padding-right: 3px !important;">
 							<div class="sidebar-content">
 								<!-- Main navigation -->
 								<div class="sidebar-category sidebar-category-visible">
+									<div class="category-title">
+										<span>History</span>
+										<ul class="icons-list">
+											<li><i class="icon-task"></i></li>
+										</ul>
+									</div>
 									<div class="category-content no-padding">
-										<ul class="navigation navigation-main navigation-accordion navigation-bordered">
+										<ul class="navigation navigation-alt navigation-accordion navigation-bordered no-padding">
 											<!-- Main -->
-											<li ng-click="patient.history.displayPage='profile'" href="#history" class="active" data-toggle="tab">
-												<a href="#"><i class="icon-file-eye text-info"></i> <span> View Profile</span></a>
+											<li ng-click="patient.history.displayPage='encounters'" href="#history" class="active" data-toggle="tab">
+												<a href="#"><i class="icon-file-eye text-info"></i> <span> View Encounters</span></a>
 											</li>
 											<li ng-click="patient.history.loadRepositories();patient.history.loadPendingInvestigations()" href="#history" data-toggle="tab">
 												<a href="#"><i class="icon-library2 text-teal"></i> <span> Load Archives</span></a>
@@ -97,7 +106,7 @@
 												<a href="#"><i class="icon-bed2 text-success"></i> <span> Admission History</span></a>
 											</li>
 											<li ng-click="patient.history.displayPage='medicalSummary'" href="#history" data-toggle="tab">
-												<a href="#"><i class="icon-certificate text-danger"></i> <span> Medical Summary</span></a>
+												<a href="#"><i class="icon-certificate text-danger"></i> <span> Medical Notes</span></a>
 											</li>
 											<!-- /main -->
 										</ul>
@@ -112,10 +121,12 @@
 							<div class="tab-pane active" id="history">
 								<div class="col-sm-12" style="min-height: 100vh; padding-left: 0px !important;">
 									<ng-patient-profile patient-info="patient.profile" ng-show="patient.isProfileReady" ng-if="patient.history.displayPage=='profile'"></ng-patient-profile>
+									<ng-patient-encounters patient-info="patient.profile" ng-show="patient.isProfileReady" ng-if="patient.history.displayPage=='encounters'"></ng-patient-encounters>
 									<div class="row" ng-show="patient.history.displayPage=='repositories'">
 										<div class="col-sm-6 mb-15"><input class="form-control" placeholder="search" ng-model="patient.history.repositoryFilter"/></div>
 										<div class="col-sm-6 mb-15">
 											<select class="select" ng-model="patient.history.repositoryFilter	">
+												<option></option>
 												<option value="lab_result">Lab Result</option>
 												<option value="observation">Examinations &amp; Other Observations</option>
 												<option value="payment_receipt">Financial History</option>
@@ -150,13 +161,13 @@
 													<div class="panel-body">
 														<div class="row">
 															{{loadStaffName(repo.RepositoryCreator)}}
-															<div class="col-sm-8">
+															<div class="col-sm-7">
 																<h6 class="no-margin-top"><a href="#" ng-click="patient.history.loadRepo(repo.RepositoryID)" class="">{{repo.RepositoryName}}</a></h6>
 																<p class="mb-15" ng-if="repo.RepositoryDescription"><em>{{repo.RepositoryDescription}}</em></p>
 																<p class="mb-15 text-muted" ng-if="!repo.RepositoryDescription">No extra note/description</p>
 															</div>
 
-															<div class="col-sm-4">
+															<div class="col-sm-5">
 																<ul class="list task-details">
 																	<li title="{{repo.RepositoryCreationDate}}" class="text-bold">
 																		{{utils.dateObject(repo.RepositoryCreationDate).toDateString()}}
@@ -241,12 +252,14 @@
 												<div class="content-group col-sm-6">
 													<label class="control-label">Allergy Severity</label>
 													<select class="select" ng-model="allergies.newAllergy.severity">
+<option></option>
 														<option value=""></option>
 													</select>
 												</div>
 												<div class="content-group col-sm-12">
 													<label class="control-label">Allergy Type</label>
 													<select class="select" ng-model="allergies.newAllergy.type">
+<option></option>
 														<option value="{{type.AllergyID}}" ng-repeat="type in allergies.allergyTypes">
 															{{type.AllergyName}}
 														</option>
@@ -255,6 +268,7 @@
 												<div class="content-group col-sm-12">
 													<label class="control-label">Allergy Trigger(s)</label>
 													<select class="select" multiple="" ng-model="allergies.newAllergy.triggers">
+<option></option>
 														<option value="{{trigger.TriggerName}}" ng-repeat="trigger in allergies.allergyTypeTriggers">
 															{{trigger.TriggerName}}
 														</option>
@@ -278,23 +292,27 @@
 								</div>
 							</div>
 							<div class="tab-pane fade" id="presenting-complaints">
-								<div class="col-sm-7 col-sm-offset-3 mb-15">
-									<li class="dropdown" style="list-style: none;">
-										<a class="dropdown-toggle btn btn-xs btn-default" data-toggle="dropdown">
-											Load Template
-											<span class="caret"></span>
-										</a>
-										<ul class="dropdown-menu">
-											<li ng-repeat="temp in presentingComplaints.complaintTemplates">
-												<a class="" href="#" ng-click="presentingComplaints.loadTemplateForComplaint(temp.TemplateID)">{{temp.TemplateName}}</a>
-											</li>
-										</ul>
-									</li>
-									<div class="input-group">
-										<input id="presentingComplaints-symptomSearchQuery" type="text" class="form-control symptom-search" placeholder="enter symptom to search" ng-model="presentingComplaints.symptomSearchQuery" ng-keypress="presentingComplaints.catchSearchPress($event)"/>
-										<span class="input-group-btn">
-											<button class="btn btn-purple" ng-click="presentingComplaints.performSymptomSearch()"> <i class="fa fa-plus-circle"></i> Add to list</button>
-										</span>
+								<div class="row mb-15">
+									<div class="col-sm-9">
+										<div class="input-group">
+											<input id="presentingComplaints-symptomSearchQuery" type="text" class="form-control symptom-search" placeholder="enter symptom to search" ng-model="presentingComplaints.symptomSearchQuery" ng-keypress="presentingComplaints.catchSearchPress($event)"/>
+											<span class="input-group-btn">
+												<button class="btn btn-default" ng-click="presentingComplaints.performSymptomSearch()"> <i class="fa fa-plus-circle"></i> Add to list</button>
+											</span>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<li class="dropdown" style="list-style: none;">
+											<a class="dropdown-toggle btn btn-xs btn-default" data-toggle="dropdown">
+												Load From Template
+												<span class="caret"></span>
+											</a>
+											<ul class="dropdown-menu">
+												<li ng-repeat="temp in presentingComplaints.complaintTemplates">
+													<a class="" href="#" ng-click="presentingComplaints.loadTemplateForComplaint(temp.TemplateID)">{{temp.TemplateName}}</a>
+												</li>
+											</ul>
+										</li>
 									</div>
 								</div>
 								<div class="row">
@@ -384,7 +402,7 @@
 							</div>
 							<div class="tab-pane fade" id="investigation">
 								<div class="tabbable">
-									<ul class="nav nav-tabs nav-tabs-solid nav-justified">
+									<ul class="nav nav-tabs nav-justified bg-primary">
 										<li href="#labForm-new" data-toggle="tab" class="active"><a>Laboratory/Imaging Investigation Request Form</a></li>
 									</ul>
 
@@ -397,32 +415,66 @@
 							</div>
 							<div class="tab-pane fade" id="diagnosis">
 								<div class="row">
-									<div class="col-sm-7" style="border-right: 1px solid #F5F5F5;">
+									<div class="tabbable">
+										<ul class="nav nav-pills nav-justified nav-fill" style="background-color: #faf9fea6;">
+											<li href="#diagnosis-deductions" class="nav-item nav-link active" data-toggle="tab"><a><i class="icon-bubble-lines4"></i> Deductions/Report</a></li>
+											<li href="#diagnosis-prescription" class="nav-item nav-link" data-toggle="tab"><a><i class="icon-mail-read"></i> Prescription</a></li>
+										</ul>
+										<div class="tab-content center-block m-15">
+											<div class="tab-pane active" id="diagnosis-deductions">
+												<div class="row">
+													<div class="col-lg-8">
+														<div class="content-group">
+															<label class="control-label">
+																Final Diagnosis
+															</label>
+															<input class="form-control diagnosis-suggest" placeholder="diagnosis" id="conclusionTitle"/>
+														</div>
+													</div>
+													<div class="col-lg-4">
+														<br/>
+														<button class="btn btn-sm btn-default" ng-click="globals.addProvisionalDiagnosis()"> 
+															Add Provisional Diagnosis
+														</button>
+													</div>
+													<div class="col-lg-12">
+														<div class="content-group">
+															<label class="control-label">Encounter Note</label>
+															<textarea placeholder="Add extra encounter note here (optional)" class="form-control" style="height: 400px; border: 2px solid #F5F5F5" ng-model="conclusion.diagnosis.description"></textarea>
+														</div>
+								                    </div>
+												</div>
+											</div>
+											<div class="tab-pane" id="diagnosis-prescription">
+												<div class="row">
+													<ng-pharmacy-prescription-request patient="patient"></ng-pharmacy-prescription-request>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- <div class="col-sm-6" style="border-right: 1px solid #F5F5F5;">
 										<div class="row">
 											<div class="col-lg-12">
 												<h6 class="text-center text-bold"> <i class="icon-bubble-lines4 text-info"></i> Deductions/Report</h6>
 												<div class="content-group">
 													<label class="control-label">
 														Final Diagnosis
-														<button class="btn btn-sm btn-default" ng-click="globals.addProvisionalDiagnosis()"> 
-															Add Provisional Diagnosis
-														</button>
 													</label>
 													<input class="form-control diagnosis-suggest" placeholder="diagnosis" id="conclusionTitle"/>
 												</div>
 												<div class="content-group">
-													<label class="control-label">Diagnosis Note</label>
-													<textarea placeholder="Add extra diagnosis note here (optional)" class="form-control" style="height: 400px; border: 2px solid #F5F5F5" ng-model="conclusion.diagnosis.description"></textarea>
+													<label class="control-label">Encounter Note</label>
+													<textarea placeholder="Add extra encounter note here (optional)" class="form-control" style="height: 400px; border: 2px solid #F5F5F5" ng-model="conclusion.diagnosis.description"></textarea>
 												</div>
 						                    </div>
 										</div>
 									</div>
 
-									<div class="col-sm-5">
+									<div class="col-sm-6">
 										<div class="row">
 											<ng-pharmacy-prescription-request patient="patient"></ng-pharmacy-prescription-request>
 										</div>
-									</div>
+									</div> -->
 								</div>
 							</div>
 						</div>
@@ -438,9 +490,9 @@
 					</div>
 				</div>
 				<div class="tabbable">
-					<ul class="nav nav-tabs nav-tabs-highlight nav-justified" id="diagnosis-workspace" role="tablist">
+					<ul class="nav nav-tabs nav-tabs-bottom nav-justified" id="diagnosis-workspace" role="tablist">
 						<li class="nav-item active" role="presentation" data-toggle="tab" href="#diagnosis-workspace-summary">
-							<a class="nav-link">Session Summary</a>
+							<a class="nav-link">Encounter Summary</a>
 						</li>
 					</ul>
 					<div class="tab-content" id="myTabContent">
@@ -608,12 +660,14 @@
 						<div class="content-group">
 							<label class="control-label">Select Lab</label>
 							<select class="select" ng-model="labTests.sendVariables.lab">
+<option></option>
 								<option value="{{lab.LabID}}" ng-repeat="lab in globals.registeredLabs">{{lab.LabName}}</option>
 							</select>
 						</div>
 						<div class="content-group">
 							<label class="control-label">Select Investigation Type</label>
 							<select class="select" ng-model="labTests.sendVariables.investigationType">
+<option></option>
 								<option value="{{type.InvestigationTypeID}}" ng-repeat="type in globals.registeredInvestigationTypes">{{type.InvestigationTypeName}}</option>
 							</select>
 						</div>
@@ -667,12 +721,14 @@
 						<div class="content-group">
 							<label class="control-label">Select Lab</label>
 							<select class="select" ng-model="labTests.sendVariables.lab">
+<option></option>
 								<option value="{{lab.LabID}}" ng-repeat="lab in globals.registeredLabs">{{lab.LabName}}</option>
 							</select>
 						</div>
 						<div class="content-group">
 							<label class="control-label">Select Investigation Type</label>
 							<select class="select" ng-model="labTests.sendVariables.investigationType">
+<option></option>
 								<option value="{{type.InvestigationTypeID}}" ng-repeat="type in globals.registeredInvestigationTypes">{{type.InvestigationTypeName}}</option>
 							</select>
 						</div>
@@ -759,6 +815,7 @@
 							<!-- <div class="col-md-4">
 								<label class="control-label">Range Identifier</label>
 								<select class="select" ng-model="conclusion.appointment.range">
+<option></option>
 									<option value="weeks">Weeks</option>
 									<option value="days">Days</option>
 									<option value="months">Months</option>
@@ -868,7 +925,7 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header bg-info">
-					<h6 class="modal-title">Previously Saved Diagnoses For This Patient</h6>
+					<h6 class="modal-title">Previously Saved Encounters For This Patient</h6>
 				</div>
 				<div class="modal-body">
 					<div class="row">
@@ -884,7 +941,7 @@
 										<p class="text-center">{{toDateString(item.DateModified)}}</p>
 
 										<p>
-											<a href="#" title="Load Diagnosis" class="btn" ng-click="loadSavedDiagnosis(item.Patient, item.Consultant)">Load Diagnosis</a>
+											<a href="#" title="Load Diagnosis" class="btn" ng-click="loadSavedDiagnosis(item.Patient, item.Consultant)">Load Encounter</a>
 										</p>
 									</div>
 								</div>
@@ -901,16 +958,17 @@
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h5 class="modal-title">Add New Medical Summary Field</h5>
+					<h5 class="modal-title">Add New Medical Note</h5>
 				</div>
 				<div class="modal-body">
 					<div class="row">
 						<div class="form-group col-md-12">
 							<label class="control-label">Field Title</label>
-							<select class="select" ng-model="newSummary.field"><option ng-repeat="field in summaryFields" value="{{field.FieldID}}" >{{field.FieldTitle}}</option></select>
+							<select class="select" ng-model="newSummary.field">
+<option></option><option ng-repeat="field in summaryFields" value="{{field.FieldID}}" >{{field.FieldTitle}}</option></select>
 						</div>
 						<div class="form-group col-md-12">
-							<label class="control-label">Summary</label>
+							<label class="control-label">Note</label>
 							<textarea class="form-control" style="min-height: 100px" ng-model="newSummary.summary"></textarea>
 						</div>
 						<a class="pull-right btn btn-info" ng-click="submitNewMedicalSummary()">Submit</a>

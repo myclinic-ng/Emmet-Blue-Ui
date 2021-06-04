@@ -1,5 +1,8 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-<script>$('select.select').select2();</script>
+<script>$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});</script>
 
 <div ng-controller="accountsAccountAccountTypeController">
 	<div class="panel panel-white zoomIn" >
@@ -41,6 +44,7 @@
 								<div class="content-group col-sm-12">
 									<label>Account type category</label>
 									<select class="select" ng-model="newAccountType.category">
+<option></option>
 										<option ng-repeat="category in accountTypeCategories" value="{{category.CategoryID}}">{{category.CategoryName}}</option>
 									</select>
 								</div>

@@ -4,7 +4,10 @@
 <script src="assets/js/plugins/forms/tags/tagsinput.min.js"></script>
 <script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
 <script>
-	$('select.select').select2();
+	$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});
 	$('.daterange').daterangepicker({
 		showWeekNumbers: true,
 		showDropdowns: true,
@@ -36,6 +39,7 @@
 				<div class="form-group col-md-12">
 					<label class="control-label">Filter By</label>
 					<select class="select" ng-model="filterSelector.type" ng-change="filterSelector.value = null">
+<option></option>
 						<optgroup label="Sub Groups">
 							<option value="patienttype">Patient Type</option>
 							<option value="patient">Patient</option>
@@ -49,6 +53,7 @@
 				<div class="form-group col-md-12" ng-show="filterSelector.type == 'patienttype'">
 					<label class="control-label">Select Patient Type</label>
 					<select class="select" ng-model="filterSelector.value">
+<option></option>
 						<option ng-repeat="type in patientTypes" value="{{type.CategoryName}}<seprator>{{type.CategoryName}}">{{type.CategoryName}}</option>
 					</select>
 				</div>
@@ -69,12 +74,14 @@
 				<div class="form-group col-md-12" ng-show="filterSelector.type == 'billingtype'">
 					<label class="control-label">Select Billing Type</label>
 					<select class="select" ng-model="filterSelector.value">
+<option></option>
 						<option ng-repeat="type in billingTypes" value="{{type.BillingTypeID}}<seprator>{{type.BillingTypeName}}">{{type.BillingTypeName}}</option>
 					</select>
 				</div>
 				<div class="form-group col-md-12" ng-show="filterSelector.type == 'store'">
 					<label class="control-label">Select Billing Type</label>
 					<select class="select" ng-model="filterSelector.value">
+<option></option>
 						<option ng-repeat="store in stores" value="{{store.StoreID}}<seprator>{{store.StoreName}}">{{store.StoreName}}</option>
 					</select>
 				</div>

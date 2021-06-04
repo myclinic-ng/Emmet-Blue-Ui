@@ -1,5 +1,8 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-<script>$('select.select').select2();</script>
+<script>$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});</script>
 
 <div ng-controller="humanResourcesDepartmentController">
 	<div class="panel panel-white zoomIn" >
@@ -40,7 +43,8 @@
 								</div>
 								<div class="content-group col-sm-12 pt-2">
 									<label>Department Group</label>
-									<select class="select" ng-model="newDepartment.groupId" ng-options="departmentGroup.DepartmentGroupID as departmentGroup.GroupName for departmentGroup in departmentGroups"></select>
+									<select class="select" ng-model="newDepartment.groupId" ng-options="departmentGroup.DepartmentGroupID as departmentGroup.GroupName for departmentGroup in departmentGroups">
+<option></option></select>
 								</div>
 							</div>
 						</div>

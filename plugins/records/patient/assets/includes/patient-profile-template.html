@@ -1,31 +1,40 @@
 <div class="row">
-	<div class="col-md-4">
-		<!-- <a href="plugins/records/patient/assets/images/avatar_placeholder.png" data-popup="lightbox">
-			<img class="img img-responsive" ng-src="plugins/records/patient/assets/images/avatar_placeholder.png" alt="No picture has been uploaded, continue working with this profile at your discretion"/>
-		</a> -->
+	<div class="col-md-3">
 		<a href="{{loadImage(patientInfo.patientpicture)}}" data-popup="lightbox">
 			<img class="img img-responsive" ng-src="{{loadImage(patientInfo.patientpicture)}}" alt="No picture has been uploaded, continue working with this profile at your discretion" on-error-src="{{getGenderAvatar(patientInfo.gender)}}"/>
 		</a>
 	</div>
-	<div class="col-md-8">
-		<h1 class="text-bold text-uppercase" style="margin-top: 20px; ">{{patientInfo.patientfullname}}</h1>
-		<p class="text-thin text-uppercase">{{patientInfo.patientuuid}}</p>
-		<p class="text-uppercase" ng-if='patientInfo["hmo number"]'>HMO NUMBER: {{patientInfo["hmo number"]}}</p>
-		<h1 class="text-size-large text-light text-muted">{{patientInfo.patienttypename}}, {{patientInfo.categoryname}}</h1>
-		<h2 class="text-size-mini text-thin mb-20">
-			<span class="label label-info no-border-radius" ng-if="patientInfo['date of birth'] != null">{{toLocaleDate(patientInfo["date of birth"])}}</span>
-			<span class="label label-success no-border-radius" ng-if="patientInfo['date of birth'] != null">({{getAge(patientInfo["date of birth"])}} years old)</span>
-			<span class="label label-warning bg-teal no-border-radius" ng-if="patientInfo['occupation'] != null">{{patientInfo["occupation"]}}</span>
-		</h2>
+	<div class="col-md-9 no-padding">
+		<div class="col-md-7 no-padding">
+			<h2 class="text-bold text-uppercase no-margin no-padding">{{patientInfo.patientfullname}}</h2>
+			<p class="text-thin text-uppercase">{{patientInfo.patientuuid}}</p>
+			<p class="text-uppercase" ng-if='patientInfo["hmo number"]'>HMO NUMBER: {{patientInfo["hmo number"]}}</p>
+			<h1 class="text-size-large text-light text-muted">{{patientInfo.patienttypename}}, {{patientInfo.categoryname}}</h1>
+			<h2 class="text-size-mini text-thin mb-20">
+				<span ng-if="patientInfo['date of birth'] != null"><span class="label label-info no-border-radius">{{toLocaleDate(patientInfo["date of birth"])}}</span></span>
+				<span ng-if="patientInfo['date of birth'] != null"><span class="label label-success no-border-radius">{{getAge(patientInfo["date of birth"])}} years old</span></span>
+				<span ng-if="patientInfo['occupation'] != null"><span class="label label-warning bg-teal no-border-radius">{{patientInfo["occupation"]}}</span></span>
+			</h2>
+		</div>
+		<div class="col-md-5">
+			<div class="bg-primary p-10" style="border-radius: 6px;">
+				<p class="no-margin no-padding">Pending Invoices</p>
+				<h2 class="no-margin no-padding"><span ng-currency></span> <span class="text-bold">0</span></h2>
+			</div>
+			<div class="bg-info-800 p-10 mt-5" style="border-radius: 6px;">
+				<p class="no-margin no-padding">Part Payment Balance</p>
+				<h2 class="no-margin no-padding"><span ng-currency></span> <span class="text-bold">0</span></h2>
+			</div>
+		</div>
 	</div>
 </div>
 <div class="row mt-20">
 	<div class="col-md-12">
 		<div class="tabbable">
-			<ul class="nav nav-tabs nav-tabs-highlight nav-justified">
-				<li class="active" href="#{{patientInfo['patientid']}}-profile-info" data-toggle="tab"><a>Basic Profile Information</a></li>
-				<li href="#{{patientInfo['patientid']}}-hospital-history" data-toggle="tab"><a>Hospital History</a></li>
-				<li href="#{{patientInfo['patientid']}}-diagnosis" data-toggle="tab" ng-click="loadDiagnosis(patientInfo['patientid'])"><a>Diagnoses</a></li>
+			<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
+				<li class="active" href="#{{patientInfo['patientid']}}-profile-info" data-toggle="tab"><a style="border-bottom-color: #26a69a !important;">Patient Bio Data and other Profile Information</a></li>
+				<!-- <li href="#{{patientInfo['patientid']}}-hospital-history" data-toggle="tab"><a>Hospital History</a></li> -->
+				<!-- <li href="#{{patientInfo['patientid']}}-diagnosis" data-toggle="tab" ng-click="loadDiagnosis(patientInfo['patientid'])"><a>Diagnoses</a></li> -->
 			</ul>
 
 			<div class="tab-content">
@@ -154,129 +163,6 @@
 							</tbody>
 						</table>
 					</div>
-				</div>
-
-				<div class="tab-pane" id="{{patientInfo['patientid']}}-diagnosis">
-					<div class="col-md-6 col-md-offset-6">
-						<select class="select" ng-model="selectedDateGroup">
-							<option value="0">ALL</option>
-							<option ng-repeat="group in diagnosesDateGroups" value="{{group}}">{{group.MonthName }} {{group.YearDate}}</option>
-						</select>
-					</div>
-					<div clear=""></div>
-					<table class="col-md-12 table table-bordered table-condensed">
-						<thead class="bg-info">
-							<tr>
-								<th>S/N</th>
-								<th>Diagnosis Date</th>
-								<th>Title</th>
-								<th>Diagnosis</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr ng-repeat="item in diagnoses">
-								<td class="no-border">{{$index + 1}}</td>
-								<td class="no-border">{{toLocaleDate(item.DiagnosisDate)}}</td>
-								<td class="no-border" ng-if="item.DiagnosisTitle">{{item.DiagnosisTitle}}</td>
-								<td class="no-border" ng-if="!item.DiagnosisTitle">N/A</td>
-								<td class="no-border"><a data-toggle="modal" data-target="#modal-diagnosis" ng-click="setCurrentDiagnosis($index)" class="btn"><i class="icon-info22"></i> Load diagnosis information</a></td>
-							</tr>
-							<tr ng-if="diagnoses.length < 1">
-								<td colspan="5" class="text-muted text-center">No Diagnosis Has Been Completed For This Patient</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div id="modal-diagnosis" class="modal fade">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header bg-success">
-					<button type="button" class="close" data-dismiss="modal"><i class="icon-cross"></i></button>
-					<h4 class="modal-title">Diagnosis Information</h4>
-				</div>
-				
-				<div class="modal-body">
-					<div class="col-md-12">
-						<h5><span class="text-muted">Diagnosis Title: &nbsp;</span> <span class="text-black" ng-if="!diagnosis.DiagnosisTitle">N/A</span> {{diagnosis.DiagnosisTitle}}</h5>
-						<h5 title="{{diagnosis.DiagnosisDate}}"><span class="text-muted">Diagnosis Date:&nbsp;</span> {{toDateString(diagnosis.DiagnosisDate)}} <span class="text-muted">at</span> {{getTime(diagnosis.DiagnosisDate)}}</h5>
-						<h5><span class="text-muted">Diagnosis By: &nbsp;&nbsp;&nbsp;&nbsp;</span> {{diagnosis.StaffFullName}}</h5>
-					</div>
-					<div class="table-responsive col-md-8">
-						<table class="table table-bordered">
-							<tbody>
-								<tr class="bg-info text-center" ng-if="diagnosis.Diagnosis.complaints.length > 0">
-									<th colspan="3">Presenting Complaints</th>
-								</tr>
-								<tr ng-repeat="complaint in diagnosis.Diagnosis.complaints" ng-if="diagnosis.Diagnosis.complaints.length > 0">
-									<td class="no-border">{{$index + 1}}</td>
-									<td class="no-border">{{complaint.title}}</td>
-									<td class="no-border text-muted">{{complaint.description}}</td>
-								</tr>
-								<tr class="bg-danger-400 text-center" ng-if="diagnosis.Diagnosis.investigations.lab.length > 0 || diagnosis.Diagnosis.investigations.imaging.length > 0">
-									<th colspan="3">Investigation</th>
-								</tr>
-								<tr class="active text-center" ng-if="diagnosis.Diagnosis.examination.length > 0">
-									<th colspan="3"><span class="text-center">Conducted Examinations</span></th>
-								</tr>
-								<tr ng-repeat="exam in diagnosis.Diagnosis.examination">
-									<td class="no-border">{{$index+1}}</td>
-									<td class="no-border">{{exam.name}}</td>
-								</tr>
-								<tr class="active text-center" ng-if="diagnosis.Diagnosis.investigations.lab.length > 0">
-									<th colspan="3"><span class="text-center">Laboratory</span></th>
-								</tr>
-								<tr ng-repeat="investigation in diagnosis.Diagnosis.investigations.lab" ng-if="diagnosis.Diagnosis.investigations.lab.length > 0">
-									<td class="no-border">{{$index+1}}</td>
-									<td class="no-border">{{investigation.title}}</td>
-									<td class="no-border">{{investigation.description}}</td>
-								</tr>
-								<tr class="active text-center" ng-if="diagnosis.Diagnosis.investigations.imaging.length > 0">
-									<th colspan="3"><span class="text-center">Radiology</span></th>
-								</tr>
-								<tr ng-repeat="investigation in diagnosis.Diagnosis.investigations.imaging" ng-if="diagnosis.Diagnosis.investigations.imaging.length > 0">
-									<td class="no-border">{{$index+1}}</td>
-									<td class="no-border">{{investigation.title}}</td>
-									<td class="no-border">{{investigation.description}}</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<div class="col-md-4">
-						<table class="table table-bordered">
-							<tbody>
-								<tr class="bg-teal text-center" ng-if="diagnosis.Diagnosis.conclusion.prescription.length > 0">
-									<th colspan="3">Prescription</th>
-								</tr>
-								<tr ng-repeat="prescription in diagnosis.Diagnosis.conclusion.prescription" ng-if="diagnosis.Diagnosis.conclusion.prescription.length > 0">
-									<td class="no-border">{{$index + 1}}</td>
-									<td>
-										<div class="content-group" ng-if="!exists(prescription, 'smart')">
-											<label class="control-label"><span class='text-bold'>{{prescription.item}}</label>
-											<p class="text-bold pl-10">{{prescription.duration}}</p>
-										</div>
-										<div class="content-group" ng-if="exists(prescription, 'smart')">
-											<span ng-if="prescription.smart">
-												<label class="control-label"><b>{{prescription.item.item.name}}</b></label>
-												<p class="pl-10">{{prescription.item.item.category}}, {{prescription.item.times}} daily for {{prescription.item.duration}} days <span class="label label-success">SMART</span></p>
-											</span>
-											<span ng-if="!prescription.smart">
-												{{prescription.item.name}} <br/><span class="label label-warning">NOT SMART</span></label>
-											</span>
-										</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<div class="col-md-12">
-						<h5 class="text-muted" ng-if="diagnosis.Diagnosis.conclusion.diagnosis.description">Extra Information</h5>
-						<div ng-bind-html="diagnosis.Diagnosis.conclusion.diagnosis.description | decodeHtml"></div>
-					</div>
-				</div>
-				<div class="modal-footer">
 				</div>
 			</div>
 		</div>

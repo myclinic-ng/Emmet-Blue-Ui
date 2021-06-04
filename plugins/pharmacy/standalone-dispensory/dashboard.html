@@ -1,5 +1,8 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-<script>$('select.select').select2();</script>
+<script>$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});</script>
 <div class="row" ng-controller="pharmacyStandaloneDispensoryDashboardController">
 	<div class="col-md-3 col-sm-3">
 		<div class="sidebar sidebar-secondary sidebar-default">

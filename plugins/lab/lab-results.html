@@ -1,7 +1,10 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
 <script src="assets/js/plugins/forms/tags/bootstrap-tagsinput.js"></script>
 <script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
-<script>$('select.select').select2();</script>
+<script>$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});</script>
 
 <div ng-controller="labResultsController">
 	<div class="row">
@@ -74,11 +77,13 @@
 					<div class="row" style="border-bottom: 1px solid #4CAF50">
 						<div class="col-md-6">
 							<select class="select" ng-model="selectedlab">
+<option></option>
 								<option value="{{lab.LabID}}" ng-repeat="lab in labs">{{lab.LabName}}</option>
 							</select>
 						</div>
 						<div class="col-md-6">
 							<select class="select" ng-model="investigationType">
+<option></option>
 								<option value="{{inv.InvestigationTypeID}}" ng-repeat="inv in labInvestigations">{{inv.InvestigationTypeName}}</option>
 							</select>
 						</div>

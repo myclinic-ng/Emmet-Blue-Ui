@@ -1,5 +1,8 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-<script>$('select.select').select2();</script>
+<script>$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});</script>
 
 <div ng-controller="accountsAccountAccountController">
 	<div class="panel panel-white zoomIn" style="height: 100vh">
@@ -36,6 +39,7 @@
 								<div class="content-group col-sm-12">
 									<label>Account category</label>
 									<select class="select" ng-model="newAccount.type">
+<option></option>
 										<optgroup label="{{category.CategoryName}}" ng-repeat="category in accountTypes">
 											<option ng-repeat="type in category.types" value="{{type.TypeID}}">{{type.TypeName}}</option>
 										</optgroup>
@@ -107,6 +111,7 @@
 								<p class="text-center text-muted">Changing selected account type from {{tempHolder.currentType}}</p>
 								<label>Select a new account to change to</label>
 								<select class="select" ng-model="tempHolder.type">
+<option></option>
 									<optgroup label="{{category.CategoryName}}" ng-repeat="category in accountTypes">
 										<option ng-repeat="type in category.types" value="{{type.TypeID}}">{{type.TypeName}}</option>
 									</optgroup>

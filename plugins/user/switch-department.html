@@ -1,5 +1,8 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-<script>$('select.select').select2();</script>
+<script>$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});</script>
 
 <div ng-controller="userSwitchDepartmentController">
 	<div class="page-header col-md-7 mb-15">
@@ -34,6 +37,7 @@
 
 				<div class="form-group has-feedback">
 					<select class="select" ng-model="department">
+<option></option>
 						<option value="">Select department to switch into</option>
 						<option ng-repeat="dept in switchableDepartments" value="{{dept.DepartmentID}}">
 							{{dept.Name}}

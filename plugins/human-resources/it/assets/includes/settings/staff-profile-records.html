@@ -1,5 +1,8 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-<script>$('select.select').select2();</script>
+<script>$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});</script>
 <div ng-controller="humanResourcesSettingsStaffProfileRecordsController">
 	<div id="setting_staff_profile_record" class="modal fade">
 		<div class="modal-dialog modal-full">
@@ -42,6 +45,7 @@
 								<div class="col-sm-12">
 									<label>Record Type</label>
 									<select class="select" ng-model="newProfileRecord.type">
+<option></option>
 										<option value="Name">Noun (A word that indicates a name)</option>
 										<option value="Text">Text (An address, a description, etc)</option>
 										<option value="Number">Number (An integer or fractional based number)</option>

@@ -1,5 +1,8 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-<script>$('select.select').select2();</script>
+<script>$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});</script>
 
 <div ng-controller="labInvestigationTypeFieldsController">
 	<div id="investigation_type_fields" class="modal fade">
@@ -43,6 +46,7 @@
 								<div class="content-group col-sm-6">
 									<label class="text-bold">Field Type</label>
 									<select class="select" ng-model="newField.type">
+<option></option>
 										<option value="{{type.TypeID}}" ng-repeat="type in fieldTypes">{{type.TypeName}}</option>
 									</select>
 								</div>
@@ -86,6 +90,7 @@
 								<div class="content-group col-sm-6">
 									<label class="text-bold">Field Type ({{editField.typeName}})</label>
 									<select class="select" ng-model="editField.type">
+<option></option>
 										<option value="{{type.TypeID}}" ng-repeat="type in fieldTypes">{{type.TypeName}}</option>
 									</select>
 								</div>

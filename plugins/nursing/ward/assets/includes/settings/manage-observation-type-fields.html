@@ -1,12 +1,16 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
 <script>
-	$('select.select').select2();
+	$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});
 </script>
 <div ng-controller="nursingSettingManageObservationTypeFieldsController">
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
 			<label class="control-label">Select observation type to manage</label>
 			<select class="select" ng-model="currentObservationType">
+<option></option>
 				<option ng-repeat="type in observationTypes" value="{{type.ObservationTypeID}}">{{type.ObservationTypeName}}</option>
 			</select>
 		</div>
@@ -64,6 +68,7 @@
 							<div class="col-sm-12">
 								<label>Field Type</label>
 								<select class="select" ng-model="newObservationTypeField.type">
+<option></option>
 									<option ng-repeat="type in fieldTypes" value="{{type.TypeID}}">{{type.TypeName}}</option>
 								</select>
 							</div>
@@ -157,6 +162,7 @@
 								<tr>
 									<td colspan="2">
 										<select class="select" ng-model="newDirtyValueCondition">
+<option></option>
 											<option value="eq">Must contain</option>
 											<option value="gt">Must be greater than</option>
 											<option value="lt">Must be less than</option>

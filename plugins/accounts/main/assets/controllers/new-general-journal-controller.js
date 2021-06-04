@@ -26,7 +26,10 @@ angular.module("EmmetBlue")
 	}
 
 	var newRowAdded = function(){
-		$('select.select').select2();
+		$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});
 	}
 
 	$scope.addNewRow = function(){

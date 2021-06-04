@@ -1,7 +1,10 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
 <script src="assets/js/plugins/forms/tags/bootstrap-tagsinput.js"></script>
 <script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
-<script>$('select.select').select2();</script>
+<script>$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});</script>
 <script>
 	$(".styled").uniform({
         radioClass: 'choice'
@@ -106,12 +109,14 @@
 						<div class="content-group col-md-6">
 							<label class="control-label">Payment Method</label>
 							<select class="select" ng-model="newPayment.paymentMethod" ng-options="method.PaymentMethodName as method.PaymentMethodName for method in paymentMethods">
+<option></option>
 								<!-- <option value=""></option> -->
 							</select>
 						</div>
 						<div class="content-group col-md-6">
 							<label class="control-label">Transaction Status</label>
 							<select class="select" ng-model="newPayment.transactionStatus" ng-options="status.StatusName as status.StatusName for status in statuses">
+<option></option>
 							</select>
 						</div>
 						<div class="button-group pull-right">

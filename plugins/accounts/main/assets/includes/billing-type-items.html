@@ -1,5 +1,8 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-<script>$('select.select').select2();</script>
+<script>$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});</script>
 <div ng-controller="accountsBillingBillingTypeItemsController">
 	<div id="billing_type_items" class="modal fade">
 		<div class="modal-dialog modal-full">
@@ -93,6 +96,7 @@
 								<div class="col-sm-12">
 									<label>Item Name</label>
 									<select class="select" ng-model="newBillingTypeItems.billingTypeItem">
+<option></option>
 										<option ng-repeat="item in currentBillingTypeItems" value="{{item.BillingTypeItemID}}">
 											{{item.BillingTypeItemName}}
 										</option>
@@ -149,6 +153,7 @@
 						<div class="col-sm-5">
 							<label>Patient Category/Type </label>
 							<select class="select" ng-model="patientTypeSelector">
+<option></option>
 								<option ng-repeat="category in patientCategories" value="{{category.CategoryID}}">{{category.CategoryName}}</option>
 							</select>
 							<div style="height:300px !important; border-right: 1px solid #5cb85c" class="overflow-auto">
@@ -179,6 +184,7 @@
 							<div class="col-sm-6">
 								<label>Rate</label>
 								<select class="select" ng-model="priceStructure.rate">
+<option></option>
 									<option value="">Not rate based</option>
 									<option value="Daily">Daily</option>
 									<option value="Hourly">Hourly</option>
@@ -198,6 +204,7 @@
 									<div class="form-group col-md-4">
 										<label class="control-label">Interval Type</label>
 										<select class="select" ng-model="interval.type">
+<option></option>
 											<option value=""></option>
 											<option value="geometric">Geometric</option>
 											<option value="multiplicative">Multiplicative</option>

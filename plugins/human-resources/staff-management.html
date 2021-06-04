@@ -1,5 +1,11 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-<script>$('select').select2();</script>
+<script>
+	$('select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});
+</script>
+<ng-include src="'assets/angular/core/templates/sudo-mode.html'"></ng-include>
 <div ng-controller="humanResourcesStaffManagementController">
 	<!-- Page container -->
 	<div class="page-container">
@@ -63,6 +69,7 @@
 										<div class="form-group">
 											<label>Department:</label>
 											<select class="select" ng-model="newStaff.department.departmentId">
+												<option></option>
 												<optgroup ng-repeat="(key, department) in departments" label="{{key}}">
 													<option ng-repeat="dept in department" value="{{dept.DepartmentID}}">
 														{{dept.Name}}
@@ -73,7 +80,9 @@
 
 										<div class="form-group">
 											<label>Role:</label>
-											<select class="select" ng-model="newStaff.role.roleId" ng-options="role.RoleID as role.Name for role in roles"></select>
+											<select class="select" ng-model="newStaff.role.roleId" ng-options="role.RoleID as role.Name for role in roles">
+												<option></option>
+											</select>
 										</div>
 
 										<div class="row">
@@ -223,6 +232,36 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-warning" ng-click="addFingerprintsToRegistration()"><i class="icon-printer"></i> CONTINUE</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="change_staff_password_modal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-info">
+					<button type="button" class="close" data-dismiss="modal">&times; close</button>
+					<h5 class="modal-title">Change Staff Password</h5>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<h3 class="text-center"><small>Changing password for</small><br/><span class="font-weight-semibold">{{tempHolder.username}}</span></h3>
+						<form role="form" class="category-content">
+							<div class="form-group">
+								<label>New Password:</label>
+								<input type="password" class="form-control" ng-model="tempHolder.password" placeholder="Password">
+							</div>
+
+							<div class="form-group">
+								<label>Confirm Password:</label>
+								<input type="password" class="form-control" id="confirmStaffPasswordValue" placeholder="Confirm Password">
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-info" ng-click="submitChangePasswordForm()"> Save</button>
 				</div>
 			</div>
 		</div>

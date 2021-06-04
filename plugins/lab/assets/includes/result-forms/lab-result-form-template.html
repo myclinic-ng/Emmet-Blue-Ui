@@ -782,6 +782,7 @@
 					<div class="content-group col-md-4 col-md-offset-4">
 						<label class="control-label">Investigation Type</label>
 						<select class="select" ng-model="investigationType">
+<option></option>
 							<option value="{{inv.InvestigationTypeID}}" ng-repeat="inv in investigationTypes">{{inv.InvestigationTypeName + "(" + inv.LabName + ")"}}</option>
 						</select>
 					</div>

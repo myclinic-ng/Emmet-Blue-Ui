@@ -1,6 +1,9 @@
 <script src="assets/js/navbar_fixed_secondary.js"></script>
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-<script>$('select.select').select2();</script>
+<script>$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});</script>
 
 <!-- Second navbar -->
 <div class="navbar navbar-default" id="navbar-second">
@@ -76,6 +79,7 @@
 										<h1 class="text-center text-black">{{requestForm.currentPatientProfile.FullName}}<br/><small>{{investigations}}</small></h1>
 										<div class="form-group col-md-7">
 											<select class="select" ng-model="paymentRequestItem.item">
+<option></option>
 												<optgroup label="{{key}}" ng-repeat="(key, item) in requestItems">
 													<option ng-repeat="value in item" value="{{value}}">{{value.BillingTypeItemName}}</option>
 												</optgroup>
@@ -168,6 +172,7 @@
 									<div class="content-group col-md-12">
 										<label class="control-label">Select lab to assign patient</label>
 										<select class="select" ng-model="patientLab">
+<option></option>
 											<option ng-repeat="lab in labs" value="{{lab.LabID}}" data-name="{{lab.LabName}}" data-id="ln-{{lab.LabID}}">{{lab.LabName}}</option>
 										</select>
 									</div>
@@ -177,6 +182,7 @@
 								<div class="content-group col-md-6">
 									<label class="control-label">Investigation Required</label>
 									<select class="select" ng-model="investigation">
+<option></option>
 										<option value="{{type.InvestigationTypeID}}" ng-repeat="type in investigationTypes" data-name="{{type.InvestigationTypeName}}" data-id="itid-{{type.InvestigationTypeID}}">{{type.InvestigationTypeName}}</option>
 									</select>
 								</div>

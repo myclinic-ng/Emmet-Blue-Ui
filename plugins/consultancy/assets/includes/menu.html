@@ -8,7 +8,7 @@
 	<div class="navbar-collapse collapse" id="navbar-second-toggle">
 		<ul class="nav navbar-nav">
 			<li><a href="consultancy/dashboard"><i class="icon-display4 position-left"></i> Dashboard</a></li>
-			<li><a href="consultancy/diagnosis"><i class="icon-file-plus2 position-left"></i> Diagnosis Workspace</a></li>
+			<li><a href="consultancy/diagnosis"><i class="icon-file-plus2 position-left"></i> Encounter Workspace</a></li>
 			<li>
 				<a href="#" data-toggle="modal" data-target="#_patient-queue" ng-click="reloadQueue()"><i class="icon-list-numbered position-left"></i> 
 					Patient Queue
@@ -74,6 +74,7 @@
 									</p>
 									<div class="form-group col-md-7">
 										<select class="select" ng-model="paymentRequestItem.item">
+<option></option>
 											<optgroup label="{{key}}" ng-repeat="(key, item) in requestItems">
 												<option ng-repeat="value in item" value="{{value}}">{{value.BillingTypeItemName}}</option>
 											</optgroup>

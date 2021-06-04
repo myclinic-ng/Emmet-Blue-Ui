@@ -5,15 +5,18 @@ angular.module("EmmetBlue")
 	$scope.$watch(function(){
 		return utils.storage.billingTypeItemsData
 	}, function(newValue){
-		$scope.billingTypeItemsName = newValue.name;
-		$scope.billingTypeItems = newValue.id;
-
-		if (!$scope.startWatching){
-			$scope.startWatching = true;
-		}
-		else{
+		if (typeof newValue !== "undefined" && newValue !== null) {
+			$scope.billingTypeItemsName = newValue.name;
+			$scope.billingTypeItems = newValue.id;
 			$scope.reloadBillingTypeItemsTable();
 		}
+
+		// if (!$scope.startWatching){
+		// 	$scope.startWatching = true;
+		// }
+		// else{
+		// 	//reloadBillingTypeItemsTable
+		// }
 	})
 
 	$scope.patientCategories = {};

@@ -5,7 +5,10 @@
 <script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
 
 <script>
-	$('select.select').select2();
+	$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});
 	$('.daterange').daterangepicker({
 		showWeekNumbers: true,
 		showDropdowns: true,
@@ -32,6 +35,7 @@
 				<div class="form-group col-md-2">
 					<label class="control-label">Filter By</label>
 					<select class="select" ng-model="filterSelector.type" ng-change="filterSelector.value = null">
+<option></option>
 						<optgroup label="Sub Groups">			
 							<!-- <option value="paymentmethod">Payment Method</option> -->
 							<!-- <option value="patientcategory">Patient Category</option> -->
@@ -53,12 +57,14 @@
 				<div class="form-group col-md-8" ng-show="filterSelector.type == 'patientcategory'">
 					<label class="control-label">Select Patient Category</label>
 					<select class="select" ng-model="filterSelector.value">
+<option></option>
 						<option ng-repeat="type in patientTypes" value="{{type.CategoryName}}<seprator>{{type.CategoryName}}">{{type.CategoryName}}</option>
 					</select>
 				</div>
 				<div class="form-group col-md-8" ng-show="filterSelector.type == 'paymentmethod'">
 					<label class="control-label">Select Payment Method</label>
 					<select class="select" ng-model="filterSelector.value">
+<option></option>
 						<option ng-repeat="type in paymentMethods" value="{{type.Name}}<seprator>{{type.Name}}">{{type.Name}}</option>
 					</select>
 				</div>

@@ -1,7 +1,10 @@
 <script type="text/javascript" src="assets/js/core/app.js"></script>
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
 <script>
-	$('select.select').select2();
+	$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});
 	$(function() {
 		// Initialize lightbox
 		$('[data-popup="lightbox"]').fancybox({
@@ -34,6 +37,7 @@
 						<div class="content-group">
 							<label class="control-label">Document Category</label>
 							<select class="select" ng-model="document.documentCategory">
+<option></option>
 								<option value="image">Picture (.jpg or .png extension)</option>
 								<option value="pdf">PDF Document (.pdf extension)</option>
 								<option value="text">Text Document (.txt extension)</option>

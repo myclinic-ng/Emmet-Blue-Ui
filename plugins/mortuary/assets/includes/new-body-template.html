@@ -2,7 +2,10 @@
 <script src="assets/js/plugins/forms/tags/tagsinput.min.js"></script>
 <script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
 <script>
-$("select").select2();
+$("select").select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});
 </script>
 <!---new body modal form-->
 <div id="new-body-registration" ng-controller="mortuaryBodyRegistrationController">
@@ -51,6 +54,7 @@ $("select").select2();
 				<div class="form-group col-sm-6">
 					<label>Gender</label>
 					<select class="select" name="gender" ng-model="body.gender" required>
+<option></option>
 						<option value="" selected> -Select- </option>
 						<option value="Male">Male</option>
 						<option value="Female">Female</option>			
@@ -76,6 +80,7 @@ $("select").select2();
 				<div class="form-group col-sm-6">
 					<label>Relationship</label>
 					<select class="select" name="depositorRelationshipType" ng-model="body.depositorRelationshipType" required>
+<option></option>
 						<option value="" selected> -Select- </option>
 						<option value="Spouse">Spouse</option>
 						<option value="Father">Father</option>
@@ -113,6 +118,7 @@ $("select").select2();
 				<div class="form-group col-sm-6">
 					<label>Relationship</label>
 					<select class="select" name="nextOfKinRelationshipType" ng-model="body.nextOfKinRelationshipType" required>
+<option></option>
 						<option value="" selected> -Select- </option>
 						<option value="Spouse">Spouse</option>
 						<option value="Father">Father</option>

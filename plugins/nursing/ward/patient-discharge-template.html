@@ -1,10 +1,14 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-<script>$('select.select').select2();</script>
+<script>$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});</script>
 <div ng-controller="nursingPatientDischargeController">
 	<div class="row">
 		<label class="control-label col-md-3"><span class="pull-right pt-5">Filter List By Ward:</span></label>
 		<div class="input-group col-md-7">
 			<select class="select" ng-model="currentWard">
+<option></option>
 				<option value="{{ward.WardID}}" ng-repeat="ward in wards">{{ward.WardName}}</option>
 			</select> 
 		</div>

@@ -2,7 +2,10 @@
 <script type="text/javascript" src="assets/js/plugins/ui/moment/moment.min.js"></script>
 <script type="text/javascript" src="assets/js/plugins/pickers/daterangepicker.js"></script>
 <script>
-	$('select.select').select2();
+	$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});
 	$('.daterange').daterangepicker({
 		showWeekNumbers: true,
 		showDropdowns: true,
@@ -32,6 +35,7 @@
 					<div class="form-group col-md-4">
 						<label class="control-label">Filter By</label>
 						<select class="select" ng-model="filterSelector.type" ng-change="filterSelector.value = null">
+<option></option>
 							<optgroup label="Date Ranges">
 								<option value="Today<seprator>{{getDateRange('today')}}">Today</option>
 								<option value="Yesterday<seprator>{{getDateRange('yesterday')}}">Yesterday</option>

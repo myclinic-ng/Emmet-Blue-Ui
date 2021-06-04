@@ -1,10 +1,14 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-<script>$('select.select').select2();</script>
+<script>$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});</script>
 <div ng-controller="accountsBillingSettingHmoFieldValuesController">
 	<div class="row">
 		<div class="form-group col-md-6 col-md-offset-3">
 			<label class="control-label">Select Patient Category</label>
 			<select class="select" ng-model="currentPatientCategory">
+<option></option>
 				<option ng-repeat="category in patientCategories" value="{{category.CategoryID}}">{{category.CategoryName}}</option>
 			</select>
 		</div>
@@ -31,6 +35,7 @@
 								<div class="col-sm-12">
 									<label>Field Type</label>
 									<select class="select" ng-model="newField.type">
+<option></option>
 										<option value="Name">Noun (A word that indicates a name)</option>
 										<option value="Text">Text (An address, a description, etc)</option>
 										<option value="Number">Number (An integer or fractional based number)</option>

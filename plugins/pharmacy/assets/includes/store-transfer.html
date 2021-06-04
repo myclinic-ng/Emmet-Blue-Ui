@@ -1,17 +1,22 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-<script>$('select.select').select2();</script>
+<script>$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});</script>
 
 <div ng-controller="pharmacyStoreTransferController">
 	<div class="row">
 		<div class="content-group col-md-6 col-md-offset-3">
 			<label class="control-label">Select A Receiving Store</label>
 			<select class="select" ng-model="receivingStore">
+<option></option>
 				<option ng-repeat="store in _stores" value="{{store.StoreID}}">{{store.StoreName}}</option>
 			</select>
 		</div>
 		<div class="content-group col-md-9">
 			<label class="control-label">Select Item(s)</label>
 			<select class="select" multiple="" ng-model="stock.selectedItems" id="#selectedItems">
+<option></option>
 				<option ng-repeat="item in inventoryItems" value="{{item.ItemID}}" ng-if="!itemBrandIsNull(item.ItemBrand)">{{item.BillingTypeItemName}} ({{item.ItemBrand}}) [{{item.ItemQuantity}} available] </option>
 				<option ng-repeat="item in inventoryItems" value="{{item.ItemID}}" ng-if="itemBrandIsNull(item.ItemBrand)">{{item.BillingTypeItemName}} [{{item.ItemQuantity}} available] </option>
 			</select>

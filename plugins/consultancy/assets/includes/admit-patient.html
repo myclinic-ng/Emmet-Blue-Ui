@@ -2,7 +2,10 @@
 <script src="assets/js/plugins/forms/tags/bootstrap-tagsinput.js"></script>
 <script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
 <script>
-	$('select.select').select2();
+	$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});
 </script>
 <div ng-controller="admitPatientController">
 	<div class="modal fade" id="_patient-admission-form">
@@ -33,18 +36,21 @@
 								<div class="content-group col-xs-6">
 									<label class="control-label">Ward</label>
 									<select class="select" ng-model="newAdmission.ward">
+<option></option>
 										<option ng-repeat="ward in wards" value="{{ward.WardID}}">{{ward.WardName}}</option>
 									</select>
 								</div>
 								<div class="content-group col-xs-6">
 									<label class="control-label">Section</label>
 									<select class="select" ng-model="newAdmission.section">
+<option></option>
 										<option ng-repeat="section in sections" value="{{section.WardSectionID}}">{{section.WardSectionName}}</option>
 									</select>
 								</div>
 								<div class="content-group col-xs-12">
 									<label class="control-label">Reason of Admission</label>
 									<select class="select" ng-model="causeOfAdmission">
+<option></option>
 										<option value="diagnosis"> Conclusion of a medical diagnosis</option>
 										<option value="Accident/Emergency"> Accident/Emergency</option>
 									</select>
@@ -52,6 +58,7 @@
 								<div class="content-group col-xs-12" ng-show="causeOfAdmission == 'diagnosis'">
 									<label class="control-label">Select Diagnosis To Attach</label>
 									<select class="select" ng-model="newAdmission.diagnosis">
+<option></option>
 										<option ng-repeat="diagnosis in diagnoses" value="{{diagnosis.DiagnosisID}}">
 											{{diagnosis.Diagnosis.conclusion.diagnosis.title}} 
 										</option>

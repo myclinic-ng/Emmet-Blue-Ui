@@ -1,6 +1,9 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
 <script>
-	$('select.select').select2();
+	$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});
 	$(function() {
 
 	    // Initialize lightbox
@@ -163,6 +166,7 @@
 										<h1 class="text-center text-black">{{requestForm.currentPatientProfile.patientfullname}}</h1>
 										<div class="form-group col-sm-6">
 											<select class="select" ng-model="paymentRequestItem.item">
+<option></option>
 												<optgroup label="{{key}}" ng-repeat="(key, item) in requestItems">
 													<option ng-repeat="value in item" value="{{value}}">{{value.BillingTypeItemName}}</option>
 												</optgroup>

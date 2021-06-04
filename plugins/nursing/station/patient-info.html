@@ -3,7 +3,10 @@
 <script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
 <script src="assets/js/core/app.js"></script>
 <script>
-	$('select.select').select2();
+	$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});
 	$(function() {
 
 	    // Initialize lightbox
@@ -83,6 +86,7 @@
 									<div class="col-md-6 mb-15"><input class="form-control" placeholder="search" ng-model="patient.history.repositoryFilter"/></div>
 									<div class="col-md-6 mb-15">
 										<select class="select" ng-model="patient.history.repositoryFilter	">
+<option></option>
 											<option value="lab_result">Lab Result</option>
 											<option value="observation">Vital Signs &amp; Other Observations</option>
 										</select>

@@ -1,12 +1,16 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
 <script>
-	$('select.select').select2();
+	$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});
 </script>
 <div ng-controller="nursingSettingLinkConsultantDepartmentsController">
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
 			<div class="input-group">
 				<select class="select" ng-model="department">
+<option></option>
 					<option ng-repeat="department in departments" value="{{department.DepartmentID}}">{{department.Name}} ({{department.GroupName}})</option>
 				</select>
 				<span class="input-group-btn">

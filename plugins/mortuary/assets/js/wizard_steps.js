@@ -32,7 +32,10 @@ $(function() {
     // ------------------------------
 
     // Select2 selects
-    $('.select').select2();
+    $('.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});
 
 
     // Styled checkboxes and radios
