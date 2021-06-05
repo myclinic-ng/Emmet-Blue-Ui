@@ -12,6 +12,7 @@ var css = [
 	"assets/css/datatables/angular-datatables.min.css",
 	"assets/css/datatables/buttons.dataTables.min.css",
 	"assets/js/plugins/sliders/slick/slick.css",
+	"assets/js/plugins/forms/selects/select2.min.js",
 	"assets/angular/libraries/ng-print/ngPrint.min.css",
 	"assets/css/dt-picker.min.css",
 	"assets/angular/libraries/angular-bootstrap-calendar/angular-bootstrap-calendar.min.css"
