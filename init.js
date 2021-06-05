@@ -42,6 +42,11 @@ var libraries = [
 	"assets/js/qrcodegenlib.js",
 	"assets/js/qrcodegen.js",
 	"assets/js/plugins/forms/selects/select2.min.js",
+	"assets/angular/core/templates/assets/fab.js",
+	"assets/js/navbar_fixed_secondary.js",
+	"plugins/records/patient/assets/js/webcam-controller.js",
+	"assets/js/plugins/ui/moment/moment.min.js",
+	"assets/js/plugins/pickers/daterangepicker.js",
 	"assets/js/jsbarcode.code128.min.js"
 ];
 
