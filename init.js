@@ -12,7 +12,6 @@ var css = [
 	"assets/css/datatables/angular-datatables.min.css",
 	"assets/css/datatables/buttons.dataTables.min.css",
 	"assets/js/plugins/sliders/slick/slick.css",
-	"assets/js/plugins/forms/selects/select2.min.js",
 	"assets/angular/libraries/ng-print/ngPrint.min.css",
 	"assets/css/dt-picker.min.css",
 	"assets/angular/libraries/angular-bootstrap-calendar/angular-bootstrap-calendar.min.css"
@@ -42,6 +41,7 @@ var libraries = [
 	"assets/js/dom-to-image.min.js",
 	"assets/js/qrcodegenlib.js",
 	"assets/js/qrcodegen.js",
+	"assets/js/plugins/forms/selects/select2.min.js",
 	"assets/js/jsbarcode.code128.min.js"
 ];
 
