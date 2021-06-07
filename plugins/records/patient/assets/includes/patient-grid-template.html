@@ -48,10 +48,11 @@
             		<i class="icon-new-tab"></i> 
             	</button>
 			</div>
-			<div class="col-xs-12" style="border-left: 1px solid red" ng-repeat="note in patientInfo.auditflags">
-				<p class="text-bold">{{$index+1}}. {{note.StatusNote}}</p>
-			</div>
 		</div>
+	</div>
+	
+	<div class="col-xs-12" style="border-left: 1px solid red" ng-repeat="note in patientInfo.auditflags">
+		<p class="text-bold">{{$index+1}}. {{note.StatusNote}}</p>
 	</div>
 </div>
 
