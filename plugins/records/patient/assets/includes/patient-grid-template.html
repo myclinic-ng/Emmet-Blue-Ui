@@ -14,10 +14,6 @@
 				<img ng-src="{{loadImage(patientInfo.patientpicture)}}" style="width: 100px; height: 100px;" class="img-circle" alt="" on-error-src="{{getGenderAvatar(patientInfo.gender)}}">
 				<span class="badge bg-danger-400 media-badge" style="font-size: 1.3em; margin-left: 10px" ng-if="patientInfo.auditflags.length > 0"><i class="fa fa-exclamation"></i></span>
 			</a>
-
-			<div class="col-xs-12" style="border-left: 1px solid red">
-				<p class="text-bold" ng-repeat="note in patientInfo.auditflags">{{$index+1}}. {{note.StatusNote}}</p>
-			</div>
 		</div>
 
 		<div class="media-body">
@@ -51,6 +47,9 @@
             	<button class="btn btn-xs" data-popup="tooltip" title="View Profile" data-container="body" data-toggle="modal" data-target="#view-patient-{{patientInfo.patientid}}">
             		<i class="icon-new-tab"></i> 
             	</button>
+			</div>
+			<div class="col-xs-12" style="border-left: 1px solid red" ng-repeat="note in patientInfo.auditflags">
+				<p class="text-bold">{{$index+1}}. {{note.StatusNote}}</p>
 			</div>
 		</div>
 	</div>
