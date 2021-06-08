@@ -16,7 +16,7 @@ angular.module("EmmetBlue")
 	var initJournal = function(){
 		$scope.generalJournal = {};
 		$scope.journalEntries = [];
-		for (i = 0; i < 2; i++){
+		for (i = 0; i < 1; i++){
 			$scope.addNewRow();
 		}
 	}
@@ -62,43 +62,55 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.processJournal = function(){
-		if ($scope.entryTotals.debit != $scope.entryTotals.credit){
-			utils.alert("Out of Balance", "The General Journal Cannot Be Posted Because It Is Out Of Balance", "warning");
-		}
-		else
-		{
+		// if ($scope.entryTotals.debit != $scope.entryTotals.credit){
+		// 	utils.alert("Out of Balance", "The General Journal Cannot Be Posted Because It Is Out Of Balance", "warning");
+		// }
+		// else
+		// {
 			var journal = [];
 			var containsError = true;
 			for (var i = 0; i < $scope.journalEntries.length; i++){
 				var val = $scope.journalEntries[i];
-				if (val.debit != null && val.credit != null){
-					utils.notify("Cannot enter values for both credit and debit sides", "Seems like you've supplied a value for both the debit and credit sides of one or more of your entries. Please specify only one side", "warning");
-					containsError = true;
-					break;
-				}
-				else if (val.debit == null && val.credit == null){
-					utils.notify("Account entries cannot be blank", "Seems like you've  not supplied a value for both the debit and credit sides of one or more of your entries. Please specify only one side", "warning");
-					containsError = true;
-					break;
-				}
-				else if (val.account == null){
-					utils.notify("Empty account value", "Seems like you've not selected a GL Account for one of your entries.", "warning");
-					containsError = true;
-					break;
-				}
-				else {
-					containsError = false;
-					var type = (val.debit == null) ? 'credit' : 'debit';
-					var value = val[type];
-					var entry = {
-						account: val.account,
-						description: val.description,
-						type: type,
-						value: value
-					};
+				// if (val.debit != null && val.credit != null){
+				// 	utils.notify("Cannot enter values for both credit and debit sides", "Seems like you've supplied a value for both the debit and credit sides of one or more of your entries. Please specify only one side", "warning");
+				// 	containsError = true;
+				// 	break;
+				// }
+				// else if (val.debit == null && val.credit == null){
+				// 	utils.notify("Account entries cannot be blank", "Seems like you've  not supplied a value for both the debit and credit sides of one or more of your entries. Please specify only one side", "warning");
+				// 	containsError = true;
+				// 	break;
+				// }
+				// else if (val.account == null){
+				// 	utils.notify("Empty account value", "Seems like you've not selected a GL Account for one of your entries.", "warning");
+				// 	containsError = true;
+				// 	break;
+				// }
+				// else {
+				// 	containsError = false;
+				// 	var type = (val.debit == null) ? 'credit' : 'debit';
+				// 	var value = val[type];
+				// 	var entry = {
+				// 		account: val.account,
+				// 		description: val.description,
+				// 		type: type,
+				// 		value: value
+				// 	};
 
-					journal.push(entry);
-				}
+				// 	journal.push(entry);
+				// }
+
+				containsError = false;
+				var type = (val.debit == null) ? 'credit' : 'debit';
+				var value = val[type];
+				var entry = {
+					account: val.account,
+					description: val.description,
+					type: type,
+					value: value
+				};
+
+				journal.push(entry);
 			};
 
 			if (containsError){
