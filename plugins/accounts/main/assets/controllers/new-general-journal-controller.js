@@ -27,9 +27,9 @@ angular.module("EmmetBlue")
 
 	var newRowAdded = function(){
 		$('select.select').select2({
-		placeholder: "Select an option",
-		allowClear: true
-	});
+			placeholder: "Select an option",
+			allowClear: true
+		});
 	}
 
 	$scope.addNewRow = function(){
@@ -62,11 +62,11 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.processJournal = function(){
-		if ($scope.entryTotals.debit != $scope.entryTotals.credit){
-			utils.alert("Out of Balance", "The General Journal Cannot Be Posted Because It Is Out Of Balance", "warning");
-		}
-		else
-		{
+		// if ($scope.entryTotals.debit != $scope.entryTotals.credit){
+		// 	utils.notify("Out of Balance", "The General Journal Cannot Be Posted Because It Is Out Of Balance", "warning");
+		// }
+		// else
+		// {
 			var journal = [];
 			var containsError = true;
 			for (var i = 0; i < $scope.journalEntries.length; i++){
@@ -118,7 +118,7 @@ angular.module("EmmetBlue")
 					utils.errorHandler(e);
 				});
 			}
-		}
+		// }
 	}
 
 	loadAccounts();
