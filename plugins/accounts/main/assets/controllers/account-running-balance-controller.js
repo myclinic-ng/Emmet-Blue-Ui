@@ -67,7 +67,9 @@ angular.module("EmmetBlue")
 	];
 
 	$scope.reloadTable = function(){
-		$scope.dtInstance.reloadData();
+		if (typeof $scope.dtInstance.reloadData == 'function'){
+			$scope.dtInstance.reloadData();
+		}
 	}
 
 	$scope.$on("load-running-balances", function(){
