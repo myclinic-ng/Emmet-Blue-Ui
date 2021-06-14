@@ -67,69 +67,68 @@ angular.module("EmmetBlue")
 		// }
 		// else
 		// {
-			var journal = [];
-			var containsError = true;
-			for (var i = 0; i < $scope.journalEntries.length; i++){
-				var val = $scope.journalEntries[i];
-				// if (val.debit != null && val.credit != null){
-				// 	utils.notify("Cannot enter values for both credit and debit sides", "Seems like you've supplied a value for both the debit and credit sides of one or more of your entries. Please specify only one side", "warning");
-				// 	containsError = true;
-				// 	break;
-				// }
-				// else if (val.debit == null && val.credit == null){
-				// 	utils.notify("Account entries cannot be blank", "Seems like you've  not supplied a value for both the debit and credit sides of one or more of your entries. Please specify only one side", "warning");
-				// 	containsError = true;
-				// 	break;
-				// }
-				// else if (val.account == null){
-				// 	utils.notify("Empty account value", "Seems like you've not selected a GL Account for one of your entries.", "warning");
-				// 	containsError = true;
-				// 	break;
-				// }
-				// else {
-				// 	containsError = false;
-				// 	var type = (val.debit == null) ? 'credit' : 'debit';
-				// 	var value = val[type];
-				// 	var entry = {
-				// 		account: val.account,
-				// 		description: val.description,
-				// 		type: type,
-				// 		value: value
-				// 	};
+		var journal = [];
+		var containsError = true;
+		for (var i = 0; i < $scope.journalEntries.length; i++){
+			var val = $scope.journalEntries[i];
+			// if (val.debit != null && val.credit != null){
+			// 	utils.notify("Cannot enter values for both credit and debit sides", "Seems like you've supplied a value for both the debit and credit sides of one or more of your entries. Please specify only one side", "warning");
+			// 	containsError = true;
+			// 	break;
+			// }
+			// else if (val.debit == null && val.credit == null){
+			// 	utils.notify("Account entries cannot be blank", "Seems like you've  not supplied a value for both the debit and credit sides of one or more of your entries. Please specify only one side", "warning");
+			// 	containsError = true;
+			// 	break;
+			// }
+			// else if (val.account == null){
+			// 	utils.notify("Empty account value", "Seems like you've not selected a GL Account for one of your entries.", "warning");
+			// 	containsError = true;
+			// 	break;
+			// }
+			// else {
+			// 	containsError = false;
+			// 	var type = (val.debit == null) ? 'credit' : 'debit';
+			// 	var value = val[type];
+			// 	var entry = {
+			// 		account: val.account,
+			// 		description: val.description,
+			// 		type: type,
+			// 		value: value
+			// 	};
 
-				// 	journal.push(entry);
-				// }
+			// 	journal.push(entry);
+			// 	}
 
-				containsError = false;
-				var type = (val.debit == null) ? 'credit' : 'debit';
-				var value = val[type];
-				var entry = {
-					account: val.account,
-					description: val.description,
-					type: type,
-					value: value
-				};
-
-				journal.push(entry);
+			containsError = false;
+			var type = (val.debit == null) ? 'credit' : 'debit';
+			var value = val[type];
+			var entry = {
+				account: val.account,
+				description: val.description,
+				type: type,
+				value: value
 			};
 
-			if (containsError){
-				utils.notify("An error has occurred", "Journal cannot be saved due to one or more errors. Please see previous errors", "error");
-			}
-			else {
-				$scope.generalJournal.date = new Date($scope.generalJournal.date).toLocaleDateString();
-				$scope.generalJournal.entries = journal;
-				$scope.generalJournal.staff = utils.userSession.getID();
+			journal.push(entry);
+		};
 
-				var req = utils.serverRequest("/financial-accounts/general-journal/new", "POST", $scope.generalJournal);
-				req.then(function(result){
-					initJournal();
-					$rootScope.$broadcast("journalSavedSuccessfully");
-					utils.notify("Your journal entries have been posted successful", "", "success");
-				}, function(e){
-					utils.errorHandler(e);
-				});
-			}
+		if (containsError){
+			utils.notify("An error has occurred", "Journal cannot be saved due to one or more errors. Please see previous errors", "error");
+		}
+		else {
+			$scope.generalJournal.date = new Date($scope.generalJournal.date).toLocaleDateString();
+			$scope.generalJournal.entries = journal;
+			$scope.generalJournal.staff = utils.userSession.getID();
+
+			var req = utils.serverRequest("/financial-accounts/general-journal/new", "POST", $scope.generalJournal);
+			req.then(function(result){
+				initJournal();
+				$rootScope.$broadcast("journalSavedSuccessfully");
+				utils.notify("Your journal entries have been posted successful", "", "success");
+			}, function(e){
+				utils.errorHandler(e);
+			});
 		}
 	}
 
