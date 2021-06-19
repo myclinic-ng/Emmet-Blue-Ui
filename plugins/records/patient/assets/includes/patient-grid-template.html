@@ -29,7 +29,7 @@
 				<p class="text-muted">
 					<span class="badge badge-success bg-white text-success" ng-show="patientInfo.patientprofilelockstatus == 1"><i class="icon-lock2"></i> profile locked</span>
 					<span class="badge badge-danger bg-white text-danger" ng-show="patientInfo.patientprofilelockstatus == 0"><i class="icon-unlocked2"></i> profile unlocked</span>
-					<span class="badge badge-info"><i class="icon-calendar"></i> {{toDateString(patientInfo.lastVisit.DateAttended)}}</info>
+					<span class="badge badge-info" ng-if="patientInfo.lastVisit.DateAttended != ''"><i class="icon-calendar"></i> {{toDateString(patientInfo.lastVisit.DateAttended)}}</info>
 				</p>
 			</div>
 
