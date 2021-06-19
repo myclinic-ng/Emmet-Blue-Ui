@@ -81,6 +81,10 @@ angular.module("EmmetBlue")
 				return (new Date(date)).toDateString()+", "+(new Date(date)).toLocaleTimeString();
 			}
 
+			$scope.parseDate = function(date){
+				return (new Date(date)).toLocaleDateString();
+			}
+
 			$scope.unlockProfile = function(patient){
 				var unlockData = {
 					patient: $scope.patientInfo.patientid,
