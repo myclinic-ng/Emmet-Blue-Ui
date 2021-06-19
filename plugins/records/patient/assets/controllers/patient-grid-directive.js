@@ -49,6 +49,15 @@ angular.module("EmmetBlue")
 				});
 			};
 
+			$scope.getLastVisit = function(){
+				var req = utils.serverRequest("/patients/patient/last-visit?resourceId="+$scope.patientInfo.patientid, "GET");
+				req.then(function(response){
+					console.log(response);
+					$scope.patientInfo.lastVisit = response;
+				});
+			};
+			$scope.getLastVisit();
+
 			$scope.toggleProfileLockState = function(status, patient){
 				if (status){
 					var request = utils.serverRequest("/patients/patient/lock-profile", "POST", {"patient":patient});

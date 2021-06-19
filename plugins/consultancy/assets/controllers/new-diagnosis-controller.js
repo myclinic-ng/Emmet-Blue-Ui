@@ -636,15 +636,24 @@ angular.module("EmmetBlue")
 				}
 			}
 
-			var successCallback = function(response){
-				utils.notify("Operation Successful", "Diagnosis progress has been saved successfully", "success");
-			}
+			var title = "Save this encounter?";
+			var text = "You are about to save this workspace, this will not publish your documentation to the patient folder yet. Please click cancel, then click the publish button instead if this is not the desired effect";
+			var close = true;
+			var callback = function(){
+				var successCallback = function(response){
+					utils.notify("Operation Successful", "Diagnosis progress has been saved successfully", "success");
+				}
 
-			var errorCallback = function(error){
-				utils.errorHandler(error);
-			}
+				var errorCallback = function(error){
+					utils.errorHandler(error);
+				}
 
-			utils.serverRequest("/consultancy/saved-diagnosis/new", "POST", data).then(successCallback, errorCallback);
+				utils.serverRequest("/consultancy/saved-diagnosis/new", "POST", data).then(successCallback, errorCallback);
+			}
+			var type = "info";
+			var btnText = "Save this workspace";
+
+			utils.confirm(title, text, close, callback, type, btnText);
 		},
 		submitDiagnosis: function(){
 			var complaints = $scope.presentingComplaints.complaints;
@@ -673,20 +682,25 @@ angular.module("EmmetBlue")
 				}
 			}
 
-			var successCallback = function(response){
-				utils.notify("Operation Successful", "Diagnosis has been submitted", "success");
-
-				utils.storage.currentPatientNumberDiagnosis = null;
-				$scope.patient.isProfileReady = false;
-				var req = utils.serverRequest('/consultancy/saved-diagnosis/delete?resourceId='+$scope.globals.currentSavedDiagnosisID, 'DELETE');
-				req.then(function(response){}, function(error){});
+			if (typeof diagnosis.title == "undefined" || diagnosis.title == ""){
+				utils.alert("Please enter a diagnosis", "You have not recorded a final/provisional diagnosis for this encounter. Please provide one and try again");
 			}
+			else {
+				var successCallback = function(response){
+					utils.notify("Operation Successful", "Diagnosis has been submitted", "success");
 
-			var errorCallback = function(error){
-				utils.errorHandler(error);
+					utils.storage.currentPatientNumberDiagnosis = null;
+					$scope.patient.isProfileReady = false;
+					var req = utils.serverRequest('/consultancy/saved-diagnosis/delete?resourceId='+$scope.globals.currentSavedDiagnosisID, 'DELETE');
+					req.then(function(response){}, function(error){});
+				}
+
+				var errorCallback = function(error){
+					utils.errorHandler(error);
+				}
+
+				utils.serverRequest("/patients/patient-diagnosis/new", "POST", data).then(successCallback, errorCallback);
 			}
-
-			utils.serverRequest("/patients/patient-diagnosis/new", "POST", data).then(successCallback, errorCallback);
 		},
 		loadAllSavedDiagnosis: function(){
 			var patient = $scope.patient.profile.patientid;
