@@ -52,7 +52,6 @@ angular.module("EmmetBlue")
 			$scope.getLastVisit = function(){
 				var req = utils.serverRequest("/patients/patient/last-visit?resourceId="+$scope.patientInfo.patientid, "GET");
 				req.then(function(response){
-					console.log(response);
 					$scope.patientInfo.lastVisit = response;
 				});
 			};
