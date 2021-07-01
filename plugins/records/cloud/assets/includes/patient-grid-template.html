@@ -28,6 +28,9 @@
 
 
 			<div class="btn-group">
+            	<button class="btn btn-xs" ng-if="!patientInfo.isLinkedToCloud" data-popup="tooltip" title="Register profile" data-container="body" ng-click="registerPatient(patientInfo)">
+            		<i class="icon-user-plus"></i> Register
+            	</button>
             	<button class="btn btn-xs" ng-if="!patientInfo.isLinkedToCloud" data-popup="tooltip" title="Link profile" data-container="body" data-toggle="modal" data-target="#link-patient-{{patientInfo.patientid}}">
             		<i class="icon-shield-check"></i> Link Profile
             	</button>
@@ -83,6 +86,12 @@
 					</h6>
 					<center><button class="btn btn-success" ng-click="completeLinking()">Link This Account</button></center>
 				</div>
+				<div class="col-sm-12 mb-10 mt-10 pb-10 text-center" ng-if="foundAccount == false">
+					<span class="text-black">
+						<i class="icon-warning"></i><br/>
+						No Cloud Profile exists based on the provided search parameter
+					</span>
+				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-link" data-dismiss="modal" ng-click=""><i class="fa fa-times-circle-o"></i> Close</button>
@@ -107,6 +116,25 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-link" data-dismiss="modal" ng-click=""><i class="fa fa-times-circle-o"></i> Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="loading-modal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+			</div>
+			<div class="modal-body">
+				<div class="col-md-12 text-center">
+					<br/><br/><br/>
+					<h1><i class="fa fa-spinner fa-spin"></i>
+					Linking...</h1>
+					<br/><br/><br/>
+				</div>
+			</div>
+			<div class="modal-footer">
 			</div>
 		</div>
 	</div>
