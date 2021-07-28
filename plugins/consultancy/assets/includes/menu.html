@@ -25,11 +25,13 @@
 			</li>
 			<li><a href="#" data-toggle="modal" data-target="#_patient-admission-form"><i class="fa fa-hotel position-left"></i> Admit A Patient</a></li>
 
-			<li><a href="#" data-toggle="modal" data-target="#_payment_request"><i class="icon-cash position-left"></i>Create Payment Request</a></li>
+			<li><a href="#" data-toggle="modal" data-target="#setting_consultancy"><i class="icon-gear"></i> Manage Templates</a></li>
+			
 		</ul>
 
 		<ul class="nav navbar-nav navbar-right">
-			<li><a href="#" data-toggle="modal" data-target="#setting_consultancy"><i class="icon-gear"></i> Manage Templates</a></li>
+			<li title="Start virtual session"><a href="#" data-toggle="modal" data-target="#_meet_session"><i class="icon-phone"></i></a></li>
+			<li title="Create payment request"><a href="#" data-toggle="modal" data-target="#_payment_request"><i class="icon-cash"></i></a></li>
 		</ul>
 	</div>
 </div>
@@ -74,7 +76,7 @@
 									</p>
 									<div class="form-group col-md-7">
 										<select class="select" ng-model="paymentRequestItem.item">
-<option></option>
+											<option></option>
 											<optgroup label="{{key}}" ng-repeat="(key, item) in requestItems">
 												<option ng-repeat="value in item" value="{{value}}">{{value.BillingTypeItemName}}</option>
 											</optgroup>
@@ -131,3 +133,18 @@
 		</div>
 	</div>
 </div>
+
+<div id="_meet_session" class="modal fade" ng-controller="virtualMeetController">
+	<div class="modal-dialog modal-full">
+		<div class="modal-content">
+			<div class="modal-header bg-warning">
+				<button type="button" class="close" data-dismiss="modal">&times; close</button>
+				<h6 class="modal-title">Emmetblue Meet</h6>
+			</div>
+			<div class="modal-body">
+				<div class="row"><div class="col-md-12" id="meetElement"></div></div>
+			</div>
+		</div>
+	</div>
+</div>
+
