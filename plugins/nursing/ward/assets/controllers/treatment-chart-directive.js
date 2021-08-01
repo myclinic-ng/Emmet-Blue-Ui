@@ -13,8 +13,23 @@ angular.module("EmmetBlue")
 			$scope.generalTreatment = {};
 			$scope.administered = {};
 			$scope.dtInstance = {};
+			$scope.dateObject = utils.dateObject;
 
 			$scope.loadImage = utils.loadImage;
+			$scope.dateFilterList = [];
+
+			$scope.selectedDate = utils.today();
+
+			function loadDates(){
+				const req = utils.serverRequest('/nursing/treatment-chart/view-dates?resourceId='+$scope.admissionId, 'GET');
+				req.then(function(response){
+					$scope.dateFilterList = response;
+				}, function(error){
+					utils.errorHandler(error);
+				})
+			}
+
+			loadDates();
 
 			$scope.msToTime = function(ms) {
 				let seconds = (ms / 1000).toFixed(1);
@@ -29,7 +44,9 @@ angular.module("EmmetBlue")
 
 			$scope.dtOptions = utils.DT.optionsBuilder
 			.fromFnPromise(function(){
-				return utils.serverRequest('/nursing/treatment-chart/view?resourceId='+$scope.admissionId, 'GET');
+				const start = $scope.selectedDate; 
+				return utils.serverRequest('/nursing/treatment-chart/view?resourceId='+$scope.admissionId+"&startdate="+start+"&enddate="+start, 'GET');
+				// return utils.serverRequest('/nursing/treatment-chart/view?resourceId='+$scope.admissionId, 'GET');
 			})
 			.withPaginationType('full_numbers')
 			.withDisplayLength(10)
@@ -74,25 +91,23 @@ angular.module("EmmetBlue")
 						}
 					}
 
-					return html;
+					return "<span class='text-center'>"+html+"</span>";
 				}),
 				utils.DT.columnBuilder.newColumn(null).withTitle("Drug").renderWith(function(data, full, meta){
 					return "<span class='text-bold'>"+data.Drug+"</span><br/><span class='text-size-small'>"+data.Note+"</span>";
 				}),
-				utils.DT.columnBuilder.newColumn('Dose').withTitle("Dosage"),
-				utils.DT.columnBuilder.newColumn('Route').withTitle("Route"),
+				utils.DT.columnBuilder.newColumn(null).withTitle("Dosage").renderWith(function(data, full, meta){
+					return "<span class='text-semibold'>"+data.Dose+"</span><br/><span class='text-size-small'>"+data.Route+"</span>";
+				}),
 				utils.DT.columnBuilder.newColumn(null).withTitle("Date").renderWith(function(data, full, meta){
-					var _date = new Date(data.Date).toDateString();
+					var _date = new Date(data.Date).toLocaleDateString();
 					var _time = new Date(data.Date).toLocaleTimeString();
 
 					return "<span>"+_date+"</span><br/><span class='text-bold'>"+_time+"</span>";
 				}),
-				// utils.DT.columnBuilder.newColumn(null).withTitle("").renderWith(function(data, full, meta){
-				// 	return new Date(data.Date).toLocaleTimeString();
-				// }),
 				utils.DT.columnBuilder.newColumn(null).withTitle("Logged By").renderWith(function(data, full, meta){
 					var image = $scope.loadImage(data.StaffDetails.StaffPicture);
-					var date = (new Date(data.DateLogged)).toDateString()+", "+(new Date(data.DateLogged)).toLocaleTimeString();
+					var date = (new Date(data.DateLogged)).toLocaleDateString();
 					var val = "<div class='media'>"+
 								"<div class='media-left'>"+
 									"<a href='#'>"+
@@ -113,10 +128,10 @@ angular.module("EmmetBlue")
 					if (data.Deleted != 1){
 						if (typeof data.Status != "undefined"){
 							if (typeof data.Status.Status != "undefined" && data.Status.Status != 1){
-								html = "<a href='#' class='btn btn-default bg-info text-white' ng-click='markAsAdministered("+data.TreatmentChartID+")'>Mark as Administered</a>";
+								html = "<a href='#' class='btn btn-default bg-info text-white' ng-click='markAsAdministered("+data.TreatmentChartID+")'>Check</a>";
 							}
 							else if (typeof data.Status.Status == "undefined"){
-								html = "<a href='#' class='btn btn-default bg-info text-white' ng-click='markAsAdministered("+data.TreatmentChartID+")'>Mark as Administered</a>";
+								html = "<a href='#' class='btn btn-default bg-info text-white' ng-click='markAsAdministered("+data.TreatmentChartID+")'>Check</a>";
 							}	
 						}
 					}
@@ -135,8 +150,18 @@ angular.module("EmmetBlue")
 			}
 
 			$scope.$watch("admissionId", function(nv){
+				loadDates();
 				reloadTable();
 			});
+
+			$scope.setSelectedDate = function(date){
+				$scope.selectedDate = utils.dateObject(date).toLocaleDateString();
+				reloadTable();
+			}
+
+			// $scope.$watch("selectedDate", function(nv){
+			// 	console.log(nv);
+			// })
 			
 			$scope.treatmentItems = [];
 			$scope.addToChart= function(){

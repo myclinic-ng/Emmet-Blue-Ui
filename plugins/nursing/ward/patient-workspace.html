@@ -9,7 +9,7 @@
 		<div class="input-group col-sm-5 col-sm-offset-4 mb-15">
 			<input class="form-control" ng-model="patientNumber" placeholder="Enter Patient Ward Admission Number" />
 			<span class="input-group-btn">
-				<button class="btn btn-danger" ng-click="loadPatient()"><i class="icon-play4"></i> continue</button>
+				<button class="btn btn-info" ng-click="loadPatient()"><i class="icon"></i> Load Workspace</button>
 			</span>
 		</div>
 	</div>
@@ -20,16 +20,16 @@
 
 	<div class="panel panel-success no-border-radius" ng-show="patientProfileLoaded">
 		<div class="panel-heading">
-			<h6 class="panel-title"><a class="btn btn-link" ng-click="loadPatient()" title="Refresh this workspace"><i class="icon-database-refresh"></i></a></h6>
-			<div class="heading-elements">
+			<h6 class="panel-title"><a class="btn btn-link" ng-click="loadPatient()" title="Refresh this workspace"><i class="fa fa-refresh" style="font-size: 2em;"></i></a></h6>
+			<div class="heading-elements" style="right: 100px !important;">
 				<ul class="icons-list" style="margin-top: 5px;">
-					<li class="pr-10">
-						<span><i class='icon-alarm'></i> No. Of Days Spent</span>
-						<span class="label label-info bg-white"> {{daysSpent(admissionInfo.AdmissionDate)}} </span>
+					<li class="pr-10" title="Total number of days spent">
+						<span><i class='fa fa-medkit' style="font-size: 1.5em"></i> </span>
+						<span class="text-semibold"> {{daysSpent(admissionInfo.AdmissionDate)}} </span>
 					</li>
-					<li class="pr-15">
-						<span><i class='fa fa-user-sm'></i> Admitted by</span>
-						<span class="label label-info bg-white"> {{staffNames[admissionInfo.AdmissionInfo.Consultant]}} </span>
+					<li class="pr-15" title="Admitted by">
+						<span><i class='fa fa-user-md' style="font-size: 1.5em"></i> </span>
+						<span class="text-semibold"> {{staffNames[admissionInfo.AdmissionInfo.Consultant]}} </span>
 					</li>
 					<li class="hidden-xs"><button class="btn btn-labeled btn-primary bg-white no-border-radius btn-xs" data-toggle="modal" data-target="#view-admission-info"><b><i class="icon-info22"></i></b> View Admission Info</button></li>
 					<li><button class="btn btn-labeled btn-danger bg-white no-border-radius btn-xs" data-toggle="modal" data-target="#transfer-ward"><b><i class="icon-forward"></i></b> Transfer patient</button></li>
@@ -43,13 +43,13 @@
 		<div class="panel-body">
 			<div class="col-sm-9">
 				<div class="tabbable">
-					<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
+					<ul class="nav nav-tabs nav-justified nav-tabs-highlight">
 						<li href="#archives" data-toggle="tab"><a><i class='icon-books'></i> Archives</a></li>
 						<li class="active" href="#observation" data-toggle="tab"><a><i class='icon-repo-forked'></i> New Observation</a></li>
-						<li href="#diagnosis-note" data-toggle="tab"><a><i class='icon-file-text3'></i> Doctor's Diagnosis/Prescription</a></li>
+						<li href="#diagnosis-note" data-toggle="tab"><a><i class='icon-file-text3'></i> Doctor's Notes</a></li>
 						<!-- <li href="#shift-log-stupid" data-toggle="tab"><a><i class='icon-file-text3'></i> Shift Summary Log</a></li> -->
 						<li href="#treatment-chart" data-toggle="tab"><a><i class='icon-stats-growth'></i> Treatment Plan</a></li>
-						<li href="#services-rendered" data-toggle="tab"><a><i class='icon-clipboard2'></i> Services Rendered</a></li>
+						<li href="#services-rendered" data-toggle="tab"><a><i class='icon-clipboard2'></i> Services</a></li>
 					</ul>
 
 					<div class="tab-content mr-20">
@@ -57,8 +57,8 @@
 							<div class="row">
 								<div class="col-sm-6 mb-15"><input class="form-control" placeholder="search" ng-model="patient.repositoryFilter"/></div>
 								<div class="col-sm-6 mb-15">
-									<select class="select" ng-model="patient.repositoryFilter	">
-<option></option>
+									<select class="select" ng-model="patient.repositoryFilter">
+										<option></option>
 										<option value="lab_result">Lab Result</option>
 										<option value="observation">Vital Signs &amp; Other Observations</option>
 									</select>
@@ -175,7 +175,7 @@
 				</div>
 			</div>
 			<div class="col-sm-3" ng-if="patientProfileLoaded" style="border-left: 1px solid #4CAF50">
-				<center><img class="img img-responsive img-rounded" width="150" height="150" ng-src="{{loadImage(patient.patientpicture)}}"/></center>
+				<center><img class="img img-responsive" ng-src="{{loadImage(patientInfo.patientpicture)}}" alt="No photo has been uploaded for this patient" on-error-src="{{getGenderAvatar(patientInfo.gender)}}"/></center>
 				<h6 class="text-center text-primary">{{patient.patientfullname}} ({{patient.patienttypename}}, {{patient.categoryname}})</h6>
 
 				<table class="table">
@@ -203,7 +203,9 @@
 						</td>
 					</tr>
 					<tr>
-						<td colspan="3" ng-bind-html="htmlDecode(htmlDecode(mostRecent.note.Note)) | unsafe"></td>
+						<td colspan="3">
+							<div style="overflow: auto; width: 270px; max-height: 400px;" ng-bind-html="htmlDecode(htmlDecode(mostRecent.note.Note)) | unsafe"></div>
+						</td>
 					</tr>
 					<tr class="bg-teal">
 						<th colspan="3">Most recent Treatment</th>

@@ -7,7 +7,14 @@
 	});</script>
 
 <div class="row">
-	<div class="table-responsive">
+	<div class="col-md-2">
+		<div class="list-group">
+			<div class="list-group-item text-semibold bg-success">Date Filter</div>
+			<a href="#" class="list-group-item list-group-item-action" ng-repeat="item in dateFilterList" ng-click="setSelectedDate(item.date)">{{dateObject(item.date).toDateString()}}</a>
+		</div>
+	</div>
+	<div class="table-responsive col-md-10">
+		<h3 class="text-center text-semibold">{{dateObject(selectedDate).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}}</h3>
 		<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
 			
 		</table>
@@ -137,7 +144,7 @@
 				<div class="modal-body">
 					<div class="row">
 						<div class="form-group mt-20">
-							<label class="control-label text-bold">Administered Time</label>
+							<label class="control-label text-bold">Administration Time</label>
 							<input type="datetime-local" class="form-control" ng-model="administered.associatedDate"/>
 						</div>
 						<div class="clearfix"></div>

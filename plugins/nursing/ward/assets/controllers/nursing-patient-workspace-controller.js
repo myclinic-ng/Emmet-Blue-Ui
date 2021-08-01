@@ -21,6 +21,7 @@ angular.module("EmmetBlue")
 function nursingPatientWorkspaceDirective($rootScope, $scope, utils){
 	$scope.currentObservationType;
 	$scope.observationResult = {};
+	$scope.getGenderAvatar = utils.getGenderAvatar;
 
 	var loadObservationTypes = function(){
 		var request = utils.serverRequest("/nursing/observation-type/view", "GET");
@@ -32,8 +33,6 @@ function nursingPatientWorkspaceDirective($rootScope, $scope, utils){
 			utils.errorHandler(error);
 		});
 	}();
-
-
 
 	function reloadFields(id){
 		utils.serverRequest('/nursing/observation-type/view?resourceId='+id, 'GET').then(function(response){
@@ -195,6 +194,7 @@ function nursingPatientWorkspaceController($rootScope, $scope, utils){
 	$scope.currentObservationType;
 	$scope.observationResult = {};
 	$scope.staffNames = {};
+	$scope.getGenderAvatar = utils.getGenderAvatar;
 
 	var loadObservationTypes = function(){
 		var request = utils.serverRequest("/nursing/observation-type/view", "GET");

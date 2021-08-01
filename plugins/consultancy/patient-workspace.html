@@ -99,7 +99,7 @@
 									<div class="col-md-6 mb-15"><input class="form-control" placeholder="search" ng-model="repositoryFilter"/></div>
 									<div class="col-md-6 mb-15">
 										<select class="select" ng-model="repositoryFilter	">
-<option></option>
+											<option></option>
 											<option value="lab_result">Lab Result</option>
 											<option value="observation">Vital Signs &amp; Other Observations</option>
 										</select>
@@ -163,7 +163,7 @@
 							<div class="col-sm-4">
 								<div class="col-sm-12">
 									<select class="select" ng-model="noteFilter">
-<option></option>
+										<option></option>
 										<option ng-repeat="val in consultantInNotes" value="{{val.ConsultantFullName}}">{{val.ConsultantFullName}}</option>
 									</select>
 								</div>
@@ -216,7 +216,7 @@
 				</div>
 			</div>
 			<div class="col-sm-3 hidden-xs" ng-if="patientProfileLoaded" style="border-left: 1px solid #4CAF50">
-				<center><img class="img img-responsive img-rounded" width="150" height="150" src="{{loadImage(patient.patientpicture)}}"/></center>
+				<center><img class="img img-responsive" ng-src="{{loadImage(patientInfo.patientpicture)}}" alt="No photo has been uploaded for this patient" on-error-src="{{getGenderAvatar(patientInfo.gender)}}"/></center>
 				<h6 class="text-center text-primary">{{patient.patientfullname}} ({{patient.patienttypename}}, {{patient.categoryname}})</h6>
 				<h6 class="text-muted">Admission Information</h6>
 				<table class="table no-border">
@@ -229,7 +229,7 @@
 						<td class="no-border"><span class="pull-left text-semibold">{{daysSpent(admissionInfo.AdmissionDate)}}</span></td>
 					</tr>
 					<tr>
-						<td class="no-border"><span class="pull-left"><i class='fa fa-user-md text-teal-400'></i> Admitted by</span</td>
+						<td class="no-border"><span class="pull-left"><i class='fa fa-user-md text-teal-400'></i> Admitted by</span></td>
 						<td class="no-border"><span class="pull-left text-semibold">{{staffNames[admissionInfo.AdmissionInfo.Consultant]}}</span></td>
 					</tr>
 				</table>
