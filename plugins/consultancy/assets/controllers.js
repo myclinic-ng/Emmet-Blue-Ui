@@ -12,6 +12,7 @@ head.load(controllersLocation+"pharmacy-prescription-directive.js");
 head.load(controllersLocation+"patient-admission-history-directive.js");
 head.load(controllersLocation+"patient-medical-summary-directive.js");
 head.load(controllersLocation+"diagnoses-log-controller.js");
+head.load(controllersLocation+"virtual-meet-controller.js");
 
 head.load(controllersLocation+"settings/settings-controller.js");
 head.load(controllersLocation+"settings/manage-patient-summary-fields-controller.js");
