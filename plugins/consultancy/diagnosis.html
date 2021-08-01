@@ -252,14 +252,14 @@
 												<div class="content-group col-sm-6">
 													<label class="control-label">Allergy Severity</label>
 													<select class="select" ng-model="allergies.newAllergy.severity">
-<option></option>
+														<option></option>
 														<option value=""></option>
 													</select>
 												</div>
 												<div class="content-group col-sm-12">
 													<label class="control-label">Allergy Type</label>
 													<select class="select" ng-model="allergies.newAllergy.type">
-<option></option>
+														<option></option>
 														<option value="{{type.AllergyID}}" ng-repeat="type in allergies.allergyTypes">
 															{{type.AllergyName}}
 														</option>
@@ -268,7 +268,7 @@
 												<div class="content-group col-sm-12">
 													<label class="control-label">Allergy Trigger(s)</label>
 													<select class="select" multiple="" ng-model="allergies.newAllergy.triggers">
-<option></option>
+														<option></option>
 														<option value="{{trigger.TriggerName}}" ng-repeat="trigger in allergies.allergyTypeTriggers">
 															{{trigger.TriggerName}}
 														</option>
@@ -660,14 +660,14 @@
 						<div class="content-group">
 							<label class="control-label">Select Lab</label>
 							<select class="select" ng-model="labTests.sendVariables.lab">
-<option></option>
+								<option></option>
 								<option value="{{lab.LabID}}" ng-repeat="lab in globals.registeredLabs">{{lab.LabName}}</option>
 							</select>
 						</div>
 						<div class="content-group">
 							<label class="control-label">Select Investigation Type</label>
 							<select class="select" ng-model="labTests.sendVariables.investigationType">
-<option></option>
+								<option></option>
 								<option value="{{type.InvestigationTypeID}}" ng-repeat="type in globals.registeredInvestigationTypes">{{type.InvestigationTypeName}}</option>
 							</select>
 						</div>
@@ -721,14 +721,14 @@
 						<div class="content-group">
 							<label class="control-label">Select Lab</label>
 							<select class="select" ng-model="labTests.sendVariables.lab">
-<option></option>
+								<option></option>
 								<option value="{{lab.LabID}}" ng-repeat="lab in globals.registeredLabs">{{lab.LabName}}</option>
 							</select>
 						</div>
 						<div class="content-group">
 							<label class="control-label">Select Investigation Type</label>
 							<select class="select" ng-model="labTests.sendVariables.investigationType">
-<option></option>
+								<option></option>
 								<option value="{{type.InvestigationTypeID}}" ng-repeat="type in globals.registeredInvestigationTypes">{{type.InvestigationTypeName}}</option>
 							</select>
 						</div>
@@ -815,7 +815,7 @@
 							<!-- <div class="col-md-4">
 								<label class="control-label">Range Identifier</label>
 								<select class="select" ng-model="conclusion.appointment.range">
-<option></option>
+									<option></option>
 									<option value="weeks">Weeks</option>
 									<option value="days">Days</option>
 									<option value="months">Months</option>
@@ -965,7 +965,9 @@
 						<div class="form-group col-md-12">
 							<label class="control-label">Field Title</label>
 							<select class="select" ng-model="newSummary.field">
-<option></option><option ng-repeat="field in summaryFields" value="{{field.FieldID}}" >{{field.FieldTitle}}</option></select>
+								<option></option>
+								<option ng-repeat="field in summaryFields" value="{{field.FieldID}}" >{{field.FieldTitle}}</option>
+							</select>
 						</div>
 						<div class="form-group col-md-12">
 							<label class="control-label">Note</label>
