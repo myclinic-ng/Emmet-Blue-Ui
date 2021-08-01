@@ -82,16 +82,16 @@ angular.module("EmmetBlue")
 					else {
 						var diff = new Date(data.Date) - new Date();
 						if (diff > 0){
-							html ="<span class='text-center'><i class='fa fa-clock-o'></i></span><br/>"+
+							html ="<span class=''><i class='fa fa-clock-o'></i></span><br/>"+
 									"<span class='text-bold text-success'>"+$scope.msToTime(diff)+"</span>";	
 						}
 						else {
-							html ="<span class='text-center text-warning'><i class='fa fa-warning text-center'></i></span><br/>"+
+							html ="<span class=' text-warning'><i class='fa fa-warning text-center'></i></span><br/>"+
 									"<span class='text-bold text-danger'>"+$scope.msToTime(Math.abs(diff))+"</span>";	
 						}
 					}
 
-					return "<span class='text-center'>"+html+"</span>";
+					return "<div class='text-center'>"+html+"</div>";
 				}),
 				utils.DT.columnBuilder.newColumn(null).withTitle("Drug").renderWith(function(data, full, meta){
 					return "<span class='text-bold'>"+data.Drug+"</span><br/><span class='text-size-small'>"+data.Note+"</span>";

@@ -4,8 +4,8 @@ angular.module("EmmetBlue")
 	const domain = 'meet.emmetblue.ng';
 	const options = {
 	    roomName: 'Telemedicine Room',
-	    width: 700,
-	    height: 700,
+	    width: "100%",
+	    height: "100%",
 	    parentNode: document.querySelector('#meetElement'),
 	    interfaceConfigOverwrite: {
 			DEFAULT_LOGO_URL: "/assets/images/logo-white.png",

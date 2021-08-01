@@ -10,6 +10,7 @@
 <script src="assets/js/plugins/forms/selects/select2.min.js"></script>
 <script src="assets/js/plugins/forms/tags/bootstrap-tagsinput.js"></script>
 <script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/ui/fab.min.js"></script>
 <script src="assets/js/core/app.js"></script>
 <script>
 	$('select.select').select2({
@@ -32,6 +33,33 @@
 	    }
 	});
 </script>
+<div class="col-lg-12">
+	<ul class="fab-menu fab-menu-absolute fab-menu-top-left" data-fab-toggle="hover">
+		<li>
+			<a class="fab-menu-btn btn bg-info btn-float rounded-round btn-icon">
+				<i class="fab-icon-open icon-headset"></i>
+				<i class="fab-icon-close icon-cross2"></i>
+			</a>
+
+			<ul class="fab-menu-inner">
+				<li>
+					<div data-fab-label="Telemedicine Session">
+						<a href="consultancy/virtual-diagnosis" class="btn btn-light rounded-round btn-icon btn-float">
+							<i class="icon-user-minus"></i>
+						</a>
+					</div>
+				</li>
+				<li>
+					<div data-fab-label="Physical Consultation Session">
+						<a href="consultancy/diagnosis" class="btn btn-light rounded-round btn-icon btn-float">
+							<i class="icon-user-check"></i>
+						</a>
+					</div>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</div>
 <div ng-controller="consultancyNewDiagnosisController">
 	<div class="row mb-15">
 		<div class="col-sm-7 col-sm-offset-3 valign-middle">
@@ -63,10 +91,10 @@
 		<div class="panel-heading">
 			<h6 class="panel-title" ng-show="patient.isProfileReady"><span class="text-bold text-uppercase">{{patient.profile["first name"]}} {{patient.profile["last name"]}} </span></h6>
 			<div class="heading-elements" ng-show="patient.isProfileReady">
-				<button class="btn btn-labeled btn-success bg-white no-border-radius" data-toggle="modal" data-target="#_newMedicalSummary"><b><i class="fa fa-user-md"></i></b>Add Medical Note</button>
-				<button class="btn btn-labeled btn-warning bg-white no-border-radius" ng-click="admit()"><b><i class="fa fa-hotel"></i></b>Admit this patient</button>
-				<button class="btn btn-labeled btn-primary bg-white no-border-radius" data-toggle="modal" data-target="#new-appointment"><b><i class="icon-calendar3"></i></b>Create Appointment</button>
-				<button class="btn btn-labeled btn-info bg-white no-border-radius" data-toggle="modal" data-target="#refer-patient"><b><i class="icon-forward"></i></b>Refer This Patient</button>
+				<button class="btn btn-labeled btn-success bg-white no-border-radius" data-toggle="modal" data-target="#_newMedicalSummary"><b><i class="fa fa-user-md"></i></b>Medical Note</button>
+				<button class="btn btn-labeled btn-warning bg-white no-border-radius" ng-click="admit()"><b><i class="fa fa-hotel"></i></b>Admit</button>
+				<button class="btn btn-labeled btn-primary bg-white no-border-radius" data-toggle="modal" data-target="#new-appointment"><b><i class="icon-calendar3"></i></b>Appointment</button>
+				<button class="btn btn-labeled btn-info bg-white no-border-radius" data-toggle="modal" data-target="#refer-patient"><b><i class="icon-forward"></i></b>Refer</button>
 				<h6><span class="text-bold">Date:</span> {{globals.today()}} </h6>
 	    	</div>
 		</div>
@@ -97,13 +125,13 @@
 										<ul class="navigation navigation-alt navigation-accordion navigation-bordered no-padding">
 											<!-- Main -->
 											<li ng-click="patient.history.displayPage='encounters'" href="#history" class="active" data-toggle="tab">
-												<a href="#"><i class="icon-file-eye text-info"></i> <span> View Encounters</span></a>
+												<a href="#"><i class="icon-file-eye text-info"></i> <span>Encounters</span></a>
 											</li>
 											<li ng-click="patient.history.loadRepositories();patient.history.loadPendingInvestigations()" href="#history" data-toggle="tab">
-												<a href="#"><i class="icon-library2 text-teal"></i> <span> Load Archives</span></a>
+												<a href="#"><i class="icon-library2 text-teal"></i> <span>Archives</span></a>
 											</li>
 											<li ng-click="patient.history.displayPage='admissionHistory'" href="#history" data-toggle="tab">
-												<a href="#"><i class="icon-bed2 text-success"></i> <span> Admission History</span></a>
+												<a href="#"><i class="icon-bed2 text-success"></i> <span> Admission </span></a>
 											</li>
 											<li ng-click="patient.history.displayPage='medicalSummary'" href="#history" data-toggle="tab">
 												<a href="#"><i class="icon-certificate text-danger"></i> <span> Medical Notes</span></a>
@@ -297,14 +325,14 @@
 										<div class="input-group">
 											<input id="presentingComplaints-symptomSearchQuery" type="text" class="form-control symptom-search" placeholder="enter symptom to search" ng-model="presentingComplaints.symptomSearchQuery" ng-keypress="presentingComplaints.catchSearchPress($event)"/>
 											<span class="input-group-btn">
-												<button class="btn btn-default" ng-click="presentingComplaints.performSymptomSearch()"> <i class="fa fa-plus-circle"></i> Add to list</button>
+												<button class="btn btn-default" ng-click="presentingComplaints.performSymptomSearch()">Add</button>
 											</span>
 										</div>
 									</div>
 									<div class="col-sm-3">
 										<li class="dropdown" style="list-style: none;">
 											<a class="dropdown-toggle btn btn-xs btn-default" data-toggle="dropdown">
-												Load From Template
+												Template
 												<span class="caret"></span>
 											</a>
 											<ul class="dropdown-menu">
@@ -433,8 +461,8 @@
 													</div>
 													<div class="col-lg-4">
 														<br/>
-														<button class="btn btn-sm btn-default" ng-click="globals.addProvisionalDiagnosis()"> 
-															Add Provisional Diagnosis
+														<button class="btn btn-xs btn-default" ng-click="globals.addProvisionalDiagnosis()"> 
+															Add Another Diagnosis
 														</button>
 													</div>
 													<div class="col-lg-12">
