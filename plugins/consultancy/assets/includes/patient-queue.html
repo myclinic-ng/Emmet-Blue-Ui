@@ -55,6 +55,7 @@
 													<td>{{patient.QueueDate}}</td>
 													<td>
 														<a class="btn btn-link" ng-click="removeFromQueue(patient.QueueID, patient.patientInfo.patientuuid)"><i class="fa fa-check"></i> Begin Diagnosis</a>
+														<a class="btn btn-link text-danger" ng-click="deleteFromQueue(patient.QueueID, patient.patientInfo.patientuuid)" ng-hide="true"><i class="text-danger fa fa-times"></i> Remove from queue </a>
 													</td>
 												</tr>
 											</tbody>
@@ -81,7 +82,8 @@
 											<table class="table table-condensed table-hover">
 												<thead class="bg-success">
 													<th></th>
-													<th colspan="2"><center>Patients Full Name</center></th>
+													<th colspan="1"><center>Patients Full Name</center></th>
+													<th colspan="2">Queue Time</th>
 												</thead>
 												<tbody>
 													<tr ng-repeat="patient in gQueue | filter:filterQueuedPatients">
@@ -100,8 +102,20 @@
 																<span class="text-muted">{{patient.PatientTypeName}}, {{patient.CategoryName}}</span>
 															</div>
 														</td>
+														<td class="media">
+															<div class="media-left media-middle">
+																<a href="#">
+																	<img src="{{loadImage(patient.queueInfo.ConsultantInfo.StaffPicture)}}" class="img-circle" alt="">
+																</a>
+															</div>
+
+															<div class="media-body">
+																<div class="media-heading text-bold">{{patient.queueInfo.ConsultantInfo.StaffFullName}}</div>
+																<span>{{patient.queueInfo.QueueDate}}</span>
+															</div>
+														</td>
 														<td>
-															<a class="btn btn-link" ng-click="copy(patient.PatientUUID)" ng-hide="true"><i class="fa fa-copy"></i> Copy ID</a>
+															<a class="btn btn-link" ng-click="removeFromQueue(patient.queueInfo.QueueID, patient.PatientUUID)"><i class="fa fa-check"></i> Begin Diagnosis</a>
 														</td>
 													</tr>
 												</tbody>
