@@ -18,6 +18,7 @@ angular.module("EmmetBlue")
             utils.compile(angular.element(header).contents())($scope);
         }
     })
+    .withOption('order', [])
 	.withButtons([
 		{
 			text: '<i class="icon-file-plus"></i> <u>N</u>ew Field',
