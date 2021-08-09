@@ -119,7 +119,7 @@
 								</div>
 								<div class="col-sm-9">
 									<select class="select" ng-model="noteFilter">
-<option></option>
+										<option></option>
 										<option ng-repeat="val in consultantInNotes" value="{{val.ConsultantFullName}}">{{val.ConsultantFullName}}</option>
 									</select>
 								</div>
@@ -188,7 +188,13 @@
 								<li class="media-header text-muted">{{repoItem}}</li>
 								<li class="media" ng-repeat="(val, key) in id">
 									<span>{{val}}</span>
-									<span class="pull-right text-bold">{{key}}</span>
+									<span class="pull-right text-bold" ng-if="mostRecent.observation.RepositoryDetails.RepositoryType != 'lab_result'">{{key}}</span>
+									<table class="table table-borderless" ng-if="mostRecent.observation.RepositoryDetails.RepositoryType == 'lab_result'">
+										<tr ng-repeat="(name, res) in key">
+											<td ng-if="name != 'meta'">{{name}}</td>
+											<td ng-if="name != 'meta'"class="text-bold">{{res}}</td>
+										</tr>
+									</table>
 								</tr>
 							</ul>
 						</td>
