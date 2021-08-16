@@ -14,6 +14,7 @@ describe('emmetblue user/404', function(){
 	it('should not allow anon users', async function(done){
 		await browser.get(appPath+'user/404');
 
+    browser.sleep(10000);
 		var url = browser.getCurrentUrl();
 		expect(url).toEqual(appPath+'user/login');
 		done();

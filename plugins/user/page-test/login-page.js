@@ -10,7 +10,7 @@ let login = function() {
   let modalButton = element(by.css('.sweet-alert button.confirm'));
 
   let togglePassSlider = element(by.css('[ng-click="togglePassword()"]'));
-  let togglePassText = element.all(by.css('[ng-click="togglePassword()"] small'));
+  let togglePassText = element.all(by.css('[ng-click="togglePassword()"] span.ng-scope'));
 
   let redirecting = element(by.css('.blockUI.blockMsg'));
 
@@ -36,18 +36,7 @@ let login = function() {
     var url = await browser.getCurrentUrl();
     return url
   }
- 
 
-  this.modalResultForNoDetails = (textHeader, textParagraph) => {
-    expect(modalHeader.get(0).getText()).toBe(textHeader);
-    expect(modalParagraph.get(0).getText()).toBe(textParagraph);
-  }
-
-
-  // this.togglePassWarning = async (warningHeader, warningTitle) => {
-  //   expect(await togglePassWarnTextHeader.getText()).toBe(warningHeader);
-  //   expect(await togglePassWarnTextTitle.getText()).toBe(warningTitle);
-  // }
 }
 
 module.exports = new login();
