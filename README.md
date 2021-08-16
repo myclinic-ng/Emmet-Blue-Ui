@@ -11,3 +11,32 @@ Update <pwd> to reflect your project path
 To access the container, run
 
 `docker exec -it emmetblue-ui-dev bash`
+
+
+# To setup for the Protractor tests
+
+`npm install -g protractor`
+
+`webdriver-manager update`
+
+`webdriver-manager start`
+
+`npm install --save-dev jasmine`
+
+
+
+`Create an env-const.js file and fill in the respective detail`
+
+`const adminLogin = {
+   username: "******",
+   password: "******",
+   departments: {
+     IT: "**********",
+     HIU: "*************"
+   }
+}
+module.exports = adminLogin;`
+
+To run the test navigate to conf.js directory in your terminal and execute the comand
+
+`protractor conf.js`
