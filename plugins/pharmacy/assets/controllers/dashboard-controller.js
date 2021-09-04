@@ -21,8 +21,12 @@ angular.module("EmmetBlue")
 				$scope.pageSegment = urlPart+"statistics-dashboard.html";
 				break;
 			}
+			case "stock-values":{
+				$scope.pageSegment = urlPart+"stock-values.html";
+				break;
+			}
 		}
 	}
 
-	$scope.loadPageSegment('summaries-statistics');
+	$scope.loadPageSegment('stock-values');
 })
