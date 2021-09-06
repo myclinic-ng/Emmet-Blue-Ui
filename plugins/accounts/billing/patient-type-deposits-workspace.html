@@ -1,0 +1,119 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/ui/moment/moment.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/pickers/daterangepicker.js"></script>
+<script src="assets/js/plugins/forms/tags/tagsinput.min.js"></script>
+<script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
+
+<script>
+	$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});
+	$('.daterange').daterangepicker({
+		showWeekNumbers: true,
+		showDropdowns: true,
+        opens: "right",
+        applyClass: 'bg-success',
+        cancelClass: 'btn-default'
+	});
+</script>
+<div id="account_deposits_workspace" ng-controller="accountPatientTypeDepositsWorkspaceController">
+	<div class="panel panel-success" >
+		<div class="panel-heading">
+			<h6 class="panel-title">Patient Type Deposits Workspace</h6>
+			<div class="heading-elements">
+				<ul class="icons-list">
+	        		<li>Current Filter: <label class="label label-info">{{requestFilter.description}}</label></li>
+	        		<li><a data-action="reload" ng-click="reloadCurrentDay()" class="btn btn-icon btn-clear"> Reload Deposits</a></li>
+            		<li><a href="#" title="Toggle Filter Selector" class="btn btn-icon btn-clear text-danger" ng-click="showRequestFilters = !showRequestFilters"><i class="icon-filter3"></i> Toggle Filter Selector</a></li>
+	        	</ul>
+	    	</div>
+		</div>
+
+		<div class="panel-body">
+			<div class="col-md-12" ng-show="showRequestFilters">
+				<div class="form-group col-md-2">
+					<label class="control-label">Filter By</label>
+					<select class="select" ng-model="filterSelector.type" ng-change="filterSelector.value = null">
+					<option></option>
+						<optgroup label="Sub Groups">			
+							<!-- <option value="paymentmethod">Payment Method</option> -->
+							<!-- <option value="patientcategory">Patient Category</option> -->
+							<!-- <option value="patient">Patient</option> -->
+						</optgroup>
+
+						<optgroup label="Date Ranges">
+							<option value="Today's Deposits<seprator>{{getDateRange('today')}}">Today</option>
+							<option value="Yesterday's Deposits<seprator>{{getDateRange('yesterday')}}">Yesterday</option>
+							<option value="This Week's Deposits<seprator>{{getDateRange('week')}}">This Week</option>
+							<option value="This Month's Deposits<seprator>{{getDateRange('month')}}">This Month</option>
+							<option status="disabled" value="This Quarter's Deposits<seprator>{{getDateRange('quarter')}}">This Quarter</option>
+							<option status="disabled" value="This Year's Deposits<seprator>{{getDateRange('year')}}">This Year</option>
+						</optgroup>
+
+						<option value="dateRange">Specify Date Range</option>
+					</select>
+				</div>
+				<div class="form-group col-md-8" ng-show="filterSelector.type == 'patientcategory'">
+					<label class="control-label">Select Patient Category</label>
+					<select class="select" ng-model="filterSelector.value">
+<option></option>
+						<option ng-repeat="type in patientTypes" value="{{type.CategoryName}}<seprator>{{type.CategoryName}}">{{type.CategoryName}}</option>
+					</select>
+				</div>
+				<div class="form-group col-md-8" ng-show="filterSelector.type == 'paymentmethod'">
+					<label class="control-label">Select Payment Method</label>
+					<select class="select" ng-model="filterSelector.value">
+<option></option>
+						<option ng-repeat="type in paymentMethods" value="{{type.Name}}<seprator>{{type.Name}}">{{type.Name}}</option>
+					</select>
+				</div>
+				<div class="form-group col-md-8" ng-show="filterSelector.type == 'patient'">
+					<label class="control-label">Enter Patient's Hospital Number</label>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-user-lock"></i></span>
+						<input type="text" class="form-control" ng-model="filterSelector.value" placeholder="Patient ID" /> 
+					</div>
+				</div>
+				<div class="form-group col-md-8" ng-show="filterSelector.type == 'dateRange'">
+					<label class="control-label">Pick Date Ranges</label>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-calendar22"></i></span>
+						<input type="text" class="form-control daterange" ng-model="filterSelector.value"> 
+					</div>
+				</div>
+				<div class="content-group col-md-12">
+					<button class="btn btn-info col-md-3 bg-primary pull-right btn-labeled" ng-click="activateFilter()">
+						<b><i class="icon-filter4"></i></b> Set Filter
+					</button>
+				</div>
+			</div>
+
+			<div class="table-responsive col-md-12">
+				<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
+
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div id="__payment_receipt" class="modal fade">
+		<div class="modal-dialog modal-mini">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h6 class="modal-title"> Payment Receipt</h6>
+				</div>
+
+				<div class="modal-body" id="__main_payment_receipt">
+					<ng-payment-receipt receipt-data="receiptData"></ng-payment-receipt>
+				</div>
+
+				<div class="modal-footer">
+					<button class="btn btn-warning pull-right" ng-print print-element-id="__main_payment_receipt">Print</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<ng-include src="'plugins/accounts/billing/assets/includes/patient-type-deposits-account.html'"></ng-include>
