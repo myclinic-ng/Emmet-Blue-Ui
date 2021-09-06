@@ -365,6 +365,7 @@ angular.module("EmmetBlue")
 
 	$scope.listItem = {};
 	$scope.newItem = {};
+	$scope.newItemTotal = 0;
 
 	$scope.newItem.items = [];
 
@@ -375,9 +376,16 @@ angular.module("EmmetBlue")
 		item._item = selector[0];
 		$scope.newItem.items.push(item);
 		$scope.listItem = {};
+
+		for (var i = $scope.newItem.items.length - 1; i >= 0; i--) {
+			var item = $scope.newItem.items[i];
+			$scope.newItemTotal += item.itemCostPrice * item.itemQty;
+		}
 	}
 
 	$scope.removeItemFromInvoice = function(index){
+		var item = $scope.newItem.items[index];
+		$scope.newItemTotal -= item.itemCostPrice * item.itemQty;
 		$scope.newItem.items.splice(index, 1);
 	}
 

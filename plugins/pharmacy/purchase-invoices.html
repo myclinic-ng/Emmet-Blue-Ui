@@ -39,7 +39,7 @@
 				<div class="form-group col-md-12">
 					<label class="control-label">Filter By</label>
 					<select class="select" ng-model="filterSelector.type" ng-change="filterSelector.value = null">
-<option></option>
+						<option></option>
 						<optgroup label="Sub Groups">
 							<option value="invoice number">Invoice Number</option>
 							<option value="item code">Item ID</option>
@@ -156,6 +156,7 @@
 																<th>Item Name</th>
 																<th>Quantity</th>
 																<th>Cost Price</th>
+																<th>Total</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -164,7 +165,12 @@
 																<th>{{item._item}}</th>
 																<th>{{item.itemQty}}</th>
 																<th>{{item.itemCostPrice}}</th>
+																<th>{{item.itemCostPrice * item.itemQty}}</th>
 																<th><a class="btn btn-link btn-clear btn-icon btn-xs text-danger" ng-click="removeItemFromInvoice($index)"><i class="fa fa-times"></i></a></th>
+															</tr>
+															<tr>
+																<th colspan="4"></th>
+																<th class="text-semibold"><ng-currency></ng-currency> {{newItemTotal}}</th>
 															</tr>
 														</tbody>
 													</table>
