@@ -1,0 +1,86 @@
+<div ng-controller="stockValueDashboardController">
+	<div class="row">
+		<div class="col-lg-4">
+
+			<!-- Members online -->
+			<div class="panel bg-teal-400" style="height: 150px;">
+				<div class="panel-body">
+					<div class="heading-elements">
+						<span class="heading-text badge bg-teal-500"><i class="fa fa-plus"></i></span>
+					</div>
+
+					<h3 class="no-margin"><ng-currency></ng-currency> {{stockValuesMeta.StockValueCost}}</h3>
+					Total Sold Items Cost Price<br/>
+					<span class="text-semibold text-size-small">{{stockValuesMeta.MostExpensiveItem["BillingTypeItemName"]}} </span>
+					<span class="text-muted text-size-small">costs the most</span>
+				</div>
+
+				<div class="container-fluid">
+					<div id="members-online"></div>
+				</div>
+			</div>
+			<!-- /members online -->
+
+		</div>
+
+		<div class="col-lg-4">
+
+			<!-- Current server load -->
+			<div class="panel bg-green-400" style="height: 150px;">
+				<div class="panel-body">
+					<div class="heading-elements">
+						<!-- <ul class="icons-list">
+	                		<li class="dropdown">
+	                			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cog3"></i> <span class="caret"></span></a>
+								<ul class="dropdown-menu dropdown-menu-right">
+									<li><a href="#"><i class="icon-list-unordered"></i> Detailed log</a></li>
+								</ul>
+	                		</li>
+	                	</ul> -->
+					</div>
+
+					<h3 class="no-margin"><ng-currency></ng-currency> {{stockValuesMeta.StockValueSales}}</h3>
+					Total Sales
+					<div>
+						<span class="text-semibold text-size-small">{{stockValuesMeta.MostValuableItem["BillingTypeItemName"]}} </span>
+						<span class="text-muted text-size-small">will result in <span class="text-semibold">{{stockValuesMeta.MostValuableItem["RatioToProfit"]}}%</span> of total profit</span>
+					</div>
+				</div>
+
+				<div id="server-load"></div>
+			</div>
+			<!-- /current server load -->
+
+		</div>
+
+		<div class="col-lg-4">
+
+			<!-- Today's revenue -->
+			<div class="panel bg-blue-400" style="height: 150px;">
+				<div class="panel-body">
+					<div class="heading-elements">
+						<ul class="icons-list">
+	                		<li><a data-action="reload"></a></li>
+	                	</ul>
+	            	</div>
+
+					<h3 class="no-margin"><ng-currency></ng-currency> {{stockValuesMeta.ProfitMargin}}</h3>
+					Profit Margin
+					<div>
+						<span class="text-muted text-size-small">Average profit of <span class="text-semibold">{{stockValuesMeta.MeanRatioToProfit}}%</span> on each item</span>
+					</div>
+				</div>
+
+				<div id="today-revenue"></div>
+			</div>
+			<!-- /today's revenue -->
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<h4 class="text-center text-black">CURRENT STOCK VALUES</h4>
+			<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover"></table>
+		</div>
+	</div>
+</div>

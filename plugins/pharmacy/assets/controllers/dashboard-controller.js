@@ -25,6 +25,10 @@ angular.module("EmmetBlue")
 				$scope.pageSegment = urlPart+"stock-values.html";
 				break;
 			}
+			case "sales-pulse":{
+				$scope.pageSegment = urlPart+"sales-pulse.html";
+				break;
+			}
 		}
 	}
 
