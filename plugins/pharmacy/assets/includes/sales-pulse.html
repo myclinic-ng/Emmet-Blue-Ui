@@ -1,4 +1,60 @@
-<div ng-controller="stockValueDashboardController">
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/ui/moment/moment.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/pickers/daterangepicker.js"></script>
+<script src="assets/js/plugins/forms/tags/tagsinput.min.js"></script>
+<script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
+<script>
+	$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});
+	$('.daterange').daterangepicker({
+		showWeekNumbers: true,
+		showDropdowns: true,
+        opens: "right",
+        applyClass: 'bg-success',
+        cancelClass: 'btn-default'
+	});
+</script>
+<div ng-controller="salesPulseDashboardController">
+	<div class="row">
+		<ul class="icons-list pull-right">
+			<li>Current Filter: <label class="label label-info">{{requestFilter.description}}</label></li>
+			<li><a data-action="reload" ng-click="reloadDispensationsTable()" class="btn btn-icon btn-clear"> Reload</a></li>
+			<li><a href="#" title="Toggle Filter Selector" class="btn btn-icon btn-clear text-danger" ng-click="showRequestFilters = !showRequestFilters"><i class="icon-filter3"></i> Toggle Filter Selector</a></li>
+		</ul>
+		<div class="col-md-12" ng-show="showRequestFilters">
+			<div class="form-group col-md-4">
+				<label class="control-label">Filter By</label>
+				<select class="select" ng-model="filterSelector.type" ng-change="filterSelector.value = null">
+					<option></option>
+
+					<optgroup label="Date Ranges">
+						<option value="Today's Requests<seprator>{{getDateRange('today')}}">Today</option>
+						<option value="Yesterday's Requests<seprator>{{getDateRange('yesterday')}}">Yesterday</option>
+						<option value="This Week's Requests<seprator>{{getDateRange('week')}}">This Week</option>
+						<option value="This Month's Requests<seprator>{{getDateRange('month')}}">This Month</option>
+						<option status="disabled" value="This Quarter's Requests<seprator>{{getDateRange('quarter')}}">This Quarter</option>
+						<option status="disabled" value="This Year's Requests<seprator>{{getDateRange('year')}}">This Year</option>
+					</optgroup>
+
+					<option value="dateRange">Specify Date Range</option>
+				</select>
+			</div>
+			<div class="form-group col-md-8" ng-show="filterSelector.type == 'dateRange'">
+				<label class="control-label">Pick Date Ranges</label>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="icon-calendar22"></i></span>
+					<input type="text" class="form-control daterange" ng-model="filterSelector.value"> 
+				</div>
+			</div>
+			<div class="content-group col-md-12">
+				<button class="btn btn-info col-md-3 bg-primary pull-right btn-labeled" ng-click="activateFilter()">
+					<b><i class="icon-filter4"></i></b> Set Filter
+				</button>
+			</div>
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-lg-4">
 
@@ -9,7 +65,7 @@
 						<span class="heading-text badge bg-teal-500"><i class="fa fa-plus"></i></span>
 					</div>
 
-					<h3 class="no-margin"><ng-currency></ng-currency> {{stockValuesMeta.StockValueCost}}</h3>
+					<h3 class="no-margin"><ng-currency></ng-currency> {{stockValuesMeta.TotalCost}}</h3>
 					Total Sold Items Cost Price<br/>
 					<span class="text-semibold text-size-small">{{stockValuesMeta.MostExpensiveItem["BillingTypeItemName"]}} </span>
 					<span class="text-muted text-size-small">costs the most</span>
@@ -39,7 +95,7 @@
 	                	</ul> -->
 					</div>
 
-					<h3 class="no-margin"><ng-currency></ng-currency> {{stockValuesMeta.StockValueSales}}</h3>
+					<h3 class="no-margin"><ng-currency></ng-currency> {{stockValuesMeta.TotalSales}}</h3>
 					Total Sales
 					<div>
 						<span class="text-semibold text-size-small">{{stockValuesMeta.MostValuableItem["BillingTypeItemName"]}} </span>

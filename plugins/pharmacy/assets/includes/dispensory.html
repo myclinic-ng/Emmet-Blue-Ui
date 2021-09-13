@@ -27,7 +27,7 @@
 		<div class="form-group col-md-4">
 			<label class="control-label">Filter By</label>
 			<select class="select" ng-model="filterSelector.type" ng-change="filterSelector.value = null">
-<option></option>
+				<option></option>
 				<optgroup label="Sub Groups">					
 					<option value="status">Status</option>
 					<option value="patienttype">Patient Type</option>
@@ -50,7 +50,7 @@
 		<div class="form-group col-md-8" ng-show="filterSelector.type == 'status'">
 			<label class="control-label">Select Status</label>
 			<select class="select" ng-model="filterSelector.value">
-<option></option>
+				<option></option>
 				<option status="disabled" value="Unacknowledged Requests<seprator>0">Unacknowledged Requests</option>
 				<option value="Retracted Transactions<seprator>2">Retracted Transactions</option>
 				<option value="Acknowledged Requests<seprator>-1">Acknowledged Requests</option>
@@ -61,7 +61,7 @@
 		<div class="form-group col-md-8" ng-show="filterSelector.type == 'patienttype'">
 			<label class="control-label">Select Patient Type</label>
 			<select class="select" ng-model="filterSelector.value">
-<option></option>
+				<option></option>
 				<option ng-repeat="type in patientTypes" value="{{type.CategoryName}}<seprator>{{type.CategoryName}}">{{type.CategoryName}}</option>
 			</select>
 		</div>
