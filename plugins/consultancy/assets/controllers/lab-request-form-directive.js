@@ -147,7 +147,13 @@ angular.module("EmmetBlue")
 					}
 
 					$rootScope.$broadcast("addSentLabInvestigationsToList", reqs);
-					$scope.investigations = reqs.join(", ");
+					$scope.investigations = [];
+					angular.forEach(reqs, function(value, key){
+						$scope.investigations.push({
+							"investigationRequired":value,
+							"labId":$scope.module.lab
+						});
+					})
 					var form = $("#lab-form").get(0);
 					domtoimage.toPng(form)
 				    .then(function (dataUrl) {
@@ -158,7 +164,7 @@ angular.module("EmmetBlue")
 							patientID: $scope.patientInfo.patientid,
 							clinicalDiagnosis: dataUrl,
 							requestNote: $scope.diagnoses,
-							investigationRequired: $scope.investigations,
+							investigations: $scope.investigations,
 							requestedBy: utils.userSession.getID()
 						}
 

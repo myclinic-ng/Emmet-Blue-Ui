@@ -113,7 +113,13 @@ angular.module("EmmetBlue")
 			var string = "<span class='text-bold'>"+data.PatientFullName+"</span><br/>"+data.PatientTypeName+" ("+data.CategoryName+")";
 			return string;
 		}),
-		utils.DT.columnBuilder.newColumn('InvestigationRequired').withTitle("Required Investigation"),
+		utils.DT.columnBuilder.newColumn(null).withTitle("Required Investigation").renderWith(function(data, a, b){
+			if (data.LabName == 'null'){
+				data.LabName = '';
+			}
+			var string = "<span class='text-bold'>"+data.LabName+"</span><br/>"+data.InvestigationRequired;
+			return string;
+		}),
 		utils.DT.columnBuilder.newColumn('RequestNote').withTitle("Request Note"),
 		utils.DT.columnBuilder.newColumn('RequestedByFullName').withTitle("Requested By"),
 		utils.DT.columnBuilder.newColumn(null).withTitle("Date Requested").renderWith(function(data, b, c){
