@@ -777,7 +777,7 @@
 							<option value="{{lab.LabID}}" ng-repeat="lab in module.registeredLabs">{{lab.LabName}}</option>
 						</select>
 					</div>
-					<div class="col-md-12">
+					<div class="col-md-12" ng-if="module.lab != ''">
 						<input class="form-control" type="text" ng-model="filterLab" placeholder="Type to search" />
 						<div class="form-group col-md-4" ng-repeat="type in module.registeredInvestigationTypes | filter:filterLab">
 							<label class="checkbox-inline text-semibold">
