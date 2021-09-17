@@ -27,7 +27,7 @@ angular.module("EmmetBlue")
 
 			$scope.module = {
 				loadRegisteredLabs: function(){
-					utils.serverRequest('/lab/lab/view', 'GET').then(function(response){
+					utils.serverRequest('/lab/lab/view?resourceId='+$scope.module.lab, 'GET').then(function(response){
 						$scope.module.registeredLabs = response;
 					}, function(error){
 						utils.errorHandler(error);
