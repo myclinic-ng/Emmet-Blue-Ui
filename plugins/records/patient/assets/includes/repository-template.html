@@ -37,7 +37,7 @@
 						<div class="content-group">
 							<label class="control-label">Document Category</label>
 							<select class="select" ng-model="document.documentCategory">
-<option></option>
+								<option></option>
 								<option value="image">Picture (.jpg or .png extension)</option>
 								<option value="pdf">PDF Document (.pdf extension)</option>
 								<option value="text">Text Document (.txt extension)</option>
@@ -58,7 +58,7 @@
 				</div>
 				<div class="col-md-9 overflow-auto">
 					<div ng-repeat="item in repository.items">
-						<div class="col-lg-3 col-sm-12" ng-if="item.RepositoryItemCategory == 'image'">
+						<div class="col-lg-3 col-sm-12" ng-if="item.RepositoryItemCategory == 'image' || item.RepositoryItemCategory == 'png' || item.RepositoryItemCategory == 'jpg' || item.RepositoryItemCategory == 'jpeg'">
 							<div class="thumbnail" style="height: 100px; width: 100px;" ng-click="enlargeImage(item.RepositoryItemNumber)">
 								<div class="thumb" style="height: 99%; width: 100%">
 									<img ng-src="{{loadFile(item.RepositoryItemNumber)}}" alt="" style="height: inherit; width: 100%"/>
@@ -152,7 +152,7 @@
 				</div>
 				<div class="modal-body no-margin no-padding" id="currentObjectFile" style="height: 100vh !important;">
 					 <object data="{{currentRepositoryObject.url}}" type="{{currentRepositoryObject.type}}" width="100%" height="{{viewPort.height}}">
-				        Unable to display document using buit-in viewer: <a href="{{currentRepositoryObject.url}}">{{currentRepositoryObject.alt}}</a>
+				        Unable to display document using buit-in viewer: <a href="{{currentRepositoryObject.url}}" target="_blank">{{currentRepositoryObject.alt}}</a>
 				    </object>
 				</div>
 			</div>

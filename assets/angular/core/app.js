@@ -432,16 +432,16 @@ angular.module("EmmetBlue")
 	}
 
 	events.records.newRepositoryCreatedEvent = function(patientId, linkId){
-		var eventObject = {
-			patient: patientId,
-			eventActor: "Records",
-			eventLinkId: linkId,
-			eventLink: "patients/repository",
-			eventText: "created repository",
-			eventIcon: "icon-database-upload"
-		};
+		// var eventObject = {
+		// 	patient: patientId,
+		// 	eventActor: "Records",
+		// 	eventLinkId: linkId,
+		// 	eventLink: "patients/repository",
+		// 	eventText: "created repository",
+		// 	eventIcon: "icon-database-upload"
+		// };
 
-		return eventLogger(eventObject);
+		// return eventLogger(eventObject);
 	}
 
 	events.lab.newPatientRegisteredEvent = function(patientId, investigationType, linkId){
