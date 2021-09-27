@@ -3,7 +3,7 @@ angular.module("EmmetBlue")
 .controller('userLoginController', function($scope, utils, $cookies, $location, $timeout){
 	$scope.login = {};
 	$scope.userClient = utils.globalConstants.USER_CLIENT;
-	
+
 	$scope.loadImage = utils.loadImage;
 
 	if (typeof $.cookie("last-stored-login-username") != "undefined"){
@@ -27,7 +27,7 @@ angular.module("EmmetBlue")
 		else
 		{
 			var block = $("#form-login");
-			$(block).block({ 
+			$(block).block({
 			    message: '<i class="icon-spinner4 spinner"></i>',
 			    //timeout: 3000, //unblock after 3 seconds
 			    overlayCSS: {
@@ -46,7 +46,7 @@ angular.module("EmmetBlue")
 				$loginPromise = utils.serverRequest("/login", "POST", {
 					username: loginData.username,
 					password: loginData.password
-				});	
+				});
 			}
 			else {
 				$loginPromise = utils.serverRequest("/login", "POST", {
@@ -68,7 +68,7 @@ angular.module("EmmetBlue")
 				}
 				else
 				{
-					$(block).block({ 
+					$(block).block({
 					    message: '<i class="icon-spinner2 spinner"></i> redirecting',
 					    overlayCSS: {
 					    	backgroundColor: '#fff',
@@ -104,7 +104,6 @@ angular.module("EmmetBlue")
 
 					if (typeof response.business == "undefined"){
 						utils.serverRequest("/read-resource?url=business-info", "GET").then(function(resource){
-							console.log(resource);
 							responseObject.businessInfo = $.parseJSON(JSON.stringify(resource));
 							$cookies.putObject(utils.globalConstants.USER_COOKIE_IDENTIFIER, responseObject);
 						}, function(error){
@@ -209,7 +208,7 @@ angular.module("EmmetBlue")
 		$loginPromise.then(function(response){
 			if (typeof response.StaffID !== "undefined"){
 				$scope.fingerOwner = response;
-				$scope.fingerOwnerLoaded = 1;	
+				$scope.fingerOwnerLoaded = 1;
 			}
 			else {
 				$scope.fingerOwnerLoaded = -1;

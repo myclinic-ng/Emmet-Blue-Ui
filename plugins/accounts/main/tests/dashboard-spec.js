@@ -11,9 +11,10 @@ describe('emmetblue accounts/main/dashboard', function(){
       jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
     });
     
-	it('should not allow anon users', function(){
-		browser.get(appPath+'user/404');
+	it('should not allow anon users', async function(){
+		await browser.get(appPath+'user/404');
 
+    browser.sleep(10000);
 		var url = browser.getCurrentUrl();
 		expect(url).toEqual(appPath+'user/login');
 	})
