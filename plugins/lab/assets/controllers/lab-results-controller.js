@@ -40,6 +40,12 @@ angular.module("EmmetBlue")
 	$scope.requestId = "";
 	$scope.investigationLoaded = false;
 	$scope.investigationResult = {};
+
+	$scope.currentPatient = {
+		nameTitle: "Patient",
+		id: 0
+	};
+
 	$scope.loadInvestigation = function(){
 		query = {
 			query: $("#patientuuid").val(),
@@ -57,6 +63,10 @@ angular.module("EmmetBlue")
 
 				$scope.investigationResults = {};
 				$scope.selected = {};
+
+				$scope.currentPatient.nameTitle = $scope.patientInfo.patientfullname+"'s";
+				$scope.currentPatient.picture = $scope.loadImage($scope.patientInfo.patientpicture);
+				$scope.currentPatient.id = $scope.patientInfo.patientid;
 			}
 			else {
 				$scope.investigationLoaded = false;
@@ -182,7 +192,11 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.getLength = function(ob){
-		return Object.keys(ob).length;
+		if (typeof ob !== "undefined"){
+			return Object.keys(ob).length;	
+		}
+		
+		return 0;
 	}
 
 	$scope.submit = function(){

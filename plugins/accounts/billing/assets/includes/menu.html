@@ -16,8 +16,17 @@
 	<div class="navbar-collapse collapse" id="navbar-second-toggle">
 		<ul class="nav navbar-nav">
 			<li><a href="accounts/billing/dashboard"><i class="icon-display4 position-left"></i> Payment Requests</a></li>
-
-			<li><a href="accounts/billing/deposits-workspace"><i class="icon-piggy-bank position-left"></i> Deposit Workspace</a></li>
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					<i class="icon-piggy-bank position-left"></i>
+					Deposits
+					<span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu">
+					<li><a href="accounts/billing/deposits-workspace" data-toggle="dropdown">Patient Deposit Workspace</a></li>
+					<li><a href="accounts/billing/patient-type-deposits-workspace" data-toggle="dropdown">Patient Type Deposit Workspace</a></li>
+				</ul>
+			</li>
 
 			<!-- <li><a href="#" data-toggle="modal" data-target="#generate_new_billing"><i class="icon-table2"></i> New Invoice </a></li> -->
 

@@ -47,8 +47,8 @@ angular.module("EmmetBlue")
 				title: 'Session expiration',
 				message: 'Your session is about to expire. Do you want to stay connected and extend your session?',
 				keepAlive: false,
-				warnAfter: 900000, //10 mins
-				redirAfter: 1020000, //15 mins
+				warnAfter: 3300000, //in milliseconds. (1 min == 60000 milliseconds)
+				redirAfter: 3600000,
 				ignoreUserActivity: false,
 				onWarn: function(){
 				    var title = "IDLE TIMEOUT";

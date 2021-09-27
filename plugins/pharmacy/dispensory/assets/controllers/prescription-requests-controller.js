@@ -129,6 +129,7 @@ angular.module("EmmetBlue")
 				$("#ack_modal").modal("show");
 				$scope.currentRequest.Request = $.parseJSON(request);
 				$scope.currentRequest.PatientName = patientname;
+				$scope.currentRequest.RequestID = id;
 				$scope.currentRequest.PatientID =  $(".pharmacy-ack-btn[data-option-id='"+id+"'").attr("data-option-patient-id");
 				break;
 			}
@@ -172,6 +173,23 @@ angular.module("EmmetBlue")
 		req.then(function(response){
 			$("#ack_modal").modal("hide");
 			utils.alert("Request Sent Successfully", "This patient's HMO has been notified successfully. Please refer him/her to their respective departments", "success");
+		}, function(error){
+			utils.errorHandler(error);
+		})
+	}
+
+	$scope.declineRequest = function(){
+		var reqId = $scope.currentRequest.RequestID;
+		var data = {
+			resourceId: reqId,
+			staff: utils.userSession.getID()
+		};
+
+		var req = utils.serverRequest("/pharmacy/pharmacy-request/decline-request", "PUT", data);
+
+		req.then(function(response){
+			$("#ack_modal").modal("hide");
+			utils.alert("Request Declined Successfully", "The selected request has been removed from queue", "success");
 		}, function(error){
 			utils.errorHandler(error);
 		})

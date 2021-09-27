@@ -46,4 +46,17 @@ angular.module("EmmetBlue")
 			utils.errorHandler(error);
 		});
 	}
+
+	$scope.deleteFromQueue = function(id, uuid){
+		$("#_patient-queue").modal("hide");
+		var req = utils.serverRequest("/consultancy/patient-queue/delete?resourceId="+id, "DELETE");
+
+		req.then(function(response){
+			var patientsLeft = $scope.queuedPatients.length-1;
+			utils.notify("", "The selected patient has been removed from queue, there are now "+ patientsLeft +" patients left to process", "success");
+			$rootScope.$broadcast("reloadQueue");
+		}, function(error){
+			utils.errorHandler(error);
+		});
+	}
 })

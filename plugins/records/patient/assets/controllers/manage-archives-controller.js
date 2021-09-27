@@ -44,8 +44,7 @@ angular.module("EmmetBlue")
 			]);	
 
 			$scope.dtColumns = [
-				utils.DT.columnBuilder.newColumn('RepositoryNumber').withTitle("Repo ID"),
-				utils.DT.columnBuilder.newColumn('RepositoryName').withTitle("Name"),
+				utils.DT.columnBuilder.newColumn('RepositoryName').withTitle("Folder Name"),
 				utils.DT.columnBuilder.newColumn('RepositoryDescription').withTitle("Description"),
 				utils.DT.columnBuilder.newColumn('RepositoryCreator').withTitle("Author"),
 				utils.DT.columnBuilder.newColumn('RepositoryCreationDate').withTitle("Date Created"),

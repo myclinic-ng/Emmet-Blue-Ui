@@ -94,13 +94,20 @@
 								Bill this invoice from patient's deposit account
 							</label>
 						</div>
-						<div class="content-group col-md-7">
+						<div class="content-group col-md-5">
 							<label class="control-label">Payee Name</label>
 							<input type="text" class="form-control" ng-model="newPayment.customerName"/>
 						</div>
-						<div class="content-group col-md-5">
-							<label class="control-label">Payee Phone Number</label>
+						<div class="content-group col-md-4">
+							<label class="control-label">Phone Number</label>
 							<input type="text" class="form-control" ng-model="newPayment.customerPhone"/>
+						</div>
+						<div class="content-group col-md-3">
+							<label class="control-label">Type</label>
+							<select class="select" ng-model="newPayment.payeeType">
+								<option value="Patient">Patient</option>
+								<option value="Others">Others</option>
+							</select>
 						</div>
 						<div class="content-group col-md-12">
 							<label class="control-label">Amount Paid</label>
@@ -109,14 +116,14 @@
 						<div class="content-group col-md-6">
 							<label class="control-label">Payment Method</label>
 							<select class="select" ng-model="newPayment.paymentMethod" ng-options="method.PaymentMethodName as method.PaymentMethodName for method in paymentMethods">
-<option></option>
+								<option></option>
 								<!-- <option value=""></option> -->
 							</select>
 						</div>
 						<div class="content-group col-md-6">
 							<label class="control-label">Transaction Status</label>
 							<select class="select" ng-model="newPayment.transactionStatus" ng-options="status.StatusName as status.StatusName for status in statuses">
-<option></option>
+								<option></option>
 							</select>
 						</div>
 						<div class="button-group pull-right">
