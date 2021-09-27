@@ -22,7 +22,7 @@ describe('Login page tests', ()=> {
   it('User login details fail test', (done) => {
     loginpage.setUsername("a");
     loginpage.setPassword("b");
-    let url = loginpage.clickGo(1000);
+    let url = loginpage.clickGo(loginDetails.waitSeconds.sleep01);
     expect(url).toEqual(appPath+'user/login');
   
     expect(loginpage.getModal().getCssValue('display')).toBe('block');
@@ -40,7 +40,7 @@ describe('Login page tests', ()=> {
     loginpage.setUsername("");
     loginpage.setPassword("");
   
-    let url = loginpage.clickGo(1000);
+    let url = loginpage.clickGo(loginDetails.waitSeconds.sleep01);
     expect(url).toEqual(appPath+'user/login');
   
     expect(loginpage.getModal().getCssValue('display')).toBe('block');
@@ -49,7 +49,7 @@ describe('Login page tests', ()=> {
     expect(loginpage.getModalParagraph().get(0).getText()).toBe('Please enter both your username and password to continue');
   
     loginpage.getModalButton().click();
-    browser.sleep(1000);
+    browser.sleep(loginDetails.waitSeconds.sleep01);
     expect(loginpage.getModal().getCssValue('display')).toBe('none');
     done();
   })
@@ -62,7 +62,7 @@ describe('Login page tests', ()=> {
     loginpage.getTogglePassSlider().click();
     expect(loginpage.getTogglePassText().get(0).getText()).toBe("hide password".trim().toUpperCase());
 
-    browser.sleep(3000);
+    browser.sleep(loginDetails.waitSeconds.sleep03);
     done();
   })
   
