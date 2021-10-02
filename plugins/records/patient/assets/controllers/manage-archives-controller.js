@@ -10,6 +10,7 @@ angular.module("EmmetBlue")
 		controller: function($scope, utils, patientEventLogger){
 			$scope.newRepository  = {};
 			$scope.$on("reloadCurrentPatient", function(){
+				console.log("called ", $scope.currentPatient);
 				$scope.dtInstance.reloadData()
 			});
 			$scope.dtInstance = {};

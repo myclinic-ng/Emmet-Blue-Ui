@@ -21,7 +21,7 @@
 				<h5 data-popup="tooltip" title="{{patientInfo.patientfullname}}">{{patientInfo.patientfullname}}</h5>
 				<h5>
 					<span class="text-info">
-						<small>{{patientInfo.patientuuid}} | {{patientInfo.patienttypename}} | 
+						<small>{{patientInfo["medical hand card number"]}} | {{patientInfo.patienttypename}} | 
 							<i class="fa fa-user-plus text-success" ng-if="patientInfo.isLinkedToCloud == true" data-toggle="tooltip" title="Subscribed to EmmetBlue Cloud"></i>
 							<i class="fa fa-cloud text-muted" ng-if="patientInfo.isLinkedToCloud == false" data-toggle="tooltip" title="Unsubscribed"></i>
 						</small>

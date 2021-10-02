@@ -385,8 +385,12 @@ angular.module("EmmetBlue")
 
 	$scope.removeItemFromInvoice = function(index){
 		var item = $scope.newItem.items[index];
-		$scope.newItemTotal -= item.itemCostPrice * item.itemQty;
 		$scope.newItem.items.splice(index, 1);
+		$scope.newItemTotal = 0;
+		for (var i = $scope.newItem.items.length - 1; i >= 0; i--) {
+			var item = $scope.newItem.items[i];
+			$scope.newItemTotal += item.itemCostPrice * item.itemQty;
+		}
 	}
 
 	$scope.saveInvoice = function(){

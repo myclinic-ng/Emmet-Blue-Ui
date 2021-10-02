@@ -17,7 +17,7 @@
 		<div class="media-body">
 			<div class="col-xs-12">
 				<h5 data-popup="tooltip" title="{{patientInfo.patientfullname}}">{{patientInfo.patientfullname}}</h5>
-				<h5><span class="text-info"><small>{{patientInfo.patientuuid}} | {{patientInfo.patienttypename}}</small></span></h5>
+				<h5><span class="text-info"><small>{{patientInfo['medical hand card number']}} | {{patientInfo.patienttypename}}</small></span></h5>
 				<p class="text-muted">
 					<span class="badge badge-success" ng-show="patientInfo.isLinkedToCloud"> Profile Linked</span>
 				</p>

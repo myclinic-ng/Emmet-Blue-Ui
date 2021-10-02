@@ -1,6 +1,6 @@
 angular.module("EmmetBlue")
 
-.controller('labResultsController', function($scope, utils){
+.controller('labResultsController', function($scope, utils, $rootScope){
 	$scope.utils = utils;
 	var patient = {
 		search: function(query, successCallback, errorCallback){
@@ -67,6 +67,8 @@ angular.module("EmmetBlue")
 				$scope.currentPatient.nameTitle = $scope.patientInfo.patientfullname+"'s";
 				$scope.currentPatient.picture = $scope.loadImage($scope.patientInfo.patientpicture);
 				$scope.currentPatient.id = $scope.patientInfo.patientid;
+
+				$rootScope.$broadcast("reloadCurrentPatient");
 			}
 			else {
 				$scope.investigationLoaded = false;
@@ -241,6 +243,7 @@ angular.module("EmmetBlue")
 				utils.serverRequest("/lab/lab-result/new", "POST", data).then(function(response){
 					utils.notify("Operation Successfuly", "Result Published Successfuly", "success");
 					$scope.investigationResults = {};
+					$rootScope.$broadcast("reloadCurrentPatient");
 				}, function(error){
 					utils.errorHandler(error);
 				})

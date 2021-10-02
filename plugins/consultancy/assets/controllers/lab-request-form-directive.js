@@ -40,7 +40,8 @@ angular.module("EmmetBlue")
 					}, function(error){
 						utils.errorHandler(error);
 					})
-				}
+				},
+				lab: ''
 			}
 
 			$scope.module.loadRegisteredLabs();

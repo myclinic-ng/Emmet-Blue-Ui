@@ -779,11 +779,13 @@
 					</div>
 					<div class="col-md-12">
 						<input class="form-control" type="text" ng-model="filterLab" placeholder="Type to search" />
-						<div class="form-group col-md-4" ng-repeat="type in module.registeredInvestigationTypes | filter:filterLab">
-							<label class="checkbox-inline text-semibold">
-								<input type="checkbox" style="width: 20px; height: 20px" class="invCheck" ng-model="investigationLists[type.InvestigationTypeID]">
-								{{type.InvestigationTypeName}}
-							</label>
+						<div class="row" ng-if="module.lab !== ''"> 
+							<div class="col-md-4 form-group" ng-repeat="type in module.registeredInvestigationTypes | filter:filterLab">
+								<label class="checkbox-inline text-semibold">
+									<input type="checkbox" style="width: 20px; height: 20px" class="invCheck" ng-model="investigationLists[type.InvestigationTypeID]">
+									{{type.InvestigationTypeName}}
+								</label>
+							</div>
 						</div>
 					</div>
 				</div>
