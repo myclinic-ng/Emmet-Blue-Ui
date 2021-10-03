@@ -779,7 +779,10 @@ var recordsPatientManageRepositoryController = function($scope, utils, $http){
 		height: Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
 	};
 
+	$scope.docsUploading = false;
+
 	$scope.uploadDocs = function(){
+		$scope.docsUploading = true;
 		var fileUploaded = ($("#uploadedFile").prop("files"));
 		
 		var f = new FileReader();
@@ -799,7 +802,7 @@ var recordsPatientManageRepositoryController = function($scope, utils, $http){
 			res.then(function(response){
 				$scope.document = {};
 				utils.alert("Upload successful", "The selected document has been uploaded to this repository successfully", "success");
-
+				$scope.docsUploading = false;
 				loadRepo();
 			}, function(error){
 				utils.errorHandler(error);
