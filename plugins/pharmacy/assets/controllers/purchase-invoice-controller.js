@@ -376,7 +376,8 @@ angular.module("EmmetBlue")
 		item._item = selector[0];
 		$scope.newItem.items.push(item);
 		$scope.listItem = {};
-
+		
+		$scope.newItemTotal = 0;
 		for (var i = $scope.newItem.items.length - 1; i >= 0; i--) {
 			var item = $scope.newItem.items[i];
 			$scope.newItemTotal += item.itemCostPrice * item.itemQty;
