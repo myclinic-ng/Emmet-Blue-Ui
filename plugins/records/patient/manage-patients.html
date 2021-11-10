@@ -413,7 +413,7 @@
 										<h1 class="text-center text-black">{{requestForm.currentPatientProfile.patientfullname}}</h1>
 										<div class="form-group col-sm-6">
 											<select class="select" ng-model="paymentRequestItem.item">
-<option></option>
+												<option></option>
 												<optgroup label="{{key}}" ng-repeat="(key, item) in requestItems">
 													<option ng-repeat="value in item" value="{{value}}">{{value.BillingTypeItemName}}</option>
 												</optgroup>

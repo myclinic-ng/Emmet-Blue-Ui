@@ -12,6 +12,7 @@ head.load(controllersLocation+"new-patient-controller.js");
 head.load(controllersLocation+"payment-request-controller.js");
 head.load(controllersLocation+"verify-hmo-proceed-controller.js");
 head.load(controllersLocation+"published-results-controller.js");
+head.load(controllersLocation+"lab-requests-patients-view-controller.js");
 
 head.load(controllersLocation+"old-lab-results-controller.js");
 head.load(controllersLocation+"lab-results/lab-result-form-directive.js");

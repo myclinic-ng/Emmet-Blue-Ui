@@ -13,7 +13,7 @@
 
 	<div class="navbar-collapse collapse" id="navbar-second-toggle">
 		<ul class="nav navbar-nav">
-			<li><a href="lab/lab-requests"><i class="fa fa-flask"></i> Queued Patients</a></li>
+			<li><a href="lab/lab-requests-patient-view"><i class="fa fa-flask"></i> Queued Patients</a></li>
 			<li><a href="lab/patient-database"><i class="icon-vcard"></i> Patient Management</a></li>
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -48,7 +48,7 @@
 </div>
 
 <div id="_payment_request" class="modal fade" ng-controller="labPaymentRequestController">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
 					<button type="button" class="close" data-dismiss="modal">&times; close</button>
@@ -76,51 +76,78 @@
 								<div ng-show="!requestForm.showSearchResult">
 									<!-- {{requestForm.currentPatientProfile}} -->
 									<div class="row">
-										<h1 class="text-center text-black">{{requestForm.currentPatientProfile.FullName}}<br/><small>{{investigations}}</small></h1>
-										<div class="form-group col-md-7">
-											<select class="select" ng-model="paymentRequestItem.item">
-<option></option>
-												<optgroup label="{{key}}" ng-repeat="(key, item) in requestItems">
-													<option ng-repeat="value in item" value="{{value}}">{{value.BillingTypeItemName}}</option>
-												</optgroup>
-											</select>
-										</div>
-										<div class="input-group col-md-5">
-											<input type="number" placeholder="Quantity. Defaults to 1" class="form-control col-md-7" ng-model="paymentRequestItem.quantity"/>
-											<span class="input-group-btn">
-												<button class="btn btn-default btn-success" ng-click="addPaymentRequestItemToList()">add</button>
-											</span>
-										</div>
-										<div class="col-md-12 table-responsive">
-											<table class="table table-condensed hover">
-												<thead>
-													<tr class="warning">
-														<th>S/N</th>
-														<th>Item Code</th>
-														<th>Item</th>
-														<th>Quantity</th>
-														<th>Amount (<span ng-currency symbol="naira"></span>)</th>
-														<th>Action</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr ng-repeat="item in paymentRequestItems">
-														<td>{{$index + 1}}</td>
-														<td>{{item._item.BillingTypeItemID}}</td>
-														<td>{{item._item.BillingTypeItemName}}</td>
-														<td>{{item.quantity}}</td>
-														<td>{{item.price}}</td>
-														<td><a class="btn btn-link text-danger" href="#" ng-click="removeItem($index)"><i class="icon-bin"></i> Remove</a></td>
-													</tr>
-													<tr>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td class="text-bold">Total</td>
-														<td class="text-bold"><span ng-currency symbol="naira"></span> {{totalPrice}}</td>
-													</tr>
-												</tbody>
-											</table>
+										<h1 class="text-center text-black">{{requestForm.currentPatientProfile.FullName}}</h1>
+										<div class="row">
+											<div class="col-md-4">
+												<div class="table-responsive">
+													<table class="table table-hover table-condensed">
+														<thead class="">
+															<th>ID</th>
+															<th>Investigation</th>
+															<th></th>
+														</thead>
+														<tbody>
+															<tr ng-repeat="request in investigations">
+																<td>{{request.id}}</td>
+																<td>
+																	<span>{{request.name}}</span>
+																</td>
+																<td>
+																	<input class="form-check-input" type="checkbox" value="" ng-model="request.close">
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+											<div class="col-md-8">
+												<div class="form-group col-md-7">
+													<select class="select" ng-model="paymentRequestItem.item">
+														<option></option>
+														<optgroup label="{{key}}" ng-repeat="(key, item) in requestItems">
+															<option ng-repeat="value in item" value="{{value}}">{{value.BillingTypeItemName}}</option>
+														</optgroup>
+													</select>
+												</div>
+												<div class="input-group col-md-5">
+													<input type="number" placeholder="Quantity. Defaults to 1" class="form-control col-md-7" ng-model="paymentRequestItem.quantity"/>
+													<span class="input-group-btn">
+														<button class="btn btn-default btn-success" ng-click="addPaymentRequestItemToList()">add</button>
+													</span>
+												</div>
+												<div class="col-md-12 table-responsive">
+													<table class="table table-condensed hover">
+														<thead>
+															<tr class="warning">
+																<th>S/N</th>
+																<th>Item Code</th>
+																<th>Item</th>
+																<th>Quantity</th>
+																<th>Amount (<span ng-currency symbol="naira"></span>)</th>
+																<th>Action</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr ng-repeat="item in paymentRequestItems">
+																<td>{{$index + 1}}</td>
+																<td>{{item._item.BillingTypeItemID}}</td>
+																<td>{{item._item.BillingTypeItemName}}</td>
+																<td>{{item.quantity}}</td>
+																<td>{{item.price}}</td>
+																<td><a class="btn btn-link text-danger" href="#" ng-click="removeItem($index)"><i class="icon-bin"></i> Remove</a></td>
+															</tr>
+															<tr>
+																<td></td>
+																<td></td>
+																<td></td>
+																<td class="text-bold">Total</td>
+																<td class="text-bold"><span ng-currency symbol="naira"></span> {{totalPrice}}</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+												
+											</div>
 										</div>
 									</div>
 								</div>
@@ -172,7 +199,7 @@
 									<div class="content-group col-md-12">
 										<label class="control-label">Select lab to assign patient</label>
 										<select class="select" ng-model="patientLab">
-<option></option>
+											<option></option>
 											<option ng-repeat="lab in labs" value="{{lab.LabID}}" data-name="{{lab.LabName}}" data-id="ln-{{lab.LabID}}">{{lab.LabName}}</option>
 										</select>
 									</div>
@@ -182,7 +209,7 @@
 								<div class="content-group col-md-6">
 									<label class="control-label">Investigation Required</label>
 									<select class="select" ng-model="investigation">
-<option></option>
+										<option></option>
 										<option value="{{type.InvestigationTypeID}}" ng-repeat="type in investigationTypes" data-name="{{type.InvestigationTypeName}}" data-id="itid-{{type.InvestigationTypeID}}">{{type.InvestigationTypeName}}</option>
 									</select>
 								</div>

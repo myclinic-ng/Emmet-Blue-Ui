@@ -25,7 +25,7 @@ $("select").select2({
 			<div class="content-group col-md-4">
 				<label class="control-label">Select lab to assign patient</label>
 				<select class="select" ng-model="patientLab">
-<option></option>
+				<option></option>
 					<option ng-repeat="lab in labs" value="{{lab.LabID}}">{{lab.LabName}}</option>
 				</select>
 			</div>
@@ -47,7 +47,7 @@ $("select").select2({
 		<div class="content-group col-md-4">
 			<label class="control-label">Gender</label>
 			<select class="select" ng-model="patient.gender">
-<option></option>
+				<option></option>
 				<option value="Male">Male</option>
 				<option value="Female">Female</option>
 			</select>
@@ -71,7 +71,7 @@ $("select").select2({
 		<div class="content-group col-md-6">
 			<label class="control-label">Investigation Type</label>
 			<select class="select" ng-model="patient.investigationTypeRequired">
-<option></option>
+				<option></option>
 				<option value="{{type.InvestigationTypeID}}" ng-repeat="type in investigationTypes">{{type.InvestigationTypeName}}</option>
 			</select>
 		</div>

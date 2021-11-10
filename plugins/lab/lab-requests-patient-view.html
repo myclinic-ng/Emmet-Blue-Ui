@@ -1,0 +1,166 @@
+<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+<script src="assets/js/plugins/forms/tags/bootstrap-tagsinput.js"></script>
+<script src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/pickers/daterangepicker.js"></script>
+<script>
+	$('select.select').select2({
+		placeholder: "Select an option",
+		allowClear: true
+	});
+	$('.daterange').daterangepicker({
+		showWeekNumbers: true,
+		showDropdowns: true,
+        opens: "right",
+        applyClass: 'bg-success',
+        cancelClass: 'btn-default'
+	});
+</script>
+
+<div ng-controller="labRequestsPatientsViewController">
+	<div class="panel panel-success" >
+		<div class="panel-heading">
+			<h6 class="panel-title">Lab Investigation Requests</h6>
+			<div class="heading-elements">
+				<ul class="icons-list">
+            		<li><a href="lab/lab-requests" title="Switch View" class="btn" style="margin-top:-10px;"><i class="icon-refresh"></i> Switch to previous design</a></li>
+            	</ul>
+			</div>
+		</div>
+
+		<div class="panel-body">
+	    	<div class="row">
+				<div class="col-md-4">
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-calendar22"></i></span>
+						<input type="text" class="form-control daterange" ng-model="dateRanges" placeholder="filter by date range"> 
+					</div>
+					<div class="table-responsive">
+						<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="table table-condensed table-striped table-hover">
+
+						</table>
+					</div>
+				</div>
+	    		<div class="col-md-8" style="border-left: 1px solid #49C49F; min-height:80vh;" ng-if="selectedPatient.name">
+	    			<div class="row">
+						<div class="col-lg-4">
+							<div class="panel" style="border: 0px; ">
+								<div class="panel-body">
+									<h3 class="no-margin text-bold">{{selectedPatient.name}}</h3>
+									{{selectedPatient.type}}
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4">
+							<div class="panel" style="border: 0px; ">
+								<div class="panel-body">
+									<div class="heading-elements">
+										<ul class="icons-list">
+					                		<li><i class="fa fa-flask" style="font-size: 3em; color: lightgray;"></i></li>
+					                	</ul>
+									</div>
+
+								<span class="no-margin text-bold">{{patientLabRequests.length}}</span> <span>Pending <br/> Lab Requests</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4">
+							<div class="panel" style="border: 0px; ">
+								<div class="panel-body">
+									<div class="heading-elements">
+										<ul class="icons-list">
+					                		<!-- <li><i class="fa fa-money-bill" style="font-size: 3em; color: lightgray;"></i></li> -->
+					                	</ul>
+									</div>
+
+									<span class="no-margin">{{pendingPayments.length}} Pending Payments</span>
+									<button type="button" class="btn btn-primary-outline col-md-12" ng-click="generatePaymentRequest()"> Generate Payment Request</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-8">
+			    			<div class="table-responsive">
+								<table class="table table-condensed table-striped table-hover">
+									<thead class="bg-success">
+										<th>ID</th>
+										<th>Investigation</th>
+										<th>Requested By</th>
+										<th></th>
+									</thead>
+									<tbody>
+										<tr ng-repeat="request in patientLabRequests" ng-style="{ 'color': (request.register == true) ? 'lightgray' : 'inherit', 'color': (request.RequestAcknowledged != 0) ? 'lightcoral': 'inherit'}">
+											<td>{{request.RequestID}}</td>
+											<td>
+												<span class="text-bold">{{request.InvestigationRequired}}</span><br/>
+												<span>{{request.LabName}}</span>
+											</td>
+											<td>
+												<span class="text-bold">{{request.RequestedByFullName}}</span><br/>
+												<span>{{request.RequestDate}}</span><br/>
+												<span>{{request.RequestNote}}</span>
+											</td>
+											<td>
+												<input class="form-check-input" type="checkbox" value="" ng-model="request.register" ng-if="request.RequestAcknowledged == 0">
+												<span ng-if="request.RequestAcknowledged != 0">
+													<i class="fa fa-check-square"></i>
+												</span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>	  
+						</div>
+						<div class="col-md-4">
+							<div class="content-group col-md-12">
+								<div class="table-responsive">
+									<table class="table table-hover table-condensed">
+										<thead class="">
+											<th>ID</th>
+											<th>Investigation</th>
+										</thead>
+										<tbody>
+											<tr ng-repeat="request in patientLabRequests" ng-if="request.register == true">
+												<td>{{request.RequestID}}</td>
+												<td>
+													<span class="text-bold">{{request.InvestigationRequired}}</span><br/>
+													<span>{{request.LabName}}</span>
+												</td>
+											</tr>
+										</tbody>
+										<tfoot>
+											<tr>
+												<td colspan="2">
+													<button type="button" class="btn btn-primary col-md-12" ng-click="savePatient()"> Register Requests</button>
+												</td>
+											</tr>
+										</tfoot>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>  			
+	    		</div>
+	    		<div class="col-md-8" style="margin-top: 70px;" ng-if="!selectedPatient.name">
+					<center><img src="plugins/records/patient/assets/images/undraw_empty_street_sfxm.svg" alt="Please select a patient" style="width: 70%; height: 70vh; opacity: 0.5"/></center>
+				</div>
+	    	</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="request-uri">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12">
+							<center><img class="img img-responsive" ng-src="{{currentRequestUri}}"/></center>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- <ng-include src="'plugins/lab/assets/includes/investigation-type-fields.html'"></ng-include> -->

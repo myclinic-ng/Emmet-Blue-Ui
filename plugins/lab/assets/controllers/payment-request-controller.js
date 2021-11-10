@@ -12,6 +12,10 @@ angular.module("EmmetBlue")
 		searchIcon: "fa fa-search"
 	}
 
+	$scope.investigations = [];
+	$scope.requestId = [];
+
+
 	$scope.$watch(function(){
 		return utils.storage.currentPaymentRequest;
 	}, function(nv){
@@ -40,11 +44,13 @@ angular.module("EmmetBlue")
 
 		request.then(function(response){
 			if (typeof response[0] !== 'undefined'){
-				var a = [];
+				var a = {};
 				for (var i = 0; i < response.length; i++){
-					a.push(response[i].InvestigationTypeName);
+					a.id = response[i].RequestID;
+					a.name = response[i].InvestigationTypeName;
+					a.close = true;
 				}
-				$scope.investigations = a.join(", ");
+				$scope.investigations.push(a);
 				response = response[0];
 				$scope.showRequestForm(response);
 				$scope.searched.searchIcon = "icon-search4";
@@ -59,14 +65,22 @@ angular.module("EmmetBlue")
 	}
 
 	$scope.search = function(newSearch = false){
+		$scope.investigations = [];
+		$scope.requestId = [];
+
 		var query = $scope.search.query;
 
 		if (newSearch){
 			$scope.searched.fromCounter = 0;
 		}
 
-		search("/lab/patient/view?resourceId="+query);
-		$scope.requestId = utils.storage.currentPaymentRequest;
+		var query = query.split(",");
+
+		angular.forEach(query, function(nv){
+			search("/lab/patient/view?resourceId="+nv);
+			$scope.requestId.push(nv);
+		})
+
 		utils.storage.currentPaymentRequest = "";
 	}
 
@@ -122,11 +136,20 @@ angular.module("EmmetBlue")
 		request.then(function(response){
 			utils.notify("Operation successful", "Request generated successfully", "success");
 			$scope.requestForm.showSearchResult = true;
+			$scope.totalPrice = 0;
 
-			utils.serverRequest("/lab/lab-request/close-request", "POST", {"request": $scope.requestId, "staff": utils.userSession.getID()})
+			$scope.requestsToClose = [];
+			angular.forEach($scope.investigations, function(v){
+				if (v.close){
+					$scope.requestsToClose.push(v.id);
+				}
+			});
+
+			utils.serverRequest("/lab/lab-request/close-multiple-requests", "POST", {"request": $scope.requestsToClose, "staff": utils.userSession.getID()})
 			.then(function(response){
 				$rootScope.$broadcast("ReloadQueue");
 				$rootScope.$broadcast("reloadLabPatients", {});
+				$("#_payment_request").modal("hide");
 			}, function(error){
 				utils.errorHandler(error);
 			});
