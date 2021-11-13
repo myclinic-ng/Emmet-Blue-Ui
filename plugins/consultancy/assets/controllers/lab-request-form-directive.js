@@ -155,36 +155,26 @@ angular.module("EmmetBlue")
 							"labId":$scope.module.lab
 						});
 					})
-					var form = $("#lab-form").get(0);
-					domtoimage.toPng(form)
-				    .then(function (dataUrl) {
-				        var img = new Image();
-				        img.src = dataUrl;
 
-						var data = {
-							patientID: $scope.patientInfo.patientid,
-							clinicalDiagnosis: dataUrl,
-							requestNote: $scope.diagnoses,
-							investigations: $scope.investigations,
-							requestedBy: utils.userSession.getID()
-						}
+					var data = {
+						patientID: $scope.patientInfo.patientid,
+						clinicalDiagnosis: '',
+						requestNote: $scope.diagnoses,
+						investigations: $scope.investigations,
+						requestedBy: utils.userSession.getID()
+					}
 
-						utils.serverRequest('/lab/lab-request/new', 'POST', data).then(function(response){
-							$scope.showSubmitLoader = false;
-							window.scrollTo(0, 0);
-							utils.notify("Operation Successful", "Request sent successfully", "success");
-							$scope.investigations = "";
-							reqs = [];
-							$scope.module.loadRegisteredInvestigationTypes($scope.module.lab);
-							// showLabForwarder(response); -> Disable until feature is requested
-						}, function(error){
-							utils.errorHandler(error);
-						})
-				    })
-				    .catch(function (error) {
+					utils.serverRequest('/lab/lab-request/new', 'POST', data).then(function(response){
 						$scope.showSubmitLoader = false;
-				        utils.notify('oops, something went wrong!', 'Unable to process request', "error");
-				    });
+						window.scrollTo(0, 0);
+						utils.notify("Operation Successful", "Request sent successfully", "success");
+						$scope.investigations = "";
+						reqs = [];
+						$scope.module.loadRegisteredInvestigationTypes($scope.module.lab);
+						// showLabForwarder(response); -> Disable until feature is requested
+					}, function(error){
+						utils.errorHandler(error);
+					})
 				}, 200)
 			}
 		}
