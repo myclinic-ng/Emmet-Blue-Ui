@@ -771,7 +771,7 @@
 				<div>
 					<h4 class="text-center"><u>LABORATORY/IMAGING INVESTIGATION REQUEST</u></h4>
 					<div class="row">
-						<div class="col-md-4" style="height: 80vh; border-right: 1px solid #09CA96;">
+						<div class="col-md-4">
 							<div class="table-responsive">
 								<table class="table table-hover table-condensed">
 									<thead class="bg-success">
@@ -788,7 +788,7 @@
 								</table>
 							</div>
 						</div>
-						<div class="col-md-8">
+						<div class="col-md-8" style="min-height: 50vh; border-left: 1px solid #09CA96;">
 							<input class="form-control" type="text" ng-model="filterLab" placeholder="Type to search" />
 							<div class="row" ng-if="module.lab !== ''"> 
 								<div class="col-md-12 form-group" ng-repeat="type in module.registeredInvestigationTypes | filter:filterLab">
