@@ -1,0 +1,49 @@
+<div class="row" ng-controller="hmoDashboardController">
+	<div class="col-sm-3 hidden-xs">
+		<div class="sidebar sidebar-secondary sidebar-default">
+			<div class="sidebar-content">
+				<!-- Actions -->
+				<div class="sidebar-category">
+					<div class="category-title">
+						<span>Actions</span>
+						<ul class="icons-list">
+							<li><i class="icon-task"></i></li>
+						</ul>
+					</div>
+
+					<div class="category-content">
+						<div class="row row-condensed">
+							<div class="col-xs-6">
+								<a href="#" type="button" class="btn bg-teal-400 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('patients')"><i class="icon-user"></i> <span>Patients<br/></span></a>
+								<a href="#" type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('requests')"><i class="icon-user-plus"></i> <span>Requests<br/></span></a>
+							</div>
+							
+							<div class="col-xs-6">
+								<a type="button" class="btn bg-warning-400 btn-block btn-float btn-float-lg" ng-click="loadPageSegment('claims')"><i class="icon-user-check"></i> <span>Claims<br/></span></a>
+								<a type="button" class="btn bg-blue btn-block btn-float btn-float-lg" ng-click="loadPageSegment('support')"><i class="icon-headphones"></i> <span>Support<br/></span></a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /actions -->
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-9">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h6 class="panel-title">Insurance Claims Management Workspace</h6>
+				<div class="heading-elements">
+					<ul class="icons-list">
+	            		<li><span class=""><i class="icon-location4 text-info"></i></span> {{pageTitle}}</li>
+	            		<li><a href="{{pageLink}}" title="Click to enlarge workspace" class="btn btn-icon btn-clear text-danger"><i class="icon-screen-full"></i></a></li>
+	            	</ul>
+					<h6></h6>
+				</div>
+			</div>
+			<div class="panel-body">
+				<ng-include src="pageSegment"></ng-include>
+			</div>
+		</div>
+	</div>
+</div>

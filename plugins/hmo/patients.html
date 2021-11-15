@@ -1,0 +1,90 @@
+<div class="row" ng-controller="hmoPatientsController">
+	<div class="col-md-3">
+		<div class="sidebar sidebar-secondary sidebar-default">
+			<div class="sidebar-content" style="border:0">
+				<div class="sidebar-category">
+					<div class="category-title">
+						<span>Search</span>
+						<ul class="icons-list">
+							<!-- <li><a href="#" data-action="collapse"></a></li> -->
+						</ul>
+					</div>
+
+					<div class="category-content">
+						<form>
+							<div class="has-feedback has-feedback-left">
+								<input type="search" class="form-control" placeholder="Insurance ID" ng-model="searchQuery">
+								<div class="form-control-feedback">
+									<i class="icon-search4 text-size-base text-muted"></i>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+
+				<div class="sidebar-category">
+					<div class="category-content overflow-auto" style="height: 50vh !important;">
+						<ul class="media-list">
+							<li class="media cursor-pointer" ng-repeat="type in patientTypes | filter:searchQuery" ng-click="loadPatient(patient)">
+								<div class="media-body">
+									<span class="media-heading text-semibold">{{type.PatientTypeName}}</span>
+									<span class="text-size-mini text-muted display-block">{{type.CategoryName}}</span>
+								</div>
+								<div class="media-right media-middle">
+									<button class="btn btn-link btn-primary" ng-click="viewPatientType(type.PatientTypeID)">View</button>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Main content -->
+	<div class="col-md-9">
+		<div class="row" style="margin-top: 70px;">
+			<div class="col-md-12" ng-repeat="patient in patients">
+				<div class="panel panel-body" style="height: 205px !important; overflow-y: auto;">
+					<div class="media" style="margin-bottom: 20px;">
+						<div class="media-left">
+							<a href="{{loadImage(patient.patientpicture)}}" data-popup="lightbox">
+								<img ng-src="{{loadImage(patient.patientpicture)}}" style="width: 100px; height: 100px;" class="img-circle" alt="" on-error-src="{{getGenderAvatar(patient.gender)}}">
+							</a>
+						</div>
+
+						<div class="media-body">
+							<div class="col-xs-12">
+								<h5 data-popup="tooltip" title="{{patient.patientfullname}}">{{patient.patientfullname}}</h5>
+								<h5>
+									<span class="text-info">
+										<small>{{patient.patienttypename}} | {{patient.categoryname}}
+										</small>
+									</span>
+								</h5>
+								<p class="text-muted">
+									<span class="badge badge-info bg-white text-info">0 pending requests</span>
+								</p>
+							</div>
+
+
+							<div class="btn-group">
+				            	<button class="btn btn-xs" data-popup="tooltip" title="File a new claim" data-container="body" data-toggle="modal" data-target="#" ng-click="">
+				            		<i class="icon-plus2"></i> New Claim
+				            	</button>
+				            	<button class="btn btn-xs" data-popup="tooltip" title="New Approval Request" data-container="body" data-toggle="modal" data-target="#">
+				            		<i class="icon-shield-notice"></i>
+				            	</button>
+				            	<button class="btn btn-xs" data-popup="tooltip" title="View Profile" data-container="body" data-toggle="modal" data-target="#view-patient-{{patient.patientid}}">
+				            		<i class="icon-new-tab"></i> 
+				            	</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- <ng-patient-grid patient-info="patient"></ng-patient-grid> -->
+			</div>
+		</div>
+	</div>
+	<!-- /main content -->
+</div>
